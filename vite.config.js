@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/你的仓库名/',
+  base: process.env.NODE_ENV === 'production' ? '/你的仓库名/' : '/',
   plugins: [
     vue(),
     tailwindcss(),
