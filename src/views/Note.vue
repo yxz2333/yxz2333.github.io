@@ -130,7 +130,7 @@ watch(() => route.params.slug, () => load())
 
     <template v-else>
       <!-- 笔记头部 -->
-      <section class="pt-28 pb-10 max-w-[88rem] mx-auto px-4 lg:px-6 relative z-10 animate-fade-in-up">
+      <section class="pt-28 pb-10 max-w-[88rem] mx-auto px-5 sm:px-6 lg:px-8 relative z-10 animate-fade-in-up">
         <div class="flex flex-wrap items-center gap-3 mb-6 text-xs">
           <span v-if="note.type" class="px-3 py-1 rounded-md font-bold uppercase tracking-wider"
             :class="note.type === '题目' ? 'bg-accent/20 text-accent border border-accent/30 shadow-[0_0_10px_rgba(179,139,54,0.2)]' : note.type === '知识点' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30 shadow-[0_0_10px_rgba(59,130,246,0.2)]' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shadow-[0_0_10px_rgba(52,211,153,0.2)]'">
@@ -175,7 +175,7 @@ watch(() => route.params.slug, () => load())
         </div>
       </section>
       <!-- 主内容网格 -->
-      <main class="max-w-[88rem] mx-auto px-4 lg:px-6 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+      <main class="max-w-[88rem] mx-auto px-5 sm:px-6 lg:px-8 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
         <!-- 左侧正文 -->
         <div class="lg:col-span-9 space-y-6">
           <!-- 作者导读 -->

@@ -37,7 +37,7 @@ const daysSincePublished = Math.ceil(Math.abs(new Date() - publishDate) / (1000 
     <div class="fixed top-0 left-0 h-1 bg-accent z-[60] transition-all duration-150 ease-out" :style="{ width: scrollProgress + '%' }"></div>
 
     <!-- ======== 文章头部 ======== -->
-    <section class="pt-28 pb-10 max-w-[88rem] mx-auto px-4 lg:px-6 relative z-10 animate-fade-in-up">
+    <section class="pt-28 pb-10 max-w-[88rem] mx-auto px-5 sm:px-6 lg:px-8 relative z-10 animate-fade-in-up">
       <div class="flex flex-wrap items-center gap-3 mb-6 text-xs text-gray-400">
         <span class="flex items-center gap-1 hover:text-white cursor-pointer transition-colors">
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
@@ -61,7 +61,7 @@ const daysSincePublished = Math.ceil(Math.abs(new Date() - publishDate) / (1000 
     </section>
 
     <!-- ======== 主内容网格 ======== -->
-    <main class="max-w-[88rem] mx-auto px-4 lg:px-6 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
+    <main class="max-w-[88rem] mx-auto px-5 sm:px-6 lg:px-8 pb-20 grid grid-cols-1 lg:grid-cols-12 gap-8 relative z-10">
       <!-- 左侧：文章正文 -->
       <div class="lg:col-span-9 space-y-6">
         <!-- 过期提醒 -->

@@ -54,18 +54,18 @@ export const profile = {
 
   projects: [
     {
-      icon: '🎵',
-      name: 'SPlayer',
-      desc: '一款基于 Vue3 的高颜值流媒体播放器，支持多端数据同步与极速解码。',
-      tags: ['Vue 3', 'Vite', 'TypeScript'],
-      link: '#',
+      icon: '🤔',
+      name: 'shapE-web',
+      desc: '基于 shap-e 模型制作的 text2model web 应用',
+      tags: ['Python', 'Django', 'SQLite'],
+      link: 'https://github.com/yxz2333/django-shapE-backend',
     },
     {
       icon: '🔥',
-      name: 'DailyHot',
-      desc: '全网热搜榜单聚合 API 服务，每分钟抓取全网热点，提供高并发接口。',
-      tags: ['Node.js', 'Redis', 'Cheerio'],
-      link: '#',
+      name: 'Mini-Smash',
+      desc: '用 godot 引擎制作的类大乱斗小游戏',
+      tags: ['Godot', 'GDScript'],
+      link: 'https://github.com/yxz2333/FIGHT_GAME',
     },
     {
       icon: '🚀',

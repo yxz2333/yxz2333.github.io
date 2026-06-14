@@ -34,7 +34,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
       </RouterLink>
 
       <!-- ==================== Desktop Nav ==================== -->
-      <nav class="hidden md:flex items-center gap-2 text-sm font-bold absolute left-1/2 -translate-x-1/2 z-50">
+      <nav class="hidden lg:flex items-center gap-2 text-sm font-bold absolute left-1/2 -translate-x-1/2 z-50">
 
         <!-- 1. 文库 (含下拉悬浮胶囊) -->
         <div class="relative group">
@@ -107,7 +107,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
       <!-- Mobile toggle -->
       <button @click="isMobileMenuOpen = !isMobileMenuOpen"
-        class="md:hidden text-gray-400 hover:text-white transition-colors">
+        class="lg:hidden text-gray-400 hover:text-white transition-colors">
         <svg v-if="!isMobileMenuOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
@@ -119,9 +119,12 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
     <!-- Mobile menu -->
     <Transition name="slide-down">
-      <div v-if="isMobileMenuOpen" class="md:hidden bg-bg-dark/98 backdrop-blur-xl border-b border-white/10 shadow-2xl">
+      <div v-if="isMobileMenuOpen" class="lg:hidden bg-bg-dark/98 backdrop-blur-xl border-b border-white/10 shadow-2xl">
         <div class="px-6 py-4 flex flex-col gap-1">
           <RouterLink to="/" @click="isMobileMenuOpen = false"
+            class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-300 hover:text-white hover:bg-white/5 transition-all">
+            🏠 首页</RouterLink>
+          <RouterLink to="/posts" @click="isMobileMenuOpen = false"
             class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-gray-300 hover:text-white hover:bg-white/5 transition-all">
             📄 文章列表</RouterLink>
           <RouterLink to="/categories" @click="isMobileMenuOpen = false"
