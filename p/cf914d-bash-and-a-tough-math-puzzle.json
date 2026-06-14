@@ -1,0 +1,186 @@
+{
+  "slug": "cf914d-bash-and-a-tough-math-puzzle",
+  "title": "CF914D Bash and a Tough Math Puzzle",
+  "type": "题目",
+  "tags": [
+    "线段树/线段树二分"
+  ],
+  "difficulty": 2.0,
+  "summary": "只需要查询区间的 $gcd % x == 0$ 即可，因为可以随便改一个树数，当然如果<strong>只有一个坏数</strong> $% x != 0$，那么直接改这个数即可。查询区间坏数，使用<strong>线段树二分</strong>，实现的时候因为每次都会跑到叶子节点，所以<strong>剪枝</strong>得写号。",
+  "link": "https://www.luogu.com.cn/problem/CF914D",
+  "link_text": "CF914D Bash and a Tough Math Puzzle - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有一个由 $n$ 个整数构成的数组 $a_1, a_2, \\ldots, a_n$。他喜欢猜测数组不同区间的最大公约数（gcd）。当然，有时候他的猜测并不正确。不过，如果他的猜测“几乎正确”，他也会感到满足。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "假设他猜测区间 $[l,r]$ 内所有元素的 gcd 为 $x$。如果他能通过至多修改该区间内的一个元素，使得区间的 gcd 等于 $x$，那么他的猜测就被认为是“几乎正确”的。注意，他在猜测的时候并不会真的修改数组——他只是想知道通过修改一个元素，区间的 gcd 是否能够变为 $x$。除此以外，他有时也会真的修改数组中的元素。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "因为他自己搞不清楚，所以 Bash 想让你帮他判断他的哪些猜测是“几乎正确”的。形式上，你需要处理 $q$ 个如下两种形式的操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\ l\\ r\\ x$ — Bash 猜测区间 $[l, r]$ 的 gcd 为 $x$，请回答他的猜测是否“几乎正确”。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$2\\ i\\ y$ — 将 $a_i$ 修改为 $y$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "注意：数组是从 $1$ 开始编号的。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\leq n \\leq 5 \\cdot 10^5$）——数组的大小。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$（$1 \\leq a_i \\leq 10^9$）——数组的元素。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含一个整数 $q$（$1 \\leq q \\leq 4 \\cdot 10^5$）——操作的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $q$ 行描述各次操作，每行有以下两种形式之一：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\ l\\ r\\ x$（$1 \\leq l \\leq r \\leq n,\\, 1 \\leq x \\leq 10^9$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$2\\ i\\ y$（$1 \\leq i \\leq n,\\, 1 \\leq y \\leq 10^9$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证至少有一个第一种类型的操作。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个第一种类型的操作，如果 Bash 的猜测“几乎正确”，输出 \"YES\"（不含引号）；否则输出 \"NO\"（不含引号）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n2 6 3\n4\n1 1 2 2\n1 1 3 3\n2 1 9\n1 1 3 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "YES\nYES\nNO",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，初始数组为 ${2,6,3}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第 $1$ 个操作，前两个数的 gcd 已经是 $2$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第 $2$ 个操作，我们可以通过将数组的第一个元素改为 $3$，使得区间的 gcd 为 $3$。注意类型 $1$ 的操作中的更改是临时的，不会影响实际数组。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $3$ 个操作后，数组变为 ${9,6,3}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $4$ 个操作中，无论怎么修改区间内的哪个元素，都无法使区间的 gcd 变为 $2$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "\tint count_bad(int L, int R, int p, int pl, int pr, const int x) {\n\t\tif (pl > R or pr < L)return 0;\n\n\t\t// 剪枝，当前区间的 gcd 是 x 的倍数\n\t\tif (info[p].x % x == 0)return 0;\n\n\t\t// 叶子节点，且区间 gcd 不是 x 的倍数\n\t\tif (pl == pr)return 1;\n\n\t\tint mid = pl + pr >> 1;\n\t\tint cnt = count_bad(L, R, l(p), pl, mid, x);\n\t\tif (cnt > 1)return cnt; // 剪枝，左边已经不满足条件\n\n\t\tcnt += count_bad(L, R, r(p), mid + 1, pr, x);\n\t\treturn cnt;\n\t}\n\tint count_bad(int l, int r, const int x) {\n\t\treturn count_bad(l, r, 1, 1, n, x);\n\t}\n\nstruct Info {\n\tInfo() : x(0) {};\n\tInfo(int x) : x(x) {};\n\n\t// 要维护的值\n\tint x;\n\tvoid apply(const Info& v) {\n\t\t// 如何单点修改\n\t\tx = v.x;\n\t}\n};\nInfo operator+(const Info& a, const Info& b) {\n\tInfo c;\n\tc.x = Math::gcd(a.x, b.x);\n\treturn c;\n}\n\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<Info>(n + 1);\n\tfa(i, 1, n)cin >> a[i].x;\n\tvar seg = SegmentTree<Info>(a);\n\tint q; cin >> q;\n\twhile (q--) {\n\t\tint op; cin >> op;\n\t\tif (op == 1) {\n\t\t\tint l, r, x; cin >> l >> r >> x;\n\n\t\t\t// 区间的 gcd % x == 0 即可，因为可以随便改一个数\n\t\t\tint cnt = seg.count_bad(l, r, x);\n\t\t\tif (cnt <= 1)cout << \"YES\" << endl;\n\t\t\telse cout << \"NO\" << endl;\n\t\t}\n\t\telse {\n\t\t\tint id, x; cin >> id >> x;\n\t\t\tseg.modify(id, x);\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-08",
+  "parsed_at": "2026-06-14T18:39:36.630451+00:00",
+  "type_directory": "p"
+}

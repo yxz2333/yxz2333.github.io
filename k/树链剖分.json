@@ -1,0 +1,339 @@
+{
+  "slug": "树链剖分",
+  "title": "树链剖分",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "重链剖分,长链剖分"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "Why？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "树形结构不好直接维护（如区间修改、区间查询），树链剖分的本质是将<strong>树拆分成若干条链</strong>，即<strong>树的线性化</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "树上的操作 $\\rightarrow$ 序列上的操作 $\\rightarrow$ 线段树/树状数组维护。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "When?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "树上<strong>带修</strong>问题大部分都是 <strong>重链剖分</strong> 或 <strong>dfs序 + 线段树</strong>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "重链剖分",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>模板题</strong>： <a href=\"/p/p3384-【模板】重链剖分\" class=\"wikilink\">P3384 【模板】重链剖分</a>",
+          "depth": 1
+        },
+        {
+          "heading": "性质",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "是一种特殊的 #<a href=\"/k/dfs-序\" class=\"wikilink\">DFS 序</a> 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "一次路径查询会被拆分成最多 $\\log N$ 段重链。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "重链/子树上的 DFS 序是连续的。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "原理",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "定义",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "<strong>重儿子</strong>: 父节点的所有子节点中，<strong>子树节点数 (siz) 最大</strong> 的那个节点。（如果有多个最大，任选一个）。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>轻儿子</strong>: 除重儿子外的其他子节点。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>重边</strong>: 父节点连向重儿子的边。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>轻边</strong>: 父节点连向轻儿子的边。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>重链</strong>: 由重边首尾相连组成的路径。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<em>特例：</em> 轻儿子自己也可以看作一条只包含自己的重链的开头。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>Top</strong>: 一条重链的链头节点（深度最小的那个）。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "预处理 (两个 DFS)",
+              "level": 4,
+              "blocks": [
+                {
+                  "heading": "第一次 DFS (获取基本信息)",
+                  "level": 5,
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "html": "<code>dep[u]</code>: 深度",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "<code>fat[u]</code>: 父节点",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "<code>son[u]</code>: 重儿子 ID",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "<code>siz[u]</code>: 子树大小",
+                      "depth": 1
+                    }
+                  ]
+                },
+                {
+                  "heading": "第二次 DFS (建立链与序列)",
+                  "level": 5,
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "html": "<code>top[u]</code>: 节点 u 所在重链的<strong>链顶端</strong>。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "<code>dfn[u]</code>: 节点对应时间戳（也是 <strong>DFS 序</strong>）。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "<code>rnk[k]</code>: <code>dfn</code> 的反函数，<code>rnk[dfn[u]] = u</code> (也就是序列第 k 个位置原本是谁)。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "<strong>关键点：</strong> 在第二次 DFS 时，<strong>优先遍历重儿子</strong>，再遍历轻儿子。",
+                      "depth": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "heading": "路径操作 (修改/查询)",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "比如：将 $u$ 到 $v$ 路径上所有点权值 $+k$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>算法流程：</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "类似于求 LCA 的过程。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "判断 $u$ 和 $v$ 是否在同一条重链上 (<code>top[u] == top[v]</code>)。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "如果不在同一条链：",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "比较 <code>dep[top[u]]</code> 和 <code>dep[top[v]]</code>。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "选择链顶深度较深（位置较下）的那个点（假设是 $u$）。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "在线段树上处理 <strong><code>[dfn[top[u]], dfn[u]]</code></strong> 这段区间（因为这段是重链，dfn连续）。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "$u$ 跳到 <code>fa[top[u]]</code>（跳过轻边，进入上一条链）。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "循环直到二者在同一条链。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "最后处理 <strong><code>[min(dfn[u], dfn[v]), max(dfn[u], dfn[v])]</code></strong>。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<em>解释：</em>因为此时两者在同一条链但可能不在同一个位置，u 与 v 之间还有一段序列需要操作。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>复杂度：</strong> $O(\\log^2 N)$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<em>解释：</em> 任意两点间路径经过的重链数量不超过 $\\log N$，两节点最多向上跳 $\\log N$ 次。线段树/树状数组操作一次 $O(\\log N)$。总共 $O(\\log^2 N)$。",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "子树操作 (修改/查询)",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "比如：将以 $u$ 为根的子树内所有点权值 $+k$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>算法流程：</strong>直接在线段树上处理区间 <strong><code>[dfn[u], dfn[u] + siz[u] - 1]</code></strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<em>原理：</em> DFS 序本身的性质，子树内的 dfn 是连续的一段。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>复杂度：</strong> $O(\\log N)$",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "两个 dfs 模板代码",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "int dep[N], fat[N], son[N], siz[N];\nint top[N], dfn[N], rnk[N], tim;\n\n// dfs1：初始化 深度、父节点、子树大小、重儿子\nvar dfs1 = [&](var dfs, int now, int fa, int d)->void {\n\tdep[now] = d, fat[now] = fa, siz[now] = 1, son[now] = 0;\n\tint max_siz = -1;\n\tfor (int to : g[now]) {\n\t\tif (to == fa)continue;\n\t\tdfs(dfs, to, now, d + 1);\n\t\tsiz[now] += siz[to];\n\t\tif (max_siz < siz[to]) {\n\t\t\tmax_siz = siz[to];\n\t\t\tson[now] = to;\n\t\t}\n\t}\n\t};\n\n// dfs2：构造重链剖分\ntim = 0; // 时间戳从 1 开始\nvar dfs2 = [&](var dfs, int now, int t)->void {\n\t// t：当前链链顶\n\ttop[now] = t, dfn[now] = ++tim, rnk[tim] = now;\n\tif (!son[now])return;  // 如果没有重儿子，说明是叶子\n\n\t// 1. 优先处理重儿子，链顶不变延续当前链\n\tdfs(dfs, son[now], t);\n\n\t// 2. 处理轻儿子，轻儿子为链顶新开一条链\n\tfor (int to : g[now]) {\n\t\tif (to == son[now] or to == fat[now])continue;\n\t\tdfs(dfs, to, to);\n\t}\n\t};\n\ndfs1(dfs1, root, 0, 1);\ndfs2(dfs2, root, root);",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "路径操作模板代码（以可区间修改树状数组为例）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "// 路径修改 O(logN) * O(logN)\nvar update_path = [&](int x, int y, ll k)->void {\n\t// 循环 O(logN) * 树状数组更新 O(logN)\n\twhile (top[x] != top[y]) {\n\t\t// 让更深的提上来，直到 x y 在同一条链中\n\t\tif (dep[top[x]] < dep[top[y]])swap(x, y);\n\n\t\t// 此时对应序列区间：[ dfn[top[x]], dfn[x] ]，即 x 到 链顶 的节点们 \n\t\tt.updateRange(dfn[top[x]], dfn[x], k);\n\t\tx = fat[top[x]]; // 跳到上一条链\n\t}\n\n\t// 此时已在同一重链，但可能不在同一点，还存在要处理的序列区间\n\tif (dep[x] > dep[y])swap(x, y);\n\n\t// 此时对应序列区间：[ dfn[x], dfn[y] ]，即 x 到 y 的节点们 \n\tt.updateRange(dfn[x], dfn[y], k);\n\t};\n\n// 路径查询 O(logN) * O(logN)\nvar query_path = [&](int x, int y)->ll {\n\tll res = 0;\n\twhile (top[x] != top[y]) {\n\t\tif (dep[top[x]] < dep[top[y]]) swap(x, y);\n\n\t\t// 查询当前 x 到链顶的这一段区间\n\t\tres = (res + t.queryRange(dfn[top[x]], dfn[x])) % p;\n\t\tx = fat[top[x]]; // 跳到上一条链\n\t}\n\n\t// 处理最后在同一条链上的情况\n\tif (dep[x] > dep[y]) swap(x, y);\n\tres = (res + t.queryRange(dfn[x], dfn[y])) % p;\n\treturn res;\n\t};",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "子树操作模板代码（以可区间修改树状数组为例）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "// 子树修改 O(logN)\nvar update_subtree = [&](int x, ll k)->void {\n\t// 子树在 dfs 序中是连续区间 [ dfn[x], dfn[x] + siz[x] - 1 ]\n\tt.updateRange(dfn[x], dfn[x] + siz[x] - 1, k);\n\t};\n\n// 子树查询 O(logN)\nvar query_subtree = [&](int x)->ll {\n\tint l = dfn[x], r = dfn[x] + siz[x] - 1;\n\treturn t.queryRange(l, r);\n\t};",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "求 LCA",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "var lca = [&](int x, int y)->int {\n\t// 当两人不在同一条重链时，循环跳跃\n\twhile (top[x] != top[y]) {\n\t\t// 先操作更深的\n\t\t// 链顶深度大，说明这条链整体位置更“深”，更远离根节点，所以优先处理它。\n\t\tif (dep[top[x]] < dep[top[y]]) swap(x, y);\n\n\t\t// u 跳到当前链顶的父节点\n\t\tx = fat[top[x]];\n\t}\n\t// 当两人在同一条重链上时，深度小的那个就是 LCA\n\treturn dep[x] < dep[y] ? x : y;\n\t};",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-22",
+  "parsed_at": "2026-06-14T18:45:12.130958+00:00",
+  "type_directory": "k"
+}

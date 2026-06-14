@@ -1,0 +1,350 @@
+{
+  "slug": "cf1446c-xor-tree",
+  "title": "CF1446C Xor Tree",
+  "type": "题目",
+  "tags": [
+    "01字典树"
+  ],
+  "difficulty": 2.5,
+  "summary": "第一大难点是把整个题放在<strong>字典树</strong>的角度上想，第二大难点是发现本题在字典树上的性质，也就是这个关键问题 <strong>假如这个节点的左右子树中都有 ≥ 2 个元素，会发生什么？</strong>。这两个难点都解决了后，<strong>遍历整个字典树</strong>就行了。",
+  "link": "https://www.luogu.com.cn/problem/CF1446C",
+  "link_text": "CF1446C Xor Tree - 洛谷",
+  "source": "Codeforces",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个由互不相同的非负整数构成的序列 $(b_1, b_2, \\dots, b_k)$，按如下方式判断是否为\"好\"序列：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "建一个 $k$ 个节点的无向图，每个节点上写着 $b_1$ 到 $b_k$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于每个 $i$，找到 $j \\neq i$ 使得 $b_i \\oplus b_j$ 最小，在 $b_i$ 和 $b_j$ 之间连边。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果最终得到的图是一棵树（连通且无环），则称为\"好\"序列。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "给定序列 $(a_1, a_2, \\dots, a_n)$，可以删除一些元素，使得剩下的序列是\"好\"序列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "求最少需要删除多少个元素。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意，对于某些 $b_i$ 和 $b_j$，可能会尝试两次在它们之间连边，但实际上只连一次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "下面给出一个例子（对应第一个测试用例的图片）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "序列 $(0, 1, 5, 2, 6)$ 不是“好”序列，因为无法从 $5$ 到达 $1$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "然而，序列 $(0, 1, 5, 2)$ 是“好”序列。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1446C/787661480e10ca394e5bb0097a1db13aac775e6e.png){:height 152, :width 296}",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $n$（$2 \\le n \\le 200\\,000$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个互不相同的非负整数 $a_i$（$0 \\le a_i \\le 10^9$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示最少需要删除的元素个数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n0 1 5 2 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n6 9 8 7 3 5 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "问题转化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "最少删 = $n$ - 最多能保留多少个点，使得在这个规则下生成的图恰好是一棵树。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "目标变为：<strong>最大化保留的点数</strong>，使得这些点按规则连边后构成树。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "01-Trie 与最小异或对",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "异或最小 → 二进制高位优先比较，自然想到用 <strong>01-Trie</strong> 将所有数插入。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在 Trie 中，一个数要找\"异或最小的另一个数\"，会沿着自己的路径向下，<strong>优先走向同侧分支</strong>（相同 bit 位的方向）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "只有当同侧分支中只有自己一个数时，才会跨到另一侧去匹配。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "关键观察",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "考虑 Trie 上任意一个内部节点（代表二进制前缀 $p$），它有两个子树：左子树（bit=0）和右子树（bit=1）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当左右两个子树各自都有 $\\ge 2$ 个元素时：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "左子树的任意数 $x$，它在左子树内部就能找到异或最小的数，不会跨到右子树。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "同理，右子树的数也只会在右子树内找最小异或对。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论：左右子树之间不可能有边。</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此，如果<strong>左右两个子树各自都有</strong> $\\ge 2$ <strong>个元素</strong>，那么左右子树内部会各自成团，<strong>互相不连通</strong>，最终得到的图不连通。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了使连通且无环，必须打破这种\"分裂\"。唯一的方法就是<strong>让某一侧只剩 1 个元素</strong>，这个元素可以和另一侧相连（作为桥梁），从而把两边连通起来。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "!<a href=\"../assets/bf63eb6a8300545ffdbf941f0e3a6997_720_1778650388608_0.jpg\" target=\"_blank\" class=\"md-link\">bf63eb6a8300545ffdbf941f0e3a6997_720.jpg</a>{:height 333, :width 307}",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "递归设计",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "定义函数 $f(u)$ = <strong>在 Trie 节点</strong> $u$ <strong>所代表的子树中，最多能保留多少个点，使得这些点在规则下形成的图是一棵树</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "自底向上计算：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>叶子节点</strong>（该前缀下只有 1 个数）：$f = 1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>只有一个儿子</strong>（所有数全在左/右）：直接递归该儿子，$f = f(\\text{child})$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>两个儿子都存在</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "若左子树大小 $sz_L \\ge 2$ 且右子树大小 $sz_R \\ge 2$：",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "两边的内部结构必须舍弃一边的大部分节点，只保留一边的完整结构，另一边只留 1 个点作为桥梁。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "$f(u) = \\max\\big(f(\\text{left}), f(\\text{right})\\big) + 1$。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "若其中一侧大小刚好为 1（例如 $sz_R = 1$）：",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "右侧那个点可以和左侧内部结构相连，左侧内部结构可以完整保留，右侧那个点作为桥梁加入。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "$f(u) = f(\\text{left}) + 1$。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "若两侧大小都是 1：公式依然成立，$f = 1 + 1 = 2$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "最终答案：$n - f(\\text{root})$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template <typename T>\nclass Trie01Vector {\nprivate:\n    struct TrieNode {\n        array<int, 2> children;\n        int cnt;\n        TrieNode() : children{ 0, 0 }, cnt(0) {}\n    };\n\n    vector<TrieNode> tr;\n    int newNode() {\n        tr.push_back(TrieNode());\n        return ++nodeCnt;\n    }\n\n    int MAX;\n    int nodeCnt = 1;\n    int root = 1;\n\npublic:\n    Trie01Vector(int MAX) :MAX(MAX), tr(2) {}\n\n    void insert(T num) {\n        int now = root;\n        tr[now].cnt++;\n        for (int i = MAX; i >= 0; i--) {\n            bool bit = (num >> i) & 1;\n            if (not tr[now].children[bit]) {\n                int tmp = newNode();\n                tr[now].children[bit] = tmp;\n            }\n            now = tr[now].children[bit];\n            tr[now].cnt++;\n        }\n    }\n\n    int dfs(int now, int i, T pre) {\n        var to = array<int, 2>{ tr[now].children[0], tr[now].children[1] };\n        if (to[0] and to[1]) {\n            if (tr[to[0]].cnt >= 2 and tr[to[1]].cnt >= 2)\n                return max(dfs(to[0], i - 1, pre), dfs(to[1], i - 1, pre + (1ll << i))) + 1;\n            else if (tr[to[1]].cnt == 1)\n                return dfs(to[0], i - 1, pre) + 1;\n          \telse if (tr[to[0]].cnt == 1)\n              \treturn dfs(to[1], i - 1, pre + (1ll << i)) + 1;\n            else\n                return 2;\n        }\n        else if (to[0]) return dfs(to[0], i - 1, pre);\n        else if (to[1]) return dfs(to[1], i - 1, pre + (1ll << i));\n        else return 1;\n    }\n\n    int dfs() {\n        return dfs(root, MAX, 0);\n    }\n};\nvoid solve(int CASE)\n{\n    int n; cin >> n;\n    var t = Trie01Vector<int>(30);\n    fa(i, 1, n) {\n        int x; cin >> x;\n        t.insert(x);\n    }\n    cout << n - t.dfs() << endl;\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-13",
+  "parsed_at": "2026-06-14T18:39:36.178408+00:00",
+  "type_directory": "p"
+}

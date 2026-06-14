@@ -1,0 +1,77 @@
+{
+  "slug": "子段计数问题",
+  "title": "子段计数问题",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "子段计数问题"
+  ],
+  "parent": "经典问题",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "What？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "求 $\\sum_{l=1}^n \\sum_{r=l}^n f(l, r)$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "How?",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "<a href=\"/tags\" class=\"tag-link\">#贡献法</a>",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>核心思想</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "不要去想 “每个子段的答案是多少” ，而是想 <strong>“某个元素在多少个子段中做出了贡献”</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>公式</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\text{Total Ans} = \\sum_{i} (\\text{Value}_i \\times \\text{Count}_i) $$\n**经典例题**：",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "当然，并非所有题都得用贡献法",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如： <a href=\"/p/mc0472-郭嘉破阵\" class=\"wikilink\">MC0472 郭嘉破阵</a>",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-21",
+  "parsed_at": "2026-06-14T18:45:12.175579+00:00",
+  "type_directory": "k"
+}

@@ -1,0 +1,26 @@
+{
+  "slug": "codeforces-round-1077-(div.-2)",
+  "title": "Codeforces Round 1077 (Div. 2)",
+  "type": "比赛",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "https://codeforces.com/contest/2188",
+  "link_text": "Dashboard - Codeforces Round 1077 (Div. 2) - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "type": "p",
+      "html": "异贪构思全占了，所有题都得看出性质，真的恶心人。",
+      "depth": 0
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-30",
+  "parsed_at": "2026-06-14T18:39:37.172933+00:00",
+  "type_directory": "c"
+}

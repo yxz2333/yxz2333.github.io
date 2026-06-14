@@ -1,0 +1,99 @@
+{
+  "slug": "mex问题",
+  "title": "MEX问题",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "经典问题",
+  "format": "markdown",
+  "sections": [
+    {
+      "type": "p",
+      "html": "<strong>“加数容易删数难，求值容易求和难。”</strong>",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "<strong>“求值看定义，求和搞贡献。”</strong>",
+      "depth": 1
+    },
+    {
+      "heading": "性质",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>前缀性</strong>：$\\text{MEX} > k \\iff \\{0, 1, \\dots, k\\} \\subseteq \\text{Set}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>间隙性</strong>：$\\text{MEX} = k \\iff k \\notin \\text{Set} \\text{ 且 } k \\text{ 是满足此条件的最小值}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>排他性</strong>：如果一个数 $v$ 在某个范围内缺失，那么这个范围的 MEX <strong>最大</strong>只能是 $v$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "模型",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>单调增长模型</strong>：如果集合只进不出，MEX 具有<strong>单调不减性</strong>，用指针和 $vis$ 数组维护即可。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>动态/滑动模型</strong>：如果集合有进有出（如滑动窗口、区间查询）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>权值线段树</strong>：维护每个数最后一次出现的位置，查找“最后一次出现位置 < $L$”的最小数。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>间隙分析</strong>：不看集合里有什么，看某个数 $v$ 在哪里缺失。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "一般来说，动态模型都<strong>不好维护</strong>，<strong>加数容易删数难</strong>，动态模型应先考虑<strong>问题转化</strong>或<strong>维护对象的转换</strong>。",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "求和问题考虑<strong>贡献法</strong>",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>思维转换公式</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$\\sum MEX(\\alpha) = \\sum_{k \\ge 1} \\text{Count}(MEX(\\alpha) \\ge k)$$\n**为什么要这么转？**",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-01",
+  "parsed_at": "2026-06-14T18:45:12.166208+00:00",
+  "type_directory": "k"
+}

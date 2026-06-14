@@ -1,0 +1,162 @@
+{
+  "slug": "cf2208c-stamina-and-tasks",
+  "title": "CF2208C Stamina and Tasks",
+  "type": "题目",
+  "tags": [
+    "dp"
+  ],
+  "difficulty": 1.5,
+  "summary": "按照题意写公式即可发现<strong>倒序枚举</strong>完全可以用 dp 解决本题，dp 每次考虑当前拿不拿即可。",
+  "link": "https://codeforces.com/contest/2208/problem/C",
+  "link_text": "Problem - C - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "你有 $n$ 个任务需要处理。第 $i$ 个任务的价值为 $c_i$，难度系数为 $p_i$。初始时，你的体力 $S$ 为 $1$。你需要按顺序（从第 $1$ 个到第 $n$ 个）处理这些任务。对于每个任务，你有两种选择：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>放弃任务</strong>：什么也不会发生，体力 $S$ 不变。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>完成任务</strong>：你将获得 $S \\cdot c_i$ 点积分。任务完成后，你的体力 $S$ 会降为 $S \\cdot (1 - \\frac{p_i}{100})$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你需要使完成所有任务后的总积分最大化。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \\le t \\le 10^3$)。接下来是各测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$ ($1 \\le n \\le 10^5$)，表示任务数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行，每行包含两个整数 $c_i$ 和 $p_i$ ($1 \\le c_i \\le 100, 0 \\le p_i \\le 100$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例的 $n$ 之和不超过 $10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个实数，表示能获得的最大积分。若你的答案与标准答案的绝对误差或相对误差不超过 $10^{-6}$，则视为正确。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n2\n10 0\n20 5\n3\n10 5\n10 80\n20 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "30.0000000000\n29.0000000000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，最优策略是按顺序完成任务 $1$ 和任务 $2$，获得 $10 + 20 = 30$ 点积分。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个测试用例中，最优策略是完成任务 $1$，放弃任务 $2$，然后完成任务 $3$。在完成任务 $3$ 之前，你的体力降至 $1 - \\frac{5}{100} = 0.95$。因此总积分为 $10 + 20 \\cdot 0.95 = 29$ 点。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "假设我们依次完成任务 $1, 2, 3$，积分收益公式如下：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\text{Total} = c_1 + \\left(1 - \\frac{p_1}{100}\\right) \\cdot c_2 + \\left(1 - \\frac{p_2}{100}\\right) \\cdot \\left(1 - \\frac{p_1}{100}\\right) \\cdot c_3 + \\left(1 - \\frac{p_3}{100}\\right) \\cdot \\left(1 - \\frac{p_2}{100}\\right) \\cdot \\left(1 - \\frac{p_1}{100}\\right) \\cdot c_4$$\n发现本题完全可以**逆向思考**。\n设 $dp[i]$ 表示从第 $i$ 个任务开始到第 $n$ 个任务结束，所能获得的最大积分。\n**状态转移方程：**\n$$dp[i] = \\max(dp[i+1], \\quad c_i + dp[i+1] \\cdot (1 - \\frac{p_i}{100}))$$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<pii>(n + 1);\n\tfa(i, 1, n)cin >> a[i].px >> a[i].py;\n\tvar dp = vector<db>(n + 2);\n\tfb(i, n, 1) {\n\t\tconst var& [c, p] = a[i];\n\t\tdp[i] = max(dp[i + 1], dp[i + 1] * (1.0 - p / 100.0) + c);\n\t}\n\tcout << fixed << setprecision(12) << dp[1] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-15",
+  "parsed_at": "2026-06-14T18:39:36.459498+00:00",
+  "type_directory": "p"
+}

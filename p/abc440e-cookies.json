@@ -1,0 +1,232 @@
+{
+  "slug": "abc440e-cookies",
+  "title": "ABC440E Cookies",
+  "type": "题目",
+  "tags": [
+    "贪心",
+    "图论建模",
+    "dij"
+  ],
+  "difficulty": 1.5,
+  "summary": "维护一个<strong>堆</strong>，堆里放当前的总和，以及各个数拿了多少（<strong>状态</strong>），按总和倒序排序。类似<strong>迪杰斯特拉</strong>的写法，只与当前状态的<strong>直接后继</strong>连边，也就是减掉一个大数，加上大数正后面的一个小数，这样保证后继的答案比现在小，还能保证边最少同时，遍历到所有可能的点。",
+  "link": "https://atcoder.jp/contests/abc440/tasks/abc440_e",
+  "link_text": "E - Cookies",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有 $N$ 种饼干，每种饼干有 $10^{100}$ 个。第 $i$ 种饼干每块的美味度为 $A_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你需要从这些饼干中总共选择 $K$ 块饼干。只有当所选饼干类型的多重集完全匹配时，两种选择方式才被认为是相同的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每种可能的 $\\binom{N+K-1}{K}$ 种选择方式，考虑所选饼干的美味度总和。令$ S_1,S_2,\\dots$ 为这些总和按降序排列的结果（包括重复值）。请找出 $S_1,\\dots,S_X$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入通过标准输入按以下格式给出：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $N$   $K$   $X$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $A_1$   $\\dots$   $A_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\leq N \\leq 50$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq K \\leq 10^5$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq X \\leq \\min\\left(10^5, \\binom{N+K-1}{K}\\right)$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$-10^9 \\leq A_i \\leq 10^9$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入值均为整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "令 $S_1,S_2,\\dots$ 为选择 $K$ 块饼干可能的美味度总和，按降序排列（包括重复值）。按此顺序输出 $S_1,\\dots,S_X$，每个值占一行。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 4 3\n20 10",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "80\n70\n60",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 100000 5\n-1 -1 -1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-100000\n-100000\n-100000\n-100000\n-100000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9 14142 13\n31 41 59 26 53 58 97 93 23",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1371774\n1371770\n1371766\n1371762\n1371758\n1371754\n1371750\n1371746\n1371742\n1371738\n1371736\n1371735\n1371734",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "样例解释 1：选择 $4$ 块饼干有 $5$ 种方式：\"从第 $1$ 种选 $k$ 块，从第 $2$ 种选 $4-k$ 块\"（$0\\leq k \\leq 4$），所选饼干的美味度总和分别为 $80,70,60,50,40$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "样例解释 2：不同的饼干选择方式可能产生相同的美味度总和。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "首先将饼干的美味度 $A$ 按降序排列，初始状态为选择 $K$ 个 $A_1$（即理论最大值）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们维护一个<strong>大根堆</strong>，采用类似 <strong>Dijkstra</strong> 算法的贪心策略：每次从堆中取出当前最大的美味度总和及对应的选择状态，然后将其<strong>直接后继</strong>加入堆中。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所谓的<strong>直接后继</strong>状态，是指将当前组合中的某一个 $A_i$ 替换为<strong>紧随其后</strong>的 $A_{i+1}$（即减去一个大数，加上它正后面的一个小数）。这种转移方式保证了新生成的总和单调不增，从而能严格按降序遍历解空间；同时通过合理的状态去重，在保证覆盖所有可能组合的前提下使边数最少，高效求出前 $X$ 个解。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tarray<ll, 51> cnt;\n\tll val;\n\tbool operator<(const node& a)const {\n\t\treturn val < a.val;\n\t}\n};\n\nvoid solve(int CASE)\n{\n\tll n, k, x; cin >> n >> k >> x;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tsort(all1(a), greater<>());\n\tvar Q = priority_queue<node>();\n\tarray<ll, 51> tmp;\n\tfill(all(tmp), 0); tmp[1] = k;\n\tQ.push({ tmp, k * a[1] });\n\tvar vis = set<array<ll, 51>>();\n\twhile (Q.size()) {\n\t\tvar[cnt, val] = Q.top();\n\t\tQ.pop();\n\n\t\tif (vis.count(cnt))continue;\n\t\tvis.insert(cnt);\n\n\t\tcout << val << endl;\n\t\tx--; if (!x)return;\n\n\t\tfa(i, 1, n - 1)if (cnt[i]) {\n\t\t\tcnt[i]--, cnt[i + 1]++;\n\t\t\tQ.push({ cnt, val - a[i] + a[i + 1] });\n\t\t\tcnt[i]++, cnt[i + 1]--;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-01",
+  "parsed_at": "2026-06-14T18:39:35.995024+00:00",
+  "type_directory": "p"
+}

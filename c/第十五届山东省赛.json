@@ -1,0 +1,20 @@
+{
+  "slug": "第十五届山东省赛",
+  "title": "第十五届山东省赛",
+  "type": "比赛",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "https://codeforces.com/gym/105930",
+  "link_text": "The 15th Shandong CCPC Provincial Collegiate Programming Contest",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-19",
+  "parsed_at": "2026-06-14T18:39:37.193201+00:00",
+  "type_directory": "c"
+}

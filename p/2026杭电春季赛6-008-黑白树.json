@@ -1,0 +1,182 @@
+{
+  "slug": "2026杭电春季赛6-008-黑白树",
+  "title": "2026杭电春季赛6 008 黑白树",
+  "type": "题目",
+  "tags": [
+    "生成树"
+  ],
+  "difficulty": 1.5,
+  "summary": "秒猜个结论，先考虑尽量全选白边的情况（当然，不够可以找黑边要），然后算全选黑边的情况，然后算这两种情况对应的 $(b1,w1) (b2,w2)$，$b1  - b2 +1$ 就是答案了。",
+  "link": "https://acm.hdu.edu.cn/contest/problem?cid=1202&pid=1008",
+  "link_text": "1008 黑白树",
+  "source": "[[2026杭电春季赛6]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一张 $n$ 个点 $m$ 条边的无向图，无重边自环。图上的边被染成了黑白两种颜色。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请你求出，有多少组不同的整数 $(b, w)$，满足以下条件：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这张图存在一棵生成树，其恰好有 $b$ 条黑色的边，$w$ 条白色的边。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入一个整数 $T$，表示数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于接下来的每组数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输入两个整数 $n, m$，表示图的点数和边数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行，每行输入三个整数 $u_i, v_i, w_i$，表示第 $i$ 条边连接的两个节点和这条边的颜色。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le n \\le 10^5, 1 \\le m \\le 2 \\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le u_i, v_i \\le n$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$u_i \\ne v_i$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\forall i \\ne j, \\{u_i, v_i\\} \\ne \\{u_j, v_j\\}$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$w_i \\in \\{0, 1\\}$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "其中，$0, 1$ 分别对应黑白两种颜色。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于单个测试点中的所有数据，保证 $n$ 总和不超过 $1.1 \\times 10^6$，$m$ 总和不超过 $2.1 \\times 10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行一个整数表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n4 6\n1 2 0\n1 3 1\n1 4 0\n2 3 0\n2 4 1\n3 4 0\n6 5\n1 2 0\n2 3 0\n3 4 0\n4 1 1\n5 6 1\n10 20\n5 9 0\n4 8 1\n9 10 0\n9 2 1\n3 5 0\n7 2 1\n10 8 1\n3 9 1\n7 4 1\n9 1 1\n10 6 1\n4 6 1\n1 8 0\n6 8 1\n8 7 1\n4 2 0\n5 10 0\n9 8 0\n7 10 0\n7 5 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n0\n7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>证明</strong>：你可以从那棵全选白树（含 $b_{min}$ 条黑边）开始，每次从 “全选黑树” 中拿一条黑边加进去。这会形成一个环，你只要在这个环里删掉一条白边，你的树就依然是生成树，并且<strong>黑边数量刚好增加了 1</strong>。这样一步步替换，黑边的数量就会连续地从 $b_{min}$ 增长到 $b_{max}$，中间不会出现断层。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar p = vector<vector<pii>>(2);\n\tvar s = vector<int>(n + 1);\n\tfa(i, 1, n)s[i] = i;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return s[x];\n\t\treturn s[x] = find(find, s[x]);\n\t\t};\n\tint cnt = n - 1;\n\tfa(i, 1, m) {\n\t\tint u, v, w; cin >> u >> v >> w;\n\t\tp[w].pb({ u,v });\n\t\tint e1 = find(find, u), e2 = find(find, v);\n\t\tif (e1 != e2)s[e2] = e1, cnt--;\n\t}\n\tif (cnt) {\n\t\tcout << 0 << endl;\n\t\treturn;\n\t}\n\tvar f = [&](int x, int y)->pii {\n\t\tfa(i, 1, n)s[i] = i;\n\t\tint cnt = n - 1;\n\t\tint cntx = 0, cnty = 0;\n\t\tfor (const var& [u, v] : p[x]) {\n\t\t\tint e1 = find(find, u), e2 = find(find, v);\n\t\t\tif (e1 != e2)s[e2] = e1, cnt--, cntx++;\n\t\t\tif (cnt == 0)break;\n\t\t}\n\t\tfor (const var& [u, v] : p[y]) {\n\t\t\tint e1 = find(find, u), e2 = find(find, v);\n\t\t\tif (e1 != e2)s[e2] = e1, cnt--, cnty++;\n\t\t\tif (cnt == 0)break;\n\t\t}\n\t\treturn { cntx,cnty };\n\t\t};\n\tvar x = f(0, 1), y = f(1, 0);\n\tcout << x.px - y.py + 1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-25",
+  "parsed_at": "2026-06-14T18:39:35.891545+00:00",
+  "type_directory": "p"
+}

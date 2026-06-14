@@ -1,0 +1,149 @@
+{
+  "slug": "cf1100f-ivan-and-burgers",
+  "title": "CF1100F Ivan and Burgers",
+  "type": "题目",
+  "tags": [
+    "线性基/前缀线性基",
+    "哈基米树",
+    "在线问题"
+  ],
+  "difficulty": null,
+  "summary": "明显的<strong>线性基找最大值的问题</strong>，但本题是在线问题，<strong>在线改离线</strong>，<strong>线性基套哈基米树</strong>就行了，离线分治的情况下，合并一次就 $O(1) * 合并一次的复杂度$，总复杂度 $O(N * 20)$。本题的官方正解是<strong>前缀线性基</strong>，每个线性基多记录一下<strong>基底对应最晚出现的下标</strong>，直接开 $n$ 个线性基即可解决。",
+  "link": "https://www.luogu.com.cn/problem/CF1100F",
+  "link_text": "CF1100F Ivan and Burgers - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Ivan 喜欢汉堡和花钱。在 Ivan 所住的街道上有 $n$ 家汉堡店。Ivan 有 $q$ 个朋友，第 $i$ 个朋友建议在第 $l_i$ 家汉堡店见面，然后一起走到第 $r_i$ 家汉堡店（$l_i \\leq r_i$）。在和第 $i$ 个朋友散步的过程中，Ivan 可以访问所有满足 $l_i \\leq x \\leq r_i$ 的汉堡店 $x$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每家汉堡店，Ivan 都知道其中最贵的汉堡价格，记为 $c_i$ burles。Ivan 想在路上选择一些汉堡店，每到一家就买最贵的汉堡，并且花掉最多的钱。但有个小问题：他的银行卡坏了，每次消费后卡上的金额变化如下。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果消费前 Ivan 有 $d$ burles，在汉堡店消费了 $c$ burles，那么消费后他卡上的余额会变成 $d \\oplus c$，其中 $\\oplus$ 表示按位异或运算。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "目前 Ivan 卡上有 $2^{2^{100}} - 1$ burles，他想和朋友们一起散步。请你帮他计算：如果和第 $i$ 个朋友一起散步，他最多能花掉多少钱？他花掉的钱定义为初始金额减去最终金额。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\leq n \\leq 500\\,000$），表示汉堡店的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $c_1, c_2, \\ldots, c_n$（$0 \\leq c_i \\leq 10^6$），其中 $c_i$ 表示第 $i$ 家汉堡店最贵的汉堡价格。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含一个整数 $q$（$1 \\leq q \\leq 500\\,000$），表示 Ivan 的朋友数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $q$ 行，每行包含两个整数 $l_i$ 和 $r_i$（$1 \\leq l_i \\leq r_i \\leq n$），表示 Ivan 和朋友将要走过的汉堡店区间。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $q$ 行，第 $i$ 行输出 Ivan 和第 $i$ 个朋友一起散步时最多能花掉的钱。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n7 2 3 4\n3\n1 4\n2 3\n1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n3\n7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试中，为了和第一个和第三个朋友花掉最多的钱，Ivan 只需要进入第一家汉堡店。和第二个朋友时，Ivan 只需要进入第三家汉堡店。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 前缀线性基\nclass XorBase {\nprivate:\n\tarray<int, 21> a;    // 线性基基底\n\tarray<int, 21> pos;  // 基底对应最晚出现的下标 \n\tstatic constexpr int MN = 20;\npublic:\n\tXorBase() { \n      fill(a.begin(), a.end(), 0);\n      fill(pos.begin(), pos.end(), 0);\n    };\n\n\tint& operator[](int x) {\n\t\treturn a[x];\n\t}\n\n\t// 插入新数\n\tvoid insert(int x, int idx) {\n\t\tif (!x)return;\n\t\tfor (int i = MN; i >= 0; i--)\n\t\t\tif (x & (1ll << i)) {\n\t\t\t\tif (!a[i]) {\n\t\t\t\t\t// 线性基里没有 x，插入 x\n\t\t\t\t\ta[i] = x;\n\t\t\t\t\tpos[i] = idx;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\t// 【重点】：新下标放在高位，老下标去低位\n\t\t\t\tif (idx > pos[i]) {\n\t\t\t\t\tswap(idx, pos[i]);\n\t\t\t\t\tswap(x, a[i]);\n\t\t\t\t}\n\t\t\t\tx ^= a[i]; // 线性基里有 x\n\t\t\t}\n\t}\n\n\t// 查最大\n\tint qmax(int L) {\n\t\tint res = 0;\n\t\tfor (int i = MN; i >= 0; i--) {\n\t\t\tif (pos[i] >= L)\n\t\t\t\tres = max(res, res ^ a[i]);\n\t\t}\n\t\treturn res;\n\t}\n};\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar pre = vector<XorBase>(n + 1);\n\tfa(i, 1, n) {\n\t\tpre[i] = pre[i - 1];\n\t\tpre[i].insert(a[i], i);\n\t}\n\tint q; cin >> q;\n\twhile (q--) {\n\t\tint l, r; cin >> l >> r;\n\t\tcout << pre[r].qmax(l) << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template <class Info>\nclass OfflineCatTree {\npublic:\n\tstruct Query {\n\t\tint l, r, id;\n\t};\n\n\tint n;\n\tvector<Info> info;  // 存储原始数据 (下标 1 ~ n)\n\tvector<Query> qs;   // 存储询问\n\tvector<Info> ans;   // 存储最终算出的 Info\n\tvector<Info> tmp;   // O(N) 的全局缓存，用于计算前缀/后缀\n\n\tvoid init(int _n) {\n\t\tn = _n;\n\t\tinfo.assign(n + 1, Info());\n\t\ttmp.resize(n + 1);\n\t\tqs.clear();\n\t}\n\n\tvoid init(vector<Info>& _init) {\n\t\tn = _init.size() - 1;\n\t\tinfo = move(_init);\n\t\ttmp.resize(n + 1);\n\t\tqs.clear();\n\t}\n\n\tOfflineCatTree() : n(0) {}\n\tOfflineCatTree(int _n) { init(_n); }\n\tOfflineCatTree(vector<Info>& _init) { init(_init); }\n\n\t// 添加询问\n\tvoid add_query(int l, int r, int id) {\n\t\tqs.push_back({ l, r, id });\n\t}\n\n\t// 核心处理函数，返回所有询问的结果\n\tvector<Info>& solve() {\n\t\tif (qs.empty()) return ans;\n\n\t\t// 找到最大的 id 以调整答案数组大小\n\t\tint max_id = 0;\n\t\tfor (const auto& q : qs)max_id = max(max_id, q.id);\n\t\tans.assign(max_id + 1, Info());\n\n\t\tsolve(1, n, qs);\n\t\treturn ans;\n\t}\n\nprivate:\n\t// 离线分治：利用递归特性，算完一层扔一层，空间 O(N)\n\t// 只要题目允许离线，离线猫树全面优于在线猫树，它保留了 O(1) 的合并次数，同时把空间降到了最低。\n\t// 若强制在线，使用线段树\n\tvoid solve(int l, int r, vector<Query>& q_curr) {\n\t\tif (q_curr.empty()) return;\n\n\t\t// 叶子节点：直接由 info[l] 贡献\n\t\tif (l == r) {\n\t\t\tfor (const auto& q : q_curr) {\n\t\t\t\tans[q.id] = info[l];\n\t\t\t}\n\t\t\treturn;\n\t\t}\n\n\t\tint mid = (l + r) >> 1;\n\n\t\t// --- 1. 预处理中间向两边的前缀/后缀 ---\n\t\t// 注意：这里复用了 tmp 数组，省内存\n\n\t\t// [mid, l] 后缀：从 mid 向左\n\t\t// tmp[i] = info[i] + tmp[i + 1]\n\t\t// Info 合并方向：(左边) + (右边)\n\t\ttmp[mid] = info[mid];\n\t\tfor (int i = mid - 1; i >= l; i--) {\n\t\t\ttmp[i] = info[i] + tmp[i + 1];\n\t\t}\n\n\t\t// [mid + 1, r] 前缀：从 mid + 1 向右\n\t\t// tmp[i] = tmp[i - 1] + info[i]\n\t\tif (mid + 1 <= r) {\n\t\t\ttmp[mid + 1] = info[mid + 1];\n\t\t\tfor (int i = mid + 2; i <= r; i++) {\n\t\t\t\ttmp[i] = tmp[i - 1] + info[i];\n\t\t\t}\n\t\t}\n\n\t\t// --- 2. 处理询问 ---\n\t\tvector<Query> q_left, q_right;\n\t\t// 预留空间稍微优化一点常数，不写也没事\n\t\tq_left.reserve(q_curr.size() / 2);\n\t\tq_right.reserve(q_curr.size() / 2);\n\n\t\tfor (const auto& q : q_curr) {\n\t\t\tif (q.r <= mid) {\n\t\t\t\tq_left.push_back(q);\n\t\t\t}\n\t\t\telse if (q.l > mid) {\n\t\t\t\tq_right.push_back(q);\n\t\t\t}\n\t\t\telse {\n\t\t\t\t// 跨越 mid 的询问\n\t\t\t\t// Ans = Suffix[l] + Prefix[r]\n\t\t\t\tans[q.id] = tmp[q.l] + tmp[q.r];\n\t\t\t}\n\t\t}\n\n\t\t// 释放当前层内存\n\t\tq_curr.clear();\n\n\t\t// --- 3. 递归 ---\n\t\tsolve(l, mid, q_left);\n\t\tsolve(mid + 1, r, q_right);\n\t}\n};\n\nclass XorBase {\nprivate:\n\tarray<int, 21> a; // 线性基基底\n\tstatic constexpr int MN = 20;\npublic:\n\tXorBase() { fill(a.begin(), a.end(), 0); };\n\n\tint& operator[](int x) {\n\t\treturn a[x];\n\t}\n\n\t// 插入新数\n\tvoid insert(int x) {\n\t\tif (!x)return;\n\t\tfor (int i = MN; i >= 0; i--)\n\t\t\tif (x & (1ll << i)) {\n\t\t\t\tif (!a[i]) {\n\t\t\t\t\t// 线性基里没有 x，插入 x\n\t\t\t\t\ta[i] = x;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tx ^= a[i]; // 线性基里有 x\n\t\t\t}\n\t}\n\n\t// 查最大\n\tint qmax() {\n\t\tint res = 0;\n\t\tfor (int i = MN; i >= 0; i--)\n\t\t\tres = max(res, res ^ a[i]);\n\t\treturn res;\n\t}\n};\n\nstruct Info {\n\tInfo() {};\n\tInfo(int x) { xb.insert(x); };\n\n\tmutable XorBase xb;\n\tint query_ans() const {\n\t\treturn xb.qmax();\n\t}\n};\n\nInfo operator+(const Info& a, const Info& b) {\n\tInfo res = a; // 拷贝左边\n\tfor (int i = 0; i <= 20; i++) {\n\t\tif (b.xb[i]) res.xb.insert(b.xb[i]); // 把右边插进去\n\t}\n\treturn res;\n}\n\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<Info>(n + 1);\n\tfa(i, 1, n) {\n\t\tint x; cin >> x;\n\t\ta[i] = Info(x);\n\t}\n\tvar hachimi = OfflineCatTree<Info>(a);\n\tint q; cin >> q;\n\tfa(i, 1, q) {\n\t\tint l, r; cin >> l >> r;\n\t\thachimi.add_query(l, r, i);\n\t}\n\tvar ans = hachimi.solve();\n\tfa(i, 1, q)cout << ans[i].query_ans() << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-04",
+  "parsed_at": "2026-06-14T18:39:36.093720+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,116 @@
+{
+  "slug": "cf2204c-spring",
+  "title": "CF2204C Spring",
+  "type": "题目",
+  "tags": [
+    "暴力容斥",
+    "倒序容斥"
+  ],
+  "difficulty": 1.0,
+  "summary": "经典的容斥问题，因为本题 6 3 2 权值的特殊性，直接写<strong>奇加偶减</strong>公式是没问题的。当然如果改了就可能不行，所以得把<strong>各个权值代表的真正个数</strong>得全找出来，因为是<strong>至少推恰好</strong>，所以可以用<strong>倒序容斥</strong>，当然<strong>画韦恩图推公式</strong>也行。",
+  "link": "https://codeforces.com/contest/2204/problem/C",
+  "link_text": "Problem - C - Codeforces",
+  "source": "[[Educational Codeforces Round 188 (Rated for Div. 2)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "爱丽丝、鲍勃和卡罗尔去一个泉水取水。爱丽丝每 $a$ 天去一次（在第 $a, 2a, 3a, \\dots$ 天），鲍勃每 $b$ 天去一次（在第 $b, 2b, 3b, \\dots$ 天），卡罗尔每 $c$ 天去一次（在第 $c, 2c, 3c, \\dots$ 天）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当只有一个人去的时候，他们能取 $6$ 升水。如果有多个人同时去，水量会被平均分配：两个人去每人取 $3$ 升，三个人去每人取 $2$ 升。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你的任务是计算从第 $1$ 天开始的 $m$ 天里，爱丽丝、鲍勃和卡罗尔各自取到的总水量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$ ($1 \\le t \\le 10^4$) — 测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例只有一行，包含四个整数 $a$, $b$, $c$ 和 $m$ ($1 \\le a, b, c \\le 10^6$; $1 \\le m \\le 10^{17}$)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出三个整数 — 爱丽丝、鲍勃和卡罗尔在 $m$ 天内取到的水量（升）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n2 1 3 10\n1 1 8 5\n6 20 15 1000\n650650 1092 157437 100000000000000000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "14 38 8 \n15 15 0 \n881 236 281 \n845294870595 549337065358857 3774389867286 ",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 倒序容斥\nvoid solve(int CASE)\n{\n\tll a, b, c, m; cin >> a >> b >> c >> m;\n\tll _3 = Math::lcm(a, Math::lcm(b, c));\n\tarray<ll, 3> _2 = { Math::lcm(a,b),Math::lcm(b,c),Math::lcm(a,c) };\n\tvar sum = Vec2<ll>(3, 3);\n \n\tll tmp = m / _3;\n\tfa(i, 0, 2)sum[i][2] += tmp; // 只有 abc 同时在拿权值 \n \n  \t// 只有 ab、bc、ac 同时在拿权值 \n\tfa(i, 0, 2) {\n\t\tll tmp = m / _2[i];\n\t\tif (i == 0) {\n\t\t\tsum[0][1] += tmp - sum[0][2];\n\t\t\tsum[1][1] += tmp - sum[1][2];\n\t\t}\n\t\telse if (i == 1) {\n\t\t\tsum[1][1] += tmp - sum[1][2];\n\t\t\tsum[2][1] += tmp - sum[2][2];\n\t\t}\n\t\telse {\n\t\t\tsum[0][1] += tmp - sum[0][2];\n\t\t\tsum[2][1] += tmp - sum[2][2];\n\t\t}\n\t}\n \n  \t// 只有 a、b、c 在拿权值 \n\ttmp = m / a;\n\tsum[0][0] = tmp - sum[0][1] - sum[0][2];\n\ttmp = m / b;\n\tsum[1][0] = tmp - sum[1][1] - sum[1][2];\n\ttmp = m / c;\n\tsum[2][0] = tmp - sum[2][1] - sum[2][2];\n \n\tfa(i, 0, 2) {\n\t\tll ans = sum[i][0] * 6 + sum[i][1] * 3 + sum[i][2] * 2;\n\t\tcout << ans << ' ';\n\t}cout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-17",
+  "parsed_at": "2026-06-14T18:39:36.442725+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,188 @@
+{
+  "slug": "2025ccpc福建邀请赛-j-构造大师贝贝",
+  "title": "2025CCPC福建邀请赛 J 构造大师贝贝",
+  "type": "题目",
+  "tags": [
+    "ad-hoc",
+    "构造",
+    "二进制"
+  ],
+  "difficulty": 1.5,
+  "summary": "数很大肯定不能分解因数，考虑分成两个数考虑：$x * y == n, x = 1, y = n$ 在此基础上进行更新；完全平方数很多，发现 $2^{2k}$ 最好构造，如果 y 为偶数，$y / 2, x * 2$，否则我们让 $y + 1（即\\ n + x）$，最后肯定能得到 $x = 2^k,y = 1, n = x$。",
+  "link": "https://codeforces.com/gym/105977/",
+  "link_text": "Dashboard - 2025 National Invitational of CCPC (Fujian), The 12th Fujian Collegiate Programming Contest - Codeforces",
+  "source": "[[2025CCPC福建邀请赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "宁宁同学出了一道十分复杂且无规律的构造题：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定一个正整数 \\( n \\)，要求在 <strong>100 次操作以内</strong> 将其变为一个完全平方数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每次操作的内容如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选择一个当前数字 \\( x \\) 的正约数 \\( y \\)，即 \\( n = xy \\)；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "选择的 \\( x \\) 需保证 <strong>每次操作选择的数都不相同</strong>；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "随后让 \\( n \\) 加上 \\( x \\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "在整个操作过程中，需要保证 <strong>\\( n \\) 始终不超过 \\( 10^{18} \\)</strong>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题包含多组测试用例。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 \\( T \\)（\\( 1 \\leq T \\leq 10^3 \\)），表示测试用例组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 \\( T \\) 行，每行包含一个正整数 \\( n \\)（\\( 1 \\leq n \\leq 10^{12} \\)）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试用例：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输出一个整数 \\( m \\)（\\( 0 \\leq m \\leq 100 \\)），表示操作次数；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行输出 \\( m \\) 个由空格分隔的 <strong>不同的正整数</strong>，表示每次操作所加上的数 \\( x \\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "在整个操作过程中，必须保证 \\( n \\) 始终不超过 \\( 10^{18} \\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n2025\n182",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0\n\n3\n7 3 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一个测试用例（\\( n = 2025 \\)）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为 \\( 2025 = 45 \\times 45 \\) 本身已是完全平方数，因此不需要操作，输出 <code>0</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于第二个测试用例（\\( n = 182 \\)）的解释：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第一次操作：选择 \\( x = 7 \\)，因为 7 是 182 的一个因子；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "后续操作类似，最终得到一组合法的操作序列。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tvar ans = vector<ll>();\n\tll x = 1, y = n;\n\twhile (1) {\n\t\twhile (y % 2 == 0) {\n\t\t\tx *= 2;\n\t\t\ty /= 2;\n\t\t}\n\t\tif (y == 1)break;\n\t\tans.pb(x);\n\t\ty++;\n\t}\n\tll wei = (ll)log2(x);\n\tif (wei % 2 != 0)ans.pb(x);\n\tcout << ans.size() << endl;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-21",
+  "parsed_at": "2026-06-14T18:39:35.746752+00:00",
+  "type_directory": "p"
+}

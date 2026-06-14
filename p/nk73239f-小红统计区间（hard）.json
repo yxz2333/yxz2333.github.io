@@ -1,0 +1,157 @@
+{
+  "slug": "nk73239f-小红统计区间（hard）",
+  "title": "NK73239F 小红统计区间（hard）",
+  "type": "题目",
+  "tags": [
+    "双指针",
+    "树状数组",
+    "线段树/动态开点线段树"
+  ],
+  "difficulty": 1.5,
+  "summary": "easy 版本用的 <strong>前缀和+二分</strong>解决；hard 版本一眼线段树，但是<strong>值域太大</strong>，故使用<strong>动态开点线段树</strong>；如果嫌动态开点线段树太长不想写，也可以想<strong>树状数组+双指针</strong>的做法，我们把<strong>前缀对应的下标</strong>存入树状数组里，然后还是排序后按<strong>前缀和递增（easy版本）</strong>的方法处理本题即可。",
+  "link": "https://ac.nowcoder.com/acm/contest/73239/F",
+  "link_text": "F-小红统计区间（hard）_牛客周赛 Round 28",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>本题为hard版本，和easy版本的唯一区别是</strong>$a_i$<strong>有可能为负数！</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小红拿到了一个数组，她想知道，有多少非空区间满足区间所有元素之和不小于$k$？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入两个正整数$n,k$，用空格隔开。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行输入$n$个整数$a_i$，代表数组的元素。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\leq n \\leq 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$-10^9 \\leq a_i \\leq 10^9$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\leq k \\leq 10^{14}$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数表示满足条件区间的数量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 5\n1 4 2 1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 5\n2 -100 5 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 树状数组\nvoid solve(int CASE)\n{\n\tll n, k; cin >> n >> k;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\n\tvar p = vector<pll>(n + 2); // { 前缀和, 下标 }\n\tll pre = 0;\n\tp[1] = { pre, 1 };\n\tfa(i, 1, n) {\n\t\tpre += a[i];\n\t\tp[i + 1] = { pre, i + 1 };\n\t}\n\tsort(all1(p));\n\n\tvar t = FenwickTree<ll>(n + 2);\n\tvar sum = vector<ll>(n + 2);\n\tint j = 1; sum[j] = p[j].px;\n\tll ans = 0;\n\tfa(i, 2, n + 1) {\n\t\tconst var& [a, id] = p[i];\n\t\tsum[i] += a;\n\t\twhile (j <= i and sum[i] - sum[j] >= k) {\n\t\t\t// 前缀满足条件，就放入树状数组\n\t\t\tconst var& [na, nid] = p[j];\n\t\t\tt.update(nid, 1);\n\t\t\tj++;\n\t\t}\n\t\tans += t.query(id);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 动态开点线段树\nstruct Info {\n\tInfo() :cnt(0) {};\n\tInfo(int cnt) :cnt(cnt) {};\n\n\t// 要维护的值\n\tint cnt;\n\tvoid apply(const Info& v) {\n\t\t// 如何单点修改\n\t\tcnt += v.cnt;\n\t}\n};\nInfo operator+(const Info& a, const Info& b) {\n\tInfo c;\n\tc.cnt = a.cnt + b.cnt;\n\treturn c;\n}\n\nconst ll Y = 3e14;\nconst ll MaxNodes = 2e5 * 64;\nconst ll DIFF = 1e14 + 10;\nDynamicSegmentTree<Info, Y, MaxNodes> seg;\nvoid solve(int CASE)\n{\n\tll n, k; cin >> n >> k;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tll ans = 0, pre = 0;\n\tseg.modify(pre + DIFF, 1);\n\tfa(i, 1, n) {\n\t\tpre += a[i];\n\t\tll t = pre - k;\n\t\tans += seg.query(1, t + DIFF).cnt;\n\t\tseg.modify(pre + DIFF, 1);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-26",
+  "parsed_at": "2026-06-14T18:39:36.737556+00:00",
+  "type_directory": "p"
+}

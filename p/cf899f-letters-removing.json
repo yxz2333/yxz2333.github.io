@@ -1,0 +1,244 @@
+{
+  "slug": "cf899f-letters-removing",
+  "title": "CF899F Letters Removing",
+  "type": "题目",
+  "tags": [
+    "线段树/线段树二分",
+    "二分"
+  ],
+  "difficulty": 2.0,
+  "summary": "题目给的 $l,r$ 是动态更新后的下标，因为放在数据结构里维护的下标很难维护动态下标，所以我们只放原始下标。我们需要把<strong>动态更新后的下标转化成原始下标</strong>，使用<strong>线段树二分</strong>进行转化。",
+  "link": "https://www.luogu.com.cn/problem/CF899F",
+  "link_text": "CF899F Letters Removing - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Petya 有一个长度为 $n$ 的字符串，其中包含大小写英文字母和数字。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "他会进行 $m$ 次操作。每次操作由两个整数 $l$、$r$ 和一个字符 $c$ 描述：Petya 会将字符串中第 $l$ 位到第 $r$ 位之间（包括两端）所有等于 $c$ 的字符删除。可以看出，每次操作后字符串长度要么保持不变，要么减少。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请你求出 Petya 进行完所有 $m$ 次操作后，字符串会变成什么样。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$ 和 $m$（$1 \\leq n, m \\leq 2 \\cdot 10^{5}$），分别表示字符串的长度和操作次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行是长度为 $n$ 的字符串，字符串只包含大小写英文字母和数字。字符串下标从 $1$ 开始。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $m$ 行，每行包含两个整数 $l$、$r$（$1 \\leq l \\leq r$），再跟一个字符 $c$，其中 $c$ 是一个小写或大写字母或数字。这一行描述了一次操作。保证当前操作前字符串的长度不少于 $r$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 Petya 完成所有 $m$ 次操作后的字符串。如果经过所有操作后字符串为空，则输出一个空行。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 2\nabac\n1 3 a\n2 2 c",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "b",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2\nA0z\n1 3 0\n1 1 z",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Az",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，第一次操作会将两个字符 'a' 删除，字符串变为 \"bc\"。第二次操作会将第 $2$ 个位置上的 'c' 删除，字符串变为 \"b\"。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个样例中，第一次操作 Petya 会删除第 $2$ 个位置上的 '0'，字符串变为 \"Az\"。第二次操作字符串不会发生变化。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "题目痛点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目给出的删除区间 $[l, r]$ 是<strong>动态下标</strong>（随着字符被删除，后面的字符下标会前移），而数据结构通常只能基于字符串初始的<strong>原始下标</strong>进行维护。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果不进行转化，我们根本不知道 $l$ 和 $r$ 对应的是原串里的哪两个位置。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "核心思想：线段树二分",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然每个字符最多只会被删除一次（总删除次数 $\\le n$），我们可以将整体操作拆分为两步：<strong>将动态下标转为原始下标</strong>，然后在原始区间内<strong>暴力单点删除</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>1. 动态下标转原始下标（线段树二分）</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "维护一棵权值线段树，叶子节点代表原字符串对应位置的字符“是否存在”（存在为 $1$，删除为 $0$）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "线段树的区间和即为该区间内<strong>剩余字符的数量</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当题目给出动态下标 $k$（即当前第 $k$ 个字符）时，利用线段树二分（左子树和 $\\ge k$ 则走左边，否则减去左子树和走右边），可以在 $O(\\log n)$ 的时间内求出它在原串中的<strong>原始下标</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对题目的 $l$ 和 $r$ 分别进行二分，我们就得到了要操作的原始坐标区间 $[L, R]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>2. 快速定位与单点删除（分类 <code>std::set</code>）</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "开若干个 <code>std::set</code>（每个可用字符开一个），记录每个字符出现的所有<strong>原始下标</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "得到原始区间 $[L, R]$ 后，在对应目标字符的 <code>set</code> 中使用 <code>lower_bound(L)</code> 快速找到第一个位于区间内的目标字符。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "利用迭代器向后遍历并删除，直到下标 $> R$ 为止。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "每次从 <code>set</code> 中删去一个元素时，同步在线段树中将对应位置单点修改为 $0$（<code>-1</code>）。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "\tint findl(int p, int pl, int pr, int k) {\n\t\tif (pl == pr)return pl;\n\t\tint mid = pl + pr >> 1;\n\t\tif (info[l(p)].siz >= k)return findl(l(p), pl, mid, k);\n\t\telse return findl(r(p), mid + 1, pr, k - info[l(p)].siz);\n\t}\n\tint findl(int k) {\n\t\treturn findl(1, 1, n, k);\n\t}\n\nstruct Info {\n\tInfo() :siz(0) {};\n\tInfo(int siz) :siz(siz) {};\n\n\t// 要维护的值\n\tint siz;\n\tvoid apply(const Info& v) {\n\t\t// 如何单点修改\n\t\tsiz += v.siz;\n\t}\n};\nInfo operator+(const Info& a, const Info& b) {\n\tInfo c;\n\tc.siz = a.siz + b.siz;\n\treturn c;\n}\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tstring a; cin >> a; a = ' ' + a;\n\tvar init = vector<Info>(n + 1);\n\tfa(i, 1, n)init[i].siz = 1;\n\tvar seg = SegmentTree<Info>(init);\n\tvar se = vector<set<int>>(80);\n\tfa(i, 1, n)se[a[i] - '0'].insert(i);\n\twhile (m--) {\n\t\tint l, r; cin >> l >> r;\n\t\tchar x; cin >> x; x -= '0';\n\t\tint L = seg.findl(l), R = seg.findl(r); // 使用线段树二分，把动态下标转成原始下标\n\t\tvar it = se[x].lower_bound(L);\n\t\twhile (it != se[x].end() and *it <= R) {\n\t\t\tseg.modify(*it, -1);\n\t\t\tit = se[x].erase(it);\n\t\t}\n\t}\n\tfa(i, 1, n) {\n\t\tint mn = INF, id = INF;\n\t\tset<int>::iterator it;\n\t\tfa(j, 0, 79)if (se[j].size()) {\n\t\t\tif (mn > *se[j].begin()) {\n\t\t\t\tmn = *se[j].begin();\n\t\t\t\tit = se[j].begin();\n\t\t\t\tid = j;\n\t\t\t}\n\t\t}\n\t\tif (mn == INF)break;\n\t\tse[id].erase(it);\n\t\tcout << char(id + '0');\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-17",
+  "parsed_at": "2026-06-14T18:39:36.623844+00:00",
+  "type_directory": "p"
+}

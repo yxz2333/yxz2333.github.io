@@ -1,0 +1,22 @@
+{
+  "slug": "单向边问题",
+  "title": "单向边问题",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "单向边"
+  ],
+  "parent": "图论经典问题",
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-22",
+  "parsed_at": "2026-06-14T18:45:12.031016+00:00",
+  "type_directory": "k"
+}

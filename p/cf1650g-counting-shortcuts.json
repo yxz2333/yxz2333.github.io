@@ -1,0 +1,177 @@
+{
+  "slug": "cf1650g-counting-shortcuts",
+  "title": "CF1650G Counting Shortcuts",
+  "type": "题目",
+  "tags": [
+    "最短路/拆点问题",
+    "最短路"
+  ],
+  "difficulty": 1.5,
+  "summary": "主要是求<strong>最短路</strong>和<strong>次短路</strong>，一个方法是直接用<strong>拆点最短路</strong>实现，维护最短路次短路条数和距离 <code>cnt[N][2], dis[N][2]</code>；另一个方法是<strong>从起点和终点跑两次最短路</strong>，然后用算出来的最短路距离和条数 <code>dis[2][N], cnt[2][N]</code> 枚举边，看看当前边是否为多余边，是就说明距离 + 1，就可以算答案了。总的来说还是拆点更好写。",
+  "link": "https://www.luogu.com.cn/problem/CF1650G",
+  "link_text": "CF1650G Counting Shortcuts - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个无向连通图，包含 $n$ 个顶点和 $m$ 条边。图中不包含自环（即不存在从某个顶点到自身的边）和重边（即任意一对顶点之间至多只有一条边）。顶点编号为 $1$ 到 $n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请你计算，从顶点 $s$ 到顶点 $t$ 的所有路径中，长度与 $s$ 到 $t$ 的最短路径长度之差不超过 $1$ 的路径数。需要统计所有满足条件的路径，即使这些路径经过同一个顶点或边多次（即路径不要求简单路径）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1650G/3360dade3a147f98c6dd4b25980520a2ae6123a6.png)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例如，设 $n=6$，$m=8$，$s=6$，$t=1$，图如上图所示。那么 $s$ 到 $t$ 的最短路径长度为 $1$。考虑所有长度不超过 $1+1=2$ 的路径：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$6 \\rightarrow 1$，路径长度为 $1$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$6 \\rightarrow 4 \\rightarrow 1$，路径长度为 $2$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$6 \\rightarrow 2 \\rightarrow 1$，路径长度为 $2$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$6 \\rightarrow 5 \\rightarrow 1$，路径长度为 $2$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "一共有 $4$ 条满足条件的路径。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\le t \\le 10^4$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例前有一个空行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含两个整数 $n, m$（$2 \\le n \\le 2 \\cdot 10^5$，$1 \\le m \\le 2 \\cdot 10^5$），分别表示图的顶点数和边数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含两个整数 $s$ 和 $t$（$1 \\le s, t \\le n$，$s \\neq t$），分别表示路径的起点和终点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $m$ 行，每行包含两个整数 $u_i, v_i$（$1 \\le u_i, v_i \\le n$），表示第 $i$ 条边连接的两个顶点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证图是连通的，且不包含自环和重边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $2 \\cdot 10^5$，$m$ 的总和也不超过 $2 \\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数，表示从 $s$ 到 $t$ 的所有路径中，长度与最短路径长度之差不超过 $1$ 的路径数。由于答案可能很大，请对 $10^9+7$ 取模后输出。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n\n4 4\n1 4\n1 2\n3 4\n2 3\n2 4\n\n6 8\n6 1\n1 4\n1 6\n1 5\n1 2\n5 6\n4 6\n6 3\n2 6\n\n5 6\n1 3\n3 5\n5 4\n3 1\n4 2\n2 1\n1 4\n\n8 18\n5 1\n2 1\n3 1\n4 2\n5 2\n6 5\n7 3\n8 4\n6 4\n8 7\n1 4\n4 7\n1 6\n6 7\n3 8\n8 5\n4 5\n4 3\n8 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n4\n1\n11",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 拆点\nstruct node {\n\tll id, st, d;\n\tbool operator<(const node& a)const {\n\t\treturn a.d < d;\n\t}\n};\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tint s, t; cin >> s >> t;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\tvar dis = Vec2<int>(n + 1, 2, INF);\n\tvar cnt = Vec2<ll>(n + 1, 2);\n\tvar vis = Vec2<bool>(n + 1, 2);\n\tvar Q = priority_queue<node>();\n\tdis[s][0] = 0, cnt[s][0] = 1;\n\n\tQ.push({ s,0 });\n\twhile (Q.size()) {\n\t\tvar[now, st, d] = Q.top();\n\t\tQ.pop();\n\n\t\tif (vis[now][st])continue;\n\t\tvis[now][st] = 1;\n\n\t\tint ndis = dis[now][st] + 1;\n\t\tint ncnt = cnt[now][st];\n\n\t\tfor (int to : g[now]) {\n\t\t\tif (dis[to][0] > ndis) {\n\t\t\t\tif (dis[to][0] != dis[to][1]) {\n\t\t\t\t\tdis[to][1] = dis[to][0];\n\t\t\t\t\tcnt[to][1] = cnt[to][0];\n\t\t\t\t\tQ.push({ to, 1, dis[to][1] });\n\t\t\t\t}\n\t\t\t\tdis[to][0] = ndis;\n\t\t\t\tcnt[to][0] = ncnt;\n\t\t\t\tQ.push({ to, 0, dis[to][0] });\n\t\t\t}\n\t\t\telse if (dis[to][0] == ndis) {\n\t\t\t\tcnt[to][0] = (cnt[to][0] + ncnt) % mod;\n\t\t\t}\n\t\t\telse if (dis[to][1] > ndis) {\n\t\t\t\tdis[to][1] = ndis;\n\t\t\t\tcnt[to][1] = ncnt;\n\t\t\t\tQ.push({ to, 1, dis[to][1] });\n\t\t\t}\n\t\t\telse if (dis[to][1] == ndis) {\n\t\t\t\tcnt[to][1] = (cnt[to][1] + ncnt) % mod;\n\t\t\t}\n\t\t}\n\t}\n\n\tll ans = cnt[t][0];\n\tif (dis[t][1] - dis[t][0] == 1)ans = (ans + cnt[t][1]) % mod;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 两次 bfs 后，枚举多余边\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tint s, t; cin >> s >> t;\n\tvar g = vector<vector<int>>(n + 1);\n\tvar p = vector<pii>();\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> u >> v;\n\t\tp.pb({ u,v });\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\tvar dis = Vec2<ll>(2, n + 1, INF);\n\tvar cnt = Vec2<ll>(2, n + 1);\n\tvar dij = [&](int s, vector<ll>& dis, vector<ll>& cnt)->void {\n\t\tvar vis = vector<int>(n + 1);\n\t\tvar Q = queue<int>();\n\t\tdis[s] = 0, cnt[s] = 1;\n\t\tQ.push(s);\n\t\twhile (Q.size()) {\n\t\t\tint now = Q.front();\n\t\t\tQ.pop();\n\t\t\tif (vis[now])continue;\n\t\t\tvis[now] = 1;\n\t\t\tfor (int to : g[now]) {\n\t\t\t\tif (dis[to] > dis[now] + 1) {\n\t\t\t\t\tdis[to] = dis[now] + 1;\n\t\t\t\t\tcnt[to] = cnt[now];\n\t\t\t\t\tQ.push(to);\n\t\t\t\t}\n\t\t\t\telse if (dis[to] == dis[now] + 1) {\n\t\t\t\t\tcnt[to] = (cnt[to] + cnt[now]) % mod;\n\t\t\t\t\tQ.push(to);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\t};\n\tdij(s, dis[0], cnt[0]);\n\tdij(t, dis[1], cnt[1]);\n\n\tll ans = cnt[0][t];\n\tfor (const var& [x, y] : p) {\n\t\tif (dis[0][x] == dis[0][y]) {\n\t\t\t// 说明 x - y 是多余边\n\t\t\tif (dis[0][x] + dis[1][y] == dis[0][t]) \n\t\t\t\t// 走了多余边 x - y，距离就为 dis[0][t] + 1\n\t\t\t\tans = (ans + cnt[0][x] * cnt[1][y] % mod) % mod;\n\t\t\tif (dis[1][x] + dis[0][y] == dis[0][t])\n\t\t\t\tans = (ans + cnt[1][x] * cnt[0][y] % mod) % mod;\n\t\t}\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-08",
+  "parsed_at": "2026-06-14T18:39:36.242967+00:00",
+  "type_directory": "p"
+}

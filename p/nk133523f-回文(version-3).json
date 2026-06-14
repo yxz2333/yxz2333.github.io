@@ -1,0 +1,237 @@
+{
+  "slug": "nk133523f-回文(version-3)",
+  "title": "NK133523F 回文(version 3)",
+  "type": "题目",
+  "tags": [
+    "前缀和",
+    "数学推导",
+    "贡献法"
+  ],
+  "difficulty": 2.0,
+  "summary": "$x=1,2$ 的情况都很简单，主要是 $x=3$ 的情况。$x=3$ 是经典的 <code>aba</code> 三明治结构模型，考虑算 <code>b</code> 的贡献为：<code>b</code> 左边 <code>a</code> 的个数 $*$ <code>b</code> 右边 <code>a</code> 的个数，用前缀和推个式子即可解决。",
+  "link": "https://ac.nowcoder.com/acm/contest/133523/F",
+  "link_text": "F-回文(version 3)_牛客周赛 Round 141",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$给定一个长度为 $n$ 且仅包含小写字母的字符串 $s_1s_2\\cdots s_n$，给定 $q$ 次询问的三元组 $(l,r,x)$，每次询问求区间 $[l,r]$ 内有多少个长度为 $x$ 的回文子序列。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行两个整数 $n,q(1\\leqq n ,q\\leqq 2\\times 10^5)$，表示字符串的长度和询问次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第二行一个长度为 $n$ 且仅包含小写字母的字符串 $s$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$接下来 $q$ 行 ，每行三个整数 $l,r,x(1\\leqq l\\leqq r\\leqq n,1\\leqq x\\leqq 3)$，表示询问区间和询问回文子序列的长度。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$对于每次询问新起一行输出一个整数，表示当前询问区间有多少个长度为 $x$ 的回文子序列。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 3\nabcabc\n1 3 1\n1 4 2\n1 6 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1\n6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "长度 $x = 1$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "区间 $[l, r]$ 内的每一个字符都能单独构成一个长度为 1 的回文子序列。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>答案即为：</strong> $r - l + 1$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "长度 $x = 2$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "长度为 2 的回文子序列一定是由两个相同的字符构成的（例如 <code>aa</code>, <code>bb</code>）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于字符 $c$，它在区间 $[l, r]$ 内出现的次数为 $cnt = pre[r][c] - pre[l-1][c]$。那么该字符能构成的对数就是从中任选 2 个的组合数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>答案即为：</strong> $\\sum_{c='a'}^{'z'} \\frac{cnt \\times (cnt - 1)}{2}$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "长度 $x = 3$（本题核心）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "长度为 3 的回文子序列必定呈现 $c\\_c$ 的形式（首尾字符均为 $c$，中间字符任选）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "假设我们枚举中间字符所在的位置 $k$（显然 $k \\in[l+1, r-1]$），对于特定的首尾字符 $c$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$k$ <strong>左侧（但在</strong> $l$ <strong>及之后）</strong> 字符 $c$ 的个数为：$pre[k-1][c] - pre[l-1][c]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$k$ <strong>右侧（但在</strong> $r$ <strong>及之前）</strong> 字符 $c$ 的个数为：$suf[k+1][c] - suf[r+1][c]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "根据乘法原理，以位置 $k$ 为中心、字符 $c$ 为首尾的回文子序列数量就是上述两者的乘积。我们将区间内所有的 $k$ 累加起来，就得到了关于字符 $c$ 的答案式：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ Ans_c = \\sum_{k=l+1}^{r-1} \\Big( pre[k-1][c] - pre[l-1][c] \\Big) \\times \\Big( suf[k+1][c] - suf[r+1][c] \\Big) $$\n直接计算这个式子单次询问需要 $O(N)$，会超时。但注意到对于一个固定的查询，$pre[l-1][c]$ **和** $suf[r+1][c]$ **都是常数**。我们将式子利用乘法分配律完全展开：\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "\\begin{aligned}",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "Ans_c = \\sum_{k=l+1}^{r-1} \\Big( & pre[k-1][c] \\times suf[k+1][c] \\\\",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "&- pre[k-1][c] \\times suf[r+1][c] \\\\",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "&- pre[l-1][c] \\times suf[k+1][c] \\\\",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "&+ pre[l-1][c] \\times suf[r+1][c] \\Big)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "\\end{aligned}",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n将求和符号分配进每一项，并将与 $k$ 无关的常数项提出来，我们可以得到这 4 部分：\n**至此，解法已经呼之欲出！** 我们只需要在预处理阶段，维护三个新的**前缀和**数组（即代码中的 `sum[0], sum[1], sum[2]`）：\n对于上述四项，我们通过 `sum[x][r-1][c] - sum[x][l][c]` 即可在 $O(1)$ 时间内求出 $\\sum_{k=l+1}^{r-1}$ 的累加结果。最后对 26 个字母分别求和即可。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll pre[N][26], suf[N][26], sum[3][N][26];\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tstring s; cin >> s; s = ' ' + s;\n\tfa(i, 1, n) {\n\t\tfa(j, 0, 25)pre[i][j] = pre[i - 1][j];\n\t\tpre[i][s[i] - 'a']++;\n\t}\n\tfb(i, n, 1) {\n\t\tfa(j, 0, 25)suf[i][j] = suf[i + 1][j];\n\t\tsuf[i][s[i] - 'a']++;\n\t}\n\tfa(i, 2, n - 1)fa(j, 0, 25)sum[0][i][j] = sum[0][i - 1][j] + pre[i - 1][j] * suf[i + 1][j];\n\tfa(i, 2, n - 1)fa(j, 0, 25)sum[1][i][j] = sum[1][i - 1][j] + pre[i - 1][j];\n\tfa(i, 2, n - 1)fa(j, 0, 25)sum[2][i][j] = sum[2][i - 1][j] + suf[i + 1][j];\n\n\twhile (m--) {\n\t\tint l, r, x; cin >> l >> r >> x;\n\t\tif (x == 1)cout << r - l + 1 << endl;\n\t\telse if (x == 2) {\n\t\t\tll ans = 0;\n\t\t\tfa(j, 0, 25) {\n\t\t\t\tll cnt = pre[r][j] - pre[l - 1][j];\n\t\t\t\tans += cnt * (cnt - 1) / 2;\n\t\t\t}\n\t\t\tcout << ans << endl;\n\t\t}\n\t\telse {\n\t\t\tif (r - l + 1 < 3) {\n\t\t\t\tcout << 0 << endl;\n\t\t\t\tcontinue;\n\t\t\t}\n\t\t\tll ans = 0;\n\t\t\tfa(j, 0, 25)ans += sum[0][r - 1][j] - sum[0][l][j];\n\t\t\tfa(j, 0, 25)ans -= (sum[1][r - 1][j] - sum[1][l][j]) * suf[r + 1][j];\n\t\t\tfa(j, 0, 25)ans -= (sum[2][r - 1][j] - sum[2][l][j]) * pre[l - 1][j];\n\t\t\tfa(j, 0, 25)ans += suf[r + 1][j] * pre[l - 1][j] * (r - l - 1);\n\t\t\tcout << ans << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-26",
+  "parsed_at": "2026-06-14T18:39:36.727518+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,140 @@
+{
+  "slug": "cf2176d-fibonacci-paths",
+  "title": "CF2176D Fibonacci Paths",
+  "type": "题目",
+  "tags": [
+    "图论经典问题/单向边问题"
+  ],
+  "difficulty": null,
+  "summary": "",
+  "link": "https://codeforces.com/contest/2176/problem/D",
+  "link_text": "Problem - D - Codeforces",
+  "source": "[[Codeforces Round 1070 (Div. 2)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "type": "p",
+      "html": "TODO CF2176D Fibonacci Paths",
+      "depth": 0
+    },
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-24",
+  "parsed_at": "2026-06-14T18:39:36.368170+00:00",
+  "type_directory": "p"
+}

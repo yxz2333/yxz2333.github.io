@@ -1,0 +1,185 @@
+{
+  "slug": "cf825e-minimal-labels",
+  "title": "CF825E Minimal Labels",
+  "type": "题目",
+  "tags": [
+    "贪心/反向贪心",
+    "拓扑排序",
+    "后效性"
+  ],
+  "difficulty": null,
+  "summary": "写法就是<strong>反向建图后的大根堆的拓扑排序</strong>，难点就是想到这个了——为啥正向跑拓扑是错的？为啥反向跑拓扑就对了？",
+  "link": "https://www.luogu.com.cn/problem/CF825E",
+  "link_text": "CF825E Minimal Labels - 洛谷",
+  "source": "",
+  "aliases": [
+    "P3243 [HNOI2015] 菜肴制作"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个有 $n$ 个顶点 $m$ 条边的有向无环图。图中不存在自环或任意一对顶点之间的重边。该图可以是不连通的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你需要给所有顶点分配编号，要求：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "编号构成一个长度为 $n$ 的有效排列，即每个整数 $1$ 到 $n$ 恰好出现一次。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果存在一条从顶点 $v$ 到顶点 $u$ 的有向边，则 $label_{v}$ 必须小于 $label_{u}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "需要使编号排列在所有满足条件的排列中字典序最小。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "请找出满足所有条件的编号序列。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$、$m$（$2\\leq n\\leq 10^{5},1\\leq m\\leq 10^{5}$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $m$ 行，每行包含两个整数 $v$ 和 $u$（$1\\leq v,u\\leq n, v\\neq u$），表示一条从 $v$ 到 $u$ 的有向边。边是有向的，图中没有自环或重边。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $n$ 个数字，表示顶点的编号，使排列在所有满足条件的排列中字典序最小。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3\n1 2\n1 3\n3 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 3 2 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2 （hack 掉正向拓扑）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 1\n3 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 3 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>正向发黄金（1, 2, 3）：</strong> 你把最好的东西发给当前看似最需要的人，但可能会坑死被依赖关系隐藏在后面的、更需要的人。这是<strong>不安全</strong>的贪心。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>反向发垃圾（N, N-1）：</strong> 谁出度为 0？说明谁也不依赖它了，它是这条食物链的底端。既然它是底端，我们就把最差的标签塞给其中编号最大的那个点。<strong>把垃圾标签塞给编号大的人，绝对不会对编号小的人造成任何负面影响！（无后效性）</strong> 因为你是在帮编号小的人“挡子弹”，把大的数字全消耗掉了，最后剩下的小数字，自然就留给了编号小的点。这是<strong>绝对安全</strong>的贪心。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar g = vector<vector<int>>(n + 1);\n\tvar deg = vector<int>(n + 1);\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> v >> u;\n\t\tg[u].pb(v), deg[v]++;\n\t}\n\tvar Q = priority_queue<int>();\n\tvar ans = vector<int>(n + 1);\n\tfa(i, 1, n)if (!deg[i])Q.push(i);\n\tint res = n;\n\twhile (Q.size()) {\n\t\tint now = Q.top();\n\t\tQ.pop();\n\t\tans[now] = res;\n\t\tres--;\n\t\tfor (int to : g[now]) {\n\t\t\tdeg[to]--;\n\t\t\tif (deg[to] == 0)Q.push(to);\n\t\t}\n\t}\n\tfa(i, 1, n)cout << ans[i] << \" \\n\"[i == n];\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-01",
+  "parsed_at": "2026-06-14T18:39:36.601919+00:00",
+  "type_directory": "p"
+}

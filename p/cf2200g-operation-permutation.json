@@ -1,0 +1,345 @@
+{
+  "slug": "cf2200g-operation-permutation",
+  "title": "CF2200G Operation Permutation",
+  "type": "题目",
+  "tags": [
+    "贡献法",
+    "期望",
+    "组合数学",
+    "插空法",
+    "dp"
+  ],
+  "difficulty": 2.5,
+  "summary": "重点就是推公式了，$Ans = x \\times Prod_{mul} + Sum_{add} \\times E[\\text{排在 } v \\text{ 后面的乘法因子的乘积}]$。",
+  "link": "https://codeforces.com/contest/2200/problem/G",
+  "link_text": "Problem - G - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "AksLolCoding 有一个整数 \\( x \\) 和一个包含 \\( n \\) 个操作的列表。每个操作是一个字符串，以符号 +、-、x 或 / 开头（分别代表加法、减法、乘法和实数除法），后面紧跟着一个正整数 \\( y \\)（\\( 1 \\leq y \\leq 10^9 \\)）。例如，操作 x3 表示将 \\( x \\) 乘以 3。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "AksLolCoding 将随机打乱这些操作，然后按打乱后的顺序依次对 \\( x \\) 执行所有操作。请帮助 AksLolCoding 计算 \\( x \\) 的最终值的期望\\(^{\\text{∗}}\\)，结果对 \\( 10^9+7 \\) 取模。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "形式上，令 \\( M = 10^9 + 7 \\)。可以证明答案可以表示为一个不可约分数 \\( \\frac{p}{q} \\)，其中 \\( p \\) 和 \\( q \\) 是整数，且 \\( q \\not\\equiv 0 \\pmod M \\)。输出等于 \\( p \\cdot q^{-1} \\pmod M \\) 的整数。换句话说，输出一个满足 \\( 0 \\le a \\lt M \\) 且 \\( a \\cdot q \\equiv p \\pmod M \\) 的整数 \\( a \\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\(^{\\text{∗}}\\)\\( x \\) 的最终值的期望是指所有 \\( n! \\) 种排列下 \\( x \\) 的最终值的平均值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 \\( t \\)（\\( 1 \\leq t \\leq 1000 \\)），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个测试用例，第一行包含两个整数 \\( n \\) 和 \\( x \\)（\\( 1 \\leq n \\leq 3000 \\)，\\( 1 \\leq x \\leq 10^9 \\)）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第二行包含 \\( n \\) 个字符串，每个字符串代表一个操作，格式如上所述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例的 \\( n^2 \\) 之和不超过 \\( 3000^2 \\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>注意：</strong> x 用来表示乘法，而不是 *。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数：\\( x \\) 的最终值的期望对 \\( 10^9+7 \\) 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n2 10\nx2 -10\n4 2\n+6 +7 /1 -13\n8 1\n+1 x2 x3 +4 +5 +6 -7 -8\n9 864209753\n-918273645 x564738291 /365107362 x734582911 -654321789 x998244353 +172519103 /482193765 /482091376",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n2\n166666677\n601980218",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，\\( x \\) 可能为 \\( (10\\cdot 2)-10=10 \\) 或 \\( (10-10)\\cdot 2=0 \\)，因此期望值为 \\( 5 \\)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个测试用例中，所有可能的排列都得到 \\( x=2 \\)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个测试用例中，\\( x \\) 的期望值为 \\( \\frac{55}{6} \\)。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 操作统一",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目给定了 $n$ 个操作（加减乘除）和一个初始值 $x$，要求在所有全排列下最终值的期望。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在模 $10^9+7$ 的意义下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "减法 <code>-y</code> 等价于加法 <code>+(M-y)</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "除法 <code>/y</code> 等价于乘法 <code>x (y的逆元)</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此，所有操作被我们归类为两个集合：<strong>A 个加法操作</strong>（总和为 $Sum_{add}$）和 <strong>m 个乘法操作</strong>（总乘积为 $Prod_{mul}$）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 贡献拆解",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们不去看一整个复杂的排列，而是<strong>单独看每个元素对最终结果的贡献</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>初始值 x 的贡献</strong>：不论 $n$ 个操作怎么排，$x$ 最终一定会被所有的乘法操作乘一遍。因此，$x$ 的绝对期望贡献是固定的：$E_x = x \\times Prod_{mul}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>某个加法操作 v 的贡献</strong>：加法操作 $v$ 被执行后，只会受到<strong>排在它后面的</strong>乘法操作的影响。",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$ E_v = v \\times E[\\text{排在 } v \\text{ 后面的乘法因子的乘积}] $$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "由于全排列的<strong>对称性</strong>，对于任意一个加法操作，它后面跟着的乘法因子的期望乘积是<strong>完全相同</strong>的，我们设这个期望乘积为 $E$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "那么所有加法操作的总期望贡献就是：$Sum_{add} \\times E$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "最终答案即为：$Ans = x \\times Prod_{mul} + Sum_{add} \\times E$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 攻克难点：如何计算单一期望乘数 $E$？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "现在，问题被降维成了一个独立的小模型：<strong>“1 个加法操作和</strong> $m$ <strong>个乘法操作随机全排列，这个加法操作后面的乘法因子乘积的期望是多少？”</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这里有一个极具迷惑性的陷阱：千万不要去考虑其他的 $A-1$ 个加法操作！在只关注这 $1+m$ 个元素的相对位置时，其他加法操作插在哪里，根本不影响这 $m$ 个乘法操作在目标加法后面的分布。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>【组合数学分析（插空法）】</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "将 $m$ 个乘法操作排成一排，共有 $m+1$ 个空隙。这 1 个加法操作可以等概率地插入到这 $m+1$ 个空隙中的任意一个。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果插在第 1 个空，后面有 $m$ 个乘法；",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "如果插在最后 1 个空，后面有 $0$ 个乘法。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论 1</strong>：这个加法操作后面<strong>恰好</strong>跟着 $k$ 个乘法操作（$0 \\le k \\le m$）的概率是严格均等的，均为 $P = \\frac{1}{m+1}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在确定了后面有 $k$ 个乘法后，这 $k$ 个乘法是哪几个呢？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因为排列是对称的，从 $m$ 个乘法中任选 $k$ 个，共有 $C(m, k)$ 种选法，每种选法出现的概率相等。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "设 $dp[m][k]$ <strong>为“从</strong> $m$ <strong>个乘法中选</strong> $k$ <strong>个的所有可能组合的乘积之和”</strong>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "那么，“后面有 $k$ 个乘法的乘积期望”就是：$\\frac{dp[m][k]}{C(m, k)}$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论 2（终极公式）</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$ E = \\frac{1}{m+1} \\sum_{k=0}^{m} \\frac{dp[m][k]}{C(m, k)} $$",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "4. $O(n^2)$ 动态规划求乘积之和",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如何快速求出上述公式中的 $dp[m][k]$？这就是一个极其基础的 DP：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态</strong>：<code>dp[i][j]</code> 表示从前 $i$ 个乘法操作中选 $j$ 个的乘积之和。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>边界</strong>：<code>dp[0][0] = 1</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>转移</strong>：对于第 $i$ 个乘法操作 $mul_i$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果不选：<code>dp[i][j] = (dp[i][j] + dp[i-1][j])</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果选：<code>dp[i][j+1] = (dp[i][j+1] + dp[i-1][j] * mul_i)</code>",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "MT::Combinatorics c(N, mod);\nvoid solve(int CASE)\n{\n\tll n, x; cin >> n >> x;\n\tvar add = vector<ll>();\n\tvar mul = vector<ll>();\n\tfa(i, 1, n) {\n\t\tstring s; cin >> s;\n\t\tll x = stoll(string(s.begin() + 1, s.end()));\n\t\tif (s[0] == '+')add.pb(x);\n\t\telse if (s[0] == '-')add.pb((-x + mod) % mod);\n\t\telse if (s[0] == 'x')mul.pb(x);\n\t\telse mul.pb(Math::inv(x, mod));\n\t}\n\n\tll all_mul = 1, all_sum = 0;\n\tfor (ll x : mul)all_mul = all_mul * x % mod;\n\tfor (ll x : add)all_sum = (all_sum + x) % mod;\n\n\tll m = mul.size();\n\tmul.insert(mul.begin(), { 1 });\n\tvar dp = Vec2<ll>(m + 1, m + 1); // 前 i 个 mul 中，选 j 个的所有乘积之和\n\tdp[0][0] = 1;\n\tfa(i, 1, m) {\n\t\tfa(j, 0, i - 1) {\n\t\t\tdp[i][j + 1] = (dp[i][j + 1] + dp[i - 1][j] * mul[i] % mod) % mod;\n\t\t\tdp[i][j] = (dp[i][j] + dp[i - 1][j]) % mod;\n\t\t}\n\t}\n\n\tll e = 0;\n\tfa(i, 0, m) {\n\t\tll inv = Math::inv(c.lucas(m, i), mod); // m 个数中选 i 个，有 C(m, i) 中选法\n\t\te = (e + dp[m][i] * inv % mod) % mod;\n\t}\n\tll inv = Math::inv(m + 1, mod); // 一个加法操作后面跟了 k 个乘法操作的概率均为 1 / (m + 1)\n\te = e * inv % mod;\n\n\tll ans = (x * all_mul % mod + all_sum * e % mod) % mod;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-18",
+  "parsed_at": "2026-06-14T18:39:36.426337+00:00",
+  "type_directory": "p"
+}

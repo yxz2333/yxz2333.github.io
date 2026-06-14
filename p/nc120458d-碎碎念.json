@@ -1,0 +1,245 @@
+{
+  "slug": "nc120458d-碎碎念",
+  "title": "NC120458D 碎碎念",
+  "type": "题目",
+  "tags": [
+    "计数问题",
+    "状态机dp",
+    "思维定势"
+  ],
+  "difficulty": 2.0,
+  "summary": "写的时候<strong>思维定势</strong>，花了一小时搞<strong>组合数学</strong>，实际上想到<strong>状态机dp</strong>就能直接秒了",
+  "link": "https://ac.nowcoder.com/acm/contest/120458/D",
+  "link_text": "D-碎碎念_牛客2025秋季算法编程训练联赛5-提升组",
+  "source": "[[牛客2025秋季算法编程训练联赛5-提升组]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在ACM比赛里，除了CE以外都是有效的提交。每一个提交都会有其评测的结果，或是AC，或是RJ（Rejected，包含各种不通过的情况）。往往一个人上去提交的时候，总有一个队友会坐在边上等着结果。那个人，往往都是只读题不写题的云选手~",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "牛牛战队里也有这样的云选手——牛能。当牛能看到<strong>有效提交</strong>得到了AC以后，都会大呼一声“你好能啊！”，反之，如果得到了RJ的话，就会化身为喷子，说$x$句“你能不能行啊！”。大家比赛的都十分紧张，这样的大声呼喊未免会引起旁边队伍的注意。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当然牛牛战队交题的时候也很小心，一旦这一发出现了RJ，下一发有效提交一定能获得AC。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "比赛结束了以后，旁边的一支队伍愤怒的跑过来说：你们比赛的时候吵不吵啊，一直在这大吼，吼了这么多句！",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "激烈的争吵引起了吃瓜群众的注意，吃瓜群众问道：吼了多少句啊，这么讨厌的吗",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "“啊……我也记不清了，大概是在$[L,R]$这个区间吧”",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "作为吃瓜群众的你，想根据这个信息算出，这个队伍有多少种有效提交结果序列的可能呢？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入数据包括单组数据、多组询问。输入第一行包含一个整数$x(2 \\leq x \\leq 100\\,000)$，表示牛能在RJ状态下会说“你能不能行啊！”的句子数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包括一个整数$Q(1 \\leq Q \\leq 10^5)$，表示询问数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来$Q$行，每行包括两个整数$L,R(1 \\leq L \\leq R \\leq 100\\,000)$，表示每次询问下句子的区间数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组数据，在一行内输出一个整数，表示牛牛战队提交结果的可能性。由于结果可能很大，请对$1\\,000\\,000\\,007$取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n3\n3 3\n1 4\n1 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n7\n11",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一组询问：可以是三个AC，或者一个RJ。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二组询问：可以是1~4个AC，一个AC和一个RJ（共2种顺序），或者一个RJ。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第三组询问：可以有1~5个AC，两个AC和一个RJ（共3种顺序），一个AC和一个RJ（共2种顺序），或者一个RJ。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "AC RJ AC AC 和 AC AC AC RJ 虽然都是3个AC，1个RJ，但是因为提交顺序的不同，视为不同种类。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：答案就是构造能多少 <strong>AC RJ 序列</strong>，其中不能出现连续的 RJ",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：这构造序列的样子明显可以用 <strong>组合数学</strong> 的 <strong>隔板法</strong> 做",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "但实际上真用 <strong>隔板法</strong> 搞的话，复杂度只能到 $O(n^2)$，我当时往这个方向想了 1 个多小时，根本优化不了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "明显发生 <strong>思维定势</strong> 了，应该 <strong>及时转换思路</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "毕竟是 <strong>计数问题</strong> ，那肯定能想到 <strong>计数dp</strong> ，于是考虑用 dp 计算 <strong>AC RJ 序列</strong> 的个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "序列长度 $\\leq 1e5$，说明可以枚举序列长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "于是想到 <strong>状态机dp</strong> - <code>dp[i][0/1]</code>：第 i 次 AC/RJ 了，后续转移方程就很好想到了，本题实际上<strong>很简单</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一眼 <strong>隔板法</strong> ，但是这并非正解，必须克服 <strong>组合数学</strong> 的 <strong>思维定势</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "发现不行的时候，需立马想到能够使用 <strong>状态机dp</strong> 解决本题",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>计数问题</strong> 想到 <strong>计数dp</strong>",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll pre[N];\nll dp[N][2]; // 0：第 i 次 AC 了，1：第 i 次 RJ 了\nvoid solve(int CASE)\n{\n\tll x; cin >> x;\n\tll q; cin >> q;\n\tdp[0][0] = 1;\n\tfa(i, 1, 1e5) {\n\t\tdp[i][0] = (dp[i - 1][0] + dp[i - 1][1]) % mod;\n\t\tif (i >= x)dp[i][1] = dp[i - x][0];\n\t\tpre[i] = (dp[i][0] + dp[i][1]) % mod;\n\t\tpre[i] = (pre[i] + pre[i - 1]) % mod;\n\t}\n\twhile (q--) {\n\t\tint l, r; cin >> l >> r;\n\t\tcout << ((pre[r] - pre[l - 1]) % mod + mod) % mod << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-12",
+  "parsed_at": "2026-06-14T18:39:36.658936+00:00",
+  "type_directory": "p"
+}

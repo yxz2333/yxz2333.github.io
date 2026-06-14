@@ -1,0 +1,161 @@
+{
+  "slug": "前缀和",
+  "title": "前缀和",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "二维前缀和, 三维前缀和"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "二维前缀和",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 初始化前缀和 (下标从 1 开始)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "最常规的写法，利用容斥原理累加。",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "fa(i, 1, n)\nfa(j, 1, m) {\n  // 继承上一轮\n  pre[i][j] = pre[i - 1][j] + pre[i][j - 1] - pre[i - 1][j - 1];\n\n  // 加上当前贡献\n  pre[i][j] += a[i][j];\n}",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 初始化前缀和 (带 0 玩，下标从 0 开始)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "处理了边界条件，避免下标越界（直接把 <code>&lt; 0</code> 的项剔除）。",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "fa(i, 0, n)\nfa(j, 0, m) {\n  // 继承上一轮\n  if (i == 0 and j == 0) continue;\n  else if (i == 0) pre[i][j] = pre[i][j - 1];\n  else if (j == 0) pre[i][j] = pre[i - 1][j];\n  else pre[i][j] = pre[i - 1][j] + pre[i][j - 1] - pre[i - 1][j - 1];\n\n  // 加上当前贡献\n  pre[i][j] += a[i][j];\n}",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 询问二维前缀和",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "查询左上角 <code>(nx, ny)</code> 到右下角 <code>(x, y)</code> 构成的矩形区域之和。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>坐标示意图：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "(nx, ny)  (nx, y)\n( x, ny)  ( x, y)",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>查询公式：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "pre[x][y]\n+ pre[nx - 1][ny - 1]\n- pre[nx - 1][y] - pre[x][ny - 1]",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "三维前缀和",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 初始化前缀和 (下标从 1 开始)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "三维容斥：加上三个面，减去三条棱，加上一个角。",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "fa(i, 1, n)\nfa(j, 1, m)\nfa(k, 1, q) {\n  // 继承上一轮\n  pre[i][j][k] =\n      pre[i - 1][j][k] + pre[i][j - 1][k] + pre[i][j][k - 1]\n      + pre[i - 1][j - 1][k - 1] \n      - pre[i - 1][j - 1][k] - pre[i - 1][j][k - 1] - pre[i][j - 1][k - 1];\n\n  // 加上当前贡献\n  pre[i][j][k] += a[i][j][k];\n}",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 初始化前缀和 (带 0 玩，下标从 0 开始)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "极其严谨的 0 下标边界特判，防止越界。",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "fa(i, 0, n)\nfa(j, 0, m)\nfa(k, 0, q) {\n  // 继承上一轮\n  if (i == 0 and j == 0 and k == 0) continue;\n  else if (i == 0 and j == 0) pre[i][j][k] = pre[i][j][k - 1];\n  else if (i == 0 and k == 0) pre[i][j][k] = pre[i][j - 1][k];\n  else if (j == 0 and k == 0) pre[i][j][k] = pre[i - 1][j][k];\n  else if (i == 0) pre[i][j][k] = pre[i][j - 1][k] + pre[i][j][k - 1] - pre[i][j - 1][k - 1];\n  else if (j == 0) pre[i][j][k] = pre[i - 1][j][k] + pre[i][j][k - 1] - pre[i - 1][j][k - 1];\n  else if (k == 0) pre[i][j][k] = pre[i - 1][j][k] + pre[i][j - 1][k] - pre[i - 1][j - 1][k];\n  else {\n      pre[i][j][k] = \n          pre[i - 1][j][k] + pre[i][j - 1][k] + pre[i][j][k - 1]\n          + pre[i - 1][j - 1][k - 1]\n          - pre[i - 1][j - 1][k] - pre[i - 1][j][k - 1] - pre[i][j - 1][k - 1];\n  }\n\n  // 加上当前贡献\n  pre[i][j][k] += a[i][j][k]; \n}",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 询问三维前缀和",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "查询对角点 <code>(nx, ny, nz)</code> 到 <code>(x, y, z)</code> 构成的立体空间之和。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>查询公式：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "pre[x][y][z]\n- pre[nx - 1][y][z] - pre[x][ny - 1][z] - pre[x][y][nz - 1]\n- pre[nx - 1][ny - 1][nz - 1] \n+ pre[nx - 1][ny - 1][z] + pre[nx - 1][y][nz - 1] + pre[x][ny - 1][nz - 1]",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-02",
+  "parsed_at": "2026-06-14T18:45:12.001974+00:00",
+  "type_directory": "k"
+}

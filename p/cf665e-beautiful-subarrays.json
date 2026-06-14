@@ -1,0 +1,209 @@
+{
+  "slug": "cf665e-beautiful-subarrays",
+  "title": "CF665E Beautiful Subarrays",
+  "type": "题目",
+  "tags": [
+    "异或/01字典树",
+    "前缀异或"
+  ],
+  "difficulty": 1.5,
+  "summary": "一眼要用前缀异或，需要<strong>用异或的方法比较两数大小</strong>，然后用 $01$ 字典树记录 $01$ 前缀出现次数，这边主要注意一下时间复杂度，$O(nlog^2n)$ 可以过，不过也有 $O(nlogn)$ 的写法。",
+  "link": "https://codeforces.com/contest/665/problem/E",
+  "link_text": "Problem - E - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有一天，ZS the Coder 写下了一个整数数组 $a$，其元素为 $a_1,a_2,...,a_n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "数组 $a$ 的一个子数组是指一段连续的数，即 $a_l,a_{l+1},...,a_r$，其中 $1 \\leq l \\leq r \\leq n$。ZS the Coder 认为，如果一个子数组所有元素的按位异或结果不少于 $k$，那么这个子数组就是美丽的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请你帮助 ZS the Coder 计算数组 $a$ 中美丽子数组的数量！",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$ 和 $k$（$1 \\leq n \\leq 10^{6}, 1 \\leq k \\leq 10^{9}$），分别表示数组 $a$ 的元素数量和参数 $k$ 的值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_i$（$0 \\leq a_i \\leq 10^{9}$），表示数组 $a$ 的每个元素。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数 $c$，表示数组 $a$ 中美丽子数组的数量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 1\n1 2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2\n1 2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3\n1 2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "异或比 $x, y$ 大小这块，之前做过需要异或比大小的题 <a href=\"/p/cf2171c2-renako-amaori-and-xor-game-(hard-version)\" class=\"wikilink\">CF2171C2 Renako Amaori and XOR Game (hard version)</a> ，就是枚举<strong>01 前缀</strong>，一旦出现 $y$ 在该位为 $0$，$x$ 设为 $1$，后面不管怎么样都是 $x$ 更大。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "不是什么难题，稍微锻炼了一下 $01$ 字典树的用法吧，补了个函数板子。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "$O(nlog^2n)$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "void solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\n\tvar p = vector<pii>();\n\tint now = 0;\n\tfb(i, 30, 0) {\n\t\tif (k & (1 << i))now |= (1 << i);\n\t\telse p.pb({ now | (1 << i), 30 - i + 1 });\n\t}\n\tp.pb({ now, 31 });\n\n\tll ans = 0;\n\tnow = 0;\n\tTrie01Vector<int> t(30);\n\tt.insert(now);\n\tfa(i, 1, n) {\n\t\tnow ^= a[i];\n\t\tfor (const var& [pre, len] : p) {\n\t\t\tint x = now ^ pre;\n\t\t\tans += t.countPrefix(x, len);\n\t\t}\n\t\tt.insert(now);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "$O(nlogn)$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "ll query(int x, int k) {\n\t// 要求 x ^ y >= k\n\t// pre = x ^ y，要求前缀 01 pre 本身就已经 > k\n\t// 算 pre 出现的次数\n\n\tint now = root;\n\tll res = 0;\n\tfb(i, MAX, 0) {\n\t\tint bit = 1 << i;\n\t\tif (k & bit) {\n\t\t\tif (x & bit)now = tr[now].children[0];\n\t\t\telse now = tr[now].children[1];\n\t\t}\n\t\telse {\n\t\t\tint tmp;\n\t\t\tif (x & bit)tmp = tr[now].children[0], now = tr[now].children[1];\n\t\t\telse tmp = tr[now].children[1], now = tr[now].children[0];\n\t\t\tif (tmp)res += tr[tmp].cnt;\n\t\t}\n\t\tif (!now)return res;\n\t}\n\treturn res + tr[now].cnt;\n}\n\nvoid solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\n\tll ans = 0;\n\tint now = 0;\n\tTrie01Vector<int> t(30);\n\tt.insert(now);\n\tfa(i, 1, n) {\n\t\tnow ^= a[i];\n\t\tans += t.query(now, k);\n\t\tt.insert(now);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-20",
+  "parsed_at": "2026-06-14T18:39:36.571277+00:00",
+  "type_directory": "p"
+}

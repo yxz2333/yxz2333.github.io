@@ -1,0 +1,157 @@
+{
+  "slug": "abc132d-blue-and-red-balls",
+  "title": "ABC132D Blue and Red Balls",
+  "type": "题目",
+  "tags": [
+    "隔板法"
+  ],
+  "difficulty": 1.0,
+  "summary": "对于 $i$，相当于插入了 $i$ 个红球空位（空位一共 $n - k + 1$）里，那先从空位数里挑 $i$ 个空位来填，然后这几个挑出来的空位用<strong>隔板法</strong>，对每个空位至少分 $1$ 个，本题就解决了。",
+  "link": "[AT_abc132_d [ABC132D] Blue and Red Balls - 洛谷](https://www.luogu.com.cn/problem/AT_abc132_d)",
+  "link_text": "[AT_abc132_d [ABC132D] Blue and Red Balls - 洛谷](https://www.luogu.com.cn/problem/AT_abc132_d)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有 $K$ 个蓝球和 $N-K$ 个红球。同一颜色的球是完全相同的。Snuke 和 Takahashi 在玩这些球。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "首先，Snuke 将把 $N$ 个球从左到右排成一排。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "然后，Takahashi 将收走 $K$ 个蓝球。在一次操作中，他可以收走连续的一个区间的蓝球。他将以最少的操作数收走所有蓝球。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Snuke 有多少种排列这 $N$ 个球的方法，使得 Takahashi 恰好操作 $i$ 次才能收走所有的 $K$ 个蓝球？对于每个 $i$（$1\\le i\\le K$）计算排列数对 $10^9+7$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$N\\ K$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证 $1\\le K\\le N\\le2000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $K$ 行。第 $i$ 行（$1\\le i\\le K$）表示有多少种排列这 $N$ 个球的方法，使得 Takahashi 恰好操作 $i$ 次才能收走所有的 $K$ 个蓝球，对 $10^9+7$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n6\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "有三种方法来排列球，使得 Takahashi 恰好操作 $1$ 次：$(B, B, B, R, R)$，$(R, B, B, B, R)$ 和 $(R, R, B, B, B)$。（$R$ 和 $B$ 分别代表红色和蓝色）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "有六种方法来排列球，使得 Takahashi 恰好操作 $2$ 次：$(B, B, R, B, R)$，$(B, B, R, R, B)$，$(R, B, B, R, B)$，$(R, B, B, R, B)$，$(B, R, B, B, R)$，和 $(B, R, R, B, B)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "有一种方法来排列球，使得 Takahashi 恰好操作 $3$ 次：$(B, R, B, R, B)$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "明显就是先把红球排一排，然后插入蓝球。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $i$，相当于插入了 $i$ 个红球空位（空位一共 $n - k + 1$）里，那先从空位数里挑 $i$ 个空位来填，然后这几个挑出来的空位用<strong>隔板法</strong>，对每个空位至少分 $1$ 个，本题就解决了。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "MT::Combinatorics c(N, mod);\nvoid solve(int CASE)\n{\n\tll n, k; cin >> n >> k;\n\tfa(i, 1, k) {\n\t\tll M = n - k + 1;\n\t\tll N = k;\n\t\tcout << c.lucas(M, i) * c.lucas(N - 1, i - 1) % mod << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-16",
+  "parsed_at": "2026-06-14T18:39:35.944746+00:00",
+  "type_directory": "p"
+}

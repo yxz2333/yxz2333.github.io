@@ -1,0 +1,146 @@
+{
+  "slug": "树上前缀和差分",
+  "title": "树上前缀和差分",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "树上前缀和 vs 树上倍增",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "table",
+          "rows": [
+            "|  | 树上前缀和 | 树上倍增  |",
+            "| :--- | :--- | :--- |",
+            "| **能力边界** | 只能处理**可逆操作**（如：求和、异或和） | 还能处理**不可逆操作**（如：求 Max/Min） |",
+            "| **时间复杂度（构建/查询）** | $O(n), O(\\log n)$  | $O(n \\log n), O(\\log n)$ |",
+            "| **空间复杂度** | $O(n)$ | $O(n \\log n)$  |",
+            "| **代码实现** | **极简**（1 行公式） | **繁琐**（需要拼凑 $2^i$，边界情况多） |"
+          ],
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "树上前缀和",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>核心思想</strong>：所有的和都定义为<strong>从根节点到当前节点的累加</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>何时用</strong>：查询树上<strong>某条路径的点权/边权之和</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>预处理</strong>：DFS 一遍，<code>sum[u] = sum[fa] + weight[u]</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>查询公式</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果是<strong>点权</strong>路径和（包含 $u, v$ 本身）：",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<code>ans = sum[u] + sum[v] - sum[lca] - sum[fa[lca]]</code>",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "如果是<strong>边权</strong>路径和：",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<code>ans = sum[u] + sum[v] - 2 * sum[lca]</code>",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "树上差分",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>何时用</strong>：频繁把树上某条路径上的所有点/边加上一个值，最后问各个点/边的值）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "相当于树上前缀和的逆运算。普通数组区间 $[L, R]$ 加 $1$，差分是 $D[L]+1, D[R+1]-1$。树上同理。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>操作（给</strong> $u$ <strong>到</strong> $v$ <strong>路径上全加上</strong> $val$<strong>）</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果是<strong>点权</strong>：",
+          "depth": 3
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "diff[u] += val;\ndiff[v] += val;\ndiff[lca] -= val;\ndiff[fa[lca]] -= val;",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "如果是<strong>边权</strong>：",
+          "depth": 3
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "diff[u] += val;\ndiff[v] += val;\ndiff[lca] -= 2 * val;",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>收尾（求出最终每个点的值）</strong>：",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "所有修改结束后，跑一遍自底向上的 DFS 求前缀和（其实是<strong>后缀和</strong>），子树的 <code>diff</code> 之和就是当前节点的最终值。",
+          "depth": 3
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void dfs_ans(int u, int fa) {\n    for (int v : g[u]) {\n        if (v == fa) continue;\n        dfs_ans(v, u);\n        diff[u] += diff[v]; // 累加子树\n    }\n}",
+          "depth": 3
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-28",
+  "parsed_at": "2026-06-14T18:45:12.120676+00:00",
+  "type_directory": "k"
+}

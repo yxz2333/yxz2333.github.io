@@ -1,0 +1,129 @@
+{
+  "slug": "二分图",
+  "title": "二分图",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "二分图"
+  ],
+  "parent": "图论经典问题",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "定义与性质",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "定义",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "一个图的所有节点可以划分成两个集合 $L$（左部）和 $R$（右部），使得图中的每一条边 $(u, v)$ 的两个端点分别属于不同的集合（即 $u \\in L, v \\in R$）。<strong>集合内部没有连边</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "核心性质 (判定充要条件)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>无奇环</strong>：一张图是二分图 $\\iff$ 图中不存在奇数长度的环。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>可双色染色</strong>：图中的点可以用黑白两种颜色染色，使得每条边的两个端点颜色不同。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "常见二分图",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "所有的<strong>树</strong>必定是二分图。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所有的<strong>网格图</strong>（不含斜边）必定是二分图。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "二分图判定（染色法）",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>染色法 (DFS/BFS)</strong>：从任意未染色点开始，染成颜色 1，其邻居染成颜色 2，以此类推。如果发现邻居已经是同色，则不是二分图。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于<strong>无向图</strong>：可以直接用判定二分图。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于<strong>有向图</strong>：主要用来<strong>判定奇环</strong>，需先找出所有的 <strong>SCC</strong>，然后在 SCC 里跑二分图判定。",
+          "depth": 1
+        },
+        {
+          "heading": "DFS 法",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>注意：</strong>如果是求全图连通块的二分图，请不要直接 $return$ 掉，需<strong>把连通块所有点都染色完</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "var col = vector<int>(n + 1, -1); // 染色 和 vis\ncol[0] = 1;\nvar dfs = [&](var dfs, int now, int fa)->bool {\n\tcol[now] = col[fa] ^ 1;\n\tfor (int to : g[now]) {\n\t\tif (col[to] != -1) {\n\t\t\t// 反祖边 now -> to\n\t\t\tif (col[now] == col[to]) {\n\t\t\t\t// 相邻颜色相同，不满足二分图\n\t\t\t\treturn 0;\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tif (!dfs(dfs, to, now))return 0;\n\t\t}\n\t}\n\treturn 1;\n\t};",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "BFS 法",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>注意：</strong>如果是求全图连通块的二分图，请不要直接 $return$ 掉，需<strong>把连通块所有点都染色完</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "bool is_bipartite_graph(int n, const vector<vector<int>>& g) {\n\tvar color = vector<short>(n + 1, -1);\n\n\tauto bfs_check = [&](int st)->bool {\n\t\tqueue<int> q;\n\t\tq.push(st);\n\t\tcolor[st] = 0;\n\n\t\twhile (!q.empty()) {\n\t\t\tint u = q.front();\n\t\t\tq.pop();\n\n\t\t\tfor (int v : g[u]) {\n\t\t\t\tif (color[v] == -1) {\n\t\t\t\t\tcolor[v] = color[u] ^ 1;\n\t\t\t\t\tq.push(v);\n\t\t\t\t}\n\t\t\t\telse if (color[v] == color[u]) {\n\t\t\t\t\treturn false;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn true;\n\t\t};\n\n\tfa(i, 1, n)\n\t\tif (color[i] == -1 and !bfs_check(i))\n\t\t\treturn false;\n\n\treturn true;\n}",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-17",
+  "parsed_at": "2026-06-14T18:45:12.028296+00:00",
+  "type_directory": "k"
+}

@@ -1,0 +1,142 @@
+{
+  "slug": "nk57683e-kevin喜欢零(困难版本)",
+  "title": "NK57683E Kevin喜欢零(困难版本)",
+  "type": "题目",
+  "tags": [
+    "容斥",
+    "双指针"
+  ],
+  "difficulty": 1.5,
+  "summary": "<strong>经典容斥，恰好难算，我们算至少</strong>，恰好 $k$ 的答案 = 至少 $k$ 的答案 - 至少 $k + 1$ 的答案。本题的后导零本质上是算子串内，每个数的 $min(2 作为因子的总数，5 作为因子的总数)$，明显<strong>符合单调性</strong>，直接双指针算即可。",
+  "link": "https://ac.nowcoder.com/acm/contest/57683/E",
+  "link_text": "E-Kevin喜欢零(困难版本)_牛客小白月赛73",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给出一个长度为 $n(1\\leq n\\leq 2\\cdot 10^5)$ 的序列 $a$ $(1\\leq a_i\\leq 10^9)$，求这个序列中满足如下条件的连续子段 $[a_l\\dots a_r]$ 的数量：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "令 $x=a_l\\cdot a_{l+1}\\cdot a_{l+2}\\dots a_r$，那么 $x$ 的末尾恰好有 $k(0\\leq k\\leq 10^9)$ 个零。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $T(1\\leq T\\leq 10^5)$，表示测试用例的组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组测试用例：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n(1\\leq n\\leq 2\\cdot 10^5)$ 和 $k(0\\leq k\\leq 10^9)$，表示序列的长度和题目中提到的后导零的数量；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1\\dots a_n\\ (1\\leq a_i\\leq 10^9)$，表示该序列。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证对于所有的测试用例，$n$ 的总和不超过 $2\\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试用例：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "仅输出一行，包含一个整数，表示答案。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n5 3\n125 1 8 1 1\n1 0\n6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, k; cin >> n >> k;\n\tvar a = vector<pll>(n + 1);\n\tfa(i, 1, n) {\n\t\tll x; cin >> x;\n\t\twhile (x % 2 == 0)a[i].px++, x /= 2;\n\t\twhile (x % 5 == 0)a[i].py++, x /= 5;\n\t}\n\n\tstruct node {\n\t\tint id;\n\t\tll now2, now5;\n\t\tnode() :id(0), now2(0), now5(0) {}\n\n\t\tll ans() const {\n\t\t\treturn min(now2, now5);\n\t\t}\n\t\tll next_ans(const vector<pll>& a) const {\n\t\t\treturn min(now2 - a[id].px, now5 - a[id].py);\n\t\t}\n\t};\n\n\tvar cal = [&](ll k)->ll {\n\t\tvar j = node();\n\t\tll ans = 0;\n\t\tfa(i, 1, n) {\n\t\t\tj.now2 += a[i].px, j.now5 += a[i].py;\n\t\t\twhile (j.id < i and j.next_ans(a) >= k) {\n\t\t\t\tj.now2 -= a[j.id].px, j.now5 -= a[j.id].py;\n\t\t\t\tj.id++;\n\t\t\t}\n\t\t\tif (j.ans() >= k)ans += j.id;\n\t\t}\n\t\treturn ans;\n\t\t};\n\n\tcout << cal(k) - cal(k + 1) << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-05",
+  "parsed_at": "2026-06-14T18:39:36.730159+00:00",
+  "type_directory": "p"
+}

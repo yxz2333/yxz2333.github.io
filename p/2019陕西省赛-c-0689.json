@@ -1,0 +1,205 @@
+{
+  "slug": "2019陕西省赛-c-0689",
+  "title": "2019陕西省赛 C 0689",
+  "type": "题目",
+  "tags": [
+    "贡献法"
+  ],
+  "difficulty": 2.0,
+  "summary": "本来以为是回文串的问题，结果贡献法直接秒了。",
+  "link": "https://qoj.ac/contest/1285/problem/6724",
+  "link_text": "0689 - Problem - QOJ.ac",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "如果一个字符串只由数字 '0'、'6'、'8' 和 '9' 组成，则称其为 <strong>0689-字符串</strong>。给定一个长度为 \\( n \\) 的 0689-字符串 \\( s \\)，必须<strong>恰好执行一次</strong>以下操作：选择一个非空子串，并将其旋转 180 度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "更正式地说，令 \\( s_i \\) 表示字符串 \\( s \\) 中的第 \\( i \\) 个字符。将起始于 \\( s_l \\) 结束于 \\( s_r \\) 的子串旋转 180 度后（\\( 1 \\leq l \\leq r \\leq n \\)），字符串 \\( s \\) 将变为长度为 \\( n \\) 的字符串 \\( t \\)，其中 \\( t_i \\) 由下式定义：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$t_i =\n\\begin{cases}\ns_i & \\text{若 } 1 \\leq i < l \\text{ 或 } r < i \\leq n \\\\\n'0' & \\text{若 } l \\leq i \\leq r \\text{ 且 } s_{l+r-i} = '0' \\\\\n'6' & \\text{若 } l \\leq i \\leq r \\text{ 且 } s_{l+r-i} = '9' \\\\\n'8' & \\text{若 } l \\leq i \\leq r \\text{ 且 } s_{l+r-i} = '8' \\\\\n'9' & \\text{若 } l \\leq i \\leq r \\text{ 且 } s_{l+r-i} = '6'\n\\end{cases}$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "问：经过一次操作后，可以得到多少种不同的字符串？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有多组测试数据。第一行输入一个整数 \\( T \\)，表示测试数据的组数。每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行且唯一一行包含一个 0689-字符串 \\( s \\)（\\( 1 \\leq |s| \\leq 10^6 \\)）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试数据的 \\( |s| \\) 之和不超过 \\( 10^7 \\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据，输出一行一个整数，表示恰好执行一次操作后能得到的不同字符串的数量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n0689\n08",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们在此解释第一个样例测试用例。",
+              "depth": 1
+            },
+            {
+              "type": "table",
+              "rows": [
+                "| 子串 | 结果 | 子串 | 结果 |",
+                "|------|------|------|------|",
+                "| 0    | 0689 | 68   | 0899 |",
+                "| 6    | 0989 | 89   | 0668 |",
+                "| 8    | 0689 | 068  | 8909 |",
+                "| 9    | 0686 | 689  | 0689 |",
+                "| 06   | 9089 | 0689 | 6890 |"
+              ],
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "很容易发现，操作后我们可以得到 8 个不同的字符串。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "我们可以定义一个字符反转函数 $f(x)$：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$f('0') = '0'$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$f('8') = '8'$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$f('6') = '9'$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$f('9') = '6'$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "假设我们选择翻转子串 $s[l \\dots r]$。翻转后，原本在 $r$ 位置的字符会跑到 $l$ 位置，变成 $f(s[r])$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果 $f(s[r]) == s[l]$（这同时也意味着 $f(s[l]) == s[r]$），那么翻转 $s[l \\dots r]$ 所得到的字符串，和仅仅翻转内部子串 $s[l+1 \\dots r-1]$ 得到的字符串是<strong>完全一样</strong>的！因为两端的字符在翻转后并没有发生任何改变。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "因此，一个区间 $[l, r]$ 会贡献一个<strong>全新且唯一</strong>的字符串，<strong>当且仅当它改变了边界的字符</strong>，即：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$f(s[r]) \\neq s[l]$$\n只要满足这个条件，翻转 $[l, r]$ 后，原字符串在 $l$ 位置的字符一定会改变。\n因为这个改变的边界是固定的，所以它生成的字符串绝对不可能和别的区间生成的字符串重复。这就完美地转化为了“**合法对** $(l, r)$ **的计数**”问题，不用考虑去重问题了。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve()\n{\n\tstring s; cin >> s; int n = s.size();\n\ts = ' ' + s;\n\t//var se = set<string>();\n\t//fa(i, 1, n)fa(j, i, n) {\n\t//\tstring ns = s;\n\t//\tint len = j - i + 1;\n\t//\treverse(ns.begin() + i, ns.begin() + i + len);\n\t//\tfa(k, i, j) {\n\t//\t\tif (ns[k] == '6')ns[k] = '9';\n\t//\t\telse if (ns[k] == '9')ns[k] = '6';\n\t//\t}\n\t//\tse.insert(ns);\n\t//}\n\t//cout << se.size() << endl;\n\t//for (string s : se)cout << s << endl;\n\n\tbool ok = 1;\n\tvar sse = set<char>();\n\tfa(i, 1, n)sse.insert(s[i]);\n\tif (sse.size() == 1 and (*sse.begin() == '6' or *sse.begin() == '9'))ok = 0;\n\n\tvar cnt = vector<ll>(10);\n\tll ans = 0;\n\tfa(i, 1, n) {\n\t\tif (s[i] == '0' or s[i] == '8') {\n\t\t\tfor (int x : {0, 6, 8, 9}) {\n\t\t\t\tif (x == s[i] - '0')continue;\n\t\t\t\tans += cnt[x];\n\t\t\t}\n\t\t}\n\t\telse if (s[i] == '6') {\n\t\t\tfor (int x : {0, 6, 8, 9}) {\n\t\t\t\tif (x == 9)continue;\n\t\t\t\tans += cnt[x];\n\t\t\t}\n\t\t\tans++;\n\t\t}\n\t\telse {\n\t\t\tfor (int x : {0, 6, 8, 9}) {\n\t\t\t\tif (x == 6)continue;\n\t\t\t\tans += cnt[x];\n\t\t\t}\n\t\t\tans++;\n\t\t}\n\t\tcnt[s[i] - '0']++;\n\t}\n\tcout << ans + ok << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-22",
+  "parsed_at": "2026-06-14T18:39:35.661945+00:00",
+  "type_directory": "p"
+}

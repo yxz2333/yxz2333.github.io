@@ -1,0 +1,163 @@
+{
+  "slug": "2026杭电春季赛6-006-括号路径",
+  "title": "2026杭电春季赛6 006 括号路径",
+  "type": "题目",
+  "tags": [
+    "最短路/DP",
+    "bfs",
+    "经典问题/括号匹配问题"
+  ],
+  "difficulty": 1.5,
+  "summary": "因为点和边都很少，对每个点单独跑 $bfs$ 即可。开个 $dis[405][405]$ 记录当前 $i$ 到 $j$ <strong>左括号</strong>个数（<strong>括号匹配问题经典trick</strong>）为 $k$ 的最短距离，这里猜测左括号个数上限仅需 $n$，开个 $ans[405][405]$ 记录答案即可。",
+  "link": "https://acm.hdu.edu.cn/contest/problem?cid=1202&pid=1006",
+  "link_text": "1006 括号路径",
+  "source": "[[2026杭电春季赛6]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一张 $n$ 个点 $m$ 条边的无向图，每条边上标有左括号 <code>&#x27;(&#x27;</code>，或者右括号 <code>&#x27;)&#x27;</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们定义满足以下条件的字符串为括号串：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1. 空串是括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2. 如果 $A$ 是括号串，则 $(A)$ 是括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "3. 如果 $A, B$ 都是括号串，则 $AB$ 是括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "我们定义一条括号路径满足以下条件：从起点到终点经过的所有边上标的括号按经过的先后顺序写下来，构成的字符串是括号串。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "有 $q$ 组询问，每次询问起点为 $x$，终点为 $y$ 的最短括号路径的长度，如果不联通，或者不存在合法路径则输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入三个整数 $n, m, q$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行，每行两个整数和一个字符：$u_i, v_i, c_i$，表示一条连接节点 $u_i$ 和 $v_i$ 的无向边（$u_i \\ne v_i$），上面标记的括号为 $c_i \\in \\{\\text{'('}, \\text{')'}\\}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行，每行两个整数 $x, y$，表示一组询问的起点和终点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le n \\le 400, 1 \\le m \\le 800, 1 \\le q \\le 10^5$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "图可能存在重边，可能不连通，不会出现自环。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $q$ 行，每行一个整数表示对应询问的答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 6 7\n1 2 (\n2 3 )\n3 4 (\n4 1 )\n1 3 (\n1 6 (\n1 1\n1 3\n1 4\n1 2\n2 1\n1 5\n1 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0\n2\n4\n2\n6\n-1\n-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dis[405][405], ans[405][405];\nstruct node {\n\tint id, st, d;\n};\nvoid solve(int CASE)\n{\n\tint n, m, q; cin >> n >> m >> q;\n\tvar g = vector<vector<pii>>(n + 1);\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> u >> v;\n\t\tchar c; cin >> c;\n\t\tint w = (c == '(' ? 1 : -1);\n\t\tg[u].pb({ v,w }), g[v].pb({ u,w });\n\t}\n\tfa(i, 1, n) {\n\t\tfa(j, 0, n)fa(k, 0, n)dis[j][k] = INF;\n\t\tvar Q = queue<node>();\n\t\tQ.push({ i, 0, dis[i][0] = 0 });\n\t\twhile (Q.size()) {\n\t\t\tvar[now, st, d] = Q.front();\n\t\t\tQ.pop();\n\t\t\tif (d > dis[now][st])continue;\n\t\t\tfor (const var& [to, w] : g[now]) {\n\t\t\t\tif (st == 0) {\n\t\t\t\t\tif (w < 0 or st + w > n)continue;\n\t\t\t\t\tif (dis[to][st + w] > dis[now][st] + 1) {\n\t\t\t\t\t\tdis[to][st + w] = dis[now][st] + 1;\n\t\t\t\t\t\tQ.push({ to, st + w, dis[to][st + w] });\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tif (st + w > n)continue;\n\t\t\t\t\tif (dis[to][st + w] > dis[now][st] + 1) {\n\t\t\t\t\t\tdis[to][st + w] = dis[now][st] + 1;\n\t\t\t\t\t\tQ.push({ to, st + w, dis[to][st + w] });\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\tfa(j, 1, n)ans[i][j] = dis[j][0];\n\t}\n\twhile (q--) {\n\t\tint x, y; cin >> x >> y;\n\t\tif (ans[x][y] >= INF)cout << -1 << endl;\n\t\telse cout << ans[x][y] << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-25",
+  "parsed_at": "2026-06-14T18:39:35.887493+00:00",
+  "type_directory": "p"
+}

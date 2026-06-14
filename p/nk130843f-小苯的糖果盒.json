@@ -1,0 +1,353 @@
+{
+  "slug": "nk130843f-小苯的糖果盒",
+  "title": "NK130843F 小苯的糖果盒",
+  "type": "题目",
+  "tags": [
+    "dp",
+    "前缀优化dp",
+    "贡献法"
+  ],
+  "difficulty": 2.0,
+  "summary": "<strong>定初步状态</strong> $\\to$ <strong>发现计算难点</strong> $\\to$ <strong>扩展一维状态消解难点</strong> $\\to$ <strong>算复杂度</strong> $\\to$ <strong>发现瓶颈并引入前缀优化</strong>",
+  "link": "https://ac.nowcoder.com/acm/contest/130843/F",
+  "link_text": "F-小苯的糖果盒_牛客周赛 Round 137",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$小苯有 $n$ 个盒子排成一排，第 $i$ 个盒子初始装有 $a_i$ 颗糖果。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$他可以进行以下操作任意次：选择两个不同的盒子 $i$ 和 $j$，将盒子 $i$ 中的一颗糖果移动到盒子 $j$。移动的成本为 $|i-j|$（即两个盒子的位置距离）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$小苯希望最终满足以下条件：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{23pt}\\bullet\\,$每个盒子中的糖果数量都是一个完全平方数；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{23pt}\\bullet\\,$所有盒子的糖果数量构成一个非递减序列（即 $b_1 \\leqq b_2 \\leqq \\dots \\leqq b_n$，其中 $b_i$ 是第 $i$ 个盒子最终的数量）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$请帮助他计算所需的最小总成本，或报告无解。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$每个测试文件均包含多组测试数据。第一行输入一个整数 $T\\left(1\\leqq T\\leqq 10\\right)$ 代表数据组数，每组测试数据描述如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行输入一个整数 $n\\left(1 \\leqq n \\leqq 100\\right)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第二行输入 $n$ 个整数 $a_1, a_2, \\dots, a_n\\left(0 \\leqq a_i \\leqq 100\\right)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$除此之外，保证单个测试文件的 $n$ 之和不超过 $100$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$对于每组数据，输出一个整数，表示满足条件的最小总成本，如果无法做到，输出一个 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n4\n1 9 4 16\n1\n3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "第一步：缩小目标范围，初定 DP 状态",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于题目给定的盒子最多 100 个，每个盒子最多 100 颗糖果，总糖果数无论如何也不会超过 10000 颗。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "题目要求每个盒子最终的糖果数都是完全平方数，由于不会超过总数 10000，这些完全平方数的“根”显然只会落在 $[0, 100]$ 这个区间里。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "既然要保证最终结果是一个非递减的完全平方数序列，我们很自然地想到以位置 $i$ 和填入的数字为基础构建 DP：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设状态 <strong><code>dp[i][j]</code></strong> 表示：<strong>考虑前</strong> $i$ <strong>个盒子，且第</strong> $i$ <strong>个盒子填入的完全平方数是</strong> $j \\times j$ <strong>时的最小代价。</strong>",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "第二步：如何拆解并计算难搞的“距离代价”？（核心思考）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这是本题最卡人的地方：移动成本是 $|位置差|$。如何仅仅依靠前 $i$ 个的状态，算出具体的移动花费？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果单看第 $i$ 个位置：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "填的数字过多，缺少的部分就得从后面移过来。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "填的数字太少，多出的部分就得往后面移过去。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "但是在 DP 的线性视角里，<strong>从后面把多余的移过来，等价于把前面少的部分当成“负债”往后传</strong>。我们根本不需要管这些糖果具体是从几号盒子大老远跑过来的，我们只需要知道：<strong>前</strong> $i$ <strong>个盒子这个“整体”，到底有多吃亏、或者多富裕？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "只要算出前 $i$ 个盒子目前填的糖果总和，减去原数组前 $i$ 个盒子的真实总和：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "结果是正数，说明多出来的这些糖必须经过位置 $i$ 往右边流；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "结果是负数，说明缺少的这些糖必须从右边越过位置 $i$ 流进来。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "无论流出还是流入，必定要在 $i$ 和 $i+1$ 的边界上产生 $\\text{abs}(多/少出来的总糖果数量)$ 这么多的 <strong>“过界路费代价”</strong>。这就是当前位置<strong>这单步</strong>能算出的精准代价（贡献法）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第三步：完善 DP 状态，彻底落实状态转移",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "为了实现上面的计算，仅仅有 $dp[i][j]$ 显然不够，我们不知道前面一共填了多少糖果，就算不出这个差值。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所以，<strong>顺理成章地加上第三维前缀和状态</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "扩充为 <strong><code>dp[i][j][k]</code></strong>，表示：考虑前 $i$ 个盒子，第 $i$ 个盒子变成了 $j \\times j$，且<strong>前</strong> $i$ <strong>个盒子填入的数字总和恰好为</strong> $k$ 的最小代价。因为最大总数是 10000，所以 $k$ 的上限就是 10000。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "现在的状态转移就异常清晰了，假设我们正在推导第 $i$ 位：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此时原数组的真实前缀和已经累加为 <code>sum</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "上一步（前 $i-1$ 个盒子）用了 <code>lastk</code> 颗糖。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当前步我们打算把第 $i$ 盒变成 $j \\times j$ 颗糖。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "那么，现在的总用糖数就必定是 $k = \\text{lastk} + j \\times j$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "那么在这一步产生的相对过路费就是：$|k - \\text{sum}|$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "转移方程：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i][j][k] = |k - \\text{sum}| + dp[i-1][\\text{last\\_j}][\\text{lastk}]$$\n其中由于是非递减数列，前一步选的根号 $\\text{last\\_j}$ 必须满足 $\\text{last\\_j} \\le j$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第四步：计算规模并进行最后的预处理优化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "想到了这一步，思路就已经基本成型了，来核算一下总计算量：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "外层枚举 $i$（$100$） $\\times$ 枚举当前选数 $j$（$100$） $\\times$ 枚举前置和 $\\text{lastk}$（$10000$）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果在这 $10^8$ 里面，再加一层循环去枚举所有满足 $\\text{last\\_j} \\le j$ 的历史状态<strong>找最小值</strong>，计算量立马会飙升到 $10^{10}$，这必然超时。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了在 $10^8$ 内搞定，<strong>用预处理前缀最小优化</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "既然我们要的总是 $dp[i-1][0 \\dots j][lastk]$ 的最小值，那就在 $i$ 循环的最开头，维护一个只跟上一层有关的前缀最小数组 <code>mn[j][lastk]</code>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果 $j=0$，$mn[0][k] = dp[i-1][0][k]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "否则 $mn[j][k] = \\min(dp[i-1][j][k], mn[j-1][k])$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如此一来，转移时找寻合法历史最优解的操作被降维到了 $O(1)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "核心的转移式完美变成：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i][j][k] = abs(k - sum) + mn[j][lastk]$$",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int a[105], dp[105][105][10005], mn[105][10005];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfa(i, 0, n)fa(j, 0, 100)fa(k, 0, 10000)dp[i][j][k] = INF;\n\tfa(i, 1, n)cin >> a[i];\n\tdp[0][0][0] = 0;\n\tint sum = 0;\n\tint ans = INF;\n\tfa(i, 1, n) {\n\t\tsum += a[i];\n\t\tfa(j, 0, 100)fa(k, 0, 10000) {\n\t\t\tif (j == 0)mn[j][k] = dp[i - 1][j][k];\n\t\t\telse mn[j][k] = min(dp[i - 1][j][k], mn[j - 1][k]);\n\t\t}\n\t\tfa(j, 0, 100) {\n\t\t\tfa(lastk, 0, 10000) {\n\t\t\t\tint k = j * j + lastk;\n\t\t\t\tif (k > 10000)break;\n\t\t\t\tdp[i][j][k] = min(dp[i][j][k], abs(k - sum) + mn[j][lastk]);\n\t\t\t\tif (k == sum and i == n)ans = min(ans, dp[i][j][k]); // 仅在此处算答案\n\t\t\t}\n\t\t}\n\t}\n\tif (ans >= INF)cout << -1 << endl;\n\telse cout << ans << endl;\n\treturn;\n}\n",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-29",
+  "parsed_at": "2026-06-14T18:39:36.721238+00:00",
+  "type_directory": "p"
+}

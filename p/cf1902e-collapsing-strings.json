@@ -1,0 +1,165 @@
+{
+  "slug": "cf1902e-collapsing-strings",
+  "title": "CF1902E Collapsing Strings",
+  "type": "题目",
+  "tags": [
+    "字典树",
+    "正难则反"
+  ],
+  "difficulty": 1.5,
+  "summary": "正难则反，我们算字符串会被消除几次。把翻转后的字符串全放入字典树中，对于每个字符串 $s[i]$ 在字典树中进行查找，相同前缀的个数 $prefix[id]$ 总和就是 $s[i]$ 配对时被消除的总数。",
+  "link": "https://codeforces.com/problemset/problem/1902/E",
+  "link_text": "Problem - 1902E - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定 $n$ 个字符串 $s_1, s_2, \\dots, s_n$，每个字符串均由小写拉丁字母组成。记 $|x|$ 为字符串 $x$ 的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "定义两个字符串 $a$ 和 $b$ 的“折叠”操作 $C(a, b)$ 如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果 $a$ 为空串，则 $C(a, b) = b$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果 $b$ 为空串，则 $C(a, b) = a$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果 $a$ 的最后一个字母等于 $b$ 的第一个字母，则 $C(a, b) = C(a_{1,|a|-1}, b_{2,|b|})$，其中 $s_{l,r}$ 表示字符串 $s$ 的第 $l$ 个字母到第 $r$ 个字母组成的子串；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "否则，$C(a, b) = a + b$，即将两个字符串直接拼接。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "请计算 $\\sum\\limits_{i=1}^n \\sum\\limits_{j=1}^n |C(s_i, s_j)|$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\le n \\le 10^6$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行，每行包含一个字符串 $s_i$（$1 \\le |s_i| \\le 10^6$），均由小写拉丁字母组成。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有字符串的总长度不超过 $10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示 $\\sum\\limits_{i=1}^n \\sum\\limits_{j=1}^n |C(s_i, s_j)|$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\naba\nab\nba",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "20",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\nabab\nbabx\nxab\nxba\nbab",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "126",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tTrie t;\n\tvar s = vector<string>(n + 1);\n\tll ans = 0;\n\tfa(i, 1, n) {\n\t\tcin >> s[i];\n\t\tans += n * s[i].size();\n\n\t\tvar ns = s[i];\n\t\treverse(all(ns));\n\t\tt.insert(ns);\n\t}\n\n\tfa(i, 1, n) {\n\t\tvar now = t.root;\n\t\tfor (char c : s[i]) {\n\t\t\tif (not now->children.count(c))break;\n\t\t\tnow = now->children[c];\n\t\t\tans -= t.prefixs[now->id];\n\t\t}\n\t}\n\n\tcout << ans * 2 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-01",
+  "parsed_at": "2026-06-14T18:39:36.305476+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,386 @@
+{
+  "slug": "2025jscpc-i-队伍起名",
+  "title": "2025JSCPC I 队伍起名",
+  "type": "题目",
+  "tags": [
+    "容斥",
+    "状压",
+    "计数问题"
+  ],
+  "difficulty": 2.5,
+  "summary": "核心是把“三人位置分配”转化为“两人<strong>掩码组合</strong>”，通过二进制<strong>状态压缩</strong>简化问题，然后进行相关的<strong>容斥计数</strong>。",
+  "link": "https://codeforces.com/gym/105945/problem/I",
+  "link_text": "Problem - I - Codeforces",
+  "source": "[[2025 JSCPC 江苏省程序设计大赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有 \\( n \\) 个人，每个人的名字由三个数字组成，记为 \\((a_i, b_i, c_i)\\)，且任意两人的名字不完全相同。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在要选出三个人，设他们的编号为 \\( i, j, k \\)（满足 \\( 1 \\le i < j < k \\le n \\)），并指定其中一人作为“目标”，设其编号为 \\( id \\)（\\( id \\in \\{i, j, k\\} \\)）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若存在一种方式，从这三个人的名字中各选一个<strong>不同位置</strong>的数字（即从某人的名字中选第一个数字，从另一人的名字中选第二个数字，从第三人的名字中选第三个数字），使得选出的三个数字按<strong>位置顺序</strong>（第一、第二、第三）组成的新的三元组恰好等于第 \\( id \\) 个人的名字，则称 \\((i, j, k, id)\\) 是一个有效的取名方案。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>注意</strong>：即使组成的新名字相同，只要选择的人不同或指定的目标人不同，就视为不同的方案。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你的任务是计算所有有效四元组的个数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 \\( n \\)（\\( 3 \\le n \\le 10^5 \\)）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 \\( n \\) 行，每行三个整数 \\( a_i, b_i, c_i \\)（\\( 1 \\le a_i, b_i, c_i \\le 10^6 \\)），表示第 \\( i \\) 个人的名字。保证所有名字互不相同。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行一个整数，表示有效四元组的个数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n4 2 4\n2 4 3\n2 1 2\n3 4 4\n4 4 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 2 3\n1 2 4\n2 2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于样本 $1$，满足条件的四元组是 $(2,3,5,2)$ ，相应的排列 $p$ 是 $\\{3,5,2\\}$ 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于样本 $2$，满足条件的四元组是 $(1,2,3,1),(1,2,3,2),(1,2,3,3)$ 。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：又是一个<strong>计数问题</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：直接枚举肯定会超时，考虑先固定<strong>目标人（id）</strong>，问题转化为从剩下的人中选两个，使三人能贡献不同位置拼出目标名字。",
+          "depth": 2
+        },
+        {
+          "heading": "重点：<strong>状态压缩</strong>",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "设目标人 $id$ 的名字为 $(A,B,C)$，那么对于另一个人 $x$，他能<strong>贡献</strong>什么？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果 $x$ 的第 $1$ 位 = $A$，他可以贡献第 $1$ 个位置",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $x$ 的第 $2$ 位 = $B$，他可以贡献第 $2$ 个位置",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $x$ 的第 $3$ 位 = $C$，他可以贡献第 $3$ 个位置",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "用三位二进制 <strong>状态(mask)</strong> 表示 $x$ 能贡献的位置：第 $1$ 位为 $1$ 表示能贡献位置 $1$，以此类推。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "选人条件",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "需要选两人 $j,k$，加上 $id$ 自己，三人贡献的位置必须不同。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$id$ 可以贡献任意位置，所以 $j,k$ 需要：① 都能贡献至少一个位置 ② 不能都只能贡献同一个位置。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>具体排除情况</strong>：$j,k$ 的状态都是 $001$（只能贡献位置 $1$），或都是 $010$，或都是 $100$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "答案如何计算？",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于固定 $id$，需要知道：有多少人的状态恰好是 $s$（$s=001,010,...,111$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "记 $f[s]$ = 掩码恰好为 $s$ 的人数（不含 $id$ 自己）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "那么有效对数 = $\\binom{\\text{所有状态的人数}}{2} - \\binom{f[001]}{2} - \\binom{f[010]}{2} - \\binom{f[100]}{2}$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "难点：如何求 $f[s]$？",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "求出来 $f[s]$ 本题就能解决了。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "直接求<strong>恰好</strong>很难，但求<strong>至少</strong>容易，就转换成<strong>容斥</strong>问题。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "定义 $g[s]$ = 掩码<strong>至少包含</strong> $s$ 的人数（即 $s$ 指定的位置上都匹配，<strong>超集</strong>）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "例如 $g[001]$ = 第 $1$ 位等于 $A$ 的人数，显然 $g[s] = \\sum_{t \\supseteq s} f[t]$ （$\\sum f[s 的超集]$）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "<strong>容斥</strong>：从 $g$ 求 $f$",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这里我们使用经典的<strong>倒序容斥</strong>：$f[s] = g[s] - \\sum_{t \\supset s} f[t]$，当然把指定位看作<strong>条件</strong>，用<strong>奇加偶减</strong>也是可以的。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为只有 $3$ 位，可以 <strong>倒序枚举</strong> $s$（从 $111$ 到 $000$），这样计算 $f[s]$ 时，它的所有<strong>超集</strong> $f[t]$ 都已经算好了。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "如何快速 $g[s]$？",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>预处理</strong>：对于每个掩码 $s$，建哈希表。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>键</strong>：提取一个人名字在 $s$ 指定位置上的数字，<strong>编码（encode）</strong>成一个数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>值</strong>：有多少人有这个数字组合。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "查询时，用 $id$ 的名字生成键，查表得到 $g[s]$（含自己），再减 $1$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "最终算法",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>算法链路</strong>：建哈希表 $cnt$  枚举 $id$  根据 $cnt$ 算 $g[s]$  <strong>容斥</strong>算 $f[s]$  算出答案  累加答案。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>思维链路</strong>：固定目标人  <strong>状压</strong>表示贡献能力  排除冲突情况  <strong>容斥</strong>和<strong>至少</strong>求<strong>恰好</strong>人数  哈希加速查询。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "3 个人，想到能使用<strong>状压</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "想到能通过<strong>容斥计数</strong> $f,g$ 来算出状态个数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "核心是把“三人位置分配”转化为“两人<strong>掩码组合</strong>”，通过二进制<strong>状态压缩</strong>简化问题。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>恰好</strong>满足条件的计数问题，转换成<strong>至少</strong>满足条件的<strong>容斥</strong>计数。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int s[N][3];\nHashMap<ll, int>cnt[8]; // 掩码为 s 时，对应位置上的数为 (a, b, c) 的成员个数\nll encode(int a, int b, int c, int mask) {\n\t// 掩码函数，根据 mask 提取 (a,b,c) 的数字组成一个\n\tconst ll M = 1e6 + 1; // 要是一个比 abc 值域更大的质数\n\tll res = 0;\n\tif (mask & 1)res = res * M + a;\n\tif (mask & 2)res = res * M + b;\n\tif (mask & 4)res = res * M + c;\n\treturn res;\n}\n\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfa(i, 1, n) {\n\t\tfa(j, 0, 2)cin >> s[i][j];\n\t\tfa(mask, 1, 7)cnt[mask][encode(s[i][0], s[i][1], s[i][2], mask)]++;\n\t}\n\n\tll ans = 0;\n\tfa(i, 1, n) {\n\t\t// 满足状态 s 和 s 超集的成员个数 g[s]，当然都得减去自己，自己对自己的状态肯定是 111\n\t\tll g[8] = { 0 };\n\t\tg[0] = n - 1ll;\n\t\tfa(mask, 1, 7)g[mask] = cnt[mask][encode(s[i][0], s[i][1], s[i][2], mask)] - 1ll;\n\n\t\t// 恰好只满足状态 s 的成员个数 f[s]，容斥问题，这里使用倒序容斥法\n\t\tll f[8] = { 0 };\n\t\tfb(mask, 7, 0) {\n\t\t\tf[mask] = g[mask];\n\t\t\tint com = (~mask) & 7;\n\t\t\tfor (int sub = com; sub > 0; sub = (sub - 1) & com) {\n\t\t\t\tint sup = mask | sub; // mask + 补集 = 超集\n\t\t\t\tf[mask] -= f[sup];\n\t\t\t}\n\t\t}\n\n\t\t// 全集：两两配对\n\t\tll tot = 0;\n\t\tfa(mask, 1, 7)tot += f[mask];\n\t\ttot = tot * (tot - 1) / 2;\n\n\t\t// 减掉无效的：即存在两个位置两个人的状态都不为 1，只有 11 22 44 三对情况\n\t\ttot -= f[1] * (f[1] - 1) / 2;\n\t\ttot -= f[2] * (f[2] - 1) / 2;\n\t\ttot -= f[4] * (f[4] - 1) / 2;\n\n\t\tans += tot;\n\t}\n\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-14",
+  "parsed_at": "2026-06-14T18:39:35.789959+00:00",
+  "type_directory": "p"
+}

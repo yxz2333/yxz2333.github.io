@@ -1,0 +1,41 @@
+{
+  "slug": "对顶堆",
+  "title": "对顶堆",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "求中位数模板（第 $\\frac{len}{2}$ 大）",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct TwoSet {\n\t// priority_queue 比 multiset 更快\n\tpriority_queue<int> l;\n\tpriority_queue<int, vector<int>, greater<int>> r;\n\tint len = 0;\n\tvoid insert(int x) {\n\t\tlen++;\n\t\tif (l.empty() or x <= l.top())l.push(x);\n\t\telse r.push(x);\n\t\tint mid = (len + 1) / 2;\n\t\twhile (l.size() > mid) {\n\t\t\tr.push(l.top());\n\t\t\tl.pop();\n\t\t}\n\t\twhile (l.size() < mid) {\n\t\t\tl.push(r.top());\n\t\t\tr.pop();\n\t\t}\n\t}\n\tint get() {\n\t\tif (len == 0)assert(\"cannot find\");\n\t\treturn l.top();\n\t}\n};",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct TwoSet {\n\tmultiset<int, greater<int>> l;\n\tmultiset<int> r;\n\tint len = 0;\n\tvoid insert(int x) {\n\t\tlen++;\n\t\tif (l.empty() or x <= *l.begin())l.insert(x);\n\t\telse r.insert(x);\n\t\tbalance();\n\t}\n\tvoid erase(int x) {\n\t\tif (!l.count(x) and !r.count(x))assert(\"cannot find\");\n\t\tlen--;\n\t\tif (l.count(x))l.erase(l.find(x));\n\t\telse r.erase(r.find(x));\n\t\tbalance();\n\t}\n\tvoid balance() {\n\t\tint mid = (len + 1) / 2;\n\t\twhile (l.size() > mid) {\n\t\t\tr.insert(*l.begin());\n\t\t\tl.erase(l.begin());\n\t\t}\n\t\twhile (l.size() < mid) {\n\t\t\tl.insert(*r.begin());\n\t\t\tr.erase(r.begin());\n\t\t}\n\t}\n\tint get() {\n\t\tif (len == 0)assert(\"cannot find\");\n\t\treturn *l.begin();\n\t}\n};",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-28",
+  "parsed_at": "2026-06-14T18:45:12.050523+00:00",
+  "type_directory": "k"
+}

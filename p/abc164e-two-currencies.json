@@ -1,0 +1,139 @@
+{
+  "slug": "abc164e-two-currencies",
+  "title": "ABC164E Two Currencies",
+  "type": "题目",
+  "tags": [
+    "最短路/分层图问题"
+  ],
+  "difficulty": 1.5,
+  "summary": "数据范围特别小，很明显设状态 <code>dis[pos][coins]</code>，表示从 1 到 pos 有 coins 个银币需要多少时间。别忘了对边进行<strong>松弛</strong>，跑个 dij 即可。",
+  "link": "[AT_abc164_e [ABC164E] Two Currencies - 洛谷](https://www.luogu.com.cn/problem/AT_abc164_e)",
+  "link_text": "[AT_abc164_e [ABC164E] Two Currencies - 洛谷](https://www.luogu.com.cn/problem/AT_abc164_e)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有 $n$ 个城市，它们由 $m$ 条双向道路连接，保证它们能够彼此到达。第 $i$ 条道路连接 $u_i,v_i$，需要花费 $x_i$ 个银币，耗费 $t_i$ 秒的时间。每个城市处都有兑换银币处，第 $i$ 个城市中你可以用 $1$ 个金币兑换 $c_i$ 个银币，可以兑换无限次，不过兑换 $1$ 次需要花费 $d_i$ 秒的时间。你一开始在 $1$ 号城市，有 $s$ 个银币和无限多的金币，求到其它城市需要耗费的最小时间。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq n \\leq 50$，$n - 1 \\le m \\le 100$，$1 \\leq x_i \\leq 50$，$1 \\leq t_i,d_i \\leq 10^9$，$1 \\leq s,c_i \\leq 10^9$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行 $n,m,s$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行 $u_i,v_i,x_i,t_i$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行 $c_i,d_i$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $n - 1$ 行，第 $i$ 行一个整数表示到第 $i + 1$ 个城市耗费的最小时间。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2 1\n1 2 1 2\n1 3 2 4\n1 11\n1 2\n2 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n14",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 6 1000000000\n1 2 50 1\n1 3 50 5\n1 4 50 7\n2 3 50 2\n2 4 50 4\n3 4 50 3\n10 2\n4 4\n5 5\n7 7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n3\n5",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll dis[55][5050];\nstruct node {\n\tll id, coin, d;\n\tbool operator<(const node& a)const {\n\t\treturn a.d < d;\n\t}\n};\nvoid solve(int CASE)\n{\n\tfa(i, 1, 50)fa(j, 0, 5000)dis[i][j] = LNF;\n\tll n, m, s; cin >> n >> m >> s;\n\tif (s >= 5000)s = 5000;\n\tvar g = vector<vector<tuple<ll, ll, ll>>>(n + 1);\n\tfa(i, 1, m) {\n\t\tll u, v, x, t; cin >> u >> v >> x >> t;\n\t\tg[u].pb({ v,x,t }), g[v].pb({ u,x,t });\n\t}\n\tvar p = vector<pll>(n + 1);\n\tfa(i, 1, n)cin >> p[i].px >> p[i].py;\n\tvar Q = priority_queue<node>();\n\tQ.push({ 1,s,dis[1][s] = 0 });\n\twhile (Q.size()) {\n\t\tvar[now, coin, d] = Q.top();\n\t\tQ.pop();\n\t\tif (d > dis[now][coin])continue;\n\n\t\t// 只处理一次，松弛\n\t\tconst var& [c, w] = p[now];\n\t\tif (coin + c <= 5000 and\n\t\t\tdis[now][coin + c] > dis[now][coin] + w) {\n\t\t\tdis[now][coin + c] = dis[now][coin] + w;\n\t\t\tQ.push({ now, coin + c, dis[now][coin + c] });\n\t\t}\n\n\t\tfor (const var& [to, c, w] : g[now]) {\n\t\t\tif (coin >= c and\n\t\t\t\tdis[to][coin - c] > dis[now][coin] + w) {\n\t\t\t\tdis[to][coin - c] = dis[now][coin] + w;\n\t\t\t\tQ.push({ to, coin - c, dis[to][coin - c] });\n\t\t\t}\n\t\t}\n\t}\n\tfa(i, 2, n) {\n\t\tll ans = LNF;\n\t\tfa(j, 0, 5000)ans = min(ans, dis[i][j]);\n\t\tcout << ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-08",
+  "parsed_at": "2026-06-14T18:39:35.958287+00:00",
+  "type_directory": "p"
+}

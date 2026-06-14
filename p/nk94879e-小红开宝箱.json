@@ -1,0 +1,244 @@
+{
+  "slug": "nk94879e-小红开宝箱",
+  "title": "NK94879E 小红开宝箱",
+  "type": "题目",
+  "tags": [
+    "拓扑排序"
+  ],
+  "difficulty": 2.0,
+  "summary": "题目的目标转成<strong>为每个点分配一条边</strong>。发现本题明显先分配给<strong>度数小的更好</strong>，于是考虑用<strong>类拓扑排序</strong>的写法。$k = 2$ 时两个点连边，切标记边的 $id$；$k = 1$ 时跟一个<strong>虚拟节点</strong>连边。最后剩下的<strong>环</strong>一个一个枚举处理即可。",
+  "link": "https://ac.nowcoder.com/acm/contest/94879/E",
+  "link_text": "E-小红开宝箱_牛客小白月赛104",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小红来到了一个宝箱面前，但这个宝箱上锁了，开这个宝箱需要进行解密。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "解密的方式是：给出了 $n$ 根柱子，小红必须按照规定的次序依次击打这 $n$ 根柱子。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在小红通过贿赂地下城的设计者小紫，得出了每次应击打的柱子的可能性。小红想让你帮忙设计一个击打顺序，使得该顺序和小紫给出的信息不冲突。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入一个正整数 $n$，代表柱子的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行，每行首先输入一个正整数 $k_i$ ，代表对于第 $i$ 次击打小紫给出的信息（柱子的可能性）数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "紧接着是 $k_i$ 个正整数 $p_{ij}$ ，代表该次击打有可能是哪一个柱子。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\leq n \\leq 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\leq k_i \\leq 2$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\leq p_{ij} \\leq n$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "如果不存在一个合法解，代表小紫欺骗了小红，请输出<code>kou is angry</code>。否则输出一个长度为 $n$ 的排列，代表一个合法的击打序列。有多解时输出任意即可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 2\n2 1 3\n2 1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 1 3",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 核心洞察：将“选择”转化为“图论模型”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目要求在 $n$ 个步骤中，每次从给定的 $k_i$ ($1 \\le k_i \\le 2$) 个柱子中选一个，最终使得 $1$ 到 $n$ 号柱子每个都被击打恰好一次。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由于每次最多只有两个选项，这极其契合<strong>图论中的 “边与端点” 的关系</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们可以把 $n$ 个柱子看作 $n$ 个<strong>顶点</strong>，把 $n$ 个步骤看作 $n$ 条<strong>边</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "问题的本质就转化为了：<strong>有</strong> $n$ <strong>个顶点和</strong> $n$ <strong>条边，我们需要为每一条边分配给它的某一个端点，使得最终每个顶点恰好被分配到 1 条边。</strong>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 引入虚拟节点 $0$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于 $k=2$ 的情况，显然是在两个给定的柱子 $u$ 和 $v$ 之间连一条边。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但对于 $k=1$ 的情况（只有一个柱子可选），这边<strong>引入一个“虚拟节点 0”</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当 $k_i = 2$ 给定 $u, v$ 时：在 $u$ 和 $v$ 之间连一条编号为 $i$ 的边。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当 $k_i = 1$ 给定 $u$ 时：在 $u$ 和虚拟节点 $0$ 之间连一条编号为 $i$ 的边。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "通过这一步转化，所有步骤的模型被完美统一：<strong>所有的步骤都是一条连接两个端点的边</strong>。我们只需要关心 $1 \\sim n$ 号节点是否被分配到了边，而不需要管节点 $0$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 算法核心：剥洋葱与处理环 (类拓扑排序)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "建完图后，怎么分配边最优？显然，<strong>选择越少的节点越应该优先满足</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>第一阶段：贪心 / 类拓扑排序处理必然分支</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果一个节点的<strong>度数为 1</strong>，意味着它只有唯一的一条边可以选择，<strong>这条边必须分配给这个节点</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "类似于拓扑排序的方式，把度数为 1 的都加入队列进行处理即可。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>第二阶段：处理剩下的环</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此时图中剩下的未分配节点，度数必然都 $\\ge 2$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因为是基环树，所以<strong>剩下的结构必然是由若干个互相独立、没有分叉的“环”组成的</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "把每个环走一圈，环上的每个点都恰好分到一条边即可。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar ans = vector<int>(n + 1);\n\tvar g = vector<vector<pii>>(n + 1);\n\tvar deg = vector<int>(n + 1);\n\tfa(i, 1, n) {\n\t\tint k; cin >> k;\n\t\tif (k & 1) {\n\t\t\tint x; cin >> x;\n\t\t\tg[x].pb({ 0,i });\n\t\t\tdeg[x]++;\n\t\t}\n\t\telse {\n\t\t\tint x, y; cin >> x >> y;\n\t\t\tg[x].pb({ y,i });\n\t\t\tg[y].pb({ x,i });\n\t\t\tdeg[x]++;\n\t\t\tdeg[y]++;\n\t\t}\n\t}\n\n\tvar Q = queue<int>();\n\tfa(i, 1, n)if (deg[i] == 1)Q.push(i);\n\twhile (Q.size()) {\n\t\tint now = Q.front();\n\t\tQ.pop();\n\t\tfor (var& [to, eid] : g[now])if (!ans[eid]) {\n\t\t\tdeg[to]--;\n\t\t\tdeg[now]--;\n\t\t\tans[eid] = now;\n\t\t\tif (deg[to] == 1)Q.push(to);\n\t\t\tbreak;\n\t\t}\n\t}\n\n\tfa(i, 1, n)if (deg[i]) {\n\t\tint now = i;\n\t\twhile (deg[now]) {\n\t\t\tfor (var& [to, eid] : g[now])if (!ans[eid]) {\n\t\t\t\tdeg[to]--;\n\t\t\t\tdeg[now]--;\n\t\t\t\tans[eid] = now;\n\t\t\t\tnow = to;\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t}\n\n\tfa(i, 1, n)if (!ans[i]) {\n\t\tcout << \"kou is angry\" << endl;\n\t\treturn;\n\t}\n\tfa(i, 1, n)cout << ans[i] << \" \\n\"[i == n];\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-26",
+  "parsed_at": "2026-06-14T18:39:36.745947+00:00",
+  "type_directory": "p"
+}

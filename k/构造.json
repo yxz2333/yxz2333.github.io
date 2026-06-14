@@ -1,0 +1,26 @@
+{
+  "slug": "构造",
+  "title": "构造",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "type": "p",
+      "html": "可以看看总结的题的<strong>思维钩子</strong>，可能给到一定启发。",
+      "depth": 1
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-11-30",
+  "parsed_at": "2026-06-14T18:45:12.114483+00:00",
+  "type_directory": "k"
+}

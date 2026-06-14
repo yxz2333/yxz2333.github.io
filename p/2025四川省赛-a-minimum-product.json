@@ -1,0 +1,382 @@
+{
+  "slug": "2025四川省赛-a-minimum-product",
+  "title": "2025四川省赛 A Minimum Product",
+  "type": "题目",
+  "tags": [],
+  "difficulty": null,
+  "summary": "我的做法是 <strong>dij + 剪枝</strong>，我一开始想法就是用 dij 做，然后发现<strong>路径权重和明显得融入状态</strong>，所以我就开了状态（<strong>节点编号</strong> $id$<strong>，当前</strong> $a_i$ <strong>总和</strong>），然后加了个剪枝就过了。还有个做法是 dp，因为本题 $a_i \\ge 1$，dij 一直跑在一个 <strong>DAG 状态图</strong>上，所以可以用 dp 解决。$suma$ 的增长满足拓扑序，所以<strong>先枚举 suma 再枚举点</strong>即可。",
+  "link": "https://codeforces.com/gym/105949/problem/A",
+  "link_text": "Problem - A - Codeforces",
+  "source": "2025四川省赛",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小 A 有一个包含 $N$ 个点和 $M$ 条边的有向图。对于第 $i$ 条边 $(u_i, v_i)$，其有两个属性 $(a_i, b_i)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "定义路径 $P$ 为从点 $1$ 到点 $N$ 的一条有向路径，其路径权重为：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\n\\left(\\sum_{i \\in P} a_i\\right) \\times \\left(\\sum_{i \\in P} b_i\\right)\n$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "小 A 非常想知道在所有从节点 $1$ 到节点 $N$ 的可能路径中，最小权重是多少。请帮助他计算这个最小乘积权重。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个正整数 $T$ $(1\\le T\\le 10^3)$，表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个测试用例，第一行包含两个整数 $N,M$ $(1\\le N\\le 300, 1\\le M\\le 10^3)$，分别表示图中点的数量和边的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $M$ 行，每行包含四个整数 $u_i, v_i, a_i, b_i$ $(1\\le u_i, v_i\\le N, u_i\\neq v_i, 1\\le a_i, b_i\\le 200)$，分别表示图中一条有向边的起点、终点以及两个权重属性。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证存在至少一条从节点 $1$ 到节点 $N$ 的路径。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证每个测试用例中 $N$ 的总和不超过 $10^3$，$M$ 的总和不超过 $2\\times 10^3$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出与最小权重路径对应的 $\\sum_{i\\in P} a_i$ 和 $\\sum_{i\\in P} b_i$ 的值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果存在多条具有相同最小权重的路径，请输出 $\\sum_{i\\in P} a_i$ 最小的那条路径所对应的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n5 9\n3 4 3 5\n4 5 5 1\n1 4 2 2\n3 4 5 2\n1 4 2 4\n2 1 3 2\n4 2 5 4\n4 1 2 2\n4 1 3 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "思路分析",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于乘积涉及两个累积变量，无法用单变量最短路直接计算。容易想到将 $\\sum a$ 作为状态的一维，$\\sum b$ 作为待优化的距离。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "定义状态 $(i, \\text{suma})$ 表示当前位于节点 $i$，路径上的总 $a$ 和为 $\\text{suma}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>用</strong> $dis[i][\\text{suma}]$ <strong>表示到达该状态时，最小的总</strong> $b$ <strong>和</strong>（即所有具有相同 $\\text{suma}$ 的路径中，$\\text{sumb}$ 的最小值）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "转移方程：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "若存在边 $i \\to j$ 权值为 $(a, b)$，则",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\ndis[j][\\text{suma}+a] = \\min(dis[j][\\text{suma}+a],\\; dis[i][\\text{suma}] + b)\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "初始状态 $dis[1][0] = 0$，其余 $dis$ 为无穷大。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "目标：在所有 $dis[n][\\text{suma}]$ 有限的状态中，找到最小的 $\\text{suma} \\times dis[n][\\text{suma}]$，并取 $\\text{suma}$ 最小者。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "无剪枝时的时空复杂度",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>状态数</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "状态定义为 $(i, \\text{suma})$，其中 $i \\in [1, n]$，$\\text{suma} \\in [0, \\text{MAXA}]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "本题 $\\text{MAXA} \\approx 60000$，$n \\le 300$，因此最大状态数",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\mathcal{S} = n \\times (\\text{MAXA}+1) \\approx 300 \\times 60001 \\approx 1.8 \\times 10^7\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>转移数</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "每条边 $(u \\to v, a, b)$ 对于每个 $\\text{suma}$ 都可能产生一次转移，所以总转移数",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\mathcal{T} = \\sum_{(u,v)} ( \\text{MAXA} - a + 1 ) \\approx m \\times \\text{MAXA}\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "最坏情况 $m$ 可到 $n^2 \\approx 9\\times10^4$，则 $\\mathcal{T} \\approx 5.4 \\times 10^9$，完全不可接受。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>使用 Dijkstra</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "Dijkstra 的堆操作次数等于出堆次数，通常与状态数同阶。每次堆操作 $O(\\log \\mathcal{S})$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此无剪枝时的总复杂度约为",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\nO\\big( (\\mathcal{S} + \\mathcal{T}) \\log \\mathcal{S} \\big)\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "即约 $O(1.8\\times 10^7 \\log 1.8\\times 10^7 + 5.4\\times 10^9 \\log 1.8\\times 10^7)$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "剪枝策略",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "最坏情况状态数约为 $n \\times \\text{MAXA} \\approx 300 \\times 60000 = 1.8 \\times 10^7$，每条边都可能产生转移，直接跑会超时。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "关键观察：由于 $a, b \\ge 0$，沿着路径累积时，$\\text{suma}$ 和 $\\text{sumb}$ 均单调不减。因此，<strong>如果当前状态的</strong> $\\text{suma} \\times \\text{sumb}$ <strong>已经大于等于当前已知的最优答案</strong> $\\text{ans}$<strong>，那么从此状态无论如何延伸，乘积只会更大，不可能更新答案</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这个剪枝极其有效，因为实际最优乘积往往较小，大量乘积较大的状态被提前抛弃。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "DP 做法",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "思路分析",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "由于 $a_i \\ge 1$，沿着路径 $A$ <strong>严格递增</strong>，因此状态图天然是一个 <strong>DAG</strong>（<strong>有向无环状态图</strong>），其 <strong>拓扑序就是</strong> $A$ <strong>从小到大的顺序</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这启发我们可以按照 <strong>动态规划</strong> 来递推：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>状态</strong>：$dp[A][i]$ 表示到达节点 $i$ 且当前总 $a$ 和为 $A$ 时，最小的总 $b$ 和。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>初始</strong>：$dp[0][1] = 0$，其他 $dp[A][i] = +\\infty$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>转移</strong>：对于每一条边 $u \\to v$，权值为 $(a, b)$，可以用",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$\ndp[A+a][v] = \\min\\left(dp[A+a][v],\\; dp[A][u] + b\\right)\n$$",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>答案</strong>：在所有 $dp[A][n] \\neq \\infty$ 的状态中，找到最小的 $A \\times dp[A][n]$，若仍有多个取 $A$ 最小的。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "由于 $a \\ge 1$，每个 $A$ 只会被更小的 $A$ 更新，不会出现同一层内的转移，因此无需层内反复松弛，只需按照 $A$ 递增的顺序枚举即可。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "总结",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "本题是利用 <strong>其中一个权值严格递增</strong> 的特点，将问题转化为 <strong>分层 DP</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "关键点在于：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "1. 识别出<strong>状态图的 DAG 性质</strong>（拓扑序为 $\\sum a$）。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "2. 按序递推，确保无后效性。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "3. 状态空间可控：$n \\le 300, \\text{MAXA} \\le 60000$，直接二维数组可存下。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// dij + 剪枝\nint dis[305][60005];\nstruct edge {\n\tint to, a, b;\n};\nvector<edge> g[305];\nstruct node {\n\tint now, suma, sumb;\n\tbool operator<(const node& a)const {\n\t\treturn a.sumb < sumb;\n\t}\n};\nvoid init() {\n\tfa(i, 1, 300)fa(j, 0, 60000)dis[i][j] = INF;\n\treturn;\n}\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tfa(i, 1, m) {\n\t\tint u, v, a, b; cin >> u >> v >> a >> b;\n\t\tg[u].pb({ v, a, b });\n\t}\n\tvar del = vector<pii>();\n\tvar Q = priority_queue<node>();\n\tQ.push({ 1, 0, 0 });\n\tdis[1][0] = 0;\n\tdel.pb({ 1,0 });\n\tll ans = 36e8, ansa = 6e4, ansb = 6e4;\n\twhile (Q.size()) {\n\t\tvar[now, suma, sumb] = Q.top();\n\t\tQ.pop();\n\t\tif (sumb > dis[now][suma])continue;\n\t\tif (suma * 1ll * sumb > ans)continue; // 剪枝\n\t\tif (now == n) {\n\t\t\tll now = suma * 1ll * sumb;\n\t\t\tif (now < ans) {\n\t\t\t\tans = now;\n\t\t\t\tansa = suma, ansb = sumb;\n\t\t\t}\n\t\t\telse if (now == ans) {\n\t\t\t\tif (suma < ansa) {\n\t\t\t\t\tansa = suma, ansb = sumb;\n\t\t\t\t}\n\t\t\t}\n\t\t\tcontinue;\n\t\t}\n\t\tfor (const var& [to, a, b] : g[now]) {\n\t\t\tif (suma + a > 60000)continue;\n\t\t\tif (dis[to][suma + a] > dis[now][suma] + b) {\n\t\t\t\tif (dis[to][suma + a] == INF)del.pb({ to, suma + a });\n\t\t\t\tdis[to][suma + a] = dis[now][suma] + b;\n\t\t\t\tQ.push({ to, suma + a, dis[to][suma + a] });\n\t\t\t}\n\t\t}\n\t}\n\tcout << ansa << ' ' << ansb << endl;\n\tfor (const var& [x, y] : del)dis[x][y] = INF;\n\tfa(i, 1, n)g[i].clear();\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// dp\nstruct edge {\n\tint to, a, b;\n};\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar g = vector<vector<edge>>(n + 1);\n\tfa(i, 1, m) {\n\t\tint u, v, a, b; cin >> u >> v >> a >> b;\n\t\tg[u].pb({ v, a, b });\n\t}\n\tvar dp = Vec2<int>(60005, n + 1, INF);\n\tdp[0][1] = 0;\n\tfa(suma, 0, 60000) {\n\t\tfa(now, 1, n) {\n\t\t\tfor (const var& [to, a, b] : g[now])if (dp[suma][now] != INF and suma + a <= 60000) {\n\t\t\t\tdp[suma + a][to] = min(dp[suma + a][to], dp[suma][now] + b);\n\t\t\t}\n\t\t}\n\t}\n\tll ans = LNF;\n\tfa(suma, 1, 60000)if (dp[suma][n] != INF)ans = min(ans, dp[suma][n] * 1ll * suma);\n\tfa(suma, 1, 60000)if (ans == dp[suma][n] * 1ll * suma) {\n\t\tcout << suma << \" \" << dp[suma][n] << endl;\n\t\treturn;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-14",
+  "parsed_at": "2026-06-14T18:39:35.794236+00:00",
+  "type_directory": "p"
+}

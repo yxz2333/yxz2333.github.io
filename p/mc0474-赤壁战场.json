@@ -1,0 +1,238 @@
+{
+  "slug": "mc0474-赤壁战场",
+  "title": "MC0474 赤壁战场",
+  "type": "题目",
+  "tags": [
+    "暴力容斥"
+  ],
+  "difficulty": 1.0,
+  "summary": "最典型的<strong>暴力容斥</strong>。",
+  "link": "https://www.matiji.net/exam/brushquestion/74/4693/305EE97B0D5E361DE6A28CD18C929AF0",
+  "link_text": "码蹄集OJ-赤壁战场",
+  "source": "[[2025码蹄杯初赛第三场]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小码哥跟随周瑜来到赤壁战场辅助破曹。赤壁战事复杂，曹军布置了一种特殊的阵法。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这种阵法由神秘的优雅字符串组成。周瑜说道，一个字符串为优雅字符串，当且仅当满足以下条件：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1.  该字符串仅包含小写英文字母。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2.  该字符串同时包含字符 <code>a</code> , <code>b</code> , <code>c</code> 三种字符。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "小码哥需要计算出有多少种长度为 $n$ 的优雅字符串，才能协助周瑜成功破解曹军阵法。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于阵法威力巨大，结果需要对 $998244353$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行一个整数 $n(1 \\le n \\le 10^9)$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行一个整数，表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：典型的<strong>容斥计数问题</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：拆解成三个<strong>限制条件</strong>：包含 <code>a</code> 、包含 <code>b</code> 、包含 <code>c</code>，题目的就是要这三个条件全满足，一个不能落。那我们<strong>正难则反</strong>，把这些条件全违反一遍。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那么情况一共 $2^3 - 1$ 个。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "违反<strong>一个</strong>限制条件 ($-$)：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "不包含 <code>a</code> 、包含 <code>b</code> 、包含 <code>c</code>    $25^n$ 种",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "包含 <code>a</code> 、不包含 <code>b</code> 、包含 <code>c</code>    $25^n$ 种",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "包含 <code>a</code> 、包含 <code>b</code> 、不包含 <code>c</code>    $25^n$ 种",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "违反<strong>两个</strong>限制条件 ($+$)：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "不包含 <code>a</code> 、不包含 <code>b</code> 、包含 <code>c</code>    $24^n$ 种",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "不包含 <code>a</code> 、包含 <code>b</code> 、不包含 <code>c</code>    $24^n$ 种",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "包含 <code>a</code> 、不包含 <code>b</code> 、不包含 <code>c</code>    $24^n$ 种",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "违反<strong>三个</strong>限制条件 ($-$)：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "不包含 <code>a</code> 、不包含 <code>b</code> 、不包含 <code>c</code>    $23^n$ 种",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "根据 <strong>“奇减偶加”</strong> 公式把答案算一下就结束了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>暴力容斥</strong>题，先找出题目中的<strong>限制条件</strong>，然后再套公式写。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\t// 条件：不包含 a，不包含 b，不包含 c\n\tll quan = Math::fastPow(26, n, mod);\n\tll fan = ((Math::fastPow(25, n, mod) * 3 % mod - \n\t\t\t   Math::fastPow(24, n, mod) * 3 % mod + \n\t\t       Math::fastPow(23, n, mod)) % mod + mod) % mod;\n\tcout << ((quan - fan) % mod + mod) % mod << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-15",
+  "parsed_at": "2026-06-14T18:39:36.648692+00:00",
+  "type_directory": "p"
+}

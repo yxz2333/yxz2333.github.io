@@ -1,0 +1,227 @@
+{
+  "slug": "2026杭电春季赛5-004-赛马",
+  "title": "2026杭电春季赛5 004 赛马",
+  "type": "题目",
+  "tags": [
+    "数学推导",
+    "贡献法",
+    "思维定势"
+  ],
+  "difficulty": 2.0,
+  "summary": "一开始还以为把 $\\log_2$ 拆开来算，但是有下取整，那肯定不是了。注意到 $n$ 很大，下意识觉得肯定要枚举些什么，那只能枚举 \\log 的值域了，<strong>枚举值域</strong> $k$，考虑计算 $\\lfloor \\log_2(\\frac{r}{l}) \\rfloor \\ge k$ 的合法 $(l,r)$ 对数。",
+  "link": "https://acm.hdu.edu.cn/contest/problem?cid=1201&pid=1004",
+  "link_text": "1004 赛马",
+  "source": "[[2026杭电春季赛5]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "2026 丙午马年，某赛马场举办一场盛大的赛马会，共有编号 1 到 $n$ 的 $n$ 匹骏马参赛。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每一对骏马 $(l, r)$ ($1 \\le l \\le r \\le n$)，裁判组以 $\\lfloor \\log_2(\\frac{r}{l}) \\rfloor$ 来衡量二者的驰力差。请你计算所有骏马对的驰力差之和，即 $\\sum_{l=1}^{n} \\sum_{r=l}^{n} \\lfloor \\log_2(\\frac{r}{l}) \\rfloor$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题有多组测试数据。输入 $T$ ($1 \\le T \\le 5 \\times 10^4$)，表示数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $T$ 行，每行输入一个数 $n$ ($1 \\le n \\le 10^9$)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组数据，输出答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0\n1\n2\n5\n8\n12\n16\n23\n30\n38",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "贡献法",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们要求的是所有对 $(l, r)$ 的 $\\lfloor \\log_2(\\frac{r}{l}) \\rfloor$ 之和。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "换个角度想，对于任意非负整数 $X$（比如 $X=3$），它可以看作是由 $3$ 个 $1$ 组成的。也就是说，<strong>一个数的值，等于它大于等于</strong> $k$ ($k=1, 2, 3 \\dots$) <strong>的次数之和。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，我们可以把题目要求的求和转化为：<strong>枚举所有的正整数</strong> $k \\ge 1$<strong>，计算有多少对</strong> $(l, r)$ <strong>满足</strong> $\\lfloor \\log_2(\\frac{r}{l}) \\rfloor \\ge k$ <strong>，然后把这些对数全部加起来。</strong>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "数学推导",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们来看看这个条件怎么化简：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\lfloor \\log_2(\\frac{r}{l}) \\rfloor \\ge k $$\n因为 $k$ 是整数，所以上面这个式子等价于：\n$$ \\log_2(\\frac{r}{l}) \\ge k $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "两边同时变成 2 的指数：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\frac{r}{l} \\ge 2^k $$\n也就是：\n$$ r \\ge l \\cdot 2^k $$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "计算合法对数",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "给定了一个具体的 $k$，我们需要在 $1 \\le l \\le r \\le n$ 的范围内，算出有多少对 $(l, r)$ 满足 $r \\ge l \\cdot 2^k$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们可以<strong>固定</strong> $l$<strong>，看有多少个合法的</strong> $r$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. 对于给定的 $k$ 和 $l$，$r$ 的最小值是 $l \\cdot 2^k$，$r$ 的最大值是 $n$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. 所以，满足条件的 $r$ 的个数是：$(n - l \\cdot 2^k + 1)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3. 那么 $l$ 最多能取到多少呢？为了保证存在合法的 $r \\le n$，必须有 $l \\cdot 2^k \\le n$，即 $l \\le \\lfloor \\frac{n}{2^k} \\rfloor$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "令 $m = \\lfloor \\frac{n}{2^k} \\rfloor$，对于固定的 $k$，满足条件的 $(l, r)$ 的总对数就是对所有的 $l$ 累加：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\sum_{l=1}^{m} (n - l \\cdot 2^k + 1) $$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "展开：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ = \\sum_{l=1}^{m} (n + 1) - 2^k \\sum_{l=1}^{m} l $$\n$$ = m(n+1) - 2^k \\cdot \\frac{m(m+1)}{2} $$",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tll ans = 0;\n\tfa(k, 1, (ll)log2(n)) {\n\t\t// n - i * 2^k + 1\n\t\tll m = n / (1ll << k);\n\t\tll sum1 = (n + 1) * m;\n\t\tll sum2 = (m + 1) * m / 2 * (1ll << k);\n\t\tans += sum1 - sum2;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-24",
+  "parsed_at": "2026-06-14T18:39:35.873444+00:00",
+  "type_directory": "p"
+}

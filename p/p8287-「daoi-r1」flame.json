@@ -1,0 +1,319 @@
+{
+  "slug": "p8287-「daoi-r1」flame",
+  "title": "P8287 「DAOI R1」Flame",
+  "type": "题目",
+  "tags": [
+    "多源最短路",
+    "图论经典问题/环问题",
+    "二分答案",
+    "并查集"
+  ],
+  "difficulty": null,
+  "summary": "明显可以用<strong>多源最短路</strong>整火焰蔓延到每个点的<strong>最短时间</strong>，然后有两种做法。<strong>一种是：</strong>直接<strong>二分答案</strong>，利用最短时间建新图后，<strong>无向图找环</strong>解决即可，这个方法带 $\\log$，不是最优； <strong>另一种是：</strong>在多源最短路的过程中<strong>枚举边</strong>，此时<strong>边肯定从小到大排序</strong>，只要<strong>保证每条边只处理一次</strong>，<strong>类克鲁斯卡尔</strong>的方法就能在<strong>线性时间</strong>内解决本题。后者做法的难点在于 <strong>无向图多源找环</strong>。",
+  "link": "https://www.luogu.com.cn/problem/P8287",
+  "link_text": "P8287 「DAOI R1」Flame - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给出一个 $n$ 个点，$m$ 条边的无向图，每一个点有一个标记，初始有 $k$ 个点的标记为 <code>1</code>（将给出这 $k$ 个点的编号），其余的点标记为 <code>0</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每一秒，对于每个标记为 <code>1</code> 的点，与它<strong>有边相连</strong>的点的标记都会变成 <code>1</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "求最少需要多少秒，图中标记为 <code>1</code> 的点与其相邻的边可以构成一个简单环。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>换言之，求最少多少秒后存在一个由 <code>1</code> 构成的集合形成简单环。</strong>",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行三个正整数：$n,m,k$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "下面 $m$ 行，每行两个正整数：$x,y$（第 $x$ 座业火祭坛与第 $y$ 座业火祭坛有业火之路连接）；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "最后一行 $k$ 个正整数：已被点燃（拥有火种）的祭坛编号。",
+          "depth": 1
+        },
+        {
+          "type": "table",
+          "rows": [
+            "| Subtask | $n\\leq$ | $m\\leq$ | $k\\leq$ | 分值 |",
+            "| :----------: | :----------: | :----------: | :----------: | :----------: |",
+            "| $0$ | $10^6$ | $n-1$ | $10^4$ | $5$ |",
+            "| $1$ | $10^6$ | $2\\times10^6$ | $1$ | $10$|",
+            "| $2$ | $10$ | $45$ | $1$ | $5$ |",
+            "| $3$ | $200$ | $500$ | $10$ | $10$ |",
+            "| $4$| $2\\times 10^3$ | $5\\times 10^3$ | $50$ | $10$ |",
+            "| $5$ | $5\\times10^5$ | $6\\times10^5$ | $500$ | $30$ |",
+            "| $6$ | $10^6$ | $2\\times10^6$ | $10^4$ | $30$ |"
+          ],
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证数据无重边和自环；保证数据给定的图是一张无向连通图。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入量较大，建议使用较为快速的读入方式。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "若可以逃离，输出 D 还有多少时间。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "反之若无法生成业火监狱，输出 <code>Poor D!</code>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3 1\n1 2\n2 3\n3 1\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 4 2\n1 2\n2 3\n3 4\n2 5\n1 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Poor D!",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "样例一：当时间到第一秒时，祭坛 $1$ 的火焰将蔓延到祭坛 $2$ 和 $3$，此时已经构成一个封闭图形了，故答案为 $1$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 多源最短路（火焰蔓延）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目要求火从 $k$ 个点同时开始蔓延，这是一个 <strong>多源 BFS</strong> 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们可以将所有初始火种放入队列，初始距离设为 <code>0</code>，其余点设为 <code>-1</code>（代表未访问）。BFS 的层级扩展天然具有 <strong>单调性</strong>：即我们总是先处理时间 $t$ 的节点，再处理时间 $t+1$ 的节点。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 类 Kruskal 的边处理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "通常判断图中是否存在环，或者求“最早形成环的时间”，我们会想到 Kruskal 算法（按边权从小到大加边，若两点已连通则形成环）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在本题中，<strong>“时间”就是“边权”</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由于 BFS 本身就是按照时间顺序扩展的，我们在 BFS 遍历边的过程中，实际上就是在<strong>隐式地对边进行排序</strong>。因此，我们不需要显式地将边存下来排序，而是直接在 BFS 过程中进行并查集的 <code>find</code> 和 <code>unite</code> 操作。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 边的分类与去重",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在 BFS 过程（构造 <strong>BFS 生成树</strong> 过程）中，当我们检查从点 $u$ 到点 $v$ 的边时，会遇到两种情况：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>蔓延（树边）</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $v$ 尚未被访问（<code>dist[v] == -1</code>），说明火从 $u$ 烧到了 $v$。这条边属于 <strong>BFS 生成树</strong>的一部分，<strong>显然不会构成环</strong>。我们只需更新 $v$ 的距离，将 $v$ 入队，并在并查集中 <strong>合并（unite）</strong> $u$ 和 $v$ 所在的集合。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>相遇（非树边）</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $v$ 已经被访问过（<code>dist[v] != -1</code>），说明火早些时候（或同时）已经从其他路径烧到了 $v$。此时边 $(u, v)$ 连接了两个已经被点燃的区域，这条边是 <strong>形成环的关键候选边</strong>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>如何保证每条边只处理一次？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "无向图中边是双向的，为了<strong>避免</strong> $(u, v)$ 和 $(v, u)$ <strong>重复判断</strong>，或者误判“父亲节点”导致假环，我们需要给边的处理加上严格的限制条件。我们只在满足以下条件之一时处理该边：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>dist[v] &gt; dist[u]</code>：表示火从“上层”烧到了“下层”的汇合点。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>dist[v] == dist[u]</code> 且 <code>u &lt; v</code>：表示同层节点之间的横叉边（利用编号大小强制规定方向）。",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "4. 判环与答案",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在处理上述 <strong>“相遇”</strong> 的情况时，利用并查集查找 $u$ 和 $v$ 的祖先：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "若 <code>find(u) == find(v)</code>：说明 $u$ 和 $v$ 之前已经在同一个连通块中（即同一片火海），现在通过边 $(u, v)$ 再次连接，<strong>形成了闭环</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "环形成的时间由两者中较晚被点燃的时间决定，即 $\\max(dist[u], dist[v])$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "若 <code>find(u) != find(v)</code>：说明这是两片原本独立的火海首次相遇，执行 <code>unite(u, v)</code> 将它们合并。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 二分答案法\nfast<int> f;\nvector<int> g[N], ng[N];\nbool vis[N];\nint dis[N];\nvoid solve(int CASE)\n{\n\tint n = f.in(), m = f.in(), k = f.in();\n\tfa(i, 1, m) {\n\t\tint u = f.in(), v = f.in();\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\t// 多源最短路，找火焰蔓延到 i 的最短时间\n\tfa(i, 1, n)dis[i] = INF;\n\tvar Q = queue<pii>();\n\tfa(i, 1, k) {\n\t\tint x = f.in();\n\t\tQ.push({ x,0 });\n\t\tdis[x] = 0;\n\t}\n\twhile (Q.size()) {\n\t\tvar[now, d] = Q.front();\n\t\tQ.pop();\n\t\tif (d > dis[now])continue;\n\t\tfor (int to : g[now]) {\n\t\t\tif (dis[to] > dis[now] + 1) {\n\t\t\t\tdis[to] = dis[now] + 1;\n\t\t\t\tQ.push({ to,dis[to] });\n\t\t\t}\n\t\t}\n\t}\n\n\t// 直接二分答案，利用 dis 建新图后，找环解决即可\n\tvar check = [&](int mid)->bool {\n\t\tfa(i, 1, n)ng[i].clear();\n\t\tfa(now, 1, n) {\n\t\t\tfor (int to : g[now]) {\n\t\t\t\tint d = max(dis[now], dis[to]);\n\t\t\t\tif (d <= mid)ng[now].pb(to);\n\t\t\t}\n\t\t}\n\t\tfa(i, 1, n)vis[i] = 0;\n\t\tvar dfs = [&](var dfs, int now, int fa)->bool {\n\t\t\tvis[now] = 1;\n\t\t\tfor (int to : ng[now]) {\n\t\t\t\tif (to == fa)continue;\n\t\t\t\tif (vis[to])return 1;\n\t\t\t\telse {\n\t\t\t\t\tif (dfs(dfs, to, now))return 1;\n\t\t\t\t}\n\t\t\t}\n\t\t\treturn 0;\n\t\t\t};\n\t\tfa(i, 1, n)if (!vis[i]) {\n\t\t\tif (dfs(dfs, i, 0))return 1;\n\t\t}\n\t\treturn 0;\n\t\t};\n\tint l = 0, r = n, ans = -1;\n\twhile (l <= r) {\n\t\tint mid = l + r >> 1;\n\t\tif (check(mid)) {\n\t\t\tr = mid - 1;\n\t\t\tans = mid;\n\t\t}\n\t\telse l = mid + 1;\n\t}\n\n\tif (ans == -1)cout << \"Poor D!\" << endl;\n\telse cout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 并查集法\nfast<int> f;\nvector<int> g[N];\nint dis[N], s[N];\nint find(int x) {\n\tif (s[x] == x)return x;\n\treturn s[x] = find(s[x]);\n}\nvoid solve(int CASE)\n{\n\tint n = f.in(), m = f.in(), k = f.in();\n\tfa(i, 1, m) {\n\t\tint u = f.in(), v = f.in();\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\t\n\t// 多源最短路，dis[i]：火焰蔓延到 i 的最短时间\n\t// 过程中进行类似 Kruskal 算法枚举边\n\tint ans = INF;\n\tfa(i, 1, n)dis[i] = -1, s[i] = i;\n\tvar Q = queue<int>();\n\tfa(i, 1, k) {\n\t\tint x = f.in();\n\t\tif (dis[x] == -1) { // 处理重复\n\t\t\tQ.push(x);\n\t\t\tdis[x] = 0;\n\t\t}\n\t}\n\n\twhile (Q.size()) {\n\t\tint now = Q.front();\n\t\tQ.pop();\n\n\t\tif (dis[now] >= ans)break; // 剪枝\n\n\t\tint e1 = find(now);\n\t\tfor (int to : g[now]) {\n\t\t\tif (dis[to] == -1) {\n\t\t\t\t// to 节点未燃烧\n\t\t\t\tdis[to] = dis[now] + 1;\n\t\t\t\tQ.push(to);\n\t\t\t\tint e2 = find(to);\n\t\t\t\ts[e2] = e1;\n\t\t\t}\n\t\t\telse {\n\t\t\t\t// to 节点已燃烧\n\t\t\t\t// 防止 now - to 这条边重复，这边利用 dis 的层级关系进行处理\n\t\t\t\t// 这样每条边都只处理一次，就像 Kruskal 算法枚举边一样\n\t\t\t\tif (dis[to] > dis[now] or dis[now] == dis[to] and now < to) {\n\t\t\t\t\tint e2 = find(to);\n\t\t\t\t\tif (e1 == e2) {\n\t\t\t\t\t\tint res = max(dis[now], dis[to]);\n\t\t\t\t\t\tans = min(ans, res);\n\t\t\t\t\t}\n\t\t\t\t\telse s[e2] = e1;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tif (ans == INF)cout << \"Poor D!\" << endl;\n\telse cout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-20",
+  "parsed_at": "2026-06-14T18:39:36.904674+00:00",
+  "type_directory": "p"
+}

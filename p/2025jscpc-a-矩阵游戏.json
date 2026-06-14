@@ -1,0 +1,462 @@
+{
+  "slug": "2025jscpc-a-矩阵游戏",
+  "title": "2025JSCPC A 矩阵游戏",
+  "type": "题目",
+  "tags": [
+    "状压",
+    "数学推导",
+    "前缀和",
+    "二分",
+    "桶思想"
+  ],
+  "difficulty": 3.0,
+  "summary": "<strong>“小数据范围提示解法” + “固定列翻转情况看行是否翻转”  + \"推数学公式得一次函数\"  + “桶思想枚举行状态”  + “临界点计算与预处理加速”</strong>",
+  "link": "https://codeforces.com/gym/105945/problem/A",
+  "link_text": "Problem - A - Codeforces",
+  "source": "[[2025 JSCPC 江苏省程序设计大赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "everflame 和 KisuraOP 在玩游戏。游戏开始时，everflame 会给出一个矩阵，而 KisuraOP 的目标是操作这个矩阵使自己获得尽可能多的得分。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "everflame 给出的是一个 $n$ 行 $m$ 列的矩阵 $a_{i,j}$，每个位置初始可以为 $0$ 或 $1$。此外，他还额外给出了两个整数 $A$ 和 $B$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "KisuraOP 能够对这个矩阵进行任意次（可以是 $0$ 次）操作，每次操作可以是以下两种中的一种：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选择一个 $i \\in [1, n]$，将第 $i$ 行的所有元素取反。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "选择一个 $j \\in [1, m]$，将第 $j$ 列的所有元素取反。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "其中，一个元素如果原来是 $1$，取反后将变成 $0$；反之如果原来是 $0$，取反后将变成 $1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于矩阵中第 $i$ 行第 $j$ 列的元素 $a_{i,j}$，如果 $a_{i,j} = 1$，那么这个元素将会贡献 $(A \\cdot i + B \\cdot j)$ 的得分；否则这个元素的贡献为 $0$。矩阵的总得分将是所有 $n \\times m$ 个元素的得分之和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请帮 KisuraOP 求出经过一定的操作后这个矩阵能取得的最大得分。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含四个整数 $n, m, A, B$ $(1 \\le n \\le 10^6, 1 \\le m \\le 10, 0 \\le |A|, |B| \\le 10^6)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来输入 $n$ 行，每行一个长为 $m$ 的字符串。第 $i$ 行第 $j$ 列的字符代表 $a_{i,j}$ $(a_{i,j} \\in \\{0, 1\\})$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行一个整数，即最大可能取值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 2 1 1\n01\n10",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "12",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3 1 -5\n010\n000\n010",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3 -3 -6\n011\n010\n100",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-24",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个例子中，首先翻转第 $1$ 行，然后翻转第 $2$ 列，可以使整个矩阵 $1$ ，达到最大得分。得分是 $(1\\cdot 1 + 1\\cdot 1) + (1\\cdot 1 + 1\\cdot 2) + (1\\cdot 2 + 1 \\cdot 1) + (1\\cdot 2 + 1\\cdot 2) = 12$ 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第二个例子，只有翻转第 $2$ 列才能达到最大得分，而且可以证明没有更好的解法。得分是 $1\\cdot 2 + (-5)\\cdot 2 = -8$ 。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "理解题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>直观</strong>：给定 $01$ 矩阵，$1$ 的位置贡献 $A \\cdot i + B \\cdot j$ 的分。求在任意翻转行列后的最大得分。$N \\le 10^6$，$M \\le 10$ (极小)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>深层</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$M$ 极小 $\\Rightarrow$ <strong>状压/枚举列状态</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "行操作与列操作互相干扰 $\\Rightarrow$ <strong>固定一维，优化另一维</strong>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "固定列状态",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "枚举列的所有翻转情况（状态 $S_{col} \\in [0, 2^M-1]$）。一旦列的翻转确定了，<strong>每一行的最优策略就独立了</strong>：即第 $i$ 行翻不翻，只取决于该行翻转后能否得分更多，不影响其他行。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "化解 $O(N)$ 循环（核心优化）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如果直接遍历 $N$ 行判断，总复杂度 $O(2^M \\cdot N)$ 会超时。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>观察</strong>：尽管有 $10^6$ 行，但行的<strong>状态</strong>（$01$ 串）只有 $2^M=1024$ 种。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>策略</strong>：将所有行按初始形态归类到 $1024$ 个桶中。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这样枚举所有情况的复杂度为 $O(2^{2M})$，接下来就是看行怎么翻转。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "推导翻转条件（数学判定）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于状态为 $S$ 的某一行，假设其行号为 $i$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设该行当前 $1$ 的个数为 $y$，位置加权和为 $x$ ($x=\\sum s[j] * j$)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>不翻转得分</strong>：$V_1 = A \\cdot i \\cdot y + B \\cdot x$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>翻转得分</strong>：$V_2 = A \\cdot i \\cdot (m-y) + B \\cdot ( \\frac{m \\cdot (m + 1)}{2} - x)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>决策</strong>：翻转当且仅当 $V_2 > V_1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>化简</strong>：将式子移项，会发现不等式形如 $K \\cdot i > C$（$K, C$ 为常数）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "快速计算与预处理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于不等式是关于 $i$ 的一次函数，这意味着对于同一种形态 $S$ 的所有行，存在一个<strong>临界行号 i_{limit}</strong>，在临界点一侧的行全翻转，另一侧全不翻转。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>预处理</strong>：<code>vector&lt;int&gt; g[2^10]</code>存行状态 $S$ 有哪些行下标，<code>vector&lt;pii&gt; ti</code>算出所有行状态 $S$ 的<strong>临界行号</strong> $i_{limit}$ 与<strong>临界方向</strong>（不等式计算的细节，具体看下面难点部分）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了快速计算分数总和，还得把公式的<strong>4 个项</strong>也都<strong>预处理</strong>掉，这样计算的时候<strong>二分临界点</strong>，然后利用<strong>前缀和</strong> $O(logN)$ 算出分数总和。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于行状态 $S$，预处理公式的 4 个项：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$A1 = A * y$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "$A2 = A * (m - y)$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "$B1 = B * x$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "$B2 = B * (\\frac{m * (m + 1)}{2} - x)$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "对于行状态 $S$，最后的分数总和就是 $A \\cdot Sum_{i} + B \\cdot Cnt_{i}$ ，还得通过<strong>前缀和</strong>把行下标的总和 $Sum_{i}$（即<code>g[2^10]</code>的前缀和） <strong>预处理</strong>掉。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "难点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>桶思想</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "发现可以枚举列的翻转情况后，<strong>不知道行怎么枚举了</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "实际上行状态也只有 $2^M$ 个，开个桶对桶里的行一起处理即可。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>数学推导</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>固定行状态</strong>后，肯定是算该行状态不翻转与翻转后的分数，并进行比较，根据大的那个判断是否翻转。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "但是比较难想到可以<strong>合并两个分数计算公式</strong>，从而构造出<strong>不等式</strong>，并发现不等式中只有 $i$ 一个变量，那么说明 $i < i_{limit}$ 的一段为翻转（不翻转），$i \\ge i_{limit}$ 的一点为不翻转（翻转）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>临界点计算细节</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "不等式 $K \\cdot i > C$ 中，$K$ 可能为正、负或 $0$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$K > 0$：$i > \\frac{C}{K}$（后缀翻转）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$K < 0$：$i < \\frac{C}{K}$（前缀翻转，注意不等号方向改变）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$K = 0$：常数比较，全翻或全不翻。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>细节很多，而且不好用数据查错，需要一点一点看代码仔细发现小错误。</strong>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "思维钩子",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>N 大 M 小</strong> $\\rightarrow$ <strong>不要遍历 N，去遍历 2^M</strong>。把 $N$ 个元素压缩/归类到 $2^M$ 个状态桶里处理。<strong>桶思想</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>行列操作题</strong> $\\rightarrow$ <strong>固定一维</strong>，另一维通常变为贪心模型。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>贡献与 i 相关</strong> $\\rightarrow$ <strong>一次函数阈值判定</strong>。既然得分是 $i$ 的线性函数，最优策略一定呈现“分段”特性（某点之前由 $A$ 策略优，之后由 $B$ 策略优）。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m, A, B; cin >> n >> m >> A >> B;\n\tvar a = vector<string>(n + 1);\n\tvar g = vector<vector<ll>>(1ll << m);\n\tfa(i, 1, n) {\n\t\tcin >> a[i];\n\t\ta[i] = ' ' + a[i];\n\t\tint st = 0;\n\t\tfa(j, 1, m)st += (a[i][j] - '0') * (1 << (j - 1));\n\t\tg[st].pb(i);\n\t}\n\n\t// 预处理行状态 s 对应的下标 i 的前缀和\n\tvar pre = vector<vector<ll>>(1ll << m);\n\tfa(t, 0, (1ll << m) - 1) {\n\t\tif (g[t].size()) {\n\t\t\tpre[t].pb(g[t][0]);\n\t\t\tfa(i, 1, vs(g[t])) {\n\t\t\t\tll now = pre[t][i - 1] + g[t][i];\n\t\t\t\tpre[t].pb(now);\n\t\t\t}\n\t\t}\n\t}\n\n\t// 设 y = sum{ a[i][j] }，x = sum{ a[i][j] * j }\n\t// 对于行状态 s，\n\t//\t\t不翻转: ans1 = A * i * y + B * x\n\t//\t\t翻转:   ans2 = A * i * (m - y) + B * (m * (m + 1) / 2 - x)\n\t// 是否翻转：ans2 >= ans1\n\t//\t\tA * i * (m - 2 * y) + B * (m * (m + 1) / 2 - 2 * x) >= 0\n\t// \n\t// 设 A1 = A * y，A2 = A * (m - y)\n\t// 设 B1 = B * x，B2 = B * (m * (m + 1) / 2 - x)\n\n\t// 枚举列翻转后，每一行可能的状态 t\n\t// 算出 H1、H2，满足翻转条件的最小 i\n\tvar A1 = vector<ll>(1ll << m);\n\tvar A2 = vector<ll>(1ll << m);\n\tvar B1 = vector<ll>(1ll << m);\n\tvar B2 = vector<ll>(1ll << m);\n\tvar ti = vector<pii>(1ll << m);\n\tfa(t, 0, (1ll << m) - 1) { // 枚举行状态\n\t\tll y = 0, x = 0;\n\t\tfa(j, 1, m)if (t & (1 << (j - 1))) {\n\t\t\ty += 1;\n\t\t\tx += j;\n\t\t}\n\t\tA1[t] = A * y;\n\t\tA2[t] = A * (m - y);\n\t\tB1[t] = B * x;\n\t\tB2[t] = B * (m * (m + 1) / 2 - x);\n\t\tif (m == 2 * y or A == 0) {\n\t\t\tif (B * (m * (m + 1) / 2 - 2 * x) < 0)ti[t] = { INF,0 };\n\t\t\telse ti[t] = { 0,0 };\n\t\t}\n\t\telse {\n\t\t\tif (A * (m - 2 * y) > 0) {\n\t\t\t\tti[t] = { \n\t\t\t\t\t(ll)ceil(db(B * (2 * x - m * (m + 1) / 2))\n\t\t\t\t\t/\n\t\t\t\t\t(A * (m - 2 * y)))\n\t\t\t\t\t, 0 };\n\t\t\t}\n\t\t\telse {\n\t\t\t\tti[t] = {\n\t\t\t\t\t(B * (2 * x - m * (m + 1) / 2))\n\t\t\t\t\t/\n\t\t\t\t\t(A * (m - 2 * y))\n\t\t\t\t\t, 1 };\n\t\t\t}\n\t\t}\n\t\t//debug(t, A1[t], A2[t], B1[t], B2[t], ti[t]);\n\t}\n\n\tll ans = -LNF;\n\tfa(t, 0, (1ll << m) - 1) {      // 枚举列是否翻转\n\t\tll res = 0;\n\t\tfa(st, 0, (1ll << m) - 1)   // 枚举可能的行状态 st\n\t\t\tif (g[st].size()) {\n\t\t\t\tint s = st;         // 当前的实际行状态 s\n\t\t\t\tfa(j, 1, m)if (t & (1 << (j - 1)))s ^= (1 << (j - 1));\n\n\t\t\t\tif (ti[s].py == 0) {\n\t\t\t\t\tvar it = lower_bound(all(g[st]), ti[s].px);\n\t\t\t\t\tif (it == g[st].end()) {\n\t\t\t\t\t\tres += pre[st].back() * A1[s];\n\t\t\t\t\t\tres += g[st].size() * B1[s];\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\tint id = distance(g[st].begin(), it);\n\t\t\t\t\t\tif (id >= 1)\n\t\t\t\t\t\t\tres += pre[st][id - 1] * A1[s] + (pre[st].back() - pre[st][id - 1]) * A2[s];\n\t\t\t\t\t\telse \n\t\t\t\t\t\t\tres += pre[st].back() * A2[s];\n\t\t\t\t\t\tres += id * B1[s] + (g[st].size() - id) * B2[s];\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tvar it = upper_bound(all(g[st]), ti[s].px);\n\t\t\t\t\tif (it == g[st].end()) {\n\t\t\t\t\t\tres += pre[st].back() * A2[s];\n\t\t\t\t\t\tres += g[st].size() * B2[s];\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\tint id = distance(g[st].begin(), it);\n\t\t\t\t\t\tif (id >= 1)\n\t\t\t\t\t\t\tres += pre[st][id - 1] * A2[s] + (pre[st].back() - pre[st][id - 1]) * A1[s];\n\t\t\t\t\t\telse \n\t\t\t\t\t\t\tres += pre[st].back() * A1[s];\n\t\t\t\t\t\tres += id * B2[s] + (g[st].size() - id) * B1[s];\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\tans = max(res, ans);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-19",
+  "parsed_at": "2026-06-14T18:39:35.784926+00:00",
+  "type_directory": "p"
+}

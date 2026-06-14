@@ -1,0 +1,153 @@
+{
+  "slug": "p4141-消失之物",
+  "title": "P4141 消失之物",
+  "type": "题目",
+  "tags": [
+    "背包/可撤销背包"
+  ],
+  "difficulty": null,
+  "summary": "可撤销背包模板题",
+  "link": "https://www.luogu.com.cn/problem/P4141",
+  "link_text": "P4141 消失之物 - 洛谷",
+  "source": "[「笔记」可撤销背包 - Luckyblock - 博客园](https://www.cnblogs.com/luckyblock/p/18539827)",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "ftiasch 有 $n$ 个物品, 体积分别是 $w_1,w_2,\\dots,w_n$。由于她的疏忽，第 $i$ 个物品丢失了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "“要使用剩下的 $n-1$ 物品装满容积为 $x$ 的背包，有几种方法呢？”——这是经典的问题了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "她把答案记为 $\\text{cnt}(i,x)$ ，想要得到所有$i \\in [1,n]$, $x \\in [1,m]$ 的 $\\text{cnt}(i,x)$ 表格。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行两个整数 $n,m$，表示物品的数量和最大的容积。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个整数 $w_1,w_2,\\dots,w_n$，表示每个物品的体积。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $100\\%$ 的数据，$1\\le n,m \\le 2000$，且 $1\\le w_i\\le 2000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个 $n \\times m$ 的矩阵，表示 $\\text{cnt}(i,x)$ 的<strong>末位数字</strong>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2\n1 1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "11\n11\n21",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>可撤销背包模板题</strong>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tconst int mod = 10;\n\n\t// 全局背包\n\tvar dp = vector<int>(m + 1);\n\tdp[0] = 1;\n\tfa(i, 1, n)fb(j, m, a[i])dp[j] = (dp[j] + dp[j - a[i]]) % mod;\n\n\tfa(i, 1, n) {\n\t\t// 【撤销 a[i]】\n\t\tfa(j, a[i], m)dp[j] = ((dp[j] - dp[j - a[i]]) % mod + mod) % mod;\n\n\t\tfa(j, 1, m)cout << dp[j];\n\t\tcout << endl;\n\t\t\n\t\t// 【恢复 a[i]】\n\t\tfb(j, m, a[i])dp[j] = (dp[j] + dp[j - a[i]]) % mod;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-01",
+  "parsed_at": "2026-06-14T18:39:36.892694+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,151 @@
+{
+  "slug": "cf1814b-long-legs",
+  "title": "CF1814B Long Legs",
+  "type": "题目",
+  "tags": [
+    "数学/均值不等式"
+  ],
+  "difficulty": 1.5,
+  "summary": "想法肯定是，<strong>腿拉长到一定长度，然后直接走完</strong>，如果走不完（取模不为0），那腿拉长的过程中肯定能走完。$Cost(m) = m - 1 + \\left\\lceil \\frac{A}{m} \\right\\rceil + \\left\\lceil \\frac{B}{m} \\right\\rceil \\approx m + \\frac{A+B}{m}$，然后写<strong>均值不等式</strong>，发现最小值在大概 $m = \\sqrt{A+B}$ 附近",
+  "link": "https://www.luogu.com.cn/problem/CF1814B",
+  "link_text": "CF1814B Long Legs - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一个机器人被放置在无限网格的单元格 $(0, 0)$ 上。这个机器人有可调节长度的腿。最初，它的腿长为 $1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "假设机器人当前位于单元格 $(x, y)$，腿长为 $m$。每次移动时，它可以执行以下三种操作之一：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "跳到单元格 $(x + m, y)$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "跳到单元格 $(x, y + m)$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "将腿长增加 $1$，即变为 $m + 1$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "机器人到达单元格 $(a, b)$ 至少需要多少步？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\le t \\le 100$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的一行包含两个整数 $a$ 和 $b$（$1 \\le a, b \\le 10^9$），表示目标单元格的坐标。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数，表示机器人从 $(0, 0)$ 到 $(a, b)$ 至少需要的步数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 1\n1 6\n8 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n5\n6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，机器人可以先跳到 $(0, 1)$，再跳到 $(1, 1)$。如果它增加腿长，则只能跳过 $(1, 1)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个测试用例中，机器人可以先跳到 $(1, 0)$，然后将腿长增加到 $2$，再跳三次到达 $(1, 6)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个测试用例中，机器人可以将腿长增加三次，使其变为 $4$。然后跳到 $(0, 4)$，再跳两次到达 $(8, 4)$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll a, b; cin >> a >> b;\n\tll ans = LNF;\n\tfa(m, 1, 5e5) {\n\t\tll res = m - 1ll;\n\t\tres += (a % m != 0) + (b % m != 0);\n\t\tres += a / m + b / m;\n\t\tans = min(ans, res);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-29",
+  "parsed_at": "2026-06-14T18:39:36.292654+00:00",
+  "type_directory": "p"
+}

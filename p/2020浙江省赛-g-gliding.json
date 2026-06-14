@@ -1,0 +1,291 @@
+{
+  "slug": "2020浙江省赛-g-gliding",
+  "title": "2020浙江省赛 G Gliding",
+  "type": "题目",
+  "tags": [
+    "dij"
+  ],
+  "difficulty": 2.5,
+  "summary": "明显的 dij 最短路问题，但怎么设状态？带高度的状态肯定会超时，故考虑直接<strong>朴素 dij 跑完全图</strong>。不考虑过程中的 z 轴高度，直接推出完全图间的边权公式。",
+  "link": "https://qoj.ac/contest/2020/problem/10919",
+  "link_text": "Gliding - Problem - QOJ.ac",
+  "source": "[[2020浙江省赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Link 的世界是一个三维空间。定义笛卡尔坐标系 \\((x, y, z)\\)，其中 \\(z\\) 表示高度。水面是平面 \\(z = 0\\)。Link 的起点是 \\((s_x, s_y, 0)\\)，终点是 \\((t_x, t_y, 0)\\)。如果在任意时刻，他的高度 \\(z\\) 严格小于 0（即 \\(z < 0\\)），他就失败了，因为他掉进了水里。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在 Link 的世界里（和地球不同），空气中的物体以恒定速度 \\(v_f\\) 自由下落。Link 有一个滑翔伞来减缓下落速度。一旦他打开滑翔伞，下落速度就变为 \\(v_p\\)（\\(v_p < v_f\\)），并且他可以在任意水平方向上以最大速度 \\(v_h\\) 移动。形式化地说，他在 \\(x\\) 方向的速度 \\(v_x\\) 和 \\(y\\) 方向的速度 \\(v_y\\) 需要满足 \\(\\sqrt{v_x^2 + v_y^2} \\le v_h\\)。Link 可以任意多次打开和关闭滑翔伞，并且可以在任意时刻进行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "更棒的是，湖中有 \\(n+1\\) 个奇特的风洞，它们会产生向上的风，帮助 Link 飞得更高。这些风洞编号从 0 到 \\(n\\)，用元组 \\((x_i, y_i, v_i), i = 0, 1, \\ldots, n\\) 表示。第 \\(i\\) 个风洞的位置是 \\((x_i, y_i, 0)\\)，它的向上风速是 \\(v_i\\)。Link 必须位于垂直线 \\([x = x_i, y = y_i]\\) 上，并且滑翔伞必须处于打开状态，才能受到该风洞的影响。如果 Link 在风洞上方且滑翔伞打开，那么：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果 \\(v_i > v_p\\)，他会以速度 \\(v_i - v_p\\) 上升；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果 \\(v_p > v_i\\)，他会以速度 \\(v_p - v_i\\) 下降；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果 \\(v_p = v_i\\)，他的垂直速度为零。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "Link 的起点就是第 0 个风洞，即 \\(s_x = x_0, s_y = y_0\\)。Link 精心选择了这个位置，使得 \\(v_0 > v_p\\)，因此他一开始可以无限地上升。可以证明，只要时间足够，Link 总能到达终点而不掉进水里。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "打开和关闭滑翔伞的时间，以及改变速度的时间都可以忽略不计。Link 想知道到达终点的最短时间。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入包含多个测试用例。第一行是一个正整数 \\(T\\)，表示测试用例数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含四个整数 \\(s_x, s_y, t_x, t_y\\)（\\(-10^4 \\le s_x, s_y, t_x, t_y \\le 10^4\\)），表示起点和终点的坐标。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含三个整数 \\(v_f, v_p, v_h\\)（\\(0 < v_p < v_f \\le 10^4, 0 < v_h \\le 10^4\\)），分别表示自由下落速度、滑翔伞打开时的下落速度，以及最大水平速度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含一个正整数 \\(n\\)（\\(n \\le 4000\\)），表示除起点风洞以外的风洞数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 \\(n+1\\) 行，每行包含三个整数 \\(x_i, y_i, v_i\\)（\\(-10^4 \\le x_i, y_i \\le 10^4, 0 < v_i \\le 10^4, i = 0, 1, \\ldots, n\\)），表示每个风洞的位置和它的风速。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "数据保证：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "没有两个风洞位置相同；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "终点位置没有风洞；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "\\(x_0 = s_x, y_0 = s_y\\)，且 \\(v_0 > v_p\\)；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例的 \\(n\\) 之和不超过 \\(10^4\\)。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一行一个数字，表示在不掉进水里的前提下，到达终点 \\((t_x, t_y, 0)\\) 的最短时间。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "只要绝对误差或相对误差不超过 \\(10^{-9}\\)，你的答案就会被接受。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n0 0 3 4\n5 4 1\n1\n0 0 5\n3 0 6\n0 0 3 4\n5 4 1\n1\n0 0 5\n3 0 7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "25.00000000000000\n24.33333333333332",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "问题拆解",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "三维运动，高度不能低于 0。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "发现只有开伞时才能水平移动且下降速度慢，关伞时只能垂直下落且水平速度为 0。因此最优策略<strong>必然全程开伞</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "只有在风洞正上方开伞才能获得额外上升，风速 $v_i$ > \\(v_p\\) 的风洞可以让你净上升，否则无用。故<strong>只考虑风速</strong> \\(v_i > v_p\\) <strong>的风洞</strong>（包括起点）",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "从风洞 \\(i\\) 到风洞 \\(j\\) 的最优飞行",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在 \\(i\\) 处开伞，先垂直上升一段，然后水平飞向 \\(j\\)，同时以速度 \\(v_p\\) 下降，到达时高度恰好为 0。显然这是<strong>最优飞行策略</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "水平距离 \\(d = \\text{dist}(i,j)\\)，水平飞行时间 \\(t_h = d / v_h\\)，期间下降高度 \\(v_p t_h\\)，故需在 \\(i\\) 处上升相同高度，上升时间 \\(t_u = \\frac{v_p t_h}{v_i - v_p}\\)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>总时间</strong> \\(t = t_u + t_h = \\frac{v_i}{v_i - v_p} \\cdot \\frac{d}{v_h}\\)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论</strong>：转移时间只与起点 \\(i\\) 的风速和平面距离有关，与终点 \\(j\\) 无关。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "朴素 dij",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "可以将每个风洞视为图的一个节点，任意两点间有向边权即为上述总时间公式。问题变为<strong>完全图上的最短路</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "节点：所有 \\(v_i > v_p\\) 的风洞（起点必在其中）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "有向边权 \\(w(i,j) = \\frac{\\text{dist}(i,j)}{v_h} \\cdot \\frac{v_i}{v_i - v_p}\\)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "从节点 \\(i\\) 到终点（无风洞）的代价同样为 \\( \\frac{\\text{dist}(i,\\text{终点})}{v_h} \\cdot \\frac{v_i}{v_i - v_p}\\)。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "具体实现",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>朴素 Dijkstra</strong> \\(O(K^2)\\) 比堆优化更快（无 log 因子）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "计算距离矩阵 → 跑最短路 → 到终点的答案 = \\(\\min_i (\\text{dis}[i] + \\text{cost}_i)\\)。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tll id;\n\tdb d;\n\tbool operator<(const node& a)const {\n\t\treturn a.d < d;\n\t}\n};\nvoid solve(int CASE)\n{\n\tll sx, sy, tx, ty; cin >> sx >> sy >> tx >> ty;\n\tll vf, vp, vh; cin >> vf >> vp >> vh;\n\n\tll n; cin >> n;\n\tvar p = vector<tuple<ll, ll, ll>>();\n\tfa(i, 0, n) {\n\t\tll x, y, v; cin >> x >> y >> v;\n\t\tif (v > vp)p.pb({ x,y,v });\n\t}\n\n\tll m = p.size() - 1;\n\tvar D = Vec2<db>(m + 1, m + 1);\n\tfa(i, 0, m)fa(j, 0, m) {\n\t\tconst var& [x, y, v] = p[i];\n\t\tconst var& [nx, ny, nv] = p[j];\n\t\tD[i][j] = hypot(x - nx, y - ny);\n\t}\n\n\t// 朴素 dij\n\tvar dis = vector<db>(m + 1, 1e18);\n\tvar vis = vector<bool>(m + 1);\n\tdis[0] = 0;\n\tfa(_, 0, m) {\n\t\tint now = -1;\n\t\tfa(i, 0, m)\n\t\t\tif (!vis[i] and (now == -1 or dis[i] < dis[now]))\n\t\t\t\tnow = i;\n\t\tvis[now] = 1;\n\t\tconst var& [x, y, v] = p[now];\n\t\tfa(to, 0, m) {\n\t\t\tif (to == now)continue;\n\t\t\tdb w = (D[now][to] * v) / (vh * (v - vp));\n\t\t\tif (dis[to] > dis[now] + w)dis[to] = dis[now] + w;\n\t\t}\n\t}\n\n\tdb ans = 1e18;\n\tfa(i, 0, m) {\n\t\tconst var& [x, y, v] = p[i];\n\t\tdb w = (hypot(x - tx, y - ty) * v) / (vh * (v - vp));\n\t\tans = min(ans, dis[i] + w);\n\t}\n\n\tcout << fixed << setprecision(12) << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-06",
+  "parsed_at": "2026-06-14T18:39:35.679999+00:00",
+  "type_directory": "p"
+}

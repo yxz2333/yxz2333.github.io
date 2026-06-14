@@ -1,0 +1,258 @@
+{
+  "slug": "2025icpc南昌邀请赛-e-god's-string-on-this-wonderful-world",
+  "title": "2025ICPC南昌邀请赛 E God's String on This Wonderful World",
+  "type": "题目",
+  "tags": [
+    "哈希",
+    "莫队",
+    "前缀和"
+  ],
+  "difficulty": 2.5,
+  "summary": "最重要的还是想出这个公式 $Sum[r][c] \\pmod k \\equiv Sum[l-1][c] \\pmod k$，这样就好搞莫队了，当然也得对各个状态进行哈希来优化。",
+  "link": "https://codeforces.com/gym/105911/problem/E",
+  "link_text": "Problem - E - Codeforces",
+  "source": "[[2025ICPC南昌邀请赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "我们用 $|s|$ 表示字符串 $s$ 的长度，用 $s_i$ 表示 $s$ 的第 $i$ 个字符。$s$ 的一个子串，记作 $s_{l\\ldots r}$（$1 \\le l \\le r \\le |s|$），指的是由 $r - l + 1$ 个字符 $s_l, s_{l+1}, \\ldots, s_r$ 连接而成的字符串。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们说 $s$ 是一个 <strong>k 次重复串</strong> 当且仅当存在一个字符串 $t$，使得 $s = t^k$，即 $k$ 个 $t$ 首尾相连恰好组成 $s$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Aqua 想知道，给定字符串 $s$ 和正整数 $x, y$，有多少对正整数 $l, r$ 满足 $x \\le l \\le r \\le y$，并且子串 $s_{l\\ldots r}$ 可以通过重排成为一个 $k$ 次重复串。由于 Aqua 喜欢高性能的程序，你需要回答 $q$ 个查询 $(x_1, y_1), (x_2, y_2), \\ldots, (x_q, y_q)$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含三个正整数 $n, k, q$（$1 \\le n, k, q \\le 3 \\times 10^5$），分别表示字符串的长度、查询的重复次数和查询的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含一个长度为 $n$ 的字符串 $s$。保证 $s$ 仅由小写英文字母组成。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $q$ 行，每行包含两个正整数 $x, y$（$1 \\le x \\le y \\le n$），表示一个查询。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $q$ 行，其中第 $i$ 行包含一个整数，表示第 $i$ 个查询的答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "14 2 6\nssessesessefpq\n1 5\n1 6\n3 6\n10 14\n1 14\n2 7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n4\n2\n0\n12\n3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一个查询，满足条件的数对 $(l, r)$ 有 $(1, 2), (4, 5)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第二个查询，满足条件的数对 $(l, r)$ 有 $(1, 2), (1, 6), (3, 6), (4, 5)$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "突破口：什么是能够重排成 $t^k$ 的字符串？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然是“重排”，说明字符的<strong>原位置根本不重要</strong>，唯一重要的是<strong>每种字符的数量</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "一个字符串能被平分成 $k$ 份一模一样的子串，等价于：<strong>该字符串中每一种字符（'a'~'z'）出现的总次数，都必须是 k 的倍数！</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设 $Sum[i][c]$ 表示前缀 $1 \\dots i$ 中字符 $c$ 出现的次数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于子串 $s_{l \\dots r}$，字符 $c$ 的出现次数为 $Sum[r][c] - Sum[l-1][c]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "要想满足条件，对于任意字符 $c \\in ['a', 'z']$，必须满足：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$(Sum[r][c] - Sum[l-1][c]) \\equiv 0 \\pmod k$$\n$$Sum[r][c] \\pmod k \\equiv Sum[l-1][c] \\pmod k$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论</strong>：对于一个查询区间 $[l, r]$，子串 $s_{l \\dots r}$ 满足条件，当且仅当在位置 $l-1$ 和位置 $r$ 处，<strong>26个字母的前缀和对 k 取模的“状态”完全一模一样</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "原问题瞬间转化为：<strong>在数组的区间 $[l-1, r]$ 中，寻找有多少对相同的“状态”。</strong>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "进阶优化 1：状态降维 —— 随机哈希",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "虽然我们把问题转化为了找相同状态，但一个“状态”包含了 26 个数字，如果每次比较 26 个数字，不仅常数巨大，也无法用数组快速统计。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>怎么把 26 个维度的状态变成 1 个数字？<strong>哈希</strong></strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这里使用<strong>随机权值哈希</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们给 'a' 到 'z' 每一个字母随机分配一个极大的 64 位无符号整数（<code>unsigned long long</code>）作为权值。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "前缀 $i$ 的哈希值定义为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$Hash[i] = \\sum_{c='a'}^{'z'} (Sum[i][c] \\pmod k) \\times Weight[c]$$\n利用 `unsigned long long` 的**自然溢出**特性（自动对 $2^{64}$ 取模），只要哈希值相同，我们就认为这两个状态的 26 个维度的值完全相同。碰撞概率约等于 $\\frac{1}{2^{64}}$，在算法竞赛中绝对安全。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "进阶优化 2：莫队算法前的准备 —— 离散化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "现在，我们得到了一个长度为 $n+1$ 的哈希数组 $Hash[0 \\dots n]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由于我们要离线处理 $q$ 次区间查询（求区间内相同数字的对数），这完美契合<strong>莫队算法</strong>的适用场景。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但哈希值极大（高达 $10^{18}$），无法直接作为莫队中 <code>mp</code>（计数数组）的下标，用 <code>map/hashmap</code> 又太慢。因此，我们需要对 $Hash$ 数组进行<strong>离散化</strong>，将它们映射到 $1 \\sim m$ 的连续小整数上。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "“坑点”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>区间的错位偏移</strong>：查询原字符串的 $[l, r]$，对应的是前缀和数组的 $[l-1, r]$。因此传给莫队的查询必定是 <code>update_query(l - 1, r, id)</code>。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "\tll current_ans;\n\tvector<ll> ans;\n\n\t/* 需自行修改 add del init 函数，处理相应需要维护的变量及其初始化 */\n\tvector<int> mp;\n\tvoid init() {\n\t\tmp.assign(n + 10, 0);\n\t\tcurrent_ans = 0;\n\t}\n\n\t// 扩展区间时加入元素\n\tvoid add(const vector<int>& pre, int pos) {\n\t\tcurrent_ans += mp[pre[pos]];\n\t\tmp[pre[pos]]++;\n\t}\n\n\t// 缩小区间时删除元素\n\tvoid del(const vector<int>& pre, int pos) {\n\t\tmp[pre[pos]]--;\n\t\tcurrent_ans -= mp[pre[pos]];\n\t}\n\nvoid solve(int CASE)\n{\n\tint n, k, q; cin >> n >> k >> q;\n\tstring s; cin >> s; s = ' ' + s;\n\n\t// 对【前缀字符串 26 个字母各个拿了多少的状态】进行哈希\n\tvar char_hash = vector<ull>(26);\n\tfa(i, 0, 25)char_hash[i] = MT::randint<ull>(1, 1e18);\n\tvar sum = vector<int>(26);\n\tvar pre = vector<ull>(n + 1);\n\tvar b = vector<ull>();\n\tb.pb(pre[0]);\n\tfa(i, 1, n) {\n\t\tsum[s[i] - 'a'] = (sum[s[i] - 'a'] + 1) % k;\n\t\tfa(j, 0, 25)pre[i] += sum[j] * char_hash[j];\n\t\tb.pb(pre[i]);\n\t}\n\n\t// 对哈希值进行离散化\n\tsort(all(b));\n\tb.erase(unique(all(b)), b.end());\n\tvar find = [&](ull value)->int {\n\t\treturn upper_bound(all(b), value) - b.begin();\n\t\t};\n\tvar hash = vector<int>(n + 1);\n\tfa(i, 0, n)hash[i] = find(pre[i]);\n\n\tvar mo = Mo(n, q);\n\tmo.init();\n\tfa(i, 1, q) {\n\t\tint l, r; cin >> l >> r;\n\t\t// 注意，按照公式，我们一定要找 [l - 1, r] 区间里是否有相等的\n\t\tmo.update_query(l - 1, r, i);\n\t}\n\tmo.sort_query();\n\n\tfa(i, 1, q) {\n\t\tconst var& [l, r, id] = mo.queries[i];\n\t\tmo.update_lr(hash, l, r, id);\n\t}\n\tfa(i, 1, q)cout << mo.ans[i] << endl;\n \treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-28",
+  "parsed_at": "2026-06-14T18:39:35.771507+00:00",
+  "type_directory": "p"
+}

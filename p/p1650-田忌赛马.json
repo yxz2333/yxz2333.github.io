@@ -1,0 +1,251 @@
+{
+  "slug": "p1650-田忌赛马",
+  "title": "P1650 田忌赛马",
+  "type": "题目",
+  "tags": [
+    "贪心",
+    "双指针"
+  ],
+  "difficulty": null,
+  "summary": "贪心的证明好说，但是确实想不到。",
+  "link": "https://www.luogu.com.cn/problem/P1650",
+  "link_text": "P1650 田忌赛马 - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "我国历史上有个著名的故事： 那是在 $2300$ 年以前。齐国的大将军田忌喜欢赛马。他经常和齐王赛马。他和齐王都有三匹马：常规马，上级马，超级马。一共赛三局，每局的胜者可以从负者这里取得 $200$ 银币。每匹马只能用一次。齐王的马好，同等级的马，齐王的总是比田忌的要好一点。于是每次和齐王赛马，田忌总会输 $600$ 银币。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "田忌很沮丧，直到他遇到了著名的军师――孙膑。田忌采用了孙膑的计策之后，三场比赛下来，轻松而优雅地赢了齐王 $200$ 银币。这实在是个很简单的计策。由于齐王总是先出最好的马，再出次好的，所以田忌用常规马对齐王的超级马，用自己的超级马对齐王的上级马，用自己的上级马对齐王的常规马，以两胜一负的战绩赢得 $200$ 银币。实在很简单。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果不止三匹马怎么办？这个问题很显然可以转化成一个二分图最佳匹配的问题。把田忌的马放左边，把齐王的马放右边。田忌的马 A 和齐王的 B 之间，如果田忌的马胜，则连一条权为 $200$ 的边；如果平局，则连一条权为 $0$ 的边；如果输，则连一条权为 $-200$ 的边……如果你不会求最佳匹配，用最小费用最大流也可以啊。 然而，赛马问题是一种特殊的二分图最佳匹配的问题，上面的算法过于先进了，简直是杀鸡用牛刀。现在，就请你设计一个简单的算法解决这个问题。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $n$ ，表示他们各有几匹马（两人拥有的马的数目相同）。第二行 $n$ 个整数，每个整数都代表田忌的某匹马的速度值（$0 \\le $ 速度值 $\\le 100$）。第三行 $n$ 个整数，描述齐王的马的速度值。两马相遇，根据速度值的大小就可以知道哪匹马会胜出。如果速度值相同，则和局，谁也不拿钱。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $20\\%$ 的数据，$1\\le N\\le 65$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $40\\%$ 的数据，$1\\le N\\le 250$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $100\\%$ 的数据，$1\\le N\\le2000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "仅一行，一个整数，表示田忌最大能得到多少银币。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n92 83 71\n95 87 74",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "200",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "我一开始的思路是直接<strong>双指针</strong>向一个方向走，也就是<strong>能赢就赢，赢不了就直接跳过</strong>，但本题有平局，我原来的做法很容易就能被 hack 掉：",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "",
+          "code": "2\n3 5\n3 4",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "这个情况我原本的做法是处理不了的。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "而到了本题，平局比输局好。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<em>（但是，我还是搞不懂这题为毛能想到用如下的做法，证明我还是懂的，但是根本想不到）</em>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "排序后用<strong>四指针</strong>或<strong>双端队列</strong>，考虑田忌和齐王的最快马和最慢马。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "本题的策略：<strong>最快对最快</strong> \\rightarrow <strong>最慢对最慢</strong> \\rightarrow <strong>最慢送最快</strong>",
+          "depth": 1
+        },
+        {
+          "heading": "为什么“最快对最快”能赢就要赢？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>场景</strong>：我的上等马 $A_{max}$ > 对方的上等马 $B_{max}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>质疑</strong>：我是不是应该把 $A_{max}$ 留着去虐对方的中等马？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>证明</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$B_{max}$ 是对方最强的单位。如果我的 $A_{max}$ 不去赢它，我手里剩下的马比 $A_{max}$ 弱，更不可能赢它。也就是说，一旦放过 $B_{max}$，这 200 分大概率就没了。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "同时，$A_{max}$ 是我手里最强的。用它去赢对方随便一个弱鸡（比如 $B_{min}$）叫“杀鸡用牛刀”，这是<strong>产能过剩</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论</strong>：用可能的唯一胜机去换对方唯一的王牌，性价比最高。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "为什么“最慢对最慢”能赢就要赢？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>场景</strong>：我的下等马 $A_{min}$ > 对方的下等马 $B_{min}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>质疑</strong>：我是不是应该把 $A_{min}$ 留着去送死？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>证明</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_{min}$ 是我手里最烂的牌。除了对方最烂的 $B_{min}$，它几乎赢不了任何人。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这就像一张“只能在特定时刻得分的彩票”。如果你现在不用它去赢 $B_{min}$，等 $B_{min}$ 被别人干掉了，你的 $A_{min}$ 就成了一张废纸（必输）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论</strong>：变废为宝，过期不候。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tvar b = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n)cin >> b[i];\n\tsort(all1(a)), sort(all1(b));\n\tvar da = deque<int>();\n\tvar db = deque<int>();\n\tfa(i, 1, n)da.pb(a[i]), db.pb(b[i]);\n\tint ans = 0;\n\twhile (da.size() and db.size()) {\n\t\tif (da.back() > db.back()) {\n\t\t\tans++;\n\t\t\tda.pop_back();\n\t\t\tdb.pop_back();\n\t\t}\n\t\telse if (da.front() > db.front()) {\n\t\t\tans++;\n\t\t\tda.pop_front();\n\t\t\tdb.pop_front();\n\t\t}\n\t\telse {\n\t\t\tif (da.front() != db.back())ans--; // 考虑相等的情况\n\t\t\tda.pop_front();\n\t\t\tdb.pop_back();\n\t\t}\n\t}\n\tcout << ans * 200 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-16",
+  "parsed_at": "2026-06-14T18:39:36.853962+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,66 @@
+{
+  "slug": "异或",
+  "title": "异或",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "一些等式与不等式",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于<strong>等式</strong>：$a \\oplus b = c \\iff a = b \\oplus c$ 是成立的。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于<strong>不等式</strong>：$a \\oplus b \\ge c \\iff a \\ge b \\oplus c$ <strong>不成立</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$a + b = (a \\oplus b) + 2 \\cdot (a \\& b)$$\n$$a + b = (a | b) + (a \\& b)$$",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$a | b = (a \\oplus b) + (a \\& b)$$\n$$ a - b \\le a \\oplus b \\le a + b $$",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "异或交换法",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "纯通过异或交换 $a, b$ 两数。",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "a = a ^ b;\nb = a ^ b;\na = a ^ b;",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-20",
+  "parsed_at": "2026-06-14T18:45:12.069998+00:00",
+  "type_directory": "k"
+}

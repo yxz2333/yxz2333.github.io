@@ -1,0 +1,20 @@
+{
+  "slug": "2026icpc深圳邀请赛",
+  "title": "2026ICPC深圳邀请赛",
+  "type": "比赛",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "https://qoj.ac/contest/3587",
+  "link_text": "https://qoj.ac/contest/3587",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-13",
+  "parsed_at": "2026-06-14T18:39:37.133637+00:00",
+  "type_directory": "c"
+}

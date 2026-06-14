@@ -1,0 +1,311 @@
+{
+  "slug": "cf837d-round-subset",
+  "title": "CF837D Round Subset",
+  "type": "题目",
+  "tags": [
+    "数论",
+    "背包"
+  ],
+  "difficulty": 2.0,
+  "summary": "主要两个难点，看出来因子为 $2$ 和 $5$ 的数结论，然后想出 $dp$ 状态的定义能用类似<strong>背包恰好装满</strong>的形式。",
+  "link": "https://codeforces.com/problemset/problem/837/D",
+  "link_text": "Problem - 837D - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "我们定义一个数的 roundness 为它末尾 $0$ 的个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定一个长度为 $n$ 的数列，需要从中选出 $k$ 个数，使得这些选出的数的乘积积的 roundness 最大。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入两个正整数 $n$ 和 $k$（$1 \\leq n \\leq 200$，$1 \\leq k \\leq n$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行输入 $n$ 个整数 $a_1,a_2,\\cdots,a_n (1 \\leq a_i \\leq 10^{18})$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，是选择 $k$ 个数并作积的最大 roundness。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2\n50 4 20",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 3\n15 16 3 25 9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3\n9 77 13",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一组数据有三种选法。$\\{50,4\\}$ 的积是 $200$，roundness 是 $2$；$\\{4,20\\}$ 的积是 $80$，roundness 是 $1$；$\\{50,20\\}$ 的积是 $1000$，roundness 是 $3$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二组数据中选法 $\\{15,16,25\\}$ 的积是 $6000$，roundness 是 $3$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第三组数据中所有的选法的 roundness 都是 $0$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 核心结论",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "根据数论常识，<strong>一个数的末尾 0 的个数由其质因子中 2 和 5 的对数决定</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于选出的 $m$ 个数，其乘积末尾 0 的个数为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\text{Ans} = \\min\\left( \\sum \\text{cnt}_2, \\sum \\text{cnt}_5 \\right) $$\n我们的目标是选出 $m$ 个数，使得上式最大化。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. DP 状态",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我一开始想着让 2 和 5 的因子个数作为 “差值（Balance）” 状态（$\\text{cnt}_2 - \\text{cnt}_5$），但是要用的空间有点大，因为<strong>差值的值域太大了</strong>，存不下。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "背包的做法其实也挺像 Balance 状态的表示方式，只不过<strong>值域缩小</strong>了，而且非常适合滚动，空间就少了许多。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，采用<strong>背包恰好装满模型</strong>的思想，将 <strong>“较小的值域”</strong> 交换到 <strong>“状态维度”</strong> 中，将 <strong>“较大的值域”</strong> 作为 <strong>“DP存储的值”</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>观察</strong>：$N \\le 200$，每个数最大 $10^{18}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\sum \\text{cnt}_5$ 的上限约为 $200 \\times 26 \\approx 5200$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$\\sum \\text{cnt}_2$ 的上限约为 $200 \\times 60 \\approx 12000$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "显然 $\\sum \\text{cnt}_5$ <strong>更适合作为背包的容量（状态维度）</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态定义</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ dp[j][k] $$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 状态转移",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这是一个典型的<strong>二维费用的 0/1 背包恰好装满问题</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第 $i$ 个数，它的代价是 1 个名额和 $\\text{cnt5}[i]$ 的容量，收益是 $\\text{cnt2}[i]$。",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ dp[j][k] = \\max(dp[j][k], \\quad dp[j-1][k - \\text{cnt5}[i]] + \\text{cnt2}[i]) $$\n**初始化**：$dp[0][0] = 0$，其余设为 $-1$（代表不可达，即无法恰好凑出该状态，背包恰好装满的惯用解决方式）。\n**循环顺序**：为了压掉第一维 $i$，内层的 $j$ 和 $k$ 需要**倒序遍历**。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "4. 统计答案",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "DP 结束后，我们遍历所有可能的因子 5 的总和 $k$。对于每一个合法的 $dp[m][k]$（即选了 $m$ 个数，5 的总和为 $k$，此时 2 的最大总和为 $dp[m][k]$），答案为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\text{Result} = \\max_{k} \\left( \\min(k, \\ dp[m][k]) \\right) $$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "5. 复杂度分析",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>时间复杂度</strong>：$O(N \\cdot m \\cdot \\sum \\text{cnt}_5) \\approx 200 \\times 200 \\times 5000 = 2 \\times 10^8$。在 2 秒时限下可以通过。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>空间复杂度</strong>：$O(m \\cdot \\sum \\text{cnt}_5)$，约 $200 \\times 5000 \\times 4$ 字节 $\\approx 4\\text{MB}$，非常充裕。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "const int MAXN = 26 * 200; // 最多有 MAXN 个 5 作为因子\nint dp[205][MAXN + 1];\nint _2[205], _5[205];\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tfa(i, 1, n) {\n\t\tll x; cin >> x;\n\n\t\tll nx = x;\n\t\twhile (nx % 2 == 0) {\n\t\t\tnx /= 2;\n\t\t\t_2[i]++;\n\t\t}\n\t\tnx = x;\n\t\twhile (nx % 5 == 0) {\n\t\t\tnx /= 5;\n\t\t\t_5[i]++;\n\t\t}\n\t}\n\n\tfa(i, 0, 200)fa(j, 0, MAXN)dp[i][j] = -1;\n\tdp[0][0] = 0;\n\tfa(i, 1, n) {\n\t\tfb(j, min(m, i), 1)fb(k, MAXN, _5[i])if (dp[j - 1][k - _5[i]] != -1)\n\t\t\tdp[j][k] = max(dp[j][k], dp[j - 1][k - _5[i]] + _2[i]);\n\t}\n\n\tint ans = 0;\n\tfa(i, 1, MAXN)if (dp[m][i] != -1)ans = max(ans, min(i, dp[m][i]));\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-19",
+  "parsed_at": "2026-06-14T18:39:36.608738+00:00",
+  "type_directory": "p"
+}

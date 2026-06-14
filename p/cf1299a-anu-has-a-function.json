@@ -1,0 +1,155 @@
+{
+  "slug": "cf1299a-anu-has-a-function",
+  "title": "CF1299A Anu Has a Function",
+  "type": "题目",
+  "tags": [
+    "二进制"
+  ],
+  "difficulty": 1.5,
+  "summary": "发现函数的本质是 $(x | y) - y = (x \\& \\sim y)$，然后就秒杀这题了。",
+  "link": "https://www.luogu.com.cn/problem/CF1299A",
+  "link_text": "CF1299A Anu Has a Function - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Anu 创建了她自己的函数 $f$：$f(x, y) = (x | y) - y$，其中 $|$ 表示<a href=\"https://en.wikipedia.org/wiki/Bitwise_operation#OR\" target=\"_blank\" class=\"md-link\">按位或运算</a>。例如，$f(11, 6) = (11|6) - 6 = 15 - 6 = 9$。可以证明，对于任意非负整数 $x$ 和 $y$，$f(x, y)$ 的值也是非负的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "她想进一步研究这个函数，并为自己设计了多个问题。但她无法解决所有问题，需要你的帮助。以下是其中一个问题。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一个数组 $[a_1, a_2, \\dots, a_n]$ 的“值”被定义为 $f(f(\\dots f(f(a_1, a_2), a_3), \\dots, a_{n-1}), a_n)$（见下方注释）。给定一个不一定互不相同的数组，你可以重新排列其元素。请问应如何重新排列数组，使其“值”最大？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\le n \\le 10^5$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$（$0 \\le a_i \\le 10^9$）。数组中的元素不保证互不相同。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $n$ 个整数，为使数组“值”最大的重新排列结果。如果有多种答案，输出任意一种均可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n4 0 11 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "11 6 4 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n13",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "13",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试样例中，数组 $[11, 6, 4, 0]$ 的值为 $f(f(f(11, 6), 4), 0) = f(f(9, 4), 0) = f(9, 0) = 9$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$[11, 4, 0, 6]$ 也是一个合法答案。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tvar cnt = vector<int>(31);\n\tfa(i, 1, n) {\n\t\tcin >> a[i];\n\t\tfa(j, 0, 30)if (!(a[i] & (1 << j)))cnt[j]++;\n\t}\n\tint ans = 0, mx = -1;\n\tfa(i, 1, n) {\n\t\tint mask = 0;\n\t\tfa(j, 0, 30) {\n\t\t\tif (a[i] & (1 << j)) {\n\t\t\t\tif (cnt[j] == n - 1)\n\t\t\t\t\tmask |= (1 << j);\n\t\t\t}\n\t\t\telse {\n\t\t\t\tif (cnt[j] - 1 == n - 1)\n\t\t\t\t\tmask |= (1 << j);\n\t\t\t}\n\t\t}\n\t\tint now = (a[i] & mask);\n\t\tif (mx < now) {\n\t\t\tmx = now;\n\t\t\tans = i;\n\t\t}\n\t}\n\tcout << a[ans] << ' ';\n\tfa(i, 1, n)if (i != ans)cout << a[i] << ' ';\n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-07",
+  "parsed_at": "2026-06-14T18:39:36.153508+00:00",
+  "type_directory": "p"
+}

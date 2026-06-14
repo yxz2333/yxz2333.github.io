@@ -1,0 +1,26 @@
+{
+  "slug": "调和级数",
+  "title": "调和级数",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "type": "math",
+      "latex": "$$ \\sum_{i=1}^N \\frac{N}{i} \\approx O(N \\ln N) $$\n## 数学\n## 常规题",
+      "depth": 1
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-11",
+  "parsed_at": "2026-06-14T18:45:12.205575+00:00",
+  "type_directory": "k"
+}

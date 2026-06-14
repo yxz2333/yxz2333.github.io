@@ -1,0 +1,86 @@
+{
+  "slug": "多源最短路",
+  "title": "多源最短路",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "多源最短路"
+  ],
+  "parent": "最短路",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "What?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "求从<strong>一组起点集合</strong> $S$ 中的<strong>任意</strong>一个点出发，到达图中其他所有点的最短距离。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "写法其实就是：<strong>初始把所有起点都扔进 priority_queue 或 queue + 距离设为 0 + 然后跑标准 Dijkstra 或 BFS 模板。</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果是 queue 的情况下，<strong>第一次访问到某个点时，这条路径一定是最短的</strong>，所以可以初始化 $dis[i] = -1$，从而<strong>判断每个点是否访问</strong>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "超级源点",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>场景</strong>：地图上有多个起点 $S_1, S_2, \\dots, S_k$，你想知道图上<strong>每一个点到离它最近的起点的距离</strong>。（也就是多源最短路最常见的情景）。",
+          "depth": 1
+        },
+        {
+          "heading": "超级源点做法",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>核心思想</strong>：将 “多源” 降维打击成 “单源” 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "凭空捏造一个超级源点 $S_0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "让 $S_0$ 向所有的真实起点 $S_1, S_2, \\dots, S_k$ 连一条<strong>权重为 0</strong> 的有向边。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "直接从 $S_0$ 跑<strong>一次</strong>单源最短路。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "跑出来的 <code>dis[v]</code> 就是节点 $v$ 到它最近起点的距离。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-02",
+  "parsed_at": "2026-06-14T18:45:12.102120+00:00",
+  "type_directory": "k"
+}

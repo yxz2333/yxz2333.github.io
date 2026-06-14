@@ -1,0 +1,145 @@
+{
+  "slug": "2026杭电春季赛6-005-向量压缩",
+  "title": "2026杭电春季赛6 005 向量压缩",
+  "type": "题目",
+  "tags": [
+    "栈"
+  ],
+  "difficulty": 1.0,
+  "summary": "跟括号匹配问题一样维护个栈就行了，我居然想半天没想到。",
+  "link": "https://acm.hdu.edu.cn/contest/problem?cid=1202&pid=1005",
+  "link_text": "1005 向量压缩",
+  "source": "[[2026杭电春季赛6]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "这个协议的核心灵感来源于古老的游戏“消消乐”：在向量的动态变化过程中，一旦出现了任意相邻的 $k$ 个完全相同的元素，这 $k$ 个元素就会瞬间发生“湮灭”并从向量中彻底消失。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "更神奇的是，湮灭操作会引发连锁反应——当一段元素消失后，它前后的元素会重新拼接在一起。如果拼接后再次凑齐了相邻的 $k$ 个相同元素，它们将继续发生湮灭，直到向量中不再存在相邻的 $k$ 个相同元素为止。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在，你想要实现一个程序，来模拟多组向量在这个压缩协议下的最终形态。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入正整数 $T$，表示测试数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含两个正整数 $n$ 和 $k$，分别表示向量的初始长度和触发湮灭的阈值 $k$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个正整数 $A_1, A_2, \\dots, A_n$，表示向量的初始元素值。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le T \\le 10$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组数据：$1 \\le n \\le 10^5$，$2 \\le k \\le 10^5$，$1 \\le A_i \\le 10^5$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输出包含两行，第一行输出一个非负整数 $L$，表示最终压缩后向量的长度。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行输出 $L$ 个由空格隔开的正整数，表示最终的向量样子，保证最终向量不会被完全湮灭。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n7 2\n1 2 2 1 4 5 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n4 5 2",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tvar a = vector<int>(n + 2);\n\tfa(i, 1, n)cin >> a[i];\n\tvar st = stack<pii>();\n\tfa(i, 1, n) {\n\t\tif (st.size() and st.top().px == a[i]) {\n\t\t\tst.top().py++;\n\t\t\tif (st.top().py == k)st.pop();\n\t\t}\n\t\telse st.push({ a[i],1 });\n\t}\n\tvar ans = vector<int>();\n\twhile (st.size()) {\n\t\tvar[now, cnt] = st.top();\n\t\tst.pop();\n\t\twhile (cnt--)ans.pb(now);\n\t}\n\treverse(all(ans));\n\tcout << ans.size() << endl;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-25",
+  "parsed_at": "2026-06-14T18:39:35.884459+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,37 @@
+{
+  "slug": "lca",
+  "title": "LCA",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "最近公共祖先"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "倍增 LCA 模板",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "\tint n; cin >> n;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\tvar dep = vector<int>(n + 1);\n\tvar p = Vec2<int>(n + 1, 31);\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tp[now][0] = fa;\n\t\tdep[now] = dep[fa] + 1;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t}\n\t\t};\n\tdfs(dfs, 1, 0);\n\n\tfa(j, 1, 30)\n\t\tfa(i, 1, n)\n\t\tp[i][j] = p[p[i][j - 1]][j - 1];\n\n\tvar lca = [&](int x, int y)->int {\n\t\tif (dep[x] < dep[y])swap(x, y);\n\n\t\tfb(i, 30, 0)\n\t\t\tif (dep[x] - (1 << i) >= dep[y])\n\t\t\t\tx = p[x][i];\n\n\t\tif (x == y)return x;\n\n\t\tfb(i, 30, 0)\n\t\t\tif (p[x][i] != p[y][i])\n\t\t\t\tx = p[x][i], y = p[y][i];\n\n\t\treturn p[x][0];\n\t\t};\n\n\tvar dis = [&](int x, int y)->int {\n\t\treturn dep[x] + dep[y] - 2 * dep[lca(x, y)];\n\t\t};",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-20",
+  "parsed_at": "2026-06-14T18:45:11.958084+00:00",
+  "type_directory": "k"
+}

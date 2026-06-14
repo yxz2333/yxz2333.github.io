@@ -1,0 +1,264 @@
+{
+  "slug": "cf2171f-rae-taylor-and-trees-(hard-version)",
+  "title": "CF2171F Rae Taylor and Trees (hard version)",
+  "type": "题目",
+  "tags": [
+    "构造",
+    "ad-hoc"
+  ],
+  "difficulty": 2.0,
+  "summary": "经典的 cf 非套路思维题，没用什么算法，纯思维，就当是复健了。",
+  "link": "https://codeforces.com/contest/2171/problem/F",
+  "link_text": "Problem - F - Codeforces",
+  "source": "[[Codeforces Round 1065 (Div. 3)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "作为一名大地法师，Rae 已经掌握了种植树木的咒语！但 Manaria 吹嘘说她能种出更令人印象深刻的树种。Rae 记得最稀有的树种可以通过某种特定的排列公式来种植——请帮她构造出来！",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给你一个长度为 $n$ 的排列 $p$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "判断是否存在一棵有 $n$ 个顶点的无向树，顶点标记为 $1, 2, \\dots, n$，满足以下条件：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "设 $u$ 和 $v$（$1\\leq {\\color{red}{u < v}} \\leq n$）是任意两个由边连接的顶点。那么 $u$ 在 $p$ 中出现在 $v$ 之前。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "此外，如果存在这样的树，请输出其中任意一棵。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\leq t \\leq 10^4$）——测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$（$2\\leq n\\leq 2\\cdot 10^5$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第二行包含 $n$ 个整数 $p_1, p_2, \\dots, p_n$（$1\\leq p_i\\leq n$）。保证所有 $p_i$ 都是不同的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例的 $n$ 的总和不超过 $2\\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，如果存在满足给定条件的树，则在一行输出 \"Yes\"，否则输出 \"No\"。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "然后，如果答案是 \"Yes\"，则输出 $n-1$ 行。这些行中的第 $i$ 行应包含两个整数 $u$ 和 $v$，表示连接顶点 $u$ 和 $v$ 的边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你可以以任何大小写形式输出答案。例如，\"yEs\"、\"yes\"、\"YES\" 和 \"yeS\" 都将被识别为 \"Yes\"。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9\n6\n1 3 4 5 2 6\n4\n3 4 1 2\n5\n4 3 5 1 2\n4\n1 2 3 4\n7\n4 3 5 7 6 2 1\n6\n2 4 6 1 3 5\n3\n2 1 3\n4\n2 4 1 3\n6\n4 2 6 5 1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\n3 1\n4 1\n6 5\n6 2\n6 1\nNo\nNo\nYes\n2 1\n4 3\n4 1\nNo\nYes\n4 2\n6 2\n3 1\n5 1\n5 2\nYes\n3 2\n3 1\nYes\n4 2\n3 1\n3 2\nYes\n6 4\n6 2\n3 1\n5 4\n2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个例子中，我们可以构造出样例输出中给出的树。我们有：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$1 < 3$，并且 $1$ 在 $p$ 中出现在 $3$ 之前，",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1 < 4$，并且 $1$ 在 $p$ 中出现在 $4$ 之前，",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$5 < 6$，并且 $5$ 在 $p$ 中出现在 $6$ 之前，",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$2 < 6$，并且 $2$ 在 $p$ 中出现在 $6$ 之前，",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1 < 6$，并且 $1$ 在 $p$ 中出现在 $6$ 之前。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在第二个例子中，可以证明不存在满足给定约束条件的树。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：根据各个数的大小和位置关系连边。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：很容易想到树状数组，但本题的定位肯定不需要这么麻烦，况且还是个<strong>构造</strong>题。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "考虑如何简单地找出这么 $n - 1$ 条边，不需要把能找到的边全找了，保证每个数都至少连了一条边即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "可以发现的是 1 后面的所以数都可以跟 1 相连，然后考虑 1 前面的数怎么连到 1 所在连通块处。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "算出 1 所在连通块里的数的<strong>最大值</strong>，用于把前面的数连进来，后续进入 1 连通块的数都用来更新这个最大值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "然后从后往前枚举 1 前面的数，如果可以加入 1，则建边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "否则加入到<strong>缓冲数组</strong>里，等枚举到下一个能加入 1 的数时，说明该数够小，直接跟<strong>缓冲数组</strong>里的数连边即可。操作完后<strong>缓冲数组</strong>清空。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "非套路题，跳脱出<strong>思维定势</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "本题的定位，cf、div3、构造题，这些都注定了本题实际上不会有多复杂，只是个<strong>非套路题</strong>，$O(n)$ 对每个点进行思考即可。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar p = vector<int>(n + 1);\n\tint pos1 = 0;\n\tfa(i, 1, n) {\n\t\tcin >> p[i];\n\t\tif (p[i] == 1)pos1 = i;\n\t}\n\tvar ans = vector<pii>();\n\tint mx = 1;\n\tfa(i, pos1 + 1, n)ans.pb({ 1, p[i] }), mx = max(mx, p[i]);\n\tvar tmp = queue<int>();\n\tfb(i, pos1 - 1, 1) {\n\t\tif (p[i] < mx) {\n\t\t\tans.pb({ p[i], mx });\n\t\t\twhile (tmp.size()) {\n\t\t\t\tans.pb({ p[i], tmp.front() });\n\t\t\t\tmx = max(mx, tmp.front());\n\t\t\t\ttmp.pop();\n\t\t\t}\n\t\t}\n\t\telse tmp.push(p[i]);\n\t}\n\tif ((int)ans.size() != n - 1)cout << \"No\" << endl;\n\telse {\n\t\tcout << \"Yes\" << endl;\n\t\tfor (var& [x, y] : ans)cout << x << ' ' << y << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-21",
+  "parsed_at": "2026-06-14T18:39:36.364179+00:00",
+  "type_directory": "p"
+}

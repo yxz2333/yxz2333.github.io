@@ -1,0 +1,243 @@
+{
+  "slug": "cf1132f-clear-the-string",
+  "title": "CF1132F Clear the String",
+  "type": "题目",
+  "tags": [
+    "区间dp"
+  ],
+  "difficulty": null,
+  "summary": "区间 dp 经典<strong>套路题</strong>之一，虽然有点难以理解。算 $dp[l][r]$ 时，考虑关注 $s[l]$，它只有两种死法，一个是单独消掉，另一个是在 $[l + 1, r]$ 中发现了一样的字符，跟这个字符一起消掉。（挺玄学的，不过算是区间 dp 的套路之一吧，由已知求未知，剩下的 dp 自己能解决）",
+  "link": "https://www.luogu.com.cn/problem/CF1132F",
+  "link_text": "CF1132F Clear the String - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个长度为 $n$ 的字符串 $s$，该字符串仅由小写拉丁字母组成。你可以对该字符串进行如下操作：每次操作可以删除一个连续的子串，前提是该子串中的所有字母都相同。例如，从字符串 abbbbaccdd 删除子串 bbbb 后，得到字符串 aaccdd。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请计算删除整个字符串 $s$ 所需的最少操作次数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\le n \\le 500$），表示字符串 $s$ 的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含字符串 $s$（$|s| = n$），该字符串仅由小写拉丁字母组成。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示删除字符串 $s$ 所需的最少操作次数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\nabaca",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8\nabcddcba",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "为啥传统分割法失效？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "传统的 $dp[l][k] + dp[k+1][r]$ 有一个致命的前提条件：<strong>左边和右边必须是绝对独立的！</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "比如石子合并，左边合左边的，右边合右边的，它们互不干扰，最后再把两坨加起来。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "但在本题里，<strong>独立性被打破了</strong>！",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果你把区间从中间劈开，左半边消剩下个 <code>a</code>，右半边消剩下个 <code>a</code>，这两个 <code>a</code> 碰在一起是可以<strong>免费合并消除</strong>的！如果用传统的 $dp[l][k] + dp[k+1][r]$，你把它们算成了两次独立的消除，就会算出比最优解更大的错误答案。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "考虑仅关注 $s[l]$",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "Why？",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "在这一题里，每一个字符都必须被删掉。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "删掉一个字符，默认是要花 <strong>1 块钱</strong>（一次操作）的。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "$s[l]$ 作为一个精明的消费者，它不想自己花这 1 块钱。它会想：<strong>“后面有没有跟我长得一样的哥们儿？如果有，只要我能碰到他，我就能蹭他的单，让他帮我‘代付’！”</strong>",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "html": "我们死死盯住 $s[l]$ 这一生，它只有两种死法：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>A（它自己单独被删了）</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "那它根本没和 $[l+1, r]$ 里的任何人发生化学反应。既然没反应，那它就是绝对独立的！",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "此时就可以毫无顾忌地拆开：代价 = <code>1次操作 (杀s[l])</code> + <code>dp[l+1][r] (杀剩下的人)</code>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>B（它和里面某个兄弟</strong> $s[k]$ <strong>一起被删了）</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "既然它俩能一起被删，说明它们<strong>在某一个瞬间，肯定贴在了一起</strong>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "怎么才能贴在一起？唯一的办法就是：<strong>它们中间的那些障碍物</strong> $[l+1, k-1]$<strong>，必须先被全部消掉！</strong>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "障碍物消掉后，变成了什么样？变成了 $s[l]$ 直接连着 $[k, r]$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "因为 $s[l]$ 是一定要和 $s[k]$ 一起死的，所以 $s[l]$ 相当于变成了 $s[k]$ 的一个“挂件”。既然是挂件，杀掉 $[k, r]$ 的时候顺手就把 $s[l]$ 杀了，$s[l]$ <strong>不需要再额外花钱</strong>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "此时代价 = <code>dp[l+1][k-1] (清理障碍物的钱)</code> + <code>dp[k][r] (杀包含兄弟在内的右半部分的钱)</code>。",
+              "depth": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tstring s; cin >> s; s = ' ' + s;\n\tvar dp = Vec2<int>(n + 1, n + 1, INF);\n\tfa(i, 1, n)dp[i][i] = 1, dp[i][i - 1] = 0;\n\tfa(len, 2, n)fa(i, 1, n) {\n\t\tint j = i + len - 1;\n\t\tif (j > n)break;\n\t\tdp[i][j] = 1 + dp[i + 1][j]; // s[i] 自己消掉自己\n\t\tfa(k, i + 1, j) {\n\t\t\tif (s[i] == s[k]) {\n\t\t\t\t// s[i] 可以与 s[k] 一起消掉\n\t\t\t\tdp[i][j] = min(dp[i][j], dp[i + 1][k - 1] + dp[k][j]);\n\t\t\t}\n\t\t}\n\t}\n\tcout << dp[1][n] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-09",
+  "parsed_at": "2026-06-14T18:39:36.103397+00:00",
+  "type_directory": "p"
+}

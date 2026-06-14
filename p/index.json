@@ -1,0 +1,5069 @@
+{
+  "generated_at": "2026-06-14T18:39:34.311300+00:00",
+  "count": 332,
+  "notes": [
+    {
+      "slug": "2019陕西省赛-c-0689",
+      "title": "2019陕西省赛 C 0689",
+      "type": "题目",
+      "tags": [
+        "贡献法"
+      ],
+      "difficulty": 2.0,
+      "summary": "本来以为是回文串的问题，结果贡献法直接秒了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2020浙江省赛-a-ad-2020",
+      "title": "2020浙江省赛 A AD 2020",
+      "type": "题目",
+      "tags": [
+        "前缀和"
+      ],
+      "difficulty": null,
+      "summary": "纯大模拟，直接预处理，然后前缀和就行，枚举日期不能用字符串，得用 <code>x = a * 10000 + b * 100 + c;</code> 拼成一个大整数。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-05",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2020浙江省赛-c-crossword-validation",
+      "title": "2020浙江省赛 C Crossword Validation",
+      "type": "题目",
+      "tags": [
+        "字符串哈希"
+      ],
+      "difficulty": 1.0,
+      "summary": "写个<strong>动态构造</strong>的字符串哈希就行 <code>hs = hs * base + s[i] - &#x27;a&#x27; + 1</code> ，我这用的单哈希。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-05",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2020浙江省赛-e-easy-dp-problem",
+      "title": "2020浙江省赛 E Easy DP Problem",
+      "type": "题目",
+      "tags": [
+        "主席树",
+        "dp"
+      ],
+      "difficulty": 2.0,
+      "summary": "感觉看出结论才是本题最难的点，主席树查询很好写。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-05",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2020浙江省赛-g-gliding",
+      "title": "2020浙江省赛 G Gliding",
+      "type": "题目",
+      "tags": [
+        "dij"
+      ],
+      "difficulty": 2.5,
+      "summary": "明显的 dij 最短路问题，但怎么设状态？带高度的状态肯定会超时，故考虑直接<strong>朴素 dij 跑完全图</strong>。不考虑过程中的 z 轴高度，直接推出完全图间的边权公式。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-06",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2020浙江省赛-h-huge-clouds",
+      "title": "2020浙江省赛 H Huge Clouds",
+      "type": "题目",
+      "tags": [
+        "计算几何"
+      ],
+      "difficulty": 2.0,
+      "summary": "细节很多，思路不难，求个<strong>区间交并集</strong>、<strong>判断向量间关系</strong>、<strong>判断点与线段关系</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-07",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2023ccpc桂林站-c-master-of-both-iv",
+      "title": "2023CCPC桂林站 C Master of Both IV",
+      "type": "题目",
+      "tags": [
+        "线性基",
+        "因数"
+      ],
+      "difficulty": 2.5,
+      "summary": "得先根据<strong>异或运算的范围</strong>，发现<strong>序列最大值</strong> $M$ 和序列异或和 $S$ 的关系，然后才能推出结论 $S$ 只能为 $M$ 或 0。然后发现本题是典型的<strong>异或的组合计数问题</strong>，用线性基的秩的性质来解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-07",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2023icpc合肥区域赛-j-takeout-delivering",
+      "title": "2023ICPC合肥区域赛 J Takeout Delivering",
+      "type": "题目",
+      "tags": [
+        "瓶颈路问题"
+      ],
+      "difficulty": 1.5,
+      "summary": "经典瓶颈路问题，因为只求 $1 \\to n$ 的瓶颈路，所以考虑从 $1$ 和 $n$ 跑<strong>最大瓶颈路最短路</strong>，然后<strong>枚举每条边</strong>，看看这条边是否能当最大瓶颈路。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2023山东省赛-j-都什么年代了还在做传统路径查询问题？",
+      "title": "2023山东省赛 J 都什么年代了还在做传统路径查询问题？",
+      "type": "题目",
+      "tags": [
+        "并查集",
+        "二进制",
+        "LCP",
+        "图论经典问题/图的连通性"
+      ],
+      "difficulty": 2.0,
+      "summary": "跟 <a href=\"/p/2025icpc南京区域赛f-按位与路径\" class=\"wikilink\">2025ICPC南京区域赛F 按位与路径</a> 的思路很像，都是图上靠并查集解决问题。把肯定大于等于 V 的 $lcp$ 们都找出来，在这基础上构造 60 组并查集，判断是否连通即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2024ccpc郑州邀请赛-c-中二病也要打比赛",
+      "title": "2024CCPC郑州邀请赛 C 中二病也要打比赛",
+      "type": "题目",
+      "tags": [
+        "经典问题/LIS问题"
+      ],
+      "difficulty": 2.5,
+      "summary": "乍一看怎么没啥想法，关键还是得手玩玩样例，发现切入口。发现每个数肯定属于一个<strong>连通块</strong>，我们要在连通块里<strong>找一个代表数</strong>，找越多越好，所以就转化成了 LIS 问题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-16",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2024icpc昆明邀请赛j-冲向黄金城",
+      "title": "2024ICPC昆明邀请赛J 冲向黄金城",
+      "type": "题目",
+      "tags": [
+        "最短路/Dijkstra",
+        "st表",
+        "二分"
+      ],
+      "difficulty": 2.0,
+      "summary": "本题把距离 dis 进行了抽象，定义 <code>dis[u] = {ticket_id, left}</code>，且这样的抽象满足<strong>单调性</strong>，可以使用 Dij 跑最短路。本题存在<strong>换票</strong>，还得用 二分+st 来优化。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2024icpc武汉邀请赛b-无数的我",
+      "title": "2024ICPC武汉邀请赛B 无数的我",
+      "type": "题目",
+      "tags": [
+        "按位贪心"
+      ],
+      "difficulty": 2.0,
+      "summary": "很明显本题的数下标是完全没用的，本质是<strong>将总和</strong> $S$ <strong>分配给</strong> $n$ <strong>个数，使得它们的 OR 和最小</strong>，且$\\text{这几个数} \\ \\& \\ \\text{OR和} = 其本身$。考虑按位贪心，从高位开始枚举，为了让 OR 和最小，我们<strong>最在乎的是高位能不能是 0</strong>。如果所有的低位全吃满 $S$ 都<strong>还有剩的</strong>，说明<strong>一定得拿这一位</strong>，本题就解决了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-09",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2024icpc武汉邀请赛f-订制服装",
+      "title": "2024ICPC武汉邀请赛F 订制服装",
+      "type": "题目",
+      "tags": [
+        "交互题",
+        "二分答案"
+      ],
+      "difficulty": 2.5,
+      "summary": "本题的<strong>性质</strong>很不一般，明显适合二分，考虑二分答案。那么check函数里只能进行最多 2500 次操作，考虑到 $n = 1000$，考虑 check 每次仅进行 1000 次操作。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2024河北省赛-h-missing-iris",
+      "title": "2024河北省赛 H Missing Iris",
+      "type": "题目",
+      "tags": [
+        "树上倍增",
+        "数学推导",
+        "多源最短路"
+      ],
+      "difficulty": 2.0,
+      "summary": "考虑从 $x \\to y$ 的路径上的节点 $x‘$，从这个点出发去找自行车，然后回来接着走完路径，那就是要找使得总路程最短的 $x'$ 了。设 $dis[x]$ 为 $x$ 到最近自行车的距离, $D(x,y)$ 为 $x \\to y$ 的距离，$ans(x,y)$ 公式为：$3 * dis[x'] + dis(x,y) + D(x,x')$ 或 $3 * dis[x'] + 2 * D(x,y) - D(y,x')$。考虑<strong>将公式的</strong> $x'$ <strong>与</strong> $x,y$ <strong>解耦就能解决本题</strong>了，使用<strong>多源最短路预处理</strong> $dis$，<strong>倍增求最小算公式</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2024陕西省赛-g-消失的数字",
+      "title": "2024陕西省赛 G 消失的数字",
+      "type": "题目",
+      "tags": [
+        "数位"
+      ],
+      "difficulty": 1.5,
+      "summary": "实际上枚举数位就能解决了，考虑 <code>x000...</code> 有多少个保留的数，原本的十进制实际上退化成了<strong>九进制</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025ccpc哈尔滨站热身赛-a-秘术「天文密葬法」",
+      "title": "2025CCPC哈尔滨站热身赛 A 秘术「天文密葬法」",
+      "type": "题目",
+      "tags": [
+        "二分",
+        "前缀和",
+        "数学推导",
+        "同余方程"
+      ],
+      "difficulty": 2.5,
+      "summary": "一个非常大的数，其实能做的操作不多，很难注重每个数位的性质，所以这里只使用了 <strong>V 的位数( log 运算的性质)</strong> 和 <strong>V 对 1e9+7 取模的结果</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025ccpc广西邀请赛-e-elimination",
+      "title": "2025CCPC广西邀请赛 E Elimination",
+      "type": "题目",
+      "tags": [
+        "字符串哈希",
+        "剪枝/数学型剪枝"
+      ],
+      "difficulty": 1.5,
+      "summary": "手玩发现 t 必须是 s 的子串，因为 n 很小，直接模拟枚举子串验证即可，然后用<strong>字符串哈希</strong>和<strong>值域剪枝</strong>进行优化。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025ccpc广西邀请赛-g-grand-xor-counting-problem-challenge-ii",
+      "title": "2025CCPC广西邀请赛 G Grand XOR Counting Problem Challenge II",
+      "type": "题目",
+      "tags": [
+        "01字典树",
+        "异或"
+      ],
+      "difficulty": 3.0,
+      "summary": "一句话总结的话，就是 $i,j$ 解耦后，在<strong>字典树上进行异或比大小</strong>。<em>在这个问题中，我甚至小改了一下我的字典树板子</em>",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025ccpc福建邀请赛-h-难以控制的滑板火箭",
+      "title": "2025CCPC福建邀请赛 H 难以控制的滑板火箭",
+      "type": "题目",
+      "tags": [
+        "最短路/拆点问题",
+        "图论经典问题/边可以反复走"
+      ],
+      "difficulty": 1.5,
+      "summary": "因为题目要求是移动满 $[l,r]$ 次，因为可以来回走，很容易想到用拆点最短路算奇偶距离，然后可以来回踱步减少要求的步数。本题的 $[l,r]$ 区间到不用多考虑，大部分情况用最大值 $r$ 即可，分类讨论即可解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025ccpc福建邀请赛-i-割点",
+      "title": "2025CCPC福建邀请赛 I 割点",
+      "type": "题目",
+      "tags": [
+        "构造",
+        "图论"
+      ],
+      "difficulty": 1.5,
+      "summary": "有点意思的构造题吧。对于一条链，除了首尾都是割点，对于一个简单环，点都是非割点，就按这个性质，把链和环挂载到 $1$ 节点上即可。<strong>非割点组成环</strong>，挂载在 $1$ 上；<strong>割点组成链</strong>，挂载在 $1$ 上。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025ccpc福建邀请赛-j-构造大师贝贝",
+      "title": "2025CCPC福建邀请赛 J 构造大师贝贝",
+      "type": "题目",
+      "tags": [
+        "ad-hoc",
+        "构造",
+        "二进制"
+      ],
+      "difficulty": 1.5,
+      "summary": "数很大肯定不能分解因数，考虑分成两个数考虑：$x * y == n, x = 1, y = n$ 在此基础上进行更新；完全平方数很多，发现 $2^{2k}$ 最好构造，如果 y 为偶数，$y / 2, x * 2$，否则我们让 $y + 1（即\\ n + x）$，最后肯定能得到 $x = 2^k,y = 1, n = x$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025ccpc郑州邀请赛-c-toxel-与宝可梦图鉴",
+      "title": "2025CCPC郑州邀请赛 C Toxel 与宝可梦图鉴",
+      "type": "题目",
+      "tags": [
+        "珂朵莉树",
+        "线段树/权值线段树"
+      ],
+      "difficulty": 2.0,
+      "summary": "权值线段树和珂朵莉树结合的好题。<strong>珂朵莉树处理下标区间，权值线段树处理值域区间</strong>，<strong>珂朵莉树在堆平的时候区间修改，权值线段树区间查询</strong>，不会对珂朵莉树直接查询，所以数据是否随机无所谓。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-03",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025ccpc郑州邀请赛-e-双生魔咒",
+      "title": "2025CCPC郑州邀请赛 E 双生魔咒",
+      "type": "题目",
+      "tags": [
+        "字典树"
+      ],
+      "difficulty": 2.5,
+      "summary": "把字符串全扔字典树里，然后<strong>遍历字典树</strong>，对前缀出现次数进行计算答案就行了，不需要真的分组。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025icpc南京区域赛f-按位与路径",
+      "title": "2025ICPC南京区域赛F 按位与路径",
+      "type": "题目",
+      "tags": [
+        "思维定势",
+        "状态压缩",
+        "并查集",
+        "贪心/按位贪心",
+        "图论经典问题/图的连通性",
+        "在线问题"
+      ],
+      "difficulty": 3.5,
+      "summary": "在赛时，想不到可以利用<strong>图的连通性</strong>，没察觉<strong>边权这么小</strong>且过程是对边权<strong>按位与</strong>的重要性，一直觉得我得跑 dij，但实际上不是这样的。这题的关键是想到能<strong>通过答案构造连通性</strong>，也就是开 $2^{12}$ 组 $n$ 个元素的并查集 <code>s[1 &lt;&lt; 12][N]</code>，通过<strong>异或贪心</strong>，查看答案中当前这个位 $i$ 能否取。为了满足这样的高效查询，在 $+$ 操作建边时，我们对 $w$ 的子集也建上边，同时为了防止 $TLE$，我使用了<strong>递归</strong>枚举 $w$ 子集，这样就可以进行<strong>剪枝</strong>，在 $q$ 次询问下，这加边的总复杂度也只会到 $n * 2^{12} * logN$。然后这题就解决了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025icpc南京区域赛g-水桶盛宴",
+      "title": "2025ICPC南京区域赛G 水桶盛宴",
+      "type": "题目",
+      "tags": [
+        "贪心",
+        "三分"
+      ],
+      "difficulty": 3.0,
+      "summary": "发现容量和流速<strong>解耦</strong>后，固定保留 $k$ 个水桶的情况下，理论得到的最大值是可以直接构造出来的。随着 $k$ 增大，呈现完美的先升后降的<strong>单峰函数</strong>，直接<strong>三分</strong>即可解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025icpc南昌邀请赛-e-god's-string-on-this-wonderful-world",
+      "title": "2025ICPC南昌邀请赛 E God's String on This Wonderful World",
+      "type": "题目",
+      "tags": [
+        "哈希",
+        "莫队",
+        "前缀和"
+      ],
+      "difficulty": 2.5,
+      "summary": "最重要的还是想出这个公式 $Sum[r][c] \\pmod k \\equiv Sum[l-1][c] \\pmod k$，这样就好搞莫队了，当然也得对各个状态进行哈希来优化。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025icpc南昌邀请赛-f-caloric-difference",
+      "title": "2025ICPC南昌邀请赛 F Caloric Difference",
+      "type": "题目",
+      "tags": [
+        "贡献法",
+        "数学推导"
+      ],
+      "difficulty": 2.0,
+      "summary": "考虑算每个 $r_i$ 对 $\\sum c_i$ 的贡献，把 $c_i$ 的公式全拆开，发现<strong>等比数列求和公式</strong>，然后推出式子，发现 $r_i$ 越小越好。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025icpc南昌邀请赛-g-exploration",
+      "title": "2025ICPC南昌邀请赛 G Exploration",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "思维定势",
+        "下取整"
+      ],
+      "difficulty": 2.5,
+      "summary": "直接 $BFS$ 很难写，<strong>考虑能否找到拓扑序</strong>。开 $dp[N][30]$ 表示从 $i$ 出发走 $j$ 步的<strong>最大乘积</strong>，由下取整嵌套的性质，只需维护乘积即可。$j$ 步具有单调性（能走 $j+1$ 步则一定能走 $j$ 步），因此从 $j$ 推到 $j+1$ 时存在拓扑序，直接 $DP$ 即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025jscpc-a-矩阵游戏",
+      "title": "2025JSCPC A 矩阵游戏",
+      "type": "题目",
+      "tags": [
+        "状压",
+        "数学推导",
+        "前缀和",
+        "二分",
+        "桶思想"
+      ],
+      "difficulty": 3.0,
+      "summary": "<strong>“小数据范围提示解法” + “固定列翻转情况看行是否翻转”  + \"推数学公式得一次函数\"  + “桶思想枚举行状态”  + “临界点计算与预处理加速”</strong>",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-19",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025jscpc-i-队伍起名",
+      "title": "2025JSCPC I 队伍起名",
+      "type": "题目",
+      "tags": [
+        "容斥",
+        "状压",
+        "计数问题"
+      ],
+      "difficulty": 2.5,
+      "summary": "核心是把“三人位置分配”转化为“两人<strong>掩码组合</strong>”，通过二进制<strong>状态压缩</strong>简化问题，然后进行相关的<strong>容斥计数</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-14",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025四川省赛-a-minimum-product",
+      "title": "2025四川省赛 A Minimum Product",
+      "type": "题目",
+      "tags": [],
+      "difficulty": null,
+      "summary": "我的做法是 <strong>dij + 剪枝</strong>，我一开始想法就是用 dij 做，然后发现<strong>路径权重和明显得融入状态</strong>，所以我就开了状态（<strong>节点编号</strong> $id$<strong>，当前</strong> $a_i$ <strong>总和</strong>），然后加了个剪枝就过了。还有个做法是 dp，因为本题 $a_i \\ge 1$，dij 一直跑在一个 <strong>DAG 状态图</strong>上，所以可以用 dp 解决。$suma$ 的增长满足拓扑序，所以<strong>先枚举 suma 再枚举点</strong>即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-14",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025四川省赛-c-最优时间",
+      "title": "2025四川省赛 C 最优时间",
+      "type": "题目",
+      "tags": [
+        "期望dp",
+        "后效性",
+        "迭代法"
+      ],
+      "difficulty": 3.0,
+      "summary": "期望 dp 本身的式子是很好推的，纯套路，但因为后效性，推出来的式子不能直接用。<strong>迭代法</strong>这个东西，也太罕见了，学过的话这题就好说了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025河北省赛-i-感染",
+      "title": "2025河北省赛 I 感染",
+      "type": "题目",
+      "tags": [
+        "重心",
+        "数学推导"
+      ],
+      "difficulty": 1.5,
+      "summary": "推出公式后，发现本题就是<strong>带权重心</strong>板子题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025河北省赛-j-generate-01-string",
+      "title": "2025河北省赛 J Generate 01 String",
+      "type": "题目",
+      "tags": [
+        "st表",
+        "前缀和",
+        "经典问题/括号匹配问题",
+        "分治"
+      ],
+      "difficulty": 2.0,
+      "summary": "明显的括号匹配问题，每次对括号总数平衡的区间分治即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2025浙江省赛-f-challenge-npc-iii",
+      "title": "2025浙江省赛 F Challenge NPC III",
+      "type": "题目",
+      "tags": [
+        "多源最短路"
+      ],
+      "difficulty": 1.5,
+      "summary": "多源最短路<strong>算每个点到源点的最短路和次短路</strong>，这样源点到源点的最短路就是次短路，开个 <code>dis[N][2]</code> 加上 <code>tar[N][2]</code>，可以当作多源最短路的一个板子记忆。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-02",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026icpc亚太锦标赛-k-最多可以制作的时间显示",
+      "title": "2026ICPC亚太锦标赛 K 最多可以制作的时间显示",
+      "type": "题目",
+      "tags": [
+        "二分答案",
+        "数学推导"
+      ],
+      "difficulty": 2.5,
+      "summary": "非常数学的二分答案，二分答案后，对每一位来写不等式，然后写出上下界看看是否合法即可。很巧妙的题，将看似复杂的组合问题，通过限制条件，成功转化为了对整数变量 a1 的简单不等式判定，最后再用二分得出答案。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026icpc南昌邀请赛-j-gcd-之旅",
+      "title": "2026ICPC南昌邀请赛 J GCD 之旅",
+      "type": "题目",
+      "tags": [
+        "瓶颈路问题",
+        "克鲁斯卡尔重构树"
+      ],
+      "difficulty": 2.5,
+      "summary": "本题的难点其实只有发现本题是瓶颈路问题，然后想到能用克鲁斯卡尔重构树。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026icpc武汉邀请赛-f-抽奖",
+      "title": "2026ICPC武汉邀请赛 F 抽奖",
+      "type": "题目",
+      "tags": [
+        "期望dp",
+        "二分",
+        "前缀和"
+      ],
+      "difficulty": 2.5,
+      "summary": "推期望 dp 公式，然后一维化该公式，设定上限后倒序处理 dp，处理的过程中用二分和前缀和优化。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026icpc深圳邀请赛-d-城市规划",
+      "title": "2026ICPC深圳邀请赛 D 城市规划",
+      "type": "题目",
+      "tags": [
+        "线段树/线段树二分",
+        "线段树/权值线段树",
+        "贪心"
+      ],
+      "difficulty": 2.5,
+      "summary": "对<strong>连续的 F 和 W 进行考虑</strong>，最关键的就是连续 W 的最后一个 W，这个 W 来进行分配，前面的 W 都默认<strong>取 F 前 k 大</strong>（线段树二分实现）的，最后这个 W 来决定下一组 F 该怎么选取，具体选取方式我是算 F 的<strong>贡献</strong>，然后倒序排序，然后一个一个枚举取最大即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026icpc西安邀请赛-c-palindromic-and-balanced",
+      "title": "2026ICPC西安邀请赛 C Palindromic and Balanced",
+      "type": "题目",
+      "tags": [
+        "区间dp",
+        "回文",
+        "经典问题/括号匹配问题",
+        "ad-hoc"
+      ],
+      "difficulty": 2.5,
+      "summary": "考虑如何生成一个回文平衡括号串：初始时的括号串为 <code>()</code>。每次向中点左侧插入一个 <code>()</code>，向中点右侧插入一个 <code>)(</code>；或者向中点左侧插入一个 <code>)(</code>，向中点右侧插入一个 <code>()</code>。于是可以在找到 $s$ 的最左侧的 <code>(</code> 和最右侧的 <code>)</code> 后，对中间的部分进行<strong>区间 dp</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026华南理工校赛d-scut-classroom-relocation",
+      "title": "2026华南理工校赛D SCUT Classroom Relocation",
+      "type": "题目",
+      "tags": [
+        "二分图/霍尔定理"
+      ],
+      "difficulty": null,
+      "summary": "hall 定理参考题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-29",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026山东省赛-l-分数迭代",
+      "title": "2026山东省赛 L 分数迭代",
+      "type": "题目",
+      "tags": [
+        "gcd",
+        "因数"
+      ],
+      "difficulty": 2.5,
+      "summary": "主要是得通过<strong>更相减损术</strong>发现更新只与 $a, b$ 的差值 d 有关，<strong>暴力枚举 d 的因数</strong>（用<strong>欧拉筛优化分解因数</strong>）进行处理就能解决本题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-06-03",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电春季赛1-003-回文串",
+      "title": "2026杭电春季赛1 003 回文串",
+      "type": "题目",
+      "tags": [
+        "字符串dp",
+        "回文"
+      ],
+      "difficulty": 3.5,
+      "summary": "很有意思的<strong>字符串匹配 + 回文</strong>的好题，分三种情况讨论。判断个 $(i,j)$ 区间是否回文，计算 $LCP$ 长度匹配，然后计数即可解决，整体写起来有点麻烦。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电春季赛1-009-力的平衡",
+      "title": "2026杭电春季赛1 009 力的平衡",
+      "type": "题目",
+      "tags": [
+        "bfs"
+      ],
+      "difficulty": 1.5,
+      "summary": "发现题目条件 “每种可以使用任意多次” 的作用之后，这题就可以直接跑 $bfs$ 秒掉了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电春季赛3-005-月球异或",
+      "title": "2026杭电春季赛3 005 月球异或",
+      "type": "题目",
+      "tags": [
+        "线性基",
+        "k进制"
+      ],
+      "difficulty": 3.0,
+      "summary": "用线性基是我灵光一现想到的，想了想发现还真有那么回事。本题的主要难点就是怎么写这个<strong>三进制的线性基</strong>了，怎么 <code>insert</code> 和 <code>check</code>？全都围绕 \\(v_i \\leftarrow v_i \\oplus v_i\\) 这个条件写。最后要用<strong>数位数组</strong>进行优化，直接算除法太多会 TLE。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-04",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电春季赛3-010-组合树",
+      "title": "2026杭电春季赛3 010 组合树",
+      "type": "题目",
+      "tags": [
+        "生成树",
+        "并查集",
+        "bfs",
+        "数学推导"
+      ],
+      "difficulty": 1.5,
+      "summary": "明显<strong>优先队列 bfs</strong> 取最小的前 $n - 1$ 条能构成最小生成树的边，那关键就是重载优先队列了，因为组合数很大，这里用组合数的公式套上 $\\ln$ 解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-04",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电春季赛5-001-翻蹄铁",
+      "title": "2026杭电春季赛5 001 翻蹄铁",
+      "type": "题目",
+      "tags": [
+        "前缀和"
+      ],
+      "difficulty": 2.0,
+      "summary": "说难不难，说简单不简单。手玩发现规律后，考虑怎么算答案。仅对区间前 $m$（$m =$ 区间内 $+$ 的个数） 个：枚举到 $+$ 时，$+ \\to -$，操作一次，向左前进；枚举到 $-$ 时（位置为 $i$），会向右走，一直走到最近还剩下的 $+$（位置为 $j$），然后再折反回来，最终在 $2 \\cdot (j - i) + 1$ 的操作次数下回到 $i$ 点，因为发生<strong>折反</strong>，所以这些操作最终只会把 $j$ 变成 $-$。然后就能用<strong>前缀和</strong>做了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-24",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电春季赛5-004-赛马",
+      "title": "2026杭电春季赛5 004 赛马",
+      "type": "题目",
+      "tags": [
+        "数学推导",
+        "贡献法",
+        "思维定势"
+      ],
+      "difficulty": 2.0,
+      "summary": "一开始还以为把 $\\log_2$ 拆开来算，但是有下取整，那肯定不是了。注意到 $n$ 很大，下意识觉得肯定要枚举些什么，那只能枚举 \\log 的值域了，<strong>枚举值域</strong> $k$，考虑计算 $\\lfloor \\log_2(\\frac{r}{l}) \\rfloor \\ge k$ 的合法 $(l,r)$ 对数。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-24",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电春季赛5-008-草料集市",
+      "title": "2026杭电春季赛5 008 草料集市",
+      "type": "题目",
+      "tags": [
+        "单调队列",
+        "线段树",
+        "单调队列优化dp",
+        "线段树优化dp",
+        "划分型dp"
+      ],
+      "difficulty": 1.5,
+      "summary": "转移方程还是非常好想的，明显设。可以用<strong>线段树/单调队列优化</strong>，线段树优化 dp 还是很好写的，这里给出单调队列的写法，全程维护个<strong>单调增</strong>的队列即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-24",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电春季赛6-002-滚动的色彩",
+      "title": "2026杭电春季赛6 002 滚动的色彩",
+      "type": "题目",
+      "tags": [
+        "最短路/DP",
+        "bfs"
+      ],
+      "difficulty": 1.5,
+      "summary": "唯一的难点就是如何表示这筛子的 24 个状态，看看代码得了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电春季赛6-005-向量压缩",
+      "title": "2026杭电春季赛6 005 向量压缩",
+      "type": "题目",
+      "tags": [
+        "栈"
+      ],
+      "difficulty": 1.0,
+      "summary": "跟括号匹配问题一样维护个栈就行了，我居然想半天没想到。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电春季赛6-006-括号路径",
+      "title": "2026杭电春季赛6 006 括号路径",
+      "type": "题目",
+      "tags": [
+        "最短路/DP",
+        "bfs",
+        "经典问题/括号匹配问题"
+      ],
+      "difficulty": 1.5,
+      "summary": "因为点和边都很少，对每个点单独跑 $bfs$ 即可。开个 $dis[405][405]$ 记录当前 $i$ 到 $j$ <strong>左括号</strong>个数（<strong>括号匹配问题经典trick</strong>）为 $k$ 的最短距离，这里猜测左括号个数上限仅需 $n$，开个 $ans[405][405]$ 记录答案即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电春季赛6-008-黑白树",
+      "title": "2026杭电春季赛6 008 黑白树",
+      "type": "题目",
+      "tags": [
+        "生成树"
+      ],
+      "difficulty": 1.5,
+      "summary": "秒猜个结论，先考虑尽量全选白边的情况（当然，不够可以找黑边要），然后算全选黑边的情况，然后算这两种情况对应的 $(b1,w1) (b2,w2)$，$b1  - b2 +1$ 就是答案了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客寒假算法基础集训营1-d-sequence-coloring",
+      "title": "2026牛客寒假算法基础集训营1 D Sequence Coloring",
+      "type": "题目",
+      "tags": [
+        "二分答案"
+      ],
+      "difficulty": 2.5,
+      "summary": "一开始看这题估计会觉得有点邪门，不过实际上二分答案就能解决，从左到右一个一个处理即可，配合暴力对拍写用不了多久就能解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-04",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客寒假算法基础集训营1-f-permutation-counting",
+      "title": "2026牛客寒假算法基础集训营1 F Permutation Counting",
+      "type": "题目",
+      "tags": [
+        "并查集/链式并查集",
+        "计数问题",
+        "经典问题/区间问题"
+      ],
+      "difficulty": 3.0,
+      "summary": "将<strong>限制</strong>转化为 “区间元素 $\\le k$” 与 “所有该 $k$ <strong>限制区间的交集</strong>必填 $k$”，按 $k$ 升序利用<strong>链式并查集</strong>高效跳过已处理位置（每个位置只用处理一次，十分适合链式并查集）维护限制，最后<strong>倒序</strong>遍历数字，结合剩余空位与必填标记用乘法原理计算答案。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-04",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客寒假算法基础集训营2-d-数字积木",
+      "title": "2026牛客寒假算法基础集训营2 D 数字积木",
+      "type": "题目",
+      "tags": [
+        "树形dp",
+        "经典问题/MEX问题",
+        "贡献法"
+      ],
+      "difficulty": 3.0,
+      "summary": "跟 <a href=\"/p/abc438f-sum-of-mex\" class=\"wikilink\">ABC438F Sum of Mex</a> 有点像，不过本题是算子图，那题就一条路径，维护两个点就解决了，这题当然不能维护整个子图，需要借助 <strong>树形dp</strong> 解决。<em>本题需要留意 inv(0)，用 SafeInt 板子解决。</em>",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-06",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客寒假算法基础集训营2-e-01矩阵",
+      "title": "2026牛客寒假算法基础集训营2 E 01矩阵",
+      "type": "题目",
+      "tags": [
+        "经典问题/画图题",
+        "构造",
+        "打表找规律"
+      ],
+      "difficulty": null,
+      "summary": "构造的方式不止一种，不过这种题，怎么优雅怎么来。样例纯来误导人的，实在不行暴力打表也能解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-06",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客寒假算法基础集训营2-h-权值计算",
+      "title": "2026牛客寒假算法基础集训营2 H 权值计算",
+      "type": "题目",
+      "tags": [
+        "贡献法",
+        "计数问题",
+        "子段计数问题"
+      ],
+      "difficulty": 2.0,
+      "summary": "<strong>dp 无法解决，使用贡献法。</strong>",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客寒假算法基础集训营3-i-benzene",
+      "title": "2026牛客寒假算法基础集训营3 I BenzenE",
+      "type": "题目",
+      "tags": [
+        "线性基",
+        "构造",
+        "状态压缩"
+      ],
+      "difficulty": 2.0,
+      "summary": "主要的难点在于<strong>如何构造线性基方案</strong>。一开始肯定设 $c_i = a_i$，全部的异或和为 $x$，然后线性基里存 $b_i \\oplus a_i$ 以供与 $c$ 里的 $a$ 进行交换。只要线性基里能构造出 $x$，那本题就有解，然后就是构造线性基合法方案了，本题唯一的难点也就在这。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客寒假算法基础集训营4-d-东风谷早苗与博丽灵梦",
+      "title": "2026牛客寒假算法基础集训营4 D 东风谷早苗与博丽灵梦",
+      "type": "题目",
+      "tags": [
+        "三分",
+        "exgcd"
+      ],
+      "difficulty": 1.0,
+      "summary": "用<strong>exgcd</strong>求出非负解的通解，然后<strong>三分</strong>枚举 $k$ 即可，计算的时候需要用 $\\text{int128}$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客寒假算法基础集训营5-i-智乃挖坑",
+      "title": "2026牛客寒假算法基础集训营5 I 智乃挖坑",
+      "type": "题目",
+      "tags": [
+        "差分数组/二阶差分",
+        "二分答案"
+      ],
+      "difficulty": 1.5,
+      "summary": "本题相当于维护了左右两半的等差数列，直接用二阶差分后前缀和即可处理掉 $m$ 次操作，二分答案加二阶差分即可解决本题。纯属模板题难度。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客寒假算法基础集训营6-b-小l的彩球",
+      "title": "2026牛客寒假算法基础集训营6 B 小L的彩球",
+      "type": "题目",
+      "tags": [
+        "组合数学"
+      ],
+      "difficulty": 2.5,
+      "summary": "标准的隔板法组合数学题，先得对题目进行转化，才好解决本题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-16",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客寒假算法基础集训营6-i-小l的构造2",
+      "title": "2026牛客寒假算法基础集训营6 I 小L的构造2",
+      "type": "题目",
+      "tags": [
+        "构造",
+        "循环节"
+      ],
+      "difficulty": 2.0,
+      "summary": "每 12 个数构造一串就行，因为每 12 个数中有 8 个能整除 2 或 3 的数，剩下的数暴力。<strong>特判</strong> $n$ 取模等于 3 或 5 的情况，这两个情况也得手搓构造。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客寒假算法基础集训营6-l-小l的游戏2",
+      "title": "2026牛客寒假算法基础集训营6 L 小L的游戏2",
+      "type": "题目",
+      "tags": [
+        "矩阵快速幂优化dp"
+      ],
+      "difficulty": 3.0,
+      "summary": "经典矩阵快速幂优化 dp 题，核心还是在于先构建朴素 $dp$ 转移方程，然后根据转移方程和 $p, q \\le 50$ 的性质，构造出<strong>行向量答案矩阵与系数矩阵相乘</strong>的公式，就可解决本题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026黑龙江省赛-e-乐乐的杏花",
+      "title": "2026黑龙江省赛 E 乐乐的杏花",
+      "type": "题目",
+      "tags": [
+        "DFS 序",
+        "线段树"
+      ],
+      "difficulty": 2.0,
+      "summary": "<strong>树上带修题</strong>，明显可以用 dfs 序加线段树，简单思考即想出思路。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc077d-small-multiple",
+      "title": "ABC077D Small Multiple",
+      "type": "题目",
+      "tags": [
+        "dij",
+        "图论建模",
+        "同余最短路"
+      ],
+      "difficulty": 2.0,
+      "summary": "<strong>整数倍</strong> \\to 对余数设状态，考虑同余最短路。对当前的数 $S$ 做 ×10 或 +1 两种操作来建立出度。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc104d-we-love-abc",
+      "title": "ABC104D We Love ABC",
+      "type": "题目",
+      "tags": [
+        "贡献法",
+        "前后缀",
+        "经典问题/构造结构问题"
+      ],
+      "difficulty": 1.5,
+      "summary": "跟 <a href=\"/p/nk105623f-小苯的ovo2.0\" class=\"wikilink\">NK105623F 小苯的ovo2.0</a> 的贡献法思考思路一样，都是<strong>考虑中间处理两边</strong>，也就是一种<strong>三明治结构</strong>，毕竟两边都只需要考虑一个字母，简单很多。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-30",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc132d-blue-and-red-balls",
+      "title": "ABC132D Blue and Red Balls",
+      "type": "题目",
+      "tags": [
+        "隔板法"
+      ],
+      "difficulty": 1.0,
+      "summary": "对于 $i$，相当于插入了 $i$ 个红球空位（空位一共 $n - k + 1$）里，那先从空位数里挑 $i$ 个空位来填，然后这几个挑出来的空位用<strong>隔板法</strong>，对每个空位至少分 $1$ 个，本题就解决了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-16",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc132e-hopscotch-addict",
+      "title": "ABC132E Hopscotch Addict",
+      "type": "题目",
+      "tags": [
+        "最短路/拆点问题"
+      ],
+      "difficulty": 1.0,
+      "summary": "拆点参考题",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc143f-distinct-numbers",
+      "title": "ABC143F Distinct Numbers",
+      "type": "题目",
+      "tags": [
+        "二分答案",
+        "前缀和",
+        "二分"
+      ],
+      "difficulty": 2.0,
+      "summary": "基本上就是 <a href=\"/p/p13500-「cfz-round-6」kyu-kurarin\" class=\"wikilink\">P13500 「Cfz Round 6」Kyu-kurarin</a> 的强化版，二分和前缀和优化一下就能解决。其实不先做 P13500 的话，我感觉本题的<strong>难点就是想到用二分答案</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc154f-many-many-paths",
+      "title": "ABC154F Many Many Paths",
+      "type": "题目",
+      "tags": [
+        "组合数学/常见公式",
+        "数学推导"
+      ],
+      "difficulty": 1.5,
+      "summary": "题目要求的是 $\\sum_{i=r_1}^{r_2} \\sum_{j=c_1}^{c_2} \\binom{i+j}{i}$，得想办法把内层循环消掉，使用<strong>上指标公式</strong>得：$\\sum_{j=0}^{c} \\binom{i+j}{i} = \\binom{i+c+1}{i+1}$。对原式进行转化：\\[\\sum_{i=r1}^{r2} \\left( \\sum_{j=0}^{c2} C_{i+j}^c - \\sum_{j=0}^{c1-1} C_{i+j}^c \\right)\\]，<strong>通过上指标公式降维</strong>：\\[\\sum_{i=r1}^{r2} \\left( C_{i+c2+1}^{i+1} - C_{i+c1}^{i+1} \\right)\\]。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-16",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc164e-two-currencies",
+      "title": "ABC164E Two Currencies",
+      "type": "题目",
+      "tags": [
+        "最短路/分层图问题"
+      ],
+      "difficulty": 1.5,
+      "summary": "数据范围特别小，很明显设状态 <code>dis[pos][coins]</code>，表示从 1 到 pos 有 coins 个银币需要多少时间。别忘了对边进行<strong>松弛</strong>，跑个 dij 即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc167f-bracket-sequencing",
+      "title": "ABC167F Bracket Sequencing",
+      "type": "题目",
+      "tags": [
+        "贪心/排序",
+        "经典问题/括号匹配问题"
+      ],
+      "difficulty": 1.5,
+      "summary": "先用 <strong>+1/-1 前缀和</strong> 来算<strong>总和（收益/代价）</strong>与<strong>拼接门槛</strong>，然后搞个小复杂的排序就行了，本题主要是分析排序怎么写。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-24",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc194e-mex-min",
+      "title": "ABC194E Mex Min",
+      "type": "题目",
+      "tags": [
+        "经典问题/MEX问题",
+        "二分答案"
+      ],
+      "difficulty": 1.0,
+      "summary": "二分答案+滑动窗口法，间隙法 $O(n)$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc200d-happy-birthday!-2",
+      "title": "ABC200D Happy Birthday! 2",
+      "type": "题目",
+      "tags": [
+        "数论/鸽巢原理"
+      ],
+      "difficulty": null,
+      "summary": "鸽巢原理简单应用题，发现对于前 8 个数，选或不选最后得出的状态数为 $255 > 200$，说明无论如何<strong>只用 8 个数就能出现重复</strong>的下标取法了，所以本题直接暴力求子集即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc230d-destroyer-takahashi",
+      "title": "ABC230D Destroyer Takahashi",
+      "type": "题目",
+      "tags": [
+        "贪心/排序",
+        "正难则反"
+      ],
+      "difficulty": 1.0,
+      "summary": "正难则反，破坏问题变成建造问题，从而转化成<strong>最少点覆盖问题</strong>，按<strong>右端点贪心排序</strong>，仅攻击未覆盖节点的右端点即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc246f-typewriter",
+      "title": "ABC246F typewriter",
+      "type": "题目",
+      "tags": [
+        "暴力容斥"
+      ],
+      "difficulty": 1.5,
+      "summary": "跟 <a href=\"/p/mc0474-赤壁战场\" class=\"wikilink\">MC0474 赤壁战场</a> 这题思路一致，只不过要<strong>留意容斥对象</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc281f-xor-minimization",
+      "title": "ABC281F Xor Minimization",
+      "type": "题目",
+      "tags": [
+        "01字典树",
+        "分治"
+      ],
+      "difficulty": 2.0,
+      "summary": "一个数对所有数进行异或，明显想到可以用字典树，考虑遍历整个字典树进行操作。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc290e-make-it-palindrome",
+      "title": "ABC290E Make it Palindrome",
+      "type": "题目",
+      "tags": [
+        "贡献法",
+        "回文",
+        "双指针",
+        "正难则反"
+      ],
+      "difficulty": 2.5,
+      "summary": "<strong>贡献法</strong>：一个子串变成回文，取决于<strong>有几对对称位置的字符不相等</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc295d-three-days-ago",
+      "title": "ABC295D Three Days Ago",
+      "type": "题目",
+      "tags": [
+        "前缀和",
+        "状态压缩"
+      ],
+      "difficulty": 1.5,
+      "summary": "<strong>前缀和相差</strong>，$[0, 9]$ 个数都出现偶数次，明显可以进行<strong>状态压缩</strong>，看看当前前缀和的各个数位是否出现奇数次，一共 1024 个状态。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc438e-heavy-buckets",
+      "title": "ABC438E Heavy Buckets",
+      "type": "题目",
+      "tags": [
+        "倍增"
+      ],
+      "difficulty": 1.5,
+      "summary": "看出来是<strong>倍增</strong>就能秒。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc438f-sum-of-mex",
+      "title": "ABC438F Sum of Mex",
+      "type": "题目",
+      "tags": [
+        "贡献法",
+        "树链",
+        "经典问题/MEX问题"
+      ],
+      "difficulty": 2.0,
+      "summary": "从节点 $0$ 开始，<strong>维护一条链</strong>，每次只考虑这条链上节点组成的 $mex$，剩下的可能性我们用<strong>乘法原理</strong>和<strong>贡献法</strong>算。这条链当前的 $mex$ 对链进行<strong>延申</strong>，假如当前 $mex$ 为 $2$，那我去找节点编号为 $2$ 的点，看看能不能跟这个点连接，且还是保持一条链的形状。<strong>边维护边算答案</strong>，这题就解决了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-29",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc440e-cookies",
+      "title": "ABC440E Cookies",
+      "type": "题目",
+      "tags": [
+        "贪心",
+        "图论建模",
+        "dij"
+      ],
+      "difficulty": 1.5,
+      "summary": "维护一个<strong>堆</strong>，堆里放当前的总和，以及各个数拿了多少（<strong>状态</strong>），按总和倒序排序。类似<strong>迪杰斯特拉</strong>的写法，只与当前状态的<strong>直接后继</strong>连边，也就是减掉一个大数，加上大数正后面的一个小数，这样保证后继的答案比现在小，还能保证边最少同时，遍历到所有可能的点。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc441f-must-buy",
+      "title": "ABC441F Must Buy",
+      "type": "题目",
+      "tags": [
+        "背包",
+        "前后缀"
+      ],
+      "difficulty": 1.5,
+      "summary": "经典前后缀背包问题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-18",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc442e-laser-takahashi",
+      "title": "ABC442E Laser Takahashi",
+      "type": "题目",
+      "tags": [
+        "计算几何"
+      ],
+      "difficulty": null,
+      "summary": "",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-19",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc443d-pawn-line",
+      "title": "ABC443D Pawn Line",
+      "type": "题目",
+      "tags": [
+        "前后缀",
+        "dp"
+      ],
+      "difficulty": 1.5,
+      "summary": "发现本题明显可以写出<strong>转移方程</strong>，设 $dp[i]$：第 $i$ 位受影响后的最大高度。对于前 $i$ 个，可以得到 $dp[i] = min(a[i], dp[i - 1] + 1)$；对于后 $i$ 个，可以得到 $dp[i] = min(a[i], dp[i + 1] + 1)$。这个 $dp$ 拆成两个，整成<strong>前后缀 dp</strong>，这题也就结束了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc443f-non-increasing-number",
+      "title": "ABC443F Non-Increasing Number",
+      "type": "题目",
+      "tags": [
+        "bfs",
+        "图论经典问题/图论建模问题",
+        "同余最短路"
+      ],
+      "difficulty": 2.0,
+      "summary": "把<strong>余数和个位数作为状态</strong>，发现<strong>最多只有</strong> $10N$ <strong>个状态</strong>，直接跑 $BFS$ 就搞完所有状态就行了。本题答案可能较长，所以用<strong>回溯法</strong>处理。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc445d-reconstruct-chocolate",
+      "title": "ABC445D Reconstruct Chocolate",
+      "type": "题目",
+      "tags": [
+        "正难则反",
+        "ad-hoc"
+      ],
+      "difficulty": 1.5,
+      "summary": "初见可能有点无从下手，不过关键就在题面里，逆向思考：从最终的大矩形出发，反向模拟切割过程。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-14",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc445f-exactly-k-steps-2",
+      "title": "ABC445F Exactly K Steps 2",
+      "type": "题目",
+      "tags": [
+        "矩阵快速幂",
+        "最短路/Floyd"
+      ],
+      "difficulty": 1.0,
+      "summary": "题目说了要恰好走 $K$ 次边，且 $K$ 非常大，明显的用矩阵快速幂跑最短路板子题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc446e-multiple-free-sequences",
+      "title": "ABC446E Multiple-Free Sequences",
+      "type": "题目",
+      "tags": [
+        "记忆化搜索"
+      ],
+      "difficulty": 1.5,
+      "summary": "$M == 1e3$，总方案不多，直接<strong>记搜</strong>解决，不过容易<strong>爆栈</strong>，需要剪枝提前退出 $dfs$，也可以改成 $while + stack$ 的循环形式。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc446f-reachable-set-2",
+      "title": "ABC446F Reachable Set 2",
+      "type": "题目",
+      "tags": [
+        "瓶颈路问题",
+        "单向边",
+        "最短路/Dijkstra"
+      ],
+      "difficulty": 1.5,
+      "summary": "可以转换成<strong>瓶颈路问题</strong>，用 $dij$ 求从点 $1$ 到点 $x$ 的所有可行路径中，<strong>路径上经过的最大顶点编号的最小值</strong>，就能判断无解了。答案计算很简单，维护个 $set$ 即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc448e-simple-division",
+      "title": "ABC448E Simple Division",
+      "type": "题目",
+      "tags": [
+        "数学/带余除法"
+      ],
+      "difficulty": 1.5,
+      "summary": "明显游程编码是<strong>等比数列求和</strong>的形式，问题是<strong>下取整的取模问题</strong>，用 ((69b10bcd-0822-43af-b9ca-6b0ee6c6abb2))  解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc451d-concat-power-of-2",
+      "title": "ABC451D Concat Power of 2",
+      "type": "题目",
+      "tags": [
+        "bfs"
+      ],
+      "difficulty": 1.5,
+      "summary": "看着有点像 ad-hoc，但因为答案最大 $= 1e9$，根据样例发现对应的 $n$ 约等于 $1e6$，而且因为可用的数只有 $31$ 个（$2^n$），那直接带<strong>优先队列的 bfs</strong> 即可解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc451f-make-bipartite-3",
+      "title": "ABC451F Make Bipartite 3",
+      "type": "题目",
+      "tags": [
+        "并查集/带权并查集",
+        "二分图"
+      ],
+      "difficulty": 2.5,
+      "summary": "带权并查集，维护节点 $x$ 与其跟节点 $s[x]$ 的颜色是否相同，不需要真的用二分图染色，全程带权并查集即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-29",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc452e-you-will-like-sigma-problem",
+      "title": "ABC452E You WILL Like Sigma Problem",
+      "type": "题目",
+      "tags": [
+        "数学/带余除法",
+        "调和级数",
+        "数学推导"
+      ],
+      "difficulty": 2.0,
+      "summary": "注意到 $i \\bmod j = i - j \\lfloor \\frac{i}{j} \\rfloor$，带入公式得$\\sum_{i=1}^N \\sum_{j=1}^M A_i B_j \\left( i - j \\lfloor \\frac{i}{j} \\rfloor \\right)$，拆开得 $\\underbrace{ \\sum_{i=1}^N \\sum_{j=1}^M A_i B_j i }_{\\text{左半部分}} \\quad - \\quad \\underbrace{ \\sum_{i=1}^N \\sum_{j=1}^M A_i B_j j \\lfloor \\frac{i}{j} \\rfloor }_{\\text{右半部分}}$，左半右半分开算即可，因为 $i, j$ <strong>不耦合</strong>，随便提。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-04",
+      "type_directory": "p"
+    },
+    {
+      "slug": "abc455e-unbalanced-abc-substrings",
+      "title": "ABC455E Unbalanced ABC Substrings",
+      "type": "题目",
+      "tags": [
+        "容斥",
+        "前缀和"
+      ],
+      "difficulty": 2.0,
+      "summary": "主要难点还是在于想到和想出怎么用容斥。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "arc100e-or-plus-max",
+      "title": "ARC100E Or Plus Max",
+      "type": "题目",
+      "tags": [
+        "最小生成树"
+      ],
+      "difficulty": 1.5,
+      "summary": "给机场和港口都设个超级原点，然后分情况跑最小生成树算答案就行了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "atdp-j-sushi",
+      "title": "ATDP J Sushi",
+      "type": "题目",
+      "tags": [
+        "期望dp"
+      ],
+      "difficulty": null,
+      "summary": "期望 dp 参考模板题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "atdp-l-deque",
+      "title": "ATDP l Deque",
+      "type": "题目",
+      "tags": [
+        "区间dp",
+        "博弈论"
+      ],
+      "difficulty": 1.5,
+      "summary": "挺板子的，区间dp 秒了，不过它套了个博弈论的皮，所以看着有点迷惑性。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-07",
+      "type_directory": "p"
+    },
+    {
+      "slug": "bd202326-错峰旅行",
+      "title": "BD202326 错峰旅行",
+      "type": "题目",
+      "tags": [
+        "离散化",
+        "经典问题/区间问题",
+        "差分数组"
+      ],
+      "difficulty": 1.5,
+      "summary": "<strong>离散化</strong>把大区间转成小区间的模板题",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-24",
+      "type_directory": "p"
+    },
+    {
+      "slug": "bd202327-社交树",
+      "title": "BD202327 社交树",
+      "type": "题目",
+      "tags": [
+        "重链剖分",
+        "式子变形"
+      ],
+      "difficulty": 2.0,
+      "summary": "对着树用<strong>树剖</strong>或直接<strong>DFS序</strong>处理成序列，然后用<strong>线段树</strong>或<strong>树状数组</strong>操作，这还是很好看出来的，关键是要对题目的式子进行<strong>变量分离</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-10",
+      "type_directory": "p"
+    },
+    {
+      "slug": "bd202330-图论大师",
+      "title": "BD202330 图论大师",
+      "type": "题目",
+      "tags": [
+        "图论",
+        "矩阵快速幂",
+        "floyd",
+        "图论经典问题/边可以反复走"
+      ],
+      "difficulty": 2.0,
+      "summary": "<strong>矩阵快速幂</strong> + <strong>floyd</strong> 解决走恰好 $k$ 步的图论问题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-24",
+      "type_directory": "p"
+    },
+    {
+      "slug": "bd202428-粒子消消乐",
+      "title": "BD202428 粒子消消乐",
+      "type": "题目",
+      "tags": [
+        "在线问题",
+        "思维定势",
+        "倍增"
+      ],
+      "difficulty": 2.5,
+      "summary": "主要也就是得摆脱<strong>线段树</strong>带来的<strong>思维定势</strong>，想到有<strong>倍增</strong>这样同样能实现<strong>高效查询</strong>的方法。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-11-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "bd202429-毕业照",
+      "title": "BD202429 毕业照",
+      "type": "题目",
+      "tags": [
+        "二分答案",
+        "模拟",
+        "倍增",
+        "st表",
+        "二分"
+      ],
+      "difficulty": 2.5,
+      "summary": "一般做的都是<strong>树上倍增</strong>，<strong>序列倍增</strong>没怎么做过，算是学到了吧。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-23",
+      "type_directory": "p"
+    },
+    {
+      "slug": "bd202509-pair-counting",
+      "title": "BD202509 Pair Counting",
+      "type": "题目",
+      "tags": [
+        "计数问题",
+        "正难则反",
+        "树形dp",
+        "奇妙树论"
+      ],
+      "difficulty": 2.5,
+      "summary": "这种 <strong>奇妙树论</strong> 题还是得多做，多画图，看出题目中的结论。剩下的其实也都好说，想到用 <strong>树形dp</strong> 算 <strong>距离差为 3 的叶子节点对数</strong> 即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "bd202514-minpopcount",
+      "title": "BD202514 Minpopcount",
+      "type": "题目",
+      "tags": [
+        "二进制",
+        "异或",
+        "位运算",
+        "多源最短路",
+        "图论经典问题/图论建模问题"
+      ],
+      "difficulty": 3.0,
+      "summary": "有点难想到能转化成图论问题，想到了之后还得优化一下建图方式",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "bd202515-trink",
+      "title": "BD202515 Trink",
+      "type": "题目",
+      "tags": [
+        "奇妙树论",
+        "并查集",
+        "树链"
+      ],
+      "difficulty": 3.5,
+      "summary": "妙妙题，纯靠思维，这种题看来还是得多做点。分析题意想到怎么算最大值，然后考虑<strong>维护最右链</strong>，再利用<strong>并查集</strong>算答案。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "bd202519-degree-of-permutations",
+      "title": "BD202519 Degree of Permutations",
+      "type": "题目",
+      "tags": [
+        "背包/可撤销背包",
+        "计数问题"
+      ],
+      "difficulty": 2.5,
+      "summary": "",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1070a-find-a-number",
+      "title": "CF1070A Find a Number",
+      "type": "题目",
+      "tags": [
+        "同余最短路"
+      ],
+      "difficulty": 1.5,
+      "summary": "<strong>整除问题</strong>嘛，又是同余最短路，状态一共有 <code>vis[501][5001]</code> 个，写个 bfs 就行。输出答案配合 <code>pre</code> 数组来<strong>回溯</strong>，直接用 <code>string</code> 会超时。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-30",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1092f-tree-with-maximum-cost",
+      "title": "CF1092F Tree with Maximum Cost",
+      "type": "题目",
+      "tags": [
+        "换根dp"
+      ],
+      "difficulty": 1.5,
+      "summary": "因为是求最大，所以不是重心（重心求最小），考虑换根。换根的话，也是很好写的，本题当换根参考题了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-14",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1100f-ivan-and-burgers",
+      "title": "CF1100F Ivan and Burgers",
+      "type": "题目",
+      "tags": [
+        "线性基/前缀线性基",
+        "哈基米树",
+        "在线问题"
+      ],
+      "difficulty": null,
+      "summary": "明显的<strong>线性基找最大值的问题</strong>，但本题是在线问题，<strong>在线改离线</strong>，<strong>线性基套哈基米树</strong>就行了，离线分治的情况下，合并一次就 $O(1) * 合并一次的复杂度$，总复杂度 $O(N * 20)$。本题的官方正解是<strong>前缀线性基</strong>，每个线性基多记录一下<strong>基底对应最晚出现的下标</strong>，直接开 $n$ 个线性基即可解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-04",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1117d-magic-gems",
+      "title": "CF1117D Magic Gems",
+      "type": "题目",
+      "tags": [
+        "矩阵快速幂优化dp"
+      ],
+      "difficulty": 1.5,
+      "summary": "虽然题意有点不清，但是打表可以发现，转移方程跟<strong>斐波那契数列</strong>类似，最经典的矩阵快速幂优化dp问题，作为<strong>模板题</strong>参考。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1131d-gourmet-choice",
+      "title": "CF1131D Gourmet choice",
+      "type": "题目",
+      "tags": [
+        "拓扑排序",
+        "并查集"
+      ],
+      "difficulty": 1.5,
+      "summary": "拓扑排序，取等号的点用并查集缩成一个点。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-23",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1132f-clear-the-string",
+      "title": "CF1132F Clear the String",
+      "type": "题目",
+      "tags": [
+        "区间dp"
+      ],
+      "difficulty": null,
+      "summary": "区间 dp 经典<strong>套路题</strong>之一，虽然有点难以理解。算 $dp[l][r]$ 时，考虑关注 $s[l]$，它只有两种死法，一个是单独消掉，另一个是在 $[l + 1, r]$ 中发现了一样的字符，跟这个字符一起消掉。（挺玄学的，不过算是区间 dp 的套路之一吧，由已知求未知，剩下的 dp 自己能解决）",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-09",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1139c-edgy-trees",
+      "title": "CF1139C Edgy Trees",
+      "type": "题目",
+      "tags": [
+        "正难则反",
+        "并查集"
+      ],
+      "difficulty": 1.5,
+      "summary": "路径中至少包含一条黑边，<strong>至少难算，所以正难则反</strong>，考虑算一条黑边都不包含的情况，那就用并查集把红边连上的都放在一个集里即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-31",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1144g-two-merged-sequences",
+      "title": "CF1144G Two Merged Sequences",
+      "type": "题目",
+      "tags": [
+        "可行性dp",
+        "贪心",
+        "构造"
+      ],
+      "difficulty": 3.5,
+      "summary": "<strong>贪心定 DP 状态，根据 DP 状态构造出答案</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-29",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1151e-number-of-components",
+      "title": "CF1151E Number of Components",
+      "type": "题目",
+      "tags": [
+        "贡献法",
+        "计数问题"
+      ],
+      "difficulty": 2.0,
+      "summary": "同样看着无从下手，不过既然是<strong>计数题</strong>，可以考虑<strong>贡献法</strong>。$\\text{连通块数量} = \\text{顶点数} - \\text{边数}$，使用这个公式，算<strong>点贡献</strong>和<strong>边贡献</strong>就能解决本题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-06",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1153d-serval-and-rooted-tree",
+      "title": "CF1153D Serval and Rooted Tree",
+      "type": "题目",
+      "tags": [
+        "树形dp",
+        "贪心"
+      ],
+      "difficulty": 3.0,
+      "summary": "依旧是状态难定，需要将<strong>极值问题转换为计数的 dp 问题</strong>。$dp[u]$：要保证 $u$ 拿到一个尽可能大的数，最少会有多少个数被迫排在 $u$ 的后面。这样就不用直接求具体的极值，而是求个数了，同样是<strong>带贪心的 dp 问题</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-06",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1168c-and-reachability",
+      "title": "CF1168C And Reachability",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "位运算",
+        "在线问题"
+      ],
+      "difficulty": 2.0,
+      "summary": "看着像图论，实则因为是<strong>稠密图</strong>，不好直接跑，使用 dp 解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1187d-subarray-sorting",
+      "title": "CF1187D Subarray Sorting",
+      "type": "题目",
+      "tags": [
+        "线段树",
+        "排序/冒泡排序"
+      ],
+      "difficulty": 2.0,
+      "summary": "对子区间进行升序排序，本质上就是把区间里的<strong>最小值像冒泡一样 “抽” 到最前面</strong>。也就是说，<strong>数字</strong> $x$ <strong>能被移到最前面的唯一条件是：在它前面的所有数中，它是最小的</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-18",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1201c-maximum-median",
+      "title": "CF1201C Maximum Median",
+      "type": "题目",
+      "tags": [
+        "中位数",
+        "二分答案"
+      ],
+      "difficulty": 1.0,
+      "summary": "经典对中位数进行二分答案，$a$ 中 $\\ge mid$ 的个数超过一半，说明 $mid$ 可以为中位数。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1207e-xor-guessing",
+      "title": "CF1207E XOR Guessing",
+      "type": "题目",
+      "tags": [
+        "位运算",
+        "交互题"
+      ],
+      "difficulty": 1.0,
+      "summary": "<strong>二进制劈成两半</strong>，分<strong>高 7 位、低 7 位</strong>考虑。为了一次把一半的二进制位全部问出来，每次询问时，让询问的那 100 个数在那 7 位的二进制位全一样就行。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1208d-restore-permutation",
+      "title": "CF1208D Restore Permutation",
+      "type": "题目",
+      "tags": [
+        "线段树/线段树二分",
+        "后效性"
+      ],
+      "difficulty": 2.0,
+      "summary": "因为<strong>正向考虑有后效性</strong>，所以进行倒序考虑。用线段树维护这 $n$ 个数以及前缀和，<strong>线段树二分</strong>找合适的数（根据<strong>前缀和</strong>），然后删掉这个数即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1209e2-rotate-columns-(hard-version)",
+      "title": "CF1209E2 Rotate Columns (hard version)",
+      "type": "题目",
+      "tags": [
+        "状压",
+        "状压dp",
+        "ad-hoc"
+      ],
+      "difficulty": 1.5,
+      "summary": "列看似很多，实际上有用的只有列最大值最大的前 $K = min(n, m)$ 个，这样行列都被压缩到 12，然后再跑<strong>状压dp</strong>就行了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-19",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1225e-rock-is-push",
+      "title": "CF1225E Rock Is Push",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "二分",
+        "前缀和优化dp"
+      ],
+      "difficulty": 2.5,
+      "summary": "分<strong>纵向横向考虑</strong>两种 dp，然后推出转移方程和转移约束，用二分+前缀和优化一下就能解决本题了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-27",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1272e-nearest-opposite-parity",
+      "title": "CF1272E Nearest Opposite Parity",
+      "type": "题目",
+      "tags": [
+        "图论经典问题/图论建模问题",
+        "bfs"
+      ],
+      "difficulty": 1.0,
+      "summary": "一眼<strong>图论建模</strong>，建完图后，发现一定会<strong>至少存在一个终点</strong>，即一步结束，从这个<strong>终点往回跑 bfs 即可</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1288a-deadline",
+      "title": "CF1288A Deadline",
+      "type": "题目",
+      "tags": [
+        "剪枝/数学型剪枝",
+        "数学/均值不等式"
+      ],
+      "difficulty": 1.5,
+      "summary": "题目的式子明显是<strong>均值不等式</strong>，$f(x) = (x+1) + \\frac{d}{x+1} - 1 \\ge 2\\sqrt{d} - 1$，函数的最小值一定在 $x \\approx \\sqrt{d}$ 的地方取得。<strong>设定答案上限 <code>ans</code> 进行剪枝</strong>，一旦 $x \\ge ans$，后面的答案也就不用看了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1299a-anu-has-a-function",
+      "title": "CF1299A Anu Has a Function",
+      "type": "题目",
+      "tags": [
+        "二进制"
+      ],
+      "difficulty": 1.5,
+      "summary": "发现函数的本质是 $(x | y) - y = (x \\& \\sim y)$，然后就秒杀这题了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-07",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1316e-team-building",
+      "title": "CF1316E Team Building",
+      "type": "题目",
+      "tags": [
+        "状压dp",
+        "贪心"
+      ],
+      "difficulty": 1.5,
+      "summary": "乍一看有个点不好处理，能想到用<strong>排序</strong>处理这题就差不多解决了，剩下的就是用<strong>状压dp</strong>了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-19",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1325d-ehab-the-xorcist",
+      "title": "CF1325D Ehab the Xorcist",
+      "type": "题目",
+      "tags": [
+        "异或",
+        "数学推导",
+        "贪心"
+      ],
+      "difficulty": 2.5,
+      "summary": "做本题之前需知道这个公式：$a + b = (a \\oplus b) + 2 \\cdot (a \\& b)$，知道有这么个异或与加法的等价公式后，考虑两个问题。第一个，知道了公式该如何操作？；第二个，知道了保底形式，怎么转换出只有两个的形式？为啥能这样转换？",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1364d-ehab's-last-corollary",
+      "title": "CF1364D Ehab's Last Corollary",
+      "type": "题目",
+      "tags": [
+        "二分图",
+        "图论经典问题/环问题"
+      ],
+      "difficulty": 2.0,
+      "summary": "分三种情况，树、有环且最小环 $\\le K$、有环且最小环 $\\ge K$。第一种和第三种去构造二分图，第二种直接输出环。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1373f-network-coverage",
+      "title": "CF1373F Network Coverage",
+      "type": "题目",
+      "tags": [
+        "二分图/霍尔定理",
+        "前缀和"
+      ],
+      "difficulty": 1.5,
+      "summary": "发现本题完全是<strong>二分图左部点匹配右部点</strong>的 hall 定理题，然后就是<strong>找最紧的瓶颈</strong>了，注意到瓶颈就是<strong>取子串</strong>$[L, R]$，因为这样两个相邻的就能相互占用了。最后再对全局加个特判就解决了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-29",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1416c-xor-inverse",
+      "title": "CF1416C XOR Inverse",
+      "type": "题目",
+      "tags": [
+        "异或/01字典树",
+        "经典问题/逆序对"
+      ],
+      "difficulty": 2.5,
+      "summary": "主要就是在 01 字典树上跑归并排序求逆序对。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1446b-catching-cheaters",
+      "title": "CF1446B Catching Cheaters",
+      "type": "题目",
+      "tags": [
+        "字符串dp"
+      ],
+      "difficulty": 1.5,
+      "summary": "简单的字符串匹配 dp，设 \\[dp_{i,j}\\] 代表以 \\( s_i, t_j \\) 结尾的最大相似度，然后双重循环分类讨论即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1446c-xor-tree",
+      "title": "CF1446C Xor Tree",
+      "type": "题目",
+      "tags": [
+        "01字典树"
+      ],
+      "difficulty": 2.5,
+      "summary": "第一大难点是把整个题放在<strong>字典树</strong>的角度上想，第二大难点是发现本题在字典树上的性质，也就是这个关键问题 <strong>假如这个节点的左右子树中都有 ≥ 2 个元素，会发生什么？</strong>。这两个难点都解决了后，<strong>遍历整个字典树</strong>就行了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1486d-max-median",
+      "title": "CF1486D Max Median",
+      "type": "题目",
+      "tags": [
+        "中位数",
+        "二分答案",
+        "前缀和"
+      ],
+      "difficulty": 1.0,
+      "summary": "也是个中位数二分答案的典题<em>（不过我居然花了不少时间）</em>，二分答案，$\\ge mid$ 的设为 $+1$，$\\le mid$ 的设为 $-1$，然后区间和 $\\ge 1$ 且区间长度 $\\ge k$ 的就是有解了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1513d-gcd-and-mst",
+      "title": "CF1513D GCD and MST",
+      "type": "题目",
+      "tags": [
+        "最小生成树",
+        "贪心",
+        "并查集"
+      ],
+      "difficulty": 2.5,
+      "summary": "全程按<strong>最小生成树的贪心</strong>思路来即可，暴力枚举的同时进行相应的<strong>剪枝</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-18",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1515e-phoenix-and-computers",
+      "title": "CF1515E Phoenix and Computers",
+      "type": "题目",
+      "tags": [
+        "划分型dp",
+        "隔板法"
+      ],
+      "difficulty": 3.0,
+      "summary": "核心在于发现最终局面必定是 <code>[手动段 1] 自动 [手动段 2] 自动[手动段 3]</code>，从而转化为<strong>划分型 DP</strong>。转移时将复杂的<strong>顺序</strong>问题进行拆解：用 $2^{L-1}$ 涵盖当前枚举的手动段内部的点击操作，用组合数 $\\binom{k+L}{L}$ 抹平新老两段独立操作在顺序上的穿插组合，最终依靠 DP 框架跨越 <code>自动</code> 这一断点。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-05",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1526c2-potions-(hard-version)",
+      "title": "CF1526C2 Potions (Hard Version)",
+      "type": "题目",
+      "tags": [
+        "反悔贪心"
+      ],
+      "difficulty": null,
+      "summary": "<strong>默认全要</strong>，等到实在满足不了条件时，抛弃掉<strong>反悔堆</strong>堆顶的最大累赘们。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1527d-mex-tree",
+      "title": "CF1527D MEX Tree",
+      "type": "题目",
+      "tags": [
+        "经典问题/MEX问题",
+        "树链",
+        "容斥",
+        "正难则反"
+      ],
+      "difficulty": 3.5,
+      "summary": "跟 <a href=\"/p/abc438f-sum-of-mex\" class=\"wikilink\">ABC438F Sum of Mex</a> 很像，但是麻烦的多，这题用<strong>容斥计数、正难则反</strong>才好解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-06",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1534d-lost-tree",
+      "title": "CF1534D Lost Tree",
+      "type": "题目",
+      "tags": [
+        "交互题",
+        "二分图"
+      ],
+      "difficulty": 2.0,
+      "summary": "找个<strong>点集</strong>，通过询问这个点集里的所有点，来找出所有的边，这要求<strong>每条边的一个端点都在这个点集里</strong>，结合二分图性质解决。主要难点还是是想不到用二分图啊。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1542c-strange-function",
+      "title": "CF1542C Strange Function",
+      "type": "题目",
+      "tags": [
+        "lcm",
+        "倒序容斥"
+      ],
+      "difficulty": 2.0,
+      "summary": "题意就是找 $i$ 的最小非约数 $x$，那 $[1,x-1]$ 肯定都得是 $i$ 的约数，那么 $i$ 必须是 $\\text{lcm}(1, 2, \\dots, x - 1)$ 的倍数。因为 $\\text{lcm}(1..41)$ 远大于 $10^{16}$，所以 $f(i)$ 的值域范围就是 $[2, 41]$，用倒序容斥就能把答案算出来了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-10",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1554c-mikasa",
+      "title": "CF1554C Mikasa",
+      "type": "题目",
+      "tags": [
+        "按位贪心",
+        "经典问题/MEX问题"
+      ],
+      "difficulty": 2.0,
+      "summary": "需要先对问题进行转化（题目<strong>本质</strong>是求最小的非负整数 $k$，使得 $n \\oplus k > m$），再使用按位贪心。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1621c-hidden-permutations",
+      "title": "CF1621C Hidden Permutations",
+      "type": "题目",
+      "tags": [
+        "交互题",
+        "置换环"
+      ],
+      "difficulty": 1.5,
+      "summary": "本质就是<strong>遍历各个置换环</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1624g-minor-tree",
+      "title": "CF1624G MinOr Tree",
+      "type": "题目",
+      "tags": [
+        "贪心/按位贪心",
+        "生成树",
+        "并查集",
+        "bfs"
+      ],
+      "difficulty": 2.0,
+      "summary": "不要按边的数值大小贪心，要按二进制位<strong>从高到低</strong><strong>按位贪心</strong>，然后用 <strong>bfs</strong> 跑<strong>生成树</strong>，可以形成生成树的说明这一位可以为 0，然后排除该位为 1 的边即可解决本题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1625d-binary-spiders",
+      "title": "CF1625D Binary Spiders",
+      "type": "题目",
+      "tags": [
+        "01字典树",
+        "分治"
+      ],
+      "difficulty": 3.0,
+      "summary": "要整个<strong>遍历字典树</strong>，对着字典树写分治。然后考虑树上两支下的合法答案我该怎么选，<strong>大于最高位</strong>的肯定两支下合法的答案我都能选上；<strong>等于最高位</strong>时，左右两支最多取一个数，但凡其中一支多取了就不满足条件了。细节挺多的题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1632c-strange-test",
+      "title": "CF1632C Strange Test",
+      "type": "题目",
+      "tags": [
+        "剪枝/数学型剪枝"
+      ],
+      "difficulty": 1.5,
+      "summary": "基础的答案上限是 <code>ans = b - a</code>。因为操作三一次 $a \\ge b$，所以<strong>仅考虑使用操作三一次</strong>。枚举 $a$ 增加到 $na$、$b$ 增加到 $nb$，每次更新答案的上限 <code>ans</code>，一旦操作超过答案上限，就直接 break。复杂度为 $O(b - a)$，主要就是<strong>定上限剪枝</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1632d-new-year-concert",
+      "title": "CF1632D New Year Concert",
+      "type": "题目",
+      "tags": [
+        "前后缀",
+        "gcd"
+      ],
+      "difficulty": 2.0,
+      "summary": "依旧是围绕前缀 gcd 的 Log-Trick 写，考虑枚举 $r$ 然后算在当前 gcd 的情况下，最远/最近的左边界位置 $l_l, l_r$。当然可以用 <strong>二分+st表</strong> 直接算，复杂度为 $O(nlog^2n)$，但我这直接用个数组了，复杂度是 $O(nlogn)$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-05",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1633d-make-them-equal",
+      "title": "CF1633D Make Them Equal",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "bfs",
+        "剪枝"
+      ],
+      "difficulty": 1.5,
+      "summary": "明显看出可以整个 $O(nk)$ 的 $dp$ 解决，但是 $k$ 太大，注意到 $b_i$ 非常小，所以 $a_i \\to b_i$ 不需要多少操作，通过 $bfs$ 计算，发现最多 $12$ 次操作即可 $a_i == b_i$，于是整个 $O(n \\cdot \\min(12n,k))$ 即可解决本题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1638e-colorful-operations",
+      "title": "CF1638E Colorful Operations",
+      "type": "题目",
+      "tags": [
+        "珂朵莉树",
+        "线段树"
+      ],
+      "difficulty": 3.0,
+      "summary": "搞了个延迟计算增量法。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-06",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1650g-counting-shortcuts",
+      "title": "CF1650G Counting Shortcuts",
+      "type": "题目",
+      "tags": [
+        "最短路/拆点问题",
+        "最短路"
+      ],
+      "difficulty": 1.5,
+      "summary": "主要是求<strong>最短路</strong>和<strong>次短路</strong>，一个方法是直接用<strong>拆点最短路</strong>实现，维护最短路次短路条数和距离 <code>cnt[N][2], dis[N][2]</code>；另一个方法是<strong>从起点和终点跑两次最短路</strong>，然后用算出来的最短路距离和条数 <code>dis[2][N], cnt[2][N]</code> 枚举边，看看当前边是否为多余边，是就说明距离 + 1，就可以算答案了。总的来说还是拆点更好写。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf165e-compatible-numbers",
+      "title": "CF165E Compatible Numbers",
+      "type": "题目",
+      "tags": [
+        "SOS dp"
+      ],
+      "difficulty": null,
+      "summary": "<strong>SOS dp</strong> 板子题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1661d-progressions-covering",
+      "title": "CF1661D Progressions Covering",
+      "type": "题目",
+      "tags": [
+        "二阶差分",
+        "贪心",
+        "差分数组/动态差分"
+      ],
+      "difficulty": 2.0,
+      "summary": "两个难点，一个是想出<strong>倒序操作</strong>，即贪心，每次都优先用 $k$ 删掉当前枚举的数；另一个是<strong>动态维护差分</strong>，这个动态维护差分仅在枚举的时候有效，没有使用数据结构。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-18",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1695c-zero-path",
+      "title": "CF1695C Zero Path",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "数学/介值定理"
+      ],
+      "difficulty": 1.5,
+      "summary": "如果我们已经定好了路径，那么改一个位置总和会 $+2, -2, +0$，可以用介质定理，特判一下 $n + m - 1$ 是否为奇数，然后算最大最小 $dp$ 即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1702g2-passable-paths-(hard-version)",
+      "title": "CF1702G2 Passable Paths (hard version)",
+      "type": "题目",
+      "tags": [
+        "LCA",
+        "树的路径"
+      ],
+      "difficulty": 2.0,
+      "summary": "思路就是找出<strong>路径的两个端点</strong> $(u,v)$，一个端点肯定是<strong>深度最大</strong>的点，另一个端点离这个点最远。找出这两个点后，枚举集的所有点 $x$，判断 <code>dis(u, x) + dis(x, v) == dis(u, v)</code> 即可，满足这个式子的点 $x$ 在 $u$ 到 $v$ 的简单路径上。<strong>（所以本题的重点就是发现这个公式）</strong>",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-02",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1706e-qpwoeirut-and-vertices",
+      "title": "CF1706E Qpwoeirut and Vertices",
+      "type": "题目",
+      "tags": [
+        "瓶颈路问题",
+        "克鲁斯卡尔重构树",
+        "DFS 序",
+        "st表"
+      ],
+      "difficulty": 3.0,
+      "summary": "明显找最小的最大（编号）连通边的<strong>瓶颈路问题</strong>，考虑克鲁斯卡尔重构树。本题的关键和难点就是 $[l, r]$ 的区间处理了，这边使用<strong>关键性质</strong>，考虑到区间里的点<strong>均为叶子节点</strong>，我们找 <strong>dfs 序最大和最小</strong>的两个点，他们的 lca 肯定就是区间所有点的 lca，即可解决本题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1709c-recover-an-rbs",
+      "title": "CF1709C Recover an RBS",
+      "type": "题目",
+      "tags": [
+        "经典问题/括号匹配问题",
+        "前缀和"
+      ],
+      "difficulty": 1.5,
+      "summary": "跟 <a href=\"/p/nc108301g-alice-的模糊括号序列\" class=\"wikilink\">NC108301G Alice 的模糊括号序列</a> 这题用的一个 trick，都是前缀和进行合法括号翻转，看看构造的括号序列是否唯一。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1709e-xor-tree",
+      "title": "CF1709E XOR Tree",
+      "type": "题目",
+      "tags": [
+        "前缀异或",
+        "树上启发式合并",
+        "lca"
+      ],
+      "difficulty": 2.0,
+      "summary": "<strong>启发式合并</strong>，用一个 <code>set</code> 来存子树的 $S_x$（$S_x$ 为根到 $x$ 的<strong>前缀异或和</strong>），然后枚举  <code>set</code> 里的 $S_x$ 看看 <code>set</code> 中是否存在 $S_y \\oplus S_x \\oplus a[u] == 0$ 的，有就把 <code>set</code> 清空掉，相当于把 $u$ 节点设为一个 <strong>无敌节点</strong>，经过 $u$ 的都不会出现为 $0$ 的。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1722g-even-odd-xor",
+      "title": "CF1722G Even-Odd XOR",
+      "type": "题目",
+      "tags": [
+        "随机数",
+        "异或",
+        "构造"
+      ],
+      "difficulty": 1.5,
+      "summary": "一开始想复杂了，不需要找规律什么的，实际上对于异或和，我们不关心中间具体都是什么数。把前 $n - 2$ 个数用<strong>随机数</strong>构造出来，构造的过程中记录奇数位和偶数位的异或和，然后用<strong>最后两个数</strong>把这两个异或和搞成相等的即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-29",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1762d-gcd-queries",
+      "title": "CF1762D GCD Queries",
+      "type": "题目",
+      "tags": [
+        "交互题",
+        "ad-hoc"
+      ],
+      "difficulty": 3.0,
+      "summary": "神仙猜猜题。紧扣对 $0$ 进行 $gcd$ 的性质，然后<strong>以两个候选人为擂台赛的形式，不断引入第三者进行挑战</strong>，就能总结出结论。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1775d-friendly-spiders",
+      "title": "CF1775D Friendly Spiders",
+      "type": "题目",
+      "tags": [
+        "最短路/分层图问题"
+      ],
+      "difficulty": 1.5,
+      "summary": "<strong>表层（倍数） 里层（因数） 表层（倍数）</strong>，表层一定是 $a$ 中存在的，里层不需要，<strong>表/里</strong>建一下<strong>分层图</strong>就行，用 <code>pre</code> 前驱数组存路径，仅输出表层。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1811c-restore-the-array",
+      "title": "CF1811C Restore the Array",
+      "type": "题目",
+      "tags": [
+        "ad-hoc"
+      ],
+      "difficulty": 2.0,
+      "summary": "根据 $b_i$ 的特殊性质，推出 $a_i$ 的不等式即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1814b-long-legs",
+      "title": "CF1814B Long Legs",
+      "type": "题目",
+      "tags": [
+        "数学/均值不等式"
+      ],
+      "difficulty": 1.5,
+      "summary": "想法肯定是，<strong>腿拉长到一定长度，然后直接走完</strong>，如果走不完（取模不为0），那腿拉长的过程中肯定能走完。$Cost(m) = m - 1 + \\left\\lceil \\frac{A}{m} \\right\\rceil + \\left\\lceil \\frac{B}{m} \\right\\rceil \\approx m + \\frac{A+B}{m}$，然后写<strong>均值不等式</strong>，发现最小值在大概 $m = \\sqrt{A+B}$ 附近",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-29",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1843f2-omsk-metro-(hard-version)",
+      "title": "CF1843F2 Omsk Metro (hard version)",
+      "type": "题目",
+      "tags": [
+        "前缀和",
+        "LCA",
+        "树上倍增"
+      ],
+      "difficulty": 3.0,
+      "summary": "要满足本题的条件，明显可以转化成找出 u \\to v 这个路径上的<strong>最大/最小子段和</strong>。那么思路就是维护<strong>最大/最小前后缀和</strong>，从而得到<strong>最大/最小子段和</strong>，整个过程在<strong>树上倍增</strong>上实现，进行<strong>树上倍增的结构化合并</strong>。很不错的树上倍增参考题，考验了<strong>动态加点</strong>和<strong>结构化合并</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1886d-monocarp-and-the-set",
+      "title": "CF1886D Monocarp and the Set",
+      "type": "题目",
+      "tags": [],
+      "difficulty": null,
+      "summary": "正难则反的好题，正向填数很麻烦，故考虑反向从完整的集合 <code>{1,2,...,n}</code> 中<strong>逐个删除</strong>数字，直到空集。删除一个数字时，如果它是当前集合的最小值，则对应字符 <code>&lt;</code>； <code>&gt;</code> 同理。如果字符是 <code>?</code>，则删除的数字既不是最小值也不是最大值，即它位于集合的 “中间” ，此时 “中间” 就是可选的数，可选的数就是<strong>该位的贡献</strong>。总之，发现能正难则反，本题就解决了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-05",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1902e-collapsing-strings",
+      "title": "CF1902E Collapsing Strings",
+      "type": "题目",
+      "tags": [
+        "字典树",
+        "正难则反"
+      ],
+      "difficulty": 1.5,
+      "summary": "正难则反，我们算字符串会被消除几次。把翻转后的字符串全放入字典树中，对于每个字符串 $s[i]$ 在字典树中进行查找，相同前缀的个数 $prefix[id]$ 总和就是 $s[i]$ 配对时被消除的总数。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf1902f-trees-and-xor-queries-again",
+      "title": "CF1902F Trees and XOR Queries Again",
+      "type": "题目",
+      "tags": [
+        "LCA",
+        "线性基/前缀线性基"
+      ],
+      "difficulty": 2.0,
+      "summary": "树上套前缀线性基即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-04",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2037f-ardent-flames",
+      "title": "CF2037F Ardent Flames",
+      "type": "题目",
+      "tags": [
+        "经典问题/区间问题",
+        "离散化",
+        "差分数组",
+        "二分答案"
+      ],
+      "difficulty": 2.0,
+      "summary": "明显的二分答案，固定攻击次数后，对比较麻烦的绝对值进行固定，求出绝对值的范围，然后就能转化成区间问题，跑个区间离散化后差分就解决了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2037g-natlan-exploring",
+      "title": "CF2037G Natlan Exploring",
+      "type": "题目",
+      "tags": [
+        "暴力容斥",
+        "思维定势",
+        "dp"
+      ],
+      "difficulty": 2.5,
+      "summary": "答案大到要取模，说明一定不能真的建图，考虑 <strong>dp</strong>。一开始<strong>思维定势</strong>了以为是之前一样的 <strong>GCD数论容斥</strong>题，写了个 $dp[g]$ 最大公因数为 $g$ 时到 $n$ 的路径个数，但这样不能保证 $1$ 能到 $n$，不好算最终的答案。于是决定想别的解法，就<strong>简单地设</strong> $dp[i]$ <strong>为</strong> $1$ <strong>到</strong> $i$ <strong>的路径个数</strong>，再开个 $s[g]$ 为路径最后一个数为 $g$ 的倍数的路径数，对<strong>质因数</strong>进行<strong>暴力容斥</strong>来转移方程。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-23",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2113d-cheater",
+      "title": "CF2113D Cheater",
+      "type": "题目",
+      "tags": [
+        "二分答案",
+        "贪心",
+        "ad-hoc",
+        "前后缀"
+      ],
+      "difficulty": 2.0,
+      "summary": "对庄家整个<strong>前缀最小值</strong>，然后进行<strong>二分答案</strong>，这样 $n - mid$ 就代表庄家赢的次数，然后就去查 $n - mid$ 的前缀最小值 $pre[n - mid + 1]$，用一次操作把大于 $pre[n - mid + 1]$ 的都堆在前面，看看能不能真的赢 $mid$ 次应该就行了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-16",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2131f-unjust-binary-life",
+      "title": "CF2131F Unjust Binary Life",
+      "type": "题目",
+      "tags": [
+        "数学推导",
+        "双指针",
+        "前缀和"
+      ],
+      "difficulty": 2.0,
+      "summary": "主要是不知道这个 $\\min(X, Y)$ 的转换公式，知道就好说了。事后发现，不知道这个公式也能做，纯对 $\\min$ 做一样的事就行。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-29",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2132f-rada-and-the-chamomile-valley",
+      "title": "CF2132F Rada and the Chamomile Valley",
+      "type": "题目",
+      "tags": [
+        "tarjan/双联通分量",
+        "多源最短路"
+      ],
+      "difficulty": 2.5,
+      "summary": "写起来挺麻烦，题目倒是不难。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-06",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2145d-inversion-value-of-a-permutation",
+      "title": "CF2145D Inversion Value of a Permutation",
+      "type": "题目",
+      "tags": [
+        "可行性dp",
+        "构造",
+        "经典问题/逆序对",
+        "正难则反",
+        "划分型dp"
+      ],
+      "difficulty": 3.0,
+      "summary": "首先是<strong>正难则反</strong>，算逆序区间很麻烦，但是<strong>非逆序区间</strong>就是个<strong>单调增</strong>的序列，简单很多。根据非逆序区间定义状态 $dp[len][k]$：是否存在长度为 $len$，非逆序区间个数为 $k$ 的情况。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-29",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2145e-predicting-popularity",
+      "title": "CF2145E Predicting Popularity",
+      "type": "题目",
+      "tags": [
+        "线段树/线段树二分",
+        "线段树/权值线段树"
+      ],
+      "difficulty": 2.5,
+      "summary": "明显的权值线段树上二分题，难点在于设计线段树二分，这里我们对<strong>节点属性 Info 类</strong>进行设计，带上两个属性：<code>cnt, min_precnt</code>，即 出现次数的总数 和 $\\min$ { 出现次数总数的前缀和 $-$ 这个前缀和要往下走的需求 }。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2158c-annoying-game",
+      "title": "CF2158C Annoying Game",
+      "type": "题目",
+      "tags": [
+        "前后缀",
+        "正难则反",
+        "前缀和",
+        "枚举"
+      ],
+      "difficulty": 0.5,
+      "summary": "枚举前缀和 <code>pre</code> 维护最小前缀 <code>mnpre</code> 和与最大 <code>b</code> 太麻烦了，直接枚举 <code>b[i]</code> 然后用最小前缀前缀和 <code>mnpre[i - 1]</code> 与最大后缀前缀和 <code>mxsuf[i]</code> 解决即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-11-30",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2158d-palindrome-flipping",
+      "title": "CF2158D Palindrome Flipping",
+      "type": "题目",
+      "tags": [
+        "构造",
+        "枚举"
+      ],
+      "difficulty": 2.0,
+      "summary": "两种构造思路：<strong>枚举</strong>处理前面的大多数 + <strong>暴力</strong>处理后面的个别几个，<strong>初态 -> 中间态 -> 终态</strong> 的类图论思想。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-06-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2169d2-removal-of-a-sequence-(hard-version)",
+      "title": "CF2169D2 Removal of a Sequence (Hard Version)",
+      "type": "题目",
+      "tags": [
+        "数论分块",
+        "数学推导",
+        "数学/带余除法"
+      ],
+      "difficulty": 3.5,
+      "summary": "纯推数学公式题恶心死我了，搞了三个<strong>不等式</strong>解决的。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2170e-binary-strings-and-blocks",
+      "title": "CF2170E Binary Strings and Blocks",
+      "type": "题目",
+      "tags": [
+        "计数问题",
+        "经典问题/区间问题",
+        "前缀和优化dp",
+        "划分型dp"
+      ],
+      "difficulty": 2.5,
+      "summary": "主要是得想好这个 <code>dp</code> 状态怎么定",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2171c2-renako-amaori-and-xor-game-(hard-version)",
+      "title": "CF2171C2 Renako Amaori and XOR Game (hard version)",
+      "type": "题目",
+      "tags": [
+        "博弈论",
+        "异或交换法",
+        "二进制"
+      ],
+      "difficulty": 1.5,
+      "summary": "<strong>异或交换法</strong>一时居然忘了，查了一下这题跟网络赛一个线性基的题有点像，不过也就<strong>异或交换法</strong>这点像了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-11-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2171f-rae-taylor-and-trees-(hard-version)",
+      "title": "CF2171F Rae Taylor and Trees (hard version)",
+      "type": "题目",
+      "tags": [
+        "构造",
+        "ad-hoc"
+      ],
+      "difficulty": 2.0,
+      "summary": "经典的 cf 非套路思维题，没用什么算法，纯思维，就当是复健了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2176d-fibonacci-paths",
+      "title": "CF2176D Fibonacci Paths",
+      "type": "题目",
+      "tags": [
+        "图论经典问题/单向边问题"
+      ],
+      "difficulty": null,
+      "summary": "",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-24",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2176f-omega-numbers",
+      "title": "CF2176F Omega Numbers",
+      "type": "题目",
+      "tags": [
+        "gcd",
+        "容斥",
+        "计数问题",
+        "dp"
+      ],
+      "difficulty": 3.5,
+      "summary": "先看出来两个<strong>数论</strong>结论，然后再根据<strong>容斥原理</strong>，通过<strong>公因数</strong>的数对个数算出<strong>最大公因数</strong>的数对个数。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-06-02",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2181f-fragmented-nim",
+      "title": "CF2181F Fragmented Nim",
+      "type": "题目",
+      "tags": [
+        "博弈论"
+      ],
+      "difficulty": null,
+      "summary": "<strong>只有一个石子的堆能够改变先后手关系</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-31",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2182e-new-year's-gifts",
+      "title": "CF2182E New Year's Gifts",
+      "type": "题目",
+      "tags": [
+        "双指针"
+      ],
+      "difficulty": 2.0,
+      "summary": "双指针好题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2183e-lcm-is-legendary-counting-master",
+      "title": "CF2183E LCM is Legendary Counting Master",
+      "type": "题目",
+      "tags": [
+        "打表找规律",
+        "dp"
+      ],
+      "difficulty": 2.5,
+      "summary": "主要就是本题公式的性质不是很好找，dp 还是很好写的。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2188b-seats",
+      "title": "CF2188B Seats",
+      "type": "题目",
+      "tags": [
+        "分类讨论"
+      ],
+      "difficulty": 1.0,
+      "summary": "分三种情况：最左边的全 0 段、最右边的全 0 段、夹在两个 1 中间的全 0 段，每段进行处理后，分三组向下取整就是答案了，即 <code>ans = (len + 2) / 3</code>。不需要用什么复杂的方法。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-30",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2188c-restricted-sorting",
+      "title": "CF2188C Restricted Sorting",
+      "type": "题目",
+      "tags": [
+        "图论经典问题/图的连通性"
+      ],
+      "difficulty": 1.0,
+      "summary": "可以发现的是，本题明显可以建图，一旦建图后，连通的点可以任意改变位置，所以我们只要让<strong>需要改位置的数全部连通起来</strong>就行了。为了让答案最大，我们让每个数对<strong>最大</strong>或<strong>最小</strong>的数建边连通即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-30",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2188d-shortest-statement-ever",
+      "title": "CF2188D Shortest Statement Ever",
+      "type": "题目",
+      "tags": [
+        "贪心/按位贪心",
+        "异或",
+        "二进制"
+      ],
+      "difficulty": 2.5,
+      "summary": "挺麻烦的二进制题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2191d2-sub-rbs-(hard-version)",
+      "title": "CF2191D2 Sub-RBS (Hard Version)",
+      "type": "题目",
+      "tags": [
+        "状态机dp"
+      ],
+      "difficulty": 2.5,
+      "summary": "先在 D1 看出来本题的性质，然后根据<strong>要算的答案</strong>、<strong>合法括号序列的性质</strong>、<strong>题目的性质</strong>，来构造出 4 维 dp 状态 <code>dp[i][len][balance][state]</code>：前 $i$ 个字符，选择了长度为 $len$ 的子序列，其括号匹配值为 $balance$，题目性质的持有状态为 $state$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-18",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2192d-cost-of-tree",
+      "title": "CF2192D Cost of Tree",
+      "type": "题目",
+      "tags": [
+        "树形dp",
+        "前后缀"
+      ],
+      "difficulty": 1.5,
+      "summary": "朴素的树形dp，只不过维护的东西有点多。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2195f-parabola-independence",
+      "title": "CF2195F Parabola Independence",
+      "type": "题目",
+      "tags": [
+        "拓扑排序",
+        "图论建模",
+        "数学",
+        "记忆化搜索"
+      ],
+      "difficulty": 2.5,
+      "summary": "明显本题可以建图，不过<strong>建图的方式比较数学</strong>：如果两个二次函数不相交，且如果 $f_i$ 在 $f_j$ 上方，则连一条 $i \\to j$ 的有向边，即<strong>顺序性</strong>、<strong>传递性</strong>。建完图后，求包含 $f_i$ 的最大有序子集等价于求经过节点 $i$ 的<strong>最长链</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2195g-idiot-first-search-and-queries",
+      "title": "CF2195G Idiot First Search and Queries",
+      "type": "题目",
+      "tags": [
+        "DFS 序",
+        "树上倍增"
+      ],
+      "difficulty": 2.0,
+      "summary": "先用类似 DFS 序的方式，把本题的移动序列全部找出来（本题算是个特殊的 DFS 序），算出 $in,out,euler$，其中 $euler$ 数组为整个移动的序列，长度为 $2n$，$in[now],out[now]$ 为进入和离开 $now$ 子树的 $euler$ 数组下标。然后就是树上倍增，倍增的思路还是很好想的。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2197d-another-problem-about-beautiful-pairs",
+      "title": "CF2197D Another Problem about Beautiful Pairs",
+      "type": "题目",
+      "tags": [
+        "根号分治"
+      ],
+      "difficulty": 2.0,
+      "summary": "",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-12",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2197e2-interactive-graph-(hard-version)",
+      "title": "CF2197E2 Interactive Graph (Hard Version)",
+      "type": "题目",
+      "tags": [
+        "交互题"
+      ],
+      "difficulty": 2.5,
+      "summary": "",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-12",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2200g-operation-permutation",
+      "title": "CF2200G Operation Permutation",
+      "type": "题目",
+      "tags": [
+        "贡献法",
+        "期望",
+        "组合数学",
+        "插空法",
+        "dp"
+      ],
+      "difficulty": 2.5,
+      "summary": "重点就是推公式了，$Ans = x \\times Prod_{mul} + Sum_{add} \\times E[\\text{排在 } v \\text{ 后面的乘法因子的乘积}]$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-18",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2202c2-lost-civilization-(hard-version)",
+      "title": "CF2202C2 Lost Civilization (Hard Version)",
+      "type": "题目",
+      "tags": [
+        "经典问题/计数问题/子段计数问题",
+        "贡献法",
+        "st表"
+      ],
+      "difficulty": 1.5,
+      "summary": "主要被 C1 误导了，C1 随便做就过了，C2 不能沿用 C1 的方法，得找合适进行<strong>贡献法</strong>的计算方法，然后就是算 $i$ 左右两边合法边界的个数了，乘一下就是答案。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2203c-test-generator",
+      "title": "CF2203C Test Generator",
+      "type": "题目",
+      "tags": [
+        "二进制",
+        "二分答案"
+      ],
+      "difficulty": 2.0,
+      "summary": "想到用二分答案这题就能整出来了，唉可惜我没想到能用二分答案。无解好特判不讲了，二分答案的过程中相当于算让多少个数 <code>+= (1ll&lt;&lt;i)</code>，最后让 $s$ 减为 $0$ 就结束了，很好写。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2203d-divisibility-game",
+      "title": "CF2203D Divisibility Game",
+      "type": "题目",
+      "tags": [
+        "博弈论",
+        "倍数",
+        "优化技巧"
+      ],
+      "difficulty": 1.5,
+      "summary": "算出专用数和共用数，然后先瓜分共用数，再用专用数就行了。主要是本题需要进行一些 \\log 优化。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2204c-spring",
+      "title": "CF2204C Spring",
+      "type": "题目",
+      "tags": [
+        "暴力容斥",
+        "倒序容斥"
+      ],
+      "difficulty": 1.0,
+      "summary": "经典的容斥问题，因为本题 6 3 2 权值的特殊性，直接写<strong>奇加偶减</strong>公式是没问题的。当然如果改了就可能不行，所以得把<strong>各个权值代表的真正个数</strong>得全找出来，因为是<strong>至少推恰好</strong>，所以可以用<strong>倒序容斥</strong>，当然<strong>画韦恩图推公式</strong>也行。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-17",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2204d-alternating-path",
+      "title": "CF2204D Alternating Path",
+      "type": "题目",
+      "tags": [
+        "二分图"
+      ],
+      "difficulty": 1.5,
+      "summary": "画了样例一，发现连通块带<strong>奇环肯定没贡献</strong>了，那明显要跑二分图判定了。然后画个<strong>菊花图</strong>，发现对图染个色后，这个连通块的权值就是 $max(白点数，黑点数)$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-17",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2204e-sum-of-digits-(and-again)",
+      "title": "CF2204E Sum of Digits (and Again)",
+      "type": "题目",
+      "tags": [
+        "ad-hoc"
+      ],
+      "difficulty": 2.0,
+      "summary": "乍一看可能无从下手，不过明显的，我们对原串做不了什么，只能<strong>存每个数位有多少个</strong>，然后回归题意。这种数位操作明显是<strong>操作不了多少</strong>的，设最终结果是 $s_1 + s_2 + s_3...$，那么 $s_1$ 的数位和最大为 $9e5$，那也就是说 $s_2$ <strong>的范围为</strong> $[1, 9e5]$，枚举 $s_2$ 就行了。已知 $s_2$ 的情况下，后面的 $s_3...$ 也好算了，然后回头来验证 $s_2$ 能不能生成即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-17",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2204f-sum-of-fractions",
+      "title": "CF2204F Sum of Fractions",
+      "type": "题目",
+      "tags": [
+        "单调栈",
+        "贡献法",
+        "前后缀",
+        "双指针"
+      ],
+      "difficulty": 2.0,
+      "summary": "明显<strong>贡献法</strong>。想进行操作的话，明显我们<strong>只会考虑全改一个数</strong>，所以用<strong>单调栈</strong>算 $a_i$ 作为最小值的区间个数，跟这题一样<a href=\"/p/cf817d-imbalanced-array\" class=\"wikilink\">CF817D Imbalanced Array</a>。具体操作的话，如果分母能全消掉，那肯定先把分母消掉，然后全加分子上；如果不能全消掉，我们证明 $\\frac{1+x}{a} \\ge \\frac{1}{a-x}$，然后考虑全加在分子上，用乘法即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-17",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2207c-where's-my-water%3f",
+      "title": "CF2207C Where's My Water%3F",
+      "type": "题目",
+      "tags": [
+        "ad-hoc",
+        "容斥",
+        "前后缀",
+        "单调栈",
+        "dp"
+      ],
+      "difficulty": 3.0,
+      "summary": "因为 $n$ 比较小，考虑 $O(n^2)$ 枚举两个出水口，发现只要把他们<strong>单独的出水量</strong>，和他们<strong>中间最高位置</strong>的出水量算出来，容斥一下本题就解决了。可惜这个点是本题最难想到的部分，具体实现<strong>用单调栈辅助的前后缀</strong>即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2208c-stamina-and-tasks",
+      "title": "CF2208C Stamina and Tasks",
+      "type": "题目",
+      "tags": [
+        "dp"
+      ],
+      "difficulty": 1.5,
+      "summary": "按照题意写公式即可发现<strong>倒序枚举</strong>完全可以用 dp 解决本题，dp 每次考虑当前拿不拿即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2208d1-tree-orientation-(easy-version)",
+      "title": "CF2208D1 Tree Orientation (Easy Version)",
+      "type": "题目",
+      "tags": [
+        "bitset",
+        "floyd",
+        "并查集"
+      ],
+      "difficulty": 1.5,
+      "summary": "用 $floyd$ 检测和删掉<strong>冗余边</strong>，然后用并查集来<strong>验证连通性</strong>，用 $floyd$ 重新构造来验证原数组。所有 $floyd$ 全用 $bitset$ 加速。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2208d2-tree-orientation-(hard-version)",
+      "title": "CF2208D2 Tree Orientation (Hard Version)",
+      "type": "题目",
+      "tags": [
+        "树形dp",
+        "并查集"
+      ],
+      "difficulty": 2.0,
+      "summary": "说是树形 dp，也只是思想上类似，主要还是得研究本题的性质，从而替代 D1 的 $floyd$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2209d-ghostfires",
+      "title": "CF2209D Ghostfires",
+      "type": "题目",
+      "tags": [
+        "ad-hoc",
+        "数学推导"
+      ],
+      "difficulty": 2.5,
+      "summary": "先假设各个颜色按数量排序后，每个颜色分别是 $A \\ge B \\ge C$，通过手玩数据，发现有两个可以造的关键部分： $A, B/C, A, B/C, \\dots$ 和 $ABC, BCA, CBA, \\dots$（满足题意条件的情况下，交替出现 $ABC$ 即可，前面只是一个例子）。通过<strong>数学公式推导</strong>，可以证明仅靠这两个是能成立的，模拟一下即可解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-24",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2216e-oriented-journey",
+      "title": "CF2216E Oriented Journey",
+      "type": "题目",
+      "tags": [
+        "通信题",
+        "交互题"
+      ],
+      "difficulty": 2.0,
+      "summary": "因为给一条边必须直接输出边的方向，故而玩家 A 无法知道整个树的形状，只能<strong>抛弃边权看点权</strong>，利用给出无向边时保证 $u < v$ 这一条件。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-16",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2222c-median-partition",
+      "title": "CF2222C Median Partition",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "中位数",
+        "对顶堆"
+      ],
+      "difficulty": 1.0,
+      "summary": "注意到可以 $O(n^2 log n)$，考虑直接枚举维护对顶堆。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2222d-permutation-construction",
+      "title": "CF2222D Permutation Construction",
+      "type": "题目",
+      "tags": [
+        "经典问题/逆序对",
+        "前缀和",
+        "构造",
+        "线段树/线段树二分",
+        "树状数组"
+      ],
+      "difficulty": 2.0,
+      "summary": "为了最大化美丽值，我们必须把所有子段和大于 0 的区间都拿下，不难发现是可行的。猜测发现无需找出所有可行区间，只需用<strong>树状数组</strong>求出位置 $i$ 左侧有多少个<strong>更小的前缀和</strong> $cnt$。随后<strong>从后往前倒序还原</strong>，由于左侧较大的数都留给了前面，当前位填入的必然是<strong>剩余可用数字中的第</strong> $cnt + 1$ <strong>大</strong>，利用<strong>权值线段树二分（查第</strong> $k$ <strong>大）</strong>找出该值并删除即可。（本题还有仅排序的做法）",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2223b-zhily-and-barknights",
+      "title": "CF2223B Zhily and Barknights",
+      "type": "题目",
+      "tags": [
+        "贡献法",
+        "二分",
+        "期望/线性性"
+      ],
+      "difficulty": 1.5,
+      "summary": "根据期望的线性性，总期望逆序对数 = \\(\\sum_{i<j} \\Pr(c_i>c_j)\\)，只需对每一对 \\((i,j)\\) 计算概率即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2229d-me-when-median-problem",
+      "title": "CF2229D Me When Median Problem",
+      "type": "题目",
+      "tags": [
+        "ad-hoc",
+        "二分答案"
+      ],
+      "difficulty": 2.0,
+      "summary": "一开始我没啥方向，甚至在考虑答案会不会是中位数，直到我突然想到能不能用<strong>二分答案</strong>时。我先是考虑到我完全可以把 $a_i,b_i$ 中较小的放 $a_i$，较大的放 $b_i$，然后如果 $a_i \\ge mid$，设 $i$ 为 11，如果 $a_i < mid 且 b < mid$ $i$ 为 00，如果 $a_i <mid 且 b \\ge mid$ $i$ 为 01。然后打打草稿就发现只需要 11 的数量大于 00，那肯定能得到答案 $\\ge mid$ 的情况。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2232c2-seating-arrangement-(hard-version)",
+      "title": "CF2232C2 Seating Arrangement (Hard Version)",
+      "type": "题目",
+      "tags": [
+        "反悔贪心"
+      ],
+      "difficulty": 2.0,
+      "summary": "发现本题能使用<strong>反悔贪心</strong>，然后默认 A 在还有空桌子剩的时候就去开空桌子，如果到 I 没空桌子了，就考虑反悔 A，反悔出来的 A 看看能不能补回去。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-06-02",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2233c-cost-of-a-bracket-sequence",
+      "title": "CF2233C Cost of a Bracket Sequence",
+      "type": "题目",
+      "tags": [
+        "经典问题/括号匹配问题"
+      ],
+      "difficulty": 2.0,
+      "summary": "目标是删除至多 $k$ 个字符来最小化<strong>合法括号子序列</strong>的长度。两种做法：一是 $O(n^2)$ 暴力贪心——尝试删每个位置，若最长配对数减少则保留（能证明删掉一个参与最优匹配的括号必使配对数减 1）；二是 $O(n)$ 直接套用 $\\min_p(\\text{前缀 (} + \\text{后缀 )})$ 的结论，找到瓶颈位置，把那里的 <code>(</code> 和 <code>)</code> 删掉即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-06-14",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf2234c-vessels,-heights-and-two-versions-(easy-version)",
+      "title": "CF2234C Vessels, Heights and Two Versions (Easy Version)",
+      "type": "题目",
+      "tags": [
+        "ad-hoc",
+        "前后缀"
+      ],
+      "difficulty": 1.5,
+      "summary": "脑筋急转弯题，一开始只想着开一个数组两头跑，发现完全不行；看了题解才意识到可以开两个数组 $b, c$，分别从 $i+1$ 和 $i-1$ 出发各跑一遍<strong>前缀最大值</strong>，每个位置取 $\\min(b_j, c_j)$ 累加即是答案，有点类似<strong>容斥</strong>的思想。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-06-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf245h-queries-for-number-of-palindromes",
+      "title": "CF245H Queries for Number of Palindromes",
+      "type": "题目",
+      "tags": [
+        "区间dp",
+        "回文",
+        "容斥"
+      ],
+      "difficulty": 1.5,
+      "summary": "<code>dp[i][j] = dp[i+1][j] + dp[i][j-1] - dp[i+1][j-1] + hui[i][j]</code>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf263d-cycle-in-graph",
+      "title": "CF263D Cycle in Graph",
+      "type": "题目",
+      "tags": [
+        "生成树",
+        "图论经典问题/环问题"
+      ],
+      "difficulty": 1.5,
+      "summary": "刚做过 <a href=\"/notes/cf845g-shortest-path-problem?\" class=\"wikilink\">CF845G Shortest Path Problem?</a>，这题也就不难了。都是先构造生成树，然后通过这棵树来维护些东西，CF845G是维护<code>距离 dis</code>，我们这维护<code>深度 dep</code>即可，当遇到返祖边时，<code>深度差 + 1</code> 就是环的大小了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf280c-game-on-tree",
+      "title": "CF280C Game on Tree",
+      "type": "题目",
+      "tags": [
+        "期望/线性性",
+        "贡献法"
+      ],
+      "difficulty": null,
+      "summary": "还是按照贡献法的思路来考虑这个期望问题，算每个点删掉对答案的贡献即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-29",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf295b-greg-and-graph",
+      "title": "CF295B Greg and Graph",
+      "type": "题目",
+      "tags": [
+        "正难则反",
+        "floyd"
+      ],
+      "difficulty": 1.5,
+      "summary": "倒序跑<strong>动态 floyd</strong>，留个代码当参考了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-07",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf356a-knight-tournament",
+      "title": "CF356A Knight Tournament",
+      "type": "题目",
+      "tags": [
+        "并查集/链式并查集"
+      ],
+      "difficulty": null,
+      "summary": "链式并查集模板题。每个区间<strong>最多被赋值一次</strong>（实际上会留一个数），非常适合链式并查集。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-04",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf451e-devu-and-flowers",
+      "title": "CF451E Devu and Flowers",
+      "type": "题目",
+      "tags": [
+        "暴力容斥",
+        "隔板法"
+      ],
+      "difficulty": 2.5,
+      "summary": "思路几乎就是 <a href=\"/p/p1450-[haoi2008]-硬币购物\" class=\"wikilink\">P1450 [HAOI2008] 硬币购物</a> 这题，只不过全集需要用<strong>组合数学</strong>计算。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf455d-serega-and-fun",
+      "title": "CF455D Serega and Fun",
+      "type": "题目",
+      "tags": [
+        "分块"
+      ],
+      "difficulty": 2.5,
+      "summary": "因为要纯在线操作，且操作不适合线段树，故使用分块。在每个块里维护一个双端队列 <code>lzq</code> 和计数数组 <code>cnt[N]</code>，然后全在分块的基础上写即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-23",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf459e-pashmak-and-graph",
+      "title": "CF459E Pashmak and Graph",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "思维定势"
+      ],
+      "difficulty": 2.0,
+      "summary": "按边权升序排序，这样构造出拓扑序，就可以通过枚举边来写 dp 了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-14",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf472d-design-tutorial%3a-inverse-the-problem",
+      "title": "CF472D Design Tutorial%3A Inverse the Problem",
+      "type": "题目",
+      "tags": [
+        "前缀和",
+        "lca",
+        "最小生成树",
+        "树上启发式合并"
+      ],
+      "difficulty": 2.0,
+      "summary": "先构造出<strong>最小生成树</strong>，最小生成树肯定是该加权树的结构，然后对距离进行检查即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf475d-cgcdssq",
+      "title": "CF475D CGCDSSQ",
+      "type": "题目",
+      "tags": [
+        "前后缀",
+        "gcd",
+        "二分",
+        "st表"
+      ],
+      "difficulty": 1.5,
+      "summary": "本题完全围绕前缀 gcd 个数不超过 $\\log X$ 这个性质写了，直接枚举 $l$ 能让区间 gcd 产生变化的 $r$ 只有 $\\log X$ 个，直接二分 + st表 $O(log^2n)$ 求出那几个 $r$ 即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-05",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf506d-mr.-kitayuta's-colorful-graph",
+      "title": "CF506D Mr. Kitayuta's Colorful Graph",
+      "type": "题目",
+      "tags": [
+        "根号分治",
+        "并查集",
+        "图论经典问题/图的连通性"
+      ],
+      "difficulty": 2.0,
+      "summary": "主要难点就是看出<strong>根号分治</strong>，如何操作这个根号分治，然后就是<strong>用并查集处理连通性</strong>了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf559c-gerald-and-giant-chess",
+      "title": "CF559C Gerald and Giant Chess",
+      "type": "题目",
+      "tags": [
+        "组合数学",
+        "计数问题",
+        "dp",
+        "容斥"
+      ],
+      "difficulty": 2.0,
+      "summary": "一开始的想法是直接容斥，把真全集算出来然后把不合法的路径全减掉，但是发现不是很好写。于是考虑对于一个点，究竟该如何算这个点到 $(1,1)$ 的合法路径个数，这个点到 $(1,1)$ 点的矩形内存在若干个非法点，发现答案 = $这个点到 (1,1) 的路径总数 - 非法点到这个点的路径总数 * 非法点到 (1,1) 的合法路径总数$，这样肯定不会出现重复了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf577b-modulo-sum",
+      "title": "CF577B Modulo Sum",
+      "type": "题目",
+      "tags": [
+        "bitset",
+        "dp",
+        "数论/鸽巢原理"
+      ],
+      "difficulty": 1.5,
+      "summary": "转成算子串和就可以考虑前缀和，然后发现只要 $n \\ge m$ ，那就可以套鸽巢原理，<strong>前</strong> $n$ <strong>个前缀和肯定存在相同的或者</strong> $0$，那么 $n \\ge m$ 时就必定是 $YES$；$n \\le m$ 时，跑 $O(nm)$ 的 $dp$ 即可解决。还有个方法是直接 $bitset$，毕竟是<strong>可达型 dp</strong>，<strong>留意一下取模的写法</strong>即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf587c-duff-in-the-army",
+      "title": "CF587C Duff in the Army",
+      "type": "题目",
+      "tags": [
+        "树上倍增",
+        "LCA"
+      ],
+      "difficulty": 1.5,
+      "summary": "完全参考 <a href=\"/p/cf1843f2-omsk-metro-(hard-version)\" class=\"wikilink\">CF1843F2 Omsk Metro (hard version)</a> 写树上倍增即可，没啥难度。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf607b-zuma",
+      "title": "CF607B Zuma",
+      "type": "题目",
+      "tags": [
+        "回文",
+        "区间dp"
+      ],
+      "difficulty": 2.0,
+      "summary": "回文串结合区间 dp 的模板题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf609e-minimum-spanning-tree-for-each-edge",
+      "title": "CF609E Minimum spanning tree for each edge",
+      "type": "题目",
+      "tags": [
+        "最小生成树",
+        "LCA",
+        "树上倍增"
+      ],
+      "difficulty": 2.0,
+      "summary": "先跑一边 MST。如果强制添加的边就在 MST 上，答案肯定不变；如果不在的话，强制选 $(u, v)$ 后，形成了<strong>环</strong>，需要断开环上权值最大的一条边（不含 $(u, v)$ 本身），画图发现环的边就在 $u \\to lca(u,v)$ 和 $v \\to lca(u,v)$ 这两条路径上，直接<strong>树上倍增</strong>解决，依旧参考 <a href=\"/p/cf1843f2-omsk-metro-(hard-version)\" class=\"wikilink\">CF1843F2 Omsk Metro (hard version)</a> 写。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf616e-sum-of-remainders",
+      "title": "CF616E Sum of Remainders",
+      "type": "题目",
+      "tags": [
+        "整除分块"
+      ],
+      "difficulty": 1.0,
+      "summary": "数很大，又是<strong>取模</strong>，改造成公式 $n = k_i * i + r_i$ 后，因为有整除分块的原理，$k_i$ 存在一样的连续段，当 $k_i$ 一样时，$r_i$ 呈一段等差数列。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-09",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf665e-beautiful-subarrays",
+      "title": "CF665E Beautiful Subarrays",
+      "type": "题目",
+      "tags": [
+        "异或/01字典树",
+        "前缀异或"
+      ],
+      "difficulty": 1.5,
+      "summary": "一眼要用前缀异或，需要<strong>用异或的方法比较两数大小</strong>，然后用 $01$ 字典树记录 $01$ 前缀出现次数，这边主要注意一下时间复杂度，$O(nlog^2n)$ 可以过，不过也有 $O(nlogn)$ 的写法。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf685b-kay-and-snowflake",
+      "title": "CF685B Kay and Snowflake",
+      "type": "题目",
+      "tags": [
+        "重心"
+      ],
+      "difficulty": 1.5,
+      "summary": "考虑一次 dfs 把所有子树的重心算出来，当处理当前子树 now 的重心时，找出重儿子的重心，<strong>当前子树的重心肯定在 now 到重儿子的重心的链</strong>上，根据重心的性质一直向上跳即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-24",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf721c-journey",
+      "title": "CF721C Journey",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "思维定势"
+      ],
+      "difficulty": 1.5,
+      "summary": "跟 <a href=\"/p/2025四川省赛-a-minimum-product\" class=\"wikilink\">2025四川省赛 A Minimum Product</a> 一样的 trick，已经经过的边个数 cnt 是<strong>满足拓扑序</strong>的，直接按这个拓扑序跑 dp 即可，跑 dij 会超时。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-14",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf733f-drivers-dissatisfaction",
+      "title": "CF733F Drivers Dissatisfaction",
+      "type": "题目",
+      "tags": [
+        "树上倍增",
+        "LCA",
+        "最小生成树"
+      ],
+      "difficulty": 3.0,
+      "summary": "本题整体上就是 <a href=\"/p/cf609e-minimum-spanning-tree-for-each-edge\" class=\"wikilink\">CF609E Minimum spanning tree for each edge</a> 的加强版。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf786c-till-i-collapse",
+      "title": "CF786C Till I Collapse",
+      "type": "题目",
+      "tags": [
+        "主席树",
+        "主席树/主席树上二分",
+        "调和级数"
+      ],
+      "difficulty": 2.5,
+      "summary": "每次处理 k，块的个数肯定 $\\le \\frac{n}{k}$，这样总数大概为调和级数级别 $n \\ln n$，然后套个<strong>主席树上二分</strong>查出最大的 $pos$ 满足下标区间 $[L, pos]$ 对应的不同的数总数 $\\le k$，因为是从 L 向后查，考虑使用<strong>后缀主席树</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-23",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf803f-coprime-subsequences",
+      "title": "CF803F Coprime Subsequences",
+      "type": "题目",
+      "tags": [
+        "数论容斥",
+        "正难则反",
+        "gcd",
+        "思维定势"
+      ],
+      "difficulty": 2.5,
+      "summary": "乍一看觉得是 dp，但实际上本题的 <strong>GCD</strong> 和 <strong>互质</strong> 才是关键。通过<strong>数论容斥</strong>，算出最大公约数为 $g \\ (g \\ge 2)$ 的序列个数，然后全集减掉，这题也就解决了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-16",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf813e-army-creation",
+      "title": "CF813E Army Creation",
+      "type": "题目",
+      "tags": [
+        "主席树"
+      ],
+      "difficulty": 2.5,
+      "summary": "考虑在 $[l,r]$ 的下标区间内，什么样的数可以算入答案，那就是第 $a_i$ 往前第 $k + 1$ 次出现的位置 $j < l$，于是构造 <code>pre[i]</code> 存 $j$，用<strong>主席树维护下标作为值域</strong>，算有多少个位置满足 $pre[i] < L$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf817d-imbalanced-array",
+      "title": "CF817D Imbalanced Array",
+      "type": "题目",
+      "tags": [
+        "贡献法",
+        "子段计数问题",
+        "单调栈"
+      ],
+      "difficulty": 1.5,
+      "summary": "经典子段计数的贡献法问题，要算 max - min 之和，考虑拆分成 max和 - min和，然后结合单调栈算左右合法边界的个数即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-27",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf817f-mex-queries",
+      "title": "CF817F MEX Queries",
+      "type": "题目",
+      "tags": [
+        "珂朵莉树"
+      ],
+      "difficulty": 1.0,
+      "summary": "很明显，两个修改和一个查询都能推平，故使用珂朵莉树。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf825e-minimal-labels",
+      "title": "CF825E Minimal Labels",
+      "type": "题目",
+      "tags": [
+        "贪心/反向贪心",
+        "拓扑排序",
+        "后效性"
+      ],
+      "difficulty": null,
+      "summary": "写法就是<strong>反向建图后的大根堆的拓扑排序</strong>，难点就是想到这个了——为啥正向跑拓扑是错的？为啥反向跑拓扑就对了？",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf835d-palindromic-characteristics",
+      "title": "CF835D Palindromic characteristics",
+      "type": "题目",
+      "tags": [
+        "回文",
+        "区间dp"
+      ],
+      "difficulty": 2.0,
+      "summary": "想半天没发现是纯板题，几乎就是<strong>区间 dp 判回文</strong>的板子改改了。<em>注意力惊人题（</em>",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf837d-round-subset",
+      "title": "CF837D Round Subset",
+      "type": "题目",
+      "tags": [
+        "数论",
+        "背包"
+      ],
+      "difficulty": 2.0,
+      "summary": "主要两个难点，看出来因子为 $2$ 和 $5$ 的数结论，然后想出 $dp$ 状态的定义能用类似<strong>背包恰好装满</strong>的形式。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-19",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf845g-shortest-path-problem%3f",
+      "title": "CF845G Shortest Path Problem%3F",
+      "type": "题目",
+      "tags": [
+        "异或",
+        "线性基",
+        "按位贪心",
+        "图论经典问题/边可以反复走",
+        "图论经典问题/环问题",
+        "生成树"
+      ],
+      "difficulty": 3.0,
+      "summary": "全是异或和，能用线性基，得考虑怎么通过<strong>线性基</strong>来得到<strong>最短距离</strong>，既然还涉及<strong>异或</strong>，那关键点就是图里的<strong>环</strong>了，最后的最小距离答案可以通过线性基用<strong>按位贪心</strong>解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf866d-buy-low-sell-high",
+      "title": "CF866D Buy Low Sell High",
+      "type": "题目",
+      "tags": [
+        "贪心/反悔贪心"
+      ],
+      "difficulty": null,
+      "summary": "<strong>反悔堆</strong>里存的是<strong>代价</strong>。为了赚更多，我把之前那个小赚的单子撤销，换成现在这个大赚的单子。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf896c-真·珂朵莉树·起源",
+      "title": "CF896C 真·珂朵莉树·起源",
+      "type": "题目",
+      "tags": [
+        "珂朵莉树"
+      ],
+      "difficulty": null,
+      "summary": "真珂朵莉无双 · 起源。因为<strong>数据全随机</strong>，且包含<strong>堆平操作</strong>，直接珂朵莉树<strong>暴力</strong>即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf899f-letters-removing",
+      "title": "CF899F Letters Removing",
+      "type": "题目",
+      "tags": [
+        "线段树/线段树二分",
+        "二分"
+      ],
+      "difficulty": 2.0,
+      "summary": "题目给的 $l,r$ 是动态更新后的下标，因为放在数据结构里维护的下标很难维护动态下标，所以我们只放原始下标。我们需要把<strong>动态更新后的下标转化成原始下标</strong>，使用<strong>线段树二分</strong>进行转化。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-17",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf912d-fishes",
+      "title": "CF912D Fishes",
+      "type": "题目",
+      "tags": [
+        "贡献法",
+        "bfs",
+        "贪心"
+      ],
+      "difficulty": 2.0,
+      "summary": "",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf914d-bash-and-a-tough-math-puzzle",
+      "title": "CF914D Bash and a Tough Math Puzzle",
+      "type": "题目",
+      "tags": [
+        "线段树/线段树二分"
+      ],
+      "difficulty": 2.0,
+      "summary": "只需要查询区间的 $gcd % x == 0$ 即可，因为可以随便改一个树数，当然如果<strong>只有一个坏数</strong> $% x != 0$，那么直接改这个数即可。查询区间坏数，使用<strong>线段树二分</strong>，实现的时候因为每次都会跑到叶子节点，所以<strong>剪枝</strong>得写号。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cf959f-mahmoud-and-ehab-and-yet-another-xor-task",
+      "title": "CF959F Mahmoud and Ehab and yet another xor task",
+      "type": "题目",
+      "tags": [
+        "线性基"
+      ],
+      "difficulty": 1.0,
+      "summary": "经典<strong>异或组合计数问题</strong>，使用线性基性质，套公式解决，公式为 $2^{l - rank}$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-09",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cfg66451b-odd-cycle",
+      "title": "CFG66451B Odd Cycle",
+      "type": "题目",
+      "tags": [
+        "图论经典问题/二分图",
+        "图论经典问题/环问题",
+        "强连通分量"
+      ],
+      "difficulty": null,
+      "summary": "单向图的环问题，把 SCC 先全找出来。注意到结论：只要 SCC 里存在奇基本环，那就 SCC 中所有的偶基本环都可以通过这个奇基本环形成<strong>奇循环</strong>，所有只要对单向图的所有 SCC 进行<strong>染色法奇环判定</strong>就行了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "cfzcpc-round-4-f-biased-cognition",
+      "title": "Cfzcpc Round 4 F Biased Cognition",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "贪心/排序",
+        "01背包"
+      ],
+      "difficulty": 2.0,
+      "summary": "并不是非常好想到能用 dp（类似于 01 背包），也不是很好想到 dp 前需排序。所以进行了一波整理：<strong>如果打乱被选物品的内部顺序，会导致总收益改变</strong>，那就必须先找到那个 “最优顺序（贪心策略）” ，按照这个策略给原数组排序，然后再上 DP 算数值！",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "lc174-地下城游戏",
+      "title": "LC174 地下城游戏",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "正难则反",
+        "二分答案"
+      ],
+      "difficulty": 2.0,
+      "summary": "如果正向考虑，仅可以<strong>二分答案跑正向 dp</strong>，太简单不讲解。倒序考虑可以仅 $O(n \\cdot m)$，设 $dp[i][j]$：不管我之前经历了什么，为了活着走完剩下的路，<strong>我在进入</strong> $(i, j)$ <strong>这个格子前，最少必须拥有多少血？</strong>主要是可以倒序，倒序的 dp 状态怎么定义这两个点比较难想到。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "mc0472-郭嘉破阵",
+      "title": "MC0472 郭嘉破阵",
+      "type": "题目",
+      "tags": [
+        "前缀和",
+        "前缀异或",
+        "二进制",
+        "位运算",
+        "经典问题/计数问题/子段计数问题",
+        "数学推导"
+      ],
+      "difficulty": 2.0,
+      "summary": "<strong>并非贡献法的子段计数问题</strong>，关键还是<strong>按位拆分</strong>，然后推前缀和、前缀异或的公式。令 $P_x$ 表示 $a$ 数组前 $x$ 个元素在第 $k$ 位的<strong>前缀异或和</strong>，令 $S_x$ 表示 $b$ 数组前 $x$ 个元素的<strong>前缀和</strong>。那么答案为 $\\sum_{j=1}^{n} \\sum_{\\substack{1 \\le i \\le j \\\\ P_{i-1} \\neq P_j}} (S_j - S_{i-1})$，也是个比较经典的<strong>前缀和公式推导问题</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "mc0474-赤壁战场",
+      "title": "MC0474 赤壁战场",
+      "type": "题目",
+      "tags": [
+        "暴力容斥"
+      ],
+      "difficulty": 1.0,
+      "summary": "最典型的<strong>暴力容斥</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nc108299d-真真的提拉米苏",
+      "title": "NC108299D 真真的提拉米苏",
+      "type": "题目",
+      "tags": [
+        "背包",
+        "贪心",
+        "STL",
+        "调和级数",
+        "优化技巧"
+      ],
+      "difficulty": 3.0,
+      "summary": "有一点小复杂，但实际上不难的<strong>背包</strong>问题，主要是得想到用<strong>调和级数</strong>压缩物品数量，用<code>nth_element</code>处理卡常。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nc108301g-alice-的模糊括号序列",
+      "title": "NC108301G Alice 的模糊括号序列",
+      "type": "题目",
+      "tags": [
+        "ad-hoc",
+        "前缀和",
+        "前后缀",
+        "经典问题/括号匹配问题",
+        "经典问题/构造结构问题"
+      ],
+      "difficulty": 3.0,
+      "summary": "先想到 <strong>+1/-1 前缀和</strong>，发现<strong>两个性质</strong>，再构造<strong>三明治结构</strong>，通过枚举三明治<strong>中间分割点</strong>来计算答案，整个过程都挺难想到的。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nc120458d-碎碎念",
+      "title": "NC120458D 碎碎念",
+      "type": "题目",
+      "tags": [
+        "计数问题",
+        "状态机dp",
+        "思维定势"
+      ],
+      "difficulty": 2.0,
+      "summary": "写的时候<strong>思维定势</strong>，花了一小时搞<strong>组合数学</strong>，实际上想到<strong>状态机dp</strong>就能直接秒了",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-12",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nc123428m-最大化仿射变换",
+      "title": "NC123428M 最大化仿射变换",
+      "type": "题目",
+      "tags": [
+        "贪心/排序"
+      ],
+      "difficulty": 1.0,
+      "summary": "纯贪心排序题的<strong>排序函数</strong>构造参考题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nc124960e-小学二年级地理",
+      "title": "NC124960E 小学二年级地理",
+      "type": "题目",
+      "tags": [
+        "倍增"
+      ],
+      "difficulty": 2.0,
+      "summary": "<strong>分类讨论找关键点，然后在关键点上套倍增就行。</strong>",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-23",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nc126321h-故障机器人",
+      "title": "NC126321H 故障机器人",
+      "type": "题目",
+      "tags": [
+        "状压",
+        "dij",
+        "最短路/TSP状压问题"
+      ],
+      "difficulty": 1.5,
+      "summary": "先用多次<strong>bfs</strong>算了每个点对的最短距离，然后根据这个最短距离，$s$ 作为起点跑所有关键点的最短路，用状压记录已经跑过哪些位置。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nc126635a「sfcoi-4」剑客花木兰",
+      "title": "NC126635A「SFCOI-4」剑客花木兰",
+      "type": "题目",
+      "tags": [
+        "exgcd"
+      ],
+      "difficulty": 1.5,
+      "summary": "就是用 <strong>exgcd</strong> 求一下非负解即可，题目要求 $ax+by \\ge c$，$ax+by$ 的值可以直接<strong>枚举</strong>出来，值域就为 $[x_i, x_i + 1e3)$，值域的提示来自于<strong>数据范围</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-14",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nc126635b「sfcoi-4」序列与变换",
+      "title": "NC126635B「SFCOI-4」序列与变换",
+      "type": "题目",
+      "tags": [
+        "打表找规律"
+      ],
+      "difficulty": 1.5,
+      "summary": "主要就是发现题目的<strong>漏斗效应</strong>，然后又发现绝对值下<strong>奇偶性</strong>的变化特点，然后本题就做出来了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-14",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nc126636g-小红的字符串构造（hard）",
+      "title": "NC126636G 小红的字符串构造（hard）",
+      "type": "题目",
+      "tags": [
+        "字典树",
+        "思维定势"
+      ],
+      "difficulty": 1.5,
+      "summary": "遍历一下整个字典树就行",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-31",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nc50381-道路和航线",
+      "title": "NC50381 道路和航线",
+      "type": "题目",
+      "tags": [
+        "图论",
+        "拓扑排序",
+        "dij",
+        "负权边",
+        "并查集",
+        "单向边",
+        "多源最短路"
+      ],
+      "difficulty": 2.0,
+      "summary": "思路不算难想，主是不好写",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk105623f-小苯的ovo2.0",
+      "title": "NK105623F 小苯的ovo2.0",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "贡献法",
+        "经典问题/构造结构问题"
+      ],
+      "difficulty": 2.0,
+      "summary": "dp 的思路纯按 <code>ovo</code> 的形状定，考虑 <code>v</code> 对答案的贡献，应该是标准的贡献法 dp 题。思想上跟传统线性 dp 不太一样，因为考虑了<strong>未来的信息</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-30",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk109080f-poi-的新加法",
+      "title": "NK109080F Poi 的新加法",
+      "type": "题目",
+      "tags": [
+        "异或"
+      ],
+      "difficulty": 1.5,
+      "summary": "$f(x,y) = (x + y) - (x \\oplus y) = 2 * (x  \\& y)$，本来想用线段树或者 st 表的，但是发现 $x \\& y$ 带上了 $* 2$ 就变得<strong>不满足结合律</strong>了，那所有的数据结构就都不能用。于是考虑这个运算的性质，发现这个运算一直会产生进位，进位多了就会出现 0，有 0 那全都是 0 了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-27",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk114111d-小红的华撃串",
+      "title": "NK114111D 小红的华撃串",
+      "type": "题目",
+      "tags": [
+        "状态机dp"
+      ],
+      "difficulty": 1.5,
+      "summary": "一开始当分类讨论的思维题做了，结果写起来特别复杂，看到 $n = 500$，考虑使用 $O(N^2)$ 的<strong>状态机dp</strong>解决，因为最后的字符串的形式肯定是 <code>0101</code> 或 <code>1010</code>，定 4 个状态也就解决了。本题定位是周赛 D 题，写这么慢真得好好反思了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-22",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk128675e-小橙的幸运数（hard）",
+      "title": "NK128675E 小橙的幸运数（hard）",
+      "type": "题目",
+      "tags": [
+        "倍增",
+        "基环树",
+        "同余最短路"
+      ],
+      "difficulty": 1.5,
+      "summary": "两个做法，最简单好想的是<strong>倍增+贪心跳跃</strong>，也可以考虑建图<strong>跑基环树+同余最短路</strong>解决，后者可能比较麻烦。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk128675f-小橙的异或和",
+      "title": "NK128675F 小橙的异或和",
+      "type": "题目",
+      "tags": [
+        "并查集/链式并查集"
+      ],
+      "difficulty": 1.0,
+      "summary": "很多做法都能解决，毕竟是除法，一个数<strong>除不了多久</strong>，且除完了<strong>这个数以后不会再用到</strong>，我这边用时间上最优的<strong>链式并查集</strong>解决，也是非常简单的。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk128675g-小橙交换水果",
+      "title": "NK128675G 小橙交换水果",
+      "type": "题目",
+      "tags": [
+        "树上前缀和差分",
+        "树上倍增",
+        "LCA",
+        "多源最短路",
+        "分类讨论"
+      ],
+      "difficulty": 2.0,
+      "summary": "两种情况分类讨论一下，用多源最短路算一下<strong>每个点到分岔路的距离</strong>，用树上前缀和或树上倍增查询两个点路径<strong>是否为完全的链</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk129231f-palindromic-value",
+      "title": "NK129231F Palindromic Value",
+      "type": "题目",
+      "tags": [
+        "计数问题",
+        "划分型dp",
+        "回文",
+        "区间dp"
+      ],
+      "difficulty": 2.0,
+      "summary": "先用区间 dp 的方法把回文数组<code>hui</code>预处理出来，然后考虑 $O(N^2)$ 的枚举。基于划分型 dp，把序列分成 <code>[其它段][回文段]</code>，当 $s(j, i)$ 是回文串时，再进行转移，这样保证不会算重，因为 $s[i]$ 在前面的 dp 没出现过。也得算一下 $f[i]$ 表示前面的方案数，计算 $dp[i]$ 时会用到，这里不多赘述。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk129232c-调色题ⅱ",
+      "title": "NK129232C 调色题Ⅱ",
+      "type": "题目",
+      "tags": [
+        "背包",
+        "因数",
+        "gcd",
+        "前缀单调性"
+      ],
+      "difficulty": 2.0,
+      "summary": "看到 $b$ 数组说要选几个进行 $gcd$ ，我就想到了<strong>背包选取</strong> $dp[i][j]$：与 $j$ 进行 $gcd$ 的最小代价，刚好复杂度合适。然后我就猜想，$dp$ 中真正<strong>能用的肯定不多</strong>，我可以直接枚举。$a$ 的数都会相同，那它们肯定是 $\\gcd (a_i)$ 的因数，枚举看看哪个消耗少就行。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-18",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk129582f-alone",
+      "title": "NK129582F Alone",
+      "type": "题目",
+      "tags": [
+        "贡献法"
+      ],
+      "difficulty": 2.0,
+      "summary": "网格图上的贡献法没见过，就倒闭了，我还是对贡献法不熟啊。贡献法做，考虑点 $(i,j)$ 的贡献，因为是贡献法，所以不需要考虑容斥了，不会有重复的。$(i,j)$ 点就两种情况，是否为必拿点，分别考虑贡献计算即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk130843f-小苯的糖果盒",
+      "title": "NK130843F 小苯的糖果盒",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "前缀优化dp",
+        "贡献法"
+      ],
+      "difficulty": 2.0,
+      "summary": "<strong>定初步状态</strong> $\\to$ <strong>发现计算难点</strong> $\\to$ <strong>扩展一维状态消解难点</strong> $\\to$ <strong>算复杂度</strong> $\\to$ <strong>发现瓶颈并引入前缀优化</strong>",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-29",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk131111f-小苯的对称序列",
+      "title": "NK131111F 小苯的对称序列",
+      "type": "题目",
+      "tags": [
+        "区间dp"
+      ],
+      "difficulty": 1.5,
+      "summary": "$1e9$ 勉强过的，本来可以 $O(n^2)$ 解决，开 <code>short dp[505][505][2005];</code> 就行，但是会 MLE，只能 $O(1000 \\cdot n^2)$ 了。为了不跑慢 2000 的值域，得先把可能的总和提出来，然后留意一下区间 dp 的答案继承即可。当然，还有 $O(n^3)$ 的做法，令 <code>dp[i][j]</code> 表示：<strong>强制以</strong> $a[i]$ <strong>和</strong> $a[j]$ <strong>为最外层首尾元素</strong>的对称子序列的最大长度，用非常规方法枚举也可以解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-05",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk133523f-回文(version-3)",
+      "title": "NK133523F 回文(version 3)",
+      "type": "题目",
+      "tags": [
+        "前缀和",
+        "数学推导",
+        "贡献法"
+      ],
+      "difficulty": 2.0,
+      "summary": "$x=1,2$ 的情况都很简单，主要是 $x=3$ 的情况。$x=3$ 是经典的 <code>aba</code> 三明治结构模型，考虑算 <code>b</code> 的贡献为：<code>b</code> 左边 <code>a</code> 的个数 $*$ <code>b</code> 右边 <code>a</code> 的个数，用前缀和推个式子即可解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk57683e-kevin喜欢零(困难版本)",
+      "title": "NK57683E Kevin喜欢零(困难版本)",
+      "type": "题目",
+      "tags": [
+        "容斥",
+        "双指针"
+      ],
+      "difficulty": 1.5,
+      "summary": "<strong>经典容斥，恰好难算，我们算至少</strong>，恰好 $k$ 的答案 = 至少 $k$ 的答案 - 至少 $k + 1$ 的答案。本题的后导零本质上是算子串内，每个数的 $min(2 作为因子的总数，5 作为因子的总数)$，明显<strong>符合单调性</strong>，直接双指针算即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-05",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk70e-乌龟跑步",
+      "title": "NK70E 乌龟跑步",
+      "type": "题目",
+      "tags": [
+        "dp"
+      ],
+      "difficulty": 1.0,
+      "summary": "很简单的<strong>多维线性dp题</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-19",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk73239f-小红统计区间（hard）",
+      "title": "NK73239F 小红统计区间（hard）",
+      "type": "题目",
+      "tags": [
+        "双指针",
+        "树状数组",
+        "线段树/动态开点线段树"
+      ],
+      "difficulty": 1.5,
+      "summary": "easy 版本用的 <strong>前缀和+二分</strong>解决；hard 版本一眼线段树，但是<strong>值域太大</strong>，故使用<strong>动态开点线段树</strong>；如果嫌动态开点线段树太长不想写，也可以想<strong>树状数组+双指针</strong>的做法，我们把<strong>前缀对应的下标</strong>存入树状数组里，然后还是排序后按<strong>前缀和递增（easy版本）</strong>的方法处理本题即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk93847e-小苯的蓄水池（hard）",
+      "title": "NK93847E 小苯的蓄水池（hard）",
+      "type": "题目",
+      "tags": [
+        "链式并查集",
+        "珂朵莉树"
+      ],
+      "difficulty": 1.5,
+      "summary": "不单纯是链式并查集的模板，维护的是<strong>带权并查集</strong>；不单纯是珂朵莉树模板，本题不需要 <code>split</code> 操作。作为代码参考题，主要看看代码上进行了什么修改即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-09",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk94879e-小红开宝箱",
+      "title": "NK94879E 小红开宝箱",
+      "type": "题目",
+      "tags": [
+        "拓扑排序"
+      ],
+      "difficulty": 2.0,
+      "summary": "题目的目标转成<strong>为每个点分配一条边</strong>。发现本题明显先分配给<strong>度数小的更好</strong>，于是考虑用<strong>类拓扑排序</strong>的写法。$k = 2$ 时两个点连边，切标记边的 $id$；$k = 1$ 时跟一个<strong>虚拟节点</strong>连边。最后剩下的<strong>环</strong>一个一个枚举处理即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-kevin的矩阵",
+      "title": "NK题霸 Kevin的矩阵",
+      "type": "题目",
+      "tags": [
+        "剪枝/数学型剪枝",
+        "数学/均值不等式"
+      ],
+      "difficulty": 2.0,
+      "summary": "完全想不到<strong>暴力+剪枝</strong>就能解决，每次更新答案的上限 <code>ans</code>，一旦操作超过答案上限，就直接 break。剪枝的底层原理是<strong>均值不等式</strong>，复杂度为 $O(n\\sqrt{n})$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-乘之",
+      "title": "NK题霸 乘之",
+      "type": "题目",
+      "tags": [
+        "博弈论"
+      ],
+      "difficulty": 2.0,
+      "summary": "博弈的结论就是所有数都乘 $k$ 的总和，难点就是怎么看出这个结论了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-21",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-刷题统计",
+      "title": "NK题霸 刷题统计",
+      "type": "题目",
+      "tags": [
+        "容斥"
+      ],
+      "difficulty": 1.0,
+      "summary": "根据数学公式，容斥计算。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-17",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-区间增量与区间小于计数",
+      "title": "NK题霸 区间增量与区间小于计数",
+      "type": "题目",
+      "tags": [
+        "分块"
+      ],
+      "difficulty": null,
+      "summary": "分块模板题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-23",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-和谐并处的车",
+      "title": "NK题霸 和谐并处的车",
+      "type": "题目",
+      "tags": [
+        "图论建模"
+      ],
+      "difficulty": 2.5,
+      "summary": "一开始当思维题做，发现车之间的依赖关系太乱，根本理不清。想到可以建图，但不知道怎么建。关键一步是<strong>行列建图</strong>——把行和列看作图的节点，车看作有向边 $x \\to y$。这样每个节点的<strong>出入度天然表达了行/列的占用状态</strong>，图的结构只有<strong>路径</strong>和<strong>环</strong>两种。这种把二维坐标映射到图边上的建图方式之前从未见过，很新颖。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-06-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-换个角度思考",
+      "title": "NK题霸 换个角度思考",
+      "type": "题目",
+      "tags": [
+        "离线处理",
+        "树状数组",
+        "莫队",
+        "主席树"
+      ],
+      "difficulty": 1.0,
+      "summary": "一眼可以用主席树或莫队秒，不过这里还是给出离线处理+树状数组的做法。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-12",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-旅行者的大逃脱",
+      "title": "NK题霸 旅行者的大逃脱",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "前缀和优化dp"
+      ],
+      "difficulty": 2.0,
+      "summary": "我一开始是按 $i,j,t$ 顺序跑的 dp，但发现不开滚动会 MLE，但按 $i,j,t$ 顺序不能开滚动，所以我按 $t,i,j$ 顺序跑了，然后为了降维，进行了前缀和优化。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-27",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-最大最小路",
+      "title": "NK题霸 最大最小路",
+      "type": "题目",
+      "tags": [
+        "并查集",
+        "容斥",
+        "正难则反",
+        "树形dp",
+        "状压dp"
+      ],
+      "difficulty": 2.0,
+      "summary": "两个做法，一个是开 4 个状态的树形 dp，另一个是用容斥。本题有限制影响我计数，故考虑<strong>正难则反</strong>，路径上点权最小 \\le a 转换成点权全 > a、点权最大 \\ge b 转换成点权全 < b，套两个限制条件下的容斥即可解决。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-31",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-浮木博弈",
+      "title": "NK题霸 浮木博弈",
+      "type": "题目",
+      "tags": [
+        "博弈论/sg函数"
+      ],
+      "difficulty": null,
+      "summary": "虽然可以用感性的想法想出来，不过我这里还是给出了 SG 函数的证明。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-27",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-牛牛和牛可乐的赌约2",
+      "title": "NK题霸 牛牛和牛可乐的赌约2",
+      "type": "题目",
+      "tags": [
+        "博弈论/sg函数",
+        "博弈论/尼姆游戏"
+      ],
+      "difficulty": 1.0,
+      "summary": "典型的<strong>博弈论</strong>题，把二维坐标拆成两个独立的减法游戏，各自 SG 函数就是 $n \\bmod 3$，两维异或判胜负即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-06-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-跑刀仔",
+      "title": "NK题霸 跑刀仔",
+      "type": "题目",
+      "tags": [
+        "计算几何"
+      ],
+      "difficulty": 1.5,
+      "summary": "对圆算出若干个采样点，然后检验一下就行。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p11207-「cfz-round-9」rose",
+      "title": "P11207 「Cfz Round 9」Rose",
+      "type": "题目",
+      "tags": [
+        "二分",
+        "ad-hoc",
+        "分类讨论"
+      ],
+      "difficulty": 2.0,
+      "summary": "本来以为是什么恶心人的毒瘤分讨，不过仔细分析一下就发现只有答案为 1 的情况要动点脑筋，不过动的脑筋也不多，把准赢态（$x-1,x,x + 1$）存起来然后二分查表即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p11487-「cfz-round-5」gnirts-10",
+      "title": "P11487 「Cfz Round 5」Gnirts 10",
+      "type": "题目",
+      "tags": [
+        "组合数学/隔板法"
+      ],
+      "difficulty": 2.5,
+      "summary": "破局关键：放弃算<strong>大于等于</strong>，转而去求<strong>恰好等于</strong> $i$ 的方案数。为保证 “恰好”，得把几个多出来的 0 和 1 放在不影响 “恰好” 匹配的几个位置上。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-17",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p1196-[noi2002]-银河英雄传说",
+      "title": "P1196 [NOI2002] 银河英雄传说",
+      "type": "题目",
+      "tags": [
+        "并查集/带权并查集"
+      ],
+      "difficulty": null,
+      "summary": "带权并查集板子题",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-30",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p12144-[蓝桥杯-2025-省-a]-地雷阵",
+      "title": "P12144 [蓝桥杯 2025 省 A] 地雷阵",
+      "type": "题目",
+      "tags": [
+        "计算几何",
+        "贪心"
+      ],
+      "difficulty": null,
+      "summary": "把每个圆与切线的<strong>两个交点的极角</strong>算出来（此处用的比较简单的方法，看图就知道怎么整了，没真的算交点），这样就整成了若干个<strong>区间</strong>，直接进行<strong>区间合并</strong>就能解决本题。挺有意思的高中几何题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p13500-「cfz-round-6」kyu-kurarin",
+      "title": "P13500 「Cfz Round 6」Kyu-kurarin",
+      "type": "题目",
+      "tags": [
+        "二分答案"
+      ],
+      "difficulty": 1.5,
+      "summary": "这种级别的二分答案题居然卡我这么久，我完蛋了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p13984-数列分块入门-9",
+      "title": "P13984 数列分块入门 9",
+      "type": "题目",
+      "tags": [
+        "分块",
+        "众数",
+        "dp",
+        "前缀和"
+      ],
+      "difficulty": 3.0,
+      "summary": "主要是得想出来<strong>怎么算这个众数</strong>，维护 <code>mode</code> 还是不太好想到的，感觉维护这个 <code>mode</code> 数组的过程像是在做 dp。根据 <code>mode</code> 和散块们，可以得知整个区间的众数。为了优化 \\log，我们这边用<strong>前缀和加速</strong>，<strong>前缀和来算整块中每个数的出现个数</strong>，<strong>用临时数组 <code>tmp_cnt</code> 来维护散块出现的数的个数</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-23",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p1417-烹调方案",
+      "title": "P1417 烹调方案",
+      "type": "题目",
+      "tags": [
+        "背包/贪心排序",
+        "贪心/排序",
+        "01背包"
+      ],
+      "difficulty": 1.5,
+      "summary": "贪心排序背包模板题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p14455-[icpc-2025-xi'an-r]-imagined-holly",
+      "title": "P14455 [ICPC 2025 Xi'an R] Imagined Holly",
+      "type": "题目",
+      "tags": [
+        "异或",
+        "构造",
+        "式子变形",
+        "LCA"
+      ],
+      "difficulty": 2.0,
+      "summary": "想到<strong>前缀异或</strong>和<strong>LCA</strong>思想就能一眼秒了本题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-28",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p14456-[icpc-2025-xi'an-r]-january's-color",
+      "title": "P14456 [ICPC 2025 Xi'an R] January's Color",
+      "type": "题目",
+      "tags": [
+        "树上倍增",
+        "树形dp"
+      ],
+      "difficulty": 2.5,
+      "summary": "先<strong>树形dp</strong>使 $c$ 更小，注意到 $y$ 一定得是 $x$ 的<strong>祖先</strong>，然后用<strong>倍增</strong>获得 $x$ 跑到 $y$ 的答案即可，用<strong>贪心跳跃法</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-13",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p1450-[haoi2008]-硬币购物",
+      "title": "P1450 [HAOI2008] 硬币购物",
+      "type": "题目",
+      "tags": [
+        "完全背包",
+        "暴力容斥",
+        "计数问题"
+      ],
+      "difficulty": 2.0,
+      "summary": "典型的<strong>背包容斥</strong>问题，主要还是得先发现是个<strong>暴力容斥</strong>，然后找<strong>限制条件</strong>即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p1516-青蛙的约会",
+      "title": "P1516 青蛙的约会",
+      "type": "题目",
+      "tags": [
+        "同余方程"
+      ],
+      "difficulty": 1.0,
+      "summary": "<strong>同余方程转化为二元一次方程</strong>，然后直接 $exgcd$ 求最小非负整数解即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-14",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p1650-田忌赛马",
+      "title": "P1650 田忌赛马",
+      "type": "题目",
+      "tags": [
+        "贪心",
+        "双指针"
+      ],
+      "difficulty": null,
+      "summary": "贪心的证明好说，但是确实想不到。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-16",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p1759-通天之潜水",
+      "title": "P1759 通天之潜水",
+      "type": "题目",
+      "tags": [
+        "背包/背包求方案"
+      ],
+      "difficulty": null,
+      "summary": "求背包最大价值的取物方案，且要求方案字典序最小。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p1811-最短路",
+      "title": "P1811 最短路",
+      "type": "题目",
+      "tags": [
+        "最短路/DP"
+      ],
+      "difficulty": 1.5,
+      "summary": "也是很典的<strong>定状态的最短路题</strong>了，为了不连续走 $a_i,b_i,c_i$，考虑维护 $(now,last)$，一旦与下一个点 $to$ 组成的 $(last, now, to)$ 是 $(a_i, b_i, c_i)$，那就不走 $to$。不用跑 dij，所以复杂度为 $O(n^2 logn)$。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-24",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p1840-color-the-axis",
+      "title": "P1840 Color the Axis",
+      "type": "题目",
+      "tags": [
+        "珂朵莉树"
+      ],
+      "difficulty": null,
+      "summary": "珂朵莉树模板题",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-02",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p1880-[noi1995]-石子合并",
+      "title": "P1880 [NOI1995] 石子合并",
+      "type": "题目",
+      "tags": [
+        "区间dp"
+      ],
+      "difficulty": null,
+      "summary": "区间 dp 的模板题，本题的序列也是个环，得进行<strong>序列扩展</strong>。然后用区间 dp 算一下区间的<strong>和、最大 dp、最小 dp</strong>就行了，也没啥好说的。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-08",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p2398-gcd-sum",
+      "title": "P2398 GCD SUM",
+      "type": "题目",
+      "tags": [
+        "gcd",
+        "容斥",
+        "计数问题"
+      ],
+      "difficulty": 2.5,
+      "summary": "枚举 gcd，算<strong>公因数</strong>的数对个数，再通过<strong>容斥减法</strong><strong>倒序</strong>算出<strong>最大公因数</strong>的数对个数。（<strong>恰好很难，至少很简单</strong>）",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-16",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p3384-【模板】重链剖分",
+      "title": "P3384 【模板】重链剖分",
+      "type": "题目",
+      "tags": [
+        "重链剖分"
+      ],
+      "difficulty": null,
+      "summary": "<strong>重链剖分</strong>模板题",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2025-12-09",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p3403-跳楼机",
+      "title": "P3403 跳楼机",
+      "type": "题目",
+      "tags": [
+        "同余最短路"
+      ],
+      "difficulty": 3.0,
+      "summary": "因为 $x,y,z$ 的范围比 $h$ 小，<strong>考虑把</strong> $x,y,z$ <strong>的范围设为状态</strong>。跟 $x$ 模为 $0$ 的全能通过 $x$ 直接取到，但模为别的数的不一定，故要通过最短路，算出取模为 $r$ <strong>最早能取到的数</strong> $dis[r]$，$dis[r]$ 后面同余的数 $+= x$ 就能全取到了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p3901-数列找不同",
+      "title": "P3901 数列找不同",
+      "type": "题目",
+      "tags": [
+        "莫队"
+      ],
+      "difficulty": null,
+      "summary": "莫队板子题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-18",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p3963-[tjoi2013]-奖学金",
+      "title": "P3963 [TJOI2013] 奖学金",
+      "type": "题目",
+      "tags": [
+        "贪心",
+        "线段树/线段树二分",
+        "线段树/权值线段树"
+      ],
+      "difficulty": 2.0,
+      "summary": "跟 <a href=\"/p/2026icpc深圳邀请赛-d-城市规划\" class=\"wikilink\">2026ICPC深圳邀请赛 D 城市规划</a> 类似，都是要<strong>线段树二分找前 k 小(大)</strong>，不过本题只需要维护两个线段树，排序后枚举即可。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-16",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p4042-骑士游戏",
+      "title": "P4042 骑士游戏",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "dij",
+        "图论建模",
+        "后效性",
+        "松弛"
+      ],
+      "difficulty": 2.5,
+      "summary": "$dp[i]$ 表示第 $i$ 个怪物被消灭的代价，很容易得出方程：$dp_i = \\min\\left(K_i, S_i + \\sum_{j=1}^{R_i} dp_{v_j}\\right)$，但是因为由后效性产生了<strong>循环依赖</strong>，这个方程不好直接用。考虑设定初值后，用 <strong>dij</strong> 进行不断<strong>松弛</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-05-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p4053-[jsoi2007]-建筑抢修",
+      "title": "P4053 [JSOI2007] 建筑抢修",
+      "type": "题目",
+      "tags": [
+        "反悔贪心"
+      ],
+      "difficulty": null,
+      "summary": "反悔贪心模板题，交换法。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p4141-消失之物",
+      "title": "P4141 消失之物",
+      "type": "题目",
+      "tags": [
+        "背包/可撤销背包"
+      ],
+      "difficulty": null,
+      "summary": "可撤销背包模板题",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p5520-[yloi2019]-青原樱",
+      "title": "P5520 [yLOI2019] 青原樱",
+      "type": "题目",
+      "tags": [
+        "组合数学/插空法"
+      ],
+      "difficulty": null,
+      "summary": "插空法模板题，公式：\\[A(n, m) = \\prod_{i=0}^{m-1} (n - i) = n \\times (n-1) \\times (n-2) \\times \\cdots \\times (n-m+1)\\]",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-05",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p5656-【模板】二元一次不定方程-(exgcd)",
+      "title": "P5656 【模板】二元一次不定方程 (exgcd)",
+      "type": "题目",
+      "tags": [
+        "exgcd"
+      ],
+      "difficulty": null,
+      "summary": "$exgcd$ 板子题",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-14",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p6240-好吃的题目",
+      "title": "P6240 好吃的题目",
+      "type": "题目",
+      "tags": [
+        "哈基米树",
+        "01背包"
+      ],
+      "difficulty": 2.5,
+      "summary": "明显是个 01 背包问题，因为要进行区间询问，所以改成离线静态问题，套哈基米树解决，重点为<strong>优化两边 01 背包的分治合并</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-10",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p8287-「daoi-r1」flame",
+      "title": "P8287 「DAOI R1」Flame",
+      "type": "题目",
+      "tags": [
+        "多源最短路",
+        "图论经典问题/环问题",
+        "二分答案",
+        "并查集"
+      ],
+      "difficulty": null,
+      "summary": "明显可以用<strong>多源最短路</strong>整火焰蔓延到每个点的<strong>最短时间</strong>，然后有两种做法。<strong>一种是：</strong>直接<strong>二分答案</strong>，利用最短时间建新图后，<strong>无向图找环</strong>解决即可，这个方法带 $\\log$，不是最优； <strong>另一种是：</strong>在多源最短路的过程中<strong>枚举边</strong>，此时<strong>边肯定从小到大排序</strong>，只要<strong>保证每条边只处理一次</strong>，<strong>类克鲁斯卡尔</strong>的方法就能在<strong>线性时间</strong>内解决本题。后者做法的难点在于 <strong>无向图多源找环</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p8614-[蓝桥杯-2014-省-a]-波动数列",
+      "title": "P8614 [蓝桥杯 2014 省 A] 波动数列",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "数学推导"
+      ],
+      "difficulty": 1.5,
+      "summary": "推个公式，然后发现是对 $n$ 取模设计 dp 状态。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-24",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p8656-[蓝桥杯-2017-国-b]-对局匹配",
+      "title": "P8656 [蓝桥杯 2017 国 B] 对局匹配",
+      "type": "题目",
+      "tags": [
+        "状态机dp",
+        "二分图",
+        "正难则反"
+      ],
+      "difficulty": 2.0,
+      "summary": "两个方法：一个状态机 dp 对每一组都跑一遍；一个二分图两两配对后劈成两半，其中一半和剩下独立的组成答案。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p9695-[gdcpc-2023]-traveling-in-cells",
+      "title": "P9695 [GDCPC 2023] Traveling in Cells",
+      "type": "题目",
+      "tags": [
+        "线段树/动态开点线段树",
+        "线段树/线段树二分",
+        "树状数组"
+      ],
+      "difficulty": 3.0,
+      "summary": "",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-02-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "p9755-[csp-s-2023]-种树",
+      "title": "P9755 [CSP-S 2023] 种树",
+      "type": "题目",
+      "tags": [
+        "贪心",
+        "二分",
+        "二分答案",
+        "树形dp"
+      ],
+      "difficulty": 3.0,
+      "summary": "得想到通过二分答案，算出每个点至少<strong>得在什么时间点种上树（deadline <code>dl</code>）</strong>，然后根据树形 dp 算出<strong>偏序映射后的 <code>dl</code></strong>，<strong>排序</strong>后解决本题。说实话不是很好想，二分答案和树形 dp 的部分都是，二分答案得想到可以算出每个点的 deadline，树形 dp 得想到我们算不出每个点真正的 <code>dl</code>，但是能把点之间的<strong>偏序关系</strong>算出来。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-04-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "thupc2026初赛-l-宝石分组",
+      "title": "THUPC2026初赛 L 宝石分组",
+      "type": "题目",
+      "tags": [
+        "前后缀",
+        "在线问题",
+        "调和级数",
+        "经典问题/构造结构问题"
+      ],
+      "difficulty": 2.5,
+      "summary": "",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-01-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "第24届北师大程序设计竞赛-g-commemorative-coin",
+      "title": "第24届北师大程序设计竞赛 G Commemorative Coin",
+      "type": "题目",
+      "tags": [
+        "差分数组/动态差分"
+      ],
+      "difficulty": 1.0,
+      "summary": "直觉告诉我模拟一下即可，模拟过程用当动态差分。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-06-03",
+      "type_directory": "p"
+    },
+    {
+      "slug": "第十五届山东省赛-a-项目管理",
+      "title": "第十五届山东省赛 A 项目管理",
+      "type": "题目",
+      "tags": [
+        "ad-hoc"
+      ],
+      "difficulty": 1.5,
+      "summary": "因为数据范围太大，搞不了 dp，于是认为本题是思维题，对每一职级进行枚举。发现<strong>结论一</strong>：同一个职级只在乎比他们高的<strong>有多少个</strong>，而不是具体哪一些；进而推出<strong>结论二</strong>：如果答案为 $k$ ，那么我肯定也能找到 $k - 1, k - 2, \\dots$ 个人来参加项目。倒序枚举职级，同一职级按 $b$ 进行排序，直接维护答案数组即可解决本题。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-19",
+      "type_directory": "p"
+    },
+    {
+      "slug": "第十五届山东省赛-g-装配线",
+      "title": "第十五届山东省赛 G 装配线",
+      "type": "题目",
+      "tags": [
+        "ad-hoc"
+      ],
+      "difficulty": null,
+      "summary": "算一下<strong>每个任务的理论最早完成时间</strong>，这题就解决了。然而想出这个结论非常困难。我整个心路历程是：<strong>想着化繁为简</strong> \\to <strong>考虑单一任务</strong> \\to <strong>考虑多任务无阻塞</strong> \\to <strong>考虑出现阻塞</strong> \\to <strong>发现维护不了</strong>。而我卡在了最后一步，既然维护不了，那我应该<strong>脱离微观模拟视角</strong>，把阻塞过程<strong>看作宏观黑盒</strong>。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-19",
+      "type_directory": "p"
+    },
+    {
+      "slug": "第十五届山东省赛-i-方阵谜题",
+      "title": "第十五届山东省赛 I 方阵谜题",
+      "type": "题目",
+      "tags": [
+        "bfs"
+      ],
+      "difficulty": 1.5,
+      "summary": "一眼发现状态不多 $9! < 4e5$，明显能想到用 $bfs$ 算出一个状态（123456789）到其它所有状态的最少步骤。明显能发现，我们<strong>不在乎每个格子具体是什么数字</strong>，也就说，我们可以把 $a$ 看做 123456789，然后对 $b$ 进行重新映射，这样本题就解决了。",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-20",
+      "type_directory": "p"
+    },
+    {
+      "slug": "蓝桥算法挑战赛34-6-登山路线图",
+      "title": "蓝桥算法挑战赛34-6 登山路线图",
+      "type": "题目",
+      "tags": [
+        "dp",
+        "数学/介值定理"
+      ],
+      "difficulty": 2.5,
+      "summary": "每次把其中某一个 <code>F</code> 的策略从“选 <code>U</code> ”改为“选 <code>D</code> ”，高度整体会发生 <strong>-2 的步长跳跃</strong>，同理得步长跳跃值为 $+2$ 或 $-2$。故本题满足介值定理，想到可以开 $dp[max][min]$，",
+      "parent": null,
+      "created_at": "2026-06-15",
+      "updated_at": "2026-03-29",
+      "type_directory": "p"
+    }
+  ],
+  "type_directory": "p"
+}

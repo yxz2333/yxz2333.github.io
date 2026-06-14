@@ -1,0 +1,28 @@
+{
+  "slug": "划分型dp",
+  "title": "划分型dp",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "断点型dp"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "type": "math",
+      "latex": "$$ dp[i] = \\sum_{j < i, \\text{condition}(j+1, i)} dp[j] $$\n## 划分的思想\n## 断点的思想",
+      "depth": 0
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-05",
+  "parsed_at": "2026-06-14T18:45:11.997298+00:00",
+  "type_directory": "k"
+}

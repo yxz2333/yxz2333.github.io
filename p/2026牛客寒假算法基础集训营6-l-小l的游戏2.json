@@ -1,0 +1,447 @@
+{
+  "slug": "2026牛客寒假算法基础集训营6-l-小l的游戏2",
+  "title": "2026牛客寒假算法基础集训营6 L 小L的游戏2",
+  "type": "题目",
+  "tags": [
+    "矩阵快速幂优化dp"
+  ],
+  "difficulty": 3.0,
+  "summary": "经典矩阵快速幂优化 dp 题，核心还是在于先构建朴素 $dp$ 转移方程，然后根据转移方程和 $p, q \\le 50$ 的性质，构造出<strong>行向量答案矩阵与系数矩阵相乘</strong>的公式，就可解决本题。",
+  "link": "https://ac.nowcoder.com/acm/contest/120566/L",
+  "link_text": "L-小L的游戏2_2026牛客寒假算法基础集训营6",
+  "source": "[[2026牛客寒假算法基础集训营6]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$游戏在一个初始值为 $0$ 的变量 $x$ 上进行。小 L 和 fallleaves01 轮流对 $x$ 进行累加操作，<strong>小 L 先手</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$每一轮分为两个回合，具体规则如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{23pt}\\bullet\\,$小 L 的回合：以 $p$ 的概率将 $x$ 更新为 $x + m_1$，以 $1-p$ 的概率将 $x$ 更新为 $x + m_2$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{23pt}\\bullet\\,$fallleaves01 的回合：以 $q$ 的概率将 $x$ 更新为 $x + n_1$，以 $1-q$ 的概率将 $x$ 更新为 $x + n_2$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$一旦满足 $x \\geq z$，游戏立即结束，否则继续进行下一轮。现在小 L 想请问你，最后一次操作由他完成的概率是多少？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$可以证明答案可以表示为一个不可约分数 $\\tfrac{a}{b}$，为了避免精度问题，请直接输出整数 $\\left(a \\times b^{-1} \\bmod M\\right)$ 作为答案，其中 $M = 998\\,244\\,353$，$b^{-1}$ 是满足 $b\\times b^{-1} \\equiv 1 \\pmod{M}$ 的整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行输入五个正整数 $m_1, m_2, n_1, n_2, z\\left(1 \\leq m_1, m_2, n_1, n_2 \\leq 50;\\, 1 \\leq z \\leq 10^{18}\\right)$，表示小 L 的两个增量、fallleaves01的两个增量、游戏结束的目标阈值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第二行输入两个非负整数 $p, q\\left(0 \\leq p, q < 998\\,244\\,353\\right)$，表示概率对 $998\\,244\\,353$ 取模之后的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$输出一个非负整数，表示最后一次操作由小 L 完成的概率对 $998\\,244\\,353$ 取模后的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 2 10 10 2\n0 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 2 1 1 2\n499122177 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "499122177",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 朴素 DP 状态定义",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于 $z$ 高达 $10^{18}$，常规的 $O(z)$ 递推无法通过，考虑到步长 $m, n$ 较小 ($50$)，且递推关系为线性，<strong>可以使用矩阵快速幂优化</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "首先定义<strong>朴素 DP 状态</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$dp[i][0]$：当前累加和为 $i$，且 <strong>小L</strong> 刚刚结束操作（轮到 fallleaves01）的概率。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$dp[i][1]$：当前累加和为 $i$，且 <strong>fallleaves01</strong> 刚刚结束操作（轮到 小L）的概率。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态转移方程</strong>如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>小L 完成操作</strong> ($dp[i][0]$)：必然是基于 fallleaves01 完成的状态 ($dp[i-m][1]$) 进行转移。",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i][0] = p \\cdot dp[i-m_1][1] + (1-p) \\cdot dp[i-m_2][1]$$\n**fallleaves01 完成操作** ($dp[i][1]$)：必然是基于 小L 完成的状态 ($dp[i-n][0]$) 进行转移。\n$$dp[i][1] = q \\cdot dp[i-n_1][0] + (1-q) \\cdot dp[i-n_2][0]$$",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "2. 构造矩阵与状态向量",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "为了进行矩阵加速，我们需要维护一个包含 <strong>“历史状态”</strong> 的<strong>行向量</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设 $mx = \\max(m_1, m_2, n_1, n_2)$，状态向量 $V_i$ 的长度为 $2 \\times mx$。",
+              "depth": 1
+            },
+            {
+              "heading": "2.1 状态向量 $V_i$ 的结构",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "我们将 $dp[i], dp[i-1], \\dots, dp[i-mx+1]$ 展平成一个一维行向量：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$V_i = \\Big[\\ dp[i][0],\\ dp[i][1],\\ dp[i-1][0],\\ dp[i-1][1],\\ \\dots,\\ dp[i-k][0],\\ dp[i-k][1],\\ \\dots \\Big]$$\n**下标映射关系（1-based）：**\n对于历史回溯步数 $k$（$k=0$ 表示当前层 $i$）：",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "2.2 转移矩阵 Base 的构造",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "我们要构造一个系数方阵 $Base$，使得 $V_i = V_{i-1} \\times Base$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "$Base$ 矩阵的构造逻辑分为 <strong>计算部分（前两列）</strong> 和 <strong>移位部分（后序列）</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>I. 计算新状态 (前两列)</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>第 1 列：生成</strong> $dp[i][0]$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "根据方程，$dp[i][0]$ 来源于 $dp[i-m][1]$。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "在 $V_{i-1}$ 中，$dp[i-m][1]$ 实际上是回溯了 $m-1$ 步的历史数据，对应下标为 $2(m-1) + 2 = 2m$。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "因此，我们在矩阵的 <code>[2 * m][1]</code> 处累加概率系数。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "<code>Base[2 * m1][1] += p</code>",
+                  "depth": 4
+                },
+                {
+                  "type": "p",
+                  "html": "<code>Base[2 * m2][1] += 1 - p</code>",
+                  "depth": 4
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>第 2 列：生成</strong> $dp[i][1]$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "根据方程，$dp[i][1]$ 来源于 $dp[i-n][0]$。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "在 $V_{i-1}$ 中，$dp[i-n][0]$ 对应下标为 $2(n-1) + 1 = 2n-1$。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "因此，我们在矩阵的 <code>[2 * n - 1][2]</code> 处累加概率系数。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "  <code>Base[2 * n1 - 1][2] += q</code>",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "  <code>Base[2 * n2 - 1][2] += 1 - q</code>",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "> <strong>注意</strong>：这里必须使用 <code>+=</code> 而不是 <code>=</code>，因为题目未保证 $m_1 \\neq m_2$ 或 $n_1 \\neq n_2$，若步长相同需合并概率。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>II. 历史状态移位 (第 3 列及以后)</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "为了计算后续步骤，我们需要保留历史数据。新向量 $V_i$ 的第 $j$ 列（$j \\ge 3$）应该直接继承旧向量 $V_{i-1}$ 的第 $j-2$ 列的数据（即将历史向后推移一格）。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<code>Base[j-2][j] = 1</code> （对于 $j \\in [3, 2mx]$）",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "2.3 矩阵形态可视化",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "假设 $mx$ 足够大，转移矩阵 $Base$ 的大致形态如下：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$\n\\begin{bmatrix}\n0 & \\dots & 1 & 0 & 0 & 0 & \\dots \\\\\n0 & \\dots & 0 & 1 & 0 & 0 & \\dots \\\\\n\\dots & q & 0 & 0 & 1 & 0 & \\dots \\\\\n\\dots & \\dots & 0 & 0 & 0 & 1 & \\dots \\\\\np & \\dots & 0 & 0 & 0 & 0 & \\dots \\\\\n\\dots & \\dots & \\dots & \\dots & \\dots & \\dots & \\ddots\n\\end{bmatrix}\n\\begin{matrix}\n\\end{matrix}\n$$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>Col 1</strong>: 仅在行号为 $2m$ 的位置有值（收集 $dp[i-m][1]$）。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>Col 2</strong>: 仅在行号为 $2n-1$ 的位置有值（收集 $dp[i-n][0]$）。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>Col 3+</strong>: 形成一条向右上方偏移的对角线（单位矩阵偏移），负责状态的时间平移。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "3. 统计答案",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>初始状态</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "游戏开始时 $x=0$，轮到小 L 操作。这等价于 “fallleaves01 刚刚在位置 0 结束了操作”。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "即 $V_0$ 中 $dp[0][1] = 1$，其余为 0。代码中体现为 <code>ans.mat[1][2] = 1</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>快速幂推进</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "将状态推进到 $z-1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>ans = ans * (base^(z-1))</code>。此时 <code>ans</code> 向量存储了 $V_{z-1}$，即包含了 $dp[z-1 \\dots z-mx]$ 的所有概率信息。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>枚举终止步</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "题目要求最后一步由小 L 完成。这意味着小 L 必须从某个位置 $pos$ 起跳，且 $pos < z$ 且 $pos + m \\ge z$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "此时的前置状态必须是 <strong>fallleaves01 刚刚在 pos 结束</strong>，即概率为 $dp[pos][1]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们在 $V_{z-1}$ 中寻找 $dp[pos][1]$：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "令枚举的历史回溯距离为 $k$ ($0 \\le k < mx$)。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "当前位置 $pos = (z-1) - k$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "对应在向量 $V_{z-1}$ 中的下标为 $2k + 2$。",
+              "depth": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template<const int N>\nclass Matrix {\npublic:\n\t// 下标从 1 开始\n\tarray<array<ll, N + 1>, N + 1> mat;\n\n\tMatrix() {\n\t\tfor (int i = 0; i <= N; i++)\n\t\t\tfor (int j = 0; j <= N; j++)\n\t\t\t\tmat[i][j] = 0;\n\t}\n\n\tvoid ksm(ll k, Matrix& base) {\n\t\twhile (k) {\n\t\t\tif (k & 1)*this = *this * base;\n\t\t\tbase = base * base;\n\t\t\tk >>= 1;\n\t\t}\n\t}\n\n\tMatrix operator* (const Matrix& x) {\n\t\t// 矩阵乘法\n\t\tMatrix ret;\n\t\tfor (int i = 1; i <= N; i++)\n\t\t\tfor (int k = 1; k <= N; k++) {\n\t\t\t\tif (mat[i][k] == 0) continue; // 简单剪枝\n\t\t\t\tfor (int j = 1; j <= N; j++) {\n\t\t\t\t\tret.mat[i][j] = (ret.mat[i][j] + mat[i][k] * x.mat[k][j] % mod) % mod;\n\t\t\t\t}\n\t\t\t}\n\t\treturn ret;\n\t}\n\n\tvoid init_ans() {\n\t\t// 答案矩阵大小 1 · 2mx\n\t\t// V = { dp[i][0], dp[i][1], dp[i - 1][0], dp[i - 1][1],..., dp[i - mx + 1][0], dp[i - mx + 1][1] }\n\t\t// 游戏开始，轮到 L，等价于 dp[0][1] = 1，即 F 刚操作完到 0\n\t\tmat[1][2] = 1;\n\t}\n\n\tvoid init_base(ll m1, ll m2, ll n1, ll n2, ll p, ll q) {\n\t\t// 系数矩阵大小 mx · mx\n\n\t\t// dp[i][0] = p * dp[i - m1][1] + (1 - p) * dp[i - m2][1]\n\t\tmat[2 * m1][1] = (mat[2 * m1][1] + p) % mod;\n\t\tmat[2 * m2][1] = (mat[2 * m2][1] + ((1 - p) % mod + mod) % mod) % mod;\n\n\t\t// dp[i][1] = q * dp[i - n1][0] + (1 - q) * dp[i - n2][0]\n\t\tmat[2 * n1 - 1][2] = (mat[2 * n1 - 1][2] + q) % mod;\n\t\tmat[2 * n2 - 1][2] = (mat[2 * n2 - 1][2] + ((1 - q) % mod + mod) % mod) % mod;\n\n\t\t// i 继承 i - 1 的 dp 值用\n\t\tfa(i, 3, N) {\n\t\t\tmat[i - 2][i] = 1;\n\t\t}\n\t}\n};\n\nMatrix<105> ans, base;\nvoid solve(int CASE)\n{\n\tll m1, m2, n1, n2, z; cin >> m1 >> m2 >> n1 >> n2 >> z;\n\tll p, q; cin >> p >> q;\n\n\t// dp[pos][0]：当前 L 已经操作完，且总数达到 pos 的概率\n\t// dp[pos][1]：当前 F 已经操作完，且总数达到 pos 的概率\n\tbase.init_base(m1, m2, n1, n2, p, q);\n\tans.init_ans();\n\tif (z > 1)ans.ksm(z - 1, base); // 从 dp[0] 更新到 dp[z - 1]\n\n\tll res = 0;\n\tll mx = max({ m1, m2, n1, n2 });\n\n\tfa(k, 0, mx) {\n\t\t// 枚举 L 最后一步起跳的位置 pos\n\t\tll pos = (z - 1) - k; \n\t\tif (pos < 0)break;\n\n\t\t// 在答案行向量 V_{z-1} 中寻找 dp[pos][1]\n\t\t// dp[z - 1][1] -> Mat[2]\n\t\t// dp[z - 2][1] -> Mat[4]\n\t\t// ...\n\t\t// dp[z - 1 - k][1] -> Mat[(k + 1) * 2]\n\t\tif (2 * k + 2 > 105)break;\n\n\t\tll prob_F_fin = ans.mat[1][2 * k + 2]; // F 在 pos 处结束的概率\n\t\tif (!prob_F_fin)continue;\n\n\t\tif (pos + m1 >= z) // L 操作 m1\n\t\t\tres = (res + prob_F_fin * p) % mod;\n\t\tif (pos + m2 >= z) // L 操作 m2\n\t\t\tres = (res + prob_F_fin * ((1 - p + mod) % mod)) % mod;\n\t}\n\tcout << res << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-15",
+  "parsed_at": "2026-06-14T18:39:35.931315+00:00",
+  "type_directory": "p"
+}

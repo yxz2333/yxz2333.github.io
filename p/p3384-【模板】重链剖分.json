@@ -1,0 +1,193 @@
+{
+  "slug": "p3384-【模板】重链剖分",
+  "title": "P3384 【模板】重链剖分",
+  "type": "题目",
+  "tags": [
+    "重链剖分"
+  ],
+  "difficulty": null,
+  "summary": "<strong>重链剖分</strong>模板题",
+  "link": "https://www.luogu.com.cn/problem/P3384",
+  "link_text": "P3384 【模板】重链剖分 / 树链剖分 - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "如题，已知一棵包含 $N$ 个结点的树（连通且无环），每个节点上包含一个数值，需要支持以下操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<code>1 x y z</code>，表示将树从 $x$ 到 $y$ 结点最短路径上所有节点的值都加上 $z$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<code>2 x y</code>，表示求树从 $x$ 到 $y$ 结点最短路径上所有节点的值之和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<code>3 x z</code>，表示将以 $x$ 为根节点的子树内所有节点值都加上 $z$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<code>4 x</code>，表示求以 $x$ 为根节点的子树内所有节点值之和。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含 $4$ 个正整数 $N,M,R,P$，分别表示树的结点个数、操作个数、根节点序号和取模数（<strong>即所有的输出结果均对此取模</strong>）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来一行包含 $N$ 个非负整数，分别依次表示各个节点上初始的数值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $N-1$ 行每行包含两个整数 $x,y$，表示点 $x$ 和点 $y$ 之间连有一条边（保证无环且连通）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $M$ 行每行包含若干个正整数，每行表示一个操作。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $100\\%$ 的数据： $1\\le N \\leq {10}^5$，$1\\le M \\leq {10}^5$，$1\\le R\\le N$，$1\\le P \\le 2^{30}$。所有输入的数均在 <code>int</code> 范围内。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出包含若干行，分别依次表示每个操作 $2$ 或操作 $4$ 所得的结果（<strong>对 $P$ 取模</strong>）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 5 2 24\n7 3 7 8 0 \n1 2\n1 5\n3 1\n4 1\n3 4 2\n3 2 2\n4 5\n1 5 1 3\n2 1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n21",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "树的结构如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/pic/2319.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "各个操作如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/pic/2320.png){:height 146, :width 591}",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "故输出应依次为 $2$ 和 $21$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "重链剖分 <strong>更新/查询两点</strong> + <strong>更新/查询子树</strong> 模板。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int a[N];\nvector<int> g[N];\nint dep[N], fat[N], son[N], siz[N];\nint top[N], dfn[N], rnk[N], tim; // 链顶、节点对应时间戳、时间戳对应节点(线段树用)、时间戳\nvoid solve(int CASE)\n{\n\tint n, m, r, p; cin >> n >> m >> r >> p;\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\t// dfs1：初始化 深度、父节点、子树大小、重儿子\n\tvar dfs1 = [&](var dfs, int now, int fa, int d)->void {\n\t\tdep[now] = d, fat[now] = fa, siz[now] = 1, son[now] = 0;\n\t\tint max_siz = -1;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now, d + 1);\n\t\t\tsiz[now] += siz[to];\n\t\t\tif (max_siz < siz[to]) {\n\t\t\t\tmax_siz = siz[to];\n\t\t\t\tson[now] = to;\n\t\t\t}\n\t\t}\n\t\t};\n\n\t// 构造重链剖分\n\ttim = 0; // 时间戳从 1 开始\n\tvar dfs2 = [&](var dfs, int now, int t)->void {\n\t\t// t：当前链链顶\n\t\ttop[now] = t, dfn[now] = ++tim, rnk[tim] = now;\n\t\tif (!son[now])return;  // 如果没有重儿子，说明是叶子\n\n\t\t// 1. 优先处理重儿子，链顶不变延续当前链\n\t\tdfs(dfs, son[now], t);\n\n\t\t// 2. 处理轻儿子，轻儿子为链顶新开一条链\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == son[now] or to == fat[now])continue;\n\t\t\tdfs(dfs, to, to);\n\t\t}\n\t\t};\n\n\tdfs1(dfs1, r, 0, 1);\n\tdfs2(dfs2, r, r);\n\n\tvar t = MT::BitTree<ll>(n + 1, p);\n\tfa(i, 1, n)t.updateRange(i, i, a[rnk[i]]);\n\n\t// 路径修改 O(logN) * O(logN)\n\tvar update_path = [&](int x, int y, ll k)->void {\n\t\t// 循环 O(logN) * 树状数组更新 O(logN)\n\t\twhile (top[x] != top[y]) {\n\t\t\t// 让更深的提上来，直到 x y 在同一条链中\n\t\t\tif (dep[top[x]] < dep[top[y]])swap(x, y);\n\n\t\t\t// 此时对应序列区间：[ dfn[top[x]], dfn[x] ]，即 x 到 链顶 的节点们 \n\t\t\tt.updateRange(dfn[top[x]], dfn[x], k);\n\t\t\tx = fat[top[x]]; // 跳到上一条链\n\t\t}\n\n\t\t// 此时已在同一重链，但可能不在同一点，还存在要处理的序列区间\n\t\tif (dep[x] > dep[y])swap(x, y);\n\n\t\t// 此时对应序列区间：[ dfn[x], dfn[y] ]，即 x 到 y 的节点们 \n\t\tt.updateRange(dfn[x], dfn[y], k);\n\t\t};\n\n\t// 子树修改 O(logN)\n\tvar update_subtree = [&](int x, ll k)->void {\n\t\t// 子树在 dfs 序中是连续区间 [ dfn[x], dfn[x] + siz[x] - 1 ]\n\t\tt.updateRange(dfn[x], dfn[x] + siz[x] - 1, k);\n\t\t};\n\n\t// 路径查询 O(logN) * O(logN)\n\tvar query_path = [&](int x, int y) -> ll {\n\t\tll res = 0;\n\t\twhile (top[x] != top[y]) {\n\t\t\tif (dep[top[x]] < dep[top[y]]) swap(x, y);\n\n\t\t\t// 查询当前 x 到链顶的这一段区间\n\t\t\tres = (res + t.queryRange(dfn[top[x]], dfn[x])) % p;\n\t\t\tx = fat[top[x]]; // 跳到上一条链\n\t\t}\n\n\t\t// 处理最后在同一条链上的情况\n\t\tif (dep[x] > dep[y]) swap(x, y);\n\t\tres = (res + t.queryRange(dfn[x], dfn[y])) % p;\n\t\treturn res;\n\t\t};\n\n\t// 子树查询 O(logN)\n\tvar query_subtree = [&](int x)->ll {\n\t\tint l = dfn[x], r = dfn[x] + siz[x] - 1;\n\t\treturn t.queryRange(l, r);\n\t\t};\n\n\twhile (m--) {\n\t\tint op; cin >> op;\n\t\tif (op == 1) {\n\t\t\tint x, y, z; cin >> x >> y >> z;\n\t\t\tupdate_path(x, y, z);\n\t\t}\n\t\telse if (op == 2) {\n\t\t\tint x, y; cin >> x >> y;\n\t\t\tcout << query_path(x, y) << endl;\n\t\t}\n\t\telse if (op == 3) {\n\t\t\tint x, z; cin >> x >> z;\n\t\t\tupdate_subtree(x, z);\n\t\t}\n\t\telse {\n\t\t\tint x; cin >> x;\n\t\t\tcout << query_subtree(x) << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-09",
+  "parsed_at": "2026-06-14T18:39:36.873272+00:00",
+  "type_directory": "p"
+}

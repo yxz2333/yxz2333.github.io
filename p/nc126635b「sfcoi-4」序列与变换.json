@@ -1,0 +1,229 @@
+{
+  "slug": "nc126635b「sfcoi-4」序列与变换",
+  "title": "NC126635B「SFCOI-4」序列与变换",
+  "type": "题目",
+  "tags": [
+    "打表找规律"
+  ],
+  "difficulty": 1.5,
+  "summary": "主要就是发现题目的<strong>漏斗效应</strong>，然后又发现绝对值下<strong>奇偶性</strong>的变化特点，然后本题就做出来了。",
+  "link": "https://ac.nowcoder.com/acm/contest/126635/B",
+  "link_text": "B-「SFCOI-4」序列与变换_牛客挑战赛85",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$sail 不喜欢有规律的东西，所以他定义一个序列 $a_1, a_2, \\dots, a_n$，将其进行第 $k$ 种变换后第 $i$ 个数变成 $|a_i-k|$，他认为这是很没有规律的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$这天 pleasure 告诉 sail 他发现了这种变换的某种规律。即一个长度为 $n$ 的序列，依次进行第 $m, m-1, m-2, \\dots, 1, 0$ 种变换后序列中有很多数会变成 $0$ 和 $1$，但他又不清楚这种规律具体是什么，所以他打算向你求助。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$形式化地，有一个长度为 $n$ 的序列，给定 $m$，使这个序列依次进行第 $m, m-1, m-2, \\dots, 1, 0$ 种变换，求出进行最后一次变换后序列中分别有几个 $0$ 和几个 $1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行输入两个整数 $n,m \\left(1 \\leq n \\leq 10^5;\\,1 \\leq m \\leq 10^{18}\\right)$，表示序列长度、要进行的变换类型的最大编号。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第二行输入 $n$ 个整数 $a_1, a_2, \\dots, a_n \\left(1 \\leq a_i \\leq 10^{18}\\right)$，表示序列的初始值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$在一行上输出两个整数，第一个数表示最终序列中 $0$ 的个数，第二个数表示最终序列中 $1$ 的个数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 6\n20 17 24",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在这个样例中，序列变化为：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $m$ 种变换后，序列变为 $\\{|20-6|, |17-6|, |24-6|\\} = \\{14, 11, 18\\}$;",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $m-1$ 种变换后，序列变为 $\\{|14-5|, |11-5|, |18-5|\\} = \\{9, 6, 13\\}$;",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $m-2$ 种变换后，序列变为 $\\{|9-4|, |6-4|, |13-4|\\} = \\{5, 2, 9\\}$;",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $m-3$ 种变换后，序列变为 $\\{|5-3|, |2-3|, |9-3|\\} = \\{2, 1, 6\\}$;",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $m-4$ 种变换后，序列变为 $\\{|2-2|, |1-2|, |6-2|\\} = \\{0, 1, 4\\}$;",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $m-5$ 种变换后，序列变为 $\\{|0-1|, |1-1|, |4-1|\\} = \\{1, 0, 3\\}$;",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $m-6$ 种变换后，序列变为 $\\{|1-0|, |0-0|, |3-0|\\} = \\{1, 0, 3\\}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "最终序列中 $0$ 的个数为 $1$， $1$ 的个数为 $1$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "观察与直觉：值域的“漏斗效应”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题面看似复杂，但通过<strong>打表</strong>或<strong>手玩样例</strong>，我们可以发现一个明显的规律：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "随着操作数 $k$ 从 $m$ 递减至 $0$，序列中的数会被不断“削减”。一旦某个时刻数值 $x$ 变得足够小（$x \\le k$），它就会被“捕获”进 $[0, k]$ 的范围内。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "随着 $k$ 最终收缩到 $1$，这些被捕获的数<strong>最终只能停留在 0 或 1 这两个状态</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "核心发现：奇偶性不变",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如何快速判断最终是 $0$ 还是 $1$？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们注意到题目中的变换是 $x \\leftarrow |x - k|$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在模 $2$ 意义下，<strong>绝对值和符号并不影响奇偶性</strong>，即：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ |x - k| \\equiv x - k \\equiv x + k \\pmod 2 $$\n$|x - k|, x - k, x + k$ 的奇偶性相同。\n因此，最终结果的奇偶性完全取决于：\n$$ \\text{最终结果的奇偶性} \\equiv a_i + \\sum_{j=0}^{m} j \\pmod 2 $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "即 <strong>初始值</strong> 与 <strong>所有操作数之和</strong> 的总和的奇偶性。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "发现这两个性质，本题也就解决了。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tll _0 = 0, _1 = 0;\n\t__int128 tot = (__int128)m * (m + 1) / 2;\n\tfa(i, 1, n) {\n\t\tll x; cin >> x;\n\t\tif (x - tot <= 1) {\n\t\t\tll now = x + tot;\n\t\t\tif (now & 1)_1++;\n\t\t\telse _0++;\n\t\t}\n\t}\n\tcout << _0 << ' ' << _1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-14",
+  "parsed_at": "2026-06-14T18:39:36.675798+00:00",
+  "type_directory": "p"
+}

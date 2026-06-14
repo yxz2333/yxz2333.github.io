@@ -1,0 +1,368 @@
+{
+  "slug": "cf1151e-number-of-components",
+  "title": "CF1151E Number of Components",
+  "type": "题目",
+  "tags": [
+    "贡献法",
+    "计数问题"
+  ],
+  "difficulty": 2.0,
+  "summary": "同样看着无从下手，不过既然是<strong>计数题</strong>，可以考虑<strong>贡献法</strong>。$\\text{连通块数量} = \\text{顶点数} - \\text{边数}$，使用这个公式，算<strong>点贡献</strong>和<strong>边贡献</strong>就能解决本题。",
+  "link": "https://codeforces.com/problemset/problem/1151/E",
+  "link_text": "Problem - 1151E - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一棵树（一个无环连通无向图），包含 $n$ 个顶点。每个顶点 $i$ 有一个权值 $a_i$。所有顶点通过边依次相连。具体来说，对于每个 $1 \\leq i < n$，存在一条连接顶点 $i$ 和 $i+1$ 的边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "定义函数 $f(l, r)$，它接收两个整数 $l$ 和 $r$（$l \\leq r$）：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "只保留权值在 $l$ 到 $r$ 范围内的顶点。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "该函数的值为新图中的连通块数量。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你的任务是计算如下的和：$$\\sum_{l=1}^{n} \\sum_{r=l}^{n} f(l, r)$$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\leq n \\leq 10^5$），表示树的顶点数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$（$1 \\leq a_i \\leq n$），表示每个顶点的权值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n2 1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n2 1 1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "11",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10\n1 5 2 5 5 3 10 6 5 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "104",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，函数值如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(1, 1)=1$（只剩下编号为 $2$ 的顶点，形成一个连通块）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(1, 2)=1$（剩下编号为 $1$ 和 $2$ 的顶点，形成一个连通块）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(1, 3)=1$（所有顶点都保留，形成一个连通块）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(2, 2)=1$（只剩下编号为 $1$ 的顶点）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(2, 3)=2$（剩下编号为 $1$ 和 $3$ 的顶点，形成两个连通块）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(3, 3)=1$（只剩下编号为 $3$ 的顶点）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "总和为 $7$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在第二个样例中，函数值如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(1, 1)=1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(1, 2)=1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(1, 3)=1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(1, 4)=1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(2, 2)=1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(2, 3)=2$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(2, 4)=2$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(3, 3)=1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(3, 4)=1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f(4, 4)=0$（没有顶点剩下，连通块数量为 $0$）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "总和为 $11$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "math",
+          "latex": "$$ \\text{连通块数量} = \\text{顶点数 (Vertices)} - \\text{边数 (Edges)} $$\n所以总答案 = $\\sum$ **(每个区间的顶点数 - 每个区间的边数)**，\n根据加法结合律，我们可以拆成两半算：\n$$ \\text{总答案} = (\\text{所有区间里的顶点总数}) - (\\text{所有区间里的边总数}) $$",
+          "depth": 1
+        },
+        {
+          "heading": "第一部分：算顶点的贡献",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于数字 $x \\in [1, N]$，它在多少个区间 $[l, r]$ 里出现？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "只要 $l \\le x$ 且 $r \\ge x$，这个点就被算进去了。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "左端点 $l$ 的选择：$1 \\dots x$ （共 $x$ 种）",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "右端点 $r$ 的选择：$x \\dots N$ （共 $N - x + 1$ 种）",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>贡献值</strong>：$x \\times (N - x + 1)$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第二部分：算边的贡献",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于数组里的一条边 $(u, v)$ （即数组中相邻的两个数 $a_i, a_{i+1}$），它在多少个区间 $[l, r]$ 里是“有效”的？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "边有效的前提是：<strong>两个端点</strong> $u$ <strong>和</strong> $v$ <strong>都在</strong> $[l, r]$ <strong>里</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这意味着区间必须包裹住这两个数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设 $min\\_val = \\min(u, v)$，$max\\_val = \\max(u, v)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "条件变成了：$l \\le min\\_val$ 且 $r \\ge max\\_val$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "左端点 $l$ 的选择：$1 \\dots min\\_val$ （共 $min\\_val$ 种）",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "右端点 $r$ 的选择：$max\\_val \\dots N$ （共 $N - max\\_val + 1$ 种）",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>贡献值</strong>：$min\\_val \\times (N - max\\_val + 1)$",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tll ans = 0;\n\tfa(i, 1, n) // 枚举点\n\t\tans += a[i] * (n - a[i] + 1); // 点权贡献\n\tfa(i, 1, n - 1) { // 枚举边\n\t\tll u = a[i], v = a[i + 1];\n\t\tll mn = min(u, v), mx = max(u, v);\n\t\tans -= mn * (n - mx + 1); // 边权贡献\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-06",
+  "parsed_at": "2026-06-14T18:39:36.114184+00:00",
+  "type_directory": "p"
+}

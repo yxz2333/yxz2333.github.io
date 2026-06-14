@@ -1,0 +1,285 @@
+{
+  "slug": "nk题霸-乘之",
+  "title": "NK题霸 乘之",
+  "type": "题目",
+  "tags": [
+    "博弈论"
+  ],
+  "difficulty": 2.0,
+  "summary": "博弈的结论就是所有数都乘 $k$ 的总和，难点就是怎么看出这个结论了。",
+  "link": "https://www.nowcoder.com/practice/27f9544dca8642869afdc230f62400a8?channelPut=tracker2",
+  "link_text": "乘之_牛客题霸_牛客网",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>游戏背景</strong>：有一个长度为 $n$ 的数组 $a$，给定一个乘数 $k$。小龙和小蛇玩游戏。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>操作步骤</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1. <strong>小龙（先手）</strong>：选择一个非空区间 $[a, b]$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2. <strong>小蛇（后手）</strong>：选择一个非空区间 $[c, d]$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "3. <strong>结算</strong>：将这两个区间<strong>取并集</strong>（即被选中的元素，相交部分只算一次），该并集内的所有元素都乘上 $k$。没有被选中的元素保持不变。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>胜负条件</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>小龙（最大化者）</strong>：希望最终数组的元素总和<strong>尽可能大</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>小蛇（最小化者）</strong>：希望最终数组的元素总和<strong>尽可能小</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "双方均采用最优策略。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>目标</strong>：求出在双方最优操作下，最终数组的元素之和。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试文件均包含多组测试数据。第一行输入一个整数 \\(T\\) (\\(1 \\leq T \\leq 100\\)) 代表数据组数，每组测试数据描述如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输入两个整数 \\(n, k\\) (\\(1 \\leq n \\leq 10^5\\); \\(-100 \\leq k \\leq 100\\)) 代表数组中的元素数量、乘数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行输入 \\(n\\) 个整数 \\(a_1, a_2, \\dots, a_n\\) (\\(-10^6 \\leq a_i \\leq 10^6\\)) 代表数组元素。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "除此之外，保证单个测试文件的 \\(n\\) 之和不超过 \\(2 \\times 10^5\\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每一组测试数据，新起一行。输出一个整数，代表操作后数组 \\(a'\\) 的元素之和。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n2 4\n1 1\n6 0\n1 1 4 5 1 4\n4 -1\n-2 1 -10 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8\n0\n8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "这是一场典型的<strong>零和博弈</strong>。我们可以通过寻找双方的 “保底策略” 来证明。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在这个游戏中，由于区间 $[1, n]$（即整个数组）也是一个合法的“非空区间”，<strong>双方都拥有一个“绝对权力”——强制让整个数组都被乘上 k。</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们设 $S_{all} = k \\times \\sum_{i=1}^{n} a_i$（即整个数组全乘 $k$ 的总和），设双方最优博弈下的最终答案为 $Ans$。",
+          "depth": 1
+        },
+        {
+          "heading": "从小龙的视角看（确定答案的下界）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "小龙是先手，他的目标是<strong>最大化</strong>总和。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果小龙第一步直接摆烂，选择<strong>整个区间</strong> $[1, n]$，那么无论小蛇随后选择什么区间，两个区间的并集都将是整个区间 $[1, n]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这意味着，只要小龙愿意，他可以单方面<strong>绝对保证</strong>最终的得分是 $S_{all}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "既然小龙足够聪明，他绝不会接受一个比 $S_{all}$ 还差的结果。因此，最终的答案一定<strong>大于等于</strong> $S_{all}$：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$Ans \\ge S_{all}$$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "从小蛇的视角看（确定答案的上界）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "小蛇是后手，他的目标是<strong>最小化</strong>总和。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "无论小龙第一步选择了多么精妙的区间 $[a, b]$ 企图获得极高的分数，小蛇在第二步都可以直接行使“一票否决权”——选择<strong>整个区间</strong> $[1, n]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由于结算是取并集，一旦小蛇选了 $[1, n]$，最终被乘上 $k$ 的范围依然是整个数组，最终得分强制变为 $S_{all}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "既然小蛇足够聪明，他绝不会允许小龙拿到一个比 $S_{all}$ 还高的分数（只要分数高于 $S_{all}$，小蛇就会直接掀桌子选 $[1, n]$）。因此，最终的答案一定<strong>小于等于</strong> $S_{all}$：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$Ans \\le S_{all}$$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "最终结论",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "综合双方的最优策略限制：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "小龙能保证 $Ans \\ge S_{all}$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "小蛇能保证 $Ans \\le S_{all}$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "两者同时成立的唯一可能就是：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$Ans = S_{all}$$",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, k; cin >> n >> k;\n\tll ans = 0;\n\tfa(i, 1, n) {\n\t\tll x; cin >> x;\n\t\tans += k * x;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-21",
+  "parsed_at": "2026-06-14T18:39:36.755949+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,330 @@
+{
+  "slug": "cf2195f-parabola-independence",
+  "title": "CF2195F Parabola Independence",
+  "type": "题目",
+  "tags": [
+    "拓扑排序",
+    "图论建模",
+    "数学",
+    "记忆化搜索"
+  ],
+  "difficulty": 2.5,
+  "summary": "明显本题可以建图，不过<strong>建图的方式比较数学</strong>：如果两个二次函数不相交，且如果 $f_i$ 在 $f_j$ 上方，则连一条 $i \\to j$ 的有向边，即<strong>顺序性</strong>、<strong>传递性</strong>。建完图后，求包含 $f_i$ 的最大有序子集等价于求经过节点 $i$ 的<strong>最长链</strong>。",
+  "link": "https://codeforces.com/contest/2195/problem/F",
+  "link_text": "Problem - F - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给你一组 $n$ 个二次函数 $F = \\{f_1, f_2, \\dots, f_n\\}$，其中 $f_i(x) = a_ix^2 + b_ix + c_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果两个函数 $f$ 和 $g$ 满足对所有 $x \\in \\mathbb{R}$ 都有 $f(x) \\neq g(x)$，那么它们被称为 <strong>独立</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "此外，如果一组函数 $G = \\{g_1, g_2, \\dots, g_k\\}$ 中任意两个函数 $g_i$ 和 $g_j$ 都是独立的，那么这组函数被称为 <strong>有序</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个 $i = 1, 2, \\dots, n$，请找出包含 $f_i$ 的最大有序子集的大小。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入包含多个测试用例。第一行是测试用例数量 $t$ ($1 \\le t \\le 10^4$)。接下来是各个测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$ ($1 \\le n \\le 3000$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行，每行三个整数 $a_i, b_i, c_i$，表示函数 $f_i$ ($-10^6 \\le a_i, b_i, c_i \\le 10^6$, $a_i \\neq 0$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证一测试用例中函数两两不同。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n^2$ 的总和不超过 $3000^2$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对每个测试用例，输出 $n$ 个整数 $s_1, s_2, \\dots, s_n$，其中 $s_i$ 表示包含 $f_i$ 的最大有序子集的大小。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n4\n1 2 -1\n-3 0 -3\n-1 4 -5\n1 2 -4\n5\n3 0 0\n1 0 -5\n-3 0 0\n-1 0 10\n1 0 -10\n5\n884 -667 497\n680 -973 213\n23 -548 -412\n826 359 -333\n773 212 218",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2 3 3\n3 3 2 2 3\n3 3 3 1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一个测试用例中，函数如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f_1(x) = x^2 + 2x - 1$;",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f_2(x) = -3x^2 - 3$;",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f_3(x) = -x^2 + 4x - 5$;",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f_4(x) = x^2 + 2x - 4$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "函数图像如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://espresso.codeforces.com/168b5d6d822586244824257fcad8369941df3285.png){:height 326, :width 309}",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "包含每个函数的最大有序子集如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "包含 $f_1$ 的最大有序子集是 $\\{f_1, f_3, f_4\\}$；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "包含 $f_2$ 的最大有序子集是 $\\{f_1, f_2\\}$；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "包含 $f_3$ 的最大有序子集是 $\\{f_1, f_3, f_4\\}$；",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "建图方式",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如果两个二次函数 $f(x)$ 和 $g(x)$ 永远不相交，这不仅意味着它们“独立”，还意味着在几何上存在一种<strong>严格的偏序关系</strong>（即：要么 $f$ 永远在 $g$ 上方，要么 $g$ 永远在 $f$ 上方）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "利用上述性质，建立一个<strong>有向图</strong>：如果 $f_i$ 在 $f_j$ 上方，则连一条 $i \\to j$ 的有向边。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "题目转化 和 答案求解",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目要求的“包含 $f_i$ 的最大有序子集”，在图论中等价于求经过节点 $i$ 的<strong>最长链</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "一个经过点 $i$ 的最长链 = <strong>(以</strong> $i$ <strong>结尾的最长链) + (以</strong> $i$ <strong>开头的最长链) - 1</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "前者用<strong>拓扑排序</strong>解决，后者用 <strong>dfs+dp (即记忆化搜索)</strong> 解决。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "为何要这样建图？",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "想当然的建图（陷阱）",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "<strong>节点</strong>：每个函数是一个点。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>边</strong>：如果函数 $i$ 和函数 $j$ <strong>不相交</strong>（独立），就在它们之间连一条<strong>无向边</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>目标</strong>：找一个最大的子集，使得子集里任意两点都有边相连。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>为什么这个思路“死路一条”？</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "在图论里，这叫做求<strong>最大团</strong>问题。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "在一般图中，求最大团是 <strong>NP-Hard</strong> 的问题。哪怕 $N=50$ 都很难算，而这题 $N=3000$。",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "为什么要那样建图？",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "要解决 NP-Hard 问题，必须利用题目特殊的<strong>性质</strong>。这道题的性质就是：<strong>几何上的传递性</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "让我们看看“不相交”在几何上意味着什么：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "如果抛物线 $A$ 和 $B$ 不相交，必然存在一个<strong>上下关系</strong> —— 要么 $A$ 永远在 $B$ 上方，要么 $B$ 永远在 $A$ 上方。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>关键在于“传递性”：</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "如果 $A$ 在 $B$ 上方；",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "且 $B$ 在 $C$ 上方；",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "那么 $A$ <strong>一定</strong> 在 $C$ 上方。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "这意味着，$A, B, C$ 三者两两都不相交。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar p = vector<tuple<ll, ll, ll>>(n + 1);\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n) {\n\t\tll a, b, c; cin >> a >> b >> c;\n\t\tp[i] = { a,b,c };\n\t}\n\tvar deg = vector<int>(n + 1);\n\tfa(i, 1, n)fa(j, i + 1, n) {\n\t\tconst var& [a1, b1, c1] = p[i];\n\t\tconst var& [a2, b2, c2] = p[j];\n\t\tll res = (b1 - b2) * (b1 - b2) - 4 * (a1 - a2) * (c1 - c2);\n\t\tif (res < 0) {\n\t\t\tif (a1 >= a2)g[i].pb(j), deg[j]++;\n\t\t\telse g[j].pb(i), deg[i]++;\n\t\t}\n\t\telse if (a1 == a2 and b1 == b2 and c1 != c2) {\n\t\t\tif (c1 > c2)g[i].pb(j), deg[j]++;\n\t\t\telse g[j].pb(i), deg[i]++;\n\t\t}\n\t}\n\n\tvar Q = queue<pii>();\n\tvar dep = vector<int>(n + 1); // 从 任意一个点 出发到 i 的最远距离（即以 i 结尾的最长链）\n\tfa(i, 1, n)if (!deg[i])Q.push({ i,1 });\n\twhile (Q.size()) {\n\t\tvar[now, nowdep] = Q.front();\n\t\tQ.pop();\n\t\tdep[now] = max(dep[now], nowdep);\n\t\tfor (int to : g[now]) {\n\t\t\tdeg[to]--;\n\t\t\tif (deg[to] == 0)Q.push({ to,nowdep + 1 });\n\t\t}\n\t}\n\n\tvar vis = vector<bool>(n + 1);\n\tvar fdep = vector<int>(n + 1, 1); // 从 i 出发到 任意一个点 的最远距离（即以 i 开头的最长链）\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tif (vis[now])return;\n\t\tvis[now] = 1;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\tfdep[now] = max(fdep[now], fdep[to] + 1);\n\t\t}\n\t\t};\n\tfa(i, 1, n)if (!vis[i])dfs(dfs, i, 0);\n\n\t// 到两边的距离相加就是答案\n\tfa(i, 1, n)cout << dep[i] + fdep[i] - 1 << ' ';\n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-20",
+  "parsed_at": "2026-06-14T18:39:36.409155+00:00",
+  "type_directory": "p"
+}

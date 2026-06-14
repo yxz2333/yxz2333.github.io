@@ -1,0 +1,206 @@
+{
+  "slug": "thupc2026初赛-l-宝石分组",
+  "title": "THUPC2026初赛 L 宝石分组",
+  "type": "题目",
+  "tags": [
+    "前后缀",
+    "在线问题",
+    "调和级数",
+    "经典问题/构造结构问题"
+  ],
+  "difficulty": 2.5,
+  "summary": "",
+  "link": "https://qoj.ac/contest/2756/problem/15887",
+  "link_text": "宝石分组 - Problem - QOJ.ac",
+  "source": "[[THUPC 2026 初赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "type": "p",
+      "html": "TODO THUPC2026初赛 L 宝石分组",
+      "depth": 0
+    },
+    {
+      "type": "p",
+      "html": ":LOGBOOK:",
+      "depth": 0
+    },
+    {
+      "type": "p",
+      "html": "CLOCK: [2025-12-19 Fri 23:08:26]--[2025-12-19 Fri 23:08:27] =>  00:00:01",
+      "depth": 0
+    },
+    {
+      "type": "p",
+      "html": ":END:",
+      "depth": 0
+    },
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "收藏家小蓝有 $n$ 个宝石，其中第 $i$ 个宝石的亮度为 $a_i$，现在小蓝想把这些宝石分为若干个组，满足每个宝石恰好被分在一个组中。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于一组宝石，若该组内有 $k$ 个宝石，其亮度分别为 $b_1, b_2, \\dots, b_k$，则小蓝认为这组宝石的美观值为 $(\\frac{\\sum_{i=1}^k b_i}{k})^2$。对于一组宝石的分组方案，小蓝认为其美观度为所有组的美观值之和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在小蓝有 $q$ 个问题，每个问题形如若要求在分组时每组宝石中的宝石个数在 $[l, r]$ 之间，则对于所有符合要求的分组方案，其美观度可以达到的最大值是多少。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于答案可能是一个很大的分数 $\\frac{a}{b}$，为了方便输出，您只需要回答它对 $10^9 + 7$ 取模的结果，即您需要求出一个 $[0, 10^9 + 7)$ 之间的整数 $c$ 使得 $a \\equiv bc \\pmod{10^9 + 7}$，可以证明在本题的限制条件下，总存在符合条件的 $c$，且符合条件的 $c$ 唯一。<strong>特别的，如果不存在符合要求的分组方案，请输出 -1。</strong>",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入两个正整数 $n, q \\, (1 \\le n, q \\le 5 \\times 10^5)$，表示宝石总个数与问题个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行输入 $n$ 个非负整数，其中第 $i$ 个非负整数表示第 $i$ 个宝石的亮度 $a_i \\, (0 \\le a_i \\le 10^8)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行，每行两个正整数 $l, r \\, (1 \\le l \\le r \\le n)$，表示若要求在分组时每组宝石的个数在 $[l, r]$ 之间，对于所有符合要求的分组方案，其美观度可以达到的最大值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出共 $q$ 行，其中第 $i$ 行包含一个整数，表示第 $i$ 个问题的答案，即当要求每组宝石的个数在第 $i$ 个问题给出的区间之内时，所有符合要求的分组方案的美观度可以达到的最大值对 $10^9 + 7$ 取模的结果。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "特别的，如果不存在符合要求的分组方案，请输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 4\n13 9 7 5 6 10\n1 5\n4 6\n2 3\n4 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "460\n444444517\n500000230\n-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "vector<ll> pre[N], suf[N]; // 一组 k 个人，前 i 组的答案的总和\nMath::PreInv<N, mod> inv;\nvoid solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tsort(all1(a), greater<>());\n\tvar presum = vector<ll>(n + 2);\n\tvar sufsum = vector<ll>(n + 2);\n\tfa(i, 1, n)presum[i] = presum[i - 1] + a[i];\n\tfb(i, n, 1)sufsum[i] = sufsum[i + 1] + a[i];\n\n\tfa(k, 1, n) { // 一组 k 个\n\t\tpre[k].pb(0);\n\t\t// 调和级数复杂度\n\t\tfor (int i = k; i <= n; i += k) {\n\t\t\tll zi = Math::fastPow(presum[i] - presum[i - k], 2, mod);\n\t\t\tll mu = inv[k] * inv[k] % mod;\n\t\t\tll now = zi * mu % mod; // 美丽度\n\t\t\tpre[k].pb((pre[k].back() + now) % mod);\n\t\t}\n\t}\n\n\tfa(k, 1, n) { // 一组 k 个\n\t\tsuf[k].pb(0);\n\t\t// 调和级数复杂度\n\t\tfor (int i = n - k + 1; i >= 1; i -= k) {\n\t\t\tll zi = Math::fastPow(sufsum[i] - sufsum[i + k], 2, mod);\n\t\t\tll mu = inv[k] * inv[k] % mod;\n\t\t\tll now = zi * mu % mod; // 美丽度\n\t\t\tsuf[k].pb((suf[k].back() + now) % mod);\n\t\t}\n\t}\n\n\twhile (q--) {\n\t\tint l, r; cin >> l >> r;\n\n\t\tif (l == r) {\n\t\t\tif (n % l != 0)cout << -1 << endl;\n\t\t\telse cout << pre[l][n / l] << endl;\n\t\t\tcontinue;\n\t\t}\n\n\t\t// 分组：\n\t\t//\t1. 若干个大小为 l 的组，拿前面最大的宝石\n\t\t//\t2. (最多 1 个)大小为 mid 的组，l < mid < r\n\t\t//  3. 若干个大小为 r 的组，拿后面最小的宝石\n\n\t\tint k = n / l;             // l 人一组，最大组数\n\n\t\t// 把 l 组全改成 r 都装不满 n\n\t\tif (1ll * k * r < n) {\n\t\t\tcout << -1 << endl;\n\t\t\tcontinue;\n\t\t}\n\n\t\tint left = n - k * l;      // 剩下的没组的人数\n\t\tint add = r - l;           // 每组最多在加 add 个人\n\t\tint num_r = left / add;    // 装满 r 个人的组有 num_r 个\n\t\tleft = left - num_r * add; // 剩下没装入 l,r 组的人数\n\t\tint num_l = k - num_r;     // 装满 l 个人的组有 num_l 个\n\t\tint mid = l + left;        // 中间组大小\n\t\tif (mid > l)num_l--;       // 存在中间组\n\n\t\tll ans = 0;\n\t\tans = (ans + pre[l][num_l]) % mod;\n\t\tans = (ans + suf[r][num_r]) % mod;\n\t\tif (mid > l) {\n\t\t\tint L = l * num_l + 1;\n\t\t\tint R = n - r * num_r;\n\t\t\tll zi = Math::fastPow(presum[R] - presum[L - 1], 2, mod);\n\t\t\tll mu = inv[mid] * inv[mid] % mod;\n\t\t\tll now = zi * mu % mod; // 美丽度\n\t\t\tans = (ans + now) % mod;\n\t\t}\n\t\tcout << ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-01",
+  "parsed_at": "2026-06-14T18:39:36.919986+00:00",
+  "type_directory": "p"
+}

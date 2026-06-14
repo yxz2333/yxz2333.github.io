@@ -1,0 +1,216 @@
+{
+  "slug": "bd202330-图论大师",
+  "title": "BD202330 图论大师",
+  "type": "题目",
+  "tags": [
+    "图论",
+    "矩阵快速幂",
+    "floyd",
+    "图论经典问题/边可以反复走"
+  ],
+  "difficulty": 2.0,
+  "summary": "<strong>矩阵快速幂</strong> + <strong>floyd</strong> 解决走恰好 $k$ 步的图论问题。",
+  "link": "https://www.matiji.net/exam/brushquestion/30/4347/179CE77A7B772D15A8C00DD8198AAC74",
+  "link_text": "码蹄集OJ-图论大师",
+  "source": "[[2023百度之星决赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个无向图，包含 $n$ 个点和 $m$ 条边，每条边有一个边权 $w_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于一条路径（不一定是简单路径，一条边可以多次出现），可以将其写作一个边序列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "定义路径的长度为<strong>边序列的长度</strong>，权值为边序列上所有边的权值之和（如果一条边出现多次，则其权值被多次累计）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在有 $q$ 次询问，每个询问形如：对于所有从 $u$ 到 $v$ 长度为 $k$ 的路径，其权值的<strong>最小值</strong>和<strong>最大值</strong>分别是多少？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行三个整数 $n, m, q (1 \\le n \\le 100, 1 \\le m \\le 10^5, 1 \\le q \\le 20)$ ，代表图的点数，边数，询问次数；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行，每行输入三个正整数 $u_i, v_i, w_i (1 \\le u_i, v_i \\le n, 1 \\le w_i \\le 10^6)$ ，代表图中的一条边，可能有重边自环；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行，每行三个整数 $u_j, v_j, k_j (1 \\le u_j, v_j \\le n, 1 \\le k_j \\le 10^9)$ ，代表一次询问。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个询问，输出一行两个整数，代表询问的所有路径权值的下界和上界；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果不存在这样的路径，输出两个 $-1$ 。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3 6\n1 2 3\n2 3 2\n1 3 1\n1 3 4\n1 3 3\n2 3 2\n2 3 3\n1 2 3\n1 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7 11\n3 7\n4 4\n4 8\n5 9\n-1 -1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：两点最短路和最长路，必须恰好走 $k$ 步，每条边可以反复走。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：$k$ = 1e9，而且可以反复走的这一条件非常神秘；但是 $n$ = 100，能想到<strong>floyd</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "说实话，本题想到能用<strong>矩阵快速幂</strong>就已经过了一半了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "构造邻接矩阵 $M$，$M^k$ 就是走 $k$ 条边后两点间的最短路了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "不过本题是要求<strong>最短路</strong>和<strong>最长路</strong>，所以我构造了两个矩阵 <code>mn</code> 和 <code>mx</code>，每个矩阵根据 <code>mnbase</code> 和 <code>mxbase</code> 更新，<code>base</code> 矩阵就是<strong>邻阶矩阵</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "下面的代码用了些小技巧进行优化，不过很简单这里就不再赘述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$k$ = 1e9，加上<strong>边可以反复走</strong>的条件，想到用<strong>矩阵快速幂</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "可以用<strong>floyd</strong>，而且需要<strong>迭代很多次</strong>（$k$ = 1e9），想到使用<strong>矩阵快速幂</strong>",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template<const int N>\nclass Matrixmn {\npublic:\n\tarray<array<ll, N + 1>, N + 1> mat;\n\n\tMatrixmn() {\n\t\tfor (int i = 0; i <= N; i++)\n\t\t\tfor (int j = 0; j <= N; j++)\n\t\t\t\tmat[i][j] = 1e16;\n\t}\n\n\tMatrixmn operator* (const Matrixmn& x) {\n\t\t// floyd 求最短路\n\t\tMatrixmn ret;\n\t\tfor (int k = 1; k <= N; k++)\n\t\t\tfor (int i = 1; i <= N; i++) {\n\t\t\t\tif (mat[i][k] == 10000000000000000ll)continue;\n\t\t\t\tfor (int j = 1; j <= N; j++) {\n\t\t\t\t\tif (x.mat[k][j] == 10000000000000000ll)continue;\n\t\t\t\t\tret.mat[i][j] = min(ret.mat[i][j], mat[i][k] + x.mat[k][j]);\n\t\t\t\t}\n\t\t\t}\n\t\treturn ret;\n\t}\n\n\tvoid ksm(ll k, Matrixmn base) {\n\t\twhile (k) {\n\t\t\tif (k & 1)*this = *this * base;\n\t\t\tbase = base * base;\n\t\t\tk >>= 1;\n\t\t}\n\t}\n};\n\ntemplate<const int N>\nclass Matrixmx {\npublic:\n\tarray<array<ll, N + 1>, N + 1> mat;\n\n\tMatrixmx() {\n\t\tfor (int i = 0; i <= N; i++)\n\t\t\tfor (int j = 0; j <= N; j++)\n\t\t\t\tmat[i][j] = 0;\n\t}\n\n\tMatrixmx operator* (const Matrixmx& x) {\n\t\t// floyd 求最长路\n\t\tMatrixmx ret;\n\t\tfor (int k = 1; k <= N; k++)\n\t\t\tfor (int i = 1; i <= N; i++) {\n\t\t\t\tif (mat[i][k] == 0)continue;\n\t\t\t\tfor (int j = 1; j <= N; j++) {\n\t\t\t\t\tif (x.mat[k][j] == 0)continue;\n\t\t\t\t\tret.mat[i][j] = max(ret.mat[i][j], mat[i][k] + x.mat[k][j]);\n\t\t\t\t}\n\t\t\t}\n\t\treturn ret;\n\t}\n\n\tvoid ksm(ll k, Matrixmx base) {\n\t\twhile (k) {\n\t\t\tif (k & 1)*this = *this * base;\n\t\t\tbase = base * base;\n\t\t\tk >>= 1;\n\t\t}\n\t}\n};\n\nMatrixmn<105> mn, mnbase;\nMatrixmx<105> mx, mxbase;\nvoid solve(int CASE)\n{\n\tint n, m, q; cin >> n >> m >> q;\n\tfa(i, 1, m) {\n\t\tll u, v, w; cin >> u >> v >> w;\n\t\tmn.mat[u][v] = min(mn.mat[u][v], w);\n\t\tmn.mat[v][u] = min(mn.mat[v][u], w);\n\t\tmx.mat[u][v] = max(mx.mat[u][v], w);\n\t\tmx.mat[v][u] = max(mx.mat[v][u], w);\n\t}\n\tmnbase = mn, mxbase = mx; // 原始邻接矩阵\n\n\tvar ans = vector<pll>(q + 1);\n\tvar input = vector<tuple<ll, int, int, int>>(q + 1);\n\tfa(i, 1, q) {\n\t\tll u, v, k; cin >> u >> v >> k;\n\t\tinput[i] = { k, u, v, i };\n\t}\n\tsort(all1(input), [](const var& x, const var& y)->bool {\n\t\treturn get<0>(x) < get<0>(y);\n\t\t});\n\n\tll last = 1; // 所有数一起快速幂，总共快速幂 1e9，防止分开快速幂 T 掉 \n\tfa(i, 1, q) {\n\t\tconst var& [k, u, v, id] = input[i];\n\t\tll cha = k - last;\n\t\tmn.ksm(cha, mnbase);\n\t\tmx.ksm(cha, mxbase);\n\t\tif (mn.mat[u][v] == 1e16)ans[id] = { -1, -1 };\n\t\telse ans[id] = { mn.mat[u][v], mx.mat[u][v] };\n\t\tlast = k;\n\t}\n\tfa(i, 1, q)cout << ans[i].px << ' ' << ans[i].py << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-24",
+  "parsed_at": "2026-06-14T18:39:36.060524+00:00",
+  "type_directory": "p"
+}

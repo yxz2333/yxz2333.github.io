@@ -1,0 +1,274 @@
+{
+  "slug": "cf1515e-phoenix-and-computers",
+  "title": "CF1515E Phoenix and Computers",
+  "type": "题目",
+  "tags": [
+    "划分型dp",
+    "隔板法"
+  ],
+  "difficulty": 3.0,
+  "summary": "核心在于发现最终局面必定是 <code>[手动段 1] 自动 [手动段 2] 自动[手动段 3]</code>，从而转化为<strong>划分型 DP</strong>。转移时将复杂的<strong>顺序</strong>问题进行拆解：用 $2^{L-1}$ 涵盖当前枚举的手动段内部的点击操作，用组合数 $\\binom{k+L}{L}$ 抹平新老两段独立操作在顺序上的穿插组合，最终依靠 DP 框架跨越 <code>自动</code> 这一断点。",
+  "link": "https://www.luogu.com.cn/problem/CF1515E",
+  "link_text": "CF1515E Phoenix and Computers - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有 $n$ 台电脑排成一排，最初都处于关闭状态，Phoenix 想要将它们全部打开。他每次可以手动打开一台电脑。在任意时刻，如果第 $i-1$ 台和第 $i+1$ 台电脑都已经打开，那么第 $i$ 台电脑（$2 \\le i \\le n-1$）如果还未打开，则会自动打开。注意，Phoenix 不能手动打开已经被自动打开的电脑。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果我们只考虑 Phoenix 手动打开电脑的顺序，有多少种不同的方法可以将所有电脑打开？如果手动打开的电脑集合不同，或者手动打开的顺序不同，则认为两种方案是不同的。由于方案数可能很大，请输出对 $M$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$ 和 $M$（$3 \\le n \\le 400$，$10^8 \\le M \\le 10^9$），分别表示电脑的数量和取模的数。保证 $M$ 是质数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示将所有电脑打开的方案数对 $M$ 取模后的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 100000007",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 100000007",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "20",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "400 234567899",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "20914007",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，Phoenix 可以通过以下 $6$ 种顺序手动打开所有电脑：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$[1,3]$。先手动打开第 $1$ 台电脑，再打开第 $3$ 台。注意，在手动打开第 $3$ 台电脑后，第 $2$ 台电脑会自动打开，但我们只考虑手动打开的顺序。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$[3,1]$。先手动打开第 $3$ 台电脑，再打开第 $1$ 台。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$[1,2,3]$。依次手动打开第 $1$、$2$、$3$ 台电脑。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$[2,1,3]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$[2,3,1]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$[3,2,1]$",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 核心破题点：如何想到划分型 DP？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这道题乍一看充满了 “操作顺序” 的干扰，极其混乱。但如果我们抛开中间过程，只看<strong>最终亮屏的物理局面</strong>，会发现它必定长这样：<code>[手动段 1] 自动 [手动段 2] 自动[手动段 3]</code>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>“自动开启的电脑”充当了天然的绝对断点（隔板）！</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "它将整个序列完美切割成了若干个互相独立的 “纯手动连续段”。一旦看到 <strong>“把序列按断点切分成若干段”</strong> 的物理结构，这必定是一个标准的<strong>划分型 / 断点型 DP</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 状态定义",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "故定义 $dp[i][x]$：表示考虑到前 $i$ 台电脑（且第 $i$ 台必定是某个手动段的结尾），总共<strong>手动点击了</strong> $x$ <strong>次</strong>的所有合法操作顺序方案数。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 状态转移方程",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然是划分型 DP，我们只需要<strong>枚举最后一个断点的位置</strong>，剥离出“最后一段”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设当前总长度为 $i$，最后一段手动段的起点为 $j$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>最后一段手动段</strong>：区间 $[j, i]$，长度为 $len = i - j + 1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>天然断点（自动电脑）</strong>：必定在 $j - 1$ 的位置。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>前面的老序列</strong>：以 $j - 2$ 结尾，假设它内部包含了 $k$ 次手动点击。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "转移方程：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i][len + k] = \\sum_{j} \\sum_{k} \\left( dp[j - 2][k] \\times \\underbrace{2^{len - 1}}_{\\text{新段内部点击顺序}} \\times \\underbrace{\\binom{k + len}{len}}_{\\text{新老段操作的穿插组合（隔板法）}} \\right)$$\n#### 新段内部点击顺序：$2^{len-1}$\n#### 新老段操作的穿插组合：$\\binom{k + len}{len}$ （核心难点）\n*另外补充边界*：如果前 $i$ 台电脑全是一个整体的手动段（没有断点），则 $dp[i][i] = 2^{i - 1}$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll dp[405][405];\nvoid solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tMT::Combinatorics c(n, m);\n\n\tdp[1][1] = 1, dp[2][2] = 2;\n\tfa(i, 3, n) {\n\t\tfb(j, i, 3) {\n\t\t\tll len = i - j + 1; // 当前手动点亮段长度\n\t\t\tll cnt = Math::fastPow(2, len - 1, m); // 当前手动点亮段自身顺序方案数\n\t\t\tfa(k, 1, j - 2) {\n\t\t\t\tll now = c.lucas(k + len, len) * cnt % m; // 隔板法\n\t\t\t\tdp[i][len + k] = (dp[i][len + k] + now * dp[j - 2][k] % m) % m;\n\t\t\t}\n\t\t}\n\t\tdp[i][i] = Math::fastPow(2, i - 1, m);\n\t}\n\n\tll ans = 0;\n\tfa(i, 1, n)ans = (ans + dp[n][i]) % m;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-05",
+  "parsed_at": "2026-06-14T18:39:36.188783+00:00",
+  "type_directory": "p"
+}

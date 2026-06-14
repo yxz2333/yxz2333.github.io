@@ -1,0 +1,237 @@
+{
+  "slug": "nc124960e-小学二年级地理",
+  "title": "NC124960E 小学二年级地理",
+  "type": "题目",
+  "tags": [
+    "倍增"
+  ],
+  "difficulty": 2.0,
+  "summary": "<strong>分类讨论找关键点，然后在关键点上套倍增就行。</strong>",
+  "link": "https://ac.nowcoder.com/acm/contest/124960/E",
+  "link_text": "E-小学二年级地理_2025年广州大学程序设计竞赛新生赛（同步赛）",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>目标：</strong>在一个数字序列中，找一段最长的<strong>“心电图”</strong>（严格的一高一低交替，如 <code>低-高-低-高...</code>）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>限制：</strong>如果不满足“心电图”形态（即出现了单调上升或单调下降的三连点），就算<strong>断掉了</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>能力：</strong>你有 $k$ 次“超能力”，每次可以把任意一个数改成<strong>任意值</strong>（比如无穷大或无穷小），用来修复断点，接续长度。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $\\textstyle n,k \\ (1 \\leq n \\leq 2 \\times 10^5,\\ 0 \\leq k \\leq 2 \\times 10^5)$，表示地块数量和允许修改的最大次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $\\textstyle n$ 个整数 $\\textstyle a_i$ ($\\textstyle -10^9 \\leq a_i \\leq 10^9$)，表示每个地块的高度。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行一个整数，表示通过至多 $\\textstyle k$ 次修改后，满足要求的最长连续区间的长度。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 1\n5 4 6 2 9 9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 0\n1 1 4 5 1 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>注意到：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "合法的序列区间只有两种模板：<code>峰谷峰谷峰...</code> 或 <code>谷峰谷峰谷...</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "分别计算这两种情况，取最大值。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>找关键点：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在固定<strong>峰谷交替</strong>模板下，如果当前位置 $i$ 不满足<strong>峰谷/谷峰</strong>构造条件：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "当前位置 $i$ 就是一个<strong>冲突点（关键点）</strong>。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>动作：</strong> 花费 1 次修改机会，把 $a[i+1]$ 改成 $\\pm \\infty$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>效果：</strong> 当前关系 $(i, i+1)$ 修复了，且<strong>下一个关系</strong> $(i+1, i+2)$ 必然自动满足。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>结论：</strong> 遇到冲突，花费 $1$ 代价，直接<strong>跳过</strong>当前和下一个，从 $i+2$ 继续检查。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>倍增：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "处理完当前的冲突，我们去处理下一个冲突，那么每个冲突的位置就形成了一条<strong>跳跃链</strong>，跳跃的过程中就相当于消除了当前的冲突，花费了一次超能力。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "然后构造 <code>next[i]</code> 数组为 <code>dp[i][0]</code> 赋值，跑一遍<strong>倍增</strong>初始化，再枚举每个位置 $i$ 用跳跃长度 $k$ 进行查询即可。套个板子的事： ((6928206a-f673-45cf-b8dd-6ea7d67ee5dc))",
+          "depth": 2
+        },
+        {
+          "heading": "难点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>把“动态决策”一眼看穿成“静态图上的跳跃”</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "“动态决策”：对 <code>a[i]</code> 是否要进行修改。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "“静态图上的跳跃”：构造关键点，然后倍增。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int a[N];\nvoid solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tfa(i, 1, n)cin >> a[i];\n\n\tvar f = [&](int type)->int {\n\t\tvar nex = vector<int>(n + 2, n); // i 的下一个关键点\n\t\tvar mark = vector<bool>(n + 1);  // i 是否为关键点\n\n\t\tfb(i, n - 1, 1) {\n\t\t\tif (type == 0) {\n\t\t\t\t// 谷 峰 谷\n\t\t\t\tif (i & 1) {\n\t\t\t\t\tif (a[i] >= a[i + 1]) {\n\t\t\t\t\t\t// 不满足构造条件\n\t\t\t\t\t\tif (mark[i + 2])nex[i] = i + 2;\n\t\t\t\t\t\telse nex[i] = nex[i + 2];\n\t\t\t\t\t\tmark[i] = 1;\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\t// 满足构造条件\n\t\t\t\t\t\tif (mark[i + 1])nex[i] = i + 1;\n\t\t\t\t\t\telse nex[i] = nex[i + 1];\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tif (a[i] > a[i + 1]) {\n\t\t\t\t\t\t// 满足构造条件\n\t\t\t\t\t\tif (mark[i + 1])nex[i] = i + 1;\n\t\t\t\t\t\telse nex[i] = nex[i + 1];\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\t// 不满足构造条件\n\t\t\t\t\t\tif (mark[i + 2])nex[i] = i + 2;\n\t\t\t\t\t\telse nex[i] = nex[i + 2];\n\t\t\t\t\t\tmark[i] = 1;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\telse {\n\t\t\t\t// 峰 谷 峰\n\t\t\t\tif (i & 1) {\n\t\t\t\t\tif (a[i] > a[i + 1]) {\n\t\t\t\t\t\t// 满足构造条件\n\t\t\t\t\t\tif (mark[i + 1])nex[i] = i + 1;\n\t\t\t\t\t\telse nex[i] = nex[i + 1];\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\t// 不满足构造条件\n\t\t\t\t\t\tif (mark[i + 2])nex[i] = i + 2;\n\t\t\t\t\t\telse nex[i] = nex[i + 2];\n\t\t\t\t\t\tmark[i] = 1;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tif (a[i] >= a[i + 1]) {\n\t\t\t\t\t\t// 不满足构造条件\n\t\t\t\t\t\tif (mark[i + 2])nex[i] = i + 2;\n\t\t\t\t\t\telse nex[i] = nex[i + 2];\n\t\t\t\t\t\tmark[i] = 1;\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\t// 满足构造条件\n\t\t\t\t\t\tif (mark[i + 1])nex[i] = i + 1;\n\t\t\t\t\t\telse nex[i] = nex[i + 1];\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\t// 处理 k = 0\n\t\tint ans = 0;\n\t\tfa(i, 1, n)if (!mark[i])ans = max(ans, nex[i] - i + 1);\n\n\t\tconst int MAX_LOG = 25;\n\t\tvar dp = Vec2<int>(n + 1, MAX_LOG + 1);\n\t\tfa(i, 1, n) {\n\t\t\tif (mark[i])dp[i][0] = nex[i]; \n\t\t\telse dp[i][0] = nex[nex[i]]; // 0 先跳到关键点，再花费一次(2^0)超能力跳到下一个关键点\n\t\t}\n\n\t\tfa(p, 1, MAX_LOG)\n\t\t\tfa(i, 1, n) {\n\t\t\tif (dp[i][p - 1] == n)dp[i][p] = n;\n\t\t\telse dp[i][p] = dp[dp[i][p - 1]][p - 1];\n\t\t}\n\n\t\tfa(i, 1, n) {\n\t\t\tint pos = i;\n\t\t\tfa(p, 0, MAX_LOG) {\n\t\t\t\tif (k & (1 << p)) {\n\t\t\t\t\tpos = dp[pos][p];\n\t\t\t\t\tif (pos == n)break;\n\t\t\t\t}\n\t\t\t}\n\t\t\tans = max(ans, pos - i + 1);\n\t\t}\n\n\t\treturn ans;\n\t\t};\n\n\tcout << max(f(0), f(1)) << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-23",
+  "parsed_at": "2026-06-14T18:39:36.664787+00:00",
+  "type_directory": "p"
+}

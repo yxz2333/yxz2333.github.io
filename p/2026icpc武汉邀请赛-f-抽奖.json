@@ -1,0 +1,358 @@
+{
+  "slug": "2026icpc武汉邀请赛-f-抽奖",
+  "title": "2026ICPC武汉邀请赛 F 抽奖",
+  "type": "题目",
+  "tags": [
+    "期望dp",
+    "二分",
+    "前缀和"
+  ],
+  "difficulty": 2.5,
+  "summary": "推期望 dp 公式，然后一维化该公式，设定上限后倒序处理 dp，处理的过程中用二分和前缀和优化。",
+  "link": "https://qoj.ac/contest/3757/problem/22153",
+  "link_text": "Problem - F - QOJ.ac",
+  "source": "2026ICPC武汉邀请赛",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "月读（Tsukuyomi）正在举办一场抽奖活动。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "奖品池中有 $n$ 个物品，其价值分别为 $A_1, A_2, \\cdots, A_n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "辉夜可以参加若干轮抽奖，但她必须至少参加一轮。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每轮的过程如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1. 辉夜需要支付当前抽奖成本 $c$，然后从 $[1, n]$ 中均匀随机选择一个整数 $x$。她得知抽中了哪个物品 $x$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "2. 在看到结果后，辉夜有两个选择：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>保留</strong>：获得价值为 $A_x$ 的物品，并结束整个抽奖活动。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>放弃</strong>：进入下一轮抽奖，但下一轮的成本变为 $c + k$，即 $c \\leftarrow c + k$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "辉夜的\"利润\"定义为最终获得的物品价值 $A_x$ 减去所有轮次支付的抽奖成本之和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "假设辉夜采取最优策略以最大化她的期望利润，求该期望利润。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行三个整数 $n, c, k$（$1 \\le n \\le 4 \\times 10^5$，$1 \\le c \\le 4 \\times 10^5$，$0 \\le k \\le 4 \\times 10^5$），分别表示奖品池中的物品总数、第一轮抽奖的初始成本以及每次重新抽奖的成本增加量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个整数 $A_1, A_2, \\cdots, A_n$（$1 \\le A_i \\le 4 \\times 10^5$），表示每个物品的价值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行一个实数，表示在辉夜最优策略下的期望利润。当绝对误差或相对误差不超过 $10^{-6}$ 时视为正确。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2 0\n4 1 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2.000000000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9 8 2\n53 71 5 6 80 37 50 33 90",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "51.557786840",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 状态定义",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "最直接的想法是二维状态：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设 $E[i][j]$ 表示 <strong>在第</strong> $j$ <strong>轮已经抽到了第</strong> $i$ <strong>件物品时</strong>，从游戏开始到结束的期望总利润。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此时当前轮已经抽到了物品 $i$，我们可以做决策：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>保留</strong>：利润为 $A_i$ 减去前 $j$ 轮的总成本",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\text{cost}(j) = j\\cdot c + \\frac{j(j-1)}{2} k\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "即 $A_i - \\text{cost}(j)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>放弃</strong>：进入下一轮，下一轮开始时面临的是未知物品，期望利润为下一轮 <strong>未抽前</strong> 的期望，记作 $F[j+1]$，所以放弃的收益为 $F[j+1]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "于是：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nE[i][j] = \\max\\big(A_i - \\text{cost}(j),\\; F[j+1]\\big)\n\\tag{1}\n$$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 一维化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "注意到 $E[i][j]$ 中只有第一项与 $i$ 有关，第二项是公共的。而且每一轮开始前（未抽时）的期望利润可以写成：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nF[j] = \\frac{1}{n}\\sum_{i=1}^n E[i][j]\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这正是 <strong>第</strong> $j$ <strong>轮开始前（尚未抽）</strong> 的期望总利润。答案就是 $F[1]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "将 (1) 代入：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nF[j] = \\frac{1}{n}\\sum_{i=1}^n \\max\\big(A_i - \\text{cost}(j),\\; F[j+1]\\big)\n\\tag{2}\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这样就从二维压缩成了一维：$F[j]$ 只依赖于 $F[j+1]$ 和物品价值分布。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 利用单调性优化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "将物品价值降序排序：$A_1 \\ge A_2 \\ge \\cdots \\ge A_n$，并预处理前缀和 $\\text{pre}[p] = \\sum_{i=1}^p A_i$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于固定的 $j$，$\\text{cost}(j)$ 已知。由于 $A_i$ 递减，满足 $A_i - \\text{cost}(j) \\ge F[j+1]$ 的 $i$ 必然是前缀。设最大下标为 $p$（若都不满足则 $p=0$），则：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\begin{aligned}\n\\sum_{i=1}^n \\max&(A_i - \\text{cost}(j),\\; F[j+1]) \\\\\n&= \\sum_{i=1}^{p} (A_i - \\text{cost}(j)) + \\sum_{i=p+1}^n F[j+1] \\\\\n&= \\big(\\text{pre}[p] - p\\cdot \\text{cost}(j)\\big) + (n-p)\\cdot F[j+1]\n\\end{aligned}\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "代入 (2) 得：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nF[j] = \\frac{\\text{pre}[p] - p\\cdot \\text{cost}(j)}{n} + \\frac{n-p}{n}\\cdot F[j+1]\n\\tag{3}\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "其中 $p$ 可以通过二分求出（降序排列下条件单调）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "4. 递推顺序与边界",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "从 (2) 看出 $F[j]$ 依赖于 $F[j+1]$，因此应该 <strong>从后往前</strong> 递推。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "成本随轮次增加而增大，当 $j$ 足够大时 $\\text{cost}(j)$ 会超过所有物品价值，此时继续游戏的期望为负，我们可以设定一个上限 $M$（例如 $4\\times 10^5$），令 $F[M+1] = -\\infty$（极小值），然后从 $j = M$ 递推到 $1$，最终输出 $F[1]$ 即为答案。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "关键点回顾",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "从二维状态 $E[i][j]$ 压缩到一维 $F[j]$ 是本题的核心，关键在于每一轮对物品的期望是对称的，从而把取 max 再平均的运算化简为了对排序后前缀的计算。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "利用排序后的单调性，通过二分找到每轮的决策分界点，用前缀和快速计算第一部分。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设定足够大的轮次上限，从后向前递推，保证收敛。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "注意使用 long double 保证精度，且初始负无穷要足够小。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ldb dp[N];\nll C[N], pre[N];\nconst int MAXN = 4e5;\nvoid solve(int CASE)\n{\n    ll n, c, k; cin >> n >> c >> k;\n    var a = vector<ll>(n + 1);\n    fa(i, 1, n)cin >> a[i];\n    sort(all1(a), greater<>());\n    fa(i, 1, n)pre[i] = pre[i - 1] + a[i];\n    fa(i, 1, MAXN)C[i] = i * c + i * (i - 1ll) / 2 * k;\n    dp[MAXN + 1] = -LNF;\n    fb(j, MAXN, 1) {\n        int l = 1, r = n, ans = 0;\n        while (l <= r) {\n            int mid = l + r >> 1;\n            if (a[mid] - C[j] >= dp[j + 1]) {\n                l = mid + 1;\n                ans = mid;\n            }\n            else r = mid - 1;\n        }\n        ldb x = (ldb)pre[ans] / n - (ldb)C[j] / n * ans;\n        ldb y = (ldb)(n - ans) / n * dp[j + 1];\n        dp[j] = x + y;\n    }\n    cout << fixed << setprecision(12) << dp[1] << endl;\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-20",
+  "parsed_at": "2026-06-14T18:39:35.830591+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,256 @@
+{
+  "slug": "cf685b-kay-and-snowflake",
+  "title": "CF685B Kay and Snowflake",
+  "type": "题目",
+  "tags": [
+    "重心"
+  ],
+  "difficulty": 1.5,
+  "summary": "考虑一次 dfs 把所有子树的重心算出来，当处理当前子树 now 的重心时，找出重儿子的重心，<strong>当前子树的重心肯定在 now 到重儿子的重心的链</strong>上，根据重心的性质一直向上跳即可。",
+  "link": "https://www.luogu.com.cn/problem/CF685B",
+  "link_text": "CF685B Kay and Snowflake - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有一天，他发现了一片巨大的雪花，这片雪花的结构是一棵有 $n$ 个结点的树（即连通无环图）。树的根节点编号为 $1$。凯对这棵树的结构非常感兴趣。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "经过一些研究，他对这棵树产生了 $q$ 个问题。第 $i$ 个问题请求你找到以第 $v_i$ 号节点为根的子树的重心。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一个节点的子树是指由该节点及其所有后代（无论是直接的还是间接的）组成的部分。换句话说，节点 $v$ 的子树包含所有满足从节点 $u$ 到根节点的路径经过 $v$ 的结点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一棵树（或子树）的重心是指这样一个节点：如果我们删除它，所得到的最大连通块的大小不超过原树（或子树）大小的一半。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含两个整数 $n$ 和 $q$（$2\\leq n\\leq 300000$，$1\\leq q\\leq 300000$），分别表示初始树的结点数和询问的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n-1$ 个整数 $p_2, p_3, \\ldots, p_n$（$1\\leq p_i\\leq n$），表示编号为 $2$ 到 $n$ 的节点的父节点编号。节点 $1$ 是树的根节点。保证 $p_i$ 所描述的是一棵合法的树。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $q$ 行，每行一个整数 $v_i$（$1\\leq v_i\\leq n$），表示一个问题 —— 以 $v_i$ 为根的子树，要求你找出它的重心。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个查询，输出对应子树重心的编号。如果存在多个满足条件的节点，输出其中任意一个即可。保证每个子树至少有一个重心。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7 4\n1 1 3 3 5 3\n1\n2\n3\n5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n2\n3\n6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如下图所示，第一组询问要求整棵树的重心——即节点 $3$。如果删除节点 $3$，树被分为四个连通块，其中两个大小为 $1$，两个大小为 $2$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "编号为 $2$ 的节点的子树只包含它自己，因此答案是 $2$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "编号为 $3$ 的节点自己的子树的重心是 $3$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "编号为 $5$ 的节点的子树的重心可以是 $5$ 或 $6$，两者都为正确答案。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF685B/821209b858c843715556bbbb66f001612969fa03.png){:height 199, :width 153}",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "dfs 的过程中，重心会如何变化？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>猜测：</strong>以 <code>now</code> 为根的子树的重心，一定存在于<strong><code>now</code>到<code>now</code>的重儿子的重心</strong>的这条路径上。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>为什么？物理直觉：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "想象 <code>now</code> 是一大家子的族长。他的子树里，有一个儿子（重儿子 $t$）人丁极度兴旺。重心（平衡点）就像一个铁球，它一定会被人多的地方“吸引”过去。所以 <code>now</code> 的重心绝对不可能跑到那些人丁稀少的轻儿子那边，只会被重儿子拽着往下走。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "初始化：大胆假设",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "ans[now] = ans[mxson];",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "代码的这一行，就是我们做出的<strong>大胆假设</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "既然知道重心在这条路径上，我们就干脆<strong>从这条路径的最底端开始往上找</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们把当前候选的重心 $C$ 设置为重儿子的重心：$C = ans[mxson]$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "<code>while</code> 循环：检验与向上“逼近”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "现在，我们手里拿着候选重心 $C$（当前代码里的 <code>ans[now]</code>），我们要问自己一个问题：<strong>它有资格做整棵 <code>now</code> 子树的重心吗？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "做重心的条件是：如果把 $C$ 删掉，裂开的所有碎块，大小都不能超过 <code>siz[now] / 2</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "把 $C$ 删掉后，树会裂成两类碎块：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1.  <strong>向下的碎块（</strong>$C$ <strong>的各个子树）：</strong> 因为 $C$ 曾经是重儿子的重心，它向下的部分本来就很小，完全不用担心，<strong>绝对满足</strong> $\\le siz[now] / 2$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2.  <strong>向上的碎块（从</strong> $C$ <strong>往上一直到 <code>now</code> 的这部分）：</strong> <strong>这是唯一的隐患！</strong> <code>向上碎块大小 = siz[now] - siz[C]</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果这个向上的碎块太大了，超过了 <code>siz[now] / 2</code>，那 $C$ 就没资格当重心，必须往上走一步，去吃掉一点向上的节点，让向上的碎块变小。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所以，我们需要它<strong>往上走（移动到父节点）</strong>的条件是：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$向上碎块大小 > \\frac{siz[now]}{2}$$\n$$siz[now] - siz[C] > \\frac{siz[now]}{2}$$",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\tvar g = vector<vector<int>>(n + 1);\n\tvar fat = vector<int>(n + 1);\n\tfa(i, 2, n) {\n\t\tint x; cin >> x;\n\t\tfat[i] = x;\n\t\tg[i].pb(x), g[x].pb(i);\n\t}\n\n\tvar ans = vector<int>(n + 1);\n\tvar siz = vector<int>(n + 1);\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tsiz[now] = 1;\n\t\tint mxson = 0;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\tsiz[now] += siz[to];\n\t\t\tif (siz[to] > siz[mxson])mxson = to;\n\t\t}\n\t\tif (!mxson) {\n\t\t\tans[now] = now;\n\t\t\treturn;\n\t\t}\n\t\tans[now] = ans[mxson];\n\t\twhile (siz[now] - siz[ans[now]] > siz[now] / 2)\n\t\t\tans[now] = fat[ans[now]];\n\t\t};\n\tdfs(dfs, 1, 0);\n\n\twhile (q--) {\n\t\tint x; cin >> x;\n\t\tcout << ans[x] << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-24",
+  "parsed_at": "2026-06-14T18:39:36.574469+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,255 @@
+{
+  "slug": "p8614-[蓝桥杯-2014-省-a]-波动数列",
+  "title": "P8614 [蓝桥杯 2014 省 A] 波动数列",
+  "type": "题目",
+  "tags": [
+    "dp",
+    "数学推导"
+  ],
+  "difficulty": 1.5,
+  "summary": "推个公式，然后发现是对 $n$ 取模设计 dp 状态。",
+  "link": "[P8614 [蓝桥杯 2014 省 A] 波动数列 - 洛谷](https://www.luogu.com.cn/problem/P8614)",
+  "link_text": "[P8614 [蓝桥杯 2014 省 A] 波动数列 - 洛谷](https://www.luogu.com.cn/problem/P8614)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "观察这个数列：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1,3,0,2,-1,1,-2, \\cdots$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这个数列中后一项总是比前一项增加 $2$ 或者减少 $3$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "栋栋对这种数列很好奇，他想知道长度为 $n$ 和为 $s$ 而且后一项总是比前一项增加 $a$ 或者减少 $b$ 的整数数列可能有多少种呢？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含四个整数 $n,s,a,b$，含义如前面说述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le n \\le 1000$，$-10^9 \\le s \\le 10^9$，$1 \\le a,b \\le 10^6$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行，包含一个整数，表示满足条件的方案数。由于这个数很大，请输出方案数除以 $100000007$ 的余数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 10 2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这两个数列分别是 2 4 1 3 和 7 4 1 -2。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "数学公式推导",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们设第 $i$ 次波动（也就是数列的第 $i+1$ 项与第 $i$ 项的差）为 $d_i$，显然 $d_i \\in \\{a, -b\\}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们可以把数列的每一项都写出来，看它们是如何由首项 $x$ 和 波动量 $d_i$ 组成的：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $1$ 项：$x$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $2$ 项：$x + d_1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $3$ 项：$x + d_1 + d_2$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $4$ 项：$x + d_1 + d_2 + d_3$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$\\dots$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $n$ 项：$x + d_1 + d_2 + \\dots + d_{n-1}$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "然后，我们将这 $n$ 项<strong>全部加起来</strong>等于 $s$，并按列归类：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$s = n \\cdot x + d_1 \\times (n-1) + d_2 \\times (n-2) + d_3 \\times (n-3) + \\dots + d_{n-1} \\times 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "让我们令这些所有波动的 “总贡献和” 为 $P$：$P = \\sum_{k=1}^{n-1} d_k \\times (n-k)$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "则我们的等式可以简化为：$n \\cdot x + P = s$ 即 $n \\cdot x = s - P$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "唯一的未定项就是首项 $x$，如果给定了所有的波动序列得出某个固定值 $P$，要想首项 $x$ 为整数，唯一的<strong>充要条件就是</strong> $s - P$ <strong>能被</strong> $n$ <strong>整除</strong>！",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "用取模的数学公式表达也就是：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$s \\equiv P \\pmod n$  或写作  $P \\bmod n = s \\bmod n$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "这样，<strong>原问题被巧妙地转换了</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们根本不用去穷举首项 $x$ 是什么。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们只需要在 $n-1$ 步里决定每次是选 $+a$ 还是 $-b$，最终算出一个总贡献 $P$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "只要这组选择能让 $P \\bmod n$ 等于 $s \\bmod n$，那就说明它存在一个完美对应且合法的首项 $x$，方案数加 1。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "动态规划",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "经过上面的推导，我们只需要维护 “<strong>在模</strong> $n$ <strong>的意义下的总贡献值</strong> $P$ ” 就行了，此时 $P$ 的可能取值只有 $0, 1, 2, \\dots, n-1$！我们成功把原本高达 $10^9$ 的数据级缩小到了极度精巧的规模（最大 1000）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "定义 <code>dp[i][j]</code> 为：当处理完前 $i$ 项（即进行了 $i-1$ 次操作时），产生的所有总波动贡献和模 $n$ 余 $j$ 的<strong>方案数</strong>。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll dp[N][N];\nvoid solve(int CASE)\n{\n\tll n, s, a, b; cin >> n >> s >> a >> b;\n\tdp[1][0] = 1;\n\tfa(i, 2, n)fa(j, 0, n - 1) {\n\t\tll nj = (j + (n - i + 1) * a % n) % n;\n\t\tdp[i][nj] = (dp[i][nj] + dp[i - 1][j]) % mod;\n\t\tnj = ((j - (n - i + 1) * b % n) % n + n) % n;\n\t\tdp[i][nj] = (dp[i][nj] + dp[i - 1][j]) % mod;\n\t}\n\tcout << dp[n][(s % n + n) % n] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-24",
+  "parsed_at": "2026-06-14T18:39:36.907680+00:00",
+  "type_directory": "p"
+}

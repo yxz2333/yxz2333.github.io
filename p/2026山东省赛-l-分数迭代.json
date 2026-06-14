@@ -1,0 +1,259 @@
+{
+  "slug": "2026山东省赛-l-分数迭代",
+  "title": "2026山东省赛 L 分数迭代",
+  "type": "题目",
+  "tags": [
+    "gcd",
+    "因数"
+  ],
+  "difficulty": 2.5,
+  "summary": "主要是得通过<strong>更相减损术</strong>发现更新只与 $a, b$ 的差值 d 有关，<strong>暴力枚举 d 的因数</strong>（用<strong>欧拉筛优化分解因数</strong>）进行处理就能解决本题。",
+  "link": "https://qoj.ac/contest/3767/problem/18318",
+  "link_text": "分数迭代 - QOJ",
+  "source": "2026山东省赛",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个最简分数 $\\frac{a}{b}$（即 $\\gcd(a,b)=1$）。每一秒，分子和分母同时加 $1$，然后立即化简为最简形式。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "具体地，若当前分数为 $\\frac{a}{b}$，一秒后变为 $\\frac{a+1}{b+1}$，再令 $g = \\gcd(a+1, b+1)$，更新为 $\\frac{(a+1)/g}{(b+1)/g}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在给定初始分数 $\\frac{a}{b}$ 以及 $q$ 次询问。每次询问给出一个整数 $k_i$，您需要求出从初始状态开始经过恰好 $k_i$ 秒后的分数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有多组测试数据。第一行输入一个整数 $T$ ($1 \\le T \\le 10^3$)，表示测试数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输入三个整数 $a, b$ 和 $q$ ($1 \\le a, b \\le 10^{12}$, $1 \\le q \\le 100$)。保证初始时 $\\gcd(a, b) = 1$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行，第 $i$ 行输入一个整数 $k_i$ ($1 \\le k_i \\le 10^{18}$)，表示询问的时间。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个询问输出一行，包含两个由单个空格分隔的整数 $a'$ 和 $b'$，表示从初始状态开始经过恰好 $k_i$ 秒后的分数的分子和分母。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "3\n1 7 3\n1\n2\n3\n1 1 1\n1\n13 3 3\n7\n2\n10",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "1 4\n2 5\n1 2\n1 1\n5 4\n8 3\n8 7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "观察 1：更相减损术",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "令 $d = |a-b|$。关键等式是：$\\gcd(a+k,\\,b+k) = \\gcd(a+k,\\,b-a) = \\gcd(a+k,\\,d)$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由此得到一个重要结论：<strong>化简的发生只与分子和差值有关</strong>。若 $d=1$，则永远不需要化简，所以分数变化就是简单的加法。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "否则，只有当 $a+k$ 与 $d$ 有非 $1$ 的公因子时，才会出现 $\\gcd>1$ 并执行化简。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "观察 2：化简会使差值缩小",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "设发生化简时的 $\\gcd = g>1$，则新分数为 $\\frac{a+k}{g},\\,\\frac{b+k}{g}$，新的差值变为 $d' = d/g$。这说明 <strong>差值始终是初始</strong> $d$ <strong>的约数，而且每次化简都会让它缩小至少一半（至少除以 2）</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，化简最多发生 $O(\\log d)$ 次。对于 $d\\le 10^{12}$，这个次数小于 $12$，几乎可以暴力处理。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "观察 3：用因子预测下一次化简的时机",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然化简只与 $d$ 的非 $1$ 因子有关，我们只需预先求出 $d$ 的全部因子（注意：$d$ 最大 $10^{12}$，但因子个数很少，比如最多几千个）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于每个大于 $1$ 的因子 $g$，计算\"让 $a+k$ 变成 $g$ 的倍数\"所需的最小步数：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "\\[\nk_g = \\begin{cases}\n0 & \\text{若 } g \\mid a \\\\\n\\left\\lceil\\frac{a}{g}\\right\\rceil\\cdot g - a & \\text{否则}\n\\end{cases}\n\\]",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在所有这些 $k_g$ 中，<strong>最小的</strong> $k_g$ <strong>就是第一次化简发生的步数</strong>（如果有多个相同的 $k_g$，取最大 $g$）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "实现流程",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "1. 初始时，设差值为 $d$（如果 $a>b$ 可以对称处理，最后翻转回去）。若 $d=1$，则永不化简，任意询问直接输出 $(a+k,\\,b+k)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "2. 否则：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "求出 $d$ 的所有因子。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "找到最小的 $k_{\\min}$ 及对应最大因子 $g_{\\max}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在 $k_{\\min}$ 秒内，分数不会化简，只是线性增加。因此对于所有落在此期间的询问（即 $k < k_{\\min}$），可以直接回答。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于刚好在 $k_{\\min}$ 处的询问，回答化简后的分数 $\\frac{a+k_{\\min}}{g_{\\max}}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "然后更新分数为化简后的值，并累计时间，重复此过程，直到询问全部处理或 $d$ 变为 $1$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "总结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "本题的突破口在于利用 $\\gcd(a+k,\\,b+k)=\\gcd(a+k,\\,b-a)$ 将化简与差值关联，进而将漫长的线性过程拆分为若干\"无化简区间 + 化简点\"。差值因子个数的有限性保证了暴力枚举的可行性，从而让整个问题从 $O(k)$ 的模拟压缩到 $O(\\log d\\cdot \\text{因子个数})$ 的级别。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "const int N = 1e6 + 10;\nEulerPrime er(N);\nvoid solve()\n{\n\tll a, b, q; cin >> a >> b >> q;\n\tbool ok = 0;\n\tif (a > b)swap(a, b), ok = 1;\n\tvar p = er.factorNumbers(b - a);\n\tsort(all(p));\n\n\tvar Q = deque<pll>();\n\tvar ans = vector<pll>(q + 1);\n\tfa(i, 1, q) {\n\t\tll x; cin >> x;\n\t\tQ.pb({ x,i });\n\t}\n\tsort(all(Q));\n\n\tif (a == b) {\n\t\tfa(i, 1, q)cout << 1 << \" \" << 1 << endl;\n\t\treturn;\n\t}\n\n\tll k = 0;\n\twhile (b - a > 1) {\n\t\tll dis = 1e18, fp = 1;\n\t\tfor (ll x : p) {\n\t\t\tif (x == 1 or (b - a) % x != 0)continue;\n\t\t\tll d = (a + x - 1) / x * x - a;\n\t\t\tif (d < dis) {\n\t\t\t\tdis = d;\n\t\t\t\tfp = x;\n\t\t\t}\n\t\t\telse if (d == dis and x > fp)\n\t\t\t\tfp = x;\n\t\t}\n\t\twhile (Q.size()) {\n\t\t\tll cha = Q.front().px - k;\n\t\t\tif (cha > dis)break;\n\t\t\telse {\n\t\t\t\tif (cha == dis) {\n\t\t\t\t\tif (ok)ans[Q.front().py] = { (b + dis) / fp, (a + dis) / fp };\n\t\t\t\t\telse ans[Q.front().py] = { (a + dis) / fp, (b + dis) / fp };\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tif (ok)ans[Q.front().py] = { b + cha, a + cha };\n\t\t\t\t\telse ans[Q.front().py] = { a + cha, b + cha };\n\t\t\t\t}\n\t\t\t\tQ.pop_front();\n\t\t\t}\n\t\t}\n\t\ta = (a + dis) / fp;\n\t\tb = (b + dis) / fp;\n\t\tk += dis;\n\t}\n\n\twhile (Q.size()) {\n\t\tll cha = Q.front().px - k;\n\t\tif (ok)ans[Q.front().py] = { b + cha, a + cha };\n\t\telse ans[Q.front().py] = { a + cha, b + cha };\n\t\tQ.pop_front();\n\t}\n\n\tfa(i, 1, q)cout << ans[i].px << \" \" << ans[i].py << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-03",
+  "parsed_at": "2026-06-14T18:39:35.850088+00:00",
+  "type_directory": "p"
+}

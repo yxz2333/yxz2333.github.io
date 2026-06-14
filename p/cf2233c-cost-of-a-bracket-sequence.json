@@ -1,0 +1,148 @@
+{
+  "slug": "cf2233c-cost-of-a-bracket-sequence",
+  "title": "CF2233C Cost of a Bracket Sequence",
+  "type": "题目",
+  "tags": [
+    "经典问题/括号匹配问题"
+  ],
+  "difficulty": 2.0,
+  "summary": "目标是删除至多 $k$ 个字符来最小化<strong>合法括号子序列</strong>的长度。两种做法：一是 $O(n^2)$ 暴力贪心——尝试删每个位置，若最长配对数减少则保留（能证明删掉一个参与最优匹配的括号必使配对数减 1）；二是 $O(n)$ 直接套用 $\\min_p(\\text{前缀 (} + \\text{后缀 )})$ 的结论，找到瓶颈位置，把那里的 <code>(</code> 和 <code>)</code> 删掉即可。",
+  "link": "https://codeforces.com/contest/2233/problem/C",
+  "link_text": "https://codeforces.com/contest/2233/problem/C",
+  "source": "Codeforces Round 2233",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "定义括号串的<strong>代价</strong>为其最长合法括号子序列的长度。给定括号串 $s$ 和整数 $k$，至多删除 $k$ 个字符，使代价最小。输出一个 01 串表示每个位置是否删除。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行 $t$ ($1 \\le t \\le 10^3$)，测试用例数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组数据：第一行 $n, k$ ($1 \\le n \\le 5000$, $0 \\le k \\le n$)。第二行一个长度为 $n$ 的括号串 $s$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有 $n$ 之和不超过 $5000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对每组数据，输出长度为 $n$ 的 01 串，<code>1</code> 表示删除该位置字符，<code>0</code> 表示保留。<code>1</code> 的个数不能超过 $k$，且代价尽可能小。多解输出任意一个。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10\n2 1\n)(\n2 0\n()\n4 1\n(())\n4 1\n())(\n5 1\n((())\n6 2\n()()()\n6 2\n(()())\n6 2\n())((()\n7 3\n(()((()\n10 3\n(()())())(",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "00\n00\n1000\n1000\n00010\n101000\n001001\n100001\n1100001\n0101001000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一个测试用例：$s=\\texttt{)(}$，最长合法子序列为空，代价已为 $0$，无需删除。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第三个测试用例：删一个字符无法得到代价 $0$，但删任意字符后代价可降至 $2$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "设最长合法括号子序列的长度为 $2M$，其中 $M$ 由结论给出：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$M = \\min_{0 \\le p \\le n} \\big( \\text{前缀}[1..p] \\text{中 \\texttt{(} 的个数} + \\text{后缀}[p+1..n] \\text{中 \\texttt{)} 的个数} \\big)$$\n目标就是通过删字符让 $M$ 尽可能小。\n### 做法一：$O(n^2)$ 暴力贪心\n### 做法二：$O(n)$ 套结论\n### 总结",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// O(n^2) 暴力贪心\nvoid solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tstring s; cin >> s; s = ' ' + s;\n\tvar ans = vector<bool>(n + 1);\n\tvar cal = [&]()->int {\n\t\tint cnt = 0, res = 0;\n\t\tfa(i, 1, n)if(ans[i] == 0) {\n\t\t\tif (s[i] == '(')cnt++;\n\t\t\telse {\n\t\t\t\tif (cnt)cnt--, res++;\n\t\t\t}\n\t\t}\n\t\treturn res;\n\t\t};\n\tint now = cal();\n\tfa(i, 1, n) {\n\t\tif (k == 0)break;\n\t\tans[i] = 1;\n\t\tint to = cal();\n\t\tif (to == now)ans[i] = 0;\n\t\telse k--, now = to;\n\t}\n\tfa(i, 1, n)cout << ans[i]; \n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// O(n) 套结论\nvoid solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tstring s; cin >> s; s = ' ' + s;\n\tvar pre = vector<int>(n + 2);\n\tvar suf = vector<int>(n + 2);\n\tfa(i, 1, n)pre[i] = pre[i - 1] + (s[i] == '(');\n\tfb(i, n, 1)suf[i] = suf[i + 1] + (s[i] == ')');\n\tint mn = INF, mnpos = 0;\n\tfa(i, 0, n) {\n\t\tint now = pre[i] + suf[i + 1];\n\t\tif (now < mn) {\n\t\t\tmn = now;\n\t\t\tmnpos = i;\n\t\t}\n\t}\n\tvar pos = vector<int>();\n\tfa(i, 1, mnpos)if (s[i] == '(')pos.pb(i);\n\tfa(i, mnpos + 1, n)if (s[i] == ')')pos.pb(i);\n\tstring ans;\n\tfa(i, 1, n)ans.pb('0');\n\tfor (int x : pos) {\n\t\tif (k == 0)break;\n\t\tk--;\n\t\tans[x - 1] = '1';\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-14",
+  "parsed_at": "2026-06-14T18:39:36.501735+00:00",
+  "type_directory": "p"
+}

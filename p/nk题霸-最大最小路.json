@@ -1,0 +1,294 @@
+{
+  "slug": "nk题霸-最大最小路",
+  "title": "NK题霸 最大最小路",
+  "type": "题目",
+  "tags": [
+    "并查集",
+    "容斥",
+    "正难则反",
+    "树形dp",
+    "状压dp"
+  ],
+  "difficulty": 2.0,
+  "summary": "两个做法，一个是开 4 个状态的树形 dp，另一个是用容斥。本题有限制影响我计数，故考虑<strong>正难则反</strong>，路径上点权最小 \\le a 转换成点权全 > a、点权最大 \\ge b 转换成点权全 < b，套两个限制条件下的容斥即可解决。",
+  "link": "https://www.nowcoder.com/practice/bce59fc8643b47359e9521c7e590b239",
+  "link_text": "最大最小路_牛客题霸_牛客网",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于给定的无向无根树，第 \\(i\\) 个节点上有一个权值 \\(w_i\\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们定义一条简单路径是 <strong>好的</strong>，当且仅当：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "路径上的点的点权最小值 <strong>小于等于</strong> \\(a\\)，且路径上的点的点权最大值 <strong>大于等于</strong> \\(b\\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证给定的 \\(a < b\\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你需要计算有多少条简单路径是好的。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入三个整数 \\(n, a, b\\)（\\(1 \\leq n \\leq 5 \\times 10^5\\)，\\(1 \\leq a < b \\leq 10^9\\)），代表节点数、给定的上下限。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行输入 \\(n\\) 个整数 \\(w_1, w_2, \\dots, w_n\\)（\\(1 \\leq w_i \\leq 10^9\\)），代表每个节点的权值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "此后 \\(n-1\\) 行，每行输入两个整数 \\(u, v\\)（\\(1 \\leq u, v \\leq n, u \\neq v\\)），代表一条边连接树上节点 \\(u\\) 和 \\(v\\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在一行上输出一个整数，代表好路径的条数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 2 3\n5 4 3 3 1\n1 2\n1 3\n3 4\n3 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "树形dp + 状压dp",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "dp 状态",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "对于每个节点 $u$，需要维护它本身及其向下延伸的路径中：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "既没有 $\\le a$ 也没有 $\\ge b$ 的路径数（00）",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "只有 $\\le a$ 的路径数（01）",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "只有 $\\ge b$ 的路径数（10）",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "两者都有的路径数（11）",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "转移",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "<strong>单点初始化</strong>：对于当前节点 <code>now</code>，看它自己的权值属于哪种状态（记为 <code>t</code>），初始化 <code>dp[now][t] = 1</code>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>合并答案 (跨过 now 的路径)</strong>：在枚举 <code>now</code> 的子节点 <code>to</code> 时，只要 <code>now</code> 目前积累的路径状态 $i$，和 <code>to</code> 传上来的路径状态 $j$，满足 <strong><code>(i | j) == 3</code></strong>（按位或之后等于 3），就说明拼起来是一条好路径！直接 <code>ans += dp[now][i] * dp[to][j]</code>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>向上更新状态</strong>：把 <code>to</code> 的路径接在 <code>now</code> 身上，路径的状态会变成 <code>j | t</code>（子树的路径状态，叠加当前点 <code>now</code> 的状态）。所以直接 <code>dp[now][j | t] += dp[to][j]</code>。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "容斥解法",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "正难则反",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "题目要求的“好路径”条件是：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "路径上<strong>至少</strong>有一个点 $\\le a$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "且路径上<strong>至少</strong>有一个点 $\\ge b$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "正向去数“至少包含”很麻烦，不妨考虑<strong>它的反面（不合法的路径）</strong>是什么？",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "伪条件 A：路径上<strong>没有</strong>任何一个点 $\\le a$ $\\implies$ 也就是说，路径上的<strong>所有点都</strong> $> a$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "伪条件 B：路径上<strong>没有</strong>任何一个点 $\\ge b$ $\\implies$ 也就是说，路径上的<strong>所有点都</strong> $< b$。",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "容斥",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "设树上总共有 $T$ 条路径（总路径数是 $\\frac{n(n+1)}{2}$）。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "根据容斥原理：<strong>好路径的数量 = 总路径数</strong> $T$ <strong>- 满足伪条件A的路径数 - 满足伪条件B的路径数 + 同时满足伪条件A和B的路径数</strong>",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "并查集求路径数",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "以 “伪条件 A（所有点都 $> a$）” 为例：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "在某一个大小为 $S$ 的小连通块里，因为里面的点全都是 $> a$ 的，所以在这个连通块内部<strong>任意两点连成的路径</strong>，完美符合 “所有点都 $> a$” 。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "一个大小为 $S$ 的连通块能贡献多少条这样的路径？显然是 $\\frac{S(S+1)}{2}$。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 容斥原理\nvoid solve(int CASE)\n{\n\tll n, a, b; cin >> n >> a >> b;\n\tvar w = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> w[i];\n\n\tvar s = Vec2<int>(n + 1, 3);\n\tvar siz = Vec2<ll>(n + 1, 3);\n\tfa(i, 1, n)fa(j, 0, 2)s[i][j] = i, siz[i][j] = 1;\n\tvar find = [&](var find, int x, int y)->int {\n\t\tif (s[x][y] == x)return x;\n\t\treturn s[x][y] = find(find, s[x][y], y);\n\t\t};\n\n\tll ans = n * (n + 1) / 2;\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\n\t\tint e1 = find(find, u, 0), e2 = find(find, v, 0);\n\t\tif (e1 != e2 and w[u] > a and w[v] > a)\n\t\t\ts[e2][0] = e1, siz[e1][0] += siz[e2][0], siz[e2][0] = 0;\n\n\t\te1 = find(find, u, 1), e2 = find(find, v, 1);\n\t\tif (e1 != e2 and w[u] < b and w[v] < b)\n\t\t\ts[e2][1] = e1, siz[e1][1] += siz[e2][1], siz[e2][1] = 0;\n\n\t\te1 = find(find, u, 2), e2 = find(find, v, 2);\n\t\tif (e1 != e2 and w[u] > a and w[u] < b and w[v] > a and w[v] < b)\n\t\t\ts[e2][2] = e1, siz[e1][2] += siz[e2][2], siz[e2][2] = 0;\n\t}\n\t\n\tll res[3] = { 0 };\n\tfa(i, 1, n)fa(j, 0, 2)res[j] += siz[i][j] * (siz[i][j] + 1) / 2;\n\n\tcout << ans - res[0] - res[1] + res[2] << endl;\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 树形dp + 状压dp\nvoid solve(int CASE)\n{\n\tll n, a, b; cin >> n >> a >> b;\n\tvar w = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> w[i];\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\tvar dp = Vec2<ll>(n + 1, 4);\n\tll ans = 0;\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tint t = 0;\n\t\tif (w[now] > a and w[now] < b)t = 0; // 00\n\t\telse if (w[now] <= a)t = 1;          // 01\n\t\telse t = 2;                          // 10\n\t\tdp[now][t] = 1;\n\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\n\t\t\tfa(i, 0, 3)fa(j, 0, 3) \n\t\t\t\tif ((i | j) == 3)\n\t\t\t\t\tans += dp[now][i] * dp[to][j];\n\t\t\t\n\t\t\tfa(j, 0, 3)dp[now][j | t] += dp[to][j];\n\t\t}\n\t\t};\n\tdfs(dfs, 1, 0);\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-31",
+  "parsed_at": "2026-06-14T18:39:36.788523+00:00",
+  "type_directory": "p"
+}

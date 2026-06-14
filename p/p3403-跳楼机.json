@@ -1,0 +1,227 @@
+{
+  "slug": "p3403-跳楼机",
+  "title": "P3403 跳楼机",
+  "type": "题目",
+  "tags": [
+    "同余最短路"
+  ],
+  "difficulty": 3.0,
+  "summary": "因为 $x,y,z$ 的范围比 $h$ 小，<strong>考虑把</strong> $x,y,z$ <strong>的范围设为状态</strong>。跟 $x$ 模为 $0$ 的全能通过 $x$ 直接取到，但模为别的数的不一定，故要通过最短路，算出取模为 $r$ <strong>最早能取到的数</strong> $dis[r]$，$dis[r]$ 后面同余的数 $+= x$ 就能全取到了。",
+  "link": "https://www.luogu.com.cn/problem/P3403",
+  "link_text": "P3403 跳楼机 - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Srwudi 的家是一幢 $h$ 层的摩天大楼。由于前来学习的蒟蒻越来越多，srwudi 改造了一个跳楼机，使得访客可以更方便的上楼。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "经过改造，srwudi 的跳楼机可以采用以下四种方式移动：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1. 向上移动 $x$ 层；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2. 向上移动 $y$ 层；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "3. 向上移动 $z$ 层；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "4. 回到第一层。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "一个月黑风高的大中午，DJL 来到了 srwudi 的家，现在他在 srwudi 家的第一层，碰巧跳楼机也在第一层。DJL 想知道，他可以乘坐跳楼机前往的楼层数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $h$，表示摩天大楼的层数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行三个正整数，分别表示题目中的 $x, y, z$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行一个整数，表示 DJL 可以到达的楼层数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "15\n4 7 9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "33333333333\n99005 99002 100000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "33302114671",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "可以到达的楼层有：$1,5,8,9,10,12,13,14,15$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$1 \\le h \\le 2^{63}-1$，$1 \\le x,y,z \\le 10^5$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "给定正整数 \\(x, y, z\\) 和 \\(h\\)，其中 \\(1 \\leq x, y, z \\leq 10^5\\)，\\(h \\leq 2^{63} - 1\\)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于每个 \\(k \\in [1, h]\\)，考虑方程  \\[a x + b y + c z = k,\\]  其中 \\(a, b, c\\) 均为正整数（即 \\(a>0, b>0, c>0\\)）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "问有多少个 \\(k\\) 满足上述方程有正整数解 \\((a,b,c)\\)。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "本题不用<strong>数论（裴蜀定理）</strong>，使用<strong>同余最短路</strong>解决。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "因为 $x,y,z$ 的范围比 $h$ 小，<strong>考虑把</strong> $x,y,z$ <strong>的范围设为状态</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选一个最小的 $x$ 作为模数，点是 $0 \\dots x-1$，对于 $y, z$，连边 $u \\to (u + y) \\pmod {x}, u \\to (u + z) \\pmod {x}$，边权是 $y,z$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "跑最短路 $dis[r]$ 表示模 $x$ 余 $r$ 的<strong>最小能凑出的数</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "跟 $x$ 模为 $0$ 的全能通过 $x$ 直接取到，但模为别的数的不一定，故要通过最短路，算出取模为 $r$ 最早能取到的数 $dis[r]$，$dis[r]$ 后面同余的数 $+= x$ 就能全取到了。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tll yu, d;\n\tbool operator<(const node& a)const {\n\t\treturn a.d < d;\n\t}\n};\nvoid solve(int CASE)\n{\n\tll h, x, y, z; cin >> h >> x >> y >> z;\n\tvar g = vector<vector<pll>>(x);\n\tfa(i, 0, x - 1) {\n\t\tg[i].pb({ (i + y) % x, y });\n\t\tg[i].pb({ (i + z) % x, z });\n\t}\n\n\tvar dis = vector<ll>(x, LNF);\n\tvar Q = priority_queue<node>();\n\tQ.push({ 1 % x, 1 });\n\tdis[1 % x] = 1;\n\twhile (Q.size()) {\n\t\tvar[now, d] = Q.top();\n\t\tQ.pop();\n\t\tif (d > dis[now])continue;\n\t\tfor (const var& [to, w] : g[now]) {\n\t\t\tif (dis[to] > dis[now] + w) {\n\t\t\t\tdis[to] = dis[now] + w;\n\t\t\t\tQ.push({ to, dis[to] });\n\t\t\t}\n\t\t}\n\t}\n\n\tll ans = 0;\n\tfa(i, 0, x - 1)\n\t\tif (dis[i] <= h)\n\t\t\tans += (h - dis[i]) / x + 1;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-01",
+  "parsed_at": "2026-06-14T18:39:36.876314+00:00",
+  "type_directory": "p"
+}

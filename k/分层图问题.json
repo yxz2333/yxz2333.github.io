@@ -1,0 +1,185 @@
+{
+  "slug": "分层图问题",
+  "title": "分层图问题",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "最短路",
+    "拆点问题, 最短路",
+    "TSP状压问题, 最短路",
+    "DP, 分层图, 拆点"
+  ],
+  "parent": "最短路",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "What",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "原来的点 $u$ 不足以描述当前的状态，我们需要增加一个维度 $k$ 来描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<code>dist[u][k]</code> 表示：到达节点 $u$，且当前状态为 $k$ 时的最短路/最小代价。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "分层",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>形容</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "想象一栋楼有 $k+1$ 层（第0层到第k层）。我们可以进行：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>层内移动</strong>：普通走路，不消耗机会（从 $u_0$ 到 $v_0$）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>跨层移动</strong>：使用一次特殊能力（比如免费搭飞机、把墙打破），你会从第 $i$ 层的 $u$ 跳到第 $i+1$ 层的 $v$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "当然不是每个题都像形容的这么裸，需要一定的转化能力。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>优化 log 常数</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果题目满足，可以把一个大图改成 $k$ 层图，对每层图单独跑一遍 <a href=\"/tags\" class=\"tag-link\">#dij</a> ，层与层之间是单向的，层间维护一个结果数组（如 <code>dis</code>）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "这样可以优化掉<strong>优先队列</strong>里产生的常数 $\\log k$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "例题：（2025ICPC网络赛的一题）",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "拆点",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "跟分层图的想法差不多。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "把一个点分成 $k$ 个点，每个点含有不同的状态，这样整个图就有 $n * k$ 个点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "侧重于：节点的<strong>内部属性</strong>，相当于细胞分裂。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "状压",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>TSP 状压</strong>：用状压来设置状态，然后跑 <strong>dij</strong> 解决问题。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>访问了哪些点</strong>很重要，访问了哪些点<strong>决定了当前点去哪里</strong>，故使用<strong>状压</strong>记录。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "将节点从一维的 <code>u</code> 扩展为二维的 <code>(u, mask)</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong><code>dis[u][mask]</code></strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong><code>u</code> (节点)</strong>：当前所在的物理位置（必须是 <code>mask</code> 中的某一点）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong><code>mask</code> (层)</strong>：当前已经访问过的所有节点集合（二进制表示）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>值</strong>：达到该状态的最少代价（距离/花费）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "假设当前状态为 <code>(mask, u)</code>，我们要前往下一个点 <code>v</code>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>条件</strong>：<code>v</code> 尚未被访问 (即 <code>mask &amp; (1 &lt;&lt; v) == 0</code>)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>新状态</strong>：<code>next_mask = mask | (1 &lt;&lt; v)</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>花费</strong>：<code>w</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>松弛操作</strong>：$$dis[next\\_mask][v] = \\min(dis[next\\_mask][v], \\ dis[mask][u] + w)$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "例题： <a href=\"/p/nc126321h-故障机器人\" class=\"wikilink\">NC126321H 故障机器人</a>",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-24",
+  "parsed_at": "2026-06-14T18:45:12.098348+00:00",
+  "type_directory": "k"
+}

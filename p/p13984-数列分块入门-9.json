@@ -1,0 +1,295 @@
+{
+  "slug": "p13984-数列分块入门-9",
+  "title": "P13984 数列分块入门 9",
+  "type": "题目",
+  "tags": [
+    "分块",
+    "众数",
+    "dp",
+    "前缀和"
+  ],
+  "difficulty": 3.0,
+  "summary": "主要是得想出来<strong>怎么算这个众数</strong>，维护 <code>mode</code> 还是不太好想到的，感觉维护这个 <code>mode</code> 数组的过程像是在做 dp。根据 <code>mode</code> 和散块们，可以得知整个区间的众数。为了优化 \\log，我们这边用<strong>前缀和加速</strong>，<strong>前缀和来算整块中每个数的出现个数</strong>，<strong>用临时数组 <code>tmp_cnt</code> 来维护散块出现的数的个数</strong>。",
+  "link": "https://www.luogu.com.cn/problem/P13984",
+  "link_text": "P13984 数列分块入门 9 - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给出一个长为 $n$ 的数列，以及 $n$ 个操作，操作涉及询问区间的最小众数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入一个数字 $n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行输入 $n$ 个数字，第 $i$ 个数字为 $a_i$，以空格隔开。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来输入 $n$ 行询问，每行输入两个数字 $l$、$r$，以空格隔开。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "表示查询位于 $[l,r]$ 的数字的众数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq n \\leq 300000$，$1 \\leq l \\leq r \\leq n$，$-2^{31} \\leq a_i \\leq 2^{31}-1$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每次询问，输出一行一个数字表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n1 2 2 4\n1 2\n1 4\n2 4\n3 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n2\n2\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 传统数据结构的无力感",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "当我们面对“区间求和”、“区间最大值”时，线段树是无敌的，因为这些信息满足<strong>结合律</strong>（整体的最大值就是左右两半最大值的最大值）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但是，<strong>众数不满足结合律！</strong> 左半边的众数是 2，右半边的众数是 3，整个区间的众数可能是完全没存在感的 4。这就导致线段树等传统树形结构当场瘫痪。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此时，<strong>分块算法（大段维护，局部朴素）</strong> 成为了破局的唯一利器。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 核心突破口：区间众数候选定理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如果是第一次做区间众数的题，最难想到的就是<strong>到底该怎么凑出整个区间的众数</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "假设我们查询的区间 $[l, r]$ 被分成了三个部分：<code>左散块 L</code> + <code>中间整块集合 M</code> + <code>右散块 R</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>【众数候选定理】：整个区间</strong> $[l, r]$ <strong>的众数，必定属于以下两者之一：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>中间整块集合</strong> $M$ <strong>的众数</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>散块</strong> $L$ <strong>和</strong> $R$ <strong>中出现过的某个数</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "> <strong>感性理解</strong>：如果一个数既不是中间大段的众数，也没在两头边缘出现过，那它拿什么去竞争全局众数呢？它在全局的出现次数绝对不可能超过中间大段的那个众数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "有了这个定理，我们的<strong>候选名单被极限压缩</strong>了：只剩下中间整块的众数，以及两端散块里那最多 $2\\sqrt{n}$ 个数字。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们只需要比拼一下这些候选人在 $[l, r]$ 里到底出现了几次，谁最多，谁就是答案。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 预处理 <code>mode</code> 数组：像做 DP 一样的状态转移",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然我们需要用到 “中间整块的众数”，我们就必须提前算好它。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们定义 <code>mode[i][j]</code> 表示：<strong>第</strong> $i$ <strong>个块到第</strong> $j$ <strong>个块，这跨度几个块的区间内的最小众数</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "怎么高效算出这个二维矩阵呢？这里非常有<strong>动态规划（DP）</strong>的味道！",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设想我们已经算出了 <code>mode[i][j-1]</code>（前 $j-1$ 个块的众数），现在要向右扩展，把第 $j$ 个块吞进来，求 <code>mode[i][j]</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "根据上面的候选定理，<code>mode[i][j]</code> 的候选人只能是：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "之前状态的答案：<code>mode[i][j-1]</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "新加入的散块：第 $j$ 个块里的所有数字。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态转移伪代码：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "// 候选人名单\nvector<int> candidates = { mode[i][j-1] };\n把 第 j 块 的所有元素加入 candidates;\n\n// 选出最强者\nfor(x in candidates) {\n  计算 x 在 块 i 到 块 j 中出现的总次数;\n  更新 ans 和 最大次数 anscnt;\n}\nmode[i][j] = ans;",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "4. 消除 $\\log$ 的神级优化：前缀和加速频率统计",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在刚才的 DP 预处理以及最后的查询中，我们面临一个核心操作：<strong>计算某个数</strong> $x$ <strong>在某个区间里出现了几次。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果用常规做法（把每个数字出现的位置存进 <code>vector</code> 然后 <code>upper_bound - lower_bound</code> 二分查找），单次统计是 $O(\\log N)$ 的。在分块巨大的常数下，这个 $\\log$ 极其容易导致 TLE。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>怎么去掉二分？用前缀和！</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们开一个二维数组 <code>cnt[i][x]</code> 表示：<strong>在前</strong> $i$ <strong>个块中，数字</strong> $x$ <strong>一共出现了几次。</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>构建过程</strong>：只需要极简的一句 <code>cnt[i][x] = cnt[i-1][x] + (第 i 块中 x 的个数)</code> 即可。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>极致的</strong> $O(1)$ <strong>查询</strong>：当我们想知道数字 $x$ 在第 $bl$ 块到第 $br$ 块之间出现了几次时，直接计算 <code>cnt[br][x] - cnt[bl-1][x]</code> 即可。",
+              "depth": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "class BlockDecomposition {\nprivate:\n\t// --------------------------------------\n\t// [通用] 变量\n\t// --------------------------------------\n\tint n;                  // 数组总长度\n\tint block_size;         // 块的大小 S\n\tint num_blocks;         // 块的总数\n\tvector<int> a;          // 原始数组 (下标 1 到 n)\n\tvector<int> id;         // id[i] 表示原数组第 i 个元素属于哪个块\n\tvector<int> L, R;       // L[b], R[b] 分别表示第 b 个块的左右端点下标\n\n\t// --------------------------------------\n\t// [具体情况具体分析] 块内维护的附加信息与标记\n\t// 本题需要：加法懒标记 + 块内排序数组\n\t// --------------------------------------\n\tvector<vector<int>> pos;       // 每个值 i 出现的所有下标 j\n\tvector<vector<int>> cnt;       // 前 i 个块 val 出现的个数\n\tvector<vector<int>> mode;      // 第 i 个块到第 j 个块的最小众数\n\tvector<int> tmp_cnt;           // 临时记录 val 出现的次数\n\npublic:\n\t// --------------------------------------\n\t// [通用] 构造函数，初始化\n\t// --------------------------------------\n\tBlockDecomposition(const vector<int>& input) {\n\t\tn = input.size() - 1; // 默认 input 下标从 1 开始\n\t\ta = input;\n\t\tblock_size = max(1, (int)sqrt(n));\n\t\tnum_blocks = (n - 1) / block_size + 1;\n\n\t\tid.resize(n + 1);\n\t\tL.resize(num_blocks + 1, 0);\n\t\tR.resize(num_blocks + 1, 0);\n\n\t\t// [具体情况具体分析] 对具体分析的变量初始化空间\n\t\tpos.resize(n + 1);\n\t\ttmp_cnt.assign(n + 1, 0);\n\t\tcnt = Vec2<int>(num_blocks + 1, n + 1);\n\t\tmode = Vec2<int>(num_blocks + 1, num_blocks + 1);\n\n\t\t// 计算每个元素的块归属 和 每个块的左右边界\n\t\tfa(i, 1, n) {\n\t\t\tid[i] = (i - 1) / block_size + 1;\n\t\t\tif (L[id[i]] == 0) L[id[i]] = i;\n\t\t\tR[id[i]] = i;\n\n\t\t\t// 初始化 pos, cnt\n\t\t\tpos[a[i]].pb(i);\n\t\t\tcnt[id[i]][a[i]]++;\n\t\t}\n\n\t\t// 初始化前缀和\n\t\tfa(i, 1, num_blocks)fa(j, 1, n)cnt[i][j] += cnt[i - 1][j];\n\n\t\t// [具体情况具体分析] 初始预处理\n\t\tfa(i, 1, num_blocks)fa(j, i, num_blocks) {\n\t\t\tint ans = INF, anscnt = 0;\n\t\t\tif (i == j) {\n\t\t\t\t// 在同一个块内，暴力判断\n\t\t\t\tvar tmp_cnt = ccHashMap<int, int, MT::custom_hash>();\n\t\t\t\tfa(k, L[j], R[j]) {\n\t\t\t\t\ttmp_cnt[a[k]]++;\n\t\t\t\t\tif (anscnt < tmp_cnt[a[k]]) {\n\t\t\t\t\t\tanscnt = tmp_cnt[a[k]];\n\t\t\t\t\t\tans = a[k];\n\t\t\t\t\t}\n\t\t\t\t\telse if (anscnt == tmp_cnt[a[k]] and ans > a[k]) {\n\t\t\t\t\t\tans = a[k];\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\tfa(k, L[j], R[j])tmp_cnt[a[k]]--;\n\t\t\t}\n\t\t\telse {\n\t\t\t\t// 不在同一个块内，前缀和算整块区间每个数出现的个数\n\t\t\t\t// mode[i][j] 的值域选择为：{ mode[i][j - 1]，第 j 个块中的数 }\n\t\t\t\tvar tmp = vector<int>{ mode[i][j - 1] };\n\t\t\t\tfa(k, L[j], R[j])tmp.pb(a[k]);\n\t\t\t\tfor (int x : tmp) {\n\t\t\t\t\tint tmp_cnt = cnt[j][x] - cnt[i - 1][x];\n\t\t\t\t\tif (anscnt < tmp_cnt) {\n\t\t\t\t\t\tanscnt = tmp_cnt;\n\t\t\t\t\t\tans = x;\n\t\t\t\t\t}\n\t\t\t\t\telse if (anscnt == tmp_cnt and ans > x) {\n\t\t\t\t\t\tans = x;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t\tmode[i][j] = ans;\n\t\t}\n\t}\n\n\t// --------------------------------------\n\t// [具体情况具体分析] 区间查询操作，怎么查询具体情况具体分析\n\t// 逻辑骨架是通用的：分同块、左散块、右散块、中间整块\n\t// --------------------------------------\n\tint query(int l, int r) {\n\t\tint bl = id[l], br = id[r];\n\t\tint ans = INF, anscnt = 0;\n\t\tif (bl == br) {\n\t\t\t// 在同一个块内，暴力判断\n\t\t\tfa(k, l, r) {\n\t\t\t\ttmp_cnt[a[k]]++;\n\t\t\t\tif (anscnt < tmp_cnt[a[k]]) {\n\t\t\t\t\tanscnt = tmp_cnt[a[k]];\n\t\t\t\t\tans = a[k];\n\t\t\t\t}\n\t\t\t\telse if (anscnt == tmp_cnt[a[k]] and ans > a[k]) {\n\t\t\t\t\tans = a[k];\n\t\t\t\t}\n\t\t\t}\n\t\t\tfa(k, l, r)tmp_cnt[a[k]]--;\n\t\t}\n\t\telse {\n\t\t\t// 不在同一个块内，前缀和算整块区间每个数出现的个数，散块暴力计数\n\t\t\t// query(l, r) 的值域选择为：{ mode[bl + 1][br - 1]，第 bl 个块中的数，第 br 个块中的数 }\n\t\t\tvar tmp = vector<int>{ mode[bl + 1][br - 1] };\n\t\t\tfa(k, l, L[bl + 1] - 1)tmp.pb(a[k]), tmp_cnt[a[k]]++;\n\t\t\tfa(k, R[br - 1] + 1, r)tmp.pb(a[k]), tmp_cnt[a[k]]++;\n\n\t\t\tfor (int x : tmp) {\n\t\t\t\tint real_cnt = tmp_cnt[x] + cnt[br - 1][x] - cnt[bl][x];\n\t\t\t\tif (anscnt < real_cnt) {\n\t\t\t\t\tanscnt = real_cnt;\n\t\t\t\t\tans = x;\n\t\t\t\t}\n\t\t\t\telse if (anscnt == real_cnt and ans > x) {\n\t\t\t\t\tans = x;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tfa(k, l, L[bl + 1] - 1)tmp_cnt[a[k]]--;\n\t\t\tfa(k, R[br - 1] + 1, r)tmp_cnt[a[k]]--;\n\t\t}\n\t\treturn ans;\n\t}\n};\n\nvoid solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\tvar a = vector<int>(n + 1);\n\tvar b = vector<int>();\n\tfa(i, 1, n)cin >> a[i], b.pb(a[i]);\n\tsort(all(b));\n\tb.erase(unique(all(b)), b.end());\n\tvar find = [&](int value)->int {\n\t\treturn upper_bound(all(b), value) - b.begin();\n\t\t};\n\tfa(i, 1, n)a[i] = find(a[i]);\n\n\tvar bd = BlockDecomposition(a);\n\tint ans = 0;\n\tfa(i, 1, q) {\n\t\tint l, r; cin >> l >> r;\n\t\tl = (l + ans - 1) % n + 1, r = (r + ans - 1) % n + 1;\n\t\tif (l > r)swap(l, r);\n\t\tans = b[bd.query(l, r) - 1];\n\t\tcout << ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-23",
+  "parsed_at": "2026-06-14T18:39:36.826316+00:00",
+  "type_directory": "p"
+}

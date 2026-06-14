@@ -1,0 +1,274 @@
+{
+  "slug": "nk129231f-palindromic-value",
+  "title": "NK129231F Palindromic Value",
+  "type": "题目",
+  "tags": [
+    "计数问题",
+    "划分型dp",
+    "回文",
+    "区间dp"
+  ],
+  "difficulty": 2.0,
+  "summary": "先用区间 dp 的方法把回文数组<code>hui</code>预处理出来，然后考虑 $O(N^2)$ 的枚举。基于划分型 dp，把序列分成 <code>[其它段][回文段]</code>，当 $s(j, i)$ 是回文串时，再进行转移，这样保证不会算重，因为 $s[i]$ 在前面的 dp 没出现过。也得算一下 $f[i]$ 表示前面的方案数，计算 $dp[i]$ 时会用到，这里不多赘述。",
+  "link": "https://ac.nowcoder.com/acm/contest/129231/F",
+  "link_text": "F-Palindromic Value_牛客周赛 Round 134",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$小苯有一个长度为 $n$ 的字符串 $s$，仅由小写字母组成。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$小苯可以将 $s$ 分割为若干个非空子串$^\\texttt{[1]}$，要求每个子串都是回文串$^\\texttt{[2]}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$定义一种分割方案的价值为：所有子串长度的平方和。更具体地，将 $s$ 表示为 $s = t_1 t_2 \\cdots t_k$ 的一种写法，其中 $t_i$ 为 $s$ 的非空连续子串，且每个 $t_i$ 都是回文串。分割方案的价值为 $\\sum_{i=1}^k (|t_i|)^2$，其中 $|t_i|$ 表示 $t_i$ 的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$记所有不同分割方案（分割点集合不同视为不同方案）的价值之和为答案。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$你的任务就是求出这个答案。由于答案可能很大，请将答案对 $998\\,244\\,353$ 取模后输出。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$每个测试文件包含多组测试数据。第一行输入一个整数 $T\\left(1 \\leqq T \\leqq 100 \\right)$ 代表数据组数，每组测试数据描述如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行一个整数 $n\\left(1 \\leqq n \\leqq 2 \\times 10^3 \\right)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第二行一个长度为 $n$，仅由小写字母组成的字符串 $s$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$除此之外，保证单个测试文件的 $n$ 之和不超过 $2 \\times 10^3$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$对于每一组测试数据，新起一行输出一个整数，表示所有回文分割方案的价值总和对 $998\\,244\\,353$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n3\naba\n2\nab",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "12\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n4\naaaa",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "66",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$\\hspace{15pt}$对于第一组测试数据，$s = \\texttt{aba}$，有两种可行分割方案：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{23pt}\\bullet\\,$拆分为 $\\texttt{a}$、$\\texttt{b}$、$\\texttt{a}$，价值 $1^2 + 1^2 + 1^2 = 3$；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{23pt}\\bullet\\,$保持原状，价值 $3^2 = 9$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{15pt}$对于第二组测试数据，$s = \\texttt{ab}$，唯一可行方案为拆分为：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{23pt}\\bullet\\,$$\\texttt{a}$、$\\texttt{b}$，价值 $1^2 + 1^2 = 2$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{15pt}$对于第三组测试数据，$s = \\texttt{aaaa}$，任意子串均为回文串，所有分割方案对应将 $4$ 分拆为有序正整数和：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{23pt}\\bullet\\,$$1+1+1+1$：价值 $1+1+1+1 = 4$；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{23pt}\\bullet\\,$$1+1+2$：价值 $1+1+4 = 6$；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{23pt}\\bullet\\,$$1+2+1$：价值 $1+4+1 = 6$；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{23pt}\\bullet\\,$$2+1+1$：价值 $4+1+1 = 6$；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{23pt}\\bullet\\,$$1+3$：价值 $1+9 = 10$；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{23pt}\\bullet\\,$$3+1$：价值 $9+1 = 10$；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{23pt}\\bullet\\,$$2+2$：价值 $4+4 = 8$；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{23pt}\\bullet\\,$$4$：价值 $16$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\hspace{15pt}$总和为 $4+6+6+6+10+10+8+16 = 66$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "先用区间 dp 的方法把回文数组<code>hui</code>预处理出来，然后考虑 $O(N^2)$ 的枚举。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "基于划分型 dp，把序列分成 <code>[其它段][回文段]</code>，考虑枚举 $s(j, i)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当 $s(j, i)$ 是回文串时，再进行转移，这样保证不会算重，因为 $s[i]$ 在前面的 dp 没出现过。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "也得算一下 $f[i]$ 表示前面的分割方案数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "转移方程：$dp[i] = s(j,i)的权值  * f[j - 1] + dp[j - 1]$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tstring s; cin >> s; s = ' ' + s;\n\tvar dp = vector<ll>(n + 1);\n\tvar f = vector<ll>(n + 1);\n\tvar hui = Vec2<bool>(n + 1, n + 1);\n\tfa(i, 1, n)hui[i][i] = hui[i][i - 1] = 1;\n\tfa(len, 2, n)fa(i, 1, n) {\n\t\tint j = i + len - 1;\n\t\tif (j > n)break;\n\t\tif (hui[i + 1][j - 1] and s[i] == s[j]) {\n\t\t\thui[i][j] = 1;\n\t\t}\n\t}\n\tf[0] = 1;\n\tfa(i, 1, n) {\n\t\tfb(j, i, 1) {\n\t\t\tif (hui[j][i]) {\n\t\t\t\tll now = (i - j + 1) * (i - j + 1);\n\t\t\t\tf[i] = (f[i] + f[j - 1]) % mod;\n\t\t\t\tdp[i] = (dp[i] + now * f[j - 1] % mod + dp[j - 1]) % mod;\n\t\t\t}\n\t\t}\n\t}\n\tcout << dp[n] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-08",
+  "parsed_at": "2026-06-14T18:39:36.710588+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,29 @@
+{
+  "slug": "01字典树",
+  "title": "01字典树",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "异或",
+    "01字典树"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "type": "p",
+      "html": "某些题可能需要遍历 $dfs$ 整个字典树。",
+      "depth": 0
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-31",
+  "parsed_at": "2026-06-14T18:45:11.935164+00:00",
+  "type_directory": "k"
+}

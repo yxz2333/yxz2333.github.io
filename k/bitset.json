@@ -1,0 +1,138 @@
+{
+  "slug": "bitset",
+  "title": "bitset",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "基本用法",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<code>reset()</code>：初始化全 0",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>set()</code>：初始化全 1",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>any()</code>：有 1 则 true",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>none()</code>：无 1 则 false",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>flip()</code>：整个 bitset 按位取反",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>count()</code>：返回 1 的个数",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>_Find_first(), _Find_next()</code>：遍历每个有 1 的位置",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "for (int pos = bs._Find_first(); pos < bs.size(); pos = bs._Find_next(pos)) {\n\t// 遍历每个有 1 的位置\n}",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "优化 bool 背包",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "优化前：$O(n \\times m)$",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "dp[0] = 1;\nfa(i, 1, n)\n\tfb(j, W, w[i])\n\t\tdp[j] |= dp[j - w[i]];",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "优化后：$O(n \\times m / 64)$",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "dp[0] = 1;\nfa(i, 1, n)\n\tdp |= dp << w[i]; // 一次移位即可计算所有背包容量的情况",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "优化 Floyd",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "构造 Floyd",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$b$ 数组为<strong>未构建好</strong>的<strong>连通性数组</strong>，通常仅包含<strong>直接边</strong>能到达的点。",
+              "depth": 2
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "fa(k, 1, n)fa(i, 1, n)if (b[i][k])b[i] |= b[k];",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "删除冗余边",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$a$ 数组为<strong>已构建好</strong>的<strong>连通性数组</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "fa(i, 1, n)fa(k, 1, n)if (a[i][k])del[i] |= a[k];",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-15",
+  "parsed_at": "2026-06-14T18:45:11.938115+00:00",
+  "type_directory": "k"
+}

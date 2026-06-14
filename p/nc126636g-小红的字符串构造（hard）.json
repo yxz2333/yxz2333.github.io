@@ -1,0 +1,148 @@
+{
+  "slug": "nc126636g-小红的字符串构造（hard）",
+  "title": "NC126636G 小红的字符串构造（hard）",
+  "type": "题目",
+  "tags": [
+    "字典树",
+    "思维定势"
+  ],
+  "difficulty": 1.5,
+  "summary": "遍历一下整个字典树就行",
+  "link": "https://ac.nowcoder.com/acm/contest/126636/G",
+  "link_text": "G-小红的字符串构造（hard）_牛客周赛 Round 126",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$我们称一个字符串为「01串」，当且仅当其中仅含有字符 $\\texttt{0}$ 和 $\\texttt{1}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$小红拿到了长为 $n$ 的「01串」数组 $s$。现在她想要构造一个字符串 $s '$，满足 $s$ 中恰好有 $k$ 个「01串」（可以相同）是 $s'$ 的前缀。请你帮帮她。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行输入两个整数 $n, k \\left(1 \\leqq k \\leqq n \\leqq 2\\times 10^5\\right)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$之后的 $n$ 行，每行输入一个非空「01串」 $s_i\\left(1 \\leqq\\left|s_i \\right| \\leqq 2\\times 10^5\\right)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$除此之外，保证单个测试文件的 $s_i$ 之和不超过 $2 \\times 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$如果不存在合法的字符串，请输出 $-1$；否则请输出所构造的字符串 $s'\\left(1 \\leqq \\left| s'\\right| \\leqq 10^6 \\right)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$如果存在多个解决方案，您可以输出任意一个，系统会自动判定是否正确。注意，自测运行功能可能因此返回错误结果，请自行检查答案正确性。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 3\n10\n010\n10101\n1010\n01",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10101",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "10，1010，10101 是 10101 的前缀。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一眼<strong>字典树</strong>，又想到了2023广东省赛E题，给我陷入<strong>思维定势</strong>了，还以为这两题差不多，结果根本不一样。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "本题正解就是遍历一下整个字典树，复杂度为 $O(2N)$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tTrie t;\n\tvar s = vector<string>(n + 1);\n\tfa(i, 1, n) {\n\t\tcin >> s[i];\n\t\tt.insert(s[i]);\n\t}\n\n\t// 遍历整个字典树，当遍历过程中，截止的字符串个数刚好为 k 时，输出答案\n\tstring pre;\n\tvar dfs = [&](var dfs, TrieNode* now, int cnt)->void {\n\t\tif (cnt > k)return;\n\n\t\tif (cnt + t.ends[now->id] == k) {\n\t\t\tcout << pre << endl;\n\t\t\texit(0);\n\t\t}\n\n\t\tfor (char c : {'0', '1'}) {\n\t\t\tif (now->children.count(c)) {\n\t\t\t\tpre.pb(c);\n\t\t\t\tdfs(dfs, now->children[c], cnt + t.ends[now->id]);\n\t\t\t\tpre.pop_back();\n\t\t\t}\n\t\t}\n\t\t};\n\tdfs(dfs, t.root, 0);\n\n\tcout << -1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-31",
+  "parsed_at": "2026-06-14T18:39:36.679669+00:00",
+  "type_directory": "p"
+}

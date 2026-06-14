@@ -1,0 +1,299 @@
+{
+  "slug": "cf2037g-natlan-exploring",
+  "title": "CF2037G Natlan Exploring",
+  "type": "题目",
+  "tags": [
+    "暴力容斥",
+    "思维定势",
+    "dp"
+  ],
+  "difficulty": 2.5,
+  "summary": "答案大到要取模，说明一定不能真的建图，考虑 <strong>dp</strong>。一开始<strong>思维定势</strong>了以为是之前一样的 <strong>GCD数论容斥</strong>题，写了个 $dp[g]$ 最大公因数为 $g$ 时到 $n$ 的路径个数，但这样不能保证 $1$ 能到 $n$，不好算最终的答案。于是决定想别的解法，就<strong>简单地设</strong> $dp[i]$ <strong>为</strong> $1$ <strong>到</strong> $i$ <strong>的路径个数</strong>，再开个 $s[g]$ 为路径最后一个数为 $g$ 的倍数的路径数，对<strong>质因数</strong>进行<strong>暴力容斥</strong>来转移方程。",
+  "link": "https://codeforces.com/problemset/problem/2037/G",
+  "link_text": "Problem - 2037G - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "你正在探索美丽的纳塔地区！该地区由 $n$ 个城市组成，每个城市都有一个吸引力值 $a_i$。当且仅当 $i < j$ 且 $\\gcd(a_i, a_j) \\neq 1$ 时，城市 $i$ 到城市 $j$ 存在一条有向边，其中 $\\gcd(x, y)$ 表示整数 $x$ 和 $y$ 的最大公约数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你从城市 $1$ 出发，你的任务是计算到达城市 $n$ 的不同路径总数，对 $998\\,244\\,353$ 取模。只有当经过的城市集合不同，路径才被认为是不同的。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$2 \\leq n \\leq 2 \\times 10^5$）——城市的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$（$2 \\leq a_i \\leq 10^6$）——每个城市的吸引力值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出从城市 $1$ 到城市 $n$ 的不同路径总数，对 $998\\,244\\,353$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n2 6 3 4 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n4 196 2662 2197 121",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n3 6 8 9 11 12 20",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，有五条路径如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "城市 $1 \\rightarrow$ 城市 $5$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "城市 $1 \\rightarrow$ 城市 $2 \\rightarrow$ 城市 $5$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "城市 $1 \\rightarrow$ 城市 $2 \\rightarrow$ 城市 $3 \\rightarrow$ 城市 $5$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "城市 $1 \\rightarrow$ 城市 $2 \\rightarrow$ 城市 $4 \\rightarrow$ 城市 $5$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "城市 $1 \\rightarrow$ 城市 $4 \\rightarrow$ 城市 $5$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在第二个样例中，有两条路径如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "城市 $1 \\rightarrow$ 城市 $3 \\rightarrow$ 城市 $5$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "城市 $1 \\rightarrow$ 城市 $2 \\rightarrow$ 城市 $3 \\rightarrow$ 城市 $5$",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 题目分析",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "答案要取模，说明肯定很大，跑图论计数不现实，故考虑使用 <strong>DP</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 思维过程",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>起初的误区（<strong>思维定势</strong>）</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "一开始联想到常见的<strong>GCD 数论计数</strong>题，试图定义 $dp[g]$ 表示路径最大公因数为 $g$ 时的方案数，想通过<strong>数论容斥倒序处理</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "但很快发现<strong>问题</strong>：这种定义丢失了<strong>图的拓扑顺序</strong>，无法保证路径是从 $1$ 连通到 $n$ 的，<strong>难以处理点与点之间的先后依赖关系</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>修正后的正解</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "回归到 DP 的本质，简单定义状态：$dp[i]$ <strong>表示从城市</strong> $1$ <strong>到达城市</strong> $i$ <strong>的合法路径总数。</strong>",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "3. 转移优化 (容斥原理)",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "朴素转移方程为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i] = \\sum_{j < i, \\gcd(a_j, a_i) > 1} dp[j]$$\n直接求和复杂度过高。\n注意到条件 $\\gcd(a_j, a_i) > 1$ 等价于 $a_j$ 和 $a_i$ 至少享有一个**公共质因子**。\n为了快速计算满足条件的 $dp[j]$ 之和，我们引入辅助数组：\n**容斥转移**：",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int a[N];\nll dp[N], s[N];\nEulerPrime er(N);\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfa(i, 1, n)cin >> a[i];\n\n\tdp[1] = 1;\n\tfa(i, 1, n) {\n\t\tvar pf = er.primeFactorsVEC(a[i]);\n\t\tvar ve = vector<pii>();\n\n\t\tvar dfs = [&](var dfs, int now, int cnt, int res)->void {\n\t\t\tif (now == pf.size()) {\n\t\t\t\tif (cnt)ve.pb({ res, cnt });\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tdfs(dfs, now + 1, cnt, res);\n\t\t\tdfs(dfs, now + 1, cnt + 1, res * pf[now].px);\n\t\t\t};\n\t\tdfs(dfs, 0, 0, 1);\n\n\t\tif (i > 1)\n\t\t\tfor (const var& [p, cnt] : ve) {\n\t\t\t\tif (cnt & 1)dp[i] = (dp[i] + s[p]) % mod;\n\t\t\t\telse dp[i] = ((dp[i] - s[p]) % mod + mod) % mod;\n\t\t\t}\n\n\t\tfor (const var& [p, cnt] : ve)\n\t\t\ts[p] = (s[p] + dp[i]) % mod;\n\t}\n\tcout << dp[n] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-23",
+  "parsed_at": "2026-06-14T18:39:36.318898+00:00",
+  "type_directory": "p"
+}

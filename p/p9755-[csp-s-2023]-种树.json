@@ -1,0 +1,324 @@
+{
+  "slug": "p9755-[csp-s-2023]-种树",
+  "title": "P9755 [CSP-S 2023] 种树",
+  "type": "题目",
+  "tags": [
+    "贪心",
+    "二分",
+    "二分答案",
+    "树形dp"
+  ],
+  "difficulty": 3.0,
+  "summary": "得想到通过二分答案，算出每个点至少<strong>得在什么时间点种上树（deadline <code>dl</code>）</strong>，然后根据树形 dp 算出<strong>偏序映射后的 <code>dl</code></strong>，<strong>排序</strong>后解决本题。说实话不是很好想，二分答案和树形 dp 的部分都是，二分答案得想到可以算出每个点的 deadline，树形 dp 得想到我们算不出每个点真正的 <code>dl</code>，但是能把点之间的<strong>偏序关系</strong>算出来。",
+  "link": "[P9755 [CSP-S 2023] 种树 - 洛谷](https://www.luogu.com.cn/problem/P9755)",
+  "link_text": "[P9755 [CSP-S 2023] 种树 - 洛谷](https://www.luogu.com.cn/problem/P9755)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "你是一个森林养护员，有一天，你接到了一个任务：在一片森林内的地块上种树，并养护至树木长到指定的高度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "森林的地图有 $n$ 片地块，其中 $1$ 号地块连接森林的入口。共有 $n-1$ 条道路连接这些地块，使得每片地块都能通过道路互相到达。最开始，每片地块上都没有树木。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你的目标是：在每片地块上均种植一棵树木，并使得 $i$ 号地块上的树的高度生长到不低于 $a_i$ 米。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你每天可以选择一个未种树且<strong>与某个已种树的地块直接邻接</strong>（<strong>即通过单条道路相连</strong>）的地块，种一棵高度为 $0$ 米的树。如果所有地块均已种过树，则你当天不进行任何操作。特别地，第 $1$ 天你只能在 $1$ 号空地种树。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对每个地块而言，从该地块被种下树的当天开始，该地块上的树每天都会生长一定的高度。由于气候和土壤条件不同，在第 $x$ 天，$i$ 号地块上的树会长高 $\\max(b_i + x \\times c_i, 1)$ 米。注意这里的 $x$ 是从整个任务的第一天，而非种下这棵树的第一天开始计算。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你想知道：最少需要多少天能够完成你的任务？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含一个正整数 $n$，表示森林的地块数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行：每行包含三个整数 $a_i, b_i, c_i$，分别描述一片地块，含义如题目描述中所述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n-1$ 行：每行包含两个正整数 $u_i, v_i$，表示一条连接地块 $u_i$ 和 $v_i$ 的道路。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行仅包含一个正整数，表示完成任务所需的最少天数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n12 1 1\n2 4 -1\n10 3 0\n7 10 -2\n1 2\n1 3\n3 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第 $1$ 天：在地块 $1$ 种树，地块 $1$ 的树木长高至 $2$ 米。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $2$ 天：在地块 $3$ 种树，地块 $1, 3$ 的树木分别长高至 $5, 3$ 米。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $3$ 天：在地块 $4$ 种树，地块 $1, 3, 4$ 的树木分别长高至 $9, 6, 4$ 米。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $4$ 天：在地块 $2$ 种树，地块 $1, 2, 3, 4$ 的树木分别长高至 $14, 1, 9, 6$ 米。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $5$ 天：地块 $1, 2, 3, 4$ 的树木分别长高至 $20, 2, 12, 7$ 米。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "二分答案",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目要求 “最少需要多少天能让所有树达标” 。显然，天数具有绝对的<strong>单调性</strong>：给你的时间越长，越容易种完。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，我们直接在最外层<strong>二分总天数 <code>mid</code></strong>（下界是 $n$，上界可以开到 $10^9$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此时，原问题转化为一个<strong>判定性问题 (Check)</strong>：给定一个固定的总天数 <code>mid</code>，我们能否合法地把所有树种完？",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "二分求出每个点的极限 Deadline",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在固定的总天数 <code>mid</code> 下，对于每一棵树 $i$，如果我们种得越晚，它生长的天数就越少。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，我们可以<strong>单独为每个点进行一次二分</strong>，求出它<strong>最晚必须在第几天种下</strong>（记为 $dl[i]$），才能在第 <code>mid</code> 天及之前长到 $a_i$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>分段函数的细节：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果 $c < 0$，树的生长速度会退化到 1。在算区间 $[x, mid]$ 的总生长量时，必须严格分三段讨论：完全没退化、中途退化、种下去时就已经退化。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>关键的剪枝：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果发现某棵树哪怕在<strong>第 1 天种下</strong>，到第 <code>mid</code> 天也长不到 $a_i$。直接宣布当前的 <code>mid</code> 死刑，<code>return 0;</code> 。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "为什么不能算“真 $dl$”？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "现在我们手头有了每个点最初的 $dl[i]$。但树有个铁律：<strong>必须先种父亲，再种儿子。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "很多人（包括一开始的你）会试图在树上合并出一个<strong>“真实的种树日历”</strong>：如果三个儿子都要在第 5 天前种完，那父亲是不是得提前到第 2 天？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论是：纯靠树形 DP 根本算不出真实的种树日历！</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为时间 $1, 2, \\dots, n$ 是<strong>全局共享资源</strong>。局部子树觉得拥挤，但在全局视角下，其他分支可能是空闲的。<strong>局部 DP 无法进行全局调度。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>破局点：偏序关系的魔法传递</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "既然父亲必须在儿子之前种，那么无论如何，<strong>父亲的最晚种树时间，必须严格早于儿子</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们只需要在树上做一次极简的自底向上 DFS：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$dl[u] = \\min(dl[u], dl[v] - 1)$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这句话的伟大之处在于：<strong>它并没有算出真实的种树日期，但它把 “树的父子拓扑限制” ，硬生生压缩成了 “截止日期” 的大小关系！</strong>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "全局贪心",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "经过上述的 DFS 传递后，如果你把全图 $n$ 个点的 $dl$ 值抽出来，你会发现一个结论：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>此时任何一个父亲的</strong> $dl$<strong>，都严格小于它子树里所有节点的</strong> $dl$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这意味着，那棵张牙舞爪的 “树” 已经没用了，所有的限制都被内化到了 $dl$ 数组里。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们直接把所有点的 $dl$ <strong>从小到大排序</strong>（即操作系统的 EDF 算法：最早截止时间优先调度）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "排序后，父亲天然排在儿子前面，完美满足 “先父后子”。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们只需要贪心地从第 $1$ 天到第 $n$ 天依次去种排序后的树。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>最终 Check</strong>：如果在排好序的数组中，第 $i$ 棵树的 $dl[i] < i$（即轮到它种的时候，它的截止日期已经过了），说明在这个 <code>mid</code> 下无解；如果全部满足 $dl[i] \\ge i$，则当前 <code>mid</code> 合法！",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tvar p = vector<tuple<ll, ll, ll>>(n + 1);\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n) {\n\t\tll a, b, c; cin >> a >> b >> c;\n\t\tp[i] = { a,b,c };\n\t}\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\tvar _1 = vector<ll>(n + 1);\n\tfa(i, 1, n) {\n\t\tconst var& [a, b, c] = p[i];\n\t\tif (c >= 0)_1[i] = -1;\n\t\telse _1[i] = (1 - b) / c;\n\t}\n\n\tvar check = [&](ll mid)->bool {\n\t\tvar dl = vector<ll>(n + 1, -1);\n\t\tfa(i, 1, n) {\n\t\t\t// 二分算单独每个点的 deadline\n\t\t\tconst var& [a, b, c] = p[i];\n\t\t\tvar check = [&](__int128 x)->bool {\n\t\t\t\t__int128 res = 0, len = 0;\n\t\t\t\tif (_1[i] == -1) {\n\t\t\t\t\tlen = mid - x + 1;\n\t\t\t\t\tres = (x + mid) * len / 2 * c + b * len;\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tif (_1[i] <= mid) {\n\t\t\t\t\t\tif (x <= _1[i]) {\n\t\t\t\t\t\t\tlen = _1[i] - x + 1;\n\t\t\t\t\t\t\tres = (x + _1[i]) * len / 2 * c + b * len;\n\t\t\t\t\t\t\tres += mid - _1[i];\n\t\t\t\t\t\t}\n\t\t\t\t\t\telse res = mid - x + 1;\n\t\t\t\t\t}\n\t\t\t\t\telse {\n\t\t\t\t\t\tlen = mid - x + 1;\n\t\t\t\t\t\tres = (x + mid) * len / 2 * c + b * len;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\treturn res >= a;\n\t\t\t\t};\n\t\t\tll l = 1, r = mid;\n\t\t\twhile (l <= r) {\n\t\t\t\tll mmid = l + r >> 1;\n\t\t\t\tif (check(mmid)) {\n\t\t\t\t\tdl[i] = mmid;\n\t\t\t\t\tl = mmid + 1;\n\t\t\t\t}\n\t\t\t\telse r = mmid - 1;\n\t\t\t}\n\n\t\t\tif (dl[i] == -1)return 0; // 剪枝\n\t\t}\n\n\t\t// 偏序映射 dl\n\t\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\t\tfor (int to : g[now]) {\n\t\t\t\tif (to == fa)continue;\n\t\t\t\tdfs(dfs, to, now);\n\t\t\t\tdl[now] = min(dl[to] - 1, dl[now]);\n\t\t\t}\n\t\t\t};\n\t\tdfs(dfs, 1, 0);\n\n\t\tsort(all1(dl));\n\t\tfa(i, 1, n)if (dl[i] < i)return 0; // 一个一个排队解决，比 i 还早肯定没空解决这个\n\t\treturn 1;\n\n\t\t};\n\n\tll l = n, r = 1e9, ans = 0;\n\twhile (l <= r) {\n\t\tll mid = l + r >> 1;\n\t\tif (check(mid)) {\n\t\t\tans = mid;\n\t\t\tr = mid - 1;\n\t\t}\n\t\telse l = mid + 1;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-01",
+  "parsed_at": "2026-06-14T18:39:36.916983+00:00",
+  "type_directory": "p"
+}

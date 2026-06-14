@@ -1,0 +1,218 @@
+{
+  "slug": "nk题霸-跑刀仔",
+  "title": "NK题霸 跑刀仔",
+  "type": "题目",
+  "tags": [
+    "计算几何"
+  ],
+  "difficulty": 1.5,
+  "summary": "对圆算出若干个采样点，然后检验一下就行。",
+  "link": "https://www.nowcoder.com/practice/63426218a5224e62afa4e2f708cdcea2?channelPut=tracker2",
+  "link_text": "跑刀仔 - NowCoder",
+  "source": "NowCoder NK题霸",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在一个 $l \\times l$ 的地图上有 $n$ 个探测器，第 $i$ 个探测器位于 $(x_i, y_i)$，探测半径为 $r_i$，即覆盖范围为以 $(x_i, y_i)$ 为圆心、$r_i$ 为半径的圆。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "需要找到一个位置 $(x, y)$（$0 \\le x, y \\le l$），使得该位置不在任何一个探测器的覆盖范围内。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "数据保证一定存在至少一个这样的位置。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行两个整数 $n, l$（$1 \\le n \\le 10$，$1 \\le l \\le 10^5$），分别表示探测器个数和地图大小。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行，每行三个正整数 $x_i, y_i, r_i$（$0 \\le x_i, y_i, r_i \\le l$），意义如上所述。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出两个数 $x, y$（$0 \\le x, y \\le l$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果存在多个解，输出任意一个即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "误差不超过 $10^{-6}$ 时会被接受。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 2\n1 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 6\n1 2 3\n1 4 1\n5 4 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2.92697 5.762122",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心观察",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "合法区域的边界一定由<strong>圆的圆弧</strong>和<strong>地图边界</strong>构成。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此解一定存在于某个圆的圆周附近（紧贴圆外侧）或地图边界上。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "算法思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对每个圆，在其圆周上等分 <code>SAMPLE_NUM</code> 个采样点（如 400 个）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对每个圆周点，计算从圆心指向该点的单位方向向量，将点沿该方向<strong>向外</strong>偏移一个微小量 <code>DELTA</code>（如 <code>1e-5</code>），从而\"挤\"到圆的外部。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "检查偏移后的点：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "是否在地图范围内（$0 \\le x, y \\le l$）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "是否不在任何一个圆的内部（严格在圆外）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "找到满足条件的点后直接输出即可。数据保证一定有解。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, l; cin >> n >> l;\n\tvar p = vector<geo::Circle<db>>(n + 1);\n\tfa(i, 1, n) {\n\t\tint x, y, r; cin >> x >> y >> r;\n\t\tp[i] = { (db)x,(db)y,(db)r };\n\t}\n\tconst int SAMPLE_NUM = 400;\n\tconst db DELTA = 1e-5;\n\tfa(i, 1, n) {\n\t\tvar res = p[i].get_points_on_circle(SAMPLE_NUM);\n\t\tfa(j, 0, vs(res)) {\n\t\t\tvar va = res[j] - p[i].c;\n\t\t\tva = geo::vector_unit(va);\n\t\t\tva = { DELTA * va.x, DELTA * va.y }; // 朝圆心反方向偏移\n\t\t\tres[j] = res[j] + va;\n\t\t}\n\t\tfa(i, 0, vs(res)) {\n\t\t\tif (res[i].x > l or res[i].x < 0 or res[i].y > l or res[i].y < 0)continue;\n\t\t\tbool ok = 1;\n\t\t\tfa(j, 1, n) {\n\t\t\t\tif (geo::point_circle_relation(res[i], p[j]) != 2) {\n\t\t\t\t\t// 点在圆内\n\t\t\t\t\tok = 0;\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t}\n\t\t\tif (ok) {\n\t\t\t\tcout << fixed << setprecision(12) << res[i].x << \" \" << res[i].y << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-11",
+  "parsed_at": "2026-06-14T18:39:36.799302+00:00",
+  "type_directory": "p"
+}

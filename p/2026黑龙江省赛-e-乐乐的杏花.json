@@ -1,0 +1,284 @@
+{
+  "slug": "2026黑龙江省赛-e-乐乐的杏花",
+  "title": "2026黑龙江省赛 E 乐乐的杏花",
+  "type": "题目",
+  "tags": [
+    "DFS 序",
+    "线段树"
+  ],
+  "difficulty": 2.0,
+  "summary": "<strong>树上带修题</strong>，明显可以用 dfs 序加线段树，简单思考即想出思路。",
+  "link": "https://codeforces.com/gym/106534",
+  "link_text": "https://codeforces.com/gym/106534",
+  "source": "2026黑龙江省赛",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "乐乐想去看杏花，并一直在看杏花的路上。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "乐乐一直在看杏花的路上，可惜世界太大，杏花的花期太短，在某一时刻，某个地方的杏花开了，在某一时刻，某个地方的杏花落了，乐乐深知，永远走向离她最近的杏花，也不一定能在花落前抵达，所以她采取扔骰子的方式决定走哪一条路。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "但是她永远想知道离她最近的盛开的杏花离她有多远。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "世界地图被乐乐归纳成了张有 $n$ 个点，$n-1$ 条边的连通图，每个点都有一颗杏花树。乐乐在写完她那个复杂的动态乱序多发射处理器后，决定花费 $m$ 个单位时间去寻找杏花，也就是说，在 $m$ 个单位时间内，每个单位时间会发生下列三种事件之一。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "某一个地方的杏花开了",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "某一个地方的杏花落了",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "乐乐移动到了一个和当前节点相邻的节点",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "乐乐初始时在 1 号点。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入两个整数 $n$ 和 $m$，表示节点数量和时间。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n-1$ 行，每行输入两个整数 $x$ 和 $y$，表示 $x$ 到 $y$ 之间有一条边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行，每行输入两个整数 $op$ 和 $x$：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若 $op = 1$，表示点 $x$ 的杏花状态变了，若点 $x$ 处之前有杏花盛开，那么现在它会凋谢，若点 $x$ 处的之前没有杏花盛开，那么它会盛开。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $op = 2$，表示乐乐移动到了点 $x$，保证点 $x$ 与乐乐在此之前所在的点相邻。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $m$ 行，第 $i$ 行表示在 $i$ 时刻离乐乐最近的盛开杏花到乐乐的距离，如果还没有杏花盛开，输出 \"2147483648\"。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 4\n1 2\n2 3\n2 2\n1 2\n1 1\n1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2147483648\n0\n0\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题要求动态维护树上\"当前节点\"到所有盛开节点的最短距离（边数），支持切换花状态和移动当前节点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于 $n,m \\le 10^5$，我们需要一种支持区间修改和全局最值查询的数据结构。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "关键观察：在树上移动一步（从 $u$ 到相邻 $v$），所有节点到新位置的距离变化只与\"子树\"有关，且变化量恰好是 $+1$ 或 $-1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "利用 <strong>DFS 序</strong>将子树转化为连续区间，用 <strong>线段树（支持区间加法与单点修改）</strong> 维护每个节点的\"到当前节点的距离\"和\"是否开花\"，并实时查询全局最小距离。",
+          "depth": 1
+        },
+        {
+          "heading": "核心算法",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "1. <strong>预处理</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "从根 $1$ 做 DFS，得到每个节点的 <strong>DFS 序编号</strong> <code>in[u]</code>、子树区间 <code>[in[u], out[u]]</code> 以及 <strong>深度</strong> <code>dep[u]</code>（根深度为 1，到根的实际距离 = <code>dep[u]-1</code>）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "初始化线段树：对于节点 $u$，在位置 <code>in[u]</code> 存储：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>dis = dep[u]</code>（注意：此时表示的是节点到根的距离 +1，后续会通过输出减 1 修正）",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>st = INF</code>（表示未开花）",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>val = dis * st</code>（当 $st=1$ 时代表当前距离，否则 INF）",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>事件处理</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>开关花</strong>（$op = 1$）：单点修改，翻转该节点的 $st$（$1 \\leftrightarrow INF$），并更新 $val = dis \\times st$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>移动</strong>（$op = 2$）：当前节点从 $now$ 移到相邻节点 $to$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "设 $to$ 的深度大于 $now$ 为\"向下移动\"，否则为\"向上移动\"。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>向下</strong>：所有节点距离 $+1$，$to$ 的子树再 $-2$，实现子树内距离 $-1$、子树外距离 $+1$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>向上</strong>：所有节点距离 $-1$，$now$ 的子树再 $+2$，实现子树内距离 $+1$、子树外距离 $-1$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "使用线段树的区间加操作即可高效完成。更新后令 $now = to$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "3. <strong>查询</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "每次事件后，取全局 $val$ 的最小值 $ans$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "若 $ans \\ge 10^9$（表示没有盛开的花），输出 $2147483648$（即 $2^{31}$）；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "否则输出 $ans - 1$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct Tag {\n    Tag() :add(0) {}\n    Tag(ll add) : is_init(0), add(add) {}\n\n    bool is_init = 1; // 初始化时不用 tag\n\n    // 距离变化\n    ll add;\n    void apply(const Tag& t) {\n        // 父tag怎么传到子tag\n        if (not t.is_init) {\n            is_init = 0;\n            add += t.add;\n        }\n    }\n};\nstruct Info {\n    Info() :dis(1e9), st(1e9), val(1e9) {};\n    Info(ll dis, ll st, ll val) :dis(dis), st(st), val(val) {};\n\n    // 距离、激活态(1/1e9)、真实距离\n    ll dis, st, val;\n    void apply(const Tag& t, int len) {\n        // tag怎么传到要维护的值\n        if (not t.is_init) {\n            dis += t.add;\n            val = st * dis;\n        }\n    }\n\n    void apply(const Info& v) {\n        // 如何单点修改\n        if (st == 1e9)st = 1;\n        else st = 1e9;\n        val = dis * st;\n    }\n};\nInfo operator+(const Info& a, const Info& b) {\n    Info c;\n    c.val = min(a.val, b.val);\n    c.dis = 1e9;\n    if (a.st == 1)c.dis = min(c.dis, a.dis);\n    if (b.st == 1)c.dis = min(c.dis, b.dis);\n    c.st = min(a.st, b.st);\n    return c;\n}\n\nvoid solve()\n{\n    int n, m; cin >> n >> m;\n    var g = vector<vector<int>>(n + 1);\n    fa(i, 1, n - 1) {\n        int u, v; cin >> u >> v;\n        g[u].pb(v), g[v].pb(u);\n    }\n    int timer = 0;\n    var in = vector<int>(n + 1);\n    var out = vector<int>(n + 1);\n    var rnk = vector<int>(n + 1);\n    var dep = vector<ll>(n + 1);\n    var dfs = [&](var dfs, int now, int fa)->void {\n        in[now] = ++timer;\n        rnk[timer] = now;\n        for (int to : g[now]) {\n            if (to == fa)continue;\n            dfs(dfs, to, now);\n        }\n        out[now] = timer;\n    };\n    var dfss = [&](var dfs, int now, int fa)->void {\n        dep[now] = dep[fa] + 1;\n        for (int to : g[now]) {\n            if (to == fa)continue;\n            dfs(dfs, to, now);\n        }\n    };\n    dfs(dfs, 1, 0);\n    dfss(dfss, 1, 0);\n    var _init = vector<Info>(n + 1);\n    fa(i, 1, n)_init[in[i]] = { dep[i],(ll)1e9,dep[i] * (ll)1e9 };\n    var t = LazySegmentTree<Info, Tag>(_init);\n    int now = 1;\n    while (m--) {\n        int op; cin >> op;\n        int to; cin >> to;\n        if (op == 1)t.modify(in[to], { 0,1,0 });\n        else {\n            if (dep[to] > dep[now]) {\n                t.modifyRange(1, n, 1);\n                t.modifyRange(in[to], out[to], -2);\n            }\n            else {\n                t.modifyRange(1, n, -1);\n                t.modifyRange(in[now], out[now], 2);\n            }\n            now = to;\n        }\n        ll ans = t.query(1, n).val;\n        if (ans >= 1e9)cout << 2147483648 << endl;\n        else cout << ans - 1 << endl;\n    }\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-22",
+  "parsed_at": "2026-06-14T18:39:35.935029+00:00",
+  "type_directory": "p"
+}

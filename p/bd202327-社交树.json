@@ -1,0 +1,249 @@
+{
+  "slug": "bd202327-社交树",
+  "title": "BD202327 社交树",
+  "type": "题目",
+  "tags": [
+    "重链剖分",
+    "式子变形"
+  ],
+  "difficulty": 2.0,
+  "summary": "对着树用<strong>树剖</strong>或直接<strong>DFS序</strong>处理成序列，然后用<strong>线段树</strong>或<strong>树状数组</strong>操作，这还是很好看出来的，关键是要对题目的式子进行<strong>变量分离</strong>。",
+  "link": "https://www.matiji.net/exam/brushquestion/27/4347/179CE77A7B772D15A8C00DD8198AAC74",
+  "link_text": "码蹄集OJ-社交树",
+  "source": "[[2023百度之星决赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "最近小度处理业务时遇到了一个社交网络上的问题，这个社交网络比较特殊，是根据某个人为起点构成的最短路径生成树，现在根据业务需求，规定 1 号节点为根，小度需要在树形结构上支持以下操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1 $v$ $x$，对于 $v$ 的子树中的每个节点 $u$（$u$ 可以等于 $v$）都加上 $a^{x+d}$ ， $d$ 表示点 $u$ 与点 $v$ 的深度差。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "2 $v$，询问 $v$ 号点的权值 $mod(10^8+7)$ 之后的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含三个整数 $N$ , $M$ , $a$ ，其中 $N$ 为树上的点数， $M$ 为操作的数量， $a$ 为操作1的底数；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $2 \\sim N$ 行，每行一个正整数，第 $i$ 行的正整数是 $i$ 号节点的父亲 $fa_i$ （ $fa_i < i$ ）；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "再接下来 $M$ 行，格式为 “ $1\\ v\\ x$ ” 或 “ $2\\ v$ ”，含义如题。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le N \\le 10^5$ ， $1 \\le M \\le 10^5$ ， $0 < |a| \\le 10^3$ ， $0 \\le |x| \\le 10^3$ 。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个 2 操作输出一行，为 $v$ 号点的权值 $mod(10^8+7)$ 之后的值（ $10^8+7$ 是一个质数），负数取模要化为正数（详见样例）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 8 7\n1\n1\n3\n3\n1 1 0\n2 1\n2 2\n2 4\n1 3 1\n2 3\n2 4\n2 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n7\n49\n14\n98\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：树上子树带修问题，明显是用<strong>DFS 序</strong>或<strong>树剖</strong>把树整成序列，然后用<strong>线段树</strong>或<strong>树状数组</strong>进行修改处理。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：但是本题节点增加的是 $Val = a^{x + dep[v] - dep[u]}$，这里的 $dep[v]$ 不是定值，现在就是考虑要进行<strong>变量分离</strong>了。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>变形</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "id:: 87129f4a-3430-424b-847b-e105e19ffeea",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$Val = a^{x + D} = a^{x + dep[v] - dep[u]} = \\underbrace{a^{x - dep[u]}}_{\\text{操作常数 } K} \\times \\underbrace{a^{dep[v]}}_{\\text{节点特征} X}$$\nid:: bb821022-6e7b-4bea-8dd4-c8248394e02a\n$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "Ans_v = \\sum (Val) = \\sum (K \\times X) = X \\times \\left( \\sum K \\right)",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$\n即：\n$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "\\text{节点 } v \\text{ 的最终增加值} = \\underbrace{a^{dep[v]}}_{\\text{节点特征} X} \\times \\underbrace{\\left( \\sum_{\\text{所有覆盖 } v \\text{ 的操作}} a^{x - dep[u]} \\right)}_{\\text{树状数组维护的系数和}}",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>维护策略</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>区间更新</strong>时，给 $u$ 的子树的各个节点，即<strong>DFS 序</strong>或<strong>重剖序</strong>区间内每个节点加上 $K$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于更新而言，分离操作使得 <strong>“跟更新相关的常量（u 自己的深度）”</strong> 与 <strong>“跟子节点们自身相关的变量（子节点们的深度）”</strong> 互不干扰。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>单点查询</strong>时，给查询的答案 $ans$ 乘上 X。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于查询而言，分离操作使得 <strong>“跟查询相关的常量（u 自己的深度）”</strong> 与 <strong>“跟祖先节点们自身相关的变量（祖先节点们的深度）”</strong> 互不干扰。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "使用<strong>变量分离</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "式子中存在变量和常量结合的复杂情况，需要将式子进行<strong>拆解</strong>，使得 <strong>“跟查询相关的常量”</strong> 与 <strong>“跟节点自身相关的变量”</strong> 互不干扰，从而能够使用线段树、树状数组或差分数组分别维护。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "vector<int> g[N];\nint dep[N], fat[N], son[N], siz[N];\nint top[N], dfn[N], rnk[N], tim; // 链顶、节点对应时间戳、时间戳对应节点(线段树用)、时间戳\nvoid solve(int CASE)\n{\n\tll n, m, a; cin >> n >> m >> a;\n\ta = (a % mod + mod) % mod;\n\tfa(i, 2, n) {\n\t\tint f; cin >> f;\n\t\tg[f].pb(i), g[i].pb(f);\n\t}\n\n\t// ========== 重链剖分 ========== //\n\n\t// dfs1：初始化 深度、父节点、子树大小、重儿子\n\tvar dfs1 = [&](var dfs, int now, int fa, int d)->void {\n\t\tdep[now] = d, fat[now] = fa, siz[now] = 1, son[now] = 0;\n\t\tint max_siz = -1;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now, d + 1);\n\t\t\tsiz[now] += siz[to];\n\t\t\tif (max_siz < siz[to]) {\n\t\t\t\tmax_siz = siz[to];\n\t\t\t\tson[now] = to;\n\t\t\t}\n\t\t}\n\t\t};\n\n\t// 构造重链剖分\n\ttim = 0; // 时间戳从 1 开始\n\tvar dfs2 = [&](var dfs, int now, int t)->void {\n\t\t// t：当前链链顶\n\t\ttop[now] = t, dfn[now] = ++tim, rnk[tim] = now;\n\t\tif (!son[now])return;  // 如果没有重儿子，说明是叶子\n\n\t\t// 1. 优先处理重儿子，链顶不变延续当前链\n\t\tdfs(dfs, son[now], t);\n\n\t\t// 2. 处理轻儿子，轻儿子为链顶新开一条链\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == son[now] or to == fat[now])continue;\n\t\t\tdfs(dfs, to, to);\n\t\t}\n\t\t};\n\n\tdfs1(dfs1, 1, 0, 1);\n\tdfs2(dfs2, 1, 1);\n\n\tvar t = MT::BitTree<ll>(n + 1, mod);\n\n\t// 子树修改 O(logN)\n\tvar update_subtree = [&](MT::BitTree<ll>& t, int x, ll k)->void {\n\t\t// 子树在 dfs 序中是连续区间 [ dfn[x], dfn[x] + siz[x] - 1 ]\n\t\tt.updateRange(dfn[x], dfn[x] + siz[x] - 1, k);\n\t\t};\n\t// 子树查询 O(logN)\n\tvar query_subtree = [&](MT::BitTree<ll>& t, int x)->ll {\n\t\tll res = 0;\n\t\tint l = dfn[x], r = dfn[x] + siz[x] - 1;\n\t\treturn t.queryRange(l, r);\n\t\t};\n\n\t// ============================= //\n\n\twhile (m--) {\n\t\tint op; cin >> op;\n\t\tif (op == 1) {\n\t\t\tll u, x; cin >> u >> x;\n\t\t\t// += a ^ (x - dep[u]) * a ^ dep[v]\n\t\t\t// 处理修改中的常量 a ^ (x - dep[u])\n\t\t\tif (x - dep[u] > 0)\n\t\t\t\tupdate_subtree(t, u, Math::fastPow(a, x - dep[u], mod));\n\t\t\telse if (x - dep[u] < 0)\n\t\t\t\tupdate_subtree(t, u, Math::inv(Math::fastPow(a, dep[u] - x, mod), mod));\n\t\t\telse\n\t\t\t\tupdate_subtree(t, u, 1);\n\t\t}\n\t\telse {\n\t\t\tint u; cin >> u;\n\t\t\t// += a ^ (x - dep[u]) * a ^ dep[v]\n\t\t\t// 处理查询中的常量 a ^ dep[v]\n\t\t\tcout << t.queryRange(dfn[u], dfn[u]) * Math::fastPow(a, dep[u], mod) % mod << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-10",
+  "parsed_at": "2026-06-14T18:39:36.056632+00:00",
+  "type_directory": "p"
+}

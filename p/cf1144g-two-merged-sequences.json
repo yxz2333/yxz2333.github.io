@@ -1,0 +1,271 @@
+{
+  "slug": "cf1144g-two-merged-sequences",
+  "title": "CF1144G Two Merged Sequences",
+  "type": "题目",
+  "tags": [
+    "可行性dp",
+    "贪心",
+    "构造"
+  ],
+  "difficulty": 3.5,
+  "summary": "<strong>贪心定 DP 状态，根据 DP 状态构造出答案</strong>。",
+  "link": "https://codeforces.com/problemset/problem/1144/G",
+  "link_text": "Problem - 1144G - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "最初存在两个整数序列，其中一个是严格递增的，另一个是严格递减的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "严格递增序列是整数序列 $[x_1 < x_2 < \\dots < x_k]$。严格递减序列是整数序列 $[y_1 > y_2 > \\dots > y_l]$。注意，空序列和只包含一个元素的序列也可以视为递增或递减序列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "递增序列的元素被插入到递减序列的元素之间（也可能插入到递减序列的第一个元素之前或最后一个元素之后），且不改变递增序列和递减序列各自的顺序。例如，序列 $[1, 3, 4]$ 和 $[10, 4, 2]$ 可以生成如下结果序列：$[10, \\textbf{1}, \\textbf{3}, 4, 2, \\textbf{4}]$，$[\\textbf{1}, \\textbf{3}, \\textbf{4}, 10, 4, 2]$。但如下序列不能作为插入结果：$[\\textbf{1}, 10, \\textbf{4}, 4, \\textbf{3}, 2]$，因为递增序列的元素顺序被改变了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "设最终得到的序列为 $a$。该序列 $a$ 已在输入中给出。你的任务是找出任意一组符合要求的初始序列，其中一个为严格递增序列，另一个为严格递减序列。注意，空序列和只包含一个元素的序列也可以视为递增或递减序列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果输入存在矛盾，无法将给定序列 $a$ 拆分为一个递增序列和一个递减序列，请输出 \"NO\"。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含一个整数 $n$（$1 \\le n \\le 2 \\cdot 10^5$），表示序列 $a$ 的元素个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\dots, a_n$（$0 \\le a_i \\le 2 \\cdot 10^5$），其中 $a_i$ 表示 $a$ 的第 $i$ 个元素。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "如果输入存在矛盾，无法将给定序列 $a$ 拆分为一个递增序列和一个递减序列，第一行输出 \"NO\"。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "否则，第一行输出 \"YES\"。第二行输出 $n$ 个整数 $res_1, res_2, \\dots, res_n$，其中 $res_i$ 为 $0$ 或 $1$。如果 $a$ 的第 $i$ 个元素属于递增序列，则 $res_i = 0$，否则 $res_i = 1$。注意，空序列和只包含一个元素的序列也可以视为递增或递减序列。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9\n5 1 3 6 8 2 9 0 10",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "YES\n1 0 0 0 0 1 0 1 0 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n1 2 4 0 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "NO",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题最巧妙的地方在于 <strong>DP 状态的设计</strong>。通常的序列拆分 DP 可能会考虑“当前两个序列的末尾分别是多少”，但由于 $a_i$ 的范围较大，直接把数值放入状态维度是不现实的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "观察题目特性：对于当前元素 $a_i$，它要么接在递增序列后面，要么接在递减序列后面。为了给后面的元素留出更大的“选择空间”（这正是一种<strong>贪心</strong>策略），我们希望：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>如果</strong> $a_i$ <strong>属于递增序列</strong>，那么此时递增序列的末尾是 $a_i$，递减序列的末尾元素应该<strong>越大越好</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>如果</strong> $a_i$ <strong>属于递减序列</strong>，那么此时递减序列的末尾是 $a_i$，递增序列的末尾元素应该<strong>越小越好</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "也算是涨见识了，<strong>贪心定 DP 状态</strong>。",
+          "depth": 1
+        },
+        {
+          "heading": "1. 状态定义",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<code>dp[i][0]</code>：表示 $a[i]$ 归属于<strong>递增序列</strong>时，<strong>递减序列</strong>末尾元素的最大可能值。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>dp[i][1]</code>：表示 $a[i]$ 归属于<strong>递减序列</strong>时，<strong>递增序列</strong>末尾元素的最小可能值。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "初始状态：<code>dp[1][0] = INF</code>（递减序列还没数，设为无穷大），<code>dp[1][1] = -INF</code>（递增序列还没数，设为负无穷）。其余初始化为无效值。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 状态转移",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "遍历 $i$ 从 $2$ 到 $n$，考虑从 $i-1$ 转移到 $i$，对于 $a[i]$，有两种选择：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况 A：</strong>$a[i]$ <strong>加入递增序列 (更新 <code>dp[i][0]</code>)</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>由 <code>dp[i-1][0]</code> 转移</strong>：若 $a[i] > a[i-1]$（符合递增），则 $a[i]$ 可以接在 $a[i-1]$ 后面，此时递减序列末尾保持不变，即 <code>dp[i][0] = dp[i-1][0]</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>由 <code>dp[i-1][1]</code> 转移</strong>：若 $a[i] > dp[i-1][1]$（$a[i]$ 大于之前的递增末尾），则 $a[i]$ 可以作为递增序列末尾，此时递减序列的末尾为 $a[i-1]$。为了贪心，我们要取最大值：<code>dp[i][0] = max(dp[i][0], a[i-1])</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况 B：</strong>$a[i]$ <strong>加入递减序列 (更新 <code>dp[i][1]</code>)</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>由 <code>dp[i-1][1]</code> 转移</strong>：若 $a[i] < a[i-1]$（符合递减），则 $a[i]$ 可以接在 $a[i-1]$ 后面，此时递增序列末尾保持不变，即 <code>dp[i][1] = dp[i-1][1]</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>由 <code>dp[i-1][0]</code> 转移</strong>：若 $a[i] < dp[i-1][0]$（$a[i]$ 小于之前的递减末尾），则 $a[i]$ 可以作为递减序列末尾，此时递增序列的末尾为 $a[i-1]$。为了贪心，我们要取最小值：<code>dp[i][1] = min(dp[i][1], a[i-1])</code>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "3. 方案记录与回溯",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "为了输出结果，我们需要一个 <code>pre[i][0/1]</code> 数组来记录 <code>dp[i][0/1]</code> 是从上一位的哪个状态（0 或 1）转移过来的，最后从 <code>dp[n]</code> 开始回溯即可。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[N][2], a[N], pre[N][2];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n)dp[i][0] = -INF, dp[i][1] = INF;\n\n\t// 0：i 加入递增序列，递减序列的最大末尾值\n\t// 1：i 加入递减序列，递增序列的最小末尾值\n\tdp[1][0] = INF, dp[1][1] = -INF;\n\tfa(i, 2, n) {\n\t\tif (a[i] > a[i - 1]) {\n\t\t\t// 递增序列末尾第二个：a[i - 1]，递增序列末尾第一个：a[i]\n\t\t\tdp[i][0] = dp[i - 1][0]; \n\t\t\tpre[i][0] = 0;\n\t\t\tif (a[i] > dp[i - 1][1]) { \n\t\t\t\tif (dp[i][0] < a[i - 1]) {\n\t\t\t\t\t// 递减序列末尾：a[i - 1]，递增序列末尾：a[i]\n\t\t\t\t\tdp[i][0] = a[i - 1];\n\t\t\t\t\tpre[i][0] = 1;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tif (a[i] < dp[i - 1][0]) {\n\t\t\t\t// 递增序列末尾：a[i - 1]，递减序列末尾：a[i]\n\t\t\t\tdp[i][1] = a[i - 1];\n\t\t\t\tpre[i][1] = 0;\n\t\t\t}\n\t\t}\n\t\telse if (a[i] < a[i - 1]) {\n\t\t\t// 递减序列末尾第二个：a[i - 1]，递减序列末尾第一个：a[i]\n\t\t\tdp[i][1] = dp[i - 1][1];\n\t\t\tpre[i][1] = 1;\n\t\t\tif (a[i] < dp[i - 1][0]) {\n\t\t\t\tif (dp[i][1] > a[i - 1]) {\n\t\t\t\t\t// 递增序列末尾：a[i - 1]，递减序列末尾：a[i]\n\t\t\t\t\tdp[i][1] = a[i - 1];\n\t\t\t\t\tpre[i][1] = 0;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tif (a[i] > dp[i - 1][1]) {\n\t\t\t\t// 递减序列末尾：a[i - 1]，递增序列末尾：a[i]\n\t\t\t\tdp[i][0] = a[i - 1]; \n\t\t\t\tpre[i][0] = 1;\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tif (a[i] > dp[i - 1][1]) {\n\t\t\t\t// 递减序列末尾：a[i - 1]，递增序列末尾：a[i]\n\t\t\t\tdp[i][0] = a[i - 1];\n\t\t\t\tpre[i][0] = 1;\n\t\t\t}\n\n\t\t\tif (a[i] < dp[i - 1][0]) {\n\t\t\t\t// 递增序列末尾：a[i - 1]，递减序列末尾：a[i]\n\t\t\t\tdp[i][1] = a[i - 1];\n\t\t\t\tpre[i][1] = 0;\n\t\t\t}\n\t\t}\n\t}\n\n\tif (dp[n][0] == -INF and dp[n][1] == INF)cout << \"NO\" << endl;\n\telse {\n\t\tcout << \"YES\" << endl;\n\n\t\tint now = 0;\n\t\tvar ans = vector<int>(n + 1);\n\t\tif (dp[n][0] != -INF)now = 0;\n\t\telse now = 1;\n\t\t\n\t\tfb(i, n, 1) {\n\t\t\tans[i] = now;\n\t\t\tnow = pre[i][now];\n\t\t}\n\n\t\tfa(i, 1, n)cout << ans[i] << \" \\n\"[i == n];\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-29",
+  "parsed_at": "2026-06-14T18:39:36.110165+00:00",
+  "type_directory": "p"
+}

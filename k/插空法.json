@@ -1,0 +1,76 @@
+{
+  "slug": "插空法",
+  "title": "插空法",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "组合数学",
+    "插空法"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "一句话总结",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "隔板法的空位是 “盒子”，容量<strong>无限</strong>；插空法的空位是 “间隙” ，容量为 <strong>1</strong>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "What?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>定义与场景</strong>：插空法主要用于处理排列组合中，要求某些元素<strong>互不相邻</strong>（例如“不站在一起”、“不能连续”）的问题。通俗来说，就是把要求不相邻的元素，插入到已排好元素的 “空位” 中去。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>操作步骤（两步法）</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>先排</strong>：先将除这些特定元素外的其他元素按规则排列好。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>后插</strong>：再将这些要求不相邻的元素，插入到已排好元素形成的<strong>空隙（包括两端）</strong> 中。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>核心公式</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若 <strong>m 个物品互不相同</strong>，<strong>n 个空位</strong>可供选择，方案数为 <code>A(n, m)</code> \\[= \\frac{n!}{(n-m)!} = n \\times (n-1) \\times (n-2) \\times \\cdots \\times (n-m+1)\\]   或 <code>m! * C(n, m)</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 <strong>m 个物品完全相同</strong>，<strong>n 个空位</strong>可供选择，方案数为 <code>C(n, m)</code>。",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-05",
+  "parsed_at": "2026-06-14T18:45:12.080960+00:00",
+  "type_directory": "k"
+}

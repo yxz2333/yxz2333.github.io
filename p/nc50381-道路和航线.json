@@ -1,0 +1,214 @@
+{
+  "slug": "nc50381-道路和航线",
+  "title": "NC50381 道路和航线",
+  "type": "题目",
+  "tags": [
+    "图论",
+    "拓扑排序",
+    "dij",
+    "负权边",
+    "并查集",
+    "单向边",
+    "多源最短路"
+  ],
+  "difficulty": 2.0,
+  "summary": "思路不算难想，主是不好写",
+  "link": "https://ac.nowcoder.com/acm/problem/50381",
+  "link_text": "道路和航线",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "FarmerJohn正在一个新的销售区域对他的牛奶销售方案进行调查。他想把牛奶送到T个城镇，编号为1到T。这些城镇之间通过R条道路（编号为1到R）和P条航线（编号为1到P）连接。每条道路i或者航线i连接城镇$A_i$到$B_i$，花费为$C_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于道路，$0 \\le C_i \\le 10^4$，然而航线的花费很神奇，花费$C_i$可能是负数。道路是双向的，可以从$A_i$到$B_i$，也可以从$B_i$到$A_i$，花费都是$C_i$。然而航线与之不同，只可以从$A_i$到$B_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "事实上，由于最近恐怖主义太嚣张，为了社会和谐，出台了一些政策保证：如果有一条航线可以从$A_i$到$B_i$，那么保证不可能通过一些道路和航线从$B_i$回到$A_i$。由于FJ的奶牛世界公认十分给力，他需要运送奶牛到每一个城镇。他想找到从发送中心城镇S把奶牛送到每个城镇的最便宜的方案，或者知道这是不可能的。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行为四个空格隔开的整数：T,R,P,S；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二到第R+1行：三个空格隔开的整数（表示一条道路）：$A_i,B_i$和$C_i$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第R+2到R+P+1行：三个空格隔开的整数（表示一条航线）：$A_i,B_i$和$C_i$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出T行，第i行表示到达城镇i的最小花费，如果不存在输出<strong>NO PATH。</strong>",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 3 3 4 \n1 2 5 \n3 4 5 \n5 6 10 \n3 5 -100 \n4 6 -100 \n1 3 -10 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "NO PATH\nNO PATH\n5\n0\n-95\n-100",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "一共六个城镇。在1和2，3和4，5和6之间有道路，花费分别是5,5,10。同时有三条航线：$3 \\to5$，$4 \\to6$和$1 \\to3$，花费分别是-100,-100,-10。FJ的中心城镇在城镇4。FJ的奶牛从4号城镇开始，可以通过道路到达3号城镇。然后他们会通过航线达到5和6号城镇。但是不可能到达1和2号城镇。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于全部数据，$1 \\le T \\le 2.5 \\times 10^4,1 \\le R,P \\le 5 \\times 10^4,1 \\le A_i,B_i,S \\le T$。保证对于所有道路，$0 \\le C_i \\le 10^4$，对于所有航线，$-10^4 \\le C_i \\le 10^4$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：<strong>单向边</strong>存在负权，那肯定不能<strong>dij</strong>了。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：考虑到双向边没有，只有单向边有，那么可以双向边的缩点考虑写<strong>拓扑排序</strong>，而且本题这个题意，缩完之后是棵单向边连起来的树，没有环，那看来明显要拓扑了。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "用<strong>并查集</strong>缩个点，然后收集每个集里有哪些点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "跑<strong>拓扑</strong>的过程中",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "得先跑过带起点 S 的点集后，再开始记录距离，也就是说得记录来这个点集之前有没有经过起点 S（<code>flag</code>数组）。在这之前拓扑到的点直接 <code>NO PATH</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "要标记一下到新的点集的入集点有哪些（<code>p</code> 数组），还得记录起点到这些入集点的距离（<code>in</code> 数组），用这些入集点跑<strong>多源最短路</strong>。如果跑到的集里有起点 S，那么此时跑的是对于起点 S 的单源最短路。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "思路很好想，主要是整个实现的过程比较难写。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>单向边</strong> => <strong>拓扑排序</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>负权边</strong> => 不能 <strong>dij</strong>",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "vector<pll> g[N], ng[N];\nint s[N], ind[N], id[N];\nll dis[N];\nvector<int> p[N];\nint find(int x) {\n    if (x == s[x])return x;\n    return s[x] = find(s[x]);\n}\nstruct node {\n    ll id, d;\n    bool operator<(const node& a)const {\n        return a.d < d;\n    }\n};\nvoid solve(int CASE)\n{\n    int n, R, P, S; cin >> n >> R >> P >> S;\n    fa(i, 1, n)dis[i] = LNF;\n    fa(i, 1, R) {\n        ll u, v, w; cin >> u >> v >> w;\n        g[u].pb({ v,w }), g[v].pb({ u,w });\n    }\n \n    // 并查集\n    fa(i, 1, n)s[i] = i;\n    fa(i, 1, n) {\n        for (var& [to, w] : g[i]) {\n            int e1 = find(i);\n            int e2 = find(to);\n            if (e1 != e2)s[e2] = e1;\n        }\n    }\n \n    // 并查集后，s 离散化到 id\n    var b = vector<int>();\n    fa(i, 1, n)b.pb(find(i));\n    sort(all(b));\n    b.erase(unique(all(b)), b.end());\n    var findb = [&](int value)->int {\n        return upper_bound(all(b), value) - b.begin();\n        };\n    int m = b.size();\n    fa(i, 1, n)id[i] = findb(find(i));\n    fa(i, 1, n)p[id[i]].pb(i);\n \n    // 输入单向边，更新入度\n    fa(i, 1, P) {\n        ll u, v, w; cin >> u >> v >> w;\n        ng[u].pb({ v,w });\n        ind[id[v]]++;\n    }\n \n    // 拓扑 + 多源最短路\n    var in = Vec2<pll>(m + 1);     // 有哪些点到 i 集里，距离为多少 \n    var flag = vector<int>(m + 1); // 拓扑排序到 i 时，是否从 S 出发\n    var Q = queue<int>();          // 当前在 i 集，是否从 S 出发\n    fa(i, 1, m) if (!ind[i]) {\n        for (int x : p[i])in[i].pb({ x, 0 });\n        flag[i] = id[S] == i;\n        Q.push(i);\n    }\n \n    while (Q.size()) {\n        int now = Q.front();\n        Q.pop();\n \n        // 跑多源最短路，如果 S 在这个连通块内，跑单源\n        if (flag[now]) {\n            var Q = priority_queue<node>();\n            if (id[S] == now)Q.push({ S,0 }), dis[S] = 0; // S 单源\n            else for (const var& [x, d] : in[now])        // 到 tos 集的点们 多源\n                Q.push({ x,d }), dis[x] = min(d, dis[x]);\n \n            while (Q.size()) {\n                var[now, d] = Q.top();\n                Q.pop();\n                if (d > dis[now])continue;\n                for (const var& [to, w] : g[now]) {\n                    if (dis[to] > d + w) {\n                        dis[to] = d + w;\n                        Q.push({ to, dis[to] });\n                    }\n                }\n            }\n        }\n \n        for (int x : p[now])\n            for (const var& [to, w] : ng[x]) {\n                int tos = id[to];\n                ll d = dis[x] + w;\n                in[tos].pb({ to, d });                 // 更新哪些点到了 tos 集中\n                flag[tos] |= id[S] == tos | flag[now]; // 更新是否从 S 出发\n \n                ind[tos]--;\n                if (ind[tos] == 0)Q.push(tos);\n            }\n    }\n \n    fa(i, 1, n)\n        if (dis[i] == LNF)cout << \"NO PATH\" << endl;\n        else cout << dis[i] << endl;\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-22",
+  "parsed_at": "2026-06-14T18:39:36.683209+00:00",
+  "type_directory": "p"
+}

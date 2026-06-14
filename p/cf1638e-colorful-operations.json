@@ -1,0 +1,229 @@
+{
+  "slug": "cf1638e-colorful-operations",
+  "title": "CF1638E Colorful Operations",
+  "type": "题目",
+  "tags": [
+    "珂朵莉树",
+    "线段树"
+  ],
+  "difficulty": 3.0,
+  "summary": "搞了个延迟计算增量法。",
+  "link": "https://codeforces.com/problemset/problem/1638/E",
+  "link_text": "Problem - 1638E - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "你有一个数组 $a_1, a_2, \\dots, a_n$。每个元素初始值为 $0$，颜色为 $1$。你还会得到 $q$ 个操作，操作如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Color $l$ $r$ $c$：将区间 $a_l, a_{l+1}, \\cdots, a_r$ 的颜色改为 $c$（$1 \\le l \\le r \\le n$，$1 \\le c \\le n$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "Add $c$ $x$：将所有颜色为 $c$ 的元素 $a_i$（$1 \\le i \\le n$）的值加上 $x$（$1 \\le c \\le n$，$-10^9 \\le x \\le 10^9$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "Query $i$：输出 $a_i$ 的值（$1 \\le i \\le n$）。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含两个整数 $n$ 和 $q$（$1 \\le n, q \\le 10^6$），分别表示数组 $a$ 的长度和操作的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $q$ 行，每行包含一个操作，格式如题目描述所示。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个第三种类型的 Query 操作，输出一行答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 8\nColor 2 4 2\nAdd 2 2\nQuery 3\nColor 4 5 3\nColor 2 2 3\nAdd 3 3\nQuery 2\nQuery 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n5\n3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 7\nAdd 1 7\nQuery 1\nAdd 2 4\nQuery 2\nColor 1 1 1\nAdd 1 1\nQuery 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n7\n8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一个样例测试的解释如下。蓝色、红色和绿色分别代表颜色 $1$、$2$ 和 $3$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1638E/fca750ad681aed552c7980359d7170f22a91379c.png){:height 298, :width 380}",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一开始的想法是在操作 2 的时候枚举区间所有段，颜色一致就加值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "但是发现这样的话，由于数据不随机，不能及时堆平，如果一直使用操作 2，肯定会超时。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "考虑在操作 1，也就是堆平的时候进行加值，也就是<strong>延迟加值</strong>。",
+          "depth": 1
+        },
+        {
+          "heading": "为什么朴素 ODT 会 TLE？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如果使用朴素的 ODT 维护颜色段，对于 <code>Add c x</code> 操作，我们需要遍历 ODT 中所有颜色为 $c$ 的节点并给它们加值。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>致命缺陷</strong>：<code>Add</code> 操作不会合并区间（推平），反而可能因为分裂导致节点破碎。如果数据构造为 $1, 2, \\dots, N$ 每个位置颜色都不同，然后频繁进行 <code>Add</code> 操作，每次操作复杂度高达 $O(N)$，总复杂度退化为 $O(N \\cdot Q)$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "优化策略：延迟结算",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "采用了<strong>“延迟结算”</strong>的策略，将计算拆分为两部分：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>永久固化的值</strong>：存在线段树（<code>seg</code>）中。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>动态增量</strong>：由全局数组 <code>add</code> 和 ODT 节点中的 <code>last_add</code> 共同决定。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们定义位置 $i$ 的真实值为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\text{RealValue}(i) = \\text{SegTree}[i] + (\\text{add}[c] - \\text{last\\_add}) $$\n其中：",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct Tag {\n\tTag(): add(0) {}\n\tTag(ll add): is_init(0), add(add) {}\n\n\tbool is_init = 1; // 初始化时不用 tag\n\n\t// 要维护的tag\n\tll add;\n\tvoid apply(const Tag& t) {\n\t\t// 父tag怎么传到子tag\n\t\tif (not t.is_init) {\n\t\t\tis_init = 0;\n\t\t\tadd += t.add;\n\t\t}\n\t}\n};\nstruct Info {\n\tInfo(): val(0) {};\n\n\t// 要维护的值\n\tll val;\n\tvoid apply(const Tag& t, int len) {\n\t\t// tag怎么传到要维护的值\n\t\tif (not t.is_init) {\n\t\t\tval += t.add * len;\n\t\t}\n\t}\n\n\tvoid apply(const Info& v) {\n\t\t// 如何单点修改\n\n\t}\n};\nInfo operator+(const Info& a, const Info& b) {\n\tInfo c;\n\tc.val = a.val + b.val;\n\treturn c;\n}\n\n\nclass ODT {\nprivate:\n\tstruct ODT_Node {\n\t\tll l, r;\n\t\tmutable pll v; // { 颜色 c，刚变成颜色 c 时的 add[c] }\n\n\t\t// 重载小于号以用于 set 排序\n\t\tbool operator<(const ODT_Node& a)const {\n\t\t\treturn l < a.l;\n\t\t}\n\t};\n\n\t// ODT 的核心操作：分裂区间\n\t// 将包含 pos 的区间 [l, r] 分裂为 [l, pos - 1] 和 [pos, r]\n\t// 返回指向后半段 [pos, r] 的迭代器\n\tauto split(int pos) {\n\t\tauto it = se.lower_bound({ pos, 0, {} });\n\t\tif (it != se.end() and it->l == pos)return it;\n\n\t\tit = prev(it);\n\t\tauto [l, r, v] = *it;\n\t\tse.erase(it);\n\t\tse.insert({ l, pos - 1, v });\n\t\treturn se.insert({ pos, r, v }).first;\n\t}\n\npublic:\n\n\tset<ODT_Node> se;\n\n\t// ODT 的核心操作：区间赋值（推平）\n\tvoid assign(LazySegmentTree<Info, Tag>& t, const vector<ll>& add, int l, int r, int c) {\n\t\tauto itr = split(r + 1);\n\t\tauto itl = split(l);\n\n\t\t// 遍历 [itl, itr) 之间的所有区间\n\t\tauto it = itl;\n\t\twhile (it != itr) {\n\t\t\tauto [l, r, v] = *it;\n\t\t\tauto [c, last_add] = v;\n\t\t\tt.modifyRange(l, r, add[c] - last_add);\n\t\t\tit = se.erase(it); // 删除旧区间\n\t\t}\n\n\t\t// 插入新的白色区间\n\t\tse.insert({ l, r, { c, add[c] }});\n\t}\n\n\tpll query_last_add(int i) {\n\t\tauto it = split(i);\n\t\treturn it->v;\n\t}\n};\n\nvoid solve(int CASE)\n{\n\tll n, q; cin >> n >> q;\n\tvar add = vector<ll>(n + 1);\n\tvar seg = LazySegmentTree<Info, Tag>(n + 1);\n\tvar odt = ODT();\n\todt.se.insert({ 1, n, {1, 0} });\n\n\twhile (q--) {\n\t\tstring op; cin >> op;\n\t\tif (op == \"Color\") {\n\t\t\tll l, r, c; cin >> l >> r >> c;\n\t\t\todt.assign(seg, add, l, r, c);\n\t\t}\n\t\telse if (op == \"Add\") {\n\t\t\tll c, x; cin >> c >> x;\n\t\t\tadd[c] += x;\n\t\t}\n\t\telse {\n\t\t\tll i; cin >> i;\n\t\t\tvar[c, last_add] = odt.query_last_add(i);\n\t\t\tll ans = seg.query(i, i).val + add[c] - last_add;\n\t\t\tcout << ans << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-06",
+  "parsed_at": "2026-06-14T18:39:36.238958+00:00",
+  "type_directory": "p"
+}

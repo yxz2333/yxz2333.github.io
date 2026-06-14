@@ -1,0 +1,245 @@
+{
+  "slug": "nk70e-乌龟跑步",
+  "title": "NK70E 乌龟跑步",
+  "type": "题目",
+  "tags": [
+    "dp"
+  ],
+  "difficulty": 1.0,
+  "summary": "很简单的<strong>多维线性dp题</strong>。",
+  "link": "https://ac.nowcoder.com/acm/contest/70/E",
+  "link_text": "E-乌龟跑步_牛客练习赛13",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有一只乌龟，初始在0的位置向右跑。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这只乌龟会依次接到一串指令，指令T表示向后转，指令F表示向前移动一个单位。乌龟不能忽视任何指令。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在我们要修改其中正好n个指令（一个指令可以被改多次，一次修改定义为把某一个T变成F或把某一个F变成T）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "求这只乌龟在结束的时候离起点的最远距离。（假设乌龟最后的位置为x，我们想要abs(x)最大，输出最大的abs(x)）",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个字符串c表示指令串。c只由F和T构成。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行一个整数n。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 <= |c| <= 100, 1 <= n <= 50$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一个数字表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "FFFTFFF\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 转移注意点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "本题与“最长公共子序列”等题不同，乌龟<strong>必须</strong>按顺序执行每一个位置的指令，<strong>不能跳过</strong>任何一个 $i$。因此，状态必须由 $i-1$ 严格转移到 $i$，不可直接继承 $dp[i] = dp[i-1]$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 状态定义",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "使用布尔数组记录可达性（考虑到 $N$ 很小，直接开四维）—— <code>dp[i][pos][cnt][dir]</code>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>i</strong>：当前处理到第 $i$ 个指令。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>pos</strong>：当前位置（需加上<strong>偏移量</strong>如 $100$ 防止下标越界）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>cnt</strong>：当前<strong>恰好</strong>使用了多少次修改机会。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>dir</strong>：当前朝向 ($0$: 右, $1$: 左)。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "3. 状态转移",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于当前第 $i$ 个位置的原指令 $s[i]$，无论它原本是什么，我们都可以通过<strong>修改操作</strong>将其强制变为我们想要的指令（'F' 或 'T'）。具体的决策如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>决策一：强制本步表现为 'F'（移动）</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "若原指令 $s[i] == \\text{'F'}$，修改偶数次（包括 0 次不修改）；",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "若原指令 $s[i] == \\text{'T'}$，需修改奇数次；",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>结果</strong>：消耗对应花费，方向 $dir$ 不变，位置 $pos$ 前进。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>决策二：强制本步表现为 'T'（转向）</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "若原指令 $s[i] == \\text{'T'}$，修改偶数次（包括 0 次不修改）；",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "若原指令 $s[i] == \\text{'F'}$，需修改奇数次；",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>结果</strong>：消耗对应花费，位置 $pos$ 不变，方向 $dir$ 取反。",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "枚举 $dp[n][pos][m][0/1] == 1$，最终答案为满足条件的最大 $|pos - 100|$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$O(N^2 M^2)$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "bool dp[105][205][55][2];\nvoid solve(int CASE)\n{\n\tstring s; cin >> s;\n\tint n = s.size(); s = ' ' + s;\n\tint m; cin >> m;\n\n\tdp[0][100][0][0] = 1; // 左 1 右 0\n\n\tfa(i, 1, n) {\n\t\tfa(pos, 100 - (i - 1), 100 + (i - 1))\n\t\t\tfa(cnt, 0, m)\n\t\t\tfa(dir, 0, 1) {\n\t\t\tfa(use, 0, m - cnt) {\n\t\t\t\tif (s[i] == 'T') {\n\t\t\t\t\tif (use & 1) {\n\t\t\t\t\t\tif (dir == 0)dp[i][pos + 1][cnt + use][dir] |= dp[i - 1][pos][cnt][dir];\n\t\t\t\t\t\telse dp[i][pos - 1][cnt + use][dir] |= dp[i - 1][pos][cnt][dir];\n\t\t\t\t\t}\n\t\t\t\t\telse dp[i][pos][cnt + use][dir ^ 1] |= dp[i - 1][pos][cnt][dir];\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tif (use & 1)dp[i][pos][cnt + use][dir ^ 1] |= dp[i - 1][pos][cnt][dir];\n\t\t\t\t\telse {\n\t\t\t\t\t\tif (dir == 0)dp[i][pos + 1][cnt + use][dir] |= dp[i - 1][pos][cnt][dir];\n\t\t\t\t\t\telse dp[i][pos - 1][cnt + use][dir] |= dp[i - 1][pos][cnt][dir];\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tint ans = 0;\n\tfa(pos, 0, 200)\n\t\tif (dp[n][pos][m][0] or dp[n][pos][m][1])\n\t\t\tans = max(ans, abs(pos - 100));\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-19",
+  "parsed_at": "2026-06-14T18:39:36.733734+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,142 @@
+{
+  "slug": "p1516-青蛙的约会",
+  "title": "P1516 青蛙的约会",
+  "type": "题目",
+  "tags": [
+    "同余方程"
+  ],
+  "difficulty": 1.0,
+  "summary": "<strong>同余方程转化为二元一次方程</strong>，然后直接 $exgcd$ 求最小非负整数解即可。",
+  "link": "https://www.luogu.com.cn/problem/P1516",
+  "link_text": "P1516 青蛙的约会 - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "我们把这两只青蛙分别叫做青蛙 A 和青蛙 B，并且规定纬度线上东经 $0$ 度处为原点，由东往西为正方向，单位长度 $1$ 米，这样我们就得到了一条首尾相接的数轴。设青蛙 A 的出发点坐标是 $x$，青蛙 B 的出发点坐标是 $y$。青蛙 A 一次能跳 $m$ 米，青蛙 B 一次能跳 $n$ 米，两只青蛙跳一次所花费的时间相同。纬度线总长 $L$ 米。现在要你求出它们跳了几次以后才会碰面。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "即：两只青蛙在纬度线上跳，位置 $x, y$，一次跳 $m, n$，纬度线长 $L$。问跳几次碰面？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入只包括一行五个整数 $x,y,m,n,L$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $100\\%$ 的数据，$1 \\le x, y, m, n \\le 2 \\times 10^9$，$x \\ne y$，$1 \\le L \\le 2.1 \\times 10^9$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出碰面所需要的次数，如果永远不可能碰面则输出一行一个字符串 <code>Impossible</code>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 2 3 4 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "根据题意，两只青蛙相遇满足同余方程：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ x + k \\cdot m \\equiv y + k \\cdot n \\pmod L $$\n移项整理，引入辅助变量 $t$，将其转化为标准的二元一次不定方程：\n$$ (n - m) \\cdot k + L \\cdot t = x - y $$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "直接根据这个方程求 $k$ 的最小非负整数解即可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll x, y, m, n, L; cin >> x >> y >> m >> n >> L;\n\t// x + k * m = y + k * n (mod L)\n\t// x + k * m = y + k * n + k' * L\n\t// (x + k * m) - (y + k * n) = k' * L\n\t// (n - m) * k + L * k' = x - y\n\t\n\tll a = n - m, b = L, c = x - y;\n\tll x0, y0;\n\tll g = Math::exgcd(abs(a), abs(b), x0, y0); // 对负数进行处理\n\tif (c % g != 0) {\n\t\tcout << \"Impossible\" << endl;\n\t\treturn;\n\t}\n\n\tx0 *= c / g, y0 *= c / g;\n\tif (a < 0)x0 = -x0; // 还原\n\tif (b < 0)y0 = -y0;\n\tll dx = b / g;\n\tll ans = (x0 % dx + dx) % dx;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-14",
+  "parsed_at": "2026-06-14T18:39:36.849560+00:00",
+  "type_directory": "p"
+}

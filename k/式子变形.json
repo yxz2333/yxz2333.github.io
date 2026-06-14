@@ -1,0 +1,171 @@
+{
+  "slug": "式子变形",
+  "title": "式子变形",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "数学推导"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "变量分离",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>核心逻辑</strong>：将复杂的式子拆解，使得式子中的<strong>常量</strong>与<strong>变量</strong>互不干扰。",
+          "depth": 1
+        },
+        {
+          "heading": "案例 1：<a href=\"/p/bd202327-社交树\" class=\"wikilink\">BD202327 社交树</a>",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>场景</strong>：对 $u$ 的子树中每个点 $v$ 加上 $Val = a^{x + D}$，其中 $D$ 为 $u$ 与 $v$ 的深度差，即 $D = dep[v] - dep[u]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>痛点</strong>：$x, u$ 是每次操作给定的（常数），但 $dep[v]$ 每个点不同，不好直接用<strong>线段树</strong>或<strong>树状数组</strong>解决。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "{{embed ((69391af7-1cef-489f-80a1-4b7281bbfb02))}}",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "{{embed ((69391af6-39b3-47bc-b5f2-80051c308b5e))}}",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "案例 2：区间加等差数列",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>场景</strong>：区间 $[L, R]$ 内第 $i$ 个位置加上 $k + (i - L) \\times d$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>痛点</strong>：加的值随下标 $i$ 变化。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>变形</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$Val_i = k + i \\cdot d - L \\cdot d = \\underbrace{(k - L \\cdot d)}_{\\text{常数 } C} + i \\cdot \\underbrace{d}_{\\text{系数 } D}$$\n**维护策略**",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "树上问题式子变形",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "树上路径距离",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "直接 DFS 计算 $Dist(i, j)$ 需要 $O(N)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "利用<strong>LCA</strong>，$Dist = dep[u]+dep[v]-2dep[LCA]$，复杂度为 $O(logN)$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "树上路径异或",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "直接 DFS 计算 $XorDist(i, j)$ 需要 $O(N)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "结合 XOR 的<strong>消去律</strong>，和类似<strong>LCA</strong>的思想，式子转换成：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ XorDist(u, v) = D[u] \\oplus D[v] $$\n其中 $D[x]$ 表示从**根节点**到节点 $x$ 的路径**异或前缀和**。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "树上点权异或",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "例题：<a href=\"/p/p14455-[icpc-2025-xi'an-r]-imagined-holly\" class=\"wikilink\">P14455 [ICPC 2025 Xi'an R] Imagined Holly</a>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "结合 XOR 的<strong>消去律</strong> 和 <strong>LCA</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "类似上面的边权异或，直接给出式子",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ XorDist(u, v) = D[u] \\oplus D[v] \\oplus d[LCA(u, v)]$$\n其中 $D[x]$ 表示从**根节点**到节点 $x$ 的点权**异或前缀和**，$d[x]$ 为 $x$ 节点的点权。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "没错，跟 $u,v$ 的 $lca$ 有关系，因为这个式子中 $lca$ 出现了 3 次，没被最终消掉。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "min 转换",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "math",
+          "latex": "$$\\min(X, Y) = \\frac{X + Y - |X - Y|}{2}$$\n可以通过本公式，使用 **排序后双指针** 即可解决对 $\\min(X,Y)$ 的双重循环问题。例题：[[CF2131F Unjust Binary Life]]",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-16",
+  "parsed_at": "2026-06-14T18:45:12.072381+00:00",
+  "type_directory": "k"
+}

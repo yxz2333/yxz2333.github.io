@@ -1,0 +1,159 @@
+{
+  "slug": "cf1070a-find-a-number",
+  "title": "CF1070A Find a Number",
+  "type": "题目",
+  "tags": [
+    "同余最短路"
+  ],
+  "difficulty": 1.5,
+  "summary": "<strong>整除问题</strong>嘛，又是同余最短路，状态一共有 <code>vis[501][5001]</code> 个，写个 bfs 就行。输出答案配合 <code>pre</code> 数组来<strong>回溯</strong>，直接用 <code>string</code> 会超时。",
+  "link": "https://www.luogu.com.cn/problem/CF1070A",
+  "link_text": "CF1070A Find a Number - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定两个正整数 $d$ 和 $s$。请你找到最小的正整数 $n$，使得 $n$ 能被 $d$ 整除且其各位数字之和等于 $s$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个用空格分隔的正整数 $d$ 和 $s$，满足 $1 \\le d \\le 500, 1 \\le s \\le 5000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出满足条件的最小正整数 $n$。如果不存在这样的 $n$，则输出 $-1$。输出满足条件的最小正整数 $n$。如果不存在这样的 $n$，则输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "13 50",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "699998",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "61 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1000000000000000000000000000001",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "15 50",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tint r, ls;\n};\nint vis[505][5005], pre[505][5005];\nvoid solve(int CASE)\n{\n\tint d, s; cin >> d >> s;\n\tfa(i, 0, 500)fa(j, 0, 5000)vis[i][j] = -1;\n\tvar Q = queue<node>();\n\tfa(i, 1, 9)if (s >= i) {\n\t\tpre[i % d][s - i] = 0;\n\t\tvis[i % d][s - i] = i;\n\t\tQ.push({ i % d, s - i });\n\t}\n\twhile (Q.size()) {\n\t\tvar[r, ls] = Q.front();\n\t\tQ.pop();\n\t\tif (r == 0 and ls == 0) {\n\t\t\tstring ans;\n\t\t\tint nowr = 0, nowls = 0;\n\t\t\twhile (nowls != s) {\n\t\t\t\tans.pb('0' + vis[nowr][nowls]);\n\t\t\t\tint nexls = nowls + vis[nowr][nowls];\n\t\t\t\tint nexr = pre[nowr][nowls];\n\t\t\t\tnowr = nexr, nowls = nexls;\n\t\t\t}\n\t\t\treverse(all(ans));\n\t\t\tcout << ans << endl;\n\t\t\treturn;\n\t\t}\n\t\tfa(i, 0, 9)if (ls >= i) {\n\t\t\tint nr = (r * 10 + i) % d;\n\t\t\tint nls = ls - i;\n\t\t\tif (vis[nr][nls] == -1) {\n\t\t\t\tpre[nr][nls] = r;\n\t\t\t\tvis[nr][nls] = i;\n\t\t\t\tQ.push({ nr, nls });\n\t\t\t}\n\t\t}\n\t}\n\tcout << -1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-30",
+  "parsed_at": "2026-06-14T18:39:36.086555+00:00",
+  "type_directory": "p"
+}

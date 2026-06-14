@@ -1,0 +1,265 @@
+{
+  "slug": "cf1624g-minor-tree",
+  "title": "CF1624G MinOr Tree",
+  "type": "题目",
+  "tags": [
+    "贪心/按位贪心",
+    "生成树",
+    "并查集",
+    "bfs"
+  ],
+  "difficulty": 2.0,
+  "summary": "不要按边的数值大小贪心，要按二进制位<strong>从高到低</strong><strong>按位贪心</strong>，然后用 <strong>bfs</strong> 跑<strong>生成树</strong>，可以形成生成树的说明这一位可以为 0，然后排除该位为 1 的边即可解决本题。",
+  "link": "https://codeforces.com/problemset/problem/1624/G",
+  "link_text": "Problem - 1624G - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "最近，Vlad 对生成树产生了浓厚的兴趣，因此他的朋友们毫不犹豫地送给他一个有 $n$ 个顶点和 $m$ 条边的连通带权无向图作为生日礼物。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Vlad 定义一棵生成树的 ority 为其所有边权的按位或（bitwise OR），现在他想知道，通过选择某棵生成树，能够得到的最小 ority 是多少。生成树是给定图的一个连通且无环的子图。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "换句话说，你需要保留 $n-1$ 条边，使得图仍然连通，并且这些边的权值的按位或尽可能小。你需要求出最小的按位或值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含一个整数 $t$（$1 \\le t \\le 10^4$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例前有一个空行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来一行包含两个整数 $n$ 和 $m$（$3 \\le n \\le 2 \\cdot 10^5,\\, n-1 \\le m \\le 2 \\cdot 10^5$），分别表示图的顶点数和边数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $m$ 行，每行包含三个整数 $v_i$、$u_i$ 和 $w_i$（$1 \\le v_i, u_i \\le n$，$1 \\le w_i \\le 10^9$，$v_i \\neq u_i$），表示一条连接顶点 $v_i$ 和 $u_i$ 的边及其权值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $m$ 的总和与 $n$ 的总和均不超过 $2 \\cdot 10^5$，且每个测试用例中的图都是连通的。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "打印 $t$ 行，每一行都包含相应输入数据集的答案--最小可能生成的生成树。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n\n\n3 3\n1 2 1\n2 3 2\n1 3 2\n\n\n5 7\n4 2 7\n2 5 8\n3 4 2\n3 2 1\n2 4 2\n4 1 2\n1 2 2\n\n\n3 4\n1 2 1\n2 3 2\n1 3 3\n3 1 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n10\n3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1624G/b7f5b7382b2cbd80980c576ea1b925aa7c500ed8.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第一组数据的图。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1624G/43a768dfee0ade0f80ced3a4660bcaac868cc17b.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这棵树的生成树答案等于 $2 \\,\\mathrm{or}\\, 2 = 2$，且是最小的。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1624G/c7716ab52b41700a181dd76536e0574654ad531d.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果不去掉权值为 $1$ 的边，生成树答案就是 $1\\,\\mathrm{or}\\, 2 = 3$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. <strong>初始化</strong>",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "答案 <code>ans = 0</code>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2.  <strong>循环</strong>",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "从最高位 30 向下枚举到第 0 位。设当前位为 <code>k</code>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3.  <strong>尝试</strong>",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们希望能让最终答案的第 <code>k</code> 位是 <strong>0</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们暂时“屏蔽”掉所有第 <code>k</code> 位是 1 的边。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>检查连通性</strong>：只利用【<strong>之前没有“屏蔽”掉的边</strong>】以及【<strong>当前第 <code>k</code> 位是 0 的边</strong>】，跑一遍 <strong>BFS</strong>，看是否能形成<strong>生成树</strong>，即保证每个点都连通。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "4.  <strong>决策</strong>",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>如果连通</strong>：太好了！说明我们可以不选第 <code>k</code> 位是 1 的边也能连通。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>决策</strong>：答案的第 <code>k</code> 位定为 0。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>关键操作</strong>：以后<strong>剔除</strong>所有第 <code>k</code> 位是 1 的边（打上标记不再使用）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>如果不连通</strong>：没办法，为了连通性，我们必须允许使用第 <code>k</code> 位是 1 的边。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>决策</strong>：答案的第 <code>k</code> 位定为 1。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>关键操作</strong>：不剔除任何边（因为这一位是 1，所以该位是 0 或 1 的边都可以用）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "难点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "想到使用<strong>按位贪心</strong>。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar g = vector<vector<tuple<int, int, bool>>>(n + 1);\n\tfa(i, 1, m) {\n\t\tint u, v, w; cin >> u >> v >> w;\n\t\tg[u].pb({ v, w, 0 }), g[v].pb({ u, w, 0 });\n\t}\n\tvar s = vector<int>(n + 1);\n\tvar vis = vector<bool>(n + 1);\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return s[x];\n\t\treturn s[x] = find(find, s[x]);\n\t\t};\n\n\tint ans = 0;\n\tfb(k, 30, 0) {\n\t\tfa(i, 1, n)s[i] = i, vis[i] = 0;\n\n\t\tvar check = [&]()->bool {\n\t\t\tint cnt = n - 1; // 一共合并 n - 1 次\n\t\t\tvar Q = queue<int>();\n\t\t\tQ.push(1);\n\t\t\twhile (Q.size()) {\n\t\t\t\tint now = Q.front();\n\t\t\t\tQ.pop();\n\t\t\t\tif (vis[now])continue;\n\t\t\t\tvis[now] = 1;\n\t\t\t\tint e1 = find(find, now);\n\t\t\t\tfor (const var& [to, w, f] : g[now]) {\n\t\t\t\t\tint e2 = find(find, to);\n\t\t\t\t\tif (f or vis[to] or e1 == e2 or (w & 1 << k))continue;\n\t\t\t\t\ts[e2] = e1;\n\t\t\t\t\tcnt--;\n\t\t\t\t\tif (cnt == 0)return 1;\n\t\t\t\t\tQ.push(to);\n\t\t\t\t}\n\t\t\t}\n\t\t\treturn cnt == 0;\n\t\t\t};\n\t\t\n\t\tif (check()) {\n\t\t\t// ans 的 k 位答案可以是 0，也就是 k 位是 1 的边权一个不取\n\t\t\t// 那么把 k 位是 1 的边全删掉\n\t\t\tfa(i, 1, n)for (var& [to, w, f] : g[i]) {\n\t\t\t\tif (!f and (w & 1 << k))f = 1;\n\t\t\t}\n\t\t}\n\t\telse ans |= (1 << k);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-22",
+  "parsed_at": "2026-06-14T18:39:36.217075+00:00",
+  "type_directory": "p"
+}

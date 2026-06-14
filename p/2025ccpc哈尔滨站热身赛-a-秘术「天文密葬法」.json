@@ -1,0 +1,242 @@
+{
+  "slug": "2025ccpc哈尔滨站热身赛-a-秘术「天文密葬法」",
+  "title": "2025CCPC哈尔滨站热身赛 A 秘术「天文密葬法」",
+  "type": "题目",
+  "tags": [
+    "二分",
+    "前缀和",
+    "数学推导",
+    "同余方程"
+  ],
+  "difficulty": 2.5,
+  "summary": "一个非常大的数，其实能做的操作不多，很难注重每个数位的性质，所以这里只使用了 <strong>V 的位数( log 运算的性质)</strong> 和 <strong>V 对 1e9+7 取模的结果</strong>。",
+  "link": "https://codeforces.com/gym/106184/problem/A",
+  "link_text": "Problem - A - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有两个未知的整数 \\(n, m\\) 被永藏起来了。你只知道它们满足 \\(1 \\leq m < n \\leq 10^6\\)。现在告诉你 \\(n!/m\\) 的值，请求出 \\(n, m\\) 的值。可以证明，若有解则只会有一组 \\(n, m\\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "共一行一个大整数表示 \\(n!/m\\) 的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出两个整数 \\(n, m\\)，中间用空格隔开，表示你找到的解。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "725760",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "22220527486653369686118866394349214402\n55142101532895749252213426076609523648\n33132402241580895610757824413566478160\n05656726472669265920000000000000000000\n00000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "100 42",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "为了防止题面显示错误，样例输入里增加了一些换行。实际输入中不会有额外换行。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "10^6! 共有 5565709 位，请注意你的解法的运行效率。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "第一步：利用 $\\log_{10}$ 进行“长度降维”锁定 $n$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "一个数 $X$ 的十进制位数可以表示为 $\\lfloor \\log_{10}(X) \\rfloor + 1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "根据题意 $V = \\frac{n!}{m}$，两边取对数可得：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\log_{10}(V) = \\sum_{i=1}^n \\log_{10}(i) - \\log_{10}(m) $$\n因为 $m \\le 10^6$，所以 $\\log_{10}(m)$ 最大不过是 $6$。这意味着：$n!$ **的位数，最多只比** $V$ **的位数多 0 到 6 位。**\n**操作：**",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第二步：利用 “取模方程” 光速解出 $m$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在确定了极小范围的候选 $n$ 后，我们如何求出对应的 $m$？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "既然是等式，我们在读入巨型字符串 $V$ 时，直接对它模上一个大质数 $M$（例如 $10^9+7$ 或 $998244353$，必须满足 $M > 10^6$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "原等式转化为模意义下的同余方程：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ V \\equiv n! \\times m^{-1} \\pmod M $$\n左右两边同乘 $m \\times V^{-1}$，得到：\n$$ m \\equiv n! \\times V^{-1} \\pmod M $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>操作：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "预处理阶乘的模 $M$ 数组 <code>pren</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于每一个候选的 $n$，我们直接求出 $V$ 的逆元，用 $O(1)$ 的时间算出 $m$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "第三步：为什么不需要额外验证？（极其巧妙的概率哈希）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "求出 $m$ 后，代码中仅仅判断了 <code>m &lt; n</code> 就直接输出了答案，<strong>省去了诸如“末尾连续零个数”或“精确对数浮点匹配”的繁琐校验</strong>。为什么这样做是绝对安全的？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为发生<strong>哈希碰撞的概率极低</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们将一个 $5.56 \\times 10^6$ 位的超长数字映射到了一个大小为 $10^9$ 级别的哈希空间（取模）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在第一步中，我们通过位数已经将候选的 $n$ 缩减到了只有几个。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在这几个极少的候选 $n$ 中，算出的 $m$ 恰好落在 $[1, n-1]$ 区间内，且这是一个由错误 $n$ 引发的“哈希碰撞”的概率，约等于 $\\frac{10^6}{M}$ 乘以候选个数，在 $M$ 足够大的情况下，碰撞概率趋近于 0。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ldb pre[N]; // 前缀 log(i) 和\nll pren[N]; // 前缀阶乘\nvoid solve(int CASE)\n{\n\tstring s; cin >> s;\n\n\tll V = 0;\n\tfor (char c : s) {\n\t\tV = V * 10 % mod;\n\t\tV = (V + (ll)(c - '0')) % mod;\n\t}\n\tll invV = Math::inv(V, mod);\n\n\tfa(i, 1, 1e6)pre[i] = pre[i - 1] + log10(i);\n\tpren[1] = 1;\n\tfa(i, 2, 1e6)pren[i] = pren[i - 1] * i % mod;\n\n\t// 十进制位数(V) ≈ 十进制位数(n) - 十进制位数(m)\n\tfa(add, 0, 6) {\n\t\tvar check = [&](int mid)->bool {\n\t\t\treturn (ll)pre[mid] + 1 >= s.size() + add;\n\t\t\t};\n\t\tint l = 1, r = 1e6, ans = 0;\n\t\twhile (l <= r) {\n\t\t\tint mid = l + r >> 1;\n\t\t\tif (check(mid)) {\n\t\t\t\tr = mid - 1;\n\t\t\t\tans = mid;\n\t\t\t}\n\t\t\telse l = mid + 1;\n\t\t}\n\t\tfa(n, ans, 1e6) {\n\t\t\tif ((ll)pre[n] + 1 < s.size() + add)break;\n\t\t\t// V = n! * m^-1 (mod M)\n\t\t\t// m = n! * V^-1 (mod M)\n\t\t\tll m = pren[n] * invV % mod;\n\t\t\tif (m < n) {\n\t\t\t\tcout << n << ' ' << m << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-26",
+  "parsed_at": "2026-06-14T18:39:35.725759+00:00",
+  "type_directory": "p"
+}

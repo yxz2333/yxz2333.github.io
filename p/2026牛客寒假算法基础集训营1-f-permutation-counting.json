@@ -1,0 +1,365 @@
+{
+  "slug": "2026牛客寒假算法基础集训营1-f-permutation-counting",
+  "title": "2026牛客寒假算法基础集训营1 F Permutation Counting",
+  "type": "题目",
+  "tags": [
+    "并查集/链式并查集",
+    "计数问题",
+    "经典问题/区间问题"
+  ],
+  "difficulty": 3.0,
+  "summary": "将<strong>限制</strong>转化为 “区间元素 $\\le k$” 与 “所有该 $k$ <strong>限制区间的交集</strong>必填 $k$”，按 $k$ 升序利用<strong>链式并查集</strong>高效跳过已处理位置（每个位置只用处理一次，十分适合链式并查集）维护限制，最后<strong>倒序</strong>遍历数字，结合剩余空位与必填标记用乘法原理计算答案。",
+  "link": "https://ac.nowcoder.com/acm/contest/120561/F",
+  "link_text": "F-Permutation Counting_2026牛客寒假算法基础集训营1",
+  "source": "[[2026牛客寒假算法基础集训营1]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "这天小红给了小苯一个长度为 $n$ 的排列 $p$，但她把 $p$ 隐藏了起来，只告诉了小苯 $m$ 条有关 $p$ 的信息，具体的：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $i (1 \\le i \\le m)$ 条信息包含 3 个参数 $l_i, r_i, k_i$，表示 $p$ 在区间 $[l_i, r_i]$ 中的最大值等于 $k_i$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "形式化地，$\\max(p_{l_i}, p_{l_i+1}, \\dots, p_{r_i}) = k_i$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你的任务则是帮助小苯确定，有多少种可能的排列 $p$ 都符合上述的所有信息。由于答案可能很大，请将答案对 998 244 353 取模后输出。当然也有可能不存在这样的排列，此时输出 0。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试文件均包含多组测试数据。第一行输入一个整数 $T (1 \\le T \\le 10^5)$ 代表数据组数，每组测试数据描述如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输入两个正整数 $n, m (1 \\le n, m \\le 2 \\times 10^6)$，表示排列 $p$ 的长度、信息条数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "此后 $m$ 行，第 $i$ 行输入三个正整数 $l_i, r_i, k_i (1 \\le l_i \\le r_i \\le n, 1 \\le k_i \\le n)$，描述第 $i$ 条信息。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "除此之外，保证单个测试文件的 $n$ 之和、$m$ 之和均不超过 $2 \\times 10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每一组测试数据，新起一行输出一个整数，表示可能的排列个数对 <strong>998 244 353</strong> 取模后的答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n3 1\n1 2 2\n5 2\n2 3 4\n2 5 5\n5 1\n2 3 4\n5 1\n1 5 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n24\n36\n0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一组测试数据，长度为 $3$ 的排列中，满足在区间 $[1,2]$ 中的最大值等于 $2$ 的排列有：$\\{1,2,3\\}$、$\\{2,1,3\\}$ 两个。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第四组测试数据，长度为 $5$ 的排列，在区间 $[1,5]$ 中的最大值一定是 $5$；而信息中说是 $4$ 显然不可能，因此不存在这样的排列。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 核心思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目给出的限制是 $\\max(p[l \\dots r]) = k$。这意味着两点：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>上限限制</strong>：区间 $[l, r]$ 内的所有数都必须 $\\le k$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>存在性限制</strong>：区间 $[l, r]$ 内至少有一个数恰好等于 $k$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们的解题策略分为三步：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>确定上限 (<code>lim</code>)</strong>：利用<strong>链式并查集</strong>，根据 $k$ 从小到大的顺序，计算出每个位置 $i$ 允许填写的最大值 <code>lim[i]</code>。每个位置<strong>只用处理一次</strong>，十分适合链式并查集。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>处理交集 (<code>mus</code>)</strong>：对于相同的 $k$ 限制，求出它们的<strong>交集</strong>。交集内的位置是放置 $k$ 的“候选位”，同样利用链式并查集记录每个位置最早被哪个 $k$ 的交集“征用”。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>组合计数</strong>：从 $n$ 到 $1$ 倒序填数，维护<strong>可用空位数量</strong>，根据是否必须放置在特定区域来计算答案。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "2. 算法详细步骤",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "（太啰嗦，可以不看）",
+              "depth": 1
+            },
+            {
+              "heading": "步骤一：链式并查集维护区间修改",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "我们需要对数组进行多次区间赋值操作，且具有<strong>“先赋值的有效（值越小限制越紧）”</strong>或者<strong>“只赋值未被占用的位置”</strong>的特性。这正是链式并查集的用武之地。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "步骤二：构造 <code>lim</code> 数组与 <code>mus</code> 数组",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "将所有限制 $(l, r, k)$ 按 $k$ <strong>从小到大</strong>排序。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "1.  <strong>构造 <code>lim</code>（上限）</strong>：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "遍历排序后的限制，对区间 $[l, r]$ 执行 <code>modifyRange</code>，将未赋值的位置设为 $k$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "由于从小到大排序，第一次被访问时赋的 $k$ 一定是该位置能接受的最小值（最紧限制），后续更大的 $k$ 会被并查集自动跳过。（只需处理一次）",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "2.  <strong>构造 <code>mus</code>（必须放置的位置标记）</strong>：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "我们需要处理同一个数值 $k$ 对应的多个区间。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "如果当前限制的 $k$ 与上一个相同，我们需要求<strong>区间交集</strong> $[nl, nr]$。因为 $k$ 必须同时存在于这些区间中，所以它只能出现在交集里。如果交集为空，直接输出 0。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "如果 $k$ 变了，说明上一组 $k$ 的交集确定了。我们在 <code>mus</code> 数组中，将上一组的交集区间 $[nl, nr]$ 标记为 <code>last_k</code>。",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "步骤三：统计与计数",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "处理完所有限制后，我们得到两个关键数组：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<code>lim[i]</code>: 位置 $i$ 能填的最大值。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<code>mus[i]</code>: 位置 $i$ 被标记为哪个数值 $k$ 的“必填候选位”。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "接着进行预处理：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<code>cnt[v]</code>: 统计有多少个位置的 <code>lim[i] == v</code>。当我们在计数阶段处理到数字 $v$ 时，这些位置就“解锁”了，加入了可用空位池。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<code>jiao[v]</code>: 统计数值 $v$ 有多少个合法的“必填候选位”。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "合法条件：<code>mus[i] == v</code> 且 <code>lim[i] &gt;= v</code>（候选位的上限必须允许放下 $v$）。",
+                  "depth": 3
+                }
+              ]
+            },
+            {
+              "heading": "步骤四：倒序乘法原理",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "我们从 $n$ 到 $1$ 枚举数字 $v$，维护变量 <code>free</code>（当前有多少个空位可以放 $\\le v$ 的数）。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "1.  <strong>解锁空位</strong>：<code>free += cnt[v]</code>。所有 <code>lim</code> 为 $v$ 的位置现在都可以用了。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "2.  <strong>计算方案</strong>：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>情况 A</strong>：如果 $v$ 是某个限制里出现的 $k$ (<code>has[v] == true</code>)。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "它必须填在它的交集里，且该位置不能被更小的限制占掉，方案数为 <code>jiao[v]</code>。",
+                  "depth": 3
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ ans = ans \\times jiao[v] \\pmod{MOD} $$",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>情况 B</strong>：如果 $v$ 不是限制里的数。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "它可以填在当前任意一个空位里（除了被必填数占用的，逻辑包含在 <code>free</code> 中）。",
+                  "depth": 3
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ ans = ans \\times free \\pmod{MOD} $$",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "3.  <strong>消耗空位</strong>：<code>free--</code>。无论哪种情况，数字 $v$ 都占用了 1 个位置。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "4.  <strong>合法性检查</strong>：如果某一步 <code>free &lt; 0</code>，说明空位不够，输出 0。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\n\tvar lim = vector<int>(n + 1, n);       // 位置 i 值的最大限制\n\tvar mus = vector<int>(n + 1, 2e6 + 1); // 位置 i 可能必须放的值\n\tvar s_lim = vector<int>(n + 2);\n\tvar s_mus = vector<int>(n + 2);\n\tfa(i, 1, n + 1)s_lim[i] = s_mus[i] = i;\n\n\tvar modifyRange = [](\n\t\tvector<int>& p, vector<int>& s,\n\t\tint l, int r, int val)->void {\n\t\t\t// 从小到大贪心，每个点只需要赋值一次，也就是最小的那一次\n\t\t\t// 故不使用线段树，使用链式并查集\n\t\t\tvar find = [&](var find, int x)->int {\n\t\t\t\tif (s[x] == x)return s[x];\n\t\t\t\treturn s[x] = find(find, s[x]);\n\t\t\t\t};\n\t\t\tfor (int i = find(find, l); i <= r; i = find(find, i + 1)) {\n\t\t\t\tp[i] = val;\n\t\t\t\ts[i] = find(find, i + 1);\n\t\t\t}\n\t\t};\n\n\tvar has = vector<bool>(n + 1); // i 是否作为必须放的值\n\tvar p = vector<pair<int, pii>>();\n\tfa(i, 1, m) {\n\t\tint l, r, k; cin >> l >> r >> k;\n\t\tp.pb({ k, {l,r} });\n\t\thas[k] = 1;\n\t}\n\tsort(all(p)); // 按限制排序，贪心\n\n\tpair<int, pii> last = { -1, {} };\n\tfor (const var& [k, v] : p) {\n\t\tconst var& [l, r] = v;\n\t\tvar[nl, nr] = last.py;\n\n\t\tmodifyRange(lim, s_lim, l, r, k);\n\t\tif (last.px == k) {\n\t\t\t// 两段限制一致，求交集，交集内必须放最大限制的值\n\t\t\tif (nr < l) {\n\t\t\t\tcout << 0 << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tnl = l;\n\t\t\tnr = min(nr, r);\n\t\t}\n\t\telse {\n\t\t\t// 两段限制不一致，更新交集\n\t\t\tif (last.px != -1)\n\t\t\t\tmodifyRange(mus, s_mus, nl, nr, last.px);\n\t\t\tnl = l, nr = r;\n\t\t}\n\t\tlast = { k, { nl, nr } };\n\t}\n\tif (last.px != -1) {\n\t\tvar[nl, nr] = last.py;\n\t\tmodifyRange(mus, s_mus, nl, nr, last.px);\n\t}\n\n\tvar cnt = vector<int>(n + 1);  // i 作为区间的最大值限制，出现了几次\n\tvar jiao = vector<int>(n + 1); // i 作为区间内必须出现的数，出现了几次 \n\tfa(i, 1, n) {\n\t\tcnt[lim[i]]++;\n\t\tif (mus[i] <= n and mus[i] <= lim[i])\n\t\t\tjiao[mus[i]]++;\n\t}\n\n\tll ans = 1;\n\tint free = 0; // 限制解除的位置个数（即已把限制数妥善安置）\n\tfb(i, n, 1) {\n\t\tfree += cnt[i];\n\t\tif (has[i])ans = ans * jiao[i] % mod;\n\t\telse ans = ans * free % mod;\n\t\tfree--;\n\n\t\tif (free < 0) {\n\t\t\tcout << 0 << endl;\n\t\t\treturn;\n\t\t}\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-04",
+  "parsed_at": "2026-06-14T18:39:35.898813+00:00",
+  "type_directory": "p"
+}

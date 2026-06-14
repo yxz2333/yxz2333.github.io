@@ -1,0 +1,364 @@
+{
+  "slug": "2024河北省赛-h-missing-iris",
+  "title": "2024河北省赛 H Missing Iris",
+  "type": "题目",
+  "tags": [
+    "树上倍增",
+    "数学推导",
+    "多源最短路"
+  ],
+  "difficulty": 2.0,
+  "summary": "考虑从 $x \\to y$ 的路径上的节点 $x‘$，从这个点出发去找自行车，然后回来接着走完路径，那就是要找使得总路程最短的 $x'$ 了。设 $dis[x]$ 为 $x$ 到最近自行车的距离, $D(x,y)$ 为 $x \\to y$ 的距离，$ans(x,y)$ 公式为：$3 * dis[x'] + dis(x,y) + D(x,x')$ 或 $3 * dis[x'] + 2 * D(x,y) - D(y,x')$。考虑<strong>将公式的</strong> $x'$ <strong>与</strong> $x,y$ <strong>解耦就能解决本题</strong>了，使用<strong>多源最短路预处理</strong> $dis$，<strong>倍增求最小算公式</strong>。",
+  "link": "https://qoj.ac/contest/2628/problem/15226",
+  "link_text": "Missing Iris - 题目 - QOJ.ac",
+  "source": "2024河北省赛",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一棵 $n$ 个节点的树，其中有 $k$ 个节点有共享单车。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "步行经过一条边需要 <strong>2 秒</strong>，骑自行车经过一条边需要 <strong>1 秒</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "初始步行，遇到共享单车节点后可以开始骑自行车（之后一直骑车）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$q$ 次询问，每次给定起点 $x$ 和终点 $y$，求最少需要多长时间。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "询问间相互独立，共享单车位置不变，节点可经过多次。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行两个整数 $n, k$（$1 \\le k \\le n \\le 5 \\times 10^5$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $2 \\sim n$ 行，每行两个整数 $x, y$，表示一条双向道路。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $n+1$ 行，$k$ 个互不相同的整数 $a_i$，表示有共享单车的节点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $n+2$ 行，一个整数 $q$（$1 \\le q \\le 5 \\times 10^5$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行，每行两个整数 $x, y$，表示一次询问。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "共 $q$ 行，每行一个非负整数，表示最少时间。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 1\n1 2\n1 3\n2 4\n2 5\n4 6\n2\n5\n1 6\n4 6\n6 4\n1 2\n3 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n2\n2\n2\n6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "关键观察",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "最优策略一定是：先在 $x$ 到 $y$ 的路径上走到某个节点 $x'$，如果 $x'$ 没有车，就步行到最近的共享单车节点并骑回 $x'$（耗时 $3 \\cdot dis[x']$，其中 $dis[u]$ 表示 $u$ 到最近共享单车的<strong>边数</strong>），然后从 $x'$ 骑行到 $y$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "记 $D(u,v)$ 为 $u$ 到 $v$ 的<strong>边数</strong>距离。则总时间：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nT(x') = 2 \\cdot D(x,x') + 3 \\cdot dis[x'] + D(x',y)\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对路径上的 $x'$ 取最小值即为答案。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "解耦公式",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "将 $T(x')$ 变形，利用 $D(x,x') + D(x',y) = D(x,y)$（当 $x'$ 在路径上），可得：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nT(x') = D(x,y) + \\big( D(x,x') + 3 \\cdot dis[x'] \\big)\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设树根为 $1$，深度 $depth[1]=1$，子节点深度加 $1$。令 $DIS = D(x,y)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "根据 $x'$ 在路径上的位置分为两段：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>上升段</strong>（$x \\to \\text{lca}$）：$D(x,x') = depth[x] - depth[x']$，则",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\nT = DIS + depth[x] + (3 \\cdot dis[x'] - depth[x'])\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "记 $addx = DIS + depth[x]$，$dp1 = 3 \\cdot dis - depth$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>下降段</strong>（$\\text{lca} \\to y$）：$D(x,x') = DIS - D(x',y)$，又 $D(x',y) = depth[y] - depth[x']$，则",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\nT = 2 \\cdot DIS - depth[y] + (3 \\cdot dis[x'] + depth[x'])\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "记 $addy = 2 \\cdot DIS - depth[y]$，$dp2 = 3 \\cdot dis + depth$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "于是：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\min_{x'} T(x') = \\min\\Big( 2\\cdot DIS,\\; \\min_{x'\\text{ 上升段}} (addx + dp1[x']),\\; \\min_{x'\\text{ 下降段}} (addy + dp2[x']) \\Big)\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "其中 $2 \\cdot DIS$ 是全程步行（不取车）的时间，作为一种退化情况。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "预处理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>多源 BFS 求</strong> $dis$：将所有有共享单车的节点作为源点，边权为 $1$ 跑 BFS，得到每个节点到最近共享单车的边数距离 $dis[u]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>树上倍增</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "预处理 LCA 以及两个倍增数组：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>dp1[u][i]</code>：节点 $u$ 向上 $2^i$ 步路径上 $3 \\cdot dis - depth$ 的最小值。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>dp2[u][i]</code>：节点 $u$ 向上 $2^i$ 步路径上 $3 \\cdot dis + depth$ 的最小值。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "初始化：<code>dp1[u][0] = 3 * dis[u] - depth[u]</code>，<code>dp2[u][0] = 3 * dis[u] + depth[u]</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "合并时取 <code>min</code>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "查询",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于每个询问 $(x,y)$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "计算 $DIS = D(x,y)$，$addx = DIS + depth[x]$，$addy = 2 \\cdot DIS - depth[y]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "令 $res = 2 \\cdot DIS$（全程步行方案）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "利用倍增，分别求出 $x$ 到 $\\text{lca}$ 路径上 $dp1$ 的最小值以及 $y$ 到 $\\text{lca}$ 路径上 $dp2$ 的最小值。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "先让深的点跳到与浅的点同一深度，过程中用 $dp1$ 更新 $res$；",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "然后两个点一起跳到 $\\text{lca}$ 的子节点，过程中分别用 $dp1$（从深的点侧）和 $dp2$（从浅的点侧）更新 $res$；",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "最后处理 $\\text{lca}$ 节点本身。<strong>（别忘了！）</strong>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "答案 $= \\min(res,\\; addx + \\min_{up} dp1,\\; addy + \\min_{down} dp2)$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "总结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "本题核心在于<strong>将路径上任意节点的贡献解耦为与</strong> $x,y$ <strong>无关的两类表达式</strong>，从而用倍增预处理极值快速查询。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "推导公式时需要仔细区分上升段和下降段，这是本题最大的思维难点。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "多源 BFS 求最近共享单车距离、用 $dp1 / dp2$ 分别维护两种表达式，是解决这类树上线段式问题的经典套路。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "class LCA\n{\npublic:\n\tLCA(int n, const vector<vector<int>>& e, const vector<int>& dis)\n\t{\n\t\tf.assign(n + 10, vector<int>(31));\n\t\tdepth.assign(n + 10, 0);\n\t\tdp1.assign(n + 10, vector<ll>(31));\n\t\tdp2.assign(n + 10, vector<ll>(31));\n\t\tinit(1, 0, e, dis);\n\t}\n\n\tint lca(int x, int y)\n\t{\n\t\tif (depth[x] < depth[y])swap(x, y);\n\t\tfor (int i = 29; i >= 0; i--)\n\t\t\tif (depth[x] - (1 << i) >= depth[y])\n\t\t\t\tx = f[x][i];\n\t\tif (x == y) return x;\n\t\tfor (int i = 29; i >= 0; i--)\n\t\t\tif (f[x][i] != f[y][i])\n\t\t\t\tx = f[x][i], y = f[y][i];\n\t\treturn f[x][0];\n\t}\n\n\tint get_dis(int x, int y) {\n\t\tint f = lca(x, y);\n\t\treturn depth[x] - depth[f] + depth[y] - depth[f];\n\t}\n\n\tll query(int x, int y) {\n\t\tconst ll DISXY = get_dis(x, y);\n\t\tll addx = DISXY + depth[x];\n\t\tll addy = 2 * DISXY - depth[y];\n\n\t\tbool change = 0;\n\t\tif (depth[x] < depth[y])swap(x, y), change = 1;\n\n\t\tll res = 2 * DISXY;\n\t\tfb(i, 29, 0)\n\t\t\tif (depth[f[x][i]] >= depth[y]) {\n\t\t\t\t// 注意这里需接着对 x,y 进行处理\n\t\t\t\tif (!change)res = min(res, dp1[x][i] + addx);\n\t\t\t\telse res = min(res, dp2[x][i] + addy);\n\t\t\t\tx = f[x][i];\n\t\t\t}\n\n\t\tif (x == y) {\n\t\t\tif (!change)res = min({ res, dp1[x][0] + addx, dp2[y][0] + addy });\n\t\t\telse res = min({ res, dp2[x][0] + addy, dp1[y][0] + addx });\n\t\t\treturn res;\n\t\t}\n\n\t\tfb(i, 29, 0)\n\t\t\tif (f[x][i] != f[y][i]) {\n\t\t\t\tif (!change)res = min({ res, dp1[x][i] + addx, dp2[y][i] + addy });\n\t\t\t\telse res = min({ res, dp2[x][i] + addy, dp1[y][i] + addx });\n\t\t\t\tx = f[x][i], y = f[y][i];\n\t\t\t}\n\n\t\t// 注意这里需接着对 x,y,lca(x,y) 进行处理\n\t\tif (!change)res = min({ res, dp1[x][0] + addx, dp2[y][0] + addy });\n\t\telse res = min({ res, dp2[x][0] + addy, dp1[y][0] + addx });\n\n\t\tint lca = f[x][0];\n\t\tif (!change)res = min({ res, dp1[lca][0] + addx, dp2[lca][0] + addy });\n\t\telse res = min({ res, dp2[lca][0] + addy, dp1[lca][0] + addx });\n\n\t\treturn res;\n\t}\nprivate:\n\tvector<int> depth;\n\tvector<vector<int>> f;\n\tvector<vector<ll>> dp1, dp2;\n\n\tvoid init(int now, int fa, const vector<vector<int>>& e, const vector<int>& dis)\n\t{\n\t\tf[now][0] = fa;\n\t\tdepth[now] = depth[fa] + 1;\n\t\tdp1[now][0] = 3ll * dis[now] - depth[now];\n\t\tdp2[now][0] = 3ll * dis[now] + depth[now];\n\n\t\tfor (int i = 1; (1 << i) <= depth[now]; i++) {\n\t\t\tf[now][i] = f[f[now][i - 1]][i - 1];\n\n\t\t\tdp1[now][i] = min(dp1[now][i - 1], dp1[f[now][i - 1]][i - 1]);\n\t\t\tdp2[now][i] = min(dp2[now][i - 1], dp2[f[now][i - 1]][i - 1]);\n\t\t}\n\n\t\tfor (int to : e[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tinit(to, now, e, dis);\n\t\t}\n\t}\n};\nvoid solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint x, y; cin >> x >> y;\n\t\tg[x].pb(y), g[y].pb(x);\n\t}\n\tvar dis = vector<int>(n + 1, INF);\n\tvar Q = queue<pii>();\n\tfa(i, 1, k) {\n\t\tint x; cin >> x;\n\t\tQ.push({ x, dis[x] = 0 });\n\t}\n\twhile (Q.size()) {\n\t\tvar[now, d] = Q.front();\n\t\tQ.pop();\n\t\tif (d > dis[now])continue;\n\t\tfor (int to : g[now]) {\n\t\t\tif (dis[to] > dis[now] + 1) {\n\t\t\t\tdis[to] = dis[now] + 1;\n\t\t\t\tQ.push({ to, dis[to] });\n\t\t\t}\n\t\t}\n\t}\n\tvar lca = LCA(n, g, dis);\n\tint q; cin >> q;\n\twhile (q--) {\n\t\tint x, y; cin >> x >> y;\n\t\tcout << lca.query(x, y) << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-13",
+  "parsed_at": "2026-06-14T18:39:35.717372+00:00",
+  "type_directory": "p"
+}

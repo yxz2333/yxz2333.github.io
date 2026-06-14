@@ -1,0 +1,218 @@
+{
+  "slug": "cf2223b-zhily-and-barknights",
+  "title": "CF2223B Zhily and Barknights",
+  "type": "题目",
+  "tags": [
+    "贡献法",
+    "二分",
+    "期望/线性性"
+  ],
+  "difficulty": 1.5,
+  "summary": "根据期望的线性性，总期望逆序对数 = \\(\\sum_{i<j} \\Pr(c_i>c_j)\\)，只需对每一对 \\((i,j)\\) 计算概率即可。",
+  "link": "https://www.luogu.com.cn/problem/CF2223B",
+  "link_text": "https://www.luogu.com.cn/problem/CF2223B",
+  "source": "CF2223B",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定两个长度为 $n$ 的正整数数组 $a$ 和 $b$。记 $b'$ 为 $b$ 的一个均匀随机全排列，定义 $c_i = a_i \\cdot b'_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "求数组 $c$ 的逆序对数的期望值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\le t \\le 100$），表示测试用例数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$（$1 \\le n \\le 2000$），表示数组长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$（$1 \\le a_i \\le 10^9$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含 $n$ 个整数 $b_1, b_2, \\ldots, b_n$（$1 \\le b_i \\le 10^9$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $2000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出逆序对数的期望值对 $998\\,244\\,353$ 取模的结果。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "精确答案可表示为不可约分数 $\\frac{p}{q}$，输出 $x$ 使得 $0 \\le x < M$ 且 $x \\cdot q \\equiv p \\pmod{M}$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n5\n1 14 5 1 4\n1 1 1 1 1\n3\n3 2 5\n3 2 5\n10\n10 72 65 43 73 23 78 13 49 99\n31 90 45 19 44 18 59 31 48 29",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n665496236\n820778710",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一个测试用例：所有 $b$ 为 $1$，$c = (1, 14, 5, 1, 4)$ 固定，逆序对数为 $5$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二个测试用例：$3! = 6$ 种排列，期望值为 $\\frac{4}{6} = \\frac{2}{3}$，模意义下为 $665496236$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 期望拆成对子",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "math",
+              "latex": "$$E = \\sum_{i<j} \\Pr(c_i > c_j)$$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 对固定 $(i,j)$ 化简概率",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "随机排列下，有序对 $(b'_i,b'_j)$ 均匀取自所有 $(b_k,b_l)\\ (k\\neq l)$，共 $n(n-1)$ 种。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所以 $$\\Pr(c_i>c_j) = \\frac{\\#\\{(k,l)\\mid a_i b_k > a_j b_l\\}}{n(n-1)}$$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 比值解耦",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "条件变形：$$a_i b_k > a_j b_l \\iff \\frac{a_i}{a_j} > \\frac{b_l}{b_k}$$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "4. 算法",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "预处理：生成所有比值 $\\frac{b_k}{b_l}\\ (k\\neq l)$，排序（浮点/分数均可）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对每个 $i<j$，设阈值 $T = \\dfrac{a_i}{a_j}$，二分查找数组中<strong>严格小于 T</strong> 的元素个数 $cnt$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\displaystyle \\Pr(c_i>c_j) = \\frac{cnt}{n(n-1)}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "期望 $E = \\dfrac{\\sum\\limits_{i<j} cnt}{n(n-1)}$，模意义下乘以分母逆元输出。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tvar a = vector<ll>(n + 1);\n\tvar b = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n)cin >> b[i];\n\tif (n == 1) {\n\t\tcout << 0 << endl;\n\t\treturn;\n\t}\n\tvar p = vector<ldb>();\n\tfa(i, 1, n)fa(j, 1, n)if (i != j)p.pb((ldb)b[i] / b[j]);\n\tll tot = 1;\n\tfa(i, 1, n)tot = tot * i % mod;\n\tll tot2 = tot * Math::inv(n, mod) % mod * Math::inv(n - 1, mod) % mod;\n\tsort(all(p));\n\tll ans = 0;\n\tfa(i, 1, n)fa(j, i + 1, n) {\n\t\tldb now = (ldb)a[i] / a[j];\n\t\tll id = lower_bound(all(p), now) - p.begin();\n\t\tll res = id * tot2 % mod;\n\t\tans = (ans + res) % mod;\n\t}\n\tans = ans *  Math::inv(tot, mod) % mod;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-22",
+  "parsed_at": "2026-06-14T18:39:36.485395+00:00",
+  "type_directory": "p"
+}

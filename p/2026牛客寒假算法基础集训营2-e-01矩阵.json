@@ -1,0 +1,162 @@
+{
+  "slug": "2026牛客寒假算法基础集训营2-e-01矩阵",
+  "title": "2026牛客寒假算法基础集训营2 E 01矩阵",
+  "type": "题目",
+  "tags": [
+    "经典问题/画图题",
+    "构造",
+    "打表找规律"
+  ],
+  "difficulty": null,
+  "summary": "构造的方式不止一种，不过这种题，怎么优雅怎么来。样例纯来误导人的，实在不行暴力打表也能解决。",
+  "link": "https://ac.nowcoder.com/acm/contest/120562/E",
+  "link_text": "E-01矩阵_2026牛客寒假算法基础集训营2",
+  "source": "[[2026牛客寒假算法基础集训营2]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$一个仅由 $\\texttt{0}$ 和 $\\texttt{1}$ 组成的 $n$ 阶矩阵 $\\boldsymbol{A}$ 是好的，当且仅当满足以下所有条件：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{23pt}\\bullet\\,$记第 $i\\left(1\\leq i\\leq n\\right)$ 行的数字和为 $\\text{row}_i$，$\\text{row}$ 集合仅由 $0\\sim n-1$ 的整数组成，且每个数字仅出现一次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{23pt}\\bullet\\,$记第 $j\\left(1\\leq j\\leq n\\right)$ 列的数字和为 $\\text{col}_j$，$\\text{col}$ 集合仅由 $0\\sim n-1$ 的整数组成，且每个数字仅出现一次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{23pt}\\bullet\\,$该矩阵中 $\\texttt{0}$ 的连通块个数和 $\\texttt{1}$ 的连通块个数总和恰好为 $n$ 个。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$给定一个整数 $n$，你需要画出该矩阵，保证在上述条件约束下始终存在符合条件的 $n$ 阶矩阵。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$输入一个整数 $n\\left(1\\leq n\\leq 10^3\\right)$，表示矩阵的边长大小。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$一共 $n$ 行，第 $i$ 行输出一个长度为 $n$、仅由字符 $\\texttt{0}$ 与 $\\texttt{1}$ 构成的字符串，表示矩阵的第 $i$ 行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$如果存在多个解决方案，您可以输出任意一个，系统会自动判定是否正确。注意，自测运行功能可能因此返回错误结果，请自行检查答案正确性。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "01\n00",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0001\n0000\n0011\n1011",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "!<a href=\"../assets/image_1770307954436_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = Vec2<int>(n + 1, n + 1);\n\tint now = 0;\n\tfa(i, 1, n) {\n\t\ta[i][i] = now;\n\t\tfa(j, i + 1, n)a[i][j] = now;\n\t\tfa(j, i + 1, n)a[j][i] = now;\n\t\tnow ^= 1;\n\t}\n\tfa(i, 1, n) {\n\t\tfa(j, 1, n)cout << a[i][j];\n\t\tcout << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-06",
+  "parsed_at": "2026-06-14T18:39:35.907204+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,99 @@
+{
+  "slug": "可撤销背包",
+  "title": "可撤销背包",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "可撤销背包"
+  ],
+  "parent": "背包",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "01背包的撤销",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "解决<strong>求方案数</strong>问题",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一般是解决背包不包含某种物品的情况。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "做法是先求<strong>全局背包</strong>，在执行<strong>撤销</strong>和<strong>恢复</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>模板题</strong>：<a href=\"/p/p4141-消失之物\" class=\"wikilink\">P4141 消失之物</a>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<em>（貌似还可以解决最大价值问题，没深入了解）</em>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "加入物品：容量从大到小遍历（W -> w），防止重复使用，复杂度为 $O(W)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>撤销物品：容量从小到大遍历（w -> W）</strong>，复杂度为 $O(W)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "原理就是通过<strong>从小到大</strong>依次执行<strong>减法操作</strong>（<code>dp[j] -= dp[j - a[i]] </code>），<code>dp[j - a[i]]</code> 就是 <code>dp[j]</code> 装了 <code>a[i]</code> 的<strong>方案数</strong>，从而把该物品的贡献清除。",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 全局背包\nvar dp = vector<int>(m + 1);\ndp[0] = 1;\nfa(i, 1, n)fb(j, m, a[i])dp[j] = (dp[j] + dp[j - a[i]]) % mod;\n\n// 【撤销 a[i]】\n// dp[j - a[i]] 就是 dp[j] 装了 a[i] 的方案数\nfa(j, a[i], m)dp[j] = ((dp[j] - dp[j - a[i]]) % mod + mod) % mod;\n\n// 【恢复 a[i]】\nfb(j, m, a[i])dp[j] = (dp[j] + dp[j - a[i]]) % mod;",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "完全背包的撤销",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "加入物品：容量从小到大遍历（w -> W）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>撤销物品：容量从大到小遍历（W -> w）</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 全局背包\nvar dp = vector<int>(m + 1);\ndp[0] = 1;\nfa(i, 1, n)fa(j, a[i], m)dp[j] = (dp[j] + dp[j - a[i]]) % mod;\n\n// 【撤销 a[i]】\n// 原理：dp_without[j] = dp_with[j] - dp_with[j-w]\n// 倒序意味着 dp[j] 实际上就减了 dp[j - w] 这个代表装了 a[i] 的方案数一次\nfb(j, m, a[i])dp[j] = ((dp[j] - dp[j - a[i]]) % mod + mod) % mod;\n\n// 【恢复 a[i]】\nfa(j, a[i], m)dp[j] = (dp[j] + dp[j - a[i]]) % mod;",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-01",
+  "parsed_at": "2026-06-14T18:45:12.185235+00:00",
+  "type_directory": "k"
+}

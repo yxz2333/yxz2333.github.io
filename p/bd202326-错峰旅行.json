@@ -1,0 +1,190 @@
+{
+  "slug": "bd202326-错峰旅行",
+  "title": "BD202326 错峰旅行",
+  "type": "题目",
+  "tags": [
+    "离散化",
+    "经典问题/区间问题",
+    "差分数组"
+  ],
+  "difficulty": 1.5,
+  "summary": "<strong>离散化</strong>把大区间转成小区间的模板题",
+  "link": "https://www.matiji.net/exam/brushquestion/26/4347/179CE77A7B772D15A8C00DD8198AAC74",
+  "link_text": "码蹄集OJ-错峰旅行",
+  "source": "[[2023百度之星决赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小度计划进行一场毕业旅行，选择了 \\( n \\) 个城市（编号为 \\( 1 \\sim n \\)），这些城市之间互相连通。他希望在从第 \\( S \\) 天到第 \\( T \\) 天的旅行中，每天停留在一个不拥挤的城市，且第二天可以选择任意一个不拥挤的城市（包括当前城市）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "应用程序提供了 \\( m \\) 条信息，每条信息包含三个数 \\( x, l, r \\)，表示第 \\( x \\) 个城市在第 \\( l \\) 到第 \\( r \\) 天是拥挤的。小度想知道他能够实现错峰旅行的方案数（只要有一天所在城市不同，即为不同方案）。由于方案数很大，输出对 \\( 10^9 + 7 \\) 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入四个整数：  \\( n, m, S, T \\)  ，含义与上文描述一致，其中 \\( 1 \\leq n \\leq 5000 \\)，\\( 1 \\leq m \\leq 10^6 \\)，\\( 0 \\leq S \\leq T \\leq 10^9 \\)，且 \\( T - S \\leq 10^9 \\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 \\( m \\) 行，每行包含三个整数：  \\( x, l, r \\)  ，表示第 \\( x \\) 个城市在第 \\( l \\) 到第 \\( r \\) 天是拥挤的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "其中 \\( 1 \\leq x \\leq n \\)，\\( S \\leq l \\)，\\( r \\leq T \\)，且不同信息中同一城市的拥挤时间段不会重叠。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行，一个整数，表示方案数对 \\( 10^9 + 7 \\) 取模后的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 4 2 6\n1 2 2\n2 3 6\n4 4 5\n5 2 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "108",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：不考虑数据范围的情况下，直接用<strong>差分数组</strong>减完后，直接枚举算练乘即可。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：考虑数据范围的话得考虑<strong>离散化</strong>区间了。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那么这题就是<strong>离散化</strong>把大区间转成小区间，然后用<strong>差分数组</strong>和<strong>快速幂</strong>解决就行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所以这题就是离散化区间的板子题了，离散化数组<code>b</code>中需要存入 $[L_i, R_i]$ 的 $L_i - 1$ 和 $R_i + 1$，确保区间本身，以及区间相邻的<strong>缝隙</strong>都能进行离散化。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>离散化</strong>把大区间转成小区间，离散化数组<code>b</code>中需要存入 $[L_i, R_i]$ 的 $L_i - 1$ 和 $R_i + 1$ 。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "const int N = 4e6 + 10;\nint cnt[N];\nvoid solve(int CASE)\n{\n\tint n, m, s, t; cin >> n >> m >> s >> t;\n\n\t///////// 大区间离散化成小区间 /////////\n\tvar b = vector<int>();\n\tvar p = vector<pii>(m + 1);\n\tfa(i, 1, m) {\n\t\tint _; cin >> _;\n\t\tcin >> p[i].px >> p[i].py;\n\t\tb.pb(p[i].px), b.pb(p[i].py);\n\t\tb.pb(p[i].px - 1), b.pb(p[i].py + 1); // 重点！保证区间与区间的空隙区间保留\n\t}\n\n\tsort(all(b));\n\tb.erase(unique(all(b)), b.end());\n\tint len = b.size();\n\tvar find = [&](int value)->int {\n\t\treturn upper_bound(all(b), value) - b.begin() - 1;\n\t\t};\n\t//var cnt = vector<int>(100);\n\n\tfa(i, 1, m) {\n\t\tint l = find(p[i].px), r = find(p[i].py);\n\t\tcnt[l]++, cnt[r + 1]--;\n\t}\n\tfa(i, 1, len - 1)cnt[i] += cnt[i - 1];\n\tll ans = 1;\n\tfa(i, 0, len - 1) {\n\t\tint l = b[i - 1] + 1, r = b[i];\n\t\tif (i == 0)l = s;\n\t\tif (i == len - 1)r = t;\n\t\tans = ans * Math::fastPow(n - cnt[i], r - l + 1ll, mod) % mod;\n\t}\n\tcout << ans << endl;\n\n\t//var cnt2 = vector<int>(100);\n\t//ll ans2 = 1;\n\t//fa(i, 1, m) {\n\t//\tconst var& [l, r] = p[i];\n\t//\tcnt2[l]++, cnt2[r + 1]--;\n\t//}\n\t//fa(i, 1, 99)cnt2[i] += cnt2[i - 1];\n\t//fa(i, s, t)ans2 = ans2 * (n - cnt2[i]) % mod;\n\t////cout << ans2 << endl;\n\t//if (ans != ans2) {\n\t//\tdebug(\"NOOOOOOOOOOOOO\");\n\t//\tdebug(n, m, s, t);\n\t//\tfa(i, 1, m)debug(p[i].px, p[i].py);\n\t//}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-24",
+  "parsed_at": "2026-06-14T18:39:36.053646+00:00",
+  "type_directory": "p"
+}

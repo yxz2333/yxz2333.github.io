@@ -1,0 +1,201 @@
+{
+  "slug": "cf2158c-annoying-game",
+  "title": "CF2158C Annoying Game",
+  "type": "题目",
+  "tags": [
+    "前后缀",
+    "正难则反",
+    "前缀和",
+    "枚举"
+  ],
+  "difficulty": 0.5,
+  "summary": "枚举前缀和 <code>pre</code> 维护最小前缀 <code>mnpre</code> 和与最大 <code>b</code> 太麻烦了，直接枚举 <code>b[i]</code> 然后用最小前缀前缀和 <code>mnpre[i - 1]</code> 与最大后缀前缀和 <code>mxsuf[i]</code> 解决即可。",
+  "link": "https://codeforces.com/contest/2158/problem/C",
+  "link_text": "Problem - C - Codeforces",
+  "source": "[[Codeforces Round 1067 (Div. 2)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Alice（先手）和 Bob 轮流修改数组 $a$ 共 $k$ 次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Alice 每次选 $i$ 令 $a_i \\leftarrow a_i + b_i$，Bob 每次选 $i$ 令 $a_i \\leftarrow a_i - b_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Alice 想<strong>最大化</strong> $a$ 的最大子段和，Bob 想<strong>最小化</strong>它。求最终的最大子段和。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \\le t \\le 10^4$)。接下来是测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含两个整数 $n$ 和 $k$ ($1 \\le n \\le 2\\cdot 10^5$, $1 \\le k \\le 2\\cdot 10^5$) — 数组的长度和总回合数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1,a_2,\\ldots,a_{n}$ ($-10^9 \\le a_i \\le 10^9$) — 数组 $a$ 的元素。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含 $n$ 个整数 $b_1,b_2,\\ldots,b_{n}$ ($0 \\le b_i \\le 10^9$) — 数组 $b$ 的元素。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $2\\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数 — 假设双方都以最优策略游戏，$k$ 回合后的最终得分。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n5 200000\n3 -1 9 -5 4\n0 0 0 0 0\n4 5\n10 10 10 10\n1 1 1 1\n3 1\n2 -7 3\n1 11 3\n3 2\n2 -7 3\n1 11 3\n1 1\n-3\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "11\n41\n9\n3\n-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：很显然，我们只需要在意 $k$ 的奇偶性即可。为偶，本题就是裸的<strong>最大子段和问题</strong>；为奇，Alice 能拿一个 <code>b[i]</code>，需要进行考虑。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：<strong>最大子段和问题</strong>可以想到使用<strong>前缀和</strong>，然后维护一个<strong>最小前缀和</strong>与<strong>当前枚举的前缀和</strong>相减算答案。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "但是你维护了<strong>最小前缀和</strong>，不代表能拿到<strong>最大的 b</strong>，两者一起维护难度很大。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>正难则反</strong>，我们<strong>换一个参数枚举</strong>，考虑枚举 <code>b[i]</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "要想 <code>b[i]</code> 所在区间的和最大，维护<strong>最小前缀前缀和</strong> <code>mnpre[i - 1]</code> 与<strong>最大后缀前缀和</strong> <code>mxsuf[i]</code> 即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "发现枚举前缀和不对劲后，<strong>正难则反</strong>，果断枚举 $b[i]$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, k; cin >> n >> k;\n\tvar a = vector<ll>(n + 1);\n\tvar b = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n)cin >> b[i];\n\tif (k % 2 == 0) {\n\t\tll dp = a[1], ans = a[1];\n\t\tfa(i, 2, n) {\n\t\t\tdp = max(a[i], dp + a[i]);\n\t\t\tans = max(ans, dp);\n\t\t}\n\t\tcout << ans << endl;\n\t\treturn;\n\t}\n\n\tll ans = a[1] + b[1], mxb = b[1];\n\tvar pre = vector<ll>(n + 1);\n\tpre[1] = a[1];\n\tll mnpre = min(-b[1], a[1]);\n\n\tfa(i, 2, n) {\n\t\tpre[i] = pre[i - 1] + a[i];\n\t\tif (b[i] > mxb) {\n\t\t\tmnpre += mxb;\n\t\t\tmxb = b[i];\n\t\t\tmnpre -= mxb;\n\t\t}\n\t\tans = max(ans, pre[i] - mnpre);\n\t\tmnpre = min(mnpre, pre[i]);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-11-30",
+  "parsed_at": "2026-06-14T18:39:36.345094+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,173 @@
+{
+  "slug": "abc154f-many-many-paths",
+  "title": "ABC154F Many Many Paths",
+  "type": "题目",
+  "tags": [
+    "组合数学/常见公式",
+    "数学推导"
+  ],
+  "difficulty": 1.5,
+  "summary": "题目要求的是 $\\sum_{i=r_1}^{r_2} \\sum_{j=c_1}^{c_2} \\binom{i+j}{i}$，得想办法把内层循环消掉，使用<strong>上指标公式</strong>得：$\\sum_{j=0}^{c} \\binom{i+j}{i} = \\binom{i+c+1}{i+1}$。对原式进行转化：\\[\\sum_{i=r1}^{r2} \\left( \\sum_{j=0}^{c2} C_{i+j}^c - \\sum_{j=0}^{c1-1} C_{i+j}^c \\right)\\]，<strong>通过上指标公式降维</strong>：\\[\\sum_{i=r1}^{r2} \\left( C_{i+c2+1}^{i+1} - C_{i+c1}^{i+1} \\right)\\]。",
+  "link": "[AT_abc154_f [ABC154F] Many Many Paths - 洛谷](https://www.luogu.com.cn/problem/AT_abc154_f)",
+  "link_text": "[AT_abc154_f [ABC154F] Many Many Paths - 洛谷](https://www.luogu.com.cn/problem/AT_abc154_f)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有一个二维平面。站在这个平面上的すぬけ君每次操作可以向 $x$ 轴正方向移动 $1$，或者向 $y$ 轴正方向移动 $1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "定义函数 $f(r,c)$ 如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$f(r,c)\\ :=$（すぬけ君从点 $(0,0)$ 经过上述操作到达点 $(r,c)$ 的路径条数）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "给定整数 $r_1,\\ r_2,\\ c_1,\\ c_2$。请计算所有满足 $r_1 \\leq i \\leq r_2$ 且 $c_1 \\leq j \\leq c_2$ 的整数对 $(i,j)$ 的 $f(i,j)$ 之和，并对 $10^9+7$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入以如下格式从标准输入给出。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $r_1$ $c_1$ $r_2$ $c_2$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq r_1 \\leq r_2 \\leq 10^6$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq c_1 \\leq c_2 \\leq 10^6$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入均为整数",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $f(i,j)$ 的总和对 $10^9+7$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 1 2 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "14",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "例如，从点 $(0,0)$ 到点 $(1,1)$ 的路径有 $(0,0) \\to (0,1) \\to (1,1)$ 和 $(0,0) \\to (1,0) \\to (1,1)$ 共 $2$ 条，因此 $f(1,1)=2$。同理，$f(1,2)=3$，$f(2,1)=3$，$f(2,2)=6$，所以所求总和为 $14$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "题目要求的是 $\\sum_{i=r_1}^{r_2} \\sum_{j=c_1}^{c_2} \\binom{i+j}{i}$，得想办法把内层循环消掉。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "使用<strong>上指标公式</strong>得：$\\sum_{j=0}^{c} \\binom{i+j}{i} = \\binom{i+c+1}{i+1}$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对原式进行转化：\\[\\sum_{i=r1}^{r2} \\left( \\sum_{j=0}^{c2} C_{i+j}^c - \\sum_{j=0}^{c1-1} C_{i+j}^c \\right)\\]",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>通过上指标公式降维</strong>：\\[\\sum_{i=r1}^{r2} \\left( C_{i+c2+1}^{i+1} - C_{i+c1}^{i+1} \\right)\\]",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "MT::Combinatorics c(N, mod);\nvoid solve(int CASE)\n{\n\tll r1, c1, r2, c2; cin >> r1 >> c1 >> r2 >> c2;\n\tll ans = 0;\n\tfa(i, r1, r2) {\n\t\tll res1 = c.C(i + c2 + 1, i + 1);\n\t\tll res2 = c.C(i + c1, i + 1);\n\t\tll res = ((res1 - res2) % mod + mod) % mod;\n\t\tans = (ans + res) % mod;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-16",
+  "parsed_at": "2026-06-14T18:39:35.955138+00:00",
+  "type_directory": "p"
+}

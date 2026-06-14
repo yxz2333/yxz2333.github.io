@@ -1,0 +1,186 @@
+{
+  "slug": "2025ccpc郑州邀请赛-e-双生魔咒",
+  "title": "2025CCPC郑州邀请赛 E 双生魔咒",
+  "type": "题目",
+  "tags": [
+    "字典树"
+  ],
+  "difficulty": 2.5,
+  "summary": "把字符串全扔字典树里，然后<strong>遍历字典树</strong>，对前缀出现次数进行计算答案就行了，不需要真的分组。",
+  "link": "https://codeforces.com/gym/105941",
+  "link_text": "Dashboard - 2025 National Invitational of CCPC (Zhengzhou), 2025 CCPC Henan Provincial Collegiate Programming Contest - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "传说，古老的魔咒书的咒语皆是成对吟诵的。先行的咒语作为引导，引导魔力的方向；后行的咒语作为能量，与先行咒语共振，从而在空间中引发强烈的变化。我们称先行的咒语为「引」，后行的咒语为「根」。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在一本尘封的古籍中，我们找到了一些咒语，但遗憾的是，我们已无法辨别咒语究竟是属于「引」还是「根」。研究发现，咒语是一个由小写英文字母组成的字符串，而咒语的威力来自于「引」与「根」间共振的程度，即「引」字符串和「根」字符串的最长公共前缀的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "已知书中有 $2n$ 条咒语，请你求出将其分为 $n$ 条「引」和 $n$ 条「根」并任意配对形成 $n$ 对咒语后，每对咒语的最长公共前缀长度之和的最大值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$ ($1 \\le n \\le 10^5$)，代表魔咒的对数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $2n$ 行，每行包含一个由小写英文字母组成的字符串 $S$ ($1 \\le |S| \\le 10^5$)，代表一条咒语。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组测试数据，保证 $\\sum |S| \\le 2 \\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行一个整数，表示将其分为 $n$ 条「引」和 $n$ 条「根」并任意配对形成 $n$ 对咒语后，每对咒语的最长公共前缀长度之和的最大值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\nennaimez\nennus",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\nwhy\nsoul\nspell\nwell\nweels\nwhom",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一组样例，不论是取 “ennaimez” 为「引」，“ennus” 为「根」，还是反之，「引」与「根」的配对只会有一种。两个字符串的最长公共前缀是 “enn”，长度为 3，即为答案。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第二组样例，我们可以考虑取 “why”, “soul”, “well” 为「引」，“spell”, “weels”, “whom” 为「根」，这样两两组合后的结果分别是：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "!<a href=\"../assets/image_1769919555761_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "想真的分组算答案不现实，考虑把字符串全丢进字典树里。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "考虑在计算答案的时候<strong>隐式分组</strong>，对于有同一前缀的 $cnt$ 个字符串，对这些字符串分两组，最大的贡献值为 <code>((cnt + 1) / 2) * (cnt / 2)</code> $* |前缀长度|$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>遍历整个字典树</strong>，根据同一前缀的个数来算答案即可。实际算的时候不用 $* |前缀长度|$，因为是一位一位考虑的，即 $* 1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar t = Trie();\n\tfa(i, 1, 2 * n) {\n\t\tstring s; cin >> s;\n\t\tt.insert(s);\n\t}\n\tll ans = 0;\n\tvar now = t.root;\n\tvar dfs = [&](var dfs, TrieNode* now)->void {\n\t\tfor (char c = 'a'; c <= 'z'; c++) {\n\t\t\tif (now->children.count(c)) {\n\t\t\t\tvar nex = now->children[c];\n\t\t\t\tll cnt = t.prefixs[nex->id];\n\t\t\t\tans += ((cnt + 1) / 2) * (cnt / 2);\n\t\t\t\tdfs(dfs, nex);\n\t\t\t}\n\t\t}\n\t\t};\n\tdfs(dfs, now);\n\tcout << ans << endl;\n \n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-01",
+  "parsed_at": "2026-06-14T18:39:35.757841+00:00",
+  "type_directory": "p"
+}

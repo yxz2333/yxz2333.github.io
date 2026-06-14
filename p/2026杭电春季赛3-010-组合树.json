@@ -1,0 +1,160 @@
+{
+  "slug": "2026杭电春季赛3-010-组合树",
+  "title": "2026杭电春季赛3 010 组合树",
+  "type": "题目",
+  "tags": [
+    "生成树",
+    "并查集",
+    "bfs",
+    "数学推导"
+  ],
+  "difficulty": 1.5,
+  "summary": "明显<strong>优先队列 bfs</strong> 取最小的前 $n - 1$ 条能构成最小生成树的边，那关键就是重载优先队列了，因为组合数很大，这里用组合数的公式套上 $\\ln$ 解决。",
+  "link": "https://acm.hdu.edu.cn/contest/problem?cid=1199&pid=1010",
+  "link_text": "1010 组合树",
+  "source": "[[2026杭电春季赛3]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有 \\( n \\) 个城市，第 \\( i \\) 个城市有权值 \\( a_i \\)。初始所有城市之间都没有边。你每次可以在两个城市 \\( u, v \\) 之间建一条双向边，花费的代价是",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\\frac{\\max(a_u, a_v)}{\\min(a_u, a_v)}$$\n你需要用最小的代价，使得任意两个城市可以直接或间接通过道路连接（即建成一个连通图）。\n答案较大，你只需要输出最小花费在模 998244353 意义下的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 \\( T \\)，表示测试数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行一个整数 \\( n \\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行 \\( n \\) 个整数 \\( a_1, a_2, \\dots, a_n \\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "数据范围：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "\\[\n1 \\le T \\le 200,\\quad 1 \\le n \\le 2000,\\quad 1 \\le a_i \\le 5000\n\\]",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行一个整数，表示最小花费在模 998244353 意义下的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n3\n1 2 3\n3\n1 2 4\n3\n2 3 4\n5\n1 3 5 7 9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n6\n7\n24",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>公式：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\ln(C_n^k) = \\ln\\left(\\frac{n!}{k!(n-k)!}\\right) = \\ln(n!) - \\ln(k!) - \\ln((n-k)!) $$\n**计算方法：**",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "MT::Combinatorics c(N, mod);\nstruct node {\n\tint now, to;\n\tldb c;\n\tbool operator<(const node& a)const {\n\t\treturn a.c < c;\n\t}\n};\nldb pre[5005];\nvoid init() {\n\tfa(i, 1, 5000)pre[i] += pre[i - 1] + logl(i);\n}\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tsort(all1(a));\n\tvar Q = priority_queue<node>();\n\tfa(i, 2, n) {\n\t\tint n = a[i], m = a[i - 1];\n\t\tldb now = pre[n] - pre[m] - pre[n - m];\n\t\tQ.push({ i - 1,i,now });\n\t}\n  \n\tvar s = vector<int>(n + 1);\n\tfa(i, 1, n)s[i] = i;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return s[x];\n\t\treturn s[x] = find(find, s[x]);\n\t\t};\n  \n  \tll ans = 0, cnt = n - 1;\n\twhile (Q.size() and cnt) {\n\t\tvar[now, to, _] = Q.top();\n\t\tQ.pop();\n\n\t\tint e1 = find(find, now), e2 = find(find, to);\n\t\tif (e1 != e2) {\n\t\t\ts[e2] = e1;\n\t\t\tcnt--;\n\t\t\tans += c.C(max(a[now], a[to]), min(a[now], a[to]));\n\t\t\tans %= mod;\n\t\t}\n\n\t\tif (to != n) {\n\t\t\tto++;\n\t\t\tint n = max(a[now], a[to]), m = min(a[now], a[to]);\n\t\t\tldb C = pre[n] - pre[m] - pre[n - m];\n\t\t\tQ.push({ now, to, C });\n\t\t}\n\t}\n  \n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-04",
+  "parsed_at": "2026-06-14T18:39:35.866435+00:00",
+  "type_directory": "p"
+}

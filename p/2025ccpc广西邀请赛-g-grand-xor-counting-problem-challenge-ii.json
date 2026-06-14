@@ -1,0 +1,374 @@
+{
+  "slug": "2025ccpc广西邀请赛-g-grand-xor-counting-problem-challenge-ii",
+  "title": "2025CCPC广西邀请赛 G Grand XOR Counting Problem Challenge II",
+  "type": "题目",
+  "tags": [
+    "01字典树",
+    "异或"
+  ],
+  "difficulty": 3.0,
+  "summary": "一句话总结的话，就是 $i,j$ 解耦后，在<strong>字典树上进行异或比大小</strong>。<em>在这个问题中，我甚至小改了一下我的字典树板子</em>",
+  "link": "https://ac.nowcoder.com/acm/contest/110811/G",
+  "link_text": "G-Grand XOR Counting Problem Challenge II_第八届广西大学生程序设计大赛暨2025邀请赛",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Eva 有两个魔法参数 $k_1$ 和 $k_2$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Colin 有两个整数序列 $a_1, a_2, \\cdots, a_n$ 和 $b_1, b_2, \\cdots, b_n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "他们想知道有多少对下标 $(i,j)$ 满足：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le i < j \\le n$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$k_1 \\oplus a_i \\oplus a_j < k_2 \\oplus b_i \\oplus b_j$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "其中 $\\oplus$ 表示按位异或运算。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含三个整数 $n, k_1, k_2$（$1 \\le n \\le 2 \\times 10^5$，$1 \\le k_1, k_2 < 2^{30}$），分别表示序列长度和两个魔法参数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\cdots, a_n$（$1 \\le a_i < 2^{30}$），表示第一个序列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含 $n$ 个整数 $b_1, b_2, \\cdots, b_n$（$1 \\le b_i < 2^{30}$），表示第二个序列。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示满足条件的下标对数量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 1 2\n3 4 5 6 7\n1 2 3 1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "样例中有两对有效的下标对：$(2, 3)$ 和 $(4, 5)$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "不等式化简与解耦",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "设：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nX = k_1 \\oplus a_i \\oplus a_j,\\quad Y = k_2 \\oplus b_i \\oplus b_j\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "比较 $X < Y$，即找到<strong>最高的不同位</strong> $d$，满足：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$X$ 在 $d$ 位为 $0$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$Y$ 在 $d$ 位为 $1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "将 $X, Y$ 拆开：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\begin{aligned}\nX &= (k_1 \\oplus a_i) \\oplus a_j \\\\\nY &= (k_2 \\oplus b_i) \\oplus b_j\n\\end{aligned}\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "问题转化为：固定 $i$，在已经处理过的 $j$ 中，统计满足上述高位条件的个数。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "字典树设计",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "将 $i$ 的信息作为\"模式\"插入字典树，用 $j$ 的信息去查询。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>插入内容</strong>：对于已处理的 $i$，插入：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\text{val}_i = k_1 \\oplus k_2 \\oplus a_i \\oplus b_i\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>查询内容</strong>：对于当前的 $j$，查询：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\text{key}_j = a_j \\oplus b_j\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为什么这样设计？因为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\begin{aligned}\nX < Y &\\iff (k_1 \\oplus a_i) \\oplus a_j < (k_2 \\oplus b_i) \\oplus b_j \\\\\n&\\iff \\big((k_1 \\oplus a_i) \\oplus a_j\\big) \\oplus \\big((k_2 \\oplus b_i) \\oplus b_j\\big) \\; \\text{的最高位为} \\; 1 \\; \\text{且属于} \\; Y \\\\\n&\\iff (k_1 \\oplus k_2 \\oplus a_i \\oplus b_i) \\oplus (a_j \\oplus b_j) \\; \\text{的最高位为} \\; 1  \\; \\text{且属于} \\; Y\n\\end{aligned}\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设 $P = k_1 \\oplus k_2 \\oplus a_i \\oplus b_i$，$Q = a_j \\oplus b_j$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "比较 $P \\oplus Q$ 的最高位 $d$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "若 $P$ 在 $d$ 位是 $1$，$Q$ 在 $d$ 位是 $0$ → 这一位 $P \\oplus Q = 1$，但此时 $X$ 和 $Y$ 的大小关系还需进一步判断。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们需要的是：在 $P$ 和 $Q$ 前缀相同的最高位 $d$ 处，$Y$ <strong>的这一位为</strong> $1$，$X$ <strong>的这一位为</strong> $0$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "关键推导",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在最高分歧位 $d$ 处，已知 $P$ 和 $Q$ 的 $d$ 位不同（因为这是分歧位），我们要的是 $X_d = 0$ 且 $Y_d = 1$。",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\begin{aligned}\nX_d &= (k_1)_d \\oplus (a_i)_d \\oplus (a_j)_d \\\\\nY_d &= (k_2)_d \\oplus (b_i)_d \\oplus (b_j)_d\n\\end{aligned}\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "条件 $X_d = 0$ 给出：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n(a_j)_d = (k_1)_d \\oplus (a_i)_d\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "条件 $Y_d = 1$ 给出：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n(b_j)_d = (k_2)_d \\oplus (b_i)_d \\oplus 1\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但注意，在字典树中我们只存了 $P$，没有直接存 $a_i, b_i$ 的单独信息。我们需要一种方式：在 $P$ 和 $Q$ 沿字典树走到 $d$ 位时，能立即知道有多少 $i$ 满足 $(a_i)_d$ 的某个条件。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>观察</strong>：条件 $X_d = 0$ 只涉及 $a_j$ 和 $a_i$，与 $b_j, b_i$ 无关。而我们在字典树的每个节点上，可以记录经过该节点的所有 $a_i$ 的 $d$ 位是 $0$ 还是 $1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "具体地，在插入 $\\text{val}_i$ 时，同时记录 $a_i$ 的当前位：",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "tr[now].cntA[a_bit]++;  // a_bit = (a[i] >> i) & 1",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在查询时，当我们在 $d$ 位遇到分歧（即 $P_d \\neq Q_d$），我们进入与 $Q_d$ 相反的子树。在这个子树中，我们需要统计满足 $(a_j)_d = (k_1)_d \\oplus (a_i)_d$ 的 $i$ 的个数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "注意：此时 $i$ 的 $a_i$ 信息已经存储在节点的 <code>cntA</code> 中。$a_j$ 是当前查询的 $j$ 的已知值。所以条件变为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\text{需要统计 } cntA[\\; (k_1)_d \\oplus (a_j)_d \\;]\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这就是 <code>query</code> 函数中：",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "if (tr[now].children[!bit]) {\n  bool t = (a >> i) & 1;  // a = a_j ^ k1\n  res += tr[tr[now].children[!bit]].cntA[t];\n}",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这里 <code>a</code> 传入的是 <code>a[j] ^ k1</code>，那么 <code>t = (a[j] ^ k1)_d</code>，正好对应 $(k_1)_d \\oplus (a_j)_d$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "小结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这道题的精髓在于：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. <strong>将不等式比较转化为异或最高位比较</strong>——这是处理异或大小关系的通用手法",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>解耦</strong> $i, j$——通过字典树将 $i$ 的信息先存起来，用 $j$ 去查询",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3. <strong>在分歧位准确统计满足条件的</strong> $i$——需要推导出 $(a_j)_d$ 与 $(a_i)_d$ 的关系，并用 <code>cntA</code> 预存",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template <typename T>\nclass Trie01Vector {\nprivate:\n\tstruct TrieNode {\n\t\tarray<int, 2> children; // 指向孩子的 id\n\t\tint cntA[2];  // 记录经过该节点，且 a 在这一位是 0/1 的数字个数\n\t\tTrieNode() : children{ 0, 0 }, cntA{ 0, 0 } {}\n\t};\n\n\tvector<TrieNode> tr;\n\tint newNode() { tr.push_back(TrieNode()); return ++nodeCnt; }\n\n\tint MAX; \t      // MAX：数的最大二进制位数\n\tint nodeCnt = 1;\n\tint root = 1;\n\npublic:\n\tTrie01Vector(int MAX) :MAX(MAX), tr(2) {}\n\n\tvoid insert(int num, int a) {\n\t\tint now = root;\n\t\tfor (int i = MAX; i >= 0; i--) {\n\t\t\tbool bit = (num >> i) & 1;\n\t\t\tif (!tr[now].children[bit]) {\n\t\t\t\tint tmp = newNode();\n\t\t\t\ttr[now].children[bit] = tmp;\n\t\t\t}\n\t\t\tnow = tr[now].children[bit];\n\n\t\t\tbool a_bit = (a >> i) & 1;\n\t\t\ttr[now].cntA[a_bit]++;\n\t\t}\n\t}\n\n\tll query(int num, int a) {\n\t\tint now = root;\n\t\tll res = 0;\n\t\tfor (int i = MAX; i >= 0; i--) {\n\t\t\tbool bit = (num >> i) & 1;\n\n\t\t\tif (tr[now].children[!bit]) {\n\t\t\t\tbool t = (a >> i) & 1;\n\t\t\t\tres += tr[tr[now].children[!bit]].cntA[t];\n\t\t\t}\n\n\t\t\tif (tr[now].children[bit])now = tr[now].children[bit];\n\t\t\telse break;\n\t\t}\n\t\treturn res;\n\t}\n};\nvoid solve(int CASE)\n{\n\tint n, k1, k2; cin >> n >> k1 >> k2;\n\tvar a = vector<int>(n + 1);\n\tvar b = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n)cin >> b[i];\n\tvar t = Trie01Vector<ll>(30);\n\tll ans = 0;\n\tfa(i, 1, n) {\n\t\tans += t.query(a[i] ^ b[i], a[i] ^ k1);\n\t\tt.insert(k1 ^ k2 ^ a[i] ^ b[i], a[i]);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-11",
+  "parsed_at": "2026-06-14T18:39:35.735011+00:00",
+  "type_directory": "p"
+}

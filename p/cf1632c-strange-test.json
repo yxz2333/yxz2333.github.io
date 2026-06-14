@@ -1,0 +1,151 @@
+{
+  "slug": "cf1632c-strange-test",
+  "title": "CF1632C Strange Test",
+  "type": "题目",
+  "tags": [
+    "剪枝/数学型剪枝"
+  ],
+  "difficulty": 1.5,
+  "summary": "基础的答案上限是 <code>ans = b - a</code>。因为操作三一次 $a \\ge b$，所以<strong>仅考虑使用操作三一次</strong>。枚举 $a$ 增加到 $na$、$b$ 增加到 $nb$，每次更新答案的上限 <code>ans</code>，一旦操作超过答案上限，就直接 break。复杂度为 $O(b - a)$，主要就是<strong>定上限剪枝</strong>。",
+  "link": "https://www.luogu.com.cn/problem/CF1632C",
+  "link_text": "CF1632C Strange Test - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "伊戈尔已经知道考试的流程：首先，老师会给每个学生两个正整数 $a$ 和 $b$（$a < b$）。之后，学生可以任意次数地进行以下操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$a := a + 1$（将 $a$ 增加 $1$）；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$b := b + 1$（将 $b$ 增加 $1$）；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$a := a \\mid b$（将 $a$ 替换为 $a$ 和 $b$ 的按位或运算结果）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "要想获得满分，学生需要告诉老师使 $a$ 和 $b$ 相等所需的最少操作次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "伊戈尔已经知道老师会给他哪些数字。请你帮他计算，使 $a$ 等于 $b$ 所需的最少操作次数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每组测试数据包含多个测试用例。第一行包含测试用例数量 $t$（$1 \\le t \\le 10^4$）。接下来的每组测试用例，每组一行，包含两个整数 $a$ 和 $b$（$1 \\le a < b \\le 10^6$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $b$ 的总和不超过 $10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数，表示使 $a$ 和 $b$ 相等所需的最少操作次数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n1 3\n5 8\n2 5\n3 19\n56678 164422",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n3\n2\n1\n23329",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，最优的做法是使用第三种操作。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个测试用例中，最优的做法是将第一种操作执行三次。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个测试用例中，最优的做法是先执行第二种操作，再执行第三种操作。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint a, b; cin >> a >> b;\n\tint ans = b - a;\n\tfa(na, a, b) {\n\t\tint res = na - a;\n\t\tif (res >= ans)break;\n\t\tint tmp = (na | b) - b + 1;\n\t\tres += tmp;\n\t\tans = min(ans, res);\n\t}\n\tfa(nb, b, 10000000) {\n\t\tint res = nb - b;\n\t\tif (res >= ans)break;\n\t\tint tmp = (a | nb) - nb + 1;\n\t\tres += tmp;\n\t\tans = min(ans, res);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-25",
+  "parsed_at": "2026-06-14T18:39:36.226870+00:00",
+  "type_directory": "p"
+}

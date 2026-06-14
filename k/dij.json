@@ -1,0 +1,71 @@
+{
+  "slug": "dij",
+  "title": "dij",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "最短路",
+    "Dijkstra"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "堆优化",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "使用优先队列（小根堆）每次取出距离最小的未确定点，复杂度 \\(O((V+E)\\log V)\\)，适合<strong>稀疏图</strong>（\\(E\\) 约等于 \\(V\\)）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "朴素",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "不使用堆，每次<strong>暴力扫描</strong>所有未确定点，找出距离最小的点，然后松弛它的所有邻边，复杂度 \\(O(V^2 + E)\\)，适合<strong>稠密图</strong>（\\(E\\) 接近 \\(V^2\\)）。",
+          "depth": 1
+        },
+        {
+          "heading": "When?",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "当图是<strong>完全图</strong>或<strong>非常稠密</strong>时，\\(E = \\Theta(V^2)\\)，堆优化版的复杂度为 \\(O(V^2 \\log V)\\)，而朴素版为 \\(O(V^2)\\)。朴素版反而更快（没有 log 因子）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "参考代码",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "int dis[N];   // 源点到各点的最短距离\nbool vis[N];  // 是否已确定最短距离\n\nvoid dijkstra(int src) {\n    memset(dist, 0x3f, sizeof dist);\n    memset(vis, 0, sizeof vis);\n    dis[src] = 0;\n\n    for (int i = 0; i < V; i++) {          // 循环 V 次\n        // 1. 在未确定点中找距离最小的点 u\n        int u = -1;\n        for (int j = 0; j < V; j++) {\n            if (!vis[j] && (u == -1 || dis[j] < dis[u]))\n                u = j;\n        }\n      \n        if (dis[u] == INF) break; // 剩余点不可达\n        vis[u] = true;\n\n        // 2. 用 u 松弛所有邻接点 v\n        for (int v = 0; v < V; v++) {\n            if (!vis[v] && dist[u] + w[u][v] < dist[v])\n                dist[v] = dist[u] + w[u][v];\n        }\n    }\n}",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-05",
+  "parsed_at": "2026-06-14T18:45:11.943435+00:00",
+  "type_directory": "k"
+}

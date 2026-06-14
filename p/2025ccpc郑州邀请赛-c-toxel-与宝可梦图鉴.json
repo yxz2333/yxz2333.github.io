@@ -1,0 +1,335 @@
+{
+  "slug": "2025ccpc郑州邀请赛-c-toxel-与宝可梦图鉴",
+  "title": "2025CCPC郑州邀请赛 C Toxel 与宝可梦图鉴",
+  "type": "题目",
+  "tags": [
+    "珂朵莉树",
+    "线段树/权值线段树"
+  ],
+  "difficulty": 2.0,
+  "summary": "权值线段树和珂朵莉树结合的好题。<strong>珂朵莉树处理下标区间，权值线段树处理值域区间</strong>，<strong>珂朵莉树在堆平的时候区间修改，权值线段树区间查询</strong>，不会对珂朵莉树直接查询，所以数据是否随机无所谓。",
+  "link": "https://codeforces.com/gym/105941",
+  "link_text": "Dashboard - 2025 National Invitational of CCPC (Zhengzhou), 2025 CCPC Henan Provincial Collegiate Programming Contest - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Toxel 正在收集宝可梦图鉴。他将他拥有的 $n$ 只宝可梦排成一列，可以看作一个长度为 $n$ 的数组 $a$，第 $i$ 只宝可梦的编号为 $a_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了集齐宝可梦图鉴，Toxel 经常需要与别人交换宝可梦。每次交换时，Toxel 喜欢交换编号连续的一些宝可梦。具体来说，Toxel 会选择一个区间 $[l, r]$ 和 $d$，将宝可梦 $a_l, a_{l+1}, \\dots, a_r$ 依次换成 $d, d+1, \\dots, d+r-l$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了随时把握自己的图鉴收集情况并方便交换，Toxel 希望一直监测自己拥有数量最多的宝可梦是哪一种（编号相同的宝可梦为同一种）。已知 Toxel 总共进行了 $m$ 次交换。你需要在最开始交换前和每次交换后告诉 Toxel 他拥有最多的宝可梦种类编号及该种类的数量。如有多种宝可梦数量相同，你需要告诉他编号最小的那种。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题包含多组测试数据。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含一个正整数 $T$ ($1 \\le T \\le 2 \\times 10^5$)，表示测试数据的组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n, m$ ($1 \\le n, m \\le 2 \\times 10^5$)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\dots, a_n$ ($1 \\le a_i \\le n$)，表示初始时每只宝可梦的编号。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行，每行包含 3 个整数 $l, r, d$ ($1 \\le l \\le r \\le n, 1 \\le d \\le n$)，表示宝可梦交换的位置区间和区间左端新宝可梦的编号。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有数据的 $\\sum n \\le 2 \\times 10^5$ 且 $\\sum m \\le 2 \\times 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组数据，输出 $m+1$ 行，每行两个整数，分别表示最开始交换前和每次交换后 Toxel 拥有最多的宝可梦种类编号及该种类的数量。如有多种宝可梦数量相同，你需要告诉他编号最小的那种。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n3 3\n1 2 3\n1 1 2\n2 2 3\n3 3 1\n1 1\n1\n1 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 1\n2 2\n3 2\n1 1\n1 1\n1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n8 8\n7 6 6 4 3 8 5 3\n4 4 4\n6 8 6\n1 1 7\n4 7 4\n6 7 6\n2 7 5\n1 5 7\n1 6 8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2\n3 2\n6 3\n6 3\n6 3\n6 3\n7 2\n8 2\n8 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一个样例，初始时编号数组为 $[1, 2, 3]$，其中 $1, 2, 3$ 分别都出现了 $1$ 次，因此输出其中最小的编号 $1$，出现 $1$ 次。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $1$ 次操作后，编号数组变为 $[\\underline{2}, 2, 3]$，其中 $2$ 出现最多为 $2$ 次。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $2$ 次操作后，编号数组变为 $[2, \\underline{3}, 3]$，其中 $3$ 出现最多为 $2$ 次。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $3$ 次操作后，编号数组变为 $[2, 3, \\underline{1}]$，其中 $1, 2, 3$ 分别都出现了 $1$ 次，因此输出其中最小的编号 $1$，出现 $1$ 次。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "权值线段树 —— 查询",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于我们要找众数，最直观的方法是建立一个<strong>权值线段树</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>节点含义</strong>：线段树的第 $x$ 个位置，存储编号为 $x$ 的宝可梦当前出现的次数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>维护信息</strong>：区间中出现次数最多的数  (<code>mxid</code>)  及其对应的出现次数 (<code>mxcnt</code>)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>操作</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当某个编号 $v$ 出现一次，对应单点 $+1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当某个编号 $v$ 消失一次，对应单点 $-1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "查询时直接取根节点的 <code>max</code> 信息即可。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "珂朵莉树 —— 修改",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "虽然我们有了权值线段树，但原题的操作是基于<strong>数值区间</strong> $[l, r]$ 的。我们需要一种机制，将 “数值区间的修改” 转化为 “$a$ 数组下标上的修改”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "观察操作性质：每次修改将 $[l, r]$ 变为首项为 $d$ 的等差数列，这意味着在这一段区间内，数值是连续的。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>ODT 的核心作用在这里是管理“连续的等差数列片段”</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>节点定义</strong>：ODT 的节点 <code>{l, r, v}</code> 表示数组下标 $l$ 到 $r$ 这一段，是一个<strong>首项为 v 的等差数列片段</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "即：$a_l = v, a_{l+1} = v+1, \\dots, a_r = v + (r-l)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这段区间包含的<strong>数值集合</strong>恰好是值域上的一个连续区间 $[v, v + (r-l)]$，<strong>可以在权值线段树上直接 modifyRange 修改</strong>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "珂朵莉树 assign 操作",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "整个算法的精髓在于 <code>assign</code> 操作时，<strong>利用 ODT 将下标操作映射到权值线段树上</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>删除旧区间</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当 ODT 需要删除一个节点 <code>{l, r, v}</code> 时，意味着原数组中下标 $[l, r]$ 这一段的等差数列消失了。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对应到数值上，就是数值区间 $[v, v + (r - l)]$ 里的每个数，出现次数都减少了 1。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>操作</strong>：权值线段树 <code>modifyRange(v, v + r - l, -1)</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>插入新区间</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当 ODT 插入一个新的节点 <code>{l, r, d}</code> 时，意味着原数组下标 $[l, r]$ 变成了一个新的等差数列。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对应到数值上，就是数值区间 $[d, d + (r - l)]$ 里的每个数，出现次数都增加了 1。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>操作</strong>：权值线段树 <code>modifyRange(d, d + r - l, 1)</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>Split 的细节</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为维护的是等差数列，从 $pos$ 切开区间 $[l, r]$ 时，右半部分 $[pos, r]$ 的首项不再是 $v$，而是 $v + (pos - l)$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct Tag {\n\tTag(): add(0) {}\n\tTag(int add): is_init(0), add(add) {}\n\n\tbool is_init = 1; // 初始化时不用 tag\n\n\t// 要维护的tag\n\tint add;\n\tvoid apply(const Tag& t) {\n\t\t// 父tag怎么传到子tag\n\t\tif (not t.is_init) {\n\t\t\tis_init = 0;\n\t\t\tadd += t.add;\n\t\t}\n\t}\n};\nstruct Info {\n\tInfo() :mxcnt(0), mxid(0) {};\n\tInfo(int pos) :mxcnt(0), mxid(pos) {};\n\n\t// 要维护的值\n\tint mxcnt, mxid; // 出现最多的出现的次数，出现最多的数(l == r 时，mxid = l)\n\tvoid apply(const Tag& t, int len) {\n\t\t// tag怎么传到要维护的值\n\t\tif (not t.is_init) {\n\t\t\tmxcnt += t.add;\n\t\t}\n\t}\n\n\tvoid apply(const Info& v) {\n\t\t// 如何单点修改\n\t\tmxid = v.mxid;\n\t}\n};\nInfo operator+(const Info& a, const Info& b) {\n\tInfo c;\n\tif (a.mxcnt > b.mxcnt) {\n\t\tc = a;\n\t}\n\telse if (b.mxcnt > a.mxcnt) {\n\t\tc = b;\n\t}\n\telse {\n\t\t// 次数相同，取编号小的\n\t\tc = a;\n\t\tc.mxid = min(a.mxid, b.mxid);\n\t}\n\treturn c;\n}\n\nclass ODT {\nprivate:\n\tstruct ODT_Node {\n\t\tint l, r;\n\t\tmutable int v; // 从 v 开始的等差数列\n\t\t\n\t\t// 重载小于号以用于 set 排序\n\t\tbool operator<(const ODT_Node& a)const {\n\t\t\treturn l < a.l;\n\t\t}\n\t};\n\n\t// ODT 的核心操作：分裂区间\n\t// 将包含 pos 的区间 [l, r] 分裂为 [l, pos - 1] 和 [pos, r]\n\t// 返回指向后半段 [pos, r] 的迭代器\n\tauto split(int pos) {\n\t\tauto it = se.lower_bound({ pos, 0, 0 });\n\t\tif (it != se.end() and it->l == pos)return it;\n\n\t\tit = prev(it);\n\t\tauto [l, r, v] = *it;\n\t\tse.erase(it);\n\t\tse.insert({ l, pos - 1, v });\n\n\t\t// 核心修改：右半部分的起始值需要加上偏移量\n\t\t// 左边长度是 pos - 1 - l + 1 = pos - l\n\t\t// 所以右边从 v + (pos - l) 开始\n\t\treturn se.insert({ pos, r, v + (pos - l)}).first;\n\t}\n\npublic:\n\tset<ODT_Node> se;\n\n\n\t// ODT 的核心操作：区间赋值（推平）\n\tvoid assign(LazySegmentTree<Info, Tag>& t, int l, int r, int d) {\n\t\t// 必须先 split 右边，再 split 左边，否则迭代器可能失效\n\t\tauto itr = split(r + 1);\n\t\tauto itl = split(l);\n\n\t\t// 遍历 [itl, itr) 之间的所有区间\n\t\tauto it = itl;\n\t\twhile (it != itr) {\n\t\t\tauto [l, r, v] = *it;\n\n\t\t\t// 撤销旧区间的贡献\n\t\t\t// 旧区间包含的数值范围是 [v, v + (r - l)]\n\t\t\tt.modifyRange(v, v + (r - l), -1);\n\t\t\t\n\t\t\t// 删除旧区间，erase 返回下一个元素的迭代器\n\t\t\tit = se.erase(it);\n\t\t}\n\n\t\t// 插入新区间\n\t\t// 新区间数值范围 [d, d + (r - l)]\n\t\tse.insert({ l, r, d });\n\t\tt.modifyRange(d, d + (r - l), 1);\n\t}\n};\n\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tODT odt;\n\tLazySegmentTree<Info, Tag> seg(2 * n + 1);\n\tfa(i, 1, 2 * n)seg.modify(i, i); // 值域初始化\n\tfa(i, 1, n) {\n\t\tint v; cin >> v;\n\t\todt.se.insert({ i, i, v });\n\t\tseg.modifyRange(v, v, 1);\n\t}\n\n\tvar res = seg.query(1, 2 * n);\n\tcout << res.mxid << \" \" << res.mxcnt << endl;\n\twhile (m--) {\n\t\tint l, r, d; cin >> l >> r >> d;\n\t\todt.assign(seg, l, r, d);\n\t\tres = seg.query(1, 2 * n);\n\t\tcout << res.mxid << \" \" << res.mxcnt << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-03",
+  "parsed_at": "2026-06-14T18:39:35.752360+00:00",
+  "type_directory": "p"
+}

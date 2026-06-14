@@ -1,0 +1,275 @@
+{
+  "slug": "cf2171c2-renako-amaori-and-xor-game-(hard-version)",
+  "title": "CF2171C2 Renako Amaori and XOR Game (hard version)",
+  "type": "题目",
+  "tags": [
+    "博弈论",
+    "异或交换法",
+    "二进制"
+  ],
+  "difficulty": 1.5,
+  "summary": "<strong>异或交换法</strong>一时居然忘了，查了一下这题跟网络赛一个线性基的题有点像，不过也就<strong>异或交换法</strong>这点像了。",
+  "link": "https://codeforces.com/contest/2171/problem/C2",
+  "link_text": "Problem - C2 - Codeforces",
+  "source": "[[Codeforces Round 1065 (Div. 3)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Renako 陷入了两难境地……当然，我指的是 Ajisai 和 Mai！她们两个都想和她一起玩，她就是无法决定！所以 Ajisai 和 Mai 决定玩 XOR 游戏。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Ajisai 和 Mai 被给定长度为 $n$ 的数组 $a$ 和 $b$（$0\\leq a_i, b_i\\leq {\\color{red}{10^6}}$）。她们将进行一个持续 $n$ 回合的游戏，其中 Ajisai 在奇数回合行动，Mai 在偶数回合行动。在第 $i$ 回合，行动的玩家可以选择交换 $a_i$ 和 $b_i$，或者选择跳过。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意，如果发生交换，被交换的索引必须与回合号匹配。例如，在第一回合，Ajisai 可以选择交换 $a_1$ 和 $b_1$，或者跳过。在第二回合，Mai 可以选择交换 $a_2$ 和 $b_2$，或者跳过。这持续进行 $n$ 回合。因此，只有 Ajisai 可以交换奇数索引，只有 Mai 可以交换偶数索引。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "游戏结束时，Ajisai 的得分为 $a_1 \\oplus a_2 \\oplus \\dots \\oplus a_n$，Mai 的得分为 $b_1 \\oplus b_2 \\oplus \\dots \\oplus b_n$。得分更高的玩家获胜。如果玩家得分相同，则游戏以平局结束。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "确定在双方都采取最优策略的情况下游戏的结果。更正式地说，如果存在某个玩家的策略，使得无论对手如何选择，该玩家总能获胜，则认为该玩家在最优策略下获胜。如果双方都没有这样的策略，则认为游戏在最优策略下是平局。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1\\leq t\\leq 10^4$）——测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$（$1\\leq n\\leq 2\\cdot 10^5$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第二行包含 $n$ 个整数 $a_1, a_2, \\dots, a_n$（$0\\leq a_i\\leq 10^6$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第三行包含 $n$ 个整数 $b_1, b_2, \\dots, b_n$（$0\\leq b_i\\leq 10^6$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例的 $n$ 的总和不超过 $2\\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，如果 Ajisai 在最优策略下获胜，则在一行输出 \"Ajisai\"；如果 Mai 在最优策略下获胜，则输出 \"Mai\"；如果游戏在最优策略下以平局结束，则输出 \"Tie\"。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你可以以任何大小写形式输出答案。例如，\"mAi\"、\"mai\"、\"MAI\" 和 \"maI\" 都将被识别为 \"Mai\"。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n4\n1 4 6 1\n3 2 3 7\n6\n20 11 1 7 7 0\n14 8 3 6 17 6\n4\n2 6 3 6\n3 4 7 1\n5\n1 4 5 5 3\n6 7 1 2 13\n6\n9 5 9 17 17 6\n1 13 6 13 1 15\n5\n2 3 8 1 5\n3 1 6 14 7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Mai\nAjisai\nTie\nAjisai\nMai\nTie",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在第一个例子中，游戏的一种可能进行方式如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在第 1 回合，Ajisai 选择交换 $a_1$ 和 $b_1$。现在数组变为 $a = [3, 4, 6, 1]$ 和 $b = [1, 2, 3, 7]$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在第 2 回合，Mai 选择交换 $a_2$ 和 $b_2$。现在数组变为 $a = [3, 2, 6, 1]$ 和 $b = [1, 4, 3, 7]$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在第 3 回合，Ajisai 选择跳过。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在第 4 回合，Mai 选择交换 $a_4$ 和 $b_4$。现在数组变为 $a = [3, 2, 6, 7]$ 和 $b = [1, 4, 3, 1]$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在，Ajisai 的最终得分是 $3\\oplus 2\\oplus 6\\oplus 7 = 0$，Mai 的最终得分是 $1\\oplus 4\\oplus 3\\oplus 1 = 7$。因此，Mai 赢得了游戏。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "上述描述并不保证代表了最优策略。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：博弈论问题，要不要打暴力呢？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：本题定位不高，看出题目性质即可，就不要打暴力了。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>更进一步</strong>：运算全是<strong>异或</strong>，还能进行<strong>交换</strong>，本题肯定要用到<strong>异或交换法</strong>，即：$a$ => $b$：$a \\oplus (a \\oplus b)$，$b$ => $a$：$b \\oplus (a \\oplus b)$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "想到了<strong>异或交换法</strong>，现在考虑怎么通过<strong>异或</strong>判断两数<strong>大小关系</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "相等时，两数异或为 $0$，这种情况下再怎么通过  $\\oplus (a_i \\oplus b_i)$ 实现两数交互，异或也都为 $0$，故此时肯定平局。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "不相等时，设两数异或出的数 $tmp$ 的最高二进制位为 $i$，两数在 $i$ 位上为 $1$ 的大。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一旦一方能通过异或交换操作控制当前双方的数在 $i$ 位上的 1/0 变化，那么这一方在此时肯定赢定了。所以我们只需要关注哪一方在最后能够控制 $i$ 位上的 1/0 变化即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当 $(a_k \\oplus b_k)$ 在 $i$ 位上为 1 时，此时进行<strong>异或交换操作</strong>就能控制双方的数在 $i$ 位上的 1/0 变化。比 $i$ 更高的位不会影响两数的大小关系。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "想到<strong>异或交换法</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "想出通过<strong>异或</strong>判断<strong>两数大小关系</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "运算全是异或，且还能进行交换，肯定需要用<strong>异或交换法</strong>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<ll>(n + 1);\n\tvar b = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n)cin >> b[i];\n\tll x = 0, y = 0;\n\tfa(i, 1, n)x ^= a[i], y ^= b[i];\n \n\tll tmp = x ^ y; // x y 差异\n\tif (tmp == 0) {\n\t\tcout << \"Tie\" << endl;\n\t\treturn;\n\t}\n \n\t// 仅考虑 tmp 的最高位\n\tll len = log2(tmp);\n\tll ans = x >> len & 1;\n\tfa(i, 1, n) {\n\t\tif ((a[i] ^ b[i]) >> len & 1) {\n\t\t\t// 可通过 (a[i] ^ b[i]) 控制 tmp 最高位\n\t\t\tans = i;\n\t\t}\n\t}\n\tif (ans & 1)cout << \"Ajisai\" << endl;\n\telse cout << \"Mai\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-11-25",
+  "parsed_at": "2026-06-14T18:39:36.360570+00:00",
+  "type_directory": "p"
+}

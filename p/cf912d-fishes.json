@@ -1,0 +1,302 @@
+{
+  "slug": "cf912d-fishes",
+  "title": "CF912D Fishes",
+  "type": "题目",
+  "tags": [
+    "贡献法",
+    "bfs",
+    "贪心"
+  ],
+  "difficulty": 2.0,
+  "summary": "",
+  "link": "https://www.luogu.com.cn/problem/CF912D",
+  "link_text": "CF912D Fishes - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "当 Grisha 和 Ded Moroz 一起庆祝新年时，Misha 送给 Sasha 一个 $n\\times m$ 大小的小型长方形池塘，池塘被划分为 $1\\times 1$ 的格子，每个格子里住着一条邪恶的小鱼（每个格子最多只能有一条鱼，否则它们之间会打架！）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "礼包里还附带了一个边长为 $r$ 的正方形渔网（$r\\times r$），用来捕鱼。如果你将渔网的左下角放在格子 $(x, y)$，则渔网覆盖的正方形区域 $(x, y)...(x+r-1, y+r-1)$ 里的所有小鱼会被捕获。需要注意的是，使用时渔网必须完全位于池塘内部。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "遗憾的是，Sasha 捕鱼技术不高，所以她会随机把渔网撒下。为了不让 Sasha 沮丧，Misha 决定将 $k$ 条小鱼放进空池塘，并选择放置的格子，使得被捕获小鱼数量的期望尽可能大。现在请你帮助 Misha，找出这 $k$ 条鱼的最佳放置方案。换句话说，就是将 $k$ 条小鱼分别放到池塘的不同格子里，使得渔网在所有 $(n-r+1)\\cdot(m-r+1)$ 种不同可覆盖位置中随机选择一个，平均能捕到的小鱼数最大。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入一行包含四个整数 $n, m, r, k$（$1 \\leq n, m \\leq 10^{5}$，$1 \\leq r \\leq \\min(n, m)$，$1 \\leq k \\leq \\min(n\\cdot m, 10^{5})$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个实数，表示可以获得的最大期望捕获小鱼数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你的答案被认为是正确的，当且仅当其绝对误差或相对误差不超过 $10^{-9}$。即，设你的答案为 $a$，标准答案为 $b$，当且仅当",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\n\\frac{|a-b|}{\\max(1, |b|)} \\leq 10^{-9}\n$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "时，视为正确。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3 2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2.0000000000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "12 17 9 40",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "32.8333333333",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，你可以把小鱼放在 $(2,1)$, $(2,2)$, $(2,3)$ 这三个格子中。这种情况下，四种渔网的可能放置方式（见下图绿色高亮区域）每次都能捕到两条小鱼，期望值也是 $2$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF912D/40c8b1b61edb367e0e414618a2e0b777e6a3b2ba.png)",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目要求计算 $r \\times r$ 渔网能捕获鱼的数量的期望值。根据期望的线性性质：<strong>总期望 = 放鱼的总贡献 / 渔网的可放置方案总数</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，为了让期望最大，我们只需要把 $k$ 条鱼放在<strong>“被渔网覆盖次数最多”</strong>的 $k$ 个格子上即可。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "算出每个点的贡献值 (贡献法)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "假设一条鱼放在坐标 $(x, y)$，它能产生多少贡献？其实就是问<strong>有多少个</strong> $r \\times r$ <strong>的渔网能覆盖到</strong> $(x, y)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "一个渔网的位置由其左上角顶点 $(x', y')$ 决定。为了覆盖到 $(x, y)$，需要满足：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "渔网必须在网格内：$1 \\le x' \\le n - r + 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "渔网的边界必须包含 $x$：$x' \\le x \\le x' + r - 1$ ，即 $x - r + 1 \\le x' \\le x$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "综合这两个条件，合法的左上角 $x'$ 的取值范围是：$[\\max(1, x - r + 1), \\min(n - r + 1, x)]$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "该区间的长度即为 $x$ 维度的贡献：<code>tmpx = min - max + 1</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "同理算出 $y$ 维度的合法长度 <code>tmpy</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "那么点 $(x, y)$ 的总贡献即为：<code>res = tmpx * tmpy</code>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "贪心与优先队列 BFS",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然算出了公式，我们直接找贡献最大的前 $k$ 个点即可。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但问题是，网格大小 $N, M \\le 10^5$，总格子数高达 $10^{10}$，直接遍历全图 $O(NM)$ 必定超时。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>贪心性质：</strong> 显然，越靠近网格中心的位置，被渔网覆盖的次数就越多；越向四周边缘移动，贡献值严格单调递减。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>解决方案：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1.  我们直接把起始点设在<strong>网格的中心</strong> <code>((n+1)/2, (m+1)/2)</code>，因为这里的贡献必然是全局最大的。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2.  利用大根堆维护当前探索到的边界，每次弹出当前贡献最大的格子。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3.  将鱼放在这个格子上，并向它的上下左右 4 个方向扩散，将未访问过的新格子加入优先队列。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "4.  重复上述操作 $k$ 次（即弹出 $k$ 个点），即可不重不漏地以 $O(k \\log k)$ 的极低代价，贪心地拿到全局前 $k$ 大的贡献值。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "结果计算",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "前 $k$ 次弹出的 <code>res</code> 之和，就是最大化的<strong>总命中次数</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "总渔网放置方案数为：$tot = (n - r + 1) \\times (m - r + 1)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "最终期望：$Ans = \\sum res / tot$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll n, m, r, k;\nll cal(ll x, ll y) {\n\tll tmpx = (max(1ll, min(n, x + (r - 1)) - (r - 1))) - max(1ll, x - (r - 1)) + 1;\n\tll tmpy = (max(1ll, min(m, y + (r - 1)) - (r - 1))) - max(1ll, y - (r - 1)) + 1;\n\treturn tmpx * tmpy;\n}\nstruct node {\n\tll x, y, res;\n\tnode(ll x, ll y) :x(x), y(y), res(cal(x, y)) {}\n\tbool operator<(const node& a)const {\n\t\treturn res < a.res;\n\t}\n};\nvoid solve(int CASE)\n{\n\tcin >> n >> m >> r >> k;\n\t// x,y\n\t// x: max(1, x - (r - 1)) - (min(n, x + (r - 1)) - (r - 1))\n\t// y: max(1, y - (r - 1)) - (min(m, y + (r - 1)) - (r - 1))\n\tll sx = (n + 1) / 2, sy = (m + 1) / 2;\n\tvar Q = priority_queue<node>();\n\tvar vis = set<pii>();\n\tll ans = 0, tot = (n - r + 1) * (m - r + 1);\n\tQ.push({ sx,sy });\n\twhile (Q.size() and k > 0) {\n\t\tvar[x, y, res] = Q.top();\n\t\tQ.pop();\n\t\tif (vis.count({ x,y }))continue;\n\t\tvis.insert({ x,y });\n\t\tk--;\n\t\tans += res;\n\t\tfa(i, 0, 3) {\n\t\t\tint nx = x + dx[i];\n\t\t\tint ny = y + dy[i];\n\t\t\tif (nx < 1 or nx > n or ny < 1 or ny > m)continue;\n\t\t\tQ.push({ nx,ny });\n\t\t}\n\t}\n\tcout << fixed << setprecision(12) << ans * 1.0 / tot << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-08",
+  "parsed_at": "2026-06-14T18:39:36.627213+00:00",
+  "type_directory": "p"
+}

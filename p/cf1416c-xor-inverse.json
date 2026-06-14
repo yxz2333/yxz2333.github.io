@@ -1,0 +1,233 @@
+{
+  "slug": "cf1416c-xor-inverse",
+  "title": "CF1416C XOR Inverse",
+  "type": "题目",
+  "tags": [
+    "异或/01字典树",
+    "经典问题/逆序对"
+  ],
+  "difficulty": 2.5,
+  "summary": "主要就是在 01 字典树上跑归并排序求逆序对。",
+  "link": "https://www.luogu.com.cn/problem/CF1416C",
+  "link_text": "CF1416C XOR Inverse - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定长度为 $n$ $(1\\le n\\le3\\times 10^5)$ 的数列 $\\{a_n\\}$ $(0\\le a_n\\le 10^9)$，请求出最小的整数 $x$ 使 $\\{a_n\\oplus x\\}$ 的逆序对数最少，其中 $\\oplus$ 是异或",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行 $n$，第二行 $\\{a_n\\}$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "两个数，逆序对数和 $x$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n0 1 3 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9\n10 7 9 10 7 5 5 3 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 14",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n8 10 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0 8",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "问题转化与 Trie 树建构",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "本题要研究所有数异或<strong>同一个数</strong> $x$ 对逆序对的影响，自然想到用 <strong>01 字典树</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "求原数组 $a$ 的逆序对，等价于<strong>将数值按从小到大的顺序排好后，去统计它们对应原数组下标的逆序对</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，在建树时，我们将每个<strong>数字</strong>及其在原数组中的<strong>下标</strong>插入 01 Trie，按数值大小将下标分配到叶子节点。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "归并排序求逆序对",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在 Trie 树上通过 DFS 自底向上归并返回有序的下标序列，<strong>求跨越两子树区间的逆序对/正序对个数</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第 $i$ 层的任意节点，其左子树（当前位为 0）的数值天然小于右子树（当前位为 1）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "假设 $x$ 的第 $i$ 位保持为 0（即<strong>不翻转</strong>），在合并左右子树的下标序列时，算合并产生的<strong>逆序对</strong>（记为 <code>px</code>）和<strong>正序对</strong>（记为 <code>py</code>）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "利用归并排序求逆序对的双指针原理，我们可以在 $O(N \\log (\\max A))$ 的复杂度内，把整个第 $i$ 层所有节点的 <code>px</code> 和 <code>py</code> 累加统计出来。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "按位贪心求最小答案",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在 Trie 树中，两个数的大小关系由它们从高到低<strong>第一次分岔的位</strong>决定，更低位的翻转无法改变已确定的大小关系。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，<strong>二进制每一位对逆序对的贡献是完全独立的</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在最后统计答案时，我们只需对每一位 $i$ 独立进行贪心决策，比较当前层的 <code>px</code> 和 <code>py</code>即可。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果 <code>px &lt;= py</code>，说明不翻转该位更优，$x$ 的第 $i$ 位填 0，总逆序对累加 <code>px</code>；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 <code>px &gt; py</code>，说明翻转该位能<strong>让原来的正序对（<code>py</code>）变成逆序对</strong>，从而减少总逆序对，此时 $x$ 的第 $i$ 位填 1，总逆序对累加 <code>py</code>。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "class Trie01Vector {\nprivate:\n\tstruct TrieNode {\n\t\tarray<int, 2> children; // 指向孩子的 id\n\t\tTrieNode() : children{ 0, 0 } {}\n\t};\n\n\tvector<TrieNode> tr;\n\tint newNode() { tr.push_back(TrieNode()); return ++nodeCnt; }\n\n\tint MAX;\n\tint root = 1;\n\tint nodeCnt = 1;\n\tmap<ll, vector<int>> mp;\npublic:\n\tTrie01Vector(int MAX) :MAX(MAX), tr(2) {}\n\n\tvoid insert(int num, int id) {\n\t\tmp[num].pb(id);\n\t\tint now = root;\n\t\tfor (int i = MAX; i >= 0; i--) {\n\t\t\tbool bit = (num >> i) & 1; // 当前数位\n\t\t\tif (not tr[now].children[bit]) {\n\t\t\t\tint tmp = newNode();\n\t\t\t\ttr[now].children[bit] = tmp;\n\t\t\t}\n\t\t\tnow = tr[now].children[bit];\n\t\t}\n\t}\n\n\tvector<int>\n\t\tdfs(vector<pll>& dp, int now, int i, ll pre)\n\t{ // 归并排序求逆序对\n\t\tif (tr[now].children[0] and tr[now].children[1]) {\n\t\t\tvar to = array<int, 2>{ \n\t\t\t\ttr[now].children[0],\n\t\t\t\ttr[now].children[1]\n\t\t\t};\n\t\t\tvar res = array<vector<int>, 2>{ \n\t\t\t\tdfs(dp, to[0], i - 1, pre), \n\t\t\t\tdfs(dp, to[1], i - 1, pre + (1ll << i)) \n\t\t\t};\n\n\t\t\t// 算跨越两区间的逆序对/正序对个数\n\t\t\t// 未反转 i 位时，前[0] 后[1]\n\t\t\tint j = 0;\n\t\t\tfor (int x : res[1]) {\n\t\t\t\twhile (j <= vs(res[0]) and res[0][j] <= x)j++;\n\t\t\t\tdp[i].px += vs(res[0]) - j + 1;\n\t\t\t\tdp[i].py += j;\n\t\t\t}\n\n\t\t\t// 插入排序\n\t\t\tvar fres = vector<int>();\n\t\t\tint k = 0; j = 0;\n\t\t\twhile (k <= vs(res[0]) and j <= vs(res[1])) {\n\t\t\t\tif (res[0][k] < res[1][j]) {\n\t\t\t\t\tfres.pb(res[0][k]);\n\t\t\t\t\tk++;\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tfres.pb(res[1][j]);\n\t\t\t\t\tj++;\n\t\t\t\t}\n\t\t\t}\n\t\t\twhile (k <= vs(res[0])) {\n\t\t\t\tfres.pb(res[0][k]);\n\t\t\t\tk++;\n\t\t\t}\n\t\t\twhile (j <= vs(res[1])) {\n\t\t\t\tfres.pb(res[1][j]);\n\t\t\t\tj++;\n\t\t\t}\n\t\t\treturn fres;\n\t\t}\n\t\telse if (tr[now].children[0]) {\n\t\t\treturn dfs(dp, tr[now].children[0], i - 1, pre);\n \t\t}\n\t\telse if (tr[now].children[1]) {\n\t\t\treturn dfs(dp, tr[now].children[1], i - 1, pre + (1ll << i));\n\t\t}\n\t\telse {\n\t\t\treturn mp[pre];\n\t\t}\n\t}\n\n\tpll get() {\n\t\t// 第 i 位不翻转的情况下，跨越两区间的逆序对/正序对个数\n\t\tvar dp = vector<pll>(31); \n\t\tdfs(dp, root, MAX, 0);\n\t\tpll res = { 0,0 };\n\t\tfb(i, MAX, 0) {\n\t\t\t// i 位翻转，两区间位置翻转，正序对变成逆序对\n\t\t\tif (dp[i].px <= dp[i].py)res.px += dp[i].px;\n\t\t\telse {\n\t\t\t\tres.px += dp[i].py;\n\t\t\t\tres.py += (1ll << i);\n\t\t\t}\n\t\t}\n\t\treturn res;\n\t}\n};\n\nvar t = Trie01Vector(30);\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfa(i, 1, n) {\n\t\tint x; cin >> x;\n\t\tt.insert(x, i);\n\t}\n\tvar res = t.get();\n\tcout << res.px << ' ' << res.py << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-11",
+  "parsed_at": "2026-06-14T18:39:36.171878+00:00",
+  "type_directory": "p"
+}

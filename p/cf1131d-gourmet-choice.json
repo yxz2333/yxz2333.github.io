@@ -1,0 +1,216 @@
+{
+  "slug": "cf1131d-gourmet-choice",
+  "title": "CF1131D Gourmet choice",
+  "type": "题目",
+  "tags": [
+    "拓扑排序",
+    "并查集"
+  ],
+  "difficulty": 1.5,
+  "summary": "拓扑排序，取等号的点用并查集缩成一个点。",
+  "link": "https://codeforces.com/problemset/problem/1131/D",
+  "link_text": "Problem - 1131D - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "美食家 Mr. Apple 是一家美食杂志的主编。他周游世界，品尝各大时尚餐厅著名厨师的新菜肴。Mr. Apple 有自己独特的点评方法——在每家餐厅，他会在两天内分别点两组不同的菜品。所有菜品都不相同，因为 Mr. Apple 不喜欢重复吃同样的食物。对于来自不同天的每一对菜品，他都能准确记住哪一道更好，或者它们一样好。之后，这位美食家会为每道菜打一个正整数分数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "有一次，在检查一家名为「Poisson」的凯尔特中世纪餐厅时，该餐厅供应杉树栗子汤、温苏打面包、辣柠檬派以及其他民间美食，丰富的菜单让 Mr. Apple 非常惊喜，因此他点了太多菜。现在他在为这些菜品评分时感到困惑。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "美食家在第一天品尝了 $n$ 道菜，在第二天品尝了 $m$ 道菜。他制作了一个 $n \\times m$ 的表格 $a$，记录了自己的感受。如果在他看来，第 $1$ 天的第 $i$ 道菜比第 $2$ 天的第 $j$ 道菜好，则 $a_{ij}$ 为 \">\"；反之，则为 \"<\"；如果两道菜一样好，则为 \"=\"。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在，Mr. Apple 希望你帮他为每道菜打分。由于他非常严格，他会让所用的最大分数尽可能小。但他也非常公正，绝不会违背自己的感受。换句话说，如果 $a_{ij}$ 是 \"<\"，则第一天第 $i$ 道菜的分数应小于第二天第 $j$ 道菜的分数；如果 $a_{ij}$ 是 \">\"，则应更大；如果 $a_{ij}$ 是 \"=\"，则分数应相等。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请你帮 Mr. Apple 为两天的所有菜品打分，使其与他的感受一致，或者判断这是否不可能。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$ 和 $m$（$1 \\leq n, m \\leq 1000$），分别表示两天的菜品数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行，每行包含一个长度为 $m$ 的字符串。第 $i$ 行第 $j$ 个字符为 $a_{ij}$。所有字符串只包含 \"<\"、\">\" 和 \"=\"。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出第一行为 \"Yes\"，如果存在一种合理的评分方式；否则输出 \"No\"。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果存在评分方式，第二行输出 $n$ 个整数，表示第一天每道菜的评分；第三行输出 $m$ 个整数，表示第二天每道菜的评分。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 4\n>>>>\n>>>>\n>>>>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\n2 2 2 \n1 1 1 1 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3\n>>>\n<<<\n>>>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\n3 1 3 \n2 2 2 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2\n==\n=<\n==",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "No",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，第一天所有菜品都比第二天的菜品好。因此，最大分数为 $2$，所有第一天的菜品分数均为 $2$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个样例中，表格存在矛盾——不存在满足条件的评分方式。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "拓扑排序非常明显，对 $< >$ 直接相应加一条边就行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "主要是 $=$ 的处理。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "最简单的方法就是用<strong>并查集缩成一个点</strong>了，用别的方法麻烦还容易错。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "string a[N];\nint ans[N], deg[N], ndeg[N], s[N];\nvector<int> g[N], ng[N];\nint find(int x) {\n\tif (s[x] == x)return s[x];\n\treturn s[x] = find(s[x]);\n}\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tfa(i, 1, n)cin >> a[i], a[i] = ' ' + a[i];\n\n\tfa(i, 1, n + m)s[i] = i;\n\tfa(i, 1, n)fa(j, 1, m) {\n\t\tif (a[i][j] == '=') {\n\t\t\tint e1 = find(i), e2 = find(j + n);\n\t\t\tif (e1 != e2)s[e2] = e1;\n\t\t}\n\t}\n\n\tfa(i, 1, n)fa(j, 1, m) {\n\t\tint e1 = find(i), e2 = find(j + n);\n\t\tif (e1 == e2)continue;\n\t\tif (a[i][j] == '<')g[e1].pb(e2), deg[e2]++;\n\t\telse if (a[i][j] == '>')g[e2].pb(e1), deg[e1]++;\n\t}\n\n\tvar Q = queue<int>();\n\tfa(i, 1, n + m)if (find(i) == i and !deg[i])Q.push(i), ans[i] = 1;\n\twhile (Q.size()) {\n\t\tint now = Q.front();\n\t\tQ.pop();\n\n\t\tfor (int to : g[now]) {\n\t\t\tans[to] = ans[now] + 1;\n\t\t\tdeg[to]--;\n\t\t\tif (deg[to] == 0)Q.push(to);\n\t\t}\n\t}\n\n\tfa(i, 1, n + m)if (deg[i]) {\n\t\tcout << \"No\" << endl;\n\t\treturn;\n\t}\n\n\tfa(i, 1, n + m)ans[i] = ans[find(i)];\n\n\tfa(i, 1, n)fa(j, 1, m) {\n\t\tint ii = i, jj = j + n;\n\t\tif (a[i][j] == '<') {\n\t\t\tif (ans[ii] >= ans[jj]) {\n\t\t\t\tcout << \"No\" << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t}\n\t\telse if (a[i][j] == '>') {\n\t\t\tif (ans[ii] <= ans[jj]) {\n\t\t\t\tcout << \"No\" << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tif (ans[ii] != ans[jj]) {\n\t\t\t\tcout << \"No\" << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t}\n\t}\n\n\tcout << \"Yes\" << endl;\n\tfa(i, 1, n)cout << ans[i] << \" \\n\"[i == n];\n\tfa(i, n + 1, n + m)cout << ans[i] << \" \\n\"[i == n + m];\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-23",
+  "parsed_at": "2026-06-14T18:39:36.100097+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,111 @@
+{
+  "slug": "瓶颈路问题",
+  "title": "瓶颈路问题",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "瓶颈路问题"
+  ],
+  "parent": "图论经典问题",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "什么是瓶颈路？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>最小化最大值：</strong> 求两点间的一条路径，使得该路径上的 “最大边权（或点权）” 尽可能小。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>最大化最小值：</strong> 求两点间的一条路径，使得该路径上的 “最小边权（或点权）” 尽可能大。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>核心思想：</strong> 不关心路径的总长度/总和，只关心路径上的<strong>极值</strong>（木桶效应）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "最短路",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>适用于：</strong> 无向图、有向图、单源（ <a href=\"/tags\" class=\"tag-link\">#dij</a> )、多源（ <a href=\"/tags\" class=\"tag-link\">#floyd</a> ）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>原理：</strong> 有向图没有 MST 的概念，无法使用 Kruskal 重构树，必须使用最短路。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>迪杰斯特拉：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "将松弛操作中的加法 <code>dis[u] + w</code> 改为取最值 <code>max(dis[u], w)</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>状态转移方程：</strong> <code>dis[v] = min(dis[v], max(dis[u], weight(u, v)))</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>Floyd：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>转移方程：</strong> <code>f[i][j] = min(f[i][j], max(f[i][k], f[k][j]))</code>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "Kruskal 重构树",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>适用于：</strong> 无向图、多源。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>Kruskal 重构树 + LCA</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>原理：</strong> 无向图的瓶颈路必定在<strong>最小生成树</strong> (MST) 上。Kruskal 重构树将边权化为点权，两点间路径的最大边权，直接等于它们在重构树上 LCA 的点权。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>复杂度：</strong> 建树 $O(M \\log M)$，每次查询 $O(\\log N)$。",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-23",
+  "parsed_at": "2026-06-14T18:45:12.038570+00:00",
+  "type_directory": "k"
+}

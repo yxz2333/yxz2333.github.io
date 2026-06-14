@@ -1,0 +1,381 @@
+{
+  "slug": "cf2176f-omega-numbers",
+  "title": "CF2176F Omega Numbers",
+  "type": "题目",
+  "tags": [
+    "gcd",
+    "容斥",
+    "计数问题",
+    "dp"
+  ],
+  "difficulty": 3.5,
+  "summary": "先看出来两个<strong>数论</strong>结论，然后再根据<strong>容斥原理</strong>，通过<strong>公因数</strong>的数对个数算出<strong>最大公因数</strong>的数对个数。",
+  "link": "https://codeforces.com/contest/2176/problem/F",
+  "link_text": "Problem - F - Codeforces",
+  "source": "[[Codeforces Round 1070 (Div. 2)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于给定的数字 $n$，考虑函数 $\\omega(n)$，它等于数字 $n$ 的质因数分解中<strong>不同</strong>质数的个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例如，$\\omega (12) = \\omega (2^2 \\cdot 3) = 2$。以及 $\\omega (120) = \\omega (2^3 \\cdot 3 \\cdot 5) = 3$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于一个自然数数组 $a$ 和一个自然数 $k$，我们定义 $\\operatorname{f}(a, k) = \\sum_{i < j} \\omega(a_i \\cdot a_j)^k$，其中 $i < j$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给你一个长度为 $n$ 的自然数数组 $a$ 和一个自然数 $k$。请计算 $\\operatorname{f}(a, k)$ 对 $998\\,244\\,353$ 取模后的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试点包含多组数据。第一行包含测试用例的数量 $t$ ($1 \\le t \\le 10^4$)。接下来是每组测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组测试用例的第一行包含 2 个整数 $n$ 和 $k$ ($1 \\leq n \\leq 2 \\cdot 10^5, 1 \\leq k \\leq 10^9$) —— 分别表示数组 $a$ 的长度和运算的指数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组测试用例的第二行包含 $n$ 个自然数 $a_1, a_2, \\ldots, a_n$ ($1 \\leq a_i \\leq n$) —— 即数组 $a$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $2 \\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试用例，输出一行一个整数，表示函数 $\\operatorname{f}(a, k)$ 对 $998\\,244\\,353$ 取模后的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n4 1\n3 3 3 3\n4 1\n1 1 1 1\n4 2\n1 2 3 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n0\n12",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>第一个测试用例解释：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于任意数对 $(i,j)$，乘积的 $\\omega(x)$ 值为 $\\omega(3^2) = 1$。总共有 $6$ 对数，指数为 $1$。最终答案为 $6$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>第二个测试用例解释：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个测试用例中，任意数对的乘积都等于 $1$，其中质数的个数为 $0$。因此最终答案也为 $0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>第三个测试用例解释：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "考虑所有数对 $(i,j)$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "($1,2$)：位置 $1$ 和 $2$ 的数字乘积为 $a_1 \\cdot a_2 = 1 \\cdot 2$，$\\omega(2) = 1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "($1,3$)：位置 $1$ 和 $3$ 的数字乘积为 $a_1 \\cdot a_3 = 1 \\cdot 3$，$\\omega(3) = 1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "($1,4$)：位置 $1$ 和 $4$ 的数字乘积为 $a_1 \\cdot a_4 = 1 \\cdot 4$，$\\omega(2^2) = 1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "($2,3$)：位置 $2$ 和 $3$ 的数字乘积为 $a_2 \\cdot a_3 = 2 \\cdot 3$，$\\omega(2 \\cdot 3) = 2$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "($2,4$)：位置 $2$ 和 $4$ 的数字乘积为 $a_2 \\cdot a_4 = 2 \\cdot 4$，$\\omega(2^3) = 1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "($3,4$)：位置 $3$ 和 $4$ 的数字乘积为 $a_3 \\cdot a_4 = 3 \\cdot 4$，$\\omega(3 \\cdot 2^2) = 2$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在答案中，$\\omega(x)$ 的值需要进行 $2$ 次方运算，所以 $1^2 + 1^2 + 1^2 + 2^2 + 1^2 + 2^2 = 12$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$a_i \\le 2 \\cdot 10^5$，而前 7 个质数相乘 $2 \\cdot 3 \\cdot 5 \\cdot 7 \\cdot 11 \\cdot 13 \\cdot 17 > 2 \\cdot 10^5$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "这意味着任意 $a_i$ 的质因数个数 $\\omega(a_i) \\le 6$，这是一个极小的值，<strong>暗示我们可以将其作为 DP 的状态维度</strong>。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "题目要求 $\\omega(a_i \\cdot a_j)^k$，利用 $\\omega$ 函数的性质（$a, b$ 互质时 $\\omega(ab)=\\omega(a)+\\omega(b)$，不互质时重叠部分只算一次），可以推出：",
+          "depth": 3
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\omega(x \\cdot y) = \\omega(x) + \\omega(y) - \\omega(\\gcd(x, y)) $$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "考虑 <strong>gcd</strong> 作为突破口，我们的目标是算出 $\\text{ans} = \\sum (\\text{len} - \\omega(g))^k$。这需要我们算出：有多少对 $(i, j)$ 满足 $\\gcd(a_i, a_j)=g$ 且 $\\omega(a_i)+\\omega(a_j) = \\text{len}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "记 $dp[g][len]$ 为满足上述条件的 $(i, j)$ 对数，那么我们的问题就是如何求这个 $dp[g][len]$？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "直接求 “最大公因数恰好为 $g$” 很难，直接枚举 $g$ 然后算 $gcd(a[i], a[j]) = g$ 的 $(i, j)$ 对数？显然不行，在目标是求<strong>最大公因数</strong>的情况下，我们无法避免 $O(n ^ 2)$ 的枚举。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "但如果目标是求<strong>公因数</strong>，这就好求的多。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "枚举 $g$，找出所有 <strong>g 的倍数</strong>，并按 $\\omega$ 值分类（用于后续算 $dp$ 的 $len$）。$cnt[g][w]$：数组 $a$ 中是 $g$ 的倍数且 $\\omega(val)=w$ 的数的个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "利用 $cnt$ 数组，我们可以轻松算出 $g$ 是公因数的 $(a[i], a[j])$ 对数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "方法为枚举两个 $\\omega$ 值 $wx$ 和 $wy$：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若 $wx \\neq wy$：对数是 $cnt[g][wx] \\times cnt[g][wy]$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $wx = wy$：对数是 $cnt[g][wx] \\times (cnt[g][wx] - 1) / 2$（组合数，去重）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "将这些加到 $dp[g][wx+wy]$ 中。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "此时我们算出来的 $dp[g]$ 包含的是所有<strong>公因数</strong>为 $g$ 的 $(a[i], a[j])$ 对，混杂了有些数对的 $\\gcd=2g, 3g...$ 的情况。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了让 $g$ 为数对的<strong>最大公因数</strong>，我们需要减掉 $dp[g]$ 多出来的 $dp[2g], dp[3g]...$，即<strong>GCD 容斥</strong> 。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>容斥</strong>求 $dp[g][len]$：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这是最关键的一步。我们<strong>从 n 到 1 倒序枚举最大公因数 g</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "当我们处理 $g$ 时，比它大的倍数 $2g, 3g, \\dots$ 已经被处理完了（即 $dp[2g]$ 已经是“最大公因数恰好为 $2g$”的真值）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "根据<strong>容斥原理</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$ dp[g_{恰好}] = dp[g_{倍数}] - \\sum_{k \\ge 2} dp[k \\cdot g_{恰好}] $$\n代码实现就是遍历 $g$ 的倍数 $gg$，直接减去 $dp[gg][len]$ 即可。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "以上的<strong>GCD 容斥计数</strong> 的 <strong>trick</strong> 有对应的模板题：<a href=\"/p/p2398-gcd-sum\" class=\"wikilink\">P2398 GCD SUM</a>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "能否快速看出本题的 <strong>式子变换</strong> 与 <strong>a[i] 的质因数很少</strong> ？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "能否想到用 <strong>枚举 gcd</strong> 的来算本题满足条件的数对？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "能否想到 <strong>“先算公因数的数对个数，再倒序相减”</strong> 的方法来算出 <strong>最大公因数</strong>  $gcd(a[i], a[j]) = g$ 的数对个数？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "遇到 <strong>\"求 GCD 恰好为 k 的数对个数\"</strong> 类问题，标准起手式：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "> <strong>先算公因数的数对个数，再倒序相减。</strong>",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "MT::EulerPrime er(N);\nint w[N];\nvoid init() {\n\t// 求 2e5 内每个数的质因数个数，即 w(i)\n\tfa(i, 2, 2e5) w[i] = er.primeFactorsVEC(i).size();\n}\nvoid solve(int CASE)\n{\n\t// 注意到式子：w(x * y) = w(x) + w(y) - w(gcd(x, y))\n\t// 枚举 gcd(x, y)\n\t// 2 * 3 * 5 * 7 * 11 * 13 * 17 > 2e5 (a[i] 最多由 6 个质数组成)\n\n\tint n, k; cin >> n >> k;\n\tvar a = vector<int>(n + 1);\n\tvar mp = vector<int>(n + 1);\n\tfa(i, 1, n) {\n\t\tcin >> a[i];\n\t\tmp[a[i]]++;\n\t}\n\n\tvar cnt = Vec2<ll>(n + 1, 7); // a 中为 g 倍数，且 w(a) = len 的有 cnt[g][len] 个\n\tfa(g, 1, n)\n\t\tfor (int val = g; val <= n; val += g)\n\t\t\tif (mp[val])\n\t\t\t\tcnt[g][w[val]] += mp[val];\n\n\n\tvar dp = Vec2<ll>(n + 1, 13); // gcd(a[x], a[y]) 为 g，w(a[x]) + w(a[y]) 为 len 的点对数\n\tfb(g, n, 1) {\n\n\t\t// 算以 g 为公因数，w 相加为 wx + wy 的点对数 dp'[g][wx + wy]\n\t\tfa(wx, 0, 6) if (cnt[g][wx]) {\n\t\t\tfa(wy, wx, 6) if (cnt[g][wy]) {\n\t\t\t\tll pairs = 0;\n\t\t\t\tif (wx == wy)pairs = cnt[g][wx] * (cnt[g][wx] - 1) / 2 % mod;\n\t\t\t\telse pairs = cnt[g][wx] * cnt[g][wy] % mod;\n\t\t\t\tdp[g][wx + wy] = (dp[g][wx + wy] + pairs) % mod;\n\t\t\t}\n\t\t}\n\n\t\t// 为了实现 g 为最大公因数，需要进行容斥减法，减掉 g 为公因数的情况下，2g 3g 4g 为最大公因数的答案\n\t\t// dp[g][wx + wy] = dp'[g][wx + wy] - dp[2,3,4,... * g][wx + wy]\n\t\tfor (int gg = 2 * g; gg <= n; gg += g)\n\t\t\tfa(len, 0, 12)\n\t\t\tdp[g][len] = ((dp[g][len] - dp[gg][len]) % mod + mod) % mod;\n\t}\n\n\tll ans = 0;\n\tfa(g, 1, n)fa(len, 0, 12) {\n\t\tll cnt = dp[g][len];\n\t\tll now_w = len - w[g];\n\t\tif (cnt == 0)continue;\n\t\tans = (ans + Math::fastPow(now_w, k, mod) * cnt % mod) % mod;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-02",
+  "parsed_at": "2026-06-14T18:39:36.371775+00:00",
+  "type_directory": "p"
+}

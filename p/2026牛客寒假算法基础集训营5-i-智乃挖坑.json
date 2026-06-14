@@ -1,0 +1,155 @@
+{
+  "slug": "2026牛客寒假算法基础集训营5-i-智乃挖坑",
+  "title": "2026牛客寒假算法基础集训营5 I 智乃挖坑",
+  "type": "题目",
+  "tags": [
+    "差分数组/二阶差分",
+    "二分答案"
+  ],
+  "difficulty": 1.5,
+  "summary": "本题相当于维护了左右两半的等差数列，直接用二阶差分后前缀和即可处理掉 $m$ 次操作，二分答案加二阶差分即可解决本题。纯属模板题难度。",
+  "link": "https://ac.nowcoder.com/acm/contest/120565/I",
+  "link_text": "I-智乃挖坑_2026牛客寒假算法基础集训营5",
+  "source": "[[2026牛客寒假算法基础集训营5]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$在游戏中，玩家一开始位于水平地面，地面可以视为是一个一维数轴，且最左边的坐标是 $1$，最右侧的坐标是 $n$。初始时，地面所有位置的深度均为 0。智乃想通过 $m$ 次连续操作在游戏中向下挖一个大坑，具体来讲，在第 $i$ 次操作中会输入一个坐标 $p_i$ 以及向下的力度 $f_i$，然后，对于所有整数坐标 $j \\left(1 \\le j \\le n\\right)$，深度增加 $\\max(f_i-|j-p_i|,0)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "!<a href=\"https://uploadfiles.nowcoder.com/images/20250210/0_1739161694502/54720E1A0961412DED2C5296384E8A88\" target=\"_blank\" class=\"md-link\">图片</a>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$例如上图是一次操作 $p=4$、$f=3$ 时的示意图。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$连续操作时会使得每个位置上的影响叠加求和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$假设现在游戏向下的地图边界深度为 $h$，一旦玩家向下挖坑的过程中，某个位置的深度大于 $h$，就会挖出地图边界。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$现在智乃想知道她在 $m$ 次向下挖坑的过程中是否存在挖出地图边界的情况，如果存在，则告诉智乃她最早在第几次操作时挖出了地图边界。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行输入三个正整数 $n,m,h \\left(1\\leq n,m \\leq 2\\times10^5;\\, 1\\leq h \\leq 10^{18}\\right)$，表示水平地面的长度、操作次数、挖坑的深度限制。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$此后 $m$ 行，第 $i$ 行输入两个正整数 $\\left(1\\leq p_i \\leq n;\\, 1\\leq f_i \\leq 10^9\\right)$，表示第 $i$ 次操作的参数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$如果智乃不会挖出地图的边界，直接输出 $\\texttt{No}$；否则，第一行输出 $\\texttt{Yes}$，第二行输出一个整数，表示她是在第几次操作的时候挖出的地图边界。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3 2\n1 2\n3 2\n2 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\n3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3 3\n1 2\n3 2\n2 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "No",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m, h; cin >> n >> m >> h;\n\tvar Q = vector<pll>(m + 1);\n\tfa(i, 1, m) {\n\t\tll p, f; cin >> p >> f;\n\t\tQ[i] = { p,f };\n\t}\n\n\tvar check = [&](ll mid)->bool {\n\t\tvar d = vector<ll>(n + 10);\n\t\tfa(i, 1, mid) {\n\t\t\tconst var& [p, f] = Q[i];\n\t\t\tll L = max(1ll, p - f);\n\t\t\tll R = min(n, p + f);\n\n\t\t\tll l = L, r = p;\n\t\t\tll la1 = f - (r - l);\n\t\t\tll lan = f;\n\t\t\tll ld = 1;\n\t\t\td[l] += la1;\n\t\t\td[l + 1] += ld - la1;\n\t\t\td[r + 1] += -ld - lan;\n\t\t\td[r + 2] += lan;\n\n\t\t\tl = p + 1, r = R;\n\t\t\tll ra1 = f - 1;\n\t\t\tll ran = f - 1 - (r - l);\n\t\t\tll rd = -1;\n\t\t\td[l] += ra1;\n\t\t\td[l + 1] += rd - ra1;\n\t\t\td[r + 1] += -rd - ran;\n\t\t\td[r + 2] += ran;\n\t\t}\n\n\t\tfa(i, 1, n)d[i] += d[i - 1];\n\t\tfa(i, 1, n) {\n\t\t\td[i] += d[i - 1];\n\t\t\tif (d[i] > h)return 1;\n\t\t}\n\t\treturn 0;\n\t\t};\n\n\tll l = 1, r = m, ans = 0;\n\twhile (l <= r) {\n\t\tll mid = l + r >> 1;\n\t\tif (check(mid)) {\n\t\t\tr = mid - 1;\n\t\t\tans = mid;\n\t\t}\n\t\telse l = mid + 1;\n\t}\n\n\tif (ans)cout << \"Yes\" << endl << ans << endl;\n\telse cout << \"No\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-26",
+  "parsed_at": "2026-06-14T18:39:35.920361+00:00",
+  "type_directory": "p"
+}

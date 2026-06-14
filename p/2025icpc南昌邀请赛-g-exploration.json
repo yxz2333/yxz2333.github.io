@@ -1,0 +1,241 @@
+{
+  "slug": "2025icpc南昌邀请赛-g-exploration",
+  "title": "2025ICPC南昌邀请赛 G Exploration",
+  "type": "题目",
+  "tags": [
+    "dp",
+    "思维定势",
+    "下取整"
+  ],
+  "difficulty": 2.5,
+  "summary": "直接 $BFS$ 很难写，<strong>考虑能否找到拓扑序</strong>。开 $dp[N][30]$ 表示从 $i$ 出发走 $j$ 步的<strong>最大乘积</strong>，由下取整嵌套的性质，只需维护乘积即可。$j$ 步具有单调性（能走 $j+1$ 步则一定能走 $j$ 步），因此从 $j$ 推到 $j+1$ 时存在拓扑序，直接 $DP$ 即可。",
+  "link": "https://codeforces.com/gym/105911/problem/G",
+  "link_text": "2025ICPC南昌邀请赛 G Exploration - Codeforces Gym",
+  "source": "2025ICPC南昌邀请赛",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "爱丽丝正在探索一个危险的大型迷宫。这个迷宫有 $n$ 个洞穴（编号从 $1$ 到 $n$）和 $m$ 条连接其中任意两个洞穴的单向通道（因为通道中的某些陷阱使得一旦通过就很难返回）。每条通道表示为 $(u, v)$，其中 $u$ 是起始洞穴，$v$ 是目标洞穴。每条通道 $(u, v)$ 都有一个难度值 $d_{(u, v)}$。换句话说，你可以将整个洞穴系统视为一个带权有向图。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "开始时，爱丽丝拥有初始体力（也可称为\"能量\"）$x$。当她穿过一条难度值为 $d$ 的通道时，她的体力 $x$ 变为 $\\lfloor \\frac{x}{d} \\rfloor$（其中 $\\lfloor \\ \\rfloor$ 是下取整函数）。当爱丽丝的体力降至 $0$ 时，视为体力耗尽，她无法继续探索。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例如：假设爱丽丝初始体力为 $9$。穿过一条难度为 $2$ 的通道后，她的体力变为 $4$（因为 $\\lfloor \\frac{9}{2}\\rfloor = 4$）。如果她接着再穿过一条难度为 $2$ 的通道，她的体力降至 $2$（$\\lfloor \\frac{4}{2}\\rfloor = 2$）。最后，穿过一条难度为 $3$ 的通道后，她的体力变为 $0$（$\\lfloor \\frac{2}{3}\\rfloor = 0$），此时她的体力耗尽。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于爱丽丝在迷宫中方向感较差，在探索过程中的任何时刻，她都不知道自己当前所在哪个洞穴，也不清楚每条通道通向何处。因此，爱丽丝提出了 $Q$ 个问题。对于第 $i$ 个问题，她想知道：如果她从洞穴 $p_i$ 出发，初始体力为 $x_i$，且每次随机选择一条可通行的通道，那么她的体力耗尽前必须经过的最少通道数是多少？（<strong>注意</strong>：如果爱丽丝穿过一条之前已经走过的通道，她的体力仍会以相同方式减少，即从 $x$ 变为 $\\lfloor \\frac{x}{d}\\rfloor$。）",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证每个洞穴至少有一条出方向的单向通道（通道的起点和终点洞穴可能相同）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含三个整数 $n, m, Q$（$1 \\le n, Q \\le 2 \\times 10^5$，$n \\le m \\le 5 \\times 10^5$），分别表示洞穴数量、通道数量和查询数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $m$ 行每行包含三个整数 $u, v, d$（$1 \\le u, v \\le n$，$2 \\le d \\le 10^9$），表示一条从 $u$ 到 $v$ 的单向通道，其难度值为 $d$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "数据保证 $\\forall i \\in [1, n], \\exists u, \\text{ s.t. } u = i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "再接下来的 $Q$ 行每行包含两个整数 $p_i, x_i$（$1 \\le p_i \\le n$，$1 \\le x_i \\le 10^9$），表示第 $i$ 个查询。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输出 $Q$ 行，每行包含一个整数 $A_i$，表示对于第 $i$ 个查询，Alice 在穿过至少 $A_i$ 条通道后将会耗尽体力。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "3 4 7\n1 2 2\n2 3 4\n3 2 3\n3 3 2\n1 10\n2 9\n3 2\n2 8\n3 1\n1 7\n2 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "3\n2\n1\n2\n1\n2\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 问题转化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "Alice 初始体力为 $x$，经过一条难度为 $d$ 的通道后体力变为 $\\lfloor x/d \\rfloor$。连续经过 $k$ 条通道，难度依次为 $d_1, d_2, \\dots, d_k$，则最终体力为",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\Big\\lfloor \\frac{\\big\\lfloor \\frac{\\lfloor x/d_1 \\rfloor}{d_2} \\big\\rfloor}{\\cdots} \\Big\\rfloor = \\left\\lfloor \\frac{x}{d_1 d_2 \\cdots d_k} \\right\\rfloor\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这是<strong>下取整嵌套性质</strong>的关键应用。体力耗尽（变为 0）等价于",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\left\\lfloor \\frac{x}{d_1 d_2 \\cdots d_k} \\right\\rfloor = 0 \\iff x < d_1 d_2 \\cdots d_k\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此，选择一条长度为 $k$ 的路径，其边权乘积大于初始体力 $x$ 时，走完该路径后体力必然耗尽。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "题目要求\"体力耗尽前必须经过的最少通道数\"，可理解为：<strong>存在一种走法使得恰好经过 $k$ 条通道后体力耗尽，求最小的这样的 $k$</strong>。于是原问题变为：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "给定起点 $p$ 与初始体力 $x$，求最小的正整数 $k$，使得存在一条从 $p$ 出发的长度为 $k$ 的路径，其边权乘积 $> x$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "2. 步数上界",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "所有边权 $d \\ge 2$，因此乘积随步数增长极快。当 $k \\ge 30$ 时，$2^{30} \\approx 10^9$，已超过 $x$ 的最大值 $10^9$。所以只需要考虑 $k \\le 30$，更大的步数必然满足条件，而我们寻找的是最小 $k$，因此将上限定为 30 即可。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 动态规划设计",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "定义 $dp[i][j]$ 表示<strong>从节点 $i$ 出发，走恰好 $j$ 步所能得到的最大边权乘积</strong>（若乘积超过 $10^9+1$ 则截断，因为只需要与 $x \\le 10^9$ 比较）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>边界</strong>：$dp[i][0] = 1$（走 0 步，乘积为 1）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>转移</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于每个节点 $now$，枚举其所有出边 $(now, to, w)$。若从 $to$ 出发走 $j-1$ 步的最大乘积为 $dp[to][j-1]$，则从 $now$ 出发走 $j$ 步的路径（先走 $now \\to to$，再走 $to$ 出发的 $j-1$ 步）的乘积为 $dp[to][j-1] \\times w$。我们取所有后继中的最大值：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\ndp[now][j] = \\max\\Big(dp[now][j],\\; \\min\\big(\\text{INF},\\; dp[to][j-1] \\times w\\big)\\Big)\n$$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "其中 $\\text{INF} = 10^9+1$，用于防止溢出并标记\"已经足够大\"。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>注意</strong>：转移时 $j$ 从小到大枚举，且 $dp[to][j-1]$ 已经计算完毕，因此可以任意顺序枚举节点与边，不需要考虑图的拓扑序（<strong>步数维度就是天然的拓扑序</strong>）。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n    int n, m, q; cin >> n >> m >> q;\n    var g = vector<vector<pii>>(n + 1);\n    fa(i, 1, m) {\n        int u, v, w; cin >> u >> v >> w;\n        g[u].pb({ v,w });\n    }\n    var dp = Vec2<ll>(n + 1, 30);\n    fa(i, 1, n)dp[i][0] = 1;\n    fa(j, 1, 30)fa(now, 1, n)\n        for (const var& [to, w] : g[now]) {\n            dp[now][j] = max(dp[now][j], min((ll)1e9 + 1, dp[to][j - 1] * w));\n        }\n    while (q--) {\n        int p, x; cin >> p >> x;\n        fa(j, 1, 30) {\n            if (dp[p][j] > x) {\n                cout << j << endl;\n                break;\n            }\n        }\n    }\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-15",
+  "parsed_at": "2026-06-14T18:39:35.780768+00:00",
+  "type_directory": "p"
+}

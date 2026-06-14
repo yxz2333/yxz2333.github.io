@@ -1,0 +1,289 @@
+{
+  "slug": "p14455-[icpc-2025-xi'an-r]-imagined-holly",
+  "title": "P14455 [ICPC 2025 Xi'an R] Imagined Holly",
+  "type": "题目",
+  "tags": [
+    "异或",
+    "构造",
+    "式子变形",
+    "LCA"
+  ],
+  "difficulty": 2.0,
+  "summary": "想到<strong>前缀异或</strong>和<strong>LCA</strong>思想就能一眼秒了本题。",
+  "link": "[P14455 [ICPC 2025 Xi'an R] Imagined Holly - 洛谷](https://www.luogu.com.cn/problem/P14455)",
+  "link_text": "[P14455 [ICPC 2025 Xi'an R] Imagined Holly - 洛谷](https://www.luogu.com.cn/problem/P14455)",
+  "source": "[[2025ICPC西安区域赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个非负整数矩阵 $A$，大小为 $n \\times n$。对于一棵有 $n$ 个顶点的树（顶点编号为 $1$ 到 $n$），当且仅当它满足以下条件时，我们称这棵树为 <strong>冬青树</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于任意两个顶点 $u$ 和 $v$（$1 \\leq u, v \\leq n$），矩阵中的 $A_{u,v}$ 等于从 $u$ 到 $v$ 的简单路径上所有顶点编号的按位异或和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你的任务是构造一棵冬青树。保证至少存在一棵满足条件的冬青树。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含一个整数 $n$（$2 \\leq n \\leq 2000$），表示矩阵 $A$ 的大小。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行描述矩阵 $A$。第 $i$ 行包含 $n - i + 1$ 个整数，分别是 $A_{i,i}, A_{i, i+1}, \\ldots, A_{i, n}$（$0 \\leq A_{i, j} < 2^{11}$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意，对于所有 $1 \\leq i, j \\leq n$，都有 $A_{i, j} = A_{j, i}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证至少存在一棵冬青树。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $n - 1$ 行，每行输出两个整数 $u$ 和 $v$（$1 \\leq u, v \\leq n$），表示冬青树中的一条边。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n1 3\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n1 3 2 5\n2 0 7\n3 6\n4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 2\n1 3\n1 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n1 7 4 5 2 3\n2 1 6 7 0\n3 5 4 3\n4 3 2\n5 5\n6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 1\n2 3\n6 4\n5 2\n4 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第二个示例中，输出中的树如下图所示：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/image_hosting/06hepyce.png){:height 236, :width 414}",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "该树是一棵冬青树。例如，对于顶点对 $(2, 4)$，从 $2$ 到 $4$ 的简单路径经过顶点 $2 \\rightarrow 1 \\rightarrow 4$，这些编号按位异或为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$2 \\oplus 1 \\oplus 4 = 7,$$\n这与输入中给出的 $A_{2,4} = 7$ 一致。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：肯定是构造两个相邻点之间的边，也就是说，我们的任务是找两个相邻的点。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：树上异或，能想到通过<strong>LCA</strong>与<strong>前缀异或</strong>（<strong>异或消去律</strong>）来进行一波操作。 ((69382d2f-3f0d-41ba-b6b2-86ea03917622))",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>树上路径异或</strong>中，$XorDist(u, v) = D[u] \\oplus D[v]$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "而本题为<strong>树上点权异或</strong>，$D[u] \\oplus D[v]$ 对应本题的 $A_{1,u} \\oplus A_{1,v}$，得到的是路径 $u \\to v$ 上<strong>除了 LCA 以外</strong>的所有点的异或和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "那么这里我们推出以下公式：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ XorDist(u, v) = D[u] \\oplus D[v] \\oplus LCA(u, v)$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "其中 $D[x]$ 表示从<strong>根节点</strong>到节点 $x$ 的点权<strong>异或前缀和</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "没错，跟 $u,v$ 的 $lca$ 有关系，因为这个式子中 $lca$ 出现了 3 次，没被最终消掉。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "那么我们得到<code>lca = a[1][u] ^ a[1][v] ^ a[u][v]</code>，这样我们可以记录 <strong>x 节点的子树节点们</strong>，然后<strong>按子树大小升序排序</strong>，把子树大小小的优先连上边，这样就能构造出整个树了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "推出<strong>异或</strong>公式，发现跟<strong>LCA</strong>有关。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>树上异或</strong>，得想到跟<strong>LCA</strong>与<strong>前缀异或</strong>的相关性。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll a[N][N];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfa(i, 1, n)fa(j, i, n)cin >> a[i][j];\n\tvar sons = vector<HashSet<int>>(n + 1); // 存 i 的整个子树\n\tfa(i, 1, n)fa(j, i + 1, n) {\n\t\tll lca = a[1][i] ^ a[1][j] ^ a[i][j]; // 这个式子得到 lca\n\t\tif (lca == i)sons[i].insert(j);\n\t\telse if (lca == j)sons[j].insert(i);\n\t}\n\n\tvar ans = vector<pii>();\n\tvar p = vector<int>(n + 1); // 处理队列\n\tfa(i, 1, n)p[i] = i;\n\n\t// 按子树大小升序排序\n\tsort(all1(p), [&](const var& a, const var& b)->bool {\n\t\treturn sons[a].size() < sons[b].size();\n\t\t});\n\n\tfa(i, 1, n) {\n\t\tint id = p[i];\n\t\tfor (int to : sons[id]) {\n\t\t\tans.pb({ id, to });\n\t\t\t// 把别的包含 to 点的删掉\n\t\t\tfa(j, 1, n)if (j != id) {\n\t\t\t\tif (sons[j].count(to))sons[j].erase(to);\n\t\t\t}\n\t\t}\n\t}\n\n\tfor (const var& [x, y] : ans)cout << x << ' ' << y << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-28",
+  "parsed_at": "2026-06-14T18:39:36.835808+00:00",
+  "type_directory": "p"
+}

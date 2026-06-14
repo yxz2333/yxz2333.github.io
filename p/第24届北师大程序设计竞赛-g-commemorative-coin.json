@@ -1,0 +1,142 @@
+{
+  "slug": "第24届北师大程序设计竞赛-g-commemorative-coin",
+  "title": "第24届北师大程序设计竞赛 G Commemorative Coin",
+  "type": "题目",
+  "tags": [
+    "差分数组/动态差分"
+  ],
+  "difficulty": 1.0,
+  "summary": "直觉告诉我模拟一下即可，模拟过程用当动态差分。",
+  "link": "https://codeforces.com/gym/106562/problem/G",
+  "link_text": "Commemorative Coin - Codeforces Gym",
+  "source": "第24届北师大程序设计竞赛",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有 $n$ 枚纪念币排成一排。初始时，所有硬币都是正面朝上。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在一次操作中，你可以选择恰好 $k$ 枚连续硬币，并将它们全部翻转。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定最终状态 $s$，描述每枚硬币是正面朝上还是反面朝上，判断是否可以通过若干次操作（包括零次操作）从初始状态达到该状态。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个正整数 $T$ $(1 \\le T \\le 2 \\times 10^5)$，表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个测试用例：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含两个正整数 $n, k$ $(1 \\le k \\le n \\le 2 \\times 10^5)$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行包含一个长度为 $n$ 的字符串 $s$，由 0 和 1 组成。$s_i = 0$ 表示最终状态中第 $i$ 枚硬币正面朝上，$s_i = 1$ 表示最终状态中第 $i$ 枚硬币反面朝上。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证单个测试集中所有测试用例的 $n$ 之和不超过 $2 \\times 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，如果该状态可达，则输出一行包含 Yes，否则输出 No。答案不区分大小写。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "2\n5 3\n01110\n3 2\n100",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "YES\nNO",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tstring s; cin >> s; s = ' ' + s;\n\tvar a = vector<int>(n + 2);\n\tvar d = vector<int>(n + 2);\n\tint sum = 0;\n\tfa(i, 1, n) {\n\t\tsum += d[i];\n\t\ta[i] += sum;\n\t\tint tar = (s[i] == '1');\n\t\tint now = (a[i] & 1);\n\t\tif (now != tar) {\n\t\t\tint l = i, r = i + k - 1;\n\t\t\tif (r > n) {\n\t\t\t\tcout << \"NO\" << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t\td[r + 1] -= 1;\n\t\t\tsum += 1;\n\t\t\ta[i] += 1;\n\t\t}\n\t}\n\tcout << \"YES\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-03",
+  "parsed_at": "2026-06-14T18:39:36.923139+00:00",
+  "type_directory": "p"
+}

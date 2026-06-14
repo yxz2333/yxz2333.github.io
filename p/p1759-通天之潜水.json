@@ -1,0 +1,194 @@
+{
+  "slug": "p1759-通天之潜水",
+  "title": "P1759 通天之潜水",
+  "type": "题目",
+  "tags": [
+    "背包/背包求方案"
+  ],
+  "difficulty": null,
+  "summary": "求背包最大价值的取物方案，且要求方案字典序最小。",
+  "link": "https://www.luogu.com.cn/problem/P1759",
+  "link_text": "P1759 通天之潜水 - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小 A 发现一条波涛汹涌的河拦在了自己的面前。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "河面上并没有船，但好在小 A 有 $n$ 个潜水工具。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于他还要背重重的背包，所以他只能背 $m$ 重的工具，又因为他的力气并不是无限的，河却很宽，所以他只能背有 $v$ 阻力的工具。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "但是这条河下有非常重要的数据，所以他希望能够停留的时间最久。于是他找到了你，让你告诉他方案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "三个数 $m, v, n$ 如题目所说。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行，每行三个数 $a_i, b_i, c_i$ 分别表示所含的重力，阻力，能够支撑的时间。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个数，表示最长的时间。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来一行，若干个数，表示所选的物品。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "100 100 3\n50 60 289\n40 10 116\n50 50 106",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "405 \n1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于 $100 \\%$ 的数据，$1 \\le m, v \\le 200$，$1 \\le n \\le 100$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "数据保证一定有方案。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若有多种方案，输出前面尽量小的方案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题具有<strong>二维代价</strong>，这个没什么好说的，直接按<strong>01背包</strong>思路写即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "主要难点就是得到<strong>最小字典序的背包方案路径</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "得路径的一般方法是<strong>从后往前回溯路径</strong>，本题因为要最小字典序，我们考虑<strong>从前往后</strong>整路径，判断 <code>i</code> 物品能不能拿，能拿就拿即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了从前往后整路径，整个背包的过程也得倒过来，<strong>从后往前处理背包</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "下面给了使用 <strong>朴素背包</strong> 和 <strong>vis 辅助数组</strong> 解决的代码。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 朴素背包法\nvoid solve(int CASE)\n{\n\tint m, v, n; cin >> m >> v >> n;\n\tvar p = vector<tuple<int, int, int>>(n + 1);\n\tfa(i, 1, n) {\n\t\tint a, b, c; cin >> a >> b >> c;\n\t\tp[i] = { a, b, c };\n\t}\n\n\tvar dp = Vec3<int>(n + 2, m + 1, v + 1); // 为了回溯方案路径，多开一维\n\tfb(i, n, 1) { // 为了最小字典序方案，倒序\n\t\tconst var& [a, b, c] = p[i];\n\t\tdp[i] = dp[i + 1];\n\t\tfb(j, m, a)fb(k, v, b)\n\t\t\tdp[i][j][k] = max(dp[i][j][k], dp[i][j - a][k - b] + c);\n\t}\n\tcout << dp[1][m][v] << endl;\n\n\t// 正序枚举，看看 i 是否为必须\n\tint na = m, nb = v, nc = dp[1][m][v];\n\tfa(i, 1, n) {\n\t\tconst var& [a, b, c] = p[i];\n\t\tif (na >= a and nb >= b and dp[i + 1][na - a][nb - b] + c == nc) {\n\t\t\tcout << i << ' ';\n\t\t\tna -= a, nb -= b, nc -= c;\n\t\t}\n\t}\n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// bool 数组记录，省内存\n// vis：在 j，k 容量的情况下，为了拿最大，是否应该装第 i 个物品\nvoid solve(int CASE)\n{\n\tint m, v, n; cin >> m >> v >> n;\n\tvar p = vector<tuple<int, int, int>>(n + 1);\n\tfa(i, 1, n) {\n\t\tint a, b, c; cin >> a >> b >> c;\n\t\tp[i] = { a, b, c };\n\t}\n\n\tvar dp = Vec2<int>(m + 1, v + 1); // 滚动背包\n\tvar vis = Vec3<bool>(n + 2, m + 1, v + 1); // 在 j，k 容量的情况下，为了拿最大，是否应该使用第 i 个物品\n\tfb(i, n, 1) { // 为了最小字典序方案，倒序\n\t\tconst var& [a, b, c] = p[i];\n\t\tfb(j, m, a)fb(k, v, b) {\n\t\t\tif (dp[j][k] <= dp[j - a][k - b] + c) // 取等号，是因为要取最小下标\n\t\t\t\tvis[i][j][k] = 1;\n\t\t\tdp[j][k] = max(dp[j][k], dp[j - a][k - b] + c);\n\t\t}\n\t}\n\tcout << dp[m][v] << endl;\n\n\t// 正序枚举，看看 i 是否为必须\n\tint na = m, nb = v;\n\tfa(i, 1, n) {\n\t\tconst var& [a, b, c] = p[i];\n\t\tif (vis[i][na][nb]) {\n\t\t\tcout << i << ' ';\n\t\t\tna -= a, nb -= b;\n\t\t}\n\t}\n\tcout << endl;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-01",
+  "parsed_at": "2026-06-14T18:39:36.857162+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,307 @@
+{
+  "slug": "容斥",
+  "title": "容斥",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "暴力容斥, 倒序容斥, 数论容斥"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "type": "p",
+      "html": "大多都是 <a href=\"/tags\" class=\"tag-link\">#计数问题</a> 。",
+      "depth": 0
+    },
+    {
+      "heading": "暴力容斥",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "典型例题",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "3 个限制条件  <a href=\"/p/mc0474-赤壁战场\" class=\"wikilink\">MC0474 赤壁战场</a>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "4 个限制条件，进行 $2^N$ 枚举  <a href=\"/p/p1450-[haoi2008]-硬币购物\" class=\"wikilink\">P1450 [HAOI2008] 硬币购物</a>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "题型特征",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "无限制条件",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "没有限制条件妨碍你直接计数，根据以下式子即可满足方案数的容斥：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ |\\bigcup A_i| = \\sum |A_i| - \\sum |A_i \\cap A_j| + \\sum |A_i \\cap A_j \\cap A_k| - \\dots $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "$|A_i \\cap A_j|$：即 $A_i$ 和 $A_j$ 的条件都能满足的方案数。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "直接套<strong>奇加偶减</strong>公式就行。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "有限制条件",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "题目有限制条件妨碍你直接计数。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "因为有限制，所以我们<strong>正难则反</strong>，答案 $=$ <strong>全集</strong> $-$ <strong>违反限制条件</strong>。",
+                  "depth": 1
+                },
+                {
+                  "heading": "限制条件特征",
+                  "level": 4,
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "html": "个数 $N$ <strong>极小</strong>（通常 $N \\le 20$），方便进行暴力 $2^N$ 枚举。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "无视所有限制条件后的方案数（<strong>全集</strong>）好求。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "满足单个限制条件难求，但是<strong>违反单个限制条件</strong>后的方案数好求。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "在一些问题上，该特征的含义可能是：<strong>上限难求，下限好求</strong>，即 $x_i \\le k$ 的情况数难求，$x_i \\ge k$ 的情况数好求。",
+                      "depth": 2
+                    },
+                    {
+                      "type": "p",
+                      "html": "<strong>多个违规</strong>（违反单个限制条件）可以叠加计算。",
+                      "depth": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "数学公式",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "适用范围",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "正向求不重复的可行全集（奇加偶减）",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "逆向求不重复的不可行全集（奇减偶加）",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "奇加偶减",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>场景：</strong>求 <strong>“至少满足 1 个条件”</strong> 的方案数（即集合的并集 $|A \\cup B \\cup C \\dots|$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>公式：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$Ans = \\sum|单集| - \\sum|两两交集| + \\sum|三个交集| - \\dots$$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "奇减偶加",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>场景：</strong>求 <strong>“都不满足”</strong> 的方案数（即全集减去并集）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>公式：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为 $None = Total - Union$，所以：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$Ans = Total - (\\sum|单集| - \\sum|两两交集| + \\sum|三个交集| - \\dots)$$\n去括号后变成：\n$$Ans = Total - \\sum|单集| + \\sum|两两交集| - \\sum|三个交集| + \\dots$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>记忆锚点：</strong> 在做题时，往往<strong>“非法”</strong>的方案比较好算，我们用总数减去非法的，所以这个公式用得特别多。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "倒序容斥",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "适用范围",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由 <strong>“至少”</strong> 推 <strong>“恰好”</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "求 “恰好 k 状态发生” 的个数",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "参考代码",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "通常可能需要用 <a href=\"/tags\" class=\"tag-link\">#状态压缩</a> 来枚举状态，当然像下面的<strong>数论容斥</strong>就不需要，示例代码按<strong>状态压缩</strong>的来。",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "// 倒序容斥：从超集和 g 求精确值 f\n// g[mask] = ∑_{sup ⊇ mask} f[sup]\nint total = 1 << n;\nfor (int mask = total - 1; mask >= 0; mask--) {\n    f[mask] = g[mask];\n    for (int sup = mask + 1; sup < total; sup++) {\n        if ((sup & mask) == mask) {\n          \t// sup 为 mask 的超集\n            f[mask] -= f[sup];\n        }\n    }\n    // 方法2：通过补集枚举超集，O(3^n) 更快\n    // int complement = (~mask) & (total - 1);\n    // for (int sub = complement; sub > 0; sub = (sub - 1) & complement) {\n    //     int sup = mask | sub; // mask + 补集 = 超集\n    //     f[mask] -= f[sup];\n    // }\n}",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "容斥思想",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<code>g[mask]</code> 包含了所有<strong>至少</strong>匹配 <code>mask</code> 的人，但也包含了 \"过度匹配\" 的人（匹配了更多位），减去这些 \"过度匹配\" 的人数得到 \"恰好匹配\" 的人数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "即 <strong>至少很简单，恰好很难</strong>，<strong>至少 - 恰好 = 恰好</strong>，使用<strong>倒序容斥法</strong>算出答案。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>为什么倒序？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为计算 <code>f[mask]</code> 需要用到所有超集 <code>f[sup]</code>（<code>sup ⊃ mask</code>）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "从大到小枚举，保证计算 <code>mask</code> 时，它的所有超集都已计算完毕。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "数论容斥",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "GCD 容斥 —— 倒序枚举 GCD 容斥",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>典型例题</strong>：<a href=\"/p/p2398-gcd-sum\" class=\"wikilink\">P2398 GCD SUM</a>，求最大公约数为 g 的数对个数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>主要思路</strong>：先算<strong>公约数</strong>再算<strong>最大公约数</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>容斥思想</strong>：（倒序容斥的思想）直接算 “<strong>恰好匹配</strong> mask” 很难，但算 “<strong>至少匹配</strong> mask” 极简单。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在本例题里是算<strong>公约数（至少）</strong>很简单，算<strong>最大公约数（恰好）</strong>很难。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-17",
+  "parsed_at": "2026-06-14T18:45:12.047195+00:00",
+  "type_directory": "k"
+}

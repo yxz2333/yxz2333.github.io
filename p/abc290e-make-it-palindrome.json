@@ -1,0 +1,368 @@
+{
+  "slug": "abc290e-make-it-palindrome",
+  "title": "ABC290E Make it Palindrome",
+  "type": "题目",
+  "tags": [
+    "贡献法",
+    "回文",
+    "双指针",
+    "正难则反"
+  ],
+  "difficulty": 2.5,
+  "summary": "<strong>贡献法</strong>：一个子串变成回文，取决于<strong>有几对对称位置的字符不相等</strong>。",
+  "link": "[AT_abc290_e [ABC290E] Make it Palindrome - 洛谷](https://www.luogu.com.cn/problem/AT_abc290_e)",
+  "link_text": "[AT_abc290_e [ABC290E] Make it Palindrome - 洛谷](https://www.luogu.com.cn/problem/AT_abc290_e)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于一个数列 $X$，定义 $f(X)$ 为：将 $X$ 变为回文数列所需修改的元素个数的最小值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定一个长度为 $N$ 的数列 $A$，请计算所有 $A$ 的<strong>连续</strong>子序列 $X$ 的 $f(X)$ 之和。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入以如下格式从标准输入给出。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $N$ $A_1$ $A_2$ $\\dots$ $A_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入均为整数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le N \\le 2 \\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le A_i \\le N$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "请输出答案的整数值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n5 2 1 2 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$f(5) = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(2) = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(1) = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(2) = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(2) = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(5,2) = 1$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(2,1) = 1$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(1,2) = 1$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(2,2) = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(5,2,1) = 1$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(2,1,2) = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(1,2,2) = 1$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(5,2,1,2) = 2$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(2,1,2,2) = 1$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$f(5,2,1,2,2) = 1$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "综上，所求答案为 $9$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "视角翻转（贡献法）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>不要问“这个子串里有多少对不同的字符”，而要问“这两个不同的字符，在多少个子串里互为对称位置？”</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "假设我们在原数组中选定了一左一右两个下标 $L$ 和 $R$ ($L < R$)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果要让它们在某个子串中处于<strong>对称</strong>的位置（即共同组成回文串的外壳），那么这个子串向左最多只能延伸 $L$ 个长度，向右最多延伸 $N - R + 1$ 个长度。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所以，包含这对 $(L, R)$ 且让它们对称的子串数量，恰好就是：<strong><code>min(L, N - R + 1)</code></strong>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "正难则反（容斥原理）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目要求所有子串中 $A[L] \\neq A[R]$ 的对数总和。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "直接求不相等的对数很难，因为“不相等”的组合太多了。所以我们用<strong>正难则反</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>总修改次数 = （所有子串的对称对数总和） - （所有子串中 $A[L] = A[R]$ 的对称对数总和）</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对应到你的代码：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "  <strong><code>tot</code></strong>：就是“所有子串的对称对数总和”。长度为 <code>len</code> 的子串有 $(N - len + 1)$ 个，每个子串自带 $\\lfloor len / 2 \\rfloor$ 对对称位置。这就是你代码最后那个循环求的东西。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "  <strong><code>ans</code></strong>：就是“$A[L] = A[R]$ 的情况带来的免修改（即省下的次数）贡献”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "  最终答案就是 <code>tot - ans</code>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "动态阈值维护",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "现在我们的目标变成了：对于数组中所有值相同的对 $(L, R)$ 且 $L < R$，快速求出 $\\sum \\min(L, N - R + 1)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "你用了一个从左到右的扫描 <code>i</code>（把 <code>i</code> 看作当前的右端点 $R$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此时，对于当前元素 $A[i]$，前面所有和它值相同的下标 $L$，对答案的贡献是 $\\min(L, N - i + 1)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们把阈值设为 <strong>$limit = N - i + 1$</strong>，那么前面的 $L$ 分为两类：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1.  <strong>较小的 $L$ ($L \\le limit$)</strong>：贡献就是 $L$ 本身。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "2.  <strong>较大的 $L$ ($L > limit$)</strong>：贡献被卡死在了 $limit$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但问题是，<strong>随着 <code>i</code> (即 $R$) 不断向右扫描，$limit$ 是在不断缩小的！</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所以，原本属于“较小 $L$”阵营的数，会慢慢因为 $limit$ 的缩小，被迫归入“较大 $L$”阵营。你的代码完美地处理了这个动态转移：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "  <strong><code>cnt[0][v]</code></strong>：用来存“较小的 $L$” 的 <strong>下标数值之和</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "  <strong><code>cnt[1][v]</code></strong>：用来存“较大的 $L$” 的 <strong>个数</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "  <strong><code>pos[v]</code> 配合 <code>while</code> 循环</strong>：这就是在做“阵营转移”。每次你先检查 <code>cnt[0]</code> 里最大的那个 $L$（通过 <code>pos</code> 和 <code>g</code> 数组精准定位），如果它已经大于当前的 $limit = n - i + 1$ 了，你就把它从 <code>cnt[0]</code> 的和里面减去，并让 <code>cnt[1]</code> 的个数加一。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "  <strong>结算当前 $R$ 的总贡献</strong>：<code>ans += cnt[1][a[i]] * (n - i + 1ll) + cnt[0][a[i]];</code> （这行简直完美对应了数学公式）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "  <strong>把当前的 $i$ 加入阵营（为未来的 $R$ 做准备）</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "  如果 $i \\le N - i + 1$，说明它在未来的一小段时间内还有资格做“较小 $L$”，所以加入 <code>cnt[0]</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "  如果 $i > N - i + 1$，说明未来的 $limit$ 肯定比现在的还小，$i$ 永远不可能 $\\le limit$ 了，所以直接把它打入 <code>cnt[1]</code> 阵营。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll a[N], cnt[2][N];\nll pos[N]; // 每个数当前枚举的 g 的下标\nvector<ll> g[N]; // 获得每个数的真实下标\nvoid solve(int CASE)\n{\n\tll n; cin >> n;\n\tfa(i, 1, n)cin >> a[i], pos[a[i]] = -1;\n\tvar g = vector<vector<ll>>(n + 1);\n\tfa(i, 1, n)g[a[i]].pb(i);\n\t// ans 算不需要操作的个数，正难则反\n\tll ans = 0;\n\tfa(i, 1, n) {\n\t\twhile (pos[a[i]] >= 0 and g[a[i]][pos[a[i]]] > n - i + 1) {\n\t\t\tcnt[1][a[i]]++;\n\t\t\tcnt[0][a[i]] -= g[a[i]][pos[a[i]]];\n\t\t\tpos[a[i]]--;\n\t\t}\n\t\tans += cnt[1][a[i]] * (n - i + 1ll) + cnt[0][a[i]];\n\t\tif (i <= n - i + 1)cnt[0][a[i]] += i, pos[a[i]]++;\n\t\telse cnt[1][a[i]]++;\n\t}\n\t// tot 算没废操作的全部回文操作数\n\tll tot = 0;\n\tfa(len, 1, n) {\n\t\tll cnt = (n - len + 1);\n\t\ttot += cnt * (len / 2);\n\t}\n\tcout << tot - ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-28",
+  "parsed_at": "2026-06-14T18:39:35.981902+00:00",
+  "type_directory": "p"
+}

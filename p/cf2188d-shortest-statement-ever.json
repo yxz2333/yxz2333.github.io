@@ -1,0 +1,288 @@
+{
+  "slug": "cf2188d-shortest-statement-ever",
+  "title": "CF2188D Shortest Statement Ever",
+  "type": "题目",
+  "tags": [
+    "贪心/按位贪心",
+    "异或",
+    "二进制"
+  ],
+  "difficulty": 2.5,
+  "summary": "挺麻烦的二进制题。",
+  "link": "https://codeforces.com/contest/2188/problem/D",
+  "link_text": "Problem - D - Codeforces",
+  "source": "[[Codeforces Round 1077 (Div. 2)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定两个非负整数 $x$ 和 $y$。请找到两个非负整数 $p$ 和 $q$，使得它们满足 $p \\text{ \\& } q = 0$（其中 $\\text{\\&}$ 表示按位与运算），并且使 $|x-p| + |y-q|$ 的值最小。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \\le t \\le 10^4$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例仅包含一行，有两个非负整数 $x$ 和 $y$ ($0 \\le x, y < 2^{30}$)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出你找到的两个非负整数 $p$ 和 $q$。如果有多组满足条件的 $(p, q)$，输出其中任意一组即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "可以证明，在题目的约束条件下，任何有效解都满足 $\\max(p, q) < 2^{31}$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n0 0\n1 1\n3 6\n7 11\n4 4\n123 321\n1073741823 1073741822",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0 0\n2 1\n3 8\n6 9\n4 3\n128 321\n1073741824 1073741822",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，一组有效解为 $p=0$ 和 $q=0$，因为 $0\\,\\&\\,0=0$ 且距离之和 $|0-0|+|0-0|=0$ 是所有解中的最小值。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个测试用例中，一组有效解为 $p=3$ 和 $q=8$，因为 $3\\,\\&\\,8=0$ 且 $|3-3|+|8-6|=2$。注意 $(p, q)=(3, 4)$ 同样是有效解。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$p$ \\& $q == 0$ 这个特殊要求算是个关键，启发我们这题最小值肯定 $\\le x$ & $y$，也就是说，我们关注的就是 $x$ \\& $y$ 的位们。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "根据样例猜测，答案是 <code>p = x, q = f(x, y)</code> 或 <code>p = f(y, x), q = y</code>，经过<strong>暴力对拍</strong>得到验证。即：<strong>固定其中一个数</strong>（令 $p=x$ 或 $q=y$），然后寻找<strong>另一个数在该约束下的最优解</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "那么就开始考虑 $f(x, y)$ 怎么算了。$f(x, y)$ ：离 $y$ 最近，且 \\& $y = 0$ 的数，这样就能保证答案最小了。",
+          "depth": 1
+        },
+        {
+          "heading": "按位贪心",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "假设 $x = 22$ (二进制 <code>10110</code>)，$y = 26$ (二进制 <code>11010</code>)。",
+              "depth": 1
+            },
+            {
+              "heading": "寻找最高冲突位 $id$",
+              "level": 3,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "首先计算 $x \\ \\& \\ y$：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$x = 10110_2, \\quad y = 11010_2 \\implies x \\ \\& \\ y = 10010_2$$\n冲突的位有：第 4 位（权重 16）和 第 1 位（权重 2）。\n其中**最高冲突位** $id = 4$。由于 $x$ 在这一位是 $1$，为了满足 $p \\ \\& \\ q = 0$，$q$ 的第 $4$ 位**必须为 0**。\n一旦第 $4$ 位被迫从 $1$ 变成 $0$，这一位就是 $q$ 无法对齐 $y$ 的最高位了。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "策略 A：向下逼近 ($q < y$)",
+              "level": 3,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "我们要构造一个比 $y$ 小，但在约束下尽可能接近 $y$ 的 $q$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>高位</strong>（$i > id$）：直接继承 $y$，即 $y$ 为 $1$ 的位直接取。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>第</strong> $id$ <strong>位</strong>：强制取 $0$。此时 $q$ 已经确定比 $y$ 小了。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>低位</strong>（$i < id$）：既然 $q$ 已经小了，为了缩小差距，低位应该<strong>越大越好</strong>。只要 $x$ 在该位为 $0$，$q$ <strong>统统取</strong> $1$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>本例操作：</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "高位：无。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "第 4 位：$q_4 = 0$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "低位（3, 2, 1, 0）：$x$ 的低位是 $0110$，则 $q$ 对应的位取其补码且不超出范围，即 $q$ 在这些位可以尝试取 $1001_2$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "$q_{mn} = (01001)_2 = 9$",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "距离：$|26 - 9| = 17$",
+                  "depth": 3
+                }
+              ]
+            },
+            {
+              "heading": "策略 B：向上逼近 ($q > y$)",
+              "level": 3,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "我们要构造一个比 $y$ 大，但在约束下尽可能接近 $y$ 的 $q$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>进位位</strong>（$j > id$）：找到 $id$ 之上第一个 $x$ 和 $y$ 都是 $0$ 的位，令 $q_j = 1$。这相当于向更高位“借位”。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>中间位</strong>（$id \\le i < j$）：既然 $q$ 在高位已经变大了，为了缩小差距，中间这些位应该<strong>越小越好</strong>。全部取 $0$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>高位</strong>（$i > j$）：直接继承 $y$，即 $y$ 为 $1$ 的位直接取。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>本例操作：</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "寻找进位位：$id=4$，第 $5$ 位上 $x_5=0, y_5=0$，所以取 $j=5$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "令 $q_5 = 1$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "第 5 位以下全部取 $0$：$q_4=0, q_3=0 \\dots$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "$q_{mx} = (100000)_2 = 32$",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "距离：$|26 - 32| = 6$",
+                  "depth": 3
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll x, y; cin >> x >> y;\n\n\tif ((x & y) == 0) {\n\t\tcout << x << ' ' << y << endl;\n\t\treturn;\n\t}\n\n\tvar f = [](ll x, ll y)->pair<ll, ll> {\n\t\tll tmp = x & y;\n\t\tint id = (int)log2(tmp); // id 位是最高的，肯定拿不到的位\n\n\t\t// 按位贪心找离 y 最近且与 x &= 0 的 mx 和 mn\n\t\tll mx = 0, mn = 0;\n\n\t\t// 先把更大的位中，y 本身就有，但 x 没有的位给拿下\n\t\tfa(i, id + 1, 30) {\n\t\t\tif (y & (1ll << i)) {\n\t\t\t\tmn += (1ll << i);\n\t\t\t\tmx += (1ll << i);\n\t\t\t}\n\t\t}\n\n\t\t// 往更大的位找\n\t\t// 拿下两者都没的最低位，保证 mx > y；\n\t\t// 找的过程中，遇到 y 有的位，减掉，保证 mx 离 y 最近\n\t\tfa(i, id + 1, 30) {\n\t\t\tif (!(x & (1ll << i)) and !(y & (1ll << i))) {\n\t\t\t\tmx += (1ll << i);\n\t\t\t\tbreak;\n\t\t\t}\n\t\t\telse if ((y & (1ll << i)))\n\t\t\t\tmx -= (1ll << i);\n\t\t}\n\n\t\t// 往更小的位找\n\t\t// 因为 id 位拿不下，所以 mn < y；\n\t\t// 全部拿下 x 没有的位，保证 mn 离 y 最近\n\t\tfb(i, id - 1, 0) {\n\t\t\tif (!(x & (1ll << i))) {\n\t\t\t\tmn += (1ll << i);\n\t\t\t}\n\t\t}\n\n\t\tif (mx - y < y - mn)return { mx - y, mx };\n\t\telse return { y - mn,mn };\n\t\t};\n\n\tvar ans1 = f(x, y);\n\tvar ans2 = f(y, x);\n\tif (ans1.px < ans2.px)cout << x << ' ' << ans1.py << endl;\n\telse cout << ans2.py << ' ' << y << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-26",
+  "parsed_at": "2026-06-14T18:39:36.396482+00:00",
+  "type_directory": "p"
+}

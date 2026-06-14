@@ -1,0 +1,131 @@
+{
+  "slug": "2020浙江省赛-a-ad-2020",
+  "title": "2020浙江省赛 A AD 2020",
+  "type": "题目",
+  "tags": [
+    "前缀和"
+  ],
+  "difficulty": null,
+  "summary": "纯大模拟，直接预处理，然后前缀和就行，枚举日期不能用字符串，得用 <code>x = a * 10000 + b * 100 + c;</code> 拼成一个大整数。",
+  "link": "https://qoj.ac/contest/2020/problem/10913",
+  "link_text": "AD 2020 - Problem - QOJ.ac",
+  "source": "[[2020浙江省赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "由于 2020 年发生了太多令人难忘的事情，有人提议将所有包含子串 “202” 的日期指定为“减灾日”。我们将日期表示为 YYYYMMDD 格式（例如 21110202），如果该日期的字符串表示中包含子串 “202”，那么这一天就是减灾日。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请编写一个程序，计算从 \\( Y_1M_1D_1 \\) 到 \\( Y_2M_2D_2 \\)（包含两端）之间有多少个减灾日。注意，需要考虑闰年。闰年是能被 400 整除，或者能被 4 整除但不能被 100 整除的年份。闰年的二月有 29 天，而不是平年的 28 天。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入包含多个测试用例。第一行包含一个正整数 \\( T \\)（\\( 1 \\leq T \\leq 10^5 \\)），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行（也是唯一一行）包含六个整数 \\( Y_1, M_1, D_1, Y_2, M_2, D_2 \\)，含义如上所述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证 \\( Y_1M_1D_1 \\) 不晚于 \\( Y_2M_2D_2 \\)。\\( Y_1M_1D_1 \\) 和 \\( Y_2M_2D_2 \\) 均在 20000101 到 99991231 之间，且两个日期都是合法日期。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "友情提醒：本题的输入和输出规模可能较大，建议使用更快的 I/O 方法。例如，在 C++ 中，可以使用 scanf/printf 而不是 cin/cout。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一行一个整数，表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n2111 02 01 2111 02 03\n2202 01 01 2202 12 31\n2000 01 01 9999 12 31",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n365\n44294",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "unsigned short pre[N];\nbool has202(int x) {\n\tint d[10];\n\tint now = 0;\n\twhile (x) {\n\t\td[now] = x % 10;\n\t\tx /= 10;\n\t\tnow++;\n\t}\n\tfa(i, 0, 7)if (d[i] == 2 and d[i + 1] == 0 and d[i + 2] == 2)return 1;\n\treturn 0;\n}\nvoid init()\n{\n\tfa(y, 2000, 9999) {\n\t\tif (y % 400 == 0 or y % 4 == 0 and y % 100 != 0) {\n\t\t\tfa(m, 1, 12) {\n\t\t\t\tif (m == 2) {\n\t\t\t\t\tfa(d, 1, 29) {\n\t\t\t\t\t\tint x = y * 10000 + m * 100 + d;\n\t\t\t\t\t\tpre[x] = has202(x);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse if (m == 4 or m == 6 or m == 9 or m == 11) {\n\t\t\t\t\tfa(d, 1, 30) {\n\t\t\t\t\t\tint x = y * 10000 + m * 100 + d;\n\t\t\t\t\t\tpre[x] = has202(x);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tfa(d, 1, 31) {\n\t\t\t\t\t\tint x = y * 10000 + m * 100 + d;\n\t\t\t\t\t\tpre[x] = has202(x);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tfa(m, 1, 12) {\n\t\t\t\tif (m == 2) {\n\t\t\t\t\tfa(d, 1, 28) {\n\t\t\t\t\t\tint x = y * 10000 + m * 100 + d;\n\t\t\t\t\t\tpre[x] = has202(x);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse if (m == 4 or m == 6 or m == 9 or m == 11) {\n\t\t\t\t\tfa(d, 1, 30) {\n\t\t\t\t\t\tint x = y * 10000 + m * 100 + d;\n\t\t\t\t\t\tpre[x] = has202(x);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tfa(d, 1, 31) {\n\t\t\t\t\t\tint x = y * 10000 + m * 100 + d;\n\t\t\t\t\t\tpre[x] = has202(x);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\tfa(i, 20000101, 99991231)pre[i] += pre[i - 1];\n\treturn;\n}\nvoid solve(int CASE)\n{\n\tint a, b, c; cin >> a >> b >> c;\n\tint x = a * 10000 + b * 100 + c;\n\tcin >> a >> b >> c;\n\tint y = a * 10000 + b * 100 + c;\n\tcout << pre[y] - pre[x - 1] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-05",
+  "parsed_at": "2026-06-14T18:39:35.666573+00:00",
+  "type_directory": "p"
+}

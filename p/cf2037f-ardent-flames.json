@@ -1,0 +1,240 @@
+{
+  "slug": "cf2037f-ardent-flames",
+  "title": "CF2037F Ardent Flames",
+  "type": "题目",
+  "tags": [
+    "经典问题/区间问题",
+    "离散化",
+    "差分数组",
+    "二分答案"
+  ],
+  "difficulty": 2.0,
+  "summary": "明显的二分答案，固定攻击次数后，对比较麻烦的绝对值进行固定，求出绝对值的范围，然后就能转化成区间问题，跑个区间离散化后差分就解决了。",
+  "link": "https://codeforces.com/problemset/problem/2037/F",
+  "link_text": "Problem - 2037F - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "你获得了新的限时活动角色 Xilonen。你决定让她参与战斗。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "有 $n$ 个敌人排成一行。第 $i$ 个从左到右的敌人拥有生命值 $h_i$，当前位于位置 $x_i$。Xilonen 的攻击伤害为 $m$，你准备用她来击败这些敌人。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Xilonen 拥有强力的“地面践踏”攻击。在你进行任何攻击之前，你可以选择一个整数 $p$ 并让 Xilonen 站在该位置（$p$ 可以是任意整数位置，包括有敌人的位置）。之后，每次攻击时，她会对位于 $p$ 的敌人造成 $m$ 点伤害，对位于 $p-1$ 和 $p+1$ 的敌人造成 $m-1$ 点伤害，对位于 $p-2$ 和 $p+2$ 的敌人造成 $m-2$ 点伤害，依此类推。距离 Xilonen 至少 $m$ 的敌人不会受到任何伤害。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "形式化地说，若某个敌人位于位置 $x$，则她每次攻击会对该敌人造成 $\\max(0, m - |p - x|)$ 点伤害。注意，你不能为不同的攻击选择不同的 $p$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在所有可能的 $p$ 中，输出 Xilonen 至少击败 $k$ 个敌人所需的最少攻击次数。如果不存在某个 $p$ 能使至少 $k$ 个敌人最终被击败，则输出 $-1$。当敌人的生命值降至 $0$ 或以下时，视为被击败。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\leq t \\leq 10^4$）——表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含三个整数 $n$、$m$ 和 $k$（$1 \\leq k \\leq n \\leq 10^5$，$1 \\leq m \\leq 10^9$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来一行包含 $n$ 个整数 $h_1, h_2, ..., h_n$（$1 \\leq h_i \\leq 10^9$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "最后一行包含 $n$ 个整数 $x_1, x_2, ..., x_n$（$1 \\leq x_i \\leq 10^9$，且对所有 $1 \\leq i < n$，有 $x_i < x_{i+1}$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数，表示至少击败 $k$ 个敌人所需的最少攻击次数。如果不存在某个 $p$ 能使至少 $k$ 个敌人最终被击败，则输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n5 5 3\n7 7 7 7 7\n1 2 3 4 5\n9 5 9\n2 4 6 8 10 8 6 4 2\n1 2 3 4 5 6 7 8 9\n2 10 2\n1 1\n1 20\n2 10 1\n69696969 420420420\n1 20\n2 10 2\n10 15\n1 19\n2 2 2\n1000000000 1\n1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n2\n-1\n6969697\n15\n1000000000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，最优选择 $p=2$。每次攻击，第一个敌人受到 $5-|2-1|=4$ 点伤害，第二个敌人受到 $5$ 点伤害，第三个敌人受到 $4$ 点伤害，第四个敌人受到 $3$ 点伤害，第五个敌人受到 $2$ 点伤害。经过 $2$ 次攻击，前三个敌人会被击败。可以证明，无论选择哪个 $p$，都无法在少于 $2$ 次攻击内击败 $3$ 个敌人。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个测试用例中，必须击败全部 $9$ 个敌人。选择 $p=5$，所有九个敌人都将在 $2$ 次攻击内被击败。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个测试用例中，必须击败两个敌人。然而可以证明，无论选择哪个 $p$，都无法同时对两个敌人造成伤害，因此答案为 $-1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第四个测试用例中，选择 $p=1$ 可以让我们在 $6969697$ 次攻击内击败第一个敌人。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第五个测试用例中，选择 $p=10$ 可以让每个敌人每次受到 $1$ 点伤害。两名敌人都将在 $15$ 次攻击内被击败。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "答案有明显单调性，考虑二分答案，固定攻击次数 $t$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于第 $i$ 个敌人（位置 $x_i$，血量 $h_i$），如果我们在位置 $p$ 攻击 $t$ 次，总伤害为：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ t \\times \\max(0, m - |p - x_i|) $$\n要击败该敌人，必须满足：\n$$ t \\times (m - |p - x_i|) \\ge h_i $$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>因为绝对值和位置偏移太麻烦了，我们把</strong> $|p - x_i|$ <strong>固定住，观察范围。</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "变换不等式求 $|p - x_i|$ 的范围：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果 $t \\times m < h_i$，说明就算站在敌人脸上打 $t$ 次也打不死，该敌人直接忽略。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "否则，移项得：",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$ |p - x_i| \\le m - \\frac{h_i}{t} $$\n令允许的最大距离为：\n$$ \\text{dis}_i = \\left\\lfloor \\frac{t \\cdot m - h_i}{t} \\right\\rfloor $$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那么，$p$ 的有效取值范围就是区间：",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$ [x_i - \\text{dis}_i, \\quad x_i + \\text{dis}_i] $$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>这样就转换成了区间问题，一眼想到对区间进行离散化差分，区间覆盖次数超过 k 次的位置即为 p。</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对区间进行离散化的注意点别忘，<code>b.pb(p[i].px - 1), b.pb(p[i].py + 1);</code> 。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m, k; cin >> n >> m >> k;\n\tvar h = vector<ll>(n + 1);\n\tvar x = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> h[i];\n\tfa(i, 1, n)cin >> x[i];\n\n\tvar check = [&](ll mid)->bool {\n\t\t// 要干掉第 i 个敌人，p 到 x[i] 的距离需 <= dis\n\t\t// dis = (mid * m - h[i]) / mid\n\t\t// 故 p 得在 [x[i] - dis, x[i] + dis] 的区间内才能干掉第 i 个敌人\n\t\t// 进行区间离散化差分\n\t\t\n\t\tvar b = vector<int>();\n\t\tvar p = vector<pii>(n + 1);\n\t\tfa(i, 1, n) {\n\t\t\tif (mid * m < h[i])continue;\n\t\t\tll dis = (mid * m - h[i]) / mid;\n\t\t\tp[i] = { x[i] - dis, x[i] + dis };\n\t\t\tb.pb(p[i].px), b.pb(p[i].py);\n\t\t\tb.pb(p[i].px - 1), b.pb(p[i].py + 1);\n\t\t}\n\n\t\tsort(all(b));\n\t\tb.erase(unique(all(b)), b.end());\n\t\tint len = b.size();\n\t\tvar find = [&](int value)->int {\n\t\t\treturn upper_bound(all(b), value) - b.begin();\n\t\t\t};\n\n\t\tvar cnt = vector<ll>(len + 2);\n\t\tfa(i, 1, n) {\n\t\t\tif (mid * m < h[i])continue;\n\t\t\tint l = find(p[i].px), r = find(p[i].py);\n\t\t\tcnt[l]++, cnt[r + 1]--;\n\t\t}\n\t\tfa(i, 1, len) {\n\t\t\tcnt[i] += cnt[i - 1];\n\t\t\tif (cnt[i] >= k)return 1;\n\t\t}\n\t\treturn 0;\n\t\t};\n\tll l = 1, r = 1e9, ans = 0;\n\twhile (l <= r) {\n\t\tll mid = l + r >> 1;\n\t\tif (check(mid)) {\n\t\t\tr = mid - 1;\n\t\t\tans = mid;\n\t\t}\n\t\telse l = mid + 1;\n\t}\n\tif (ans)cout << ans << endl;\n\telse cout << -1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-21",
+  "parsed_at": "2026-06-14T18:39:36.314036+00:00",
+  "type_directory": "p"
+}

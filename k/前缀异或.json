@@ -1,0 +1,23 @@
+{
+  "slug": "前缀异或",
+  "title": "前缀异或",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "异或",
+    "前缀异或"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-19",
+  "parsed_at": "2026-06-14T18:45:12.006465+00:00",
+  "type_directory": "k"
+}

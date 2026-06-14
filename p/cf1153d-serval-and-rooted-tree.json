@@ -1,0 +1,318 @@
+{
+  "slug": "cf1153d-serval-and-rooted-tree",
+  "title": "CF1153D Serval and Rooted Tree",
+  "type": "题目",
+  "tags": [
+    "树形dp",
+    "贪心"
+  ],
+  "difficulty": 3.0,
+  "summary": "依旧是状态难定，需要将<strong>极值问题转换为计数的 dp 问题</strong>。$dp[u]$：要保证 $u$ 拿到一个尽可能大的数，最少会有多少个数被迫排在 $u$ 的后面。这样就不用直接求具体的极值，而是求个数了，同样是<strong>带贪心的 dp 问题</strong>。",
+  "link": "https://codeforces.com/problemset/problem/1153/D",
+  "link_text": "Problem - 1153D - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Serval 拥有的这棵有根树有 $n$ 个节点，节点 $1$ 是根节点。Serval 会在树的所有节点上写上一些数字。不过，有一些限制。每个非叶子节点上都写有一个操作 $\\max$ 或 $\\min$，表示该节点上的数字应等于其所有子节点上的数字的最大值或最小值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "假设树上有 $k$ 个叶子节点。Serval 想将整数 $1, 2, \\ldots, k$ 分别填入这 $k$ 个叶子节点（每个数字只能用一次）。他喜欢大的数字，所以他希望根节点上的数字尽可能大。作为他最好的朋友，你能帮帮他吗？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$2 \\leq n \\leq 3 \\cdot 10^5$），表示树的节点数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数，第 $i$ 个整数表示第 $i$ 个节点上的操作。$0$ 表示 $\\min$，$1$ 表示 $\\max$。如果该节点是叶子节点，依然会给出 $0$ 或 $1$，但可以忽略。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含 $n-1$ 个整数 $f_2, f_3, \\ldots, f_n$（$1 \\leq f_i \\leq i-1$），其中 $f_i$ 表示第 $i$ 个节点的父节点编号。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示根节点上可能取得的最大数字。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n1 0 1 1 0 1\n1 2 2 2 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n1 0 1 0 1\n1 1 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8\n1 0 0 1 0 1 1 0\n1 1 2 2 3 3 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9\n1 1 0 0 1 0 1 0 1\n1 1 2 2 3 3 4 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "下图解释了样例。节点中间的数字是节点编号，节点上方的数字是节点中的数字。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第一个样例中，无论如何安排数字，答案都是 $1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1153D/6708db6b93ae87595a2a5e6a14824b45296d26be.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个样例中，无论如何安排数字，答案都是 $4$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1153D/55298e44ca1267165e9d58705a4fc29c70e74b01.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个样例中，为了得到 $4$，一种最优方案是将 $4$ 和 $5$ 分别放在节点 $4$ 和 $5$ 上。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1153D/13208157ec6652f71e197305f666d97c9ee17111.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第四个样例中，最优方案是将 $5$ 放在节点 $5$ 上。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1153D/7e271f8f21b87048c8998b0ecd2a589e99082246.png)",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "数字是<strong>离散且唯一</strong>的 $\\to$ 不好直接求 $[min, max]$ 范围。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "题目让 $ans[1]$ 尽可能大，等价于尽量减少排在根节点数字 $ans[1]$ 后面的叶子数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "故设 $dp[u]$：<strong>要保证</strong> $u$ <strong>拿到一个尽可能大的数，最少会有多少个数被迫排在</strong> $u$ <strong>的后面（包括</strong> $u$ <strong>的数字本身）。</strong> <em>（这个状态还真是，非常难想到）</em>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "然后就是对 $max$ 和 $min$ 分别考虑<strong>状态转移</strong>：",
+          "depth": 1
+        },
+        {
+          "heading": "情况 A：$u$ 是 <code>max</code> 节点",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<code>max</code> 节点就像一个<strong>“只要一个好，全家都光荣”</strong>的家长。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论</strong>：$u$ 只需要选一个最给力的儿子，最给力：排在后面的数最少。所以：$dp[u] = \\min(dp[son1], dp[son2]...)$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "情况 B：$u$ 是 <code>min</code> 节点",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<code>min</code> 节点就像一个<strong>“只要一个差，全家都完蛋”</strong>的家长。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了让 <code>min</code> 节点的值大，你必须保证它的<strong>每一个</strong>儿子都拿到大数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "你要满足所有子节点取到大数，才能保证最小值不掉下去。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论</strong>：$u$ 必须背负所有儿子的压力，所以：$dp[u] = \\sum(dp[son])$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "情况 C：叶子节点",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "能排在叶子节点本身及其后面的数只有其本身，所以 $dp[u] = 1$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[N];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar ops = vector<int>(n + 1);\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n)cin >> ops[i];\n\tfa(i, 2, n) {\n\t\tint f; cin >> f;\n\t\tg[f].pb(i); g[i].pb(f);\n\t}\n\tint k = 0;\n\tfa(i, 2, n)if (g[i].size() == 1)k++;\n\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tif (now != 1 and g[now].size() == 1) { \n\t\t\tdp[now] = 1;\n\t\t\treturn;\n\t\t}\n\t\tint sum = 0, mn = INF;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\tmn = min(mn, dp[to]);\n\t\t\tsum += dp[to];\n\t\t}\n\t\tif (ops[now])dp[now] = mn;\n\t\telse dp[now] = sum;\n\t\t};\n\tdfs(dfs, 1, 0);\n\tcout << k - dp[1] + 1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-06",
+  "parsed_at": "2026-06-14T18:39:36.117329+00:00",
+  "type_directory": "p"
+}

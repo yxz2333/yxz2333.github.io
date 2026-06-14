@@ -1,0 +1,48 @@
+{
+  "slug": "迭代法",
+  "title": "迭代法",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "What?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "简单来说，就是在一个 min/max 问题里，先设定初值，然后通过多轮次的迭代，算出最 min/max 的答案，也就是算出 <strong>贝尔曼方程与不动点</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "本质是：<a href=\"/k/松弛\" class=\"wikilink\">松弛</a>",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "When?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一般来说，就是 <strong>min/max</strong> 问题，且 dp 出现<strong>循环依赖</strong>的情况下使用。",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-11",
+  "parsed_at": "2026-06-14T18:45:12.230711+00:00",
+  "type_directory": "k"
+}

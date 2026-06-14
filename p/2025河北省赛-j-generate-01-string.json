@@ -1,0 +1,294 @@
+{
+  "slug": "2025河北省赛-j-generate-01-string",
+  "title": "2025河北省赛 J Generate 01 String",
+  "type": "题目",
+  "tags": [
+    "st表",
+    "前缀和",
+    "经典问题/括号匹配问题",
+    "分治"
+  ],
+  "difficulty": 2.0,
+  "summary": "明显的括号匹配问题，每次对括号总数平衡的区间分治即可。",
+  "link": "https://qoj.ac/contest/2629/problem/15239",
+  "link_text": "Generate 01 String - Problem - QOJ.ac",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Siri 发现了一个神奇的标识符 S，可以进行两种操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1. 拍一下某个标识符 S，这个标识符将会变成 <code>0S1S</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2. 拍两下某个标识符 S，这个标识符将会变成 <code>1S0S</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "最终在某个时刻，你可以选择让所有的标识符都消失，只保留字符串中的 01 字符。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在 Siri 想知道，能否有某种操作方案，得到给定的 01 串 T。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行一个 01 串 \\( T \\) (\\( 1 \\leq |T| \\leq 10^6 \\))，含义如题。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "如果存在操作方案，第一行输出 \\( n \\) (\\( 1 \\leq n \\leq 10^6 \\))，表示操作次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 \\( n \\) 行，每行为两个由空格分隔的数 \\( pos, op \\)，表示对当前字符串中的第 \\( pos \\) 个标识符进行第 \\( op \\) 种操作。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "否则输出 \\(-1\\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0011",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n1 1\n1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "最初为 S。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第一次操作 1 1，得到 <code>0S1S</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二次操作 1 1，得到 <code>00S1S1S</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "标识符 S 消失后即得到 <code>0011</code>。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "两种“括号”的匹配",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这道题的两个操作，本质上是在生成两种不同的“合法括号序列”：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>操作 1 (<code>0S1S</code>)</strong>：可以看作是在外层套了一对<strong>圆括号</strong> <code>( S ) S</code>，其中 <code>0</code> 相当于 <code>(</code>，<code>1</code> 相当于 <code>)</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>操作 2 (<code>1S0S</code>)</strong>：可以看作是在外层套了一对<strong>方括号</strong> <code>[ S ] S</code>，其中 <code>1</code> 相当于 <code>[</code>，<code>0</code> 相当于 <code>]</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "题目要求最终生成的 01 串，其实就是一个<strong>由两种括号嵌套而成的合法括号序列</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为每种操作都会同时生成一个 <code>0</code> 和一个 <code>1</code>，所以<strong>有解的必要条件是：整个串中 <code>0</code> 和 <code>1</code> 的数量必须绝对相等</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "递归分治逻辑 (<code>dfs</code>)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于任意一个子串 <code>[L, R]</code>，由于它是通过 <code>S</code> 生成的合法序列，它必然形如：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>首字符</code> + <code>内部序列 (第一个 S 生成)</code> + <code>匹配字符</code> + <code>外部序列 (第二个 S 生成)</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>如果首字符是 <code>0</code> (<code>s[L] == &#x27;0&#x27;</code>)</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "说明这一步必定使用了<strong>第 1 种操作 (<code>0S1S</code>)</strong>，记录 <code>ans.pb({now, 1})</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "首字符 <code>0</code> 需要找到与它匹配的 <code>1</code>。这个匹配的 <code>1</code> 应该在哪个位置呢？在合法序列中，匹配点就是<strong>从前往后扫，0 和 1 的数量第一次重新达到平衡的位置</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>ST表+二分的作用</strong>：你预处理了前缀和（0 记为 -1，1 记为 1）。对于首字符 <code>0</code>，前缀和会下降。你需要找到<strong>第一个</strong>使得前缀和重新回升到等于起点之前状态（<code>pre[mid] - pre[L-1] &gt;= 0</code>）的位置。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>如果首字符是 <code>1</code> (<code>s[L] == &#x27;1&#x27;</code>)</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "同理，这必定是使用了<strong>第 2 种操作 (<code>1S0S</code>)</strong>，记录 <code>ans.pb({now, 2})</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "前缀和会上升，所以你用 <code>stmn.queryMin(L, mid) - pre[L-1] &lt;= 0</code> 去寻找第一个匹配的 <code>0</code> 的位置 <code>res</code>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "标识符下标 <code>now</code> 的追踪",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "很多做这道题的人会被“当前是对第几个 <code>S</code> 进行操作”搞晕，但你的 <code>now</code> 变量配合递归完美解决了这个问题：",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "ans.pb({now, type}); // 对当前 S 操作\ndfs(dfs, L + 1, res - 1); // 递归处理左边的 S (内部序列)\nnow++; // 神奇的一笔：自增！\ndfs(dfs, res + 1, R); // 递归处理右边的 S (外部序列)",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>为什么这段追踪 <code>now</code> 的代码是对的？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "假设当前的 <code>S</code> 的编号是 $k$。当你执行一次操作后，它变成了 <code>0 S(左) 1 S(右)</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "1.  显然，<code>S(左)</code> 的编号依然是 $k$（它占据了原来 <code>S</code> 的顺位）。所以你传入的依然是当前的 <code>now</code>，开始 <code>dfs</code> 内部区间。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2.  在 <code>S(左)</code> 被完全处理完毕之前，<code>S(右)</code> 的编号会被 <code>S(左)</code> 内部不断分裂出来的 <code>S</code> 往后挤。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3.  <strong>核心规律：</strong> 每执行一次有效操作，总 <code>S</code> 数量净增加 1 个。由于你的 <code>now</code> 是隐式按引用捕获的全局作用域变量，在 <code>dfs(左)</code> 跑完后，<code>now</code> 恰好<strong>增加了左子树中发生的总操作数</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "4.  此时 <code>S(右)</code> 的正确顺位，刚刚巧就是 <code>一开始的now + 左子树操作数 + 1</code>！而你的代码在左子树回归后，执行了一句 <code>now++</code>，刚好让 <code>now</code> 的值严丝合缝地对齐了 <code>S(右)</code> 的真实编号。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tstring s; cin >> s;\n\tint n = s.size();\n\ts = ' ' + s;\n\tvar pre = vector<int>(n + 1);\n\tfa(i, 1, n)pre[i] = pre[i - 1] + (s[i] == '0' ? -1 : 1);\n\n\tif (pre[n]) {\n\t\tcout << \"-1\" << endl;\n\t\treturn;\n\t}\n\n\tvar stmx = ST<int>(pre, ST<int>::_max);\n\tvar stmn = ST<int>(pre, ST<int>::_min);\n\tvar ans = vector<pii>();\n\tint now = 1;\n\tvar dfs = [&](var dfs, int L, int R)->void {\n\t\tif (R - L + 1 < 2)return;\n\t\tif (s[L] == '0') {\n\t\t\tans.pb({ now,1 });\n\t\t\tint l = L, r = R, res = 0;\n\t\t\twhile (l <= r) {\n\t\t\t\tint mid = l + r >> 1;\n\t\t\t\tif (stmx.queryMax(L, mid) - pre[L - 1] >= 0) {\n\t\t\t\t\tr = mid - 1;\n\t\t\t\t\tres = mid;\n\t\t\t\t}\n\t\t\t\telse l = mid + 1;\n\t\t\t}\n\t\t\t//debug(0, L, R, res);\n\t\t\tdfs(dfs, L + 1, res - 1);\n\t\t\tnow++;\n\t\t\tdfs(dfs, res + 1, R);\n\t\t}\n\t\telse {\n\t\t\tans.pb({ now,2 });\n\t\t\tint l = L, r = R, res = 0;\n\t\t\twhile (l <= r) {\n\t\t\t\tint mid = l + r >> 1;\n\t\t\t\tif (stmn.queryMin(L, mid) - pre[L - 1] <= 0) {\n\t\t\t\t\tr = mid - 1;\n\t\t\t\t\tres = mid;\n\t\t\t\t}\n\t\t\t\telse l = mid + 1;\n\t\t\t}\n\t\t\t//debug(1, L, R, res);\n\t\t\tdfs(dfs, L + 1, res - 1);\n\t\t\tnow++;\n\t\t\tdfs(dfs, res + 1, R);\n\t\t}\n\t\t};\n\tdfs(dfs, 1, n);\n\n\tcout << ans.size() << endl;\n\tfor (const var& [x, y] : ans)cout << x << ' ' << y << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-20",
+  "parsed_at": "2026-06-14T18:39:35.808280+00:00",
+  "type_directory": "p"
+}

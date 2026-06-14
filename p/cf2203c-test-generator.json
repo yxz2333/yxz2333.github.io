@@ -1,0 +1,162 @@
+{
+  "slug": "cf2203c-test-generator",
+  "title": "CF2203C Test Generator",
+  "type": "题目",
+  "tags": [
+    "二进制",
+    "二分答案"
+  ],
+  "difficulty": 2.0,
+  "summary": "想到用二分答案这题就能整出来了，唉可惜我没想到能用二分答案。无解好特判不讲了，二分答案的过程中相当于算让多少个数 <code>+= (1ll&lt;&lt;i)</code>，最后让 $s$ 减为 $0$ 就结束了，很好写。",
+  "link": "https://codeforces.com/contest/2203/problem/C",
+  "link_text": "Problem - C - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "我们正在开发一个测试生成器。它接受两个整数 $s$ 和 $m$ 作为输入。你需要构造一个由非负整数组成的数组 $a = [a_{1}, a_{2}, \\dots, a_{n}]$，使得：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1.  $\\displaystyle\\sum_{i=1}^{n} a_i = s$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2.  对于每个 $i$，条件 $a_i \\,\\&\\, m = a_i$ 成立，其中 $\\&$ 表示按位与运算符。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "换句话说，在每个数 $a_i$ 中，被设置为 1 的比特位只能出现在数字 $m$ 中被设置为 1 的比特位上。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "确定是否存在至少一个这样的数组。如果存在，找出可能的最小长度 $n$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \\le t \\le 10^4$)。接下来是测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例由一行包含两个整数 $s$ 和 $m$ ($1 \\le s, m \\le 10^{18}$) 组成——即生成器的参数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果这样的数组不存在，则输出 $-1$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "否则，输出数组的最小可能长度 $n$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n13 5\n13 3\n13 6\n1000000007 2776648\n99999999999 1\n998244353 1557287",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n5\n-1\n-1\n99999999999\n642",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "让我们分析一些例子：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于 $s = 13, m = 5$，答案是 $3$，因为存在一个合适的数组 $a = [5, 4, 4]$；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于 $s = 13, m = 3$，答案是 $5$，因为存在一个合适的数组 $a = [3, 3, 3, 3, 1]$；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于 $s = 13, m = 6$，答案是 $-1$，因为不存在合适的数组。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll s, m; cin >> s >> m;\n\tll ls = Math::lowbit(s), lm = Math::lowbit(m);\n\tif (ls < lm) {\n\t\tcout << -1 << endl;\n\t\treturn;\n\t}\n\n\tvar check = [&](ll mid)->bool {\n\t\tll ns = s;\n\t\tfb(i, 62, 0)if (m & (1ll << i)) {\n\t\t\tll res = min(mid, ns / (1ll << i));\n\t\t\tns -= res * (1ll << i);\n\t\t}\n\t\treturn ns == 0;\n\t\t};\n\tll l = 0, r = 1e18, ans = 0;\n\twhile (l <= r) {\n\t\tll mid = l + r >> 1;\n\t\tif (check(mid)) {\n\t\t\tans = mid;\n\t\t\tr = mid - 1;\n\t\t}\n\t\telse l = mid + 1;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-26",
+  "parsed_at": "2026-06-14T18:39:36.433391+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,203 @@
+{
+  "slug": "p6240-好吃的题目",
+  "title": "P6240 好吃的题目",
+  "type": "题目",
+  "tags": [
+    "哈基米树",
+    "01背包"
+  ],
+  "difficulty": 2.5,
+  "summary": "明显是个 01 背包问题，因为要进行区间询问，所以改成离线静态问题，套哈基米树解决，重点为<strong>优化两边 01 背包的分治合并</strong>。",
+  "link": "https://www.luogu.com.cn/problem/P6240",
+  "link_text": "P6240 好吃的题目 - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有一条小吃街，从左到右依次排列着 $n$ 个商店，从 $1$ 开始标号。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $i$ 个商店会只出售一种小吃，热量为 $h_i$，美味度为 $w_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在有 $m$ 个吃货要来逛街，第 $i$ 个吃货会在 $[l_i,r_i]$ 的商店内寻找小吃，而且为了防止太胖，最多能摄入 $t_i$ 的热量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小吃吃多了会腻，所以同一个商店的小吃只能吃一次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在每个吃货想知道自己最多能得到多少美味度。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行为两个整数，分别表示 $n,m$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行为 $n$ 个整数，第 $i$ 个整数表示 $h_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行为 $n$ 个整数，第 $i$ 个整数表示 $w_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $4$ 到第 $(m + 3)$ 行，每行三个整数，第 $(i + 3)$ 行的整数 $l_i, r_i, t_i$ 分别表示第 $i$ 个吃货的参数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $100\\%$ 的数据，满足 $1 \\leq n\\leq 4\\times 10^4$，$1 \\leq m\\leq 2\\times 10^5$，$1\\leq l_i\\leq r_i\\leq n$，$1\\leq h_i,t_i\\leq 200$，$1\\leq w_i\\leq 10^7$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个吃货，输出一行一个整数，表示最大的美味度和。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8 5\n10 31 36 30 36 24 29 29\n59 152 284 202 282 156 277 212\n3 5 81\n4 5 75\n7 8 71\n1 3 92\n4 4 95",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "566\n484\n489\n495\n202",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一组数据的第一个吃货，可以选择第 $3$ 个商店和第 $5$ 个商店。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "摄入的热量为 $36+36=72\\leq 81$，获得美味度为 $284+282=566$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "明显是个 01 背包问题，因为要进行区间询问，所以改成离线静态问题，套哈基米树解决，重点为<strong>优化两边 01 背包的分治合并</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在分治合并阶段，若直接在 <code>operator+</code> 中进行两个 DP 数组的单次合并，复杂度为 $O(T^2)$，必会 TLE。为了将复杂度降至 $O(T)$，需利用<strong>非对称合并</strong>的思想：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>预处理阶段</strong>：在中点向两侧计算前缀/后缀背包时，由于每次合并都是 <strong>“一个原始物品 + 一个已有的 DP 数组”</strong>，通过 <code>is_item</code> 标记<strong>将 “背包合并” 转化为 “ 01 背包加入一个物品的状态转移”</strong>。这使得预处理的总复杂度从 $O(N \\log N \\cdot T^2)$ 降至 $O(N \\log N \\cdot T)$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>查询阶段</strong>：处理跨越 <code>mid</code> 的询问时，不需要通过 <code>operator+</code> 生成一个完整的合并背包。由于题目只关心特定容量 $t$ 下的最优值，我们直接在 <code>solve</code> 函数中枚举左侧分配的热量 $k \\in [0, t]$，通过 <code>max(ldp[k] + rdp[t - k])</code> 即可 $O(T)$ 算出答案。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "空间复杂度：$O(200 \\cdot N)$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "时间复杂度：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "离线分治(建树)过程：$O(200 \\cdot N \\log N)$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "解决查询问题过程：$O(200 \\cdot Q)$",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template <class Info>\nclass OfflineCatTree {\npublic:\n\n\tOfflineCatTree() : n(0) {}\n\tOfflineCatTree(int _n) { init(_n); }\n\tOfflineCatTree(vector<Info>& _init) { init(_init); }\n\n\t// 添加询问\n\tvoid add_query(int l, int r, int id, int t) {\n\t\tqs.push_back({ l, r, id, t });\n\t}\n\n\t// 核心处理函数，返回所有询问的结果\n\tvector<int>& solve() {\n\t\tif (qs.empty()) return ans;\n\n\t\t// 找到最大的 id 以调整答案数组大小\n\t\tint max_id = 0;\n\t\tfor (const auto& q : qs)max_id = max(max_id, q.id);\n\t\tans.assign(max_id + 1, 0);\n\n\t\tsolve(1, n, qs);\n\t\treturn ans;\n\t}\n\nprivate:\n\tvoid init(int _n) {\n\t\tn = _n;\n\t\tinfo.assign(n + 1, Info());\n\t\ttmp.resize(n + 1);\n\t\tqs.clear();\n\t}\n\n\tvoid init(vector<Info>& _init) {\n\t\tn = _init.size() - 1;\n\t\tinfo = move(_init);\n\t\ttmp.resize(n + 1);\n\t\tqs.clear();\n\t}\n\t\n\tstruct Query {\n\t\t// (可以修改，在这里可以加入更多参数)\n\t\tint l, r, id;\n\t\tint t;\n\t};\n\n\tint n;\n\tvector<Info> info;  // 存储原始数据 (下标 1 ~ n)\n\tvector<Query> qs;   // 存储询问\n\tvector<Info> tmp;   // O(N) 的全局缓存，用于计算前缀/后缀\n\tvector<int> ans;   // 存储最终算出的 Info (可以修改，不用 Info 输出)\n\n\n\t// 离线分治：利用递归特性，算完一层扔一层，空间 O(N)\n\t// 只要题目允许离线，离线猫树全面优于在线猫树，它保留了 O(1) 的合并次数，同时把空间降到了最低。\n\t// 若强制在线，使用线段树\n\tvoid solve(int l, int r, vector<Query>& q_curr) {\n\t\tif (q_curr.empty()) return;\n\n\t\t// 叶子节点：直接由 info[l] 贡献\n\t\tif (l == r) {\n\t\t\tfor (const auto& q : q_curr) {\n\t\t\t\tans[q.id] = info[l].dp[q.t];\n\t\t\t}\n\t\t\treturn;\n\t\t}\n\n\t\tint mid = (l + r) >> 1;\n\n\t\t// --- 1. 预处理中间向两边的前缀/后缀 ---\n\t\t// 注意：这里复用了 tmp 数组，省内存\n\n\t\t// [mid, l] 后缀：从 mid 向左\n\t\t// tmp[i] = info[i] + tmp[i + 1]\n\t\t// Info 合并方向：(左边) + (右边)\n\t\ttmp[mid] = info[mid];\n\t\tfor (int i = mid - 1; i >= l; i--) {\n\t\t\ttmp[i] = info[i] + tmp[i + 1];\n\t\t}\n\n\t\t// [mid + 1, r] 前缀：从 mid + 1 向右\n\t\t// tmp[i] = tmp[i - 1] + info[i]\n\t\tif (mid + 1 <= r) {\n\t\t\ttmp[mid + 1] = info[mid + 1];\n\t\t\tfor (int i = mid + 2; i <= r; i++) {\n\t\t\t\ttmp[i] = tmp[i - 1] + info[i];\n\t\t\t}\n\t\t}\n\n\t\t// --- 2. 处理询问 ---\n\t\tvector<Query> q_left, q_right;\n\t\t// 预留空间稍微优化一点常数，不写也没事\n\t\tq_left.reserve(q_curr.size() / 2);\n\t\tq_right.reserve(q_curr.size() / 2);\n\n\t\tfor (const auto& q : q_curr) {\n\t\t\tif (q.r <= mid) {\n\t\t\t\tq_left.push_back(q);\n\t\t\t}\n\t\t\telse if (q.l > mid) {\n\t\t\t\tq_right.push_back(q);\n\t\t\t}\n\t\t\telse {\n\t\t\t\t// 跨越 mid 的询问\n\t\t\t\t// Ans = Suffix[l] + Prefix[r]\n\t\t\t\t// (可以修改，对合并答案进行优化，而不是直接合并)\n\n\t\t\t\tconst var& ldp = tmp[q.l].dp;\n\t\t\t\tconst var& rdp = tmp[q.r].dp;\n\t\t\t\tfa(k, 0, q.t) {\n\t\t\t\t\t// 枚举 ldp 拿多少热量 k\n\t\t\t\t\t// rdp 拿 q.t - k 热量\n\t\t\t\t\tans[q.id] = max(ans[q.id], ldp[k] + rdp[q.t - k]);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\t// 释放当前层内存\n\t\tq_curr.clear();\n\n\t\t// --- 3. 递归 ---\n\t\tsolve(l, mid, q_left);\n\t\tsolve(mid + 1, r, q_right);\n\t}\n};\nstruct Info {\n\tInfo() :h(0), w(0), is_item(0) { fill(all(dp), 0); }\n\tInfo(int h, int w) :h(h), w(w), is_item(1) {\n\t\tfill(all(dp), 0);\n\t\tfb(i, 200, h) {\n\t\t\tdp[i] = max(dp[i], dp[i - h] + w);\n\t\t}\n\t}\n\n\tarray<int, 201> dp;\n\tint h, w;\n\tbool is_item;\n\n\tint query_ans(int t) const {\n\t\t// 实现答案查询函数\n\t\treturn dp[t];\n\t}\n};\n\nInfo operator+(const Info& a, const Info& b) {\n\tInfo res;\n\tres.is_item = 0;\n\n\tif (a.is_item and !b.is_item) {\n\t\tres = b;\n\t\tfb(i, 200, a.h) {\n\t\t\tres.dp[i] = max(res.dp[i], res.dp[i - a.h] + a.w);\n\t\t}\n\t}\n\telse if (!a.is_item and b.is_item) {\n\t\tres = a;\n\t\tfb(i, 200, b.h) {\n\t\t\tres.dp[i] = max(res.dp[i], res.dp[i - b.h] + b.w);\n\t\t}\n\t}\n\telse if (a.is_item and b.is_item) {\n\t\tfb(i, 200, a.h) {\n\t\t\tres.dp[i] = max(res.dp[i], res.dp[i - a.h] + a.w);\n\t\t}\n\t\tfb(i, 200, b.h) {\n\t\t\tres.dp[i] = max(res.dp[i], res.dp[i - b.h] + b.w);\n\t\t}\n\t}\n\n\treturn res;\n}\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar h = vector<int>(n + 1);\n\tvar w = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> h[i];\n\tfa(i, 1, n)cin >> w[i];\n\n\tvar a = vector<Info>(n + 1);\n\tfa(i, 1, n)a[i] = Info(h[i], w[i]);\n\tvar hachimi = OfflineCatTree<Info>(a);\n\tvar q = vector<int>(m + 1);\n\tfa(i, 1, m) {\n\t\tint l, r, t; cin >> l >> r >> t;\n\t\thachimi.add_query(l, r, i, t);\n\t\tq[i] = t;\n\t}\n\tvar& ans = hachimi.solve();\n\n\tfa(i, 1, m)cout << ans[i] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-10",
+  "parsed_at": "2026-06-14T18:39:36.901517+00:00",
+  "type_directory": "p"
+}

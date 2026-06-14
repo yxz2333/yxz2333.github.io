@@ -1,0 +1,341 @@
+{
+  "slug": "2026杭电春季赛3-005-月球异或",
+  "title": "2026杭电春季赛3 005 月球异或",
+  "type": "题目",
+  "tags": [
+    "线性基",
+    "k进制"
+  ],
+  "difficulty": 3.0,
+  "summary": "用线性基是我灵光一现想到的，想了想发现还真有那么回事。本题的主要难点就是怎么写这个<strong>三进制的线性基</strong>了，怎么 <code>insert</code> 和 <code>check</code>？全都围绕 \\(v_i \\leftarrow v_i \\oplus v_i\\) 这个条件写。最后要用<strong>数位数组</strong>进行优化，直接算除法太多会 TLE。",
+  "link": "https://acm.hdu.edu.cn/contest/problem?cid=1199&pid=1005",
+  "link_text": "1005 月球异或",
+  "source": "[[2026杭电春季赛3]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在「月读」的世界中，有一种定义在自然数意义下的二元运算，我们称其为「月球异或」，记作 ⊕。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "「月球异或」相当于对两个数字二进制下的每一位，独立相加后模 3 得到运算结果在三进制下该位的值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例如：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\(8 = 2 \\times 3^0 + 2 \\times 3^1\\)，",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "\\(16 = 1 \\times 3^0 + 2 \\times 3^1 + 1 \\times 3^2\\)，",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那么 \\(8 \\oplus 16 = 0 \\times 3^0 + 1 \\times 3^1 + 1 \\times 3^2 = 12\\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "更严谨的定义：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于自然数 \\(x, y\\)，可唯一表示为  \\[x = \\sum_{i \\ge 0} 3^i a_i, \\quad y = \\sum_{i \\ge 0} 3^i b_i\\]，其中 \\(a_i, b_i \\in \\{0, 1, 2\\}\\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "定义  \\[x \\oplus y = \\sum_{i \\ge 0} 3^i \\big((a_i + b_i) \\bmod 3\\big)\\]  该运算满足交换律和结合律。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "有一个长度为 \\(N\\) 的自然数序列 \\(v_1, v_2, \\ldots, v_N\\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你可以做任意次（含零次）如下操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选择一个下标 \\(i\\ (1 \\le i \\le N)\\)，然后令  \\(v_i \\leftarrow v_i \\oplus v_i\\) 或者 \\(v_i \\leftarrow 0\\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "八千代每次会询问一个自然数 \\(s\\)，你需要回答能否通过若干次操作使得 \\[v_1 \\oplus v_2 \\oplus \\cdots \\oplus v_N = s\\]",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意询问是独立的，你不会真的去做这些操作。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 \\(T\\)，表示测试数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行两个正整数 \\(N, Q\\)，表示序列长度和询问次数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来一行 \\(N\\) 个正整数 \\(v_1, v_2, \\ldots, v_N\\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来一行 \\(Q\\) 个正整数 \\(s_1, s_2, \\ldots, s_Q\\)，表示每次询问的值。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "令 \\(N_{\\text{tot}}\\) 表示所有测试组 \\(N\\) 之和，\\(Q_{\\text{tot}}\\) 表示所有测试组 \\(Q\\) 之和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "数据范围：\\[1 \\le T \\le 10^5,\\quad 1 \\le N_{\\text{tot}}, Q_{\\text{tot}} \\le 2\\times 10^6\\]",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组数据：\\[1 \\le N, Q \\le 10^6,\\quad 0 \\le v_i, s_i \\le 10^{18}\\]",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输出 \\(Q\\) 行，对于每个询问，如果可行输出 <code>&quot;Yes&quot;</code>，否则输出 <code>&quot;No&quot;</code>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 4\n1\n0 1 2 3\n3 5\n0 5 10\n4 5 6 7 8\n3 6\n8 16 32\n12 17 57 41 4 44",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\nYes\nYes\nNo\nNo\nYes\nNo\nYes\nNo\nYes\nNo\nYes\nNo\nYes\nYes",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "题目核心分析",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目的核心在于定义了一种“无进位三进制加法” $\\circledast$。对于序列中的每个元素 $v_i$，我们可以执行以下操作：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>不操作</strong>：保留 $v_i$，相当于系数为 $1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$v_i \\leftarrow v_i \\circledast v_i$：在三进制下每一位 $1 \\to 2, 2 \\to 1, 0 \\to 0$，等价于每一位 $\\times 2 \\pmod 3$，即系数为 $2$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$v_i \\leftarrow 0$：相当于系数为 $0$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这意味着，最终的异或和可以表示为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ S = (c_1 \\cdot v_1) \\circledast (c_2 \\cdot v_2) \\circledast \\dots \\circledast (c_n \\cdot v_n) \\quad (\\text{其中 } c_i \\in \\{0, 1, 2\\}) $$\n这完全符合**线性空间**的定义，完全可以使用线性基。\n我们要判断目标值 $s$ 能否由给定向量组的**线性组合**表示，这正是线性基的用武之地。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "如何构造三进制线性基？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "与二进制线性基（只有 0 和 1）不同，三进制线性基的每一位有三种可能状态。为了方便消元，我们需要维护一个 “主元归一化” 的基底：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>基底定义</strong>：<code>cnta[i]</code> 存储一个三进制数，其最高非零位必须在第 $i$ 位，且该位的数值<strong>强制规定为 1</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>插入 (Insert) 逻辑</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. 从高到低遍历 $x$ 的每一位。假设当前第 $i$ 位数值为 $cnt[i]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. 如果 $cnt[i] = 0$，跳过。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3. 如果第 $i$ 位还没有基底（<code>!vis[i]</code>）：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $cnt[i] = 2$，为了归一化，将整个 $x$ 每一位 $\\times 2 \\pmod 3$（因为 $2 \\times 2 \\equiv 1 \\pmod 3$）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "将处理后的 $x$ 存入 <code>cnta[i]</code>，标记 <code>vis[i] = 1</code>，结束。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "4. 如果第 $i$ 位已有基底：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "利用 <code>cnta[i]</code> 消掉 $x$ 的第 $i$ 位。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "若 $cnt[i] = 1$，则 $x \\leftarrow x + 2 \\cdot cnta[i] \\pmod 3$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "若 $cnt[i] = 2$，则 $x \\leftarrow x + 1 \\cdot cnta[i] \\pmod 3$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>查询 (Check) 逻辑</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "过程与插入类似。如果走到某位 $i$ 发现 $x$ 的第 $i$ 位不为 0，但基底 <code>vis[i]</code> 为空，则无法表示，返回 <code>False</code>。如果最终 $x$ 被完全消为 0，返回 <code>True</code>。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 未优化版本【更直观】\nclass XorBase {\nprivate:\n\tvector<ll> a; // 线性基基底\n\tvector<ll> _3;\n\tint MN = 38;\npublic:\n\tXorBase() :a(40, 0) {\n\t\tll now = 1;\n\t\tfa(i, 0, MN) {\n\t\t\t_3.pb(now);\n\t\t\tnow *= 3;\n\t\t}\n\t};\n\n\tint get_bit3(ll x, ll i) {\n\t\treturn x / _3[i] % 3;\n\t}\n\n\tll op(ll x, ll y) {\n\t\tll res = 0;\n\t\tfa(i, 0, MN) {\n\t\t\tll cntx = get_bit3(x, i);\n\t\t\tll cnty = get_bit3(y, i);\n\t\t\tres += (cntx + cnty) % 3 * _3[i];\n\t\t}\n\t\treturn res;\n\t}\n\n\tvoid insert(ll x) {\n\t\tfb(i, MN, 0) {\n\t\t\tint cnt = get_bit3(x, i);\n\t\t\tif (cnt == 0)continue;\n\t\t\tif (!a[i]) {\n\t\t\t\tif (cnt == 2)x = op(x, x);\n\t\t\t\ta[i] = x;\n\t\t\t\treturn;\n\t\t\t}\n\t\t\telse {\n\t\t\t\tif (cnt == 1)x = op(x, op(a[i], a[i]));\n\t\t\t\telse x = op(x, a[i]);\n\t\t\t}\n\t\t}\n\t}\n\n\tbool check(ll x) {\n\t\tfb(i, MN, 0) {\n\t\t\tint cnt = get_bit3(x, i);\n\t\t\tif (cnt == 0)continue;\n\t\t\tif (!a[i])return 0;\n\t\t\telse {\n\t\t\t\tif (cnt == 1)x = op(x, op(a[i], a[i]));\n\t\t\t\telse x = op(x, a[i]);\n\t\t\t}\n\t\t}\n\t\treturn 1;\n\t}\n};\nvoid solve(int CASE)\n{\n\tll n, q; cin >> n >> q;\n\tvar xb = XorBase();\n\tfa(i, 1, n) {\n\t\tll x; cin >> x;\n\t\txb.insert(x);\n\t}\n\twhile (q--) {\n\t\tll x; cin >> x;\n\t\tif (xb.check(x))cout << \"Yes\" << endl;\n\t\telse cout << \"No\" << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 优化除法版本\nclass XorBase {\nprivate:\n\tconst static int MN = 38;\n\tarray<int, MN + 1> vis;\n\tvector<array<int, MN + 1>> cnta;\n\tvector<ll> _3;\npublic:\n\tXorBase() :cnta(40) {\n\t\tll now = 1;\n\t\tfa(i, 0, MN) {\n\t\t\t_3.pb(now);\n\t\t\tnow *= 3;\n\t\t\tfill(all(cnta[i]), 0);\n\t\t}\n\t\tfill(all(vis), 0);\n\t};\n\n\tint get_bit3(ll x, ll i) {\n\t\treturn x / _3[i] % 3;\n\t}\n\n\tvoid insert(ll x) {\n\t\tvar cnt = array<int, MN + 1>();\n\t\tfa(i, 0, MN)cnt[i] = get_bit3(x, i);\n\n\t\tfb(i, MN, 0) {\n\t\t\tif (cnt[i] == 0)continue;\n\t\t\tif (!vis[i]) {\n\t\t\t\tif (cnt[i] == 2) {\n\t\t\t\t\tfa(j, 0, MN)cnt[j] = (cnt[j] * 2) % 3;\n\t\t\t\t}\n\t\t\t\tcnta[i] = move(cnt);\n\t\t\t\tvis[i] = 1;\n\t\t\t\treturn;\n\t\t\t}\n\t\t\telse {\n\t\t\t\tif (cnt[i] == 1) {\n\t\t\t\t\tfa(j, 0, MN)cnt[j] = (cnt[j] + cnta[i][j] + cnta[i][j]) % 3;\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tfa(j, 0, MN)cnt[j] = (cnt[j] + cnta[i][j]) % 3;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tbool check(ll x) {\n\t\tvar cnt = array<int, MN + 1>();\n\t\tfa(i, 0, MN)cnt[i] = get_bit3(x, i);\n\n\t\tfb(i, MN, 0) {\n\t\t\tif (cnt[i] == 0)continue;\n\t\t\tif (!vis[i])return 0;\n\t\t\telse {\n\t\t\t\tif (cnt[i] == 1) {\n\t\t\t\t\tfa(j, 0, MN)cnt[j] = (cnt[j] + cnta[i][j] + cnta[i][j]) % 3;\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tfa(j, 0, MN)cnt[j] = (cnt[j] + cnta[i][j]) % 3;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\treturn 1;\n\t}\n};\nvoid solve(int CASE)\n{\n\tll n, q; cin >> n >> q;\n\tvar xb = XorBase();\n\tfa(i, 1, n) {\n\t\tll x; cin >> x;\n\t\txb.insert(x);\n\t}\n\twhile (q--) {\n\t\tll x; cin >> x;\n\t\tif (xb.check(x))cout << \"Yes\" << endl;\n\t\telse cout << \"No\" << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-04",
+  "parsed_at": "2026-06-14T18:39:35.862543+00:00",
+  "type_directory": "p"
+}

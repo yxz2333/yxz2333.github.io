@@ -1,0 +1,297 @@
+{
+  "slug": "cf1661d-progressions-covering",
+  "title": "CF1661D Progressions Covering",
+  "type": "题目",
+  "tags": [
+    "二阶差分",
+    "贪心",
+    "差分数组/动态差分"
+  ],
+  "difficulty": 2.0,
+  "summary": "两个难点，一个是想出<strong>倒序操作</strong>，即贪心，每次都优先用 $k$ 删掉当前枚举的数；另一个是<strong>动态维护差分</strong>，这个动态维护差分仅在枚举的时候有效，没有使用数据结构。",
+  "link": "https://www.luogu.com.cn/problem/CF1661D",
+  "link_text": "CF1661D Progressions Covering - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定两个数组：一个长度为 $n$ 的数组 $a$，初始时所有元素均为 $0$，以及一个长度为 $n$ 的数组 $b$，其中包含 $n$ 个整数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你可以对数组 $a$ 进行如下操作任意次：选择 $a$ 的一个长度为 $k$ 的子段，并在该子段上加上等差数列 $1, 2, \\ldots, k$，即对子段的第一个元素加 $1$，第二个元素加 $2$，依此类推。所选子段必须完全位于数组 $a$ 的范围内（即如果子段左端点为 $l$，则需满足 $1 \\le l \\le l + k - 1 \\le n$）。注意，每次加的等差数列始终为 $1, 2, \\ldots, k$，而不是 $k, k-1, \\ldots, 1$ 或其他形式（即子段最左边的元素总是加 $1$，第二个元素加 $2$，以此类推）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你的任务是求出使得对每个 $i$（$1 \\le i \\le n$）都有 $a_i \\ge b_i$ 所需的最小操作次数。注意，所有元素都必须同时满足 $a_i \\ge b_i$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含两个整数 $n$ 和 $k$（$1 \\le k \\le n \\le 3 \\times 10^5$），分别表示数组的长度和子段的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $b_1, b_2, \\ldots, b_n$（$1 \\le b_i \\le 10^{12}$），其中 $b_i$ 表示数组 $b$ 的第 $i$ 个元素。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示满足 $a_i \\ge b_i$ 的最小操作次数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3\n5 4 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 3\n1 2 3 2 2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7 3\n50 17 81 25 42 39 96",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "92",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "考虑第一个样例。在这个测试中，我们实际上没有选择的余地，必须至少加 $5$ 次等差数列，才能使第一个元素等于 $5$。此时数组 $a$ 变为 $[5, 10, 15]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "再看第二个样例。我们可以在区间 $[1, 3]$ 上加一次等差数列，在区间 $[4, 6]$ 上加两次等差数列。此时数组 $a$ 变为 $[1, 2, 3, 2, 4, 6]$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "原题操作：在原数组中选择长为 $k$ 的区间，加上 $1, 2, \\dots, k$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们要让所有 $a_i \\ge b_i$，即相当于我们要用若干个 $1, 2, \\dots, k$ 的等差数列“覆盖”掉目标数组 $b_i$。",
+          "depth": 1
+        },
+        {
+          "heading": "贪心直觉",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "考虑原数组的<strong>最后一个元素</strong> $b_n$。为了让操作次数最少，我们希望每一次覆盖都能给 $b_n$ 提供尽可能大的值。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "显然，把等差数列的最后一个元素（也就是最大值 $k$）对准 $b_n$ 是最划算的。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这就引出了<strong>从右向左</strong>消灭目标值的贪心策略。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "倒序操作",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于从右向左处理原数组在逻辑和下标计算上比较绕，你的代码极其聪明地在读入时执行了 <code>fb(i, n, 1) cin &gt;&gt; a[i];</code>，直接<strong>把数组翻转</strong>了。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "翻转后，原问题等价于：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "从左到右遍历。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "每次可以选择一个长为 $k$ 的区间 $[i, i+k-1]$，给它减上 $k, k-1, \\dots, 1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "每次遇到当前 $a_i > 0$（说明还没被前面的操作覆盖完），我们就<strong>必须</strong>以当前 $i$ 为起点，发动覆盖操作，因为后面的操作无法再影响到 $i$ 了。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "需要的操作次数就是 <code>cnt = ceil(a[i] / k)</code>，即 <code>(a[i] + k - 1) / k</code>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "如何做到“边枚举、边差分、边维护前缀和”？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "看你的核心代码：",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "sumd1 += D[i];  // 一阶前缀和（代表当前项比前一项多增量了多少）\nsumd2 += sumd1; // 二阶前缀和（代表当前项实际被累加了多少）\na[i] -= sumd2;  // 计算当前位置真实的剩余需求量",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "此时 $a[i]$ 已经是被前面的操作覆盖后的真实值了！",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $a[i] > 0$，说明我们需要在 $i$ 处<strong>新建</strong>操作。我们计算出需要的操作次数 <code>cnt</code>，然后将这个等差数列（首项 $a_1=k \\cdot cnt$, 公差 $d=-cnt$, 末项 $a_n=cnt$）更新到差分数组 $D$ 中。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>修正：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "// 按照公式，我们需要 D[l] += a1。\n// 但是！当前枚举到的就是 l (即 i)。\n// 对于当前的 i，sumd1 和 sumd2 已经计算过了！\n// 如果把 a1 加到 D[i] 里，当前的 sumd1 和 sumd2 享受不到这个增量，会导致后续状态错误。\n// 所以，我们直接“手动”把本来该由 D[l] 产生的影响，打入到当前的 sumd1 和 sumd2 中！\nsumd1 += a1;\nsumd2 += a1;",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "而 <code>D[l + 1]</code> 及以后的更新，因为循环还没走到那里，所以直接老老实实写进 $D$ 数组即可。等下一次循环 <code>i+1</code> 时，<code>sumd1 += D[i+1]</code> 自然就会把 <code>d - a1</code> 读进来，一切无缝衔接！",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, k; cin >> n >> k;\n\tvar a = vector<ll>(n + 10);\n\tfb(i, n, 1)cin >> a[i];\n\tvar D = vector<ll>(n + 10);\n\tll ans = 0;\n\tll sumd1 = 0, sumd2 = 0; // 动态维护两个 sum\n\n\tfa(i, 1, n - k + 1) {\n\t\tsumd1 += D[i];\n\t\tsumd2 += sumd1;\n\t\ta[i] -= sumd2;\n\t\tif (a[i] > 0) {\n\t\t\tll cnt = (a[i] + k - 1) / k;\n\t\t\tans += cnt;\n\n\t\t\tll a1 = k * cnt; \n\t\t\tll d = -cnt;\n\t\t\tll an = cnt;\n\t\t\tll l = i, r = i + k - 1;\n\n\t\t\ta[i] -= a1;\n\t\t\tsumd1 += a1;\n\t\t\tsumd2 += a1;\n\n\t\t\tD[l] += a1;\n\t\t\tD[l + 1] += d - a1;\n\t\t\tD[r + 1] += -d - an;\n\t\t\tD[r + 2] += an;\n\t\t}\n\t}\n\n\tll mxcnt = 0;\n\tfa(i, n - k + 2, n) {\n\t\tsumd1 += D[i];\n\t\tsumd2 += sumd1;\n\t\ta[i] -= sumd2;\n\t\tif (a[i] > 0) {\n\t\t\tll jian = n - i + 1;\n\t\t\tll cnt = (a[i] + jian - 1) / jian;\n\t\t\tmxcnt = max(mxcnt, cnt);\n\t\t}\n\t}\n\tans += mxcnt;\n\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-18",
+  "parsed_at": "2026-06-14T18:39:36.250641+00:00",
+  "type_directory": "p"
+}

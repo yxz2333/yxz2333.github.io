@@ -1,0 +1,215 @@
+{
+  "slug": "abc445f-exactly-k-steps-2",
+  "title": "ABC445F Exactly K Steps 2",
+  "type": "题目",
+  "tags": [
+    "矩阵快速幂",
+    "最短路/Floyd"
+  ],
+  "difficulty": 1.0,
+  "summary": "题目说了要恰好走 $K$ 次边，且 $K$ 非常大，明显的用矩阵快速幂跑最短路板子题。",
+  "link": "https://atcoder.jp/contests/abc445/tasks/abc445_f",
+  "link_text": "F - Exactly K Steps 2",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有一个包含 $N$ 个顶点的有向图，顶点分别为 $1$, $2$, ..., $N$。对于任意满足 $1 \\leq i, j \\leq N$ 的整数对 $(i, j)$，存在一条从顶点 $i$ 指向顶点 $j$ 的有向边，其成本为 $C_{i, j}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定一个正整数 $K$，对于每个 $s = 1, 2, \\ldots, N$，解决以下问题。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在所有从顶点 $s$ 出发，沿着边移动 $K$ 次，并返回到顶点 $s$ 的方式中，求所经过边的总成本的最小可能值。更正式地说，求满足 $v_0 = v_K = s$ 的长度为 $K+1$、元素为 $1$ 到 $N$ 之间的整数的序列 $v = (v_0, v_1, \\ldots, v_K)$ 的 $\\displaystyle\\sum_{i=1}^{K}C_{v_{i-1}, v_i}$ 的最小可能值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入从标准输入中以以下格式给出：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$N$ $K$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$C_{1,1}$ $C_{1,2}$ $\\ldots$ $C_{1,N}$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$C_{2,1}$ $C_{2,2}$ $\\ldots$ $C_{2,N}$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\vdots$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$C_{N,1}$ $C_{N,2}$ $\\ldots$ $C_{N,N}$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le N \\le 100$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le K \\le 10^9$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$0 \\le C_{i, j} \\le 10^9\\ (1 \\le i \\le N, 1 \\le j \\le N)$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入值均为整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $N$ 行。第 $i$ 行 $(1 \\le i \\le N)$ 应包含 $s = i$ 时问题的答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 3\n3 1 4 1\n5 9 2 6\n5 3 5 8\n9 7 9 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8\n8\n8\n9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 1000000000\n100 999 999\n999 100 999\n999 999 100",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "100000000000\n100000000000\n100000000000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10 9482\n748 169 586 329 972 529 432 519 408 587\n138 249 656 114 632 299 984 755 404 772\n155 506 832 854 353 465 387 374 567 385\n631 556 951 428 104 705 530 406 258 102\n709 325 334 193 520 798 749 582 337 910\n530 110 659 635 786 773 811 468 810 638\n111 822 554 627 395 959 924 698 777 893\n142 848 532 781 711 814 665 395 960 290\n746 266 603 553 893 353 323 640 172 263\n749 921 845 334 594 821 233 695 109 951",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1382481\n1382481\n1382628\n1382481\n1382481\n1382540\n1382481\n1382739\n1382499\n1382481",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template<const int N>\nclass Matrixmn {\npublic:\n\tarray<array<ll, N + 1>, N + 1> mat;\n\n\tMatrixmn() {\n\t\tfor (int i = 0; i <= N; i++)\n\t\t\tfor (int j = 0; j <= N; j++)\n\t\t\t\tmat[i][j] = 1000000000000000001ll;\n\t}\n\n\tMatrixmn operator* (const Matrixmn& x) {\n\t\t// floyd 求最短路\n\t\tMatrixmn ret;\n\t\tfor (int k = 1; k <= N; k++)\n\t\t\tfor (int i = 1; i <= N; i++) {\n\t\t\t\tif (mat[i][k] == 1000000000000000001ll)continue;\n\t\t\t\tfor (int j = 1; j <= N; j++) {\n\t\t\t\t\tif (x.mat[k][j] == 1000000000000000001ll)continue;\n\t\t\t\t\tret.mat[i][j] = min(ret.mat[i][j], mat[i][k] + x.mat[k][j]);\n\t\t\t\t}\n\t\t\t}\n\t\treturn ret;\n\t}\n\n\tvoid ksm(ll k, Matrixmn base) {\n\t\twhile (k) {\n\t\t\tif (k & 1)*this = *this * base;\n\t\t\tbase = base * base;\n\t\t\tk >>= 1;\n\t\t}\n\t}\n};\nMatrixmn<105> mn, mnbase;\nvoid solve(int CASE)\n{\n\tll n, k; cin >> n >> k;\n\tfa(i, 1, n)fa(j, 1, n) {\n\t\tll d; cin >> d;\n\t\tmn.mat[i][j] = d;\n\t}\n\tmnbase = mn;\n\tmn.ksm(k - 1, mnbase);\n\tfa(i, 1, n)cout << mn.mat[i][i] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-26",
+  "parsed_at": "2026-06-14T18:39:36.014287+00:00",
+  "type_directory": "p"
+}

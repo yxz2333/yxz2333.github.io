@@ -1,0 +1,399 @@
+{
+  "slug": "p11207-「cfz-round-9」rose",
+  "title": "P11207 「Cfz Round 9」Rose",
+  "type": "题目",
+  "tags": [
+    "二分",
+    "ad-hoc",
+    "分类讨论"
+  ],
+  "difficulty": 2.0,
+  "summary": "本来以为是什么恶心人的毒瘤分讨，不过仔细分析一下就发现只有答案为 1 的情况要动点脑筋，不过动的脑筋也不多，把准赢态（$x-1,x,x + 1$）存起来然后二分查表即可。",
+  "link": "https://www.luogu.com.cn/problem/P11207",
+  "link_text": "P11207 「Cfz Round 9」Rose - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "你和她正在进行一个游戏。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你和她各有 $n$ 张<strong>有序的</strong>卡牌，每张卡牌的颜色可能为粉色、紫色或白色。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>从她开始</strong>，你和她需要各自按照卡牌的顺序，轮流打出手里的卡牌。打出的卡牌将会被移至牌堆中。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若某个人打出卡牌后，牌堆中三种颜色的卡牌的数量相同，则这个人获胜，游戏结束。若你和她的卡牌都打完后，还没有人获胜，则游戏平局。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在游戏开始前，你可以进行若干次操作。每次操作，你可以给任意一个人的任意一张卡牌更换颜色。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你想求出，你至少需要进行多少次操作才能<strong>使她获胜</strong>。可以证明，一定存在至少一种可以使她获胜的操作方案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>本题有多组测试数据。</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入的第一行包含一个正整数 $T$，表示测试数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来依次输入每组测试数据。对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行一个正整数 $n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行一个长度为 $n$ 的字符串 $s$，描述<strong>她</strong>的卡牌：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若 $s_i$ 为 <code>P</code>，则表示她的第 $i$ 张卡牌的颜色为粉色；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $s_i$ 为 <code>V</code>，则表示她的第 $i$ 张卡牌的颜色为紫色；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $s_i$ 为 <code>W</code>，则表示她的第 $i$ 张卡牌的颜色为白色。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第三行一个长度为 $n$ 的字符串 $t$，描述<strong>你</strong>的卡牌：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若 $t_i$ 为 <code>P</code>，则表示你的第 $i$ 张卡牌的颜色为粉色；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $t_i$ 为 <code>V</code>，则表示你的第 $i$ 张卡牌的颜色为紫色；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $t_i$ 为 <code>W</code>，则表示你的第 $i$ 张卡牌的颜色为白色。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "其中，$s_i$ 表示字符串 $s$ 的第 $i$ 个字符，$t_i$ 同理。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le T \\le 30$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2 \\le n \\le 10^5$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于所有不大于 $n$ 的正整数 $i$，满足 $s_i$ 和 $t_i$ 均为 <code>PVW</code> 中的某个字符。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据，输出一行一个整数，表示你使她获胜所至少需要进行的操作的次数。若你不需要进行操作就能使她获胜，则你需要输出 $0$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "可以证明，一定存在至少一种可以使她获胜的操作方案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n2\nPW\nVP\n5\nPPWWP\nPWVWV\n6\nWVPPWW\nVVPVWP",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0\n2\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第 $1$ 组测试数据，不需要进行操作就能使她获胜。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第 $2$ 组测试数据，一种可能的操作方案为将她的第 $4$ 张卡牌和第 $5$ 张卡牌的颜色均更换为紫色。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第 $3$ 组测试数据，一种可能的操作方案为将你的第 $4$ 张卡牌的颜色更换为白色。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "答案的“天花板”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "首先，我们要抛出一个极其暴力的结论：<strong>这道题的答案永远只可能是 0、1 或 2。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>胜负的本质：</strong> 每次出牌后判断三种颜色数量是否相等（即 $x, x, x$）。这意味着游戏只可能在 $3$ 的倍数回合结束。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "判 0",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "不进行任何操作，直接模拟打牌过程：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "记录游戏中第一次出现三种颜色数量相等的回合数。如果这个回合数是奇数，说明“她”天然必胜，直接输出 <code>0</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果在偶数回合结束（“你”赢了），或者一直打到最后平局，我们就需要考虑操作 1 次的情况。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "判 1 的破局点：准赢态与真赢态的转化",
+          "level": 3,
+          "blocks": []
+        },
+        {
+          "type": "p",
+          "html": "既然只操作 1 次，这就意味着我们要<strong>改写原有的结局</strong>。这里有两个至关重要的思维跨越：",
+          "depth": 1
+        },
+        {
+          "heading": "1. 状态的转化（将“准赢”变为“真赢”）",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "假设在原游戏中，我们在某回合处于这样一种状态：某种颜色比标准数量多 1，另一种比标准少 1，第三种正好。即 $(x-1, x, x+1)$。我们称之为<strong>“准赢态”</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此时，只要我们将之前出过的某张牌，从<strong>“多余的颜色”</strong>改成<strong>“缺少的颜色”</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "那么在这个回合，多出的颜色 $-1$，缺少的颜色 $+1$，原本不平衡的 $(x-1, x, x+1)$ 就会瞬间变成完美的 $(x, x, x)$ 必赢态。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们可以<strong>预处理出所有的 “准赢态” 回合</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "定义一个二维数组 <code>W[缺少的颜色][多余的颜色]</code>，记录下原游戏中所有满足该对应准赢态的回合数（这些回合数天然是递增的）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "2. 时间的约束（在原结局发生前动手）",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们不能随便找个牌去改。假设原游戏在第 $M$ 回合结束（比如在偶数回合被“你”截胡了）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果我们去修改第 $i > M$ 的牌，是没有任何意义的——因为游戏早就在第 $M$ 回合按原结局结束了，后面的牌根本打不出来。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所以，<strong>我们修改的牌的位置</strong> $i$<strong>，必须满足</strong> $i \\le M$。只要我们在这个位置动手脚，原有的平衡被打破，原本在 $M$ 回合的“真赢态”就不复存在了，游戏才得以继续往下进行。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "完美拼接：$O(N \\log N)$ 算法流程",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "1. <strong>原局模拟与记录：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "遍历原游戏。如果遇到真赢态（$x, x, x$），记录下第一次发生的终局位置 $M$（若是奇数直接输出 0）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果遇到准赢态，将其出现的回合数存入对应的 <code>W[缺少的颜色][多余的颜色]</code> 数组中。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>枚举历史修改点（判 1）：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们从第 1 张牌枚举到第 $\\min(2n, M)$ 张牌。假设当前牌原本的颜色是 $P$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们尝试将其改成另一种颜色 $J$（这意味着 $P$ 是多余的，$J$ 是缺少的）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "此时，新世界线的结局去哪里找？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>直接在 <code>W[J][P]</code> 中，二分查找（<code>lower_bound</code>）第一个大于等于</strong> $i$ <strong>的回合数</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "为什么是第一个？因为一旦出现真赢态，游戏立刻结束。找出来的这第一个回合，就是新世界线的绝对终局点。中间不可能有任何其他回合抢先获胜。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "判断胜利者：如果找到的这个回合数是<strong>奇数</strong>，说明这一步完美的 “偷天换日” 让 “她” 率先触及了真赢态，且避开了后手的阻截！直接输出 <code>1</code>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "3. <strong>保底输出：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果所有合法的修改尝试都不能带来奇数回合的胜利，那么 1 次操作不足以逆天改命，直接输出我们的保底答案 <code>2</code>。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tstring s, t; cin >> s >> t; s = ' ' + s, t = ' ' + t;\n\tvar p = vector<int>(2 * n + 1);\n\tint j[2] = { 1,1 };\n\tfa(i, 1, 2 * n) {\n\t\tchar now;\n\t\tif (i & 1)now = s[j[0]++];\n\t\telse now = t[j[1]++];\n\n\t\tif (now == 'P')p[i] = 0;\n\t\telse if (now == 'W')p[i] = 1;\n\t\telse p[i] = 2;\n\t}\n\tvar w = Vec2<vector<int>>(3, 3);\n\tint cnt[3] = { 0,0,0 };\n\n\tbool no = 0;\n\tint fin = 2 * n;\n\tfa(i, 1, 2 * n) {\n\t\tcnt[p[i]]++;\n\t\tif (i % 3 == 0) {\n\t\t\tvar t = vector<int>();\n\t\t\tfa(i, 0, 2)t.pb(cnt[i]);\n\t\t\tsort(all(t));\n\t\t\tif (t[0] == t[1] and t[1] == t[2]) {\n\t\t\t\tif (!no and (i & 1)) {\n\t\t\t\t\tcout << 0 << endl;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tno = 1;\n\t\t\t\t\tfin = min(fin, i - 1);\n\t\t\t\t}\n\t\t\t}\n\t\t\tif (t[0] + 1 == t[1] and t[1] + 1 == t[2]) {\n\t\t\t\tif (cnt[0] == t[0] and cnt[1] == t[2])w[0][1].pb(i);\n\t\t\t\telse if (cnt[0] == t[0] and cnt[2] == t[2])w[0][2].pb(i);\n\t\t\t\telse if (cnt[1] == t[0] and cnt[0] == t[2])w[1][0].pb(i);\n\t\t\t\telse if (cnt[1] == t[0] and cnt[2] == t[2])w[1][2].pb(i);\n\t\t\t\telse if (cnt[2] == t[0] and cnt[0] == t[2])w[2][0].pb(i);\n\t\t\t\telse if (cnt[2] == t[0] and cnt[1] == t[2])w[2][1].pb(i);\n\t\t\t}\n\t\t}\n\t}\n\n\tfa(i, 1, min(2 * n, fin)) {\n\t\tfa(j, 0, 2)if (w[j][p[i]].size()) {\n\t\t\tvar it = lower_bound(all(w[j][p[i]]), i);\n\t\t\tif (it == w[j][p[i]].end())continue;\n\t\t\tif ((*it) & 1) {\n\t\t\t\tcout << 1 << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t}\n\t}\n\tcout << 2 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-15",
+  "parsed_at": "2026-06-14T18:39:36.802416+00:00",
+  "type_directory": "p"
+}

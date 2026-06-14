@@ -1,0 +1,177 @@
+{
+  "slug": "p9695-[gdcpc-2023]-traveling-in-cells",
+  "title": "P9695 [GDCPC 2023] Traveling in Cells",
+  "type": "题目",
+  "tags": [
+    "线段树/动态开点线段树",
+    "线段树/线段树二分",
+    "树状数组"
+  ],
+  "difficulty": 3.0,
+  "summary": "",
+  "link": "[P9695 [GDCPC 2023] Traveling in Cells - 洛谷](https://www.luogu.com.cn/problem/P9695)",
+  "link_text": "[P9695 [GDCPC 2023] Traveling in Cells - 洛谷](https://www.luogu.com.cn/problem/P9695)",
+  "source": "[[2023广东省赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有 $n$ 个格子排成一行，第 $i$ 个格子的颜色为 $c_i$，上面放置着一个权值为 $v_i$ 的球。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "您将要在格子中进行若干次旅行。每次旅行时，您会得到旅行的起点 $x$ 与一个颜色集合 $\\mathbb{A} = \\{a_1, a_2, \\cdots, a_k\\}$，且保证 $c_x \\in \\mathbb{A}$。旅行将从第 $x$ 个格子上开始。在旅行期间，如果您在格子 $i$ 处，那么您可以向格子 $(i - 1)$ 或 $(i + 1)$ 处移动，但不能移动到这 $n$ 个格子之外。且在任意时刻，您所处的格子的颜色必须在集合 $\\mathbb{A}$ 中。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当您位于格子 $i$ 时，您可以选择将格子上的球取走，并获得 $v_i$ 的权值。由于每个格子上只有一个球，因此一个格子上的球只能被取走一次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "您的任务是依次处理 $q$ 次操作，每次操作形如以下三种操作之一：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\; p \\; x$：将 $c_p$ 修改为 $x$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$2\\; p \\; x$：将 $v_p$ 修改为 $x$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$3\\; x\\; k\\; a_1\\; a_2 \\; \\ldots\\; a_k$：给定旅行的起点 $x$ 与一个颜色集合 $\\mathbb{A} = \\{a_1, a_2, \\cdots, a_k\\}$。假设如果进行这样的一次旅行，求出取走的球的权值之和最大是多少。注意，由于我们仅仅假设进行一次旅行，因此并不会真的取走任何球。即，所有询问之间是独立的。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有多组测试数据。第一行输入一个整数 $T$ 表示测试数据组数。对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输入两个整数 $n$ 和 $q$（$1 \\leq n \\leq 10^5$，$1 \\leq q \\leq 10^5$）表示格子的数量和操作的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行输入 $n$ 个整数 $c_1, c_2, \\ldots, c_n$（$1 \\leq c_i \\leq n$），其中 $c_i$ 表示第 $i$ 个格子的初始颜色。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行输入 $n$ 个整数 $v_1, v_2, \\ldots, v_n$（$1 \\leq v_i \\leq 10^9$），其中 $v_i$ 表示第 $i$ 个格子里的球的初始权值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于接下来 $q$ 行，第 $i$ 行描述第 $i$ 次操作，格式如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\; p\\; x$：保证 $1 \\leq p \\leq n$ 且 $1 \\leq x \\leq n$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$2\\; p\\; x$：保证 $1 \\leq p \\leq n$ 且 $1 \\leq x \\leq 10^9$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$3\\; x\\; k\\; a_1\\; a_2\\; \\ldots \\; a_k$：保证 $1 \\leq x \\leq n$ 且 $1 \\leq a_1 < a_2 < \\ldots < a_k \\leq n$ 且 $c_x \\in \\{a_1, a_2, \\cdots, a_k\\}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有数据 $n$ 之和与 $q$ 之和均不超过 $3 \\times 10^5$，且所有数据 $k$ 之和不超过 $10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每次操作 $3$ 输出一行一个整数，表示取走的球的权值之和的最大值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n5 10\n1 2 3 1 2\n1 10 100 1000 10000\n3 3 1 3\n3 3 2 2 3\n2 5 20000\n2 3 200\n3 3 2 1 3\n3 3 3 1 2 3\n1 3 4\n2 1 100000\n1 2 2\n3 1 2 1 2\n4 1\n1 2 3 4\n1000000 1000000 1000000 1000000\n3 4 4 1 2 3 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "100\n110\n1200\n21211\n100010\n4000000",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// N 为值域范围，询问的 [L, R] 就是在值域上询问；MAXN 为最大节点总数\n// MaxNodes ≈ (初始插入次数 n + 修改操作次数 q) x log(值域范围 N)\ntemplate <class Info, const int N, const int MAXN>\nclass DynamicSegmentTree\n{ // 下标从 1 开始\nprotected:\n\tstruct Node {\n\t\tint ls, rs; // 左右子编号，0 说明改节点不存在\n\t\tInfo info;  // 维护信息\n\t\tNode() :ls(0), rs(0), info(Info()) {};\n\t};\n\n\tint _root; // 单根时，通过 _root 进行查询和修改，初值为 0，modify 后会变成 1\n\tint tot;   // 节点总数\n\tarray<Node, MAXN> tr;\n\n\tvoid pushup(int p)\n\t{\n\t\t// 动态开点中，子节点可能不存在，需要判断\n\t\t// 如果处理空节点有特殊的加法逻辑，在这里修改\n\t\tInfo l_res = tr[p].ls ? tr[tr[p].ls].info : Info();\n\t\tInfo r_res = tr[p].rs ? tr[tr[p].rs].info : Info();\n\t\ttr[p].info = l_res + r_res;\n\t}\n\n\t// 申请新节点\n\tint new_node() {\n\t\t++tot;\n\t\ttr[tot] = Node();\n\t\treturn tot; // 返回根节点编号\n\t}\n\npublic:\n\tDynamicSegmentTree() :tot(0), _root(0) {}\n\n\tvoid clear() {\n\t\ttot = _root = 0;\n\t}\n\t\n\tvoid modify(int& p, ll pl, ll pr, ll x, const Info& v)\n\t{\n\t\tif (!p)p = new_node(); // 如果 p 不存在，从 p 到叶子节点的整条链会进行动态开点\n\n\t\tif (pl == pr) {\n\t\t\ttr[p].info.apply(v);\n\t\t\treturn;\n\t\t}\n\n\t\tll mid = pl + ((pr - pl) >> 1); // 防溢出写法\n\t\tif (x <= mid)modify(tr[p].ls, pl, mid, x, v);\n\t\telse modify(tr[p].rs, mid + 1, pr, x, v);\n\t\tpushup(p);\n\t}\n\tvoid modify(ll x, const Info& v)\n\t{\n\t\t// 单根修改：只开了一个线段树，根为 _root\n\t\tmodify(_root, 1, N, x, v);\n\t}\n\tvoid modify(int& p, ll x, const Info& v)\n\t{\n\t\t// 多根修改：若开了很多线段树，main 函数中定义了 vector<int> roots(n + 1, 0) 的时候使用\n\t\tmodify(p, 1, N, x, v);\n\t}\n\n\tInfo query(const ll& L, const ll& R, int p, ll pl, ll pr)\n\t{\n\t\tif (pl > R or pr < L or !p)return Info(); // 空节点，返回空\n\t\tif (L <= pl and pr <= R)return tr[p].info;\n\n\t\tll mid = pl + ((pr - pl) >> 1); // 防溢出写法\n\t\treturn query(L, R, tr[p].ls, pl, mid) + query(L, R, tr[p].rs, mid + 1, pr);\n\t}\n\tInfo query(const ll& L, const ll& R)\n\t{\n\t\t// 单根查询：只开了一个线段树，根为 _root\n\t\treturn query(L, R, _root, 1, N);\n\t}\n\tInfo query(int p, const ll& L, const ll& R)\n\t{\n\t\t// 多根查询：若开了很多线段树，main 函数中定义了 vector<int> roots(n + 1, 0) 的时候使用\n\t\treturn query(L, R, p, 1, N);\n\t}\n\n\tinline int calc(const vector<int>& root) {\n\t\tint ans = 0;\n\t\tfor (int c : root)ans += tr[c].info.sum;\n\t\treturn ans;\n\t}\n\tinline vector<int> go_to_ls(const vector<int>& root) {\n\t\tvar res = vector<int>();\n\t\tfor (int c : root)if (c and tr[c].ls)res.pb(tr[c].ls);\n\t\treturn res;\n\t}\n\tinline vector<int> go_to_rs(const vector<int>& root) {\n\t\tvar res = vector<int>();\n\t\tfor (int c : root)if (c and tr[c].rs)res.pb(tr[c].rs);\n\t\treturn res;\n\t}\n\tint findl(const ll& L, const ll& R, const vector<int>& p, ll pl, ll pr) {\n\t\tint cnt = calc(p);\n\t\tif (pl > R or pr < L or cnt == pr - pl + 1)return 0; // 出界或满足条件\n\t\tif (cnt == 0)return min(pr, R); // 全空剪枝\n\t\tif (pl == pr)return pl; // 不满足条件\n\n\t\tll mid = pl + ((pr - pl) >> 1);\n\n\t\tll resr = findl(L, R, go_to_rs(p), mid + 1, pr);\n\t\tif (resr)return resr;\n\t\t\n\t\treturn findl(L, R, go_to_ls(p), pl, mid);\n\t}\n\tint findr(const ll& L, const ll& R, const vector<int>& p, ll pl, ll pr) {\n\t\tint cnt = calc(p);\n\t\tif (pl > R or pr < L or cnt == pr - pl + 1)return 0; // 出界或满足条件\n\t\tif (cnt == 0)return max(pl, L); // 全空剪枝\n\t\tif (pl == pr)return pr; // 不满足条件\n\n\t\tll mid = pl + ((pr - pl) >> 1);\n\n\t\tll resl = findr(L, R, go_to_ls(p), pl, mid);\n\t\tif (resl)return resl;\n\n\t\treturn findr(L, R, go_to_rs(p), mid + 1, pr);\n\t}\n\tint findl(const ll& L, const ll& R, const vector<int>& p) {\n\t\treturn findl(L, R, p, 1, N);\n\t}\n\tint findr(const ll& L, const ll& R, const vector<int>& p) {\n\t\treturn findr(L, R, p, 1, N);\n\t}\n};\nstruct Info {\n\tInfo() :sum(0) {};\n\tInfo(int sum) :sum(sum) {};\n\n\t// 要维护的值\n\tint sum;\n\tvoid apply(const Info& v) {\n\t\t// 如何单点修改\n\t\tsum += v.sum;\n\t}\n};\nInfo operator+(const Info& a, const Info& b) {\n\tInfo c;\n\tc.sum = a.sum + b.sum;\n\treturn c;\n}\n\nconstexpr int N = 1e5;\nconstexpr int MAXN = 2e5 * 16;\nDynamicSegmentTree<Info, N, MAXN> seg;\nvoid solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\n\tvar col = vector<int>(n + 1); // 记录原来的颜色\n\tvar root = vector<int>(n + 1);\n\tfa(i, 1, n) {\n\t\tcin >> col[i];\n\t\tseg.modify(root[col[i]], i, 1);\n\t}\n\n\tvar val = vector<ll>(n + 1); // 树状数组修改用\n\tvar t = FenwickTree<ll>(n + 1);\n\tfa(i, 1, n) {\n\t\tcin >> val[i];\n\t\tt.update(i, val[i]);\n\t}\n\n\twhile (q--) {\n\t\tint op; cin >> op;\n\t\tif (op == 1) {\n\t\t\tint p, x; cin >> p >> x;\n\t\t\tseg.modify(root[col[p]], p, -1);\n\t\t\tseg.modify(root[x], p, 1);\n\t\t\tcol[p] = x;\n\t\t}\n\t\telse if (op == 2) {\n\t\t\tint p, x; cin >> p >> x;\n\t\t\tt.update(p, x - val[p]);\n\t\t\tval[p] = x;\n\t\t}\n\t\telse {\n\t\t\tint x, k; cin >> x >> k;\n\t\t\tvar tmp = vector<int>();\n\t\t\tfa(i, 1, k) {\n\t\t\t\tint c; cin >> c;\n\t\t\t\ttmp.pb(root[c]);\n\t\t\t}\n\n\t\t\t//var check = [&](int l, int r)->bool {\n\t\t\t//\tint cnt = 0, len = r - l + 1;\n\t\t\t//\tfor (int c : tmp) {\n\t\t\t//\t\tcnt += seg.query(root[c], l, r).sum;\n\t\t\t//\t\tif (cnt >= len)return 1;\n\t\t\t//\t}\n\t\t\t//\treturn cnt >= len;\n\t\t\t//\t};\n\n\t\t\tint L = seg.findl(1, x, tmp);\n\t\t\tint R = seg.findr(x, n, tmp);\n\t\t\tif (!L)L = 1;\n\t\t\telse L = min(L + 1, x);\n\t\t\tif (!R)R = n;\n\t\t\telse R = max(R - 1, x);\n\n\t\t\t//int l = 1, r = x - 1;\n\t\t\t//while (l <= r) {\n\t\t\t//\tint mid = l + r >> 1;\n\t\t\t//\tif (check(mid, x - 1))r = mid - 1, L = mid;\n\t\t\t//\telse l = mid + 1;\n\t\t\t//}\n\n\t\t\t//l = x + 1, r = n;\n\t\t\t//while (l <= r) {\n\t\t\t//\tint mid = l + r >> 1;\n\t\t\t//\tif (check(x + 1, mid))l = mid + 1, R = mid;\n\t\t\t//\telse r = mid - 1;\n\t\t\t//}\n\n\t\t\t//debug(L, R);\n\t\t\tcout << t.query(R) - t.query(L - 1) << endl;\n\t\t}\n\t}\n\n\tseg.clear();\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-11",
+  "parsed_at": "2026-06-14T18:39:36.913829+00:00",
+  "type_directory": "p"
+}

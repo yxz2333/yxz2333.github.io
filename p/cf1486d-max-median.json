@@ -1,0 +1,117 @@
+{
+  "slug": "cf1486d-max-median",
+  "title": "CF1486D Max Median",
+  "type": "题目",
+  "tags": [
+    "中位数",
+    "二分答案",
+    "前缀和"
+  ],
+  "difficulty": 1.0,
+  "summary": "也是个中位数二分答案的典题<em>（不过我居然花了不少时间）</em>，二分答案，$\\ge mid$ 的设为 $+1$，$\\le mid$ 的设为 $-1$，然后区间和 $\\ge 1$ 且区间长度 $\\ge k$ 的就是有解了。",
+  "link": "https://www.luogu.com.cn/problem/CF1486D",
+  "link_text": "CF1486D Max Median - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个长度为 $n$ 的序列 $a$，求所有长度 $\\ge k$ 的连续子序列中，中位数的最大值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "定义中位数是一个长度为 $x$ 的序列升序排序后的第 $\\left\\lfloor\\frac{x+1}{2}\\right\\rfloor$ 位的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行是 $n$，$k$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来一行为 $a_1,a_2,\\cdots,a_n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\le n \\le k\\le 2\\times 10^5$，$1\\le a_i\\le n$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行，为最大的中位数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8 4 \n4 8 3 3 1 6 4 3 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar check = [&](int mid)->bool {\n\t\tvar pre = vector<int>(n + 1);\n\t\tfa(i, 1, k) {\n\t\t\tpre[i] = pre[i - 1];\n\t\t\tif (a[i] >= mid)pre[i]++;\n\t\t\telse pre[i]--;\n\t\t}\n\t\tif (pre[k] >= 1)return 1;\n\t\tint mnpre = 0;\n\t\tfa(i, k + 1, n) {\n\t\t\tpre[i] = pre[i - 1];\n\t\t\tif (a[i] >= mid)pre[i]++;\n\t\t\telse pre[i]--;\n\t\t\tmnpre = min(pre[i - k], mnpre);\n\t\t\tint now = pre[i] - mnpre;\n\t\t\tif (now >= 1)return 1;\n\t\t}\n\t\treturn 0;\n\t\t};\n\tint l = 1, r = n, ans = 0;\n\twhile (l <= r) {\n\t\tint mid = l + r >> 1;\n\t\tif (check(mid)) {\n\t\t\tl = mid + 1;\n\t\t\tans = mid;\n\t\t}\n\t\telse r = mid - 1;\n\t}\n\tcout << ans << endl;\n\t//int anss = 0;\n\t//fa(i, 1, n)fa(j, i + k - 1, n) {\n\t//\tint len = j - i + 1;\n\t//\tvar tmp = vector<int>{ 0 };\n\t//\tfa(k, i, j)tmp.pb(a[k]);\n\t//\tsort(all(tmp));\n\t//\tanss = max(anss, tmp[(len + 1) / 2]);\n\t//}\n\n\t//if (ans != anss) {\n\t//\tdebug(\"NOOOOOOOOOOOO\", ans, anss);\n\t//\tdebug(n, k);\n\t//\tfa(i, 1, n)cout << a[i] << ' ';\n\t//\tcout << endl;\n\t//}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-25",
+  "parsed_at": "2026-06-14T18:39:36.181922+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,315 @@
+{
+  "slug": "p11487-「cfz-round-5」gnirts-10",
+  "title": "P11487 「Cfz Round 5」Gnirts 10",
+  "type": "题目",
+  "tags": [
+    "组合数学/隔板法"
+  ],
+  "difficulty": 2.5,
+  "summary": "破局关键：放弃算<strong>大于等于</strong>，转而去求<strong>恰好等于</strong> $i$ 的方案数。为保证 “恰好”，得把几个多出来的 0 和 1 放在不影响 “恰好” 匹配的几个位置上。",
+  "link": "https://www.luogu.com.cn/problem/P11487",
+  "link_text": "P11487 「Cfz Round 5」Gnirts 10 - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "题面还是简单一点好。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定 $n, m$，以及一个长为 $n + m$ 的 $\\tt{01}$ 串 $S$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $\\tt 01$ 串 $T$，定义 $f(T)$ 为 $S$ 的最长的前缀的长度，使得该前缀是 $T$ 的子序列 $^\\dagger$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个 <strong>恰包含</strong> $\\bm n$ 个 $\\tt 1$ <strong>和</strong> $\\bm m$ <strong>个</strong> $\\tt 0$ <strong>的</strong> $\\tt{01}$ <strong>串</strong> $T$，求 $f(T)$ 的和。答案对 $2933256077^\\ddagger$ 取模。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\dagger$：请注意，子序列可以不连续。换句话说，$a$ 是 $b$ 的子序列，当且仅当在 $b$ 中删去 $\\geq 0$ 个字符后，可以得到 $a$。注意，空串总是任何串的子序列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\ddagger$：模数为质数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n, m$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含一个长度为 $n + m$ 的 $\\tt 01$ 串 $S$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于所有测试数据，保证 $1 \\leq n, m \\leq 3\\times 10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行一个整数，表示答案对 $2933256077$ 取模后的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 1\n000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 5\n0010111011",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1391",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "所有可能的序列有且仅有公共序列 $\\texttt{0}$。因为恰有 $3$ 种不同的 $T$（$\\tt 110, 101, 011$），所以答案为 $1\\times 3 = 3$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心难点：如何做到“不重不漏”？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一反应是求“满足 $S[1..i]$ 是 $T$ 的子序列的 $T$ 的个数”，即求 $f(T) \\ge i$ 的方案数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但由于同一个子序列在 $T$ 中可能有无数种匹配方式，容斥原理极其复杂，极易算重。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>破局关键 1：放弃算 “大于等于” ，转而去求 “恰好等于</strong> $i$<strong>” 的方案数。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>破局关键 2：利用 “贪心匹配” 把过程唯一化。</strong>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "一、 贪心匹配与唯一性",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "判断 $S[1..i]$ 是否为 $T$ 的子序列，最标准的做法是<strong>贪心匹配</strong>：在 $T$ 中从左到右扫描，遇到能匹配下一个字符的就匹配。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果我们强制定义 $T$ 对 $S$ 的贪心匹配<strong>恰好</strong>停在了第 $i$ 个字符（即 $f(T) = i$），这就意味着整个 $T$ 的构造被唯一确定了，彻底杜绝了算重的问题。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "二、 匹配失败的字符有什么性质？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如果匹配恰好停在 $S[i]$（$i < n+m$），说明 $T$ 中的字符可以分为两类：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. <strong>成功匹配的字符</strong>：有且仅有 $i$ 个，它们依次构成了 $S[1..i]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>匹配失败的字符</strong>：剩下的 $(n+m-i)$ 个字符。为保证 <strong>“恰好等于</strong> $i$<strong>”</strong>，得把这些字符放在不影响 “恰好” 匹配的几个位置上。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "那么这些 “匹配失败的字符” 能放在哪里呢？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在匹配完 $S[j]$（$0 \\le j \\le i$）后，我们贪心匹配期待的下一个字符是 $S[j+1]$。如果在此时我们插入了其他字符且没有让匹配前进，<strong>那么插入的这个字符必须是</strong> $1 - S[j+1]$（因为如果是 $S[j+1]$，匹配就前进了）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "特别地，在匹配完 $S[i]$ 之后，为了保证最终答案恰好为 $i$，后面所有的字符都不能匹配上 $S[i+1]$，因此后面只能全部塞入 $1 - S[i+1]$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "三、 转化为经典的“插板法”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "现在我们需要构造满足 $f(T) = i$ 的串 $T$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$T$ 总共需要恰好 $n$ 个 $\\tt 1$ 和 $m$ 个 $\\tt 0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在 $S[1..i]$ 中，我们已经消耗了 <code>tot1</code> 个 $\\tt 1$ 和 <code>tot0</code> 个 $\\tt 0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们手里还剩下 <code>left1 = n - tot1</code> 个 $\\tt 1$ 和 <code>left0 = m - tot0</code> 个 $\\tt 0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们需要把剩余的字符塞到不影响匹配的空隙中：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "剩余的 $\\tt 1$ 只能塞到期待字符为 $\\tt 0$ 的状态后（即 $S[j+1] == \\tt '0'$），设这样的状态有 <code>cnt1</code> 个。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "剩余的 $\\tt 0$ 只能塞到期待字符为 $\\tt 1$ 的状态后（即 $S[j+1] == \\tt '1'$），设这样的状态有 <code>cnt0</code> 个。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "允许某个状态后不塞入字符，这就是经典的<strong>把</strong> $n$ <strong>个无区别的球放入</strong> $m$ <strong>个有区别的盒子里，允许空盒</strong>的问题（插板法）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "方案数为：$\\binom{n+m-1}{m-1}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所以，对于固定的长度 $i$，其对答案的贡献就是：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$i \\times \\binom{left1 + cnt1 - 1}{cnt1 - 1} \\times \\binom{left0 + cnt0 - 1}{cnt0 - 1}$$",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "MT::Combinatorics c(N, mod);\nvoid solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tstring s; cin >> s; s = ' ' + s;\n\n\tvar C = [&](ll n, ll m)->ll {\n\t\tif (n == 0)return 1;\n\t\tif (m == 0)return 0;\n\t\treturn c.C(n + m - 1, m - 1);\n\t\t};\n\n\tll ans = 0;\n\n\tll tot1 = 0, tot0 = 0;\n\tll cnt1 = 0, cnt0 = 0;\n\tif (s[1] == '0')cnt1++;\n\telse cnt0++;\n\n\tfa(i, 1, n + m - 1) {\n\t\tif (s[i] == '0')tot0++;\n\t\telse tot1++;\n\t\t\n     \t // 期待下一个字符 s[i+1]，新增对应的失败盒子\n\t\tif (s[i + 1] == '0')cnt1++;\n\t\telse cnt0++;\n\n\t\tif (n < tot1 or m < tot0)continue;\n\t\tll left1 = n - tot1, left0 = m - tot0;\n\t\tans = (ans + i * C(left1, cnt1) % mod * C(left0, cnt0) % mod) % mod;\n\t}\n\n\tif (s[n + m] == '0')tot0++;\n\telse tot1++;\n\tif (tot1 == n and tot0 == m)ans += n + m;\n\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-17",
+  "parsed_at": "2026-06-14T18:39:36.806261+00:00",
+  "type_directory": "p"
+}

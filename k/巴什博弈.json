@@ -1,0 +1,73 @@
+{
+  "slug": "巴什博弈",
+  "title": "巴什博弈",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "博弈论",
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "标准巴什博弈",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>规则描述</strong>：总共 <code>n</code> 个石子，两人轮流取，每次至少取 <code>1</code> 个，最多取 <code>m</code> 个，取走最后一个者胜。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>胜负判定核心结论</strong>：若 <code>n % (m + 1) == 0</code>，则后手必胜；否则先手必胜。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "扩展巴什博弈",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>规则描述</strong>：总共 <code>n</code> 个石子，两人轮流取，每次至少取 <code>L</code> 个，最多取 <code>R</code> 个，取走最后一个者胜。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>胜负判定核心结论</strong>：关键在于计算 <code>n % (L + R)</code> 的余数 <code>remain</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "1. 若 <code>remain == 0</code>，则后手必胜。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2. 若 <code>1 &lt;= remain &lt;= L</code>，则后手必胜。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "3. 若 <code>L &lt; remain &lt;= R</code>，则先手必胜。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "4. 若 <code>R &lt; remain &lt; L + R</code>，则先手必胜。",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-21",
+  "parsed_at": "2026-06-14T18:45:12.013396+00:00",
+  "type_directory": "k"
+}

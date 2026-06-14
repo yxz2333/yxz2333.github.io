@@ -1,0 +1,262 @@
+{
+  "slug": "2026华南理工校赛d-scut-classroom-relocation",
+  "title": "2026华南理工校赛D SCUT Classroom Relocation",
+  "type": "题目",
+  "tags": [
+    "二分图/霍尔定理"
+  ],
+  "difficulty": null,
+  "summary": "hall 定理参考题。",
+  "link": "https://codeforces.com/gym/106508/problem/D",
+  "link_text": "Problem - D - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "华南理工大学（SCUT）有 \\( m \\) 个教室供自习使用。第 \\( j \\) 个教室当前有 \\( c_j \\) 个空余座位。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "校园里共有 \\( n \\) 个学习小组。第 \\( i \\) 个小组有 \\( q_i \\) 名学生，最初分配在主教室 \\( p_i \\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于突发全校空调维护演练，所有学习小组必须从主教室撤离。具体来说，第 \\( i \\) 个小组的每位学生都必须被重新安排到任意一个教室 \\( j \\)，且 \\( j \\neq p_i \\)（不能回到原主教室）。同一小组的学生可以分散到不同教室。多个小组的学生也可以安排到同一个教室，但新增加的学生总数不能超过该教室的空余容量 \\( c_j \\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定教室的空余容量和学习小组的人数，判断是否能成功安置所有学生，且不超过任何教室的空余容量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入一个整数 \\( T \\) (\\( 1 \\leq T \\leq 10^4 \\)) — 测试用例的数量。接下来是各个测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例第一行包含两个整数 \\( n \\) 和 \\( m \\) (\\( 1 \\leq n, m \\leq 10^6 \\)) — 学习小组数和教室数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 \\( m \\) 个整数 \\( c_1, c_2, \\dots, c_m \\) (\\( 1 \\leq c_j \\leq 10^9 \\)) — 各教室的空余座位数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 \\( n \\) 行，每行两个整数 \\( q_i \\) 和 \\( p_i \\) (\\( 1 \\leq q_i \\leq 10^9, 1 \\leq p_i \\leq m \\)) — 第 \\( i \\) 个小组的人数和其主教室编号。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 \\( n \\) 和 \\( m \\) 的总和不超过 \\( 10^6 \\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对每个测试用例，输出一行 — 如果能成功安置所有学生，打印 YES，否则打印 NO。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n1 1\n10\n1 1\n2 3\n2 2 2\n4 1\n3 2\n3 3\n5 3 4\n5 1\n3 1\n1 2\n2 2\n3 3\n3 1\n3 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "NO\nNO\nNO\nYES",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "建模",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "将每个学生视为左部一个点，共 $S = \\sum q_i$ 个点。将教室 $j$ 拆成 $c_j$ 个座位点置于右部。学生 $u$（原教室 $p_u$）与所有 $j \\neq p_u$ 的教室的座位点连边。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "问题等价于：<strong>此二分图是否存在左部的完美匹配</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "霍尔定理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "存在完美匹配当且仅当对任意左部子集 $S$，$|N(S)| \\geq |S|$，其中 $N(S)$ 为 $S$ 中所有点在右部的邻居集合。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "$N(S)$ 的结构分析",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "一个教室 $j$ 的所有座位被 <strong>完全排除</strong> 出 $N(S)$ 当且仅当 $S$ 中 <strong>每个</strong> 学生都不能去 $j$，即 $S$ 中所有学生的原教室都是 $j$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，设 $P_S = \\{p_u \\mid u \\in S\\}$ 为 $S$ 中学生原教室的集合：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "若 $|P_S| \\geq 2$（存在两个不同原教室的学生），则对任意教室 $j$，$S$ 中至少有一个学生的原教室不是 $j$，于是该学生可以去 $j$，故 $j$ 不被排除。所以 $N(S)$ 包含 <strong>所有教室的所有座位</strong>，$|N(S)| = \\sum c_j$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "若 $|P_S| = 1$，记该原教室为 $k$，则所有学生都不能去教室 $k$，而其他教室均可去。故 $N(S) = \\text{全部座位} \\setminus \\{\\text{教室 }k \\text{ 的座位}\\}$，$|N(S)| = \\sum c_j - c_k$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "霍尔条件的具体化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>情况一</strong>：$|P_S| \\geq 2$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此时 $|N(S)| = \\sum c_j$，霍尔条件为 $|S| \\leq \\sum c_j$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对所有这样的 $S$ 取<strong>最紧约束</strong>，即 $|S|$ 取最大值——<strong>全体学生</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\sum_{i=1}^n q_i \\leq \\sum_{j=1}^m c_j\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况二</strong>：$|P_S| = 1$，记该原教室为 $k$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此时 $|N(S)| = \\sum c_j - c_k$，霍尔条件为 $|S| \\leq \\sum c_j - c_k$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$S$ 只能包含原教室为 $k$ 的学生，故 $|S|$ 最大为 $p_k = \\sum_{p_i=k} q_i$。最紧约束为：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\np_k \\leq \\sum c_j - c_k, \\quad \\forall k \\in \\{1,\\dots,m\\}\n$$",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "结论",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这两个不等式合起来即是充要条件。<strong>没有其他需检验的子集</strong>，因为任何左部子集的 $|P_S|$ 只能为 $1$ 或 $\\geq 2$，上述两类已经覆盖全部情况。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tll sumc = 0, sump = 0;\n\tvar c = vector<ll>(m + 1);\n\tfa(i, 1, m)cin >> c[i], sumc += c[i];\n\tvar p = vector<ll>(m + 1);\n\tfa(i, 1, n) {\n\t\tll x, y; cin >> x >> y;\n\t\tp[y] += x;\n\t\tsump += x;\n\t}\n\tif (sumc < sump) {\n\t\tcout << \"NO\" << endl;\n\t\treturn;\n\t}\n\tfa(i, 1, m) {\n\t\tif (sumc - c[i] < p[i]) {\n\t\t\tcout << \"NO\" << endl;\n\t\t\treturn;\n\t\t}\n\t}\n\tcout << \"YES\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-29",
+  "parsed_at": "2026-06-14T18:39:35.846102+00:00",
+  "type_directory": "p"
+}

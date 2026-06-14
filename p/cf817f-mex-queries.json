@@ -1,0 +1,180 @@
+{
+  "slug": "cf817f-mex-queries",
+  "title": "CF817F MEX Queries",
+  "type": "题目",
+  "tags": [
+    "珂朵莉树"
+  ],
+  "difficulty": 1.0,
+  "summary": "很明显，两个修改和一个查询都能推平，故使用珂朵莉树。",
+  "link": "https://www.luogu.com.cn/problem/CF817F",
+  "link_text": "CF817F MEX Queries - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个整数集合，初始时它是空的。你需要执行 $n$ 次查询。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "查询共有三种类型：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1 $l$ $r$ — 将区间 $[l, r]$ 内所有尚未包含的数加入集合。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2 $l$ $r$ — 将区间 $[l, r]$ 内所有已包含的数从集合中删除。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "3 $l$ $r$ — 翻转区间 $[l, r]$，即将该区间内所有已包含的数删除，未包含的数加入集合。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每次查询后，你都需要输出当前集合的 MEX，即最小的未包含在集合中的正整数（要求 MEX $\\geq 1$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$，表示查询次数（$1 \\leq n \\leq 10^{5}$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行，每行包含三个整数 $t, l, r$（$1 \\leq t \\leq 3,\\, 1 \\leq l \\leq r \\leq 10^{18}$），分别表示查询的类型以及左右端点。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每次查询，输出当前集合的 MEX。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 3 4\n3 1 6\n2 1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n3\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n1 1 3\n3 5 6\n2 4 4\n3 1 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n4\n4\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "以下为第一个样例每次操作后集合的内容：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$\\{3, 4\\}$ — 添加区间 $[3,4]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$\\{1,2,5,6\\}$ — 区间 $[1,6]$ 内的数 $3,4$ 被删除，其余数被加入",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$\\{5,6\\}$ — 集合中的 $1,2$ 被删除",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "class ODT {\nprivate:\n\tstruct ODT_Node {\n\t\tll l, r;\n\t\tmutable int v; // 区间是否加入集合 \n\n\t\t// 重载小于号以用于 set 排序\n\t\tbool operator<(const ODT_Node& a)const {\n\t\t\treturn l < a.l;\n\t\t}\n\t};\n\n\t// ODT 的核心操作：分裂区间\n\t// 将包含 pos 的区间 [l, r] 分裂为 [l, pos - 1] 和 [pos, r]\n\t// 返回指向后半段 [pos, r] 的迭代器\n\tauto split(ll pos) {\n\t\tauto it = se.lower_bound({ pos, 0, 0 });\n\t\tif (it != se.end() and it->l == pos)return it;\n\n\t\tit = prev(it);\n\t\tauto [l, r, v] = *it;\n\t\tse.erase(it);\n\t\tse.insert({ l, pos - 1, v });\n\n\t\treturn se.insert({ pos, r, v }).first;\n\t}\n\npublic:\n\tset<ODT_Node> se;\n\n\t// 操作 1、2（推平）\n\tvoid assign12(ll l, ll r, int v) {\n\t\tauto itr = split(r + 1);\n\t\tauto itl = split(l);\n\n\t\t// 遍历 [itl, itr) 之间的所有区间\n\t\tauto it = itl;\n\t\twhile (it != itr) {\n\t\t\tauto [l, r, v] = *it;\n\t\t\tit = se.erase(it); // 删除旧区间\n\t\t}\n\n\t\t// 插入新区间\n\t\tse.insert({ l, r, v });\n\t}\n\n\t// 操作 3（无推平）\n\tvoid assign3(ll l, ll r) {\n\t\tauto itr = split(r + 1);\n\t\tauto itl = split(l);\n\n\t\t// 遍历 [itl, itr) 之间的所有区间\n\t\tauto it = itl;\n\t\twhile (it != itr) {\n\t\t\tit->v ^= 1;\n\t\t\tit = next(it);\n\t\t}\n\t}\n\n\t// 查询（可推平）\n\tll query(ll l, ll r) {\n\t\tauto itr = split(r + 1);\n\t\tauto itl = split(l);\n\n\t\tauto it = itl;\n\t\tll L = l;\n\t\twhile (it != itr) {\n\t\t\tauto [l, r, v] = *it;\n\t\t\tif (v == 0) {\n\t\t\t\tif(L <= l - 1)se.insert({ L, l - 1, 1 });\n\t\t\t\treturn l;\n\t\t\t}\n\t\t\tit = se.erase(it);\n\t\t}\n\t}\n};\n\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar odt = ODT();\n\todt.se.insert({ 1, (ll)1e18 + 1, 0 });\n\tfa(i, 1, n) {\n\t\tll t, l, r; cin >> t >> l >> r;\n\t\tif (t == 1)odt.assign12(l, r, 1);\n\t\telse if (t == 2)odt.assign12(l, r, 0);\n\t\telse odt.assign3(l, r);\n\t\tcout << odt.query(1, (ll)1e18) << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-13",
+  "parsed_at": "2026-06-14T18:39:36.598615+00:00",
+  "type_directory": "p"
+}

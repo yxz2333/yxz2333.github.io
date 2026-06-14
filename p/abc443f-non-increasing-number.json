@@ -1,0 +1,310 @@
+{
+  "slug": "abc443f-non-increasing-number",
+  "title": "ABC443F Non-Increasing Number",
+  "type": "题目",
+  "tags": [
+    "bfs",
+    "图论经典问题/图论建模问题",
+    "同余最短路"
+  ],
+  "difficulty": 2.0,
+  "summary": "把<strong>余数和个位数作为状态</strong>，发现<strong>最多只有</strong> $10N$ <strong>个状态</strong>，直接跑 $BFS$ 就搞完所有状态就行了。本题答案可能较长，所以用<strong>回溯法</strong>处理。",
+  "link": "https://atcoder.jp/contests/abc443/tasks/abc443_f",
+  "link_text": "F - Non-Increasing Number",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "当且仅当正整数 $X$ 满足以下条件时，称其为 <strong>好数</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当 $X$ 以十进制表示时，个位、十位、……构成一个非递增序列。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "更形式化地说，满足 $\\displaystyle X=\\sum_{i=0}^{\\infty} d_i10^i$ $(0\\le d_i < 10)$ 的唯一非负整数序列 $(d_0,d_1,\\ldots)$ 是一个非递增序列（即 $d_0 \\ge d_1 \\ge d_2 \\dots$）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "例如，$112389$、$1$ 和 $777$ 是好数，但 $443$ 和 $404$ 不是好数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定一个正整数 $N$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请判断是否存在一个好数是 $N$ 的倍数。如果存在，请找出其中<strong>最小</strong>的一个。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入通过标准输入给出，格式如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\le N\\le 3\\times 10^6$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入数值均为整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "如果不存在是 $N$ 的倍数的好数，输出 $-1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果存在，输出满足条件的最小好数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "21",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "126",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1089",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9999999999999999999999",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "样例解释 1",
+              "level": 3,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "$126$ 是 $21$ 的倍数，且满足 $6 \\geq 2 \\geq 1 \\geq 0 \\geq \\ldots$，所以它是一个好数。不存在比 $126$ 更小的且是 $21$ 倍数的好数，因此输出 $126$。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "样例解释 4",
+              "level": 3,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "答案可能是 $2^{64}$ 或更大。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "把<strong>余数和个位数作为状态</strong>，发现<strong>最多只有</strong> $10N$ <strong>个状态</strong>，直接跑 $BFS$ 就搞完所有状态就行了。本题答案可能较长，所以用<strong>回溯法</strong>处理。",
+          "depth": 1
+        },
+        {
+          "heading": "状态定义",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们需要在搜索过程中记录什么信息？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>当前的余数</strong>：我们要找 $X \\% N == 0$，所以必须记录当前拼凑出的数字模 $N$ 的余数 $r$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>末位数字</strong>：为了保持“好数”的性质（数字递增），我们需要知道当前数字的最后一位 $d$，这样下一位只能填 $\\ge d$ 的数字。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此，定义状态为 <code>(last_digit, yu)</code>，表示当前数字模 $N$ 余数为 <code>yu</code>，且最后一位是 <code>last_digit</code>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "状态转移",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "假设当前状态是 <code>(now, yu)</code>，我们可以追加一个新的数字 <code>to</code>（满足 $d \\le to \\le 9$）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "新的数值：$NewVal= OldVal \\times 10 + to$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "新的余数：$nyu = (yu \\times 10 + to) \\% N$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "新的状态：<code>(to, nyu)</code>",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tint now, yu;\n};\nstruct node2 {\n\tint st, pnow, pyu;\n};\nnode2 pre[10][N];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar Q = queue<node>();\n\tfa(i, 1, 9) {\n\t\tint yu = i % n;\n\t\tpre[i][yu] = { -1, -1, -1 };\n\t\tQ.push({ i, yu });\n\t}\n\t\n\twhile (Q.size()) {\n\t\tvar[now, yu] = Q.front();\n\t\tQ.pop();\n\n\t\tif (yu == 0) {\n\t\t\tstring ans;\n\t\t\tans.pb(now + '0');\n\t\t\twhile (pre[now][yu].st != -1) {\n\t\t\t\tconst var& [st, pnow, pyu] = pre[now][yu];\n\t\t\t\tans.pb(pnow + '0');\n\t\t\t\tnow = pnow, yu = pyu;\n\t\t\t}\n\t\t\treverse(all(ans));\n\t\t\tcout << ans << endl;\n\t\t\treturn;\n\t\t}\n\t\tfa(i, now, 9) {\n\t\t\tint nyu = (yu * 10 + i) % n;\n\t\t\tif (!pre[i][nyu].st) {\n\t\t\t\tpre[i][nyu] = { 1, now, yu };\n\t\t\t\tQ.push({ i,nyu });\n\t\t\t}\n\t\t}\n\t}\n\tcout << -1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-01",
+  "parsed_at": "2026-06-14T18:39:36.007601+00:00",
+  "type_directory": "p"
+}

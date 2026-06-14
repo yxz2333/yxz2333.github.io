@@ -1,0 +1,197 @@
+{
+  "slug": "cf835d-palindromic-characteristics",
+  "title": "CF835D Palindromic characteristics",
+  "type": "题目",
+  "tags": [
+    "回文",
+    "区间dp"
+  ],
+  "difficulty": 2.0,
+  "summary": "想半天没发现是纯板题，几乎就是<strong>区间 dp 判回文</strong>的板子改改了。<em>注意力惊人题（</em>",
+  "link": "https://www.luogu.com.cn/problem/CF835D",
+  "link_text": "CF835D Palindromic characteristics - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "长度为 $|s|$ 的字符串 $s$ 的回文特征是一个包含 $|s|$ 个整数的序列，其中第 $k$ 个数是 $s$ 中所有非空的 $k$-回文子串的总数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当且仅当一个字符串正着读和反着读都相同时，它是 $1$-回文串。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $k>1$，当且仅当以下两点同时满足时，一个字符串为 $k$-回文串：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1. 它的左半部分等于右半部分。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2. 它的左右半部分都是非空的、$(k-1)$-回文串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "字符串 $t$ 的左半部分指的是长度为 $⌊|t|/2⌋$ 的前缀，右半部分则是长度相同的后缀。$⌊|t|/2⌋$ 表示 $|t|$ 除以 $2$ 向下取整。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意，每个子串出现多少次就被计数多少次。例如，在字符串 “aaa” 中，子串 “a” 出现了 3 次。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含字符串 $s$（$1 \\leq |s| \\leq 5000$），$s$ 只包含小写英文字母。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $|s|$ 个整数，依次表示字符串 $s$ 的回文特征。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "abba",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 1 0 0 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "abacaba",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "12 4 1 0 0 0 0 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，$1$-回文子串有“a”、“b”、“b”、“a”、“bb”、“abba”；子串 “bb” 是 $2$-回文串。这里不存在 $3$-回文串和 $4$-回文串。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>题目大意</strong>：题目定义了一种叫做 <strong>k-回文串</strong> 的东西。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果一个串是回文串，它是 1-回文串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果一个串是回文串，<strong>并且它的左半边和右半边都是</strong> $(k-1)$<strong>-回文串</strong>，那么它就是 $k$-回文串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "给定一个长 $N \\le 5000$ 的字符串，求对于每个 $k$，字符串中有多少个子串是 $k$-回文串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>核心转移</strong>：发现如果 <code>hui[i][j]</code> 为真，也就是 $s_{i,j}$ 为回文串，那么它的阶数就是它<strong>左半边（或右半边）的阶数 + 1</strong>。也就是 <code>dp[i][j] = dp[i][mid] + 1</code>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[N][N];\nvoid solve(int CASE)\n{\n\tstring s; cin >> s;\n\tint n = s.size(); s = ' ' + s;\n\tfa(i, 1, n)fa(j, 1, n)dp[i][j] = -1;\n\tfa(i, 1, n) {\n\t\tdp[i][i] = 1;\n\t\tdp[i][i - 1] = 0;\n\t}\n\tfa(len, 2, n)fa(i, 1, n) {\n\t\tint j = i + len - 1;\n\t\tif (j > n)break;\n\t\tif (dp[i + 1][j - 1] != -1 and s[i] == s[j]) {\n\t\t\tint midlen = len / 2;\n\t\t\tint mid = i + midlen - 1;\n\t\t\tif (dp[i][mid] == -1)dp[i][j] = 1;\n\t\t\telse dp[i][j] = dp[i][mid] + 1;\n\t\t}\n\t}\n\tvar ans = vector<int>(n + 2);\n\tfa(i, 1, n)fa(j, i, n)if (dp[i][j] != -1)ans[1]++, ans[dp[i][j] + 1]--;\n\tfa(i, 1, n)ans[i] += ans[i - 1];\n\tfa(i, 1, n)cout << ans[i] << \" \\n\"[i == n];\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-26",
+  "parsed_at": "2026-06-14T18:39:36.605465+00:00",
+  "type_directory": "p"
+}

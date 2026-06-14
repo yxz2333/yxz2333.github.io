@@ -1,0 +1,235 @@
+{
+  "slug": "cf1775d-friendly-spiders",
+  "title": "CF1775D Friendly Spiders",
+  "type": "题目",
+  "tags": [
+    "最短路/分层图问题"
+  ],
+  "difficulty": 1.5,
+  "summary": "<strong>表层（倍数） 里层（因数） 表层（倍数）</strong>，表层一定是 $a$ 中存在的，里层不需要，<strong>表/里</strong>建一下<strong>分层图</strong>就行，用 <code>pre</code> 前驱数组存路径，仅输出表层。",
+  "link": "https://codeforces.com/problemset/problem/1775/D",
+  "link_text": "https://codeforces.com/problemset/problem/1775/D",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "火星上有一种奇特的蜘蛛——二进制蜘蛛。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在，火星科学家正在观察一个由 $n$ 只蜘蛛组成的群落，第 $i$ 只蜘蛛有 $a_i$ 条腿。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "有些蜘蛛彼此是朋友。具体来说，如果第 $i$ 只和第 $j$ 只蜘蛛满足 $\\gcd(a_i, a_j) \\ne 1$，即存在某个整数 $k \\ge 2$，使得 $a_i$ 和 $a_j$ 都能被 $k$ 整除，则这两只蜘蛛是朋友。这里 $\\gcd(x, y)$ 表示整数 $x$ 和 $y$ 的最大公约数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "科学家们发现蜘蛛可以传递消息。如果两只蜘蛛是朋友，它们可以在一秒内直接传递消息。否则，蜘蛛必须把消息传递给它的朋友，再由朋友传递给朋友，依此类推，直到消息到达接收者。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "让我们来看一个例子。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "假设一只拥有八条腿的蜘蛛想要向一只拥有 $15$ 条腿的蜘蛛发送消息。它不能直接发送，因为 $\\gcd(8, 15) = 1$。但它可以通过一只拥有六条腿的蜘蛛传递消息，因为 $\\gcd(8, 6) = 2$ 且 $\\gcd(6, 15) = 3$。因此，消息将在两秒内到达。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在，科学家们正在观察第 $s$ 只蜘蛛想要向第 $t$ 只蜘蛛发送消息。研究人员假设蜘蛛总是以最优方式传递消息。因此，科学家们需要一个程序来计算发送消息所需的最短时间，并给出一条最优路径。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1775D/cbd40cc2068feef6a151db4f398da64f76e37f80.png)",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含一个整数 $n$（$2 \\le n \\le 3\\cdot10^5$），表示蜘蛛群落中的蜘蛛数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$（$1 \\le a_i \\le 3\\cdot10^5$），表示每只蜘蛛拥有的腿数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含两个整数 $s$ 和 $t$（$1 \\le s, t \\le n$），表示需要传递消息的两只蜘蛛的编号。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "如果无法在给定的两只蜘蛛之间传递消息，输出 $-1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "否则，第一行输出整数 $t$（$t \\ge 1$），表示参与消息传递的蜘蛛数量（即消息传递所需的最短时间加一）。第二行输出 $t$ 个不同的整数 $b_1, b_2, \\ldots, b_t$（$1 \\le b_i \\le n$），表示消息传递路径上蜘蛛的编号，按发送者到接收者的顺序排列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果存在多条最优路径，输出任意一条即可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n2 14 9 6 8 15 11\n5 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n5 4 6 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n2 14 9 6 8 15 11\n5 7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n2 14 9 6 8 15 11\n5 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一个样例如上图所示。它展示了从第 $5$ 只蜘蛛（有八条腿）到第 $6$ 只蜘蛛（有 $15$ 条腿）最优的传递路径是经过第 $4$ 只蜘蛛（有六条腿）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个样例中，第 $7$ 只蜘蛛（有 $11$ 条腿）与任何蜘蛛都不是朋友，因此无法向它发送消息。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "就很简单的<strong>分层图板子题</strong>，写的时候犯蠢了，大胆写分层图就没这么多事了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "构建<strong>表层（倍数） 里层（因数） 表层（倍数）</strong>分层图，表层一定是 $a$ 中存在的，里层不需要，<strong>表/里</strong>建一下<strong>分层图</strong>就行，用 <code>pre</code> 前驱数组存路径，仅输出表层。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int a[N], mp[N], vis[N][2];\npii pre[N][2];\nvector<int> g[N], b[N];\nvoid solve(int CASE)\n{\n\tfa(i, 1, 3e5) {\n\t\tfor (int j = i; j <= 3e5; j += i) {\n\t\t\tg[j].pb(i);\n\t\t\tb[i].pb(j);\n\t\t}\n\t}\n \n\tint n; cin >> n;\n\tfa(i, 1, n) {\n\t\tcin >> a[i];\n\t\tmp[a[i]] = i;\n\t}\n\tint s, t; cin >> s >> t;\n \n\tif (s == t) {\n\t\tcout << 1 << endl;\n\t\tcout << s << endl;\n\t\treturn;\n\t}\n\tif (a[s] == 1 or a[t] == 1) {\n\t\tcout << -1 << endl;\n\t\treturn;\n\t}\n\tif (Math::gcd(a[s], a[t]) != 1) {\n\t\tcout << 2 << endl;\n\t\tcout << s << ' ' << t << endl;\n\t\treturn;\n\t}\n \n\tvar Q = queue<pii>();\n\tQ.push({ a[s],0 }); // 存是否为里层，0 表，1 里\n\twhile (Q.size()) {\n\t\tvar[now, st] = Q.front();\n\t\tQ.pop();\n \n\t\tif (vis[now][st])continue;\n\t\tvis[now][st] = 1;\n \n\t\tif (now == a[t] and st == 0) {\n\t\t\tvar ans = vector<int>();\n\t\t\twhile (now) {\n\t\t\t\tif (!st)ans.pb(now);\n\t\t\t\tvar tmp = pre[now][st];\n\t\t\t\tnow = get<0>(tmp);\n\t\t\t\tst = get<1>(tmp);\n\t\t\t}\n\t\t\treverse(all(ans));\n \n\t\t\tcout << ans.size() << endl;\n\t\t\tcout << s << ' ';\n\t\t\tfa(i, 1, vs(ans) - 1)cout << mp[ans[i]] << ' ';\n\t\t\tcout << t << endl;\n\t\t\treturn;\n\t\t}\n \n\t\tif (!st)\n\t\t\t// 去自己的因数，表世界到里世界\n\t\t\tfor (int to : g[now]) {\n\t\t\t\tif (!vis[to][st ^ 1] and to != 1) {\n\t\t\t\t\tQ.push({ to,st ^ 1 });\n\t\t\t\t\tpre[to][st ^ 1] = { now,st };\n\t\t\t\t}\n\t\t\t}\n\t\telse\n\t\t\t// 去自己的倍数，里世界到表世界，表世界必须存在\n\t\t\tfor (int to : b[now]) {\n\t\t\t\tif (!vis[to][st ^ 1] and mp[to] and to != 1) {\n\t\t\t\t\tQ.push({ to,st ^ 1 });\n\t\t\t\t\tpre[to][st ^ 1] = { now,st };\n\t\t\t\t}\n\t\t\t}\n\t}\n\tcout << -1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-08",
+  "parsed_at": "2026-06-14T18:39:36.285320+00:00",
+  "type_directory": "p"
+}

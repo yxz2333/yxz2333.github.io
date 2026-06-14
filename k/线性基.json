@@ -1,0 +1,155 @@
+{
+  "slug": "线性基",
+  "title": "线性基",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "异或",
+    "线性基"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "简单性质",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "原序列中任意一个数都可以通过线性基里的一些数异或得到。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "线性基里的任意数异或起来都<strong>不能得到 0</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "线性基里的数的个数唯一，在满足以上性质的前提下，存最少的数",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "解决问题",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 异或组合计数问题",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>问题描述</strong>：给定 $n$ 个数，问有多少种子集组合，其异或和等于 $X$？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果 $X$ 不能被线性基表出，答案为 $0$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $X$ 能被线性基表出，答案为 $2^{n-k}$（其中 $k$ 是线性基的大小/秩）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>直观理解</strong>：线性基里的 $k$ 个数是“独立”的，它们负责凑出目标值；剩下的 $n-k$ 个数是“冗余”的，它们无论怎么选，线性基里都有唯一的方法把它们抵消掉。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 异或空间的“秩”与独立性",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>问题描述</strong>：从一堆数中选出最少的数，使得它们的异或能表示出原序列所有的异或结果。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>应用场景</strong>：这类似于线性代数里的“基”。它可以把海量的数据（$10^5$）压缩到极小（$\\log(\\max A_i)$，通常是 $30$ 或 $60$ 左右）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>典型题目</strong>：求原序列有多少个<strong>线性无关</strong>的子集（即不包含冗余元素的子集）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 最大/最小异或和问题",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>问题描述</strong>：从 $n$ 个数中选出一个子集，使得异或和最大或最小。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>解法</strong>：利用线性基的高位贪心。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>最大值</strong>：从高位到低位，如果当前结果异或基底 <code>base[i]</code> 能变大，就异或。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "TODO <strong>第 K 小值</strong>：（懒得写这个原理了） 。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "总结口诀：",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>能不能凑出来？</strong> —— <code>check(x)</code>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>能凑出多少种？</strong> —— $2^{n-k}$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>最大是多少？</strong> —— 线性基高位贪心。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>有多少种不同的结果？</strong> —— $2^{k}$（即线性基能张成的空间大小）。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-10",
+  "parsed_at": "2026-06-14T18:45:12.150116+00:00",
+  "type_directory": "k"
+}

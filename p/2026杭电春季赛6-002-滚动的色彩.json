@@ -1,0 +1,182 @@
+{
+  "slug": "2026杭电春季赛6-002-滚动的色彩",
+  "title": "2026杭电春季赛6 002 滚动的色彩",
+  "type": "题目",
+  "tags": [
+    "最短路/DP",
+    "bfs"
+  ],
+  "difficulty": 1.5,
+  "summary": "唯一的难点就是如何表示这筛子的 24 个状态，看看代码得了。",
+  "link": "https://acm.hdu.edu.cn/contest/problem?cid=1202&pid=1002",
+  "link_text": "1002 滚动的色彩",
+  "source": "[[2026杭电春季赛6]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给你一个 $n$ 行 $m$ 列的网格，网格的每个位置用坐标 $(x,y)$ 表示（$x$ 为行号，$y$ 为列号，均从 1 开始计数）。在网格的起始位置 $(s_x,s_y)$ 处放置一个标准的正方体骰子，骰子的六个面分别标记有颜色 $c_1,c_2,\\dots,c_6$，六个面的位置定义如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$c_1$：骰子的顶面（朝上）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$c_2$：骰子的前面（即网格的行号增大方向）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$c_3$：骰子的右面（朝向网格的列号增大方向）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$c_4$：骰子的左面（朝向网格的列号减小方向）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$c_5$：骰子的后面（朝向网格的行号减小方向）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$c_6$：骰子的底面（朝下，接触网格）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "骰子每次可以在网格内向上、向下、向左、向右四个方向滚动一个单位，每次滚动后，骰子会以接触网格的棱为轴旋转，六个面的朝向会相应改变。而骰子每停留在一个网格格子上，会将该格子染色为此时骰子底面的颜色；若同一个格子被多次经过，最终颜色以最后一次停留时的底面颜色为准。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请你计算要让网格的目标位置 $(t_x,t_y)$ 的最终颜色恰好为指定颜色 $c_t$（$c_t$ 是骰子初始六个面颜色中的某一种）时，骰子需要滚动的最小次数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入一个整数 $T$ 表示测试数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入的第一行包含两个整数 $n、m$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "输入的第二行包含六个整数 $c_1 \\sim c_6$，表示六个面的颜色。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "输入的第三行包含五个整数 $s_x, s_y, t_x, t_y, c_t$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le T \\le 5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组数据：$2 \\le n,m \\le 300, 1 \\le c_i \\le 6, 1 \\le s_x \\le n, 1 \\le s_y \\le m, 1 \\le t_x \\le n, 1 \\le t_y \\le m, 1 \\le c_t \\le 6$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每组输出只包括一个整数，为骰子的最小滚动次数；若不能将目标位置染成规定颜色，则输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n2 2\n1 2 3 4 5 6\n1 1 2 2 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "using S = array<int, 6>;\nS right(const S& a) {\n\treturn { a[3], a[1], a[0], a[5], a[4], a[2] };\n}\nS left(const S& a) {\n\treturn { a[2], a[1], a[5], a[0], a[4], a[3] };\n}\nS up(const S& a) {\n\treturn { a[1], a[5], a[2], a[3], a[0], a[4] };\n}\nS down(const S& a) {\n\treturn { a[4], a[0], a[2], a[3], a[5], a[1] };\n}\nS rotate(int x, const S& a) {\n\tif (x == 0)return down(a);\n\telse if (x == 1)return up(a);\n\telse if (x == 2)return right(a);\n\telse return left(a);\n}\nvar snum = map<S, int>();\nvar nums = map<int, S>();\nvoid init() {\n\tvar init = S();\n\tfa(i, 0, 5)init[i] = i;\n\tint now = 0;\n\tif (!snum.count(init)) {\n\t\tsnum[init] = now;\n\t\tnums[now] = init;\n\t\tnow++;\n\t}\n\twhile (now != 24) {\n\t\tint r = MT::randint<int>(0, 3);\n\t\tif (r == 0)init = right(init);\n\t\telse if (r == 1)init = left(init);\n\t\telse if (r == 2)init = up(init);\n\t\telse init = down(init);\n\t\tif (!snum.count(init)) {\n\t\t\tsnum[init] = now;\n\t\t\tnums[now] = init;\n\t\t\tnow++;\n\t\t}\n\t}\n}\nstruct node {\n\tint x, y, st, d;\n\tS s;\n};\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar c = vector<int>(6);\n\tfa(i, 0, 5)cin >> c[i];\n\tvar dis = Vec3<int>(n + 1, m + 1, 24, INF);\n\tint sx, sy, tx, ty, ts; cin >> sx >> sy >> tx >> ty >> ts;\n\n\tvar Q = queue<node>();\n\tvar s = S();\n\tfa(i, 0, 5)s[i] = i;\n\tQ.push({ sx,sy,0,dis[sx][sy][0] = 0,s });\n\twhile (Q.size()) {\n\t\tvar[x, y, st, d, s] = Q.front();\n\t\tQ.pop();\n\t\tif (d > dis[x][y][st])continue;\n\t\tfa(k, 0, 3) {\n\t\t\tint nx = x + dx[k], ny = y + dy[k];\n\t\t\tif (nx < 1 or nx > n or ny < 1 or ny > m)continue;\n\t\t\tvar ns = rotate(k, s);\n\t\t\tint nst = snum[ns];\n\t\t\tif (dis[nx][ny][nst] > dis[x][y][st] + 1) {\n\t\t\t\tdis[nx][ny][nst] = dis[x][y][st] + 1;\n\t\t\t\tQ.push({ nx,ny,nst,dis[nx][ny][nst],ns });\n\t\t\t}\n\t\t}\n\t}\n\n\tfor (var& [s, _] : snum) {\n\t\tif (c[s[5]] != ts)continue;\n\t\tint st = snum[s];\n\t\tif (dis[tx][ty][st] >= INF)continue;\n\t\tcout << dis[tx][ty][st] << endl;\n\t\treturn;\n\t}\n\tcout << -1 << endl;\n\treturn;\n}\n",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-25",
+  "parsed_at": "2026-06-14T18:39:35.881368+00:00",
+  "type_directory": "p"
+}

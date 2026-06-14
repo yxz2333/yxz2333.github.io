@@ -1,0 +1,153 @@
+{
+  "slug": "介值定理",
+  "title": "介值定理",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "数学",
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "What?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在连续数学中，介值定理是指：“从点 A 画一条线到点 B，必定经过两者之间高度的所有的点”。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "在算法竞赛中，通常使用<strong>离散的介质定理</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果你能把一个产生 <strong>“最大可能解（Max）”</strong> 的状态，通过每次极其微小的<strong>“局部调整”</strong>，一步一步转变成产生 <strong>“最小可能解（Min）”</strong> 的状态；",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "且每次局部调整对结果的<strong>改变量（变化步长）绝对值最大不超过</strong> $\\Delta$；",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "那么在这个变化区间 $[Min, Max]$ 内，<strong>所有与</strong> $Min$ <strong>在模</strong> $\\Delta$ <strong>下同余的数字，都必定是可以构造出来的。</strong>",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "应用介质定理的<strong>前提</strong>是：最大解必须能通过合法的微调，<strong>不间断地变化到</strong>最小解。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "How?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "发现可以用介值定理时，找出 <strong>“最大可能解（Max）”</strong> 和 <strong>“最小可能解（Min）”</strong> 即可。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "案例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "案例一：无缝覆盖型（步长 $\\Delta \\le 1$）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>特征</strong>：每次微调，数值变化只有 $-1, 0, +1$。这就意味着它像一根真正的连续线，<strong>没有任何奇偶盲区</strong>，能精准踩中 $[Min, Max]$ 内的<strong>每一个整数</strong>。",
+              "depth": 2
+            },
+            {
+              "heading": "相邻交换逆序对",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "<em>场景</em>：问能不能构造一个排列，让它的逆序对数量恰好等于 $K$？",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<em>应用</em>：",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "交换一个序列中<strong>相邻</strong>的两个数，总逆序对数量只会发生 $+1$ 或 $-1$ 的改变。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "所以极小值（全顺排 0）到极大值（全逆排 $n(n-1)/2$）之间的所有逆序对数量，全部能通过不断交换相邻元素精准构造出来。",
+                  "depth": 3
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "案例二：奇偶守恒型（步长 $\\Delta = 2$）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>特征</strong>：每次微调，数值变化为 $-2, 0, +2$。中间由于跨步太大，漏掉了一半的数字（奇偶分离）。只有与边界值<strong>同奇偶</strong>的目标值才可达。",
+              "depth": 2
+            },
+            {
+              "heading": "网格图路径微调",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "<a href=\"/p/cf1695c-zero-path\" class=\"wikilink\">CF1695C Zero Path</a>",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<em>场景</em>：",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "只能往下/往右走，图里填满 $\\pm 1$ 或两种颜色。改变一个弯（从 <code>右-&gt;下</code> 变成 <code>下-&gt;右</code>），相当于扔掉旧路线上的 $x$ 加进新路线的 $y$。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "因为数值本来就在集合 $\\{+1, -1\\}$ 里，变动极值就是 $|(+1) - (-1)| = 2$。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "<em>推论</em>：只能命中与起点终点奇偶性绑定的数字。",
+                  "depth": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-29",
+  "parsed_at": "2026-06-14T18:45:12.083604+00:00",
+  "type_directory": "k"
+}

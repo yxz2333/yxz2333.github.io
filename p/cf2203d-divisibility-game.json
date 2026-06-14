@@ -1,0 +1,224 @@
+{
+  "slug": "cf2203d-divisibility-game",
+  "title": "CF2203D Divisibility Game",
+  "type": "题目",
+  "tags": [
+    "博弈论",
+    "倍数",
+    "优化技巧"
+  ],
+  "difficulty": 1.5,
+  "summary": "算出专用数和共用数，然后先瓜分共用数，再用专用数就行了。主要是本题需要进行一些 \\log 优化。",
+  "link": "https://codeforces.com/contest/2203/problem/D",
+  "link_text": "Problem - D - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "爱丽丝和鲍勃正在玩一个游戏。他们有一个包含 $n$ 个元素的数组 $a$ 和一个包含 $m$ 个元素的数组 $b$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "玩家轮流行动，爱丽丝先手。轮到某位玩家时，他从数组 $a$ 中选择一个数 $x$，从数组 $b$ 中选择一个数 $y$。爱丽丝和鲍勃各自有不同的选择规则：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "爱丽丝必须选择满足 $y$ <strong>能被</strong> $x$ <strong>整除</strong> 的 $x$ 和 $y$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "鲍勃必须选择满足 $y$ <strong>不能被</strong> $x$ <strong>整除</strong> 的 $x$ 和 $y$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "选定 $x$ 和 $y$ 后，$y$ 会从数组 $b$ 中移除（但 $x$ 仍然保留在 $a$ 中）。当 $y$ 从 $b$ 中移除时，如果 $y$ 有多个重复值，仅移除其中一个。无法行动的一方输掉游戏。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果双方都采取最优策略，谁会获胜？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试包含多个测试用例。第一行包含测试用例的数量 $t$（$1 \\le t \\le 10^4$）。接下来是测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含两个整数 $n$ 和 $m$（$1 \\le n, m \\le 10^{6}$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第二行包含 $n$ 个整数 $a_{i}$（$1 \\le a_{i} \\le n + m$）——数组 $a$ 的元素。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的最后一行包含 $m$ 个整数 $b_{i}$（$1 \\le b_{i} \\le n + m$）——数组 $b$ 的元素。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入的附加约束：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例中 $n$ 的总和不超过 $10^6$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例中 $m$ 的总和不超过 $10^6$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个单词：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果 Alice 获胜，输出 Alice；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果 Bob 获胜，输出 Bob。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n9 3\n3 2 4 2 2 4 4 2 4\n6 7 12\n10 3\n3 2 5 4 2 5 3 4 4 4\n10 7 13\n1 5\n1\n1 2 3 4 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Alice\nBob\nAlice",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "考虑第一个测试用例。让我们展示 Alice 如何通过以下步骤获胜：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>Alice 的回合：</strong> $x = 3, y = 6$（此后，$6$ 将从 $b$ 中移除，$b = [7, 12]$）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>Bob 的回合：</strong> $x = 3, y = 7$（Bob 在他的回合无论如何都会选择 $y = 7$，因为没有 $x$ 不能整除 $y = 12$，此回合后 $b = [12]$）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>Alice 的回合：</strong> $x = 4, y = 12$（此回合后，$b$ 变为空）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>Bob 的回合：</strong> Bob 输，因为他无法行动",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "很明显发现，$b$ 中能整除 $a$ 所有数的 $lcm$ 的数为 <strong>Alice 专用的数</strong>，$b$ 中能不能整除 $a$ 任何数的数为 <strong>Bob 专用的数</strong>，剩下的就为<strong>共用数</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "大家一上来把共用数平分完，然后各用各的，就能得出答案。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "主要的难点是算 <strong>Bob 专用数</strong>和<strong>共用数</strong>的个数，因为本题卡 $O(N \\log N)$，故不能算因数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "考虑枚举 $a$ 中每个数的倍数，把倍数打上 $vis$ 标记，因为值域为 $n + m$，所以复杂度最多为 $O(n + m)$，完成优化。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar A = vector<int>(n + 1);\n\tvar B = vector<int>(m + 1);\n\tll l = 1;\n\tfa(i, 1, n) {\n\t\tcin >> A[i];\n\t\tif (l != LNF)l = Math::lcm(l, A[i]);\n\t\tif (l >= N)l = LNF;\n\t}\n\tfa(i, 1, m)cin >> B[i];\n\n\tvar vis = vector<bool>(n + m + 1);\n\tll a = 0, b = 0, c = 0;\n\tfa(k, 1, n) {\n\t\tif (vis[A[k]])continue;\n\t\tfa(i, 1, n + m) {\n\t\t\tif (i * A[k] > n + m)break;\n\t\t\tvis[i * A[k]] = 1;\n\t\t}\n\t}\n\tfa(i, 1, m) {\n\t\tint x = B[i];\n\t\tif (x % l == 0)a++;\n\t\telse {\n\t\t\tif (vis[x])c++;\n\t\t\telse b++;\n\t\t}\n\t}\n\n\tif (c % 2 == 0) {\n\t\tif (a > b)cout << \"Alice\" << endl;\n\t\telse cout << \"Bob\" << endl;\n\t}\n\telse {\n\t\tif (a >= b)cout << \"Alice\" << endl;\n\t\telse cout << \"Bob\" << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-26",
+  "parsed_at": "2026-06-14T18:39:36.438325+00:00",
+  "type_directory": "p"
+}

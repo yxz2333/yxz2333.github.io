@@ -1,0 +1,220 @@
+{
+  "slug": "cf2208d1-tree-orientation-(easy-version)",
+  "title": "CF2208D1 Tree Orientation (Easy Version)",
+  "type": "题目",
+  "tags": [
+    "bitset",
+    "floyd",
+    "并查集"
+  ],
+  "difficulty": 1.5,
+  "summary": "用 $floyd$ 检测和删掉<strong>冗余边</strong>，然后用并查集来<strong>验证连通性</strong>，用 $floyd$ 重新构造来验证原数组。所有 $floyd$ 全用 $bitset$ 加速。",
+  "link": "https://codeforces.com/contest/2208/problem/D1",
+  "link_text": "Problem - D1 - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "你曾经拥有一棵包含 $n$ 个节点的无向树。为了让这棵树看起来更有趣，你决定为这 $n-1$ 条边中的每一条分配一个方向。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "随着时间的推移，你忘记了这棵树的结构。然而，你找到了一张便条，上面记录了在分配边方向<strong>之后</strong>，对于所有满足 $1 \\le u, v \\le n$ 的有序对 $(u, v)$，节点 $u$ 是否可以到达节点 $v$$^{\\text{*}}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请根据便条提供的信息，找出这棵树的结构以及边的方向。判断是否存在可行解，如果存在，请构造出一组解。如果存在多个解，只需输出其中任意一个。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$^{\\text{*}}$ 对于一个有向图，如果存在一个节点序列 $u_1, u_2, \\ldots, u_k$ 使得 $u_1=x, u_k=y$，且对于所有 $2 \\le i \\le k$，存在有向边 $u_{i-1} \\rightarrow u_i$，则称 $x$ 可以到达 $y$。特别地，节点总是可以到达其自身。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \\le t \\le 10^4$)。接下来是各测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$ ($2 \\le n \\le 500$)，表示树的节点数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行包含一个字符串 $s_i$，长度为 $n$，仅由字符 '0' 和 '1' 组成。如果 $i$ 可以到达 $j$，则 $s_i$ 的第 $j$ 个字符为 '1'，否则为 '0'。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例的 $n^3$ 之和不超过 $500^3$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，如果存在解，请输出 <code>Yes</code>，否则输出 <code>No</code>。如果答案为 <code>Yes</code>，请在后续行中输出所构建边的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输出 $n-1$ 行，每行包含两个整数 $x$ 和 $y$，表示存在有向边 $x \\rightarrow y$。如果存在多种解，输出任意一个即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输出不区分大小写（例如：\"yEs\", \"yes\", \"Yes\", \"YES\" 均被视为肯定回答）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "11\n4\n1000\n1111\n1010\n0001\n4\n1111\n0111\n0010\n0111\n4\n0011\n0111\n0011\n0001\n4\n1000\n0110\n0010\n1111\n4\n1000\n0110\n1010\n1111\n5\n10000\n01011\n00111\n00010\n00001\n5\n10000\n11000\n10101\n10111\n00001\n5\n10000\n01101\n00100\n01110\n10001\n4\n1100\n0100\n0011\n0001\n4\n1110\n0100\n0010\n0101\n3\n100\n111\n101",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\n2 3\n2 4\n3 1\nNo\nNo\nYes\n2 3\n4 1\n4 2\nNo\nNo\nYes\n2 1\n3 1\n3 5\n4 3\nNo\nNo\nYes\n1 2\n1 3\n4 2\nYes\n2 3\n3 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，节点 $1$ 和 $4$ 只能到达它们自身，节点 $2$ 可以到达所有节点，节点 $3$ 只能到达节点 $1$ 和 $3$。所构造的边满足这些约束。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心解惑：为什么循环顺序要求不同？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>找冗余边时，为什么 <code>fa(i) fa(k)</code> 可以？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为此时你利用的是<strong>题目给定的输入矩阵 <code>a</code></strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "题目给的 <code>a</code> 已经是<strong>完整的连通性矩阵</strong>了（即如果 $k$ 能到 $j$，<code>a[k][j]</code> 必定已经是 1）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当你在 <code>fa(i)</code> 的内部枚举 $k$ 时，只要发现 <code>a[i][k] == 1</code>，你就可以<strong>确信无疑</strong>地把 <code>a[k]</code> 整行全部并入 <code>del[i]</code> 中。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因为 <code>a[k]</code> 里已经包含了 $k$ 能到达的所有点，不需要任何中转推导。此时信息是<strong>静态且完整</strong>的，所以内外层怎么换都没关系。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>Floyd 重构时，为什么必须 <code>fa(k)</code> 在最外层？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为此时你的 <code>b</code> 矩阵是<strong>从零开始构建</strong>的，初始只有那 $n-1$ 条直接相连的树边。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "信息需要<strong>动态地传递</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "假设有边 $1 \\to 2 \\to 3 \\to 4$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>如果 <code>i</code> 在外层，<code>k</code> 在内层</strong>：当你处理 <code>i=1</code>，枚举到 <code>k=2</code> 时，你执行 <code>b[1] |= b[2]</code>。但是注意！此时 <code>b[2]</code> 甚至还没来得及推导出它能到达 4！所以 1 就永远失去了到达 4 的信息。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>如果 <code>k</code> 在最外层</strong>：它的物理意义是<strong>“允许经过前 <code>k</code> 个点作为中转站”</strong>。必须等所有点都利用 $k$ 更新完自己的可达性，才能开放下一个中转站 $k+1$。这是一个严格的动态规划状态转移过程。",
+              "depth": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "bitset<8005> del[8005], a[8005], b[8005];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfa(i, 1, n)del[i].reset(), b[i].reset(), a[i].reset();\n\tvar ss = vector<string>(n + 1);\n\tfa(i, 1, n)cin >> ss[i], ss[i] = ' ' + ss[i];\n\tfa(i, 1, n)fa(j, 1, n) {\n\t\tif (ss[i][j] == '1')a[i][j] = 1;\n\t\telse a[i][j] = 0;\n\t}\n\n\tfa(i, 1, n)if (!a[i][i]) {\n\t\tcout << \"No\" << endl;\n\t\treturn;\n\t}\n\n\t// floyd 检查冗余边（注意枚举顺序）\n\tfa(i, 1, n)a[i][i] = 0; // 排除自己到自己的影响\n\tfa(i, 1, n)fa(k, 1, n)if (a[i][k]) {\n\t\tdel[i] |= a[k];\n\t}\n\n\tvar p = vector<pii>();\n\tfa(i, 1, n)fa(j, 1, n)\n\t\tif (a[i][j] and !del[i][j])\n\t\t\tp.pb({ i,j });\n\n\t// 删掉冗余边，< n - 1 不连通，> n - 1 再也删不了边不满足条件\n\tif (p.size() != n - 1) {\n\t\tcout << \"No\" << endl;\n\t\treturn;\n\t}\n\n\t// 并查集判定连通性\n\tvar s = vector<int>(n + 1);\n\tfa(i, 1, n)s[i] = i;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return x;\n\t\treturn s[x] = find(find, s[x]);\n\t\t};\n\tfor (const var& [x, y] : p) {\n\t\tint e1 = find(find, x), e2 = find(find, y);\n\t\tif (e1 != e2)s[e2] = e1;\n\t}\n\tvar se = set<int>();\n\tfa(i, 1, n)se.insert(find(find, i));\n\tif (se.size() > 1) { // 不连通\n\t\tcout << \"No\" << endl;\n\t\treturn;\n\t}\n\n\t// floyd 重构连通性数组，跟原数组进行验证（注意枚举顺序）\n\tfor (const var& [x, y] : p)b[x][y] = 1;\n\tfa(k, 1, n)fa(i, 1, n)if (b[i][k])b[i] |= b[k];\n\tfa(i, 1, n)if (a[i] != b[i]) { // 与原数组不同\n\t\tcout << \"No\" << endl;\n\t\treturn;\n\t}\n\n\tcout << \"Yes\" << endl;\n\tfor (const var& [x, y] : p)cout << x << ' ' << y << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-15",
+  "parsed_at": "2026-06-14T18:39:36.462625+00:00",
+  "type_directory": "p"
+}

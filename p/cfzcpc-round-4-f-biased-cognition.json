@@ -1,0 +1,271 @@
+{
+  "slug": "cfzcpc-round-4-f-biased-cognition",
+  "title": "Cfzcpc Round 4 F Biased Cognition",
+  "type": "题目",
+  "tags": [
+    "dp",
+    "贪心/排序",
+    "01背包"
+  ],
+  "difficulty": 2.0,
+  "summary": "并不是非常好想到能用 dp（类似于 01 背包），也不是很好想到 dp 前需排序。所以进行了一波整理：<strong>如果打乱被选物品的内部顺序，会导致总收益改变</strong>，那就必须先找到那个 “最优顺序（贪心策略）” ，按照这个策略给原数组排序，然后再上 DP 算数值！",
+  "link": "https://qoj.ac/contest/3419/problem/16559",
+  "link_text": "Biased Cognition - Problem - QOJ.ac",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Yuki 初始时拥有 $0$ 点集中和 $n$ 张卡牌，第 $i$ 张卡牌的效果是：在打出时获得 $a_i$ 点集中，并在接下来每个回合开始时减少 $b_i$ 点集中。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "游戏共有 $n$ 个回合。在每回合，Yuki 可以打出任意张卡牌（可以为 $0$ 张）。不过由于 Yuki 开启了回响形态，她每回合打出的第一张卡牌的效果会翻倍。具体地，设 Yuki 在某回合打出的第一张卡牌为卡牌 $i$，则卡牌 $i$ 的效果会变为：在打出时获得 $2 \\cdot a_i$ 点集中，并在接下来每个回合开始时减少 $2 \\cdot b_i$ 点集中。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "设 Yuki 在第 $i$ 回合结束时拥有 $s_i$ 点集中，她希望合理地打出卡牌使得 $\\max\\limits_{i=1}^n s_i$ 的值尽可能大。为了实现这个目标，你需要帮助她求出 $\\max\\limits_{i=1}^n s_i$ 最大能达到多少。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题包含多组测试数据。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含一个正整数 $t\\ (1 \\le t \\le 10^3)$，表示测试数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含一个正整数 $n\\ (1 \\le n \\le 5 \\cdot 10^3)$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行，第 $i$ 行包含两个整数 $a_i, b_i\\ (0 \\le a_i, b_i \\le 10^9)$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试数据中 $n$ 的总和不超过 $5 \\cdot 10^3$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据，输出一行，包含一个整数，表示 $\\max\\limits_{i=1}^n s_i$ 的最大",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n3\n4 1\n3 4\n5 2\n2\n4 5\n3 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "19\n11",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "样例 1 解释",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第 1 组测试数据，Yuki 可以在第 1 回合打出第 1 张卡牌，获得 8 点集中，并在第 2 回合依次打出第 3 张卡牌和第 2 张卡牌，获得 13 点集中；因为 Yuki 会在第 2 回合开始时失去 2 点集中，在第 3 回合开始时失去 10 点集中，所以 $s_1 = 8, s_2 = 19, s_3 = 9, \\max\\limits_{i=1}^n s_i = 19$。可以证明 $\\max\\limits_{i=1}^n s_i$ 的最大值即为 19。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于第 2 组测试数据，Yuki 可以直接在第 1 回合依次打出第 1 张卡牌和第 2 张卡牌，获得 11 点集中。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "贪心排序（邻项交换法）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "假设我们在 DP 选择序列中，有两个相邻的坑位：第 $x$ 个位置和第 $x+1$ 个位置。我们要决定把卡牌 $i$ 和卡牌 $j$ 怎么放。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况 1：先放</strong> $i$<strong>（占第</strong> $x$ <strong>位），再放</strong> $j$<strong>（占第</strong> $x+1$ <strong>位）</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "卡牌 $i$ 的扣分：$2(x-1) \\cdot b_i$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "卡牌 $j$ 的扣分：$2(x) \\cdot b_j$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这两张牌的<strong>总扣分 A</strong> = $2(x-1)b_i + 2xb_j$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况 2：先放</strong> $j$<strong>（占第</strong> $x$ <strong>位），再放</strong> $i$<strong>（占第</strong> $x+1$ <strong>位）</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "卡牌 $j$ 的扣分：$2(x-1) \\cdot b_j$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "卡牌 $i$ 的扣分：$2(x) \\cdot b_i$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这两张牌的<strong>总扣分 B</strong> = $2(x-1)b_j + 2xb_i$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>列不等式：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了让最终收益最大，我们希望<strong>情况 1 比情况 2 更好</strong>（即扣分更少）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所以令：<strong>总扣分 A < 总扣分 B</strong>",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$2(x-1)b_i + 2xb_j < 2(x-1)b_j + 2xb_i$$\n**暴力化简（展开括号）：**\n$$2xb_i - 2b_i + 2xb_j < 2xb_j - 2b_j + 2xb_i$$",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\\mathbf{b_i > b_j}$$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "DP",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>状态定义：</strong> $dp[i][j]$ 表示在前 $i$ 张牌中，我们挑选了 $j$ 张作为双倍牌，所能获得的<strong>最大额外收益</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态转移：</strong> 对于第 $i$ 张牌：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果不选它当双倍牌：$dp[i][j] = dp[i-1][j] + a_i$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果选它当双倍牌（它就是选出的第 $j$ 张）：$dp[i][j] = dp[i-1][j-1] + 2a_i - 2(j-1) \\times b_i$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "两者取 Max 即可。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar p = vector<pll>(n + 1);\n\tfa(i, 1, n)cin >> p[i].px >> p[i].py;\n\tvar dp = Vec2<ll>(2, n + 1);\n\tsort(all1(p), [](const pll& a, const pll& b)->bool {\n\t\treturn a.py > b.py;\n\t\t});\n\tfa(i, 1, n) {\n\t\tconst var& [x, y] = p[i];\n\t\tfa(j, 0, n) {\n\t\t\tif (j)dp[i % 2][j] = max(dp[i % 2][j], dp[(i - 1) % 2][j - 1] + 2 * (x - (j - 1ll) * y));\n\t\t\tdp[i % 2][j] = max(dp[i % 2][j], dp[(i - 1) % 2][j] + x);\n\t\t}\n\t\tfa(j, 0, n)dp[(i - 1) % 2][j] = 0;\n\t}\n\tll ans = 0;\n\tfa(i, 1, n)ans = max(ans, dp[n % 2][i]);\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-15",
+  "parsed_at": "2026-06-14T18:39:36.638675+00:00",
+  "type_directory": "p"
+}

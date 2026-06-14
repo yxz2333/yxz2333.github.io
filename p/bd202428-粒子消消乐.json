@@ -1,0 +1,240 @@
+{
+  "slug": "bd202428-粒子消消乐",
+  "title": "BD202428 粒子消消乐",
+  "type": "题目",
+  "tags": [
+    "在线问题",
+    "思维定势",
+    "倍增"
+  ],
+  "difficulty": 2.5,
+  "summary": "主要也就是得摆脱<strong>线段树</strong>带来的<strong>思维定势</strong>，想到有<strong>倍增</strong>这样同样能实现<strong>高效查询</strong>的方法。",
+  "link": "https://www.matiji.net/exam/brushquestion/28/4498/F16DA07A4D99E21DFFEF46BD18FF68AD",
+  "link_text": "码蹄集OJ-粒子消消乐",
+  "source": "[[2024百度之星决赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小度对高能物理非常感兴趣，特别喜欢研究粒子湮灭的现象。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "粒子始终会按照进入直线加速器的相对次序在其中运动，并在加速器中被加速到接近光速。当两种相同的粒子在加速器中同时出现就会发生湮灭现象，它们会湮灭释放出巨大的能量，并会将这两个相同的粒子以及中间的所有粒子都湮灭掉，变成若干个光子散射掉（即不计入最终剩余粒子能量的统计）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在，小度想要进行一些粒子加速湮灭实验。他设定了一个包含 \\( n \\) 个位置的环状粒子生成器，编号从 \\( 1 \\sim n \\) ，其中 \\( 1 \\) 与 \\( n \\) 相邻，每个位置上能生成特定种类特定能量的粒子。研究涉及的粒子种类会用大写字母 \\( A - Z \\) 表示，每一个粒子会有一个能量 \\( b_i \\)，每次实验前，环状粒子生成器会重新生成粒子用于实验。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小度会依次进行 \\( q \\) 次操作。第 \\( i \\) 次（\\( 1 \\leq i \\leq q \\) ）操作形式可能是两者之一：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\( 1 \\ x \\ y \\) ，其中 \\( 1 \\leq x \\leq n, |y| \\leq 10^9 \\) ，表示一次粒子能量调整操作，将环状粒子生成器中下标为 \\( x \\) 位置生成的粒子能量值需要调整为 \\( y \\) ，即 \\( b_x = y \\) 。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "\\( 2 \\ l \\ r \\) ，其中 \\( 1 \\leq l, r \\leq n \\) ，表示一次实验操作，由于是粒子生成器为环状，\\( l \\) 可能会大于 \\( r \\) 。小度使用环状粒子生成器生成下标在 \\( l, r \\) 的粒子后，按位置顺序依次放入直线加速器进行实验。小度想要知道所有湮灭结束后，查询加速器中剩余粒子的能量是多少。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个正整数 \\( T \\)，表示测试数据组数 \\((1 \\leq T \\leq 8)\\)；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含两个正整数 \\( n \\) 和 \\( q \\)，表示环形轨道的长度和小度的操作次数 \\((1 \\leq q \\leq 2 \\times 10^5)\\)；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 \\( n \\) 个字符的字符串 \\( S \\)，\\( S_i \\in \\{A, B, \\ldots, Y, Z\\} \\) 表示粒子的种类 \\((1 \\leq n \\leq 2 \\times 10^5)\\)；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第三行包含 \\( n \\) 个数字 \\( b_i \\)，表示对应粒子的能量 \\((-10^9 \\leq b_i \\leq 10^9)\\)；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来 \\( q \\) 行，每行三个正整数，表示一组操作，表示为 \\( 1 \\ x \\ y \\) 或者 \\( 2 \\ l \\ r \\)，具体格式和含义见题目描述 \\((1 \\leq x, l, r \\leq n, |y| \\leq 10^9)\\)。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组数据，输出 \\( q \\) 行。第 \\( i \\) 行（ \\( 1 \\leq i \\leq q \\) ）输出一个整数，表示第 \\( i \\) 次询问的答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n8 5\nTTQQNNUU\n3 -1 -4 -3 7 6 5 9\n1 8 0\n2 7 2\n1 4 10\n2 1 5\n2 4 4\n6 7\nZWICNI\n-8 8 10 4 -10 4\n1 6 9\n2 4 4\n2 5 6\n1 6 -3\n1 4 2\n2 1 1\n2 2 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0\n7\n10\n4\n-1\n-8\n20",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一次询问，小度会按照UUTT的顺序进行粒子加速，\\(\\rightarrow U \\rightarrow U, U \\rightarrow T \\rightarrow T, T \\rightarrow\\) 最后加速器中不会剩余粒子。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第二次询问，队列变化情况为：\\(\\rightarrow T \\rightarrow T, T \\rightarrow Q \\rightarrow Q, Q \\rightarrow N\\)。因此最后加速器中只剩余最后一个粒子的能量，为7。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第三次询问，加速器中仅有一个粒子，能量曾被修改为16，因此能量为16。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：修改是直接单点修改，查询是要求区间数从左到右依次枚举的时候找相同类别的两个数，并记录答案。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：单点修改想到<strong>线段树</strong>，但是这个查询乍一想真的不好用线段树解决，故摆脱<strong>思维定势</strong>，考虑别的高效查询做法。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "在一个查询的区间 <code>[L, R]</code> 中，一个一个从左到右看，我们可以找到 <code>L</code> 与它标签相等的位置 <code>next[L]</code>。这一段直接删除后，就开始考虑 <code>next[L] + 1</code> 是否有与它标签相等的位置 <code>next[next[L] + 1]</code> 有就接着跳，以此类推；如果没有，那么这个数肯定是删不掉了，答案加上 <code>a[next[L] + 1]</code>，然后考虑下一个位置 <code>next[L] + 2</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "从上面的整个过程中能发现，加入答案的数最多 26 个，复杂度的瓶颈在于如上的<strong>跳格子问题</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "那么肯定是用<strong>倍增</strong>解决了，即：<strong>倍增找最远满足条件的位置</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "摆脱<strong>思维定势</strong>，放弃<strong>线段树</strong>，考虑构造<strong>跳格子问题</strong>，从而使用<strong>倍增</strong>解决。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>在线问题</strong>的<strong>高效查询</strong>，可以考虑<strong>倍增</strong>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[N][21];\nvoid solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\tstring s; cin >> s; s = ' ' + s + s;\n\tvar a = vector<ll>(2 * n + 1);\n\tfa(i, 1, n)cin >> a[i], a[i + n] = a[i];\n\n\t// 找离 i 最近的与 i 类别相同的位置的下一个位置\n\tvar pos = vector<int>(26);\n\tvar nex = vector<int>(2 * n + 1);\n\tfb(i, 2 * n, 1) {\n\t\tint c = s[i] - 'A';\n\t\tif (pos[c])nex[i] = pos[c] + 1;\n\t\tpos[c] = i;\n\t}\n\tfa(i, 1, 2 * n)dp[i][0] = nex[i];\n\tfa(j, 1, 20)\n\t\tfa(i, 1, 2 * n)\n\t\tdp[i][j] = dp[dp[i][j - 1]][j - 1];\n\n\twhile (q--) {\n\t\tint op; cin >> op;\n\t\tif (op == 1) {\n\t\t\tll x, y; cin >> x >> y;\n\t\t\ta[x] = y, a[x + n] = y;\n\t\t}\n\t\telse {\n\t\t\tll l, r; cin >> l >> r;\n\t\t\tll ans = 0;\n\t\t\tif (l > r)r += n;\n\t\t\tint now = l;\n\t\t\t// 最多 26 * 20\n\t\t\twhile (now <= r) {\n\t\t\t\tfb(i, 20, 0) \n\t\t\t\t\tif (dp[now][i] and dp[now][i] <= r + 1) \n\t\t\t\t\t\tnow = dp[now][i];\n\t\t\t\tif (now <= r)ans += a[now], now++;\n\t\t\t}\n\t\t\tcout << ans << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-11-26",
+  "parsed_at": "2026-06-14T18:39:36.064062+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,259 @@
+{
+  "slug": "2026牛客寒假算法基础集训营2-d-数字积木",
+  "title": "2026牛客寒假算法基础集训营2 D 数字积木",
+  "type": "题目",
+  "tags": [
+    "树形dp",
+    "经典问题/MEX问题",
+    "贡献法"
+  ],
+  "difficulty": 3.0,
+  "summary": "跟 <a href=\"/p/abc438f-sum-of-mex\" class=\"wikilink\">ABC438F Sum of Mex</a> 有点像，不过本题是算子图，那题就一条路径，维护两个点就解决了，这题当然不能维护整个子图，需要借助 <strong>树形dp</strong> 解决。<em>本题需要留意 inv(0)，用 SafeInt 板子解决。</em>",
+  "link": "https://ac.nowcoder.com/acm/contest/120562/D",
+  "link_text": "D-数字积木_2026牛客寒假算法基础集训营2",
+  "source": "[[2026牛客寒假算法基础集训营2]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$给定一棵包含 $n$ 个节点的树，树的节点编号为 $1\\sim n$，节点 $i$ 的权值为 $a_i$，其中 $a$ 由 $0\\sim n-1$ 的数字组成，且每个数字只出现一次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$定义树上一个连通子图的权值为：构成该连通子图的所有节点的权值中未出现过的最小非负整数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$让你帮忙计算树上所有连通子图的权值之和，请将答案对 $(10^9+7)$ 取模后输出。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行输入一个整数 $n\\left(1\\leq n\\leq 2\\times 10^5\\right)$，表示树的结点个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第二行输入 $n$ 个整数 $a_1,a_2,\\dots,a_n\\left(0\\leq a_i\\leq n-1\\right)$，保证每个整数恰好出现一次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$此后 $n-1$ 行，第 $i$ 行输入两个整数 $u_i,v_i\\left(1\\leq u_i,v_i\\leq n;\\, u_i\\neq v_i\\right)$，表示第 $i$ 条树边连接节点 $u_i$ 和 $v_i$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$输出一个整数，表示树上所有连通子图的权值之和对 $(10^9+7)$ 取模后的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n0 1\n1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n1 4 3 0 2\n1 2\n1 3\n2 4\n2 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "15",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "转化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "和 <a href=\"/p/abc438f-sum-of-mex\" class=\"wikilink\">ABC438F Sum of Mex</a> 两题都利用了 <strong>MEX 的贡献法转化</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "直接求 MEX 极其困难，因此统一转化为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\\text{ans} = \\sum \\text{MEX}(S) = \\sum_{i=1}^{n} \\text{Count}(\\text{MEX}(S) \\ge i)$$\n而 $\\text{MEX}(S) \\ge i$ 的充要条件是：集合 $S$ 必须完整包含权值为 $\\{0, 1, 2, \\dots, i-1\\}$ 的所有节点。\n将问题转变为：**对于每一个** $k \\in [0, n-1]$，**计算有多少个连通子图包含了权值为** $0, 1, \\dots, k$ **的所有节点。**",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "计数方案",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "假设我们把整棵树以 <strong>权值为 0 的节点</strong> 为根。那么对于任意 $k$，<strong>极小连通子图</strong> $H_k$ 一定包含根节点，因此 $H_k$ 是一个包含根的连通块。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在这个有根树上，任意一个包含 $H_k$ 的合法连通子图，都可以看作是：<strong>必须选取</strong> $H_k$ <strong>中的所有点</strong>，然后对于 $H_k$ 中每个节点 $u$，它可以选择<strong>是否挂载它在</strong> $H_k$ <strong>之外的子树中的某个连通部分</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们先预处理一个<strong>树形 DP</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "令 $dp[u]$ 表示：<strong>在以</strong> $u$ <strong>为根的子树中，包含</strong> $u$ <strong>的连通子图的数量</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "转移方程：$dp[u] = \\prod_{v \\in children(u)} (dp[v] + 1)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这里的 $+1$ 代表对于子节点 $v$ 的分支，我们可以选择“不选 $v$（即该分支为空，只有一种选法）”，或者选择“包含 $v$ 的任意连通子图（有 $dp[v]$ 种选法）”。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "令 $Ans_k$ 为包含 $0 \\dots k-1$ 的连通子图数量，对于 $H_k$，它的计数公式可以推导为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nAns_k = dp[root] \\times \\prod_{u \\in H_k \\setminus \\{root\\}} \\frac{dp[u]}{dp[u] + 1}\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>推导逻辑：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "整棵树原本的方案数是 $dp[root]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当我们强制选中某个节点 $u$（将其加入 $H_k$）时，意味着它的父节点 $p$ 在考虑 $u$ 这个分支时，<strong>不再有“不选”这个选项</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如何选中节点 $u$ ？",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "令 $par[u]$ 为 $u$ 的父节点，找下一个 $\\text{Mex}$ 对应的点 $v$，然后<strong>不断从</strong> $v$ <strong>向上找，枚举到的点都选中，计算答案即可</strong>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "原本 $p$ 的贡献里包含了乘项 $(dp[u] + 1)$，现在必须强制选 $u$ 及其下挂载的合法结构（方案数为 $dp[u]$）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "所以，每当 $H_k$ 扩张一个新的节点 $u$，答案就要乘上 $\\frac{dp[u]}{dp[u] + 1}$（即去掉“不选”的情况）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "<strong>本题需要留意 inv(0)，用 SafeInt 板子解决。</strong>",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct SafeInt {\n\tll val;\n\tint zero_cnt;\n\n\tSafeInt() : val(1), zero_cnt(0) {}\n\tSafeInt(ll val) : val(val), zero_cnt(0) {}\n\n\tvoid mul(ll x) {\n\t\tx %= mod;\n\t\tif (x == 0)zero_cnt++;\n\t\telse val = val * x % mod;\n\t}\n\n\tvoid div(ll x) {\n\t\tx %= mod;\n\t\tif (x == 0)zero_cnt--;\n\t\telse val = val * Math::inv(x, mod) % mod;\n\t}\n\n\t// 获取真实值\n\tll get() const {\n\t\tif (zero_cnt > 0) return 0;\n\t\treturn val;\n\t}\n};\n\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tvar b = vector<int>(n); // mex 对应的节点\n\tfa(i, 1, n)cin >> a[i], b[a[i]] = i;\n\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\tvar dp = vector<ll>(n + 1); // 以 u 为根的子树中，包含 u 的连通子图的数量\n\tvar par = vector<int>(n + 1); // u 的父节点 par[u]\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tdp[now] = 1;\n\t\tpar[now] = fa;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\tdp[now] = dp[now] * (dp[to] + 1) % mod;\n\t\t}\n\t\t};\n\tint st = b[0];\n\tdfs(dfs, st, 0);\n\n\tvar vis = vector<bool>(n + 1);\n\tll ans = dp[st];\n\tSafeInt tot = dp[st];\n\tvis[st] = 1;\n\tfa(i, 1, n - 1) {\n\t\tif (!vis[b[i]]) {\n          \t// 从 b[i] 往上枚举，把这些点都选上\n\t\t\tint cur = b[i]; \n\t\t\twhile (!vis[cur]) {\n              \t// 更新 tot\n\t\t\t\ttot.div(dp[cur] + 1);\n\t\t\t\ttot.mul(dp[cur]);\n\n\t\t\t\tvis[cur] = 1;\n\t\t\t\tcur = par[cur];\n\t\t\t}\n\t\t}\n\t\tans = (ans + tot.get()) % mod;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-06",
+  "parsed_at": "2026-06-14T18:39:35.903097+00:00",
+  "type_directory": "p"
+}

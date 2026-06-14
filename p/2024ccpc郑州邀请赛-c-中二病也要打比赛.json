@@ -1,0 +1,298 @@
+{
+  "slug": "2024ccpc郑州邀请赛-c-中二病也要打比赛",
+  "title": "2024CCPC郑州邀请赛 C 中二病也要打比赛",
+  "type": "题目",
+  "tags": [
+    "经典问题/LIS问题"
+  ],
+  "difficulty": 2.5,
+  "summary": "乍一看怎么没啥想法，关键还是得手玩玩样例，发现切入口。发现每个数肯定属于一个<strong>连通块</strong>，我们要在连通块里<strong>找一个代表数</strong>，找越多越好，所以就转化成了 LIS 问题。",
+  "link": "https://codeforces.com/gym/105158",
+  "link_text": "2024 National Invitational of CCPC (Zhengzhou), 2024 CCPC Henan Provincial Collegiate Programming Contest",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在波中二病彻底占领的世界中，存在着一个被称为“现实”的神秘领域。在这个领域中，小鸟游六花，一位坚信自己拥有着非凡力量的中二病少女，发现了其中神秘的数字序列 \\( A \\)。这个序列包含了 \\( n \\) 个元素，每个元素 \\( A_i \\) 是 1 到 \\( n \\) 之间的整数。据说，只有当这个序列满足单调不降的性质时，隐藏在其中的超自然力量才会觉醒。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "六花相信，通过解开这个序列的秘密，她可以进一步证明自己的“邪王真眼”的力量。然而，她很快就意识到，要驯服这个序列，需要一种特殊的魔法——一个能将 \\( A \\) 转化为另一个序列的函数 \\( f \\)，其定义域与值域均为 \\([1, n] \\cap \\mathbb{Z}\\)。使用这个魔法后，\\( A \\) 会变成 \\( B \\)，其中 \\( B_i = f(A_i) \\)。但是，这个魔法的使用是有代价的，其成本由 \\([1, n] \\cap \\mathbb{Z}\\) 中的 \\( f(x) \\neq x \\) 的数量决定。在这个充斥着中二病的世界中，六花必须以最小的代价激发序列中隐藏的力量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在，作为六花的冒险伙伴，你的任务是帮助她找到那个神奇的函数 \\( f \\)，将 \\( A \\) 转化为单调不降序列，并以最小的代价揭示序列中隐藏的超自然力量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 \\( n \\) (\\( 1 \\leq n \\leq 2 \\times 10^5 \\))，代表序列的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 \\( n \\) 个整数 \\( A_1, A_2, \\dots, A_n \\) (\\( 1 \\leq A_i \\leq n \\))，代表序列的元素。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行包含一个整数，表示最小代价。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10\n1 10 2 6 10 8 9 4 4 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在样例中，可以选择函数 \\( f \\) 为 \\([1, 2, 3, 4, 5, 2, 7, 2]\\)，其中第 \\( i \\) 个数字 \\( c_i \\) 表示 \\( f(i) = c_i\\)，由该函数的序列 \\( B \\) 为 \\([1, 2, 2, 2, 2, 2, 4, 4, 5]\\)，符合题目条件。由于 \\( f(6) = 2 \\neq 6, f(8) = 2 \\neq 8, f(9) = 2 \\neq 9\\)，所以该函数的代价是 4。可以证明没有比 4 更小的代价。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心目标",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目要求找一个函数 $f(x)$，把原序列 $A$ 映射为单调不降的序列 $B$（即 $B_i = f(A_i)$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "代价是 $f(x) \\neq x$ 的数量，要让代价最小，本质上就是要<strong>最大化</strong> $f(x) = x$<strong>（即保持原值不变）的数字种类数</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "最终答案 = <code>A 数组中出现的总数字种类数 (tot)</code> - <code>保持不变的最大数字种类数</code>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第一层剥茧：相等带来的“区间锁定”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然 $B_i = f(A_i)$，这意味着：<strong>在</strong> $A$ <strong>数组中相同的值，映射到</strong> $B$ <strong>数组后也必然相同。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "又因为 $B$ 数组必须是<strong>单调不降</strong>的，所以在 $B$ 中相等的值必须是连续的一段。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>关键推论：</strong> 假设数字 $x$ 在 $A$ 中第一次出现的位置是 <code>st[x]</code>，最后一次出现的位置是 <code>ed[x]</code>。为了不破坏单调性，整个区间 <code>[st[x], ed[x]]</code> 内的所有元素，映射到 $B$ 后都必须变成<strong>同一个值</strong>！",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第二层剥茧：交错带来的“连通块合并”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如果数字 $x$ 的区间和数字 $y$ 的区间发生了重叠（相交或包含），会发生什么？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为区间内的所有数都要变成同一个值，如果它们重叠了，它们就“感染”了彼此，<strong>这两个区间里的所有元素最终都必须变成完全相同的同一个值</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>关键推论：</strong> 我们必须把所有相交的区间合并起来，形成若干个互不相交的“大连通块”。在同一个大连通块内的所有原数组元素，最终只能被函数 $f$ 映射为<strong>唯一的一个数字</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第三层剥茧：局部的“唯一抉择”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "现在，原数组被我们切分成了若干个互相独立的连通块。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "聚焦于某一个具体的连通块：里面包含了若干种不同的数字。但我们刚才说了，<strong>这个块里的所有数最终只能映射成 1 个值</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>推论：</strong> 为了让 $f(x)=x$ 的数量尽可能多，我们在每个连通块里，<strong>最多只能挑选 1 个存在于该块中的数字保留原值</strong>（让整个块的值都变成它），而块内的其他所有数字都必须被迫改变（付出代价）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第四层剥茧：全局的“严格单调”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们从第 1 个块里挑了数字 $v_1$，从第 2 个块里挑了数字 $v_2$……从第 $k$ 个块里挑了数字 $v_k$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为后一个块在原数组中的位置完全在排在前一个块之后，且整体序列必须“单调不降”，所以我们挑选的这些代表数字必须满足：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$v_1 < v_2 < \\dots < v_k$$\n（注意：这里必须是**严格小于**！如果 $v_1 = v_2$，说明这两个块本该映射成同一个值，那它们在合并区间时早就应该因为重叠被合并成一个块了；既然分成了两个块，值就必须严格递增）。\n**推论：** 我们的终极任务变成了 —— 按顺序从每个连通块的元素集合中，**最多挑出一个元素**，使得挑出的元素组成一个**最长的严格递增子序列**。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第五层剥茧（绝杀）：降维打击与 LIS 铺平",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这是本题最拍案叫绝的一步：如何用代码实现“每个集合最多挑一个，且全局严格递增”？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但完全可以用一个极其优雅的 Trick：<strong>块内降序铺平</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于每一个连通块：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "取出块内所有数字。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "排序去重 (<code>sort</code> + <code>unique</code>)，得到这个块含有的所有不同元素。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>将这些元素按降序排列 (<code>reverse</code>)</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "按顺序把每个块的降序元素拼接成一个一维大数组 <code>res</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>为什么必须是降序？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为我们要在 <code>res</code> 上跑<strong>严格递增的 LIS</strong>！在一个降序的子段（例如 <code>[9, 5, 2]</code>）中，任何严格递增的子序列<strong>最多只能从中挑选 1 个元素</strong>（狄尔沃斯）！",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这个巧妙的 <code>reverse</code> 操作，犹如降维打击一般，完美地将 “每个集合限选一个” 的复杂二维约束，直接内化成了一维数组的天然性质！",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "终局：LIS 板子直接秒杀",
+          "level": 3,
+          "blocks": []
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tvar st = vector<int>(n + 1);\n\tvar ed = vector<int>(n + 1);\n\tint tot = 0;\n\tfa(i, 1, n) {\n\t\tcin >> a[i];\n\t\tif (!st[a[i]])st[a[i]] = i, tot++;\n\t\ted[a[i]] = i;\n\t}\n\n  \t// 区间合并\n\tvar p = vector<pii>();\n\tfa(i, 1, n)if (st[i])p.pb({ st[i], ed[i] });\n\tsort(all(p));\n\tint l = p[0].px, r = p[0].py;\n\tvar np = vector<pii>();\n\tfa(i, 1, vs(p)) {\n\t\tvar [x, y] = p[i];\n\t\tif (l <= y and r >= x)r = max(r, y);\n\t\telse {\n\t\t\tnp.pb({ l,r });\n\t\t\tl = x, r = y;\n\t\t}\n\t}\n\tnp.pb({ l,r });\n\t\n  \t// 构造 res 序列\n\tvar res = vector<int>();\n\tfor (const var& [l, r] : np) {\n\t\tvar tmp = vector<int>();\n\t\tfa(i, l, r)tmp.pb(a[i]);\n\t\tsort(all(tmp));\n\t\ttmp.erase(unique(all(tmp)), tmp.end());\n\t\treverse(all(tmp));\n\t\tres.insert(res.end(), all(tmp));\n\t}\n\n  \t// LIS 板子求最长单调增\n\tvar sta = vector<int>();\n\tsta.pb(res[0]);\n\tfa(i, 1, vs(res)) {\n\t\tif (res[i] > sta.back())sta.pb(res[i]);\n\t\telse {\n\t\t\tvar it = lower_bound(all(sta), res[i]);\n\t\t\t*it = res[i];\n\t\t}\n\t}\n\t\n\tcout << tot - sta.size() << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-16",
+  "parsed_at": "2026-06-14T18:39:35.702562+00:00",
+  "type_directory": "p"
+}

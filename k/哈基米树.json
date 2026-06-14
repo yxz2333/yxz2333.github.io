@@ -1,0 +1,224 @@
+{
+  "slug": "哈基米树",
+  "title": "哈基米树",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "离线分治, 猫树"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "优点",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>查询</strong> $O(1)$<strong>（实际上是</strong> $O(1) \\times \\text{合并一次的时间复杂度}$<strong>）</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "查询时的 $\\log N$ 次合并变成了一次。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>通用性</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "只要满足<strong>结合律</strong>就能用（是 ST 表的超集，和线段树一样广）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>空间少</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "标准猫树空间 $O(N \\log N)$，跟线段树一样。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>离线分治</strong>（离线猫树）空间 $O(N)$，但必须离线（不能强制在线）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "空间复杂度实际上是 $O(N) \\times \\text{Info 的空间复杂度}$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>强制在线问题跟线段树没啥区别，优先使用线段树</strong>。",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "何时用？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>类似数据结构</strong>：<a href=\"/tags\" class=\"tag-link\">#前缀和</a> <a href=\"/tags\" class=\"tag-link\">#st表</a> <a href=\"/tags\" class=\"tag-link\">#线段树</a>",
+          "depth": 1
+        },
+        {
+          "heading": "Level 1: 能用前缀和吗？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>特征</strong>：运算可逆（和、异或）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>选择</strong>：<strong>前缀和</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>复杂度</strong>：$O(N)$ 预处理，$O(1)$ 查询。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<em>例子：区间和、区间异或和。</em>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "Level 2: 能用 ST 表吗？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>特征</strong>：运算不可逆，但满足<strong>幂等性</strong> ($x \\oplus x = x$)，即<strong>不怕算重叠</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>选择</strong>：<strong>ST 表</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>复杂度</strong>：$O(N \\log N)$ 预处理，$O(1)$ 查询。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<em>例子：区间最大/最小值 (RMQ)、区间 GCD、区间按位与/或。</em>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "Level 3: 普通运算，合并很快，查询次数 $Q$ 一般？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>特征</strong>：不可逆、不幂等（如矩阵乘法、最大子段和），但单次合并 <code>Info + Info</code> 很快（比如只是几个 <code>int</code> 加加减减）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>选择</strong>：<strong>线段树</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>复杂度</strong>：$O(N)$ 建树，$O(\\log N)$ 查询。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>理由</strong>：线段树是最通用的，虽然查询带 $\\log$，但只要 $N, Q \\le 2 \\cdot 10^5$，通常能过。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<em>例子：区间最大子段和、复杂的结构体合并。</em>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "Level 4: 真正的“猫树”时刻",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "只有满足以下 <strong>任意一点</strong> 时，才轮到<strong>猫树（离线分治）</strong>出场：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1.  <strong>合并代价极大</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这是<strong>最关键的理由</strong>。线段树查询一次要合并 $\\log N$ 次（约 20 次），猫树查询一次只要合并 <strong>1 次</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>典型例子：线性基、矩阵乘法</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "线性基合并一次 $O(60)$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "线段树查询总耗时：$Q \\times \\log N \\times 60 \\approx 爆炸$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "猫树查询总耗时：$Q \\times 1 \\times 60 \\approx 起飞$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "2.  <strong>查询次数</strong> $Q$ <strong>极大</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果 $N=10^5$，但 $Q=10^7$。线段树的 $O(Q \\log N)$ 会 TLE，必须用 $O(Q)$ 的算法。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这时候猫树的 $O(1)$ 查询就是救命稻草。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-09",
+  "parsed_at": "2026-06-14T18:45:12.020712+00:00",
+  "type_directory": "k"
+}

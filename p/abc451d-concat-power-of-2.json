@@ -1,0 +1,184 @@
+{
+  "slug": "abc451d-concat-power-of-2",
+  "title": "ABC451D Concat Power of 2",
+  "type": "题目",
+  "tags": [
+    "bfs"
+  ],
+  "difficulty": 1.5,
+  "summary": "看着有点像 ad-hoc，但因为答案最大 $= 1e9$，根据样例发现对应的 $n$ 约等于 $1e6$，而且因为可用的数只有 $31$ 个（$2^n$），那直接带<strong>优先队列的 bfs</strong> 即可解决。",
+  "link": "https://atcoder.jp/contests/abc451/tasks/abc451_d",
+  "link_text": "D - Concat Power of 2",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "我们将一个正整数称为<strong>好整数</strong>，如果它满足以下条件。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "条件：可以通过选择一个或多个2的幂（$1, 2, 4, 8, 16, \\dots$）（允许重复和重新排序），将它们作为字符串连接起来，并将结果解释为一个整数得到。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "找出第$N$小的好整数。保证第$N$小的好整数不超过$10^9$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入从标准输入中以以下格式给出：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$N$是一个正整数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第$N$小的好整数不超过$10^9$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "21",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "69",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "328",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1099898",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "819264512",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "将好整数按升序列出得到：$1, 2, 4, 8, 11, 12, 14, 16, 18, 21, \\dots$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar p = vector<ll>();\n\tfa(i, 0, 30)p.pb(1ll << i);\n\tvar Q = priority_queue<ll, vector<ll>, greater<ll>>();\n\tvar vis = set<ll>();\n\tQ.push(0);\n\tint cnt = 0;\n\twhile (Q.size()) {\n\t\tll now = Q.top();\n\t\tQ.pop();\n      \n\t\tif (vis.count(now))continue;\n\t\tvis.insert(now);\n      \n\t\tcnt++;\n\t\tif (cnt == n + 1) {\n\t\t\tcout << now << endl;\n\t\t\treturn;\n\t\t}\n      \n\t\tfor (ll x : p) {\n\t\t\tll wei = (ll)log10(x) + 1;\n\t\t\tll to = now;\n\t\t\tbool ok = 1;\n\t\t\twhile (wei--) {\n\t\t\t\tto *= 10;\n\t\t\t\tif (to > 1e9) {\n\t\t\t\t\tok = 0;\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t}\n\t\t\tif (!ok)break;\n\t\t\tto += x;\n\t\t\tif (to > 1e9)break;\n\t\t\tQ.push(to);\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-28",
+  "parsed_at": "2026-06-14T18:39:36.026959+00:00",
+  "type_directory": "p"
+}

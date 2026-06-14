@@ -1,0 +1,34 @@
+{
+  "slug": "数论分块",
+  "title": "数论分块",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "整除分块"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "When？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "看到 <strong>整除</strong>，<strong>取模</strong>。",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-09",
+  "parsed_at": "2026-06-14T18:45:12.095851+00:00",
+  "type_directory": "k"
+}

@@ -1,0 +1,130 @@
+{
+  "slug": "p1811-最短路",
+  "title": "P1811 最短路",
+  "type": "题目",
+  "tags": [
+    "最短路/DP"
+  ],
+  "difficulty": 1.5,
+  "summary": "也是很典的<strong>定状态的最短路题</strong>了，为了不连续走 $a_i,b_i,c_i$，考虑维护 $(now,last)$，一旦与下一个点 $to$ 组成的 $(last, now, to)$ 是 $(a_i, b_i, c_i)$，那就不走 $to$。不用跑 dij，所以复杂度为 $O(n^2 logn)$。",
+  "link": "https://www.luogu.com.cn/problem/P1811",
+  "link_text": "P1811 最短路 - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个包含 $N$ 个点，$M$ 条边的无向图，每条边的边权均为 $1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "再给定 $K$ 个三元组 $(A,B,C)$，表示从 $A$ 点走到 $B$ 点后不能往 $C$ 点走。注意三元组是有序的，如可以从 $B$ 点走到 $A$ 点再走到 $C$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在你要在 $K$ 个三元组的限制下，找出 $1$ 号点到 $N$ 号点的最短路径，并输出任意一条合法路径，会有 Check 检查你的输出。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入文件第一行有三个数 $N$，$M$，$K$，意义如题目所述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $M$ 行每行两个数 $A$，$B$，表示 $A$，$B$ 间有一条边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "再下面 $K$ 行，每行三个数 $(A,B,C)$ 描述一个三元组。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$N \\le 3000$，$M \\le 20000$，$K \\le 100000$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出文件共两行数，第一行一个数 $S$ 表示最短路径长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $S+1$ 个数，表示从 $1$ 到 $N$ 所经过的节点。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 4 2\n1 2\n2 3\n3 4\n1 3\n1 2 3\n1 3 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 \n1 3 2 3 4 ",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dis[3005][3005];\nvar se = set<array<int, 3>>();\nstruct node {\n\tint id, last, d;\n};\nvoid solve(int CASE)\n{\n\tint n, m, k; cin >> n >> m >> k;\n\tfa(i, 0, n)fa(j, 0, n)dis[i][j] = INF;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\tfa(i, 1, k) {\n\t\tvar a = array<int, 3>();\n\t\tfa(j, 0, 2)cin >> a[j];\n\t\tse.insert(a);\n\t}\n\tvar Q = queue<node>();\n\tQ.push({ 1,0,dis[1][0] = 0 });\n\twhile (Q.size()) {\n\t\tvar[now, last, d] = Q.front();\n\t\tQ.pop();\n\t\tif (d > dis[now][last])continue;\n\t\tfor (int to : g[now]) {\n\t\t\tif (se.count({ last, now, to }))continue;\n\t\t\tif (dis[to][now] > dis[now][last] + 1) {\n\t\t\t\tdis[to][now] = dis[now][last] + 1;\n\t\t\t\tQ.push({ to, now, dis[to][now] });\n\t\t\t}\n\t\t}\n\t}\n\tint mn = INF, mnlast = 0;\n\tfa(last, 1, n - 1) {\n\t\tif (mn > dis[n][last]) {\n\t\t\tmn = dis[n][last];\n\t\t\tmnlast = last;\n\t\t}\n\t}\n  \n\tif (mn >= INF) {\n\t\tcout << -1 << endl;\n\t\treturn;\n\t}\n  \n\tcout << mn << endl;\n\tvar ans = vector<int>();\n\tans.pb(n);\n  \n  \t// 回溯\n\tint now = n;\n\twhile (mnlast) {\n\t\tans.pb(mnlast);\n\t\tfb(i, n, 0) {\n\t\t\tif (dis[mnlast][i] == dis[now][mnlast] - 1) {\n\t\t\t\tnow = mnlast;\n\t\t\t\tmnlast = i;\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t}\n\treverse(all(ans));\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-24",
+  "parsed_at": "2026-06-14T18:39:36.861208+00:00",
+  "type_directory": "p"
+}

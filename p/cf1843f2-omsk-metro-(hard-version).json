@@ -1,0 +1,338 @@
+{
+  "slug": "cf1843f2-omsk-metro-(hard-version)",
+  "title": "CF1843F2 Omsk Metro (hard version)",
+  "type": "题目",
+  "tags": [
+    "前缀和",
+    "LCA",
+    "树上倍增"
+  ],
+  "difficulty": 3.0,
+  "summary": "要满足本题的条件，明显可以转化成找出 u \\to v 这个路径上的<strong>最大/最小子段和</strong>。那么思路就是维护<strong>最大/最小前后缀和</strong>，从而得到<strong>最大/最小子段和</strong>，整个过程在<strong>树上倍增</strong>上实现，进行<strong>树上倍增的结构化合并</strong>。很不错的树上倍增参考题，考验了<strong>动态加点</strong>和<strong>结构化合并</strong>。",
+  "link": "https://www.luogu.com.cn/problem/CF1843F2",
+  "link_text": "CF1843F2 Omsk Metro (hard version) - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "这是该问题的困难版本。与简单版本的唯一不同之处在于，本版本中 $u$ 可以取任意可能的值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "众所周知，Omsk 是 Berland 的首都。和所有首都一样，Omsk 拥有发达的地铁系统。Omsk 地铁由若干个车站组成，这些车站通过隧道连接，并且任意两个车站之间恰好有一条路径，每条隧道最多经过一次。换句话说，地铁系统是一棵树。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了发展地铁并吸引居民，Omsk 采用了如下系统。每个车站都有自己的权值 $x \\in \\{-1, 1\\}$。如果车站的权值为 $-1$，那么当 Omsk 居民经过该车站时，需要支付 $1$ burle 的费用。如果车站的权值为 $1$，则居民会获得 $1$ burle 的奖励。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "目前 Omsk 地铁只有编号为 $1$ 且权值 $x=1$ 的一个车站。每天会发生以下两种事件之一：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在编号为 $v_i$ 的车站上新建一个权值为 $x$ 的车站，并为其分配一个比现有车站数量大 $1$ 的编号。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "Omsk 的居民 Alex 想知道：在顶点 $u$ 和 $v$ 之间的路径上，是否存在一个子段（可以为空），使得经过该子段恰好可以赚取 $k$ burle（如果 $k<0$，表示需要花费 $k$ burle）。换句话说，Alex 关心是否存在这样一个路径的连续子段，其上所有车站的权值之和恰好为 $k$。注意，子段可以为空，此时权值和为 $0$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你是 Alex 的朋友，你的任务是回答 Alex 的所有问题。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\leq t \\leq 10^4$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$（$1 \\leq n \\leq 2 \\times 10^5$），表示事件的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来有 $n$ 行描述这些事件。在第 $i$ 行，可能有以下两种情况之一：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "首先是符号 \"+\"（不带引号），接着是两个整数 $v_i$ 和 $x_i$（$x_i \\in \\{-1, 1\\}$，保证编号为 $v_i$ 的顶点存在）。此时，在编号为 $v_i$ 的车站上新建一个权值为 $x_i$ 的车站。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "首先是符号 \"?\"（不带引号），接着是三个整数 $u_i$、$v_i$ 和 $k_i$（$-n \\leq k_i \\leq n$）。保证编号为 $u_i$ 和 $v_i$ 的顶点存在。此时需要判断，在编号为 $u_i$ 和 $v_i$ 之间的路径上，是否存在一个（可能为空的）子段，其上所有车站的权值之和恰好为 $k_i$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $2 \\times 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每一个 Alex 的问题，如果存在满足条件的子段，输出 \"Yes\"（不带引号），否则输出 \"No\"（不带引号）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输出时不区分大小写（例如 \"yEs\"、\"yes\"、\"Yes\" 和 \"YES\" 都会被认为是肯定的答案）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n8\n+ 1 -1\n? 1 1 2\n? 1 2 1\n+ 1 1\n? 1 3 -1\n? 1 1 1\n? 1 3 2\n? 1 1 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "NO\nYES\nNO\nYES\nYES\nYES",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n7\n+ 1 -1\n+ 2 -1\n+ 2 1\n+ 3 -1\n? 5 2 2\n? 3 1 -1\n? 5 4 -3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "NO\nYES\nYES",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对第一个样例的解释：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二个问题的答案是 \"Yes\"，因为可以选择路径 $1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第四个问题中，我们同样可以选择路径 $1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第五个查询，答案是 \"Yes\"，因为可以选择路径 $1-3$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第六个查询，可以选择空路径，因为其权值和为 $0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "不难证明，对于第一个和第三个查询，没有满足条件的路径。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 核心转化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目询问路径是否存在子段和为 $k$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由 <strong>介值定理（离散版）</strong> 可知，只要算出路径的 <strong>最小子段和 (<code>mnsub</code>)</strong> 和 <strong>最大子段和 (<code>mxsub</code>)</strong>，若 $mnsub \\le k \\le mxsub$ 则答案为 YES。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 倍增",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于是在线问题且树动态生长，使用 <strong>LCA + 倍增</strong> 维护路径信息。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态定义</strong>：<code>dp[u][i]</code> 存储从 $u$ 开始，<strong>向上</strong>走 $2^i$ 步这一段路径的结构体信息。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>维护信息 (<code>Info</code>)</strong>：仿照线段树维护 GSS 问题，记录 <code>sum</code> (和), <code>pre</code> (前缀最值), <code>suf</code> (后缀最值), <code>sub</code> (子段最值)。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 合并逻辑 (<code>operator+</code>)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "将树上两段路径合并：<strong><code>Lower</code> (下半段/子侧) + <code>Upper</code> (上半段/父侧)</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>子段最值来源</strong>：<code>Lower</code> 内部、<code>Upper</code> 内部、或 <strong>跨越连接点</strong> (<code>Lower.suf</code> + <code>Upper.pre</code>)。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "4. 路径拼接 (Query)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "查询 $u \\to v$ 时，以 $L = \\text{LCA}(u, v)$ 为界拆分：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1.  <strong>左半段</strong> ($u \\to L$)：方向是自底向上，与倍增方向一致，直接由 <code>jump(u)</code> 拼凑。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "2.  <strong>右半段</strong> ($v \\to L$)：倍增只能求出 $v \\to L$ (自底向上) 的信息，但实际路径走向是 $L \\to v$ (自顶向下)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "3.  <strong>处理技巧</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "算出右半段 $v \\to \\text{child}(L)$ 的信息。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对该信息进行 <strong>翻转 (<code>Reverse</code>)</strong>：交换 <code>mxpre</code> 与 <code>mxsuf</code>（以及 <code>mn</code> 同理）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>最终拼接</strong>：<code>Info(Left) + Reverse(Info(Right))</code>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "5. 细节处理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>去重</strong>：让左半段包含 LCA，右半段只跳到 LCA 下方节点，避免 LCA 权值被重复计算。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>空集兼容</strong>：Info 初始化处理好 0 的情况，保证 $k=0$ 始终合法。（不全初始化为 0 会出问题）",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct Info {\n\tInfo() :\n\t\tsum(0), \n\t\tmxpre(0), mnpre(0), \n\t\tmxsuf(0), mnsuf(0), \n\t\tmxsub(0), mnsub(0)\n\t{}\n\tInfo(int x) :\n\t\tsum(x), \n\t\tmxpre(max(0, x)), mnpre(min(0, x)), \n\t\tmxsuf(max(0, x)), mnsuf(min(0, x)), \n\t\tmxsub(max(0, x)), mnsub(min(0, x))\n\t{}\n\n\tint sum;\t      // 整个区间和\n\tint mxpre, mnpre; // 最大/最小前缀和\n\tint mxsuf, mnsuf; // 最大/最小后缀和\n\tint mxsub, mnsub; // 最大/最小子段和\n};\nInfo operator+(const Info& lower, const Info& upper) {\n\t// 合并 下半段(lower) 和 上半段(upper)\n\tInfo res;\n\tres.sum = lower.sum + upper.sum;\n\tres.mxpre = max(upper.mxpre, upper.sum + lower.mxpre);\n\tres.mnpre = min(upper.mnpre, upper.sum + lower.mnpre);\n\tres.mxsuf = max(lower.mxsuf, lower.sum + upper.mxsuf);\n\tres.mnsuf = min(lower.mnsuf, lower.sum + upper.mnsuf);\n\tres.mxsub = max({\n\t\tupper.mxsub, lower.mxsub,\n\t\tupper.sum + lower.mxpre - upper.mnpre,\n\t\tlower.sum + upper.mxsuf - lower.mnsuf\n\t\t});\n\tres.mnsub = min({\n\t\tupper.mnsub, lower.mnsub,\n\t\tupper.sum + lower.mnpre - upper.mxpre,\n\t\tlower.sum + upper.mnsuf - lower.mxsuf\n\t\t});\n\treturn res;\n}\n\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar dep = vector<int>(n + 2);\n\tvar p = Vec2<int>(n + 2, 21);\n\n\tvar lca = [&dep, &p](int x, int y)->int {\n\t\tif (dep[x] < dep[y])swap(x, y);\n\t\tfor (int i = 20; i >= 0; i--)\n\t\t\tif (dep[x] - (1 << i) >= dep[y])\n\t\t\t\tx = p[x][i];\n\t\tif (x == y) return x;\n\t\tfor (int i = 20; i >= 0; i--)\n\t\t\tif (p[x][i] != p[y][i])\n\t\t\t\tx = p[x][i], y = p[y][i];\n\t\treturn p[x][0];\n\t\t};\n\tdep[1] = 1;\n\tp[1][0] = 0;\n\n\tvar dp = Vec2<Info>(n + 2, 21);\n\tdp[1][0] = 1;\n\n\tint siz = 1;\n\twhile (n--) {\n\t\tchar op; cin >> op;\n\t\tif (op == '+') {\n\t\t\tint v, x; cin >> v >> x;\n\t\t\tint now = ++siz;\n\n\t\t\tdep[now] = dep[v] + 1;\n\t\t\tp[now][0] = v;\n\n\t\t\tdp[now][0] = x;\n\t\t\tfor (int i = 1; (1 << i) <= dep[now]; i++) {\n\t\t\t\tp[now][i] = p[p[now][i - 1]][i - 1];\n\t\t\t\tdp[now][i] = dp[now][i - 1] + dp[p[now][i - 1]][i - 1];\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tvar jump = [&](int now, int cha)->Info {\n\t\t\t\tInfo res;\n\t\t\t\tfa(i, 0, 20)if (cha & (1 << i)) {\n\t\t\t\t\tres = res + dp[now][i];\n\t\t\t\t\tnow = p[now][i];\n\t\t\t\t}\n\t\t\t\treturn res;\n\t\t\t\t};\n\t\t\tvar reverse = [](Info a)->Info {\n\t\t\t\tswap(a.mxpre, a.mxsuf);\n\t\t\t\tswap(a.mnpre, a.mnsuf);\n\t\t\t\treturn a;\n\t\t\t\t};\n\n\t\t\tint x, y, k; cin >> x >> y >> k;\n\t\t\tint l = lca(x, y);\n\n\t\t\tInfo res;\n\t\t\tif (l == y)res = jump(x, dep[x] - dep[l] + 1);\n\t\t\telse if (l == x)res = jump(y, dep[y] - dep[l] + 1);\n\t\t\telse res = jump(x, dep[x] - dep[l] + 1) + reverse(jump(y, dep[y] - dep[l]));\n\n\t\t\tif (k >= res.mnsub and k <= res.mxsub)cout << \"YES\" << endl;\n\t\t\telse cout << \"NO\" << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-13",
+  "parsed_at": "2026-06-14T18:39:36.296564+00:00",
+  "type_directory": "p"
+}

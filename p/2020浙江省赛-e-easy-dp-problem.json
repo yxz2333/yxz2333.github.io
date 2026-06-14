@@ -1,0 +1,203 @@
+{
+  "slug": "2020浙江省赛-e-easy-dp-problem",
+  "title": "2020浙江省赛 E Easy DP Problem",
+  "type": "题目",
+  "tags": [
+    "主席树",
+    "dp"
+  ],
+  "difficulty": 2.0,
+  "summary": "感觉看出结论才是本题最难的点，主席树查询很好写。",
+  "link": "https://qoj.ac/contest/2020/problem/10917",
+  "link_text": "Easy DP Problem - Problem - QOJ.ac",
+  "source": "[[2020浙江省赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "lqybzx 不擅长动态规划。有一天，他的室友给了他一个序列 \\( b_1, b_2, \\ldots, b_m \\)，并让他做一道动态规划题。共有 \\( (m+1)^2 \\) 个状态 \\( dp[i][j] \\)，其中 \\( 0 \\leq i, j \\leq m \\)，状态转移方程为：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$dp[i][j] =\n\\begin{cases}\n0 & (i = 0) \\\\\ni^2 + dp[i-1][j] & (i > 0, j = 0) \\\\\ni^2 + \\max(dp[i-1][j], dp[i-1][j-1] + b[i]) & (i > 0, j > 0)\n\\end{cases}$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "lqybzx 解不出这个简单的 DP 题，于是向你求助。给定一个序列 \\( a_1, a_2, \\ldots, a_n \\) 和 \\( q \\) 个查询。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在第 \\( i \\) 个查询中，给定三个整数 \\( l_i, r_i \\) 和 \\( k_i \\)。请编写一个程序，当 lqybzx 的室友选择 \\( a_{l_i}, a_{l_{i+1}}, \\ldots, a_{r_i} \\) 作为初始序列 \\( b \\) 时，计算出 \\( dp[m_i][k_i] \\) 的值。其中 \\( m_i = r_i - l_i + 1 \\)，并且对于每个满足 \\( 1 \\leq j \\leq m_i \\) 的 \\( j \\)，有 \\( b_j = a_{l_i+j-1} \\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入包含多个测试用例。第一行包含一个整数 \\( T \\)（\\( 1 \\leq T \\leq 100 \\)），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个测试用例：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 \\( n \\)（\\( 1 \\leq n \\leq 10^5 \\)），表示序列的长度。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 \\( n \\) 个整数 \\( a_1, a_2, \\ldots, a_n \\)（\\( 1 \\leq i \\leq n \\)，\\( 1 \\leq a_i \\leq 10^6 \\)）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第三行包含一个整数 \\( q \\)（\\( 1 \\leq q \\leq 10^5 \\)），表示查询的数量。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来的 \\( q \\) 行，每行包含三个整数 \\( l_i, r_i, k_i \\)（\\( 1 \\leq i \\leq q \\)，\\( 1 \\leq l_i \\leq r_i \\leq n \\)，\\( 1 \\leq k_i \\leq r_i - l_i + 1 \\)），表示一个查询。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例的 \\( n \\) 之和不超过 \\( 5 \\times 10^5 \\)，所有测试用例的 \\( q \\) 之和不超过 \\( 5 \\times 10^5 \\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出 \\( q \\) 行，其中第 \\( i \\) 行（\\( 1 \\leq i \\leq q \\)）包含一个整数，表示 \\( dp[m_i][k_i] \\) 的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n5\n1 2 3 4 5\n3\n1 3 2\n1 5 5\n3 3 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "19\n70\n4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入（猜结论用样例）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n6\n91 11 45 14 19 100",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出（猜结论用样例）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "\t0\t0\t0\t0\t0\t0\t0\n\t1\t92\t92\t92\t92\t92\t92\n\t5\t96\t107\t107\t107\t107\t107\n\t14\t105\t150\t161\t161\t161\t161\n\t30\t121\t166\t180\t191\t191\t191\n\t55\t146\t191\t210\t224\t235\t235\n\t91\t191\t282\t327\t346\t360\t371",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "观察暴力 DP 的输出，发现答案就是：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\\sum_{i=1}^{m} i^2 (= \\frac{m(m+1)(2m+1)}{6}) + [l,r] 区间内前 k 大的数的求和$$\n那本题的主要难点之一猜结论就搞定了，把主席树的查询函数 `query` 写出来即可解决本题。\n注意一下本题的主席树节点内维护了两个值 `cnt` 和 `sum`，算出现次数总和与数值总和。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 暴力dp找结论\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar dp = Vec2<int>(n + 1, n + 1);\n\tfa(i, 0, n)fa(j, 0, n) {\n\t\tif (i == 0)dp[i][j] = 0;\n\t\telse if (j == 0)dp[i][j] = i * i + dp[i - 1][j];\n\t\telse dp[i][j] = i * i + max(dp[i - 1][j], dp[i - 1][j - 1] + a[i]);\n\t}\n\tfa(i, 0, n) {\n\t\tfa(j, 0, n)cout <<\"\\t\" << dp[i][j];\n\t\tcout << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "class PersistentWeightSegmemtTree {\nprivate:\n\tstruct tree { \n\t\tint l = 0, r = 0; \n\t\tll cnt = 0, sum = 0;\n\t}; // 树上的节点\n\tint tot = 0;    // 记录节点个数，并作为版本编号\n\tvector<tree>t;  // 存树各个的节点 \n\tint len;        // 离散化后的数的个数，也是值域大小 (可不开离散化，纯靠动态开点即可)\n\n\tint build(int l, int r) {\n\t\tint node = ++tot;\n\t\tif (l == r)return node;\n\t\tint mid = l + r >> 1;\n\t\tt[node].l = build(l, mid);\n\t\tt[node].r = build(mid + 1, r);\n\t\treturn node;\n\t}\npublic:\n\tvector<int>root; // 存各个版本线段树的根节点编号\n\n\tPersistentWeightSegmemtTree(int len, int n, bool f = 1) :len(len), t((n << 5) + 10), root(n + 10) {\n\t\t/**\n\t\t* len：值域大小，不用 +1 (值域可以非常大，只要不建初始化空树即可(f=0))\n\t\t* n：原始数组长度，不用 +1\n\t\t* f：值域是否较小(<= 1e6)。若值域过大，且决定不用离散化，不能建空树，纯靠动态开点。除了 f=0，别的地方写法不变\n\t\t*/\n\t\tif (f)root[0] = build(1, len);\n\t}\n\n\tint update(int l, int r, int pos, ll value, int pre) {\n\t\tint node = ++tot;     // 开新节点\n\t\tt[node] = t[pre];     // 复制上个版本的左右子树指针\n\t\tt[node].cnt += value; // 原有的值上 += value\n\t\tt[node].sum += pos * value;\n\n\t\tif (l == r)return node;\n\n\t\tint mid = l + r >> 1;\n\t\tif (pos <= mid)  // 要修改的 pos 在左子，左子需要开新的节点，右子不变 (继承 pre)\n\t\t\tt[node].l = update(l, mid, pos, value, t[pre].l);\n\t\telse             // 同理\n\t\t\tt[node].r = update(mid + 1, r, pos, value, t[pre].r);\n\t\treturn node;\n\t}\n\n\tint update(int pos, int value, int pre) {\n\t\treturn update(1, len, pos, value, pre);\n\t}\n\n\tll query(int L, int R, int k) {\n\t\tvar query = [&](var query, int u, int v, int l, int r, ll k)->ll {\n\t\t\tif (l == r) {\n\t\t\t\tll cnt = t[v].cnt - t[u].cnt;\n\t\t\t\treturn l * min(cnt, k);\n\t\t\t}\n\n\t\t\tint mid = l + r >> 1;\n\n\t\t\t// rnum 为值域下标区间 [mid + 1, r] 中数的个数\n\t\t\tint rnum = t[t[v].r].cnt - t[t[u].r].cnt;\n\n\t\t\tif (k <= rnum) // 第 k 大在右子\n\t\t\t\treturn query(query, t[u].r, t[v].r, mid + 1, r, k); // 往右区间 [mid + 1, r] 找\n\t\t\telse { // 第 k 大在左子，右子全拿下\n\t\t\t\tll sum = t[t[v].r].sum - t[t[u].r].sum;\n\t\t\t\treturn query(query, t[u].l, t[v].l, l, mid, k - rnum) + sum; // 往左区间 [l, mid] 找\n\t\t\t}\n\t\t\t};\n\n\t\treturn query(query, root[L], root[R], 1, len, k);\n\t}\n\n};\n\n\nll pre[N];\nvoid init() {\n\t// 初始化 1^2 + 2^2 + 3^2 + ... + n^2\n\tfa(i, 1, 1e5)pre[i] = pre[i - 1] + i * 1ll * i;\n}\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\n\tPersistentWeightSegmemtTree sg(1e6, n, 0);\n\tfa(i, 1, n)sg.root[i] = sg.update(a[i], 1, sg.root[i - 1]);\n\n\tint q; cin >> q;\n\twhile (q--) {\n\t\tint l, r, k; cin >> l >> r >> k;\n\t\tint len = r - l + 1;\n\t\tll ans = pre[len] + sg.query(l - 1, r, k);\n\t\tcout << ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-05",
+  "parsed_at": "2026-06-14T18:39:35.674722+00:00",
+  "type_directory": "p"
+}

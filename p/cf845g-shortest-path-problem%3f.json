@@ -1,0 +1,323 @@
+{
+  "slug": "cf845g-shortest-path-problem%3f",
+  "title": "CF845G Shortest Path Problem%3F",
+  "type": "题目",
+  "tags": [
+    "异或",
+    "线性基",
+    "按位贪心",
+    "图论经典问题/边可以反复走",
+    "图论经典问题/环问题",
+    "生成树"
+  ],
+  "difficulty": 3.0,
+  "summary": "全是异或和，能用线性基，得考虑怎么通过<strong>线性基</strong>来得到<strong>最短距离</strong>，既然还涉及<strong>异或</strong>，那关键点就是图里的<strong>环</strong>了，最后的最小距离答案可以通过线性基用<strong>按位贪心</strong>解决。",
+  "link": "https://codeforces.com/problemset/problem/845/G",
+  "link_text": "Problem - 845G - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个带权无向图。两点之间一条路径的长度定义为该路径上所有边权的按位异或（如果某条边经过多次，则它的权值会被异或相应次数）。你的任务是求出从顶点 $1$ 到顶点 $n$ 的最短路径长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意，图中可能包含重边和自环。保证图是连通的。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$ 和 $m$（$1 \\leq n \\leq 1e5$，$n-1 \\leq m \\leq 1e5$），分别表示顶点数和边数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来有 $m$ 行，每行包含三个整数 $x$、$y$ 和 $w$（$1 \\leq x,y \\leq n$，$0 \\leq w \\leq 10^{8}$），表示有一条连接顶点 $x$ 和顶点 $y$ 的权值为 $w$ 的边。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示从顶点 $1$ 到顶点 $n$ 的最短路径长度。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3\n1 2 3\n1 3 2\n3 2 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 2\n1 1 3\n1 2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "理解题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>关键要素</strong>：无向图、边权、<strong>路径异或和</strong>、求最小。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>直觉反应</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "既然是<strong>全是异或</strong>运算，且要求最值，大脑第一反应必须是 <strong>线性基</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>矛盾点</strong>：图论求<strong>最短路</strong>通常是用 Dijkstra/BFS，但异或运算不具备“贪心保留较小值”的性质（比如 $1 \\oplus 100 < 5 \\oplus 100$ 不一定成立），所以传统最短路算法失效。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>浓缩题意</strong>：这就变成了一个<strong>“凑数”</strong>游戏——我需要从图里凑出一条路径，让它的异或值最小。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "思考起点：线性基里装什么？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目求 $1 \\to n$ 的异或路径。如果这只是一个简单的数组选数异或问题，直接把数扔进<strong>线性基</strong>就行。但这是图，有连通性限制。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>核心设问</strong>：我能不能先把问题拆成两部分？（毕竟这题鼓励我们<strong>重复走同一条边</strong>）",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "先随便找一条<strong>“主干道”</strong>保证能走到 $n$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "再通过某种方式<strong>“修修补补”</strong>这条路径的权值。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "思考模型：黑箱摸数与路径变形",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>推导</strong>：假设我们要去图的某个犄角旮旯“拿”一个权值来异或，我们必须从主干道走过去，拿完再走回来。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>发现性质</strong>：对于一条链，走过去是 $W$，原路走回来还是 $W$。$W \\oplus W = 0$。这意味着<strong>纯粹的分支路径对答案没有贡献</strong>（相当于没走）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>关键突破</strong>：那什么东西走过去再走回来会有贡献？<strong>环！</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当我们走到一个环，绕一圈再回来，路径变成了：$Path_{go} \\oplus Cycle \\oplus Path_{back}$。由于 $Path_{go} = Path_{back}$，最终结果等于 $0 \\oplus Cycle = Cycle$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>顿悟</strong>：原来我们在图上瞎逛，本质上就是在<strong>收集环的权值</strong>！",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "回归线性基",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然<strong>最后答案</strong> = <code>任意一条基础路径</code> $\\oplus$ <code>若干个环</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这完美契合线性基的定义：我们可以把<strong>所有环的异或值</strong>扔进线性基这个<strong>“黑箱”</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这个黑箱就变成了我们的<strong>“武器库”</strong>。我们可以随意从里面拿出一个或多个环，异或到我们的基础路径上，来调整最终答案。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "具体实现",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "随便跑一个 <strong>BFS/DFS 生成树</strong>，算出 $1 \\to n$ 的树上异或距离 <code>dis[n]</code> 作为<strong>初始答案</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "遍历图的过程中，只要发现<strong>非树边/反祖边</strong>（意味着遇到了环），就把这个<strong>基本环</strong>的边权异或和（<code>dis[u] ^ dis[v] ^ w</code>）扔进线性基。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>按位贪心</strong>，用线性基里的数去“消” <code>dis[n]</code> 的二进制位，消出来的最小值即为答案。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "难点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>思维屏障的突破</strong>：从“我在图上怎么走最优”转变为“我只要随便走一条路，剩下的交给线性基来修补”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>环的等价性</strong>：需要理解（或者通过画图感悟）<strong>“基本环”</strong>（生成树创造的环）通过异或组合，等价于图上<strong>所有的环</strong>。不管环在哪，都可以通过“长途跋涉”去把它的值取回来。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "思维钩子",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>全是异或和</strong> $\\rightarrow$ <strong>线性基</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>异或 + 路径可重复走</strong> $\\rightarrow$ <strong>环是关键变量</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>非简单路径（即允许走回头路）</strong> $\\rightarrow$ 这就是在暗示你可以<strong>去远处搬运一个关键变量（如环）的权值回来</strong>。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar g = vector<vector<pii>>(n + 1);\n\tfa(i, 1, m) {\n\t\tint u, v, w; cin >> u >> v >> w;\n\t\tg[u].pb({ v,w }), g[v].pb({ u,w });\n\t}\n\n\tvar x = MT::XorBase();\n\tvar Q = queue<int>();\n\tvar dis = vector<int>(n + 1); // 1 到所有点的距离(沿着 BFS 生成树走的特定路径的异或和)\n\tvar vis = vector<bool>(n + 1);\n\n\t// 从节点 1 构造生成树\n\tQ.push(1);\n\tdis[1] = 0, vis[1] = 1;\n\twhile (Q.size()) {\n\t\tint now = Q.front();\n\t\tQ.pop();\n\t\tfor (const var& [to, w] : g[now]) {\n\t\t\tif (!vis[to]) {\n\t\t\t\tvis[to] = 1;\n\t\t\t\tdis[to] = dis[now] ^ w;\n\t\t\t\tQ.push(to);\n\t\t\t}\n\t\t\telse {\n\t\t\t\t// 遍历过，是环\n\t\t\t\tx.insert(dis[now] ^ dis[to] ^ w); // 装入环的权值\n\t\t\t}\n\t\t}\n\t}\n\n\t// 按位贪心\n\tint ans = dis[n];\n\tfb(i, 30, 0) if (ans & (1 << i)) {\n\t\tans ^= x[i]; // ans 有 i 位，看看线性基有没有数可以删\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-08",
+  "parsed_at": "2026-06-14T18:39:36.613236+00:00",
+  "type_directory": "p"
+}

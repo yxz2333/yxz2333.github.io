@@ -1,0 +1,170 @@
+{
+  "slug": "cf2204d-alternating-path",
+  "title": "CF2204D Alternating Path",
+  "type": "题目",
+  "tags": [
+    "二分图"
+  ],
+  "difficulty": 1.5,
+  "summary": "画了样例一，发现连通块带<strong>奇环肯定没贡献</strong>了，那明显要跑二分图判定了。然后画个<strong>菊花图</strong>，发现对图染个色后，这个连通块的权值就是 $max(白点数，黑点数)$。",
+  "link": "https://codeforces.com/contest/2204/problem/D",
+  "link_text": "Problem - D - Codeforces",
+  "source": "[[Educational Codeforces Round 188 (Rated for Div. 2)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个有 $n$ 个顶点和 $m$ 条边的无向图，顶点编号从 $1$ 到 $n$。图中不含自环或重边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你需要通过为每条边选择方向，将图转化为有向图。在确定边的方向后，称一个顶点序列 $v_1, v_2, \\dots, v_k$（其中 $k$ 可以任意大，且任意顶点可以重复任意多次）为<strong>交替路径</strong>，如果满足：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "边 $(v_1, v_2)$ 的方向是从 $v_1$ 指向 $v_2$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "边 $(v_2, v_3)$ 的方向是从 $v_3$ 指向 $v_2$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "边 $(v_3, v_4)$ 的方向是从 $v_3$ 指向 $v_4$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "边 $(v_4, v_5)$ 的方向是从 $v_5$ 指向 $v_4$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "依此类推。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "称一个顶点 $v$ 是<strong>优美的</strong>，如果原图中所有从顶点 $v$ 出发的路径（不要求是简单路径）在得到的有向图中都是交替路径。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "问：在确定边的方向后，最多有多少个顶点可以成为优美的顶点？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试包含多个测试用例。第一行包含整数 $t$ ($1 \\le t \\le 10^4$) —— 测试用例的数量。接下来是测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含两个整数 $n$ 和 $m$ ($1 \\le n \\le 2 \\cdot 10^5$; $0 \\le m \\le 2 \\cdot 10^5$) —— 图的顶点数和边数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $m$ 行，每行包含两个整数 $v$ 和 $u$ ($1 \\le v, u \\le n$) —— 描述图中的一条边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入的附加约束：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定的图不含自环或重边；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例的 $n$ 之和不超过 $2 \\cdot 10^5$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例的 $m$ 之和不超过 $2 \\cdot 10^5$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数 —— 在确定边的方向后，最多可以成为优美顶点的数量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n8 9\n1 3\n1 4\n2 3\n2 4\n5 6\n6 7\n7 8\n8 5\n6 8\n4 0\n6 2\n1 5\n2 3\n1 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n4\n4\n1",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\tvar col = vector<int>(n + 1, -1);\n\tcol[0] = 0;\n\tint ans = 0;\n\tfa(i, 1, n)if (col[i] == -1) {\n\t\tbool ok = 1;\n\t\tint cnt1 = 0, cnt0 = 0;\n\t\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\t\tcol[now] = col[fa] ^ 1;\n\t\t\tif (col[now])cnt1++;\n\t\t\telse cnt0++;\n\t\t\tfor (int to : g[now]) {\n\t\t\t\tif (to == fa)continue;\n\t\t\t\tif (col[to] != -1) {\n\t\t\t\t\tif (col[to] == col[now])ok = 0;\n\t\t\t\t}\n\t\t\t\telse dfs(dfs, to, now);\n\t\t\t}\n\t\t\treturn;\n\t\t\t};\n\t\tdfs(dfs, i, 0);\n\t\tif (ok)ans += max(cnt0, cnt1);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-17",
+  "parsed_at": "2026-06-14T18:39:36.445925+00:00",
+  "type_directory": "p"
+}

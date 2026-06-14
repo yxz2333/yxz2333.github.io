@@ -1,0 +1,196 @@
+{
+  "slug": "abc077d-small-multiple",
+  "title": "ABC077D Small Multiple",
+  "type": "题目",
+  "tags": [
+    "dij",
+    "图论建模",
+    "同余最短路"
+  ],
+  "difficulty": 2.0,
+  "summary": "<strong>整数倍</strong> \\to 对余数设状态，考虑同余最短路。对当前的数 $S$ 做 ×10 或 +1 两种操作来建立出度。",
+  "link": "https://atcoder.jp/contests/abc077/tasks/arc084_b",
+  "link_text": "D - Small Multiple",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个整数 $K$。求一个 $K$ 的正整数倍 $S$，使得 $S$ 的数位累加和最小。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行一个正整数 $K$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2 \\le K \\le {10}^5$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$K$ 是整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $K$ 的正整数倍的最小数位累加和。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "41",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "79992",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "36",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>整数倍</strong> \\to 对余数设状态，考虑同余最短路。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对当前的数 $S$ 做 ×10 或 +1 两种操作来建立出度，出度为 2，实现<strong>图的松弛</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>转化</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "操作1：<code>x * 10</code> （数位和 +0，边权为 0）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "操作2：<code>x + 1</code> （数位和 +1，边权为 1）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "这题将问题转化为了 <strong>Dijkstra</strong> 在跑最短路的问题。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tint yu, sum;\n\tbool operator<(const node& a)const {\n\t\treturn a.sum < sum;\n\t}\n};\nvoid solve(int CASE)\n{\n\tint k; cin >> k;\n\tvar dis = vector<int>(k, INF);\n\tvar Q = priority_queue<node>();\n\tdis[1] = 1;\n\tQ.push({ 1,1 });\n\twhile (Q.size()) {\n\t\tvar[now, d] = Q.top();\n\t\tQ.pop();\n\t\tif (d > dis[now])continue;\n\n\t\tint to = now * 10 % k;\n\t\tint w = 0;\n\t\tif (dis[to] > dis[now] + w) {\n\t\t\tdis[to] = dis[now] + w;\n\t\t\tQ.push({ to,dis[to] });\n\t\t}\n\n\t\tto = (now + 1) % k;\n\t\tw = 1;\n\t\tif (dis[to] > dis[now] + w) {\n\t\t\tdis[to] = dis[now] + w;\n\t\t\tQ.push({ to,dis[to] });\n\t\t}\n\t}\n\tcout << dis[0] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-01",
+  "parsed_at": "2026-06-14T18:39:35.938694+00:00",
+  "type_directory": "p"
+}

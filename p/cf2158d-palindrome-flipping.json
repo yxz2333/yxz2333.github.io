@@ -1,0 +1,365 @@
+{
+  "slug": "cf2158d-palindrome-flipping",
+  "title": "CF2158D Palindrome Flipping",
+  "type": "题目",
+  "tags": [
+    "构造",
+    "枚举"
+  ],
+  "difficulty": 2.0,
+  "summary": "两种构造思路：<strong>枚举</strong>处理前面的大多数 + <strong>暴力</strong>处理后面的个别几个，<strong>初态 -> 中间态 -> 终态</strong> 的类图论思想。",
+  "link": "https://codeforces.com/contest/2158/problem/D",
+  "link_text": "Problem - D - Codeforces",
+  "source": "[[Codeforces Round 1067 (Div. 2)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定两个长度均为 $n$ 的二进制字符串 $s$ 和 $t$。你可以执行以下操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选择下标 $l, r$ ($1 \\le$ $\\color{red}{l < r}$ $\\le n$)，使得子串 $s_{l,r}$ 是一个<strong>回文串</strong>，并将子串 $s_{l,r}$ 中的所有位<strong>取反</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "目标是使用至多 $2n$ 次上述操作（可能为 $0$ 次），最终使 $s$ 等于 $t$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "字符串 $s$ 的子串 $s_{l,r}$ 是指从下标 $l$ 开始到下标 $r$ 结束（均包含）的连续字符序列，其中 $1 \\leq l < r \\leq |s|$。这里 $|s|$ 表示字符串 $s$ 的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果一个字符串正读和反读相同，则称其为<strong>回文串</strong>。例如，字符串 <code>101</code> 和 <code>00</code> 是回文串，而 <code>10</code> 不是。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对子串中的所有位<strong>取反</strong>是指将该子串中的每个 <code>0</code> 变为 <code>1</code>，每个 <code>1</code> 变为 <code>0</code>。例如，对子串 <code>101</code> 取反的结果是 <code>010</code>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试点包含多个测试用例。第一行包含测试用例的数量 $T$ ($1 \\le T \\le 5\\cdot 10^3$)。接下来是测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$ ($\\color{red}{4}$ $\\le n \\le 100$) — 字符串 $s$ 和 $t$ 的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的接下来两行分别包含二进制字符串 $s$ 和 $t$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，如果无法达到目标，输出 $-1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "否则，第一行输出一个整数 $k$ ($0 \\leq k \\leq 2n$) — 操作次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $k$ 行，每行输出两个整数 $l, r$ ($1 \\leq l < r \\leq n$) — 你在每次操作中选择的下标。注意，此时 $s_{l,r}$ 必须是回文串。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n^2$ 的总和不超过 $5\\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n5\n01011\n10000\n7\n1010101\n0101010\n4\n0010\n0010",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n1 3\n3 5\n1\n1 7\n0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一个测试用例：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "初始时，$s = \\mathtt{01011}$ 且 $t = \\mathtt{10000}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "首先，我们选择 $l=1$ 和 $r=3$。这是一个合法操作，因为 $s_{1,3} = \\mathtt{010}$ 是回文串。对 $s_{1,3}$ 取反后，$s = \\mathtt{10111}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "然后，我们选择 $l=3$ 和 $r=5$。这是一个合法操作，因为 $s_{3,5} = \\mathtt{111}$ 是回文串。对 $s_{3,5}$ 取反后，$s = \\mathtt{10000}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "现在，$s$ 等于 $t$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于第二个测试用例：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "初始时，$s = \\mathtt{1010101}$ 且 $t = \\mathtt{0101010}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "首先，我们选择 $l=1$ 和 $r=7$。这是一个合法操作，因为 $s_{1,7} = \\mathtt{1010101}$ 是回文串。对 $s_{1,7}$ 取反后，$s = \\mathtt{0101010}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "现在，$s$ 等于 $t$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于第三个测试用例：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "初始时，$s$ 已经等于 $t$。不需要任何操作。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：可以对 $s$ 的回文子串进行翻转，问使得 $s = t$ 的操作，操作上限为 $2 * n$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：题目肯定没那么复杂，估计只需要考虑操作长度为 2 和 3 的回文串即可。样例没有无解的情况，而且 $n \\ge 4$，估计在这个范围下一定有解，$n < 4$ 一定有无解的情况。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "本题解提供<strong>两种</strong>很自然能想到的解法。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "很自然想到<strong>从左往右一个一个操作</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每次<strong>枚举</strong> $i$ 让 <code>s[i] == t[i]</code>，为了不影响前面已经改好的，我们只看 $i$ 能不能跟后面的 $i + 1$ 和 $i + 2$ 组成回文，分三种情况就完事了，具体看代码。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "问题是，一旦枚举到后面不能靠后面的组成回文了怎么办？找前面操作么？但是真这样做写起来太麻烦了。那该怎么办？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "结合我们的猜测，$n \\ge 4$ 的这个范围下一定有解，那直接枚举到只剩 4 位，然后<strong>暴力</strong>求解就行。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "操作肯定能保证在 $2*n$ 次以内，这很显然。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "以上是 <strong>枚举</strong> + <strong>暴力</strong> 的做法，还是比较自然能想到的，代码见下方解法一。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "另一种很自然能想到的是让 $s$ 变成一个全 0 or 1 的<strong>中间态</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "但光 $s$ 变肯定不够，我们让 $t$ 也变成这个中间态，这样就相当于 $s$ 和 $t$ <strong>通过这个中间态相连</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "想办法把 $s$ 变成<strong>全 0 串</strong>（<code>00...0</code>），记录下操作序列 $Ops_S$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "想办法把 $t$ 也变成<strong>全 0 串</strong>，记录下操作序列 $Ops_T$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "$Ops_T$ 的<strong>逆操作</strong> $Ops_T^{-1}$ 就是<strong>全 0 串</strong>到 $t$ 的操作序列。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "最终路径就是：$s \\xrightarrow{Ops_S} \\text{全0} \\xrightarrow{Ops_T^{-1}} t$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "变成<strong>全 0 串</strong>的过程，也就是一个一个枚举操作，但与上面不同的是，这里得操作<strong>遍历两遍</strong>，总操作数可能会超过 $2*n$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "这就是我们为什么定中间态为<strong>全 0 串</strong>的原因，因为可以很方便的进行<strong>优化</strong>来<strong>减少总操作数</strong>，并且如果出现<strong>不能回文</strong>的情况，我们可以轻松的<strong>向前借两位</strong>解决。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "具体怎么<strong>优化总操作数</strong>和<strong>向前借位回文</strong>，见下方解法二。不过自己打打草稿也很快就出了。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>构造</strong>题的基本难点，一上来不知道从何下手。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "数据没有无解的，想到题目不存在无解。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$n \\ge 4$ 这么一个奇怪的数据范围，想到肯定在这个范围之外才会有无解的情况。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>构造</strong>题<strong>一定有解</strong>的情况下，可以先用<strong>贪心</strong>把剩下要操作的数压到最少，然后<strong>暴力</strong>解决剩下的即可。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "先到一个<strong>特殊的中间态</strong>也是<strong>构造</strong>题可以思考的方向，这个思路有点类似于<strong>图论</strong>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 解法 1\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tstring s, t; cin >> s >> t;\n\ts = ' ' + s, t = ' ' + t;\n\n\tvar ans = vector<pii>();\n\tvar fan = [&](int l, int r)->void {\n\t\tfa(i, l, r)s[i] = s[i] == '0' ? '1' : '0';\n\t\tans.pb({ l,r });\n\t\t};\n\tvar fann = [&](const string& s, int l, int r)->string {\n\t\tstring res = s;\n\t\tfa(i, l, r)res[i] = res[i] == '0' ? '1' : '0';\n\t\treturn res;\n\t\t};\n\n\tfa(i, 1, n - 4) if (s[i] != t[i]) {\n\t\tif (s[i] == s[i + 1])fan(i, i + 1);\n\t\telse if (s[i] == s[i + 2])fan(i, i + 2);\n\t\telse {\n\t\t\tfan(i + 1, i + 2);\n\t\t\tfan(i, i + 2);\n\t\t}\n\t}\n\n\t// 剩下 4 个爆搜解决\n\tstring ns, nt;\n\tfa(i, n - 3, n)ns.pb(s[i]), nt.pb(t[i]);\n\tvar Q = queue<pair<string, vector<pii>>>();\n\tQ.push({ ns,{} });\n\tvar se = set<string>();\n\twhile (Q.size()) {\n\t\tvar[now, res] = Q.front();\n\t\tQ.pop();\n\n\t\tif (now == nt) {\n\t\t\tans.insert(ans.end(), all(res));\n\t\t\tbreak;\n\t\t}\n\n\t\tif (se.count(now))continue;\n\t\tse.insert(now);\n\n\t\tvar f = [&](int l, int r)->void {\n\t\t\tstring to = fann(now, l, r);\n\t\t\tif (se.count(to))return;\n\t\t\tvar nres = res;\n\t\t\tnres.pb({ n - 3 + l, n - 3 + r });\n\t\t\tQ.push({ to, nres });\n\t\t\t};\n\n\t\tfa(i, 0, 2)if (now[i] == now[i + 1])f(i, i + 1);\n\t\tfa(i, 0, 1)\n\t\t\tif (now[i] == now[i + 1] and now[i + 1] == now[i + 2] or\n\t\t\t\tnow[i] == now[i + 2] and now[i] != now[i + 1])\n\t\t\t\tf(i, i + 2);\n\t\tif (now[0] == now[1] and now[1] == now[2] and now[2] == now[3])\n\t\t\tf(0, 3);\n\t}\n\n\tcout << ans.size() << endl;\n\tfor (const var& [l, r] : ans)cout << l << ' ' << r << endl;\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 解法 2\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tstring s, t; cin >> s >> t;\n\ts = ' ' + s, t = ' ' + t;\n\n\tvar anss = vector<pii>();\n\tvar anst = vector<pii>();\n\tvar fans = [&](int l, int r)->void {\n\t\tfa(i, l, r)s[i] = s[i] == '0' ? '1' : '0';\n\t\tanss.pb({ l,r });\n\t\t};\n\tvar fant = [&](int l, int r)->void {\n\t\tfa(i, l, r)t[i] = t[i] == '0' ? '1' : '0';\n\t\tanst.pb({ l,r });\n\t\t};\n\n\tfa(i, 1, n) if (s[i] == '1') {\n\t\tif (i <= n - 2) {\n\t\t\tif (s[i + 1] == '1')fans(i, i + 1);\n\t\t\telse if (s[i + 2] == '1')fans(i, i + 2);\n\t\t\telse {\n              \t// 优化总操作数，防止每个 i 都操作两遍\n\t\t\t\tint j = i + 2;\n\t\t\t\twhile (j + 1 <= n and s[j + 1] == '0')j++;\n\t\t\t\tfans(i + 1, j);\n\t\t\t\tfans(i, min(n, j + 1));\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tif (i + 1 <= n and s[i] == s[i + 1])fans(i, i + 1);\n\t\t\telse {\n              \t// 向前借 2 位\n\t\t\t\tfans(i - 2, i - 1);\n\t\t\t\tfans(i - 2, i);\n\t\t\t}\n\t\t}\n\t}\n\tfa(i, 1, n) if (t[i] == '1') {\n\t\tif (i <= n - 2) {\n\t\t\tif (t[i + 1] == '1')fant(i, i + 1);\n\t\t\telse if (t[i + 2] == '1')fant(i, i + 2);\n\t\t\telse {\n              \t// 优化总操作数，防止每个 i 都操作两遍\n\t\t\t\tint j = i + 2;\n\t\t\t\twhile (j + 1 <= n and t[j + 1] == '0')j++;\n\t\t\t\tfant(i + 1, j);\n\t\t\t\tfant(i, min(n, j + 1));\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tif (i + 1 <= n and t[i] == t[i + 1])fant(i, i + 1);\n\t\t\telse {\n              \t// 向前借 2 位\n\t\t\t\tfant(i - 2, i - 1);\n\t\t\t\tfant(i - 2, i);\n\t\t\t}\n\t\t}\n\t}\n\n\tcout << anss.size() + anst.size() << endl;\n\tfor (const var& [l, r] : anss)cout << l << ' ' << r << endl;\n\treverse(all(anst));\n\tfor (const var& [l, r] : anst)cout << l << ' ' << r << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-15",
+  "parsed_at": "2026-06-14T18:39:36.348108+00:00",
+  "type_directory": "p"
+}

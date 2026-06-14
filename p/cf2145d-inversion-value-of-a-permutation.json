@@ -1,0 +1,201 @@
+{
+  "slug": "cf2145d-inversion-value-of-a-permutation",
+  "title": "CF2145D Inversion Value of a Permutation",
+  "type": "题目",
+  "tags": [
+    "可行性dp",
+    "构造",
+    "经典问题/逆序对",
+    "正难则反",
+    "划分型dp"
+  ],
+  "difficulty": 3.0,
+  "summary": "首先是<strong>正难则反</strong>，算逆序区间很麻烦，但是<strong>非逆序区间</strong>就是个<strong>单调增</strong>的序列，简单很多。根据非逆序区间定义状态 $dp[len][k]$：是否存在长度为 $len$，非逆序区间个数为 $k$ 的情况。",
+  "link": "https://codeforces.com/problemset/problem/2145/D",
+  "link_text": "https://codeforces.com/problemset/problem/2145/D",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "长度为 $n$ 的排列是一个包含 $n$ 个整数的数组，其中每个 $1$ 到 $n$ 的数字恰好出现一次。对于一个排列 $p$，如果存在一对下标 $(i, j)$，满足 $i < j$ 且 $p_i > p_j$，则称 $(i, j)$ 是排列 $p$ 的一个逆序对。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于排列 $p$，我们定义它的“逆序区间值”是：所有包含至少一个逆序对的子区间的数量。形式化地说，这等价于满足条件的整数对 $(l, r)$ 的个数（$1 \\leq l < r \\leq n$），使得区间 $[l, r]$ 存在一对下标 $(i, j)$ 满足 $l \\leq i < j \\leq r$ 且 $p_i > p_j$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例如，对于排列 $[3, 1, 4, 2]$，其逆序区间值为 $5$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现给定两个整数 $n$ 和 $k$。请你构造一个长度为 $n$ 的排列，使其逆序区间值恰好等于 $k$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\leq t \\leq 500$）——表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来每个测试用例一行，包含两个整数 $n$ 和 $k$（$2 \\leq n \\leq 30$；$0 \\leq k \\leq \\dfrac{n(n-1)}{2}$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出如下结果：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果不存在符合条件的排列，输出单个整数 $0$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "否则，输出 $n$ 个两两不同、从 $1$ 到 $n$ 的整数，表示所构造的排列。若存在多种答案，输出任意一种均可。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n4 5\n5 10\n5 0\n6 8\n3 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 1 4 2\n5 4 3 2 1\n1 2 3 4 5\n2 3 5 6 1 4\n0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "因为 $n = 30$，不能搞状压。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "正难则反，我们把<strong>逆序值</strong>转化为<strong>非逆序值</strong>，即没有逆序对的数对 $(i, j)$ $(i < j)$ 的数量。数学定义即为：若 $(i, j)$ 是没有逆序对的数对，则：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\n\\forall 1 \\leq i < j \\leq n, \\ a_i < a_j\n$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们会发现如果 $[i, j]$ 没有逆序对，则 $[i, j]$ <strong>严格递增</strong>。同时，我们会发现，非逆序值 = $\\frac{n \\times (n-1)}{2} - \\text{逆序值}$，并且一段长度为 $k$ 的递增子段会增加 $\\frac{k \\times (k-1)}{2}$ 的非逆序值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们考虑用 dp 预处理每一种状态。设 $dp_{i,j}$ 代表能否达成长度为 $i$，且非逆序值为 $j$ 的 $1$ 至 $i$ 的排列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "直接暴力枚举 $k$ 代表从 $i$ 往后加的<strong>递增子段</strong>的长度，易得：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\ndp_{i+k, j+\\frac{k \\times (k-1)}{2}} = dp_{i,j}\n$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>即：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "根据非逆序区间定义状态 $dp[len][k]$：是否存在长度为 $len$，非逆序区间个数为 $k$ 的情况。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "因为 $n$ 很小，考虑进行 $O(N^2 · N · (N - 1) / 2)$ 的转移，类似<strong>划分型dp</strong>的思想进行转移，枚举 $(i,j)$，令 $[j, i]$ 为单调递增序列，得这个区间的答案为 $(i - j + 1) * (i - j) / 2$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tconst int MAX = n * (n - 1) / 2;\n\tvar dp = Vec2<int>(n + 1, MAX + 1); // 是否存在长度为 len，非逆序区间个数为 k\n\tfa(i, 0, n)dp[i][0] = 1;\n\tfa(i, 1, n) {\n\t\tfa(j, 0, i - 1) {\n\t\t\tint len = i - j;\n\t\t\tint add = len * (len - 1) / 2;\n\t\t\tfa(k, 0, MAX - add)\n\t\t\t\tdp[i][k + add] |= dp[j][k];\n\t\t}\n\t}\n\n\tif (!dp[n][MAX - k])cout << 0 << endl;\n\telse {\n\t\tint now = n, nowk = MAX - k;\n\t\tvar res = vector<pii>(); // 存最大递增区间，也就是各个最大非逆序区间\n\t\twhile (now >= 1) {\n\t\t\tfa(i, 1, now) {\n\t\t\t\tint len = now - i + 1;\n\t\t\t\tint val = len * (len - 1) / 2;\n\t\t\t\tif (nowk >= val and dp[i - 1][nowk - val]) {\n\t\t\t\t\tnowk -= val;\n\t\t\t\t\tres.pb({ i, now });\n\t\t\t\t\tnow = i - 1;\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tvar ans = vector<int>(n + 1);\n\t\tvar se = set<int>();\n\t\tfa(i, 1, n)se.insert(i);\n\n\t\tfa(i, 0, vs(res)) {\n\t\t\tconst var& [l, r] = res[i];\n\t\t\tif (i == vs(res)) {\n\t\t\t\t// 最后一组\n\t\t\t\tfa(j, l, r) {\n\t\t\t\t\tans[j] = *se.begin();\n\t\t\t\t\tse.erase(se.begin());\n\t\t\t\t}\n\t\t\t}\n\t\t\telse {\n\t\t\t\t// 为了保证这一段跟前面几段完全分开，开头选最小的\n\t\t\t\tans[l] = i + 1; // [1, res.size()]\n\t\t\t\tse.erase(i + 1);\n\t\t\t\tfb(j, r, l + 1) {\n\t\t\t\t\tans[j] = *prev(se.end());\n\t\t\t\t\tse.erase(ans[j]);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\tfa(i, 1, n)cout << ans[i] << \" \\n\"[i == n];\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-29",
+  "parsed_at": "2026-06-14T18:39:36.336898+00:00",
+  "type_directory": "p"
+}

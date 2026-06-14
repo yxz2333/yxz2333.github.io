@@ -1,0 +1,282 @@
+{
+  "slug": "p14456-[icpc-2025-xi'an-r]-january's-color",
+  "title": "P14456 [ICPC 2025 Xi'an R] January's Color",
+  "type": "题目",
+  "tags": [
+    "树上倍增",
+    "树形dp"
+  ],
+  "difficulty": 2.5,
+  "summary": "先<strong>树形dp</strong>使 $c$ 更小，注意到 $y$ 一定得是 $x$ 的<strong>祖先</strong>，然后用<strong>倍增</strong>获得 $x$ 跑到 $y$ 的答案即可，用<strong>贪心跳跃法</strong>。",
+  "link": "[P14456 [ICPC 2025 Xi'an R] January's Color - 洛谷](https://www.luogu.com.cn/problem/P14456)",
+  "link_text": "[P14456 [ICPC 2025 Xi'an R] January's Color - 洛谷](https://www.luogu.com.cn/problem/P14456)",
+  "source": "[[2025ICPC西安区域赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一棵有根树，共有 $n$ 个顶点，根节点为顶点 $1$。保证树中不存在恰好有一个子节点的顶点。换句话说，每个顶点要么是叶子节点，要么至少有 <strong>两个</strong> 子节点。你拥有这棵树中的一部分顶点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你手中可能已经拥有一些顶点。你可以通过以下两种方式获得新的顶点：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "直接从银行购买一个顶点 $i$，需要花费 $c_i$ 的费用；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "从你手中选择 <strong>两个不同的</strong>、具有相同父节点的顶点，将它们弃置，并免费获得它们的父节点。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "现在，你有 $m$ 个查询。对于每个查询，你一开始手中仅有一个顶点 $x$，目标是最后只剩下一个顶点 $y$，且没有其他顶点剩余。请你计算达到这一目标所需的最小额外花费；如果无法做到，则输出无解。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入包含多个测试用例。第一行包含一个整数 $t$（$1 \\leq t \\leq 10^5$），表示测试用例的数量。对于每个测试用例：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$ 和 $m$（$3 \\leq n \\leq 3 \\cdot 10^5$，$1 \\leq m \\leq 3 \\cdot 10^5$），分别表示树的顶点数和查询数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $c_1, c_2, \\ldots, c_n$（$1 \\leq c_i \\leq 10^9$），表示从银行购买每个顶点的费用。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n - 1$ 行中，每行包含两个整数 $u$ 和 $v$（$1 \\leq u, v \\leq n$，$u \\neq v$），表示树中的一条边。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $m$ 行中，每行包含两个整数 $x$ 和 $y$（$1 \\leq x, y \\leq n$，$x \\neq y$），表示一个查询。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和与 $m$ 的总和均不超过 $3 \\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个查询，输出一个整数，表示该查询所需的最小额外花费。如果无法最终只剩下顶点 $y$，输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n5 5\n1 2 3 4 5\n1 2\n1 3\n2 4\n2 5\n3 1\n2 1\n4 1\n5 1\n5 2\n5 5\n1 5 1 1 1\n1 2\n1 3\n2 4\n2 5\n3 1\n2 1\n4 1\n5 1\n2 5\n6 5\n9 9 8 2 4 4\n1 2\n1 3\n1 4\n1 5\n1 6\n2 1\n3 1\n4 1\n5 1\n6 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n3\n8\n7\n4\n2\n1\n2\n2\n-1\n2\n2\n4\n2\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例的第一个查询中，你最初拥有顶点 $3$，目标是获得顶点 $1$。最便宜的方案是直接从银行购买顶点 $2$，花费 $c_2 = 2$。然后将顶点 $2$ 和 $3$ 弃置，免费获得它们的公共父节点顶点 $1$。可以证明这是最小花费的方案。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个测试用例的第一个查询中，你同样从顶点 $3$ 开始，希望获得顶点 $1$。不同的是，这次不购买顶点 $2$，而是购买顶点 $4$ 和 $5$，花费 $c_4 + c_5 = 2$。然后将顶点 $4$ 和 $5$ 弃置，免费获得它们的父节点顶点 $2$。接着将顶点 $2$ 和 $3$ 弃置，免费获得它们的父节点顶点 $1$。可以证明这是最小花费的方案。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "请注意，你不能再购买另一个顶点 $3$ 并将其与原先的顶点 $3$ 一起弃置来获得顶点 $1$，因为这两个顶点 $3$ 不满足“两个不同顶点”的要求。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "理解题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>直观</strong>：只能“二合一”向上生成父节点，这意味着操作流向是单向的（自底向上）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>深层</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>节点有特价</strong>：获得一个点的代价，不一定是原价 $c_i$，也可以是由两个子节点合成（代价为两子节点代价之和）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>路径限制</strong>：查询 $x \\to y$，由于只能向上合，<strong>y 必须是 x 的祖先</strong>，否则无解。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>过路费</strong>：从 $x$ 爬到 $y$，每向上爬一层（$u \\to fa[u]$），都需要消耗 $u$ 的一个兄弟节点。为了省钱，必须要选<strong>代价最小的兄弟</strong>陪葬。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "第一步：重新定价（树形 DP）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "初始的 $c_i$ 只是银行售价。对于非叶子节点，也许“买两个儿子合成”比“直接买”更便宜。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态转移</strong>：采用后序遍历（自底向上）。",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$c_{now} = \\min(c_{now}, \\min(c_{child}) + \\text{second\\_min}(c_{child}))$$\n*注：这里必须遍历所有子节点实时找最小值和次小值，不能依赖初始排序，因为子节点的 $c$ 值在递归中会被更新。*",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第二步：确定边权（构建倍增图）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "当我们手握节点 $u$ 想往上跳到 $fa[u]$ 时，我们需要额外消耗一个 $u$ 的兄弟节点 $v$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了花费最小，$v$ 应该是 $u$ 的兄弟中 $c$ 值最小的。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>边权逻辑</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果 $u$ <strong>不是</strong>兄弟里最便宜的 $\\to$ 边权 = 最便宜兄弟的 $c$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $u$ <strong>就是</strong>兄弟里最便宜的 $\\to$ 边权 = 次便宜兄弟的 $c$（不能自己和自己合）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "第三步：倍增查询（贪心跳跃法）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "预处理倍增数组 <code>p[u][i]</code>（祖先）和 <code>dp[u][i]</code>（跳 $2^i$ 步的累计花费）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于查询 $(x, y)$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "判无解：若 $dep[x] < dep[y]$，直接处理。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "跳跃：<strong>贪心跳跃法</strong>，倒序枚举二进制位，尝试大跳，不行再小跳。从 $x$ 向上跳，直到跳到 $y$ 的位置。如果跳不到 $y$（$y$ 不是 $x$ 的祖先），输出 -1。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar c = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> c[i];\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\t// 树形 dp 更新最小 c[u]\n\tvar dfsc = [&](var dfs, int now, int fa)->void {\n\t\tif (g[now].size() == 1)return;\n\n\t\t// 取最小值次小值\n\t\tll mn = LNF, cmn = LNF;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\tif (mn > c[to]) {\n\t\t\t\tcmn = mn;\n\t\t\t\tmn = c[to];\n\t\t\t}\n\t\t\telse if (cmn > c[to])\n\t\t\t\tcmn = c[to];\n\t\t}\n\t\tc[now] = min(c[now], mn + cmn);\n\t\t};\n\tdfsc(dfsc, 1, 0);\n\n\tvar p = Vec2<int>(n + 1, 31);\n\tvar dp = Vec2<ll>(n + 1, 31);\n\tvar dep = vector<int>(n + 1); // 判是否为祖先用\n\n\t// dfs 初始化 p[u][0] 和 dp[u][0]\n\t// 一次跳跃：u 跳到父节点，加上 u 权值最小的邻居 v 的权值\n\t// dp[u][0] = c[v]\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tdep[now] = dep[fa] + 1;\n\t\tp[now][0] = fa;\n\n\t\t// 取最小值次小值\n\t\tll mn = LNF, cmn = LNF;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tif (mn > c[to]) {\n\t\t\t\tcmn = mn;\n\t\t\t\tmn = c[to];\n\t\t\t}\n\t\t\telse if (cmn > c[to])\n\t\t\t\tcmn = c[to];\n\t\t}\n\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\n\t\t\t// 处理 to 节点和他的邻居\n\t\t\tif (c[to] == mn)dp[to][0] = cmn; \n\t\t\telse dp[to][0] = mn;\n\t\t}\n\t\t};\n\tdfs(dfs, 1, 0);\n\n\tfa(j, 1, 30) {\n\t\tfa(i, 1, n) {\n\t\t\tp[i][j] = p[p[i][j - 1]][j - 1];\n\t\t\tdp[i][j] = dp[i][j - 1] + dp[p[i][j - 1]][j - 1];\n\t\t}\n\t}\n\n\twhile (m--) {\n\t\tint x, y; cin >> x >> y;\n\t\tif (dep[x] <= dep[y]) {\n\t\t\tcout << -1 << endl;\n\t\t\tcontinue;\n\t\t}\n\n\t\tint now = x;\n\t\tll ans = 0;\n\t\tfb(i, 30, 0) if (p[now][i] and dep[p[now][i]] >= dep[y]) {\n\t\t\tans += dp[now][i];\n\t\t\tnow = p[now][i];\n\t\t}\n\t\tif (now != y)cout << -1 << endl;\n\t\telse cout << ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-13",
+  "parsed_at": "2026-06-14T18:39:36.839557+00:00",
+  "type_directory": "p"
+}

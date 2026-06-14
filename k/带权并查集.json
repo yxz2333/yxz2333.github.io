@@ -1,0 +1,262 @@
+{
+  "slug": "带权并查集",
+  "title": "带权并查集",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "并查集",
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "与并查集的不同之处",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "带权并查集要维护节点跟根节点的关系数组 <code>d</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "在<strong>路径压缩</strong>时，需要把路径上的节点的 <code>d</code> 也进行更新。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "在<strong>两集合并</strong>时，得把被迫融入 <code>e1</code> 集的 <code>e2</code> 的 <code>d[e2]</code> 也给更新，而 <code>e2</code> 集本身的<strong>其它节点不需要更新</strong>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "节点与根节点的关系",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "维护节点与根节点关系的 <code>d</code> 数组，根本目的是把根节点当作 <strong>“参考系”</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "带权并查集的<strong>最终目的并不是为了知道节点跟根节点有什么关系</strong>，而是为了能快速求出<strong>连通块内任意两个节点</strong> $u$ <strong>和</strong> $v$ <strong>之间的关系</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "只要知道了 $u$ 相对根的关系、$v$ 相对根的关系，利用向量运算（比如加减法、异或），就能推导出 $u$ 和 $v$ 之间的相对关系。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "核心代码与实现思路",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "路径压缩",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "假设原本链条是：<code>x</code> $\\to$ <code>爸爸</code> $\\to$ <code>爷爷(根)</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "已知：<code>x</code> 和 <code>爸爸</code> 的关系，<code>爸爸</code> 和 <code>爷爷</code> 的关系。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "那么得出 <code>x</code> 和 <code>爷爷</code> 的关系。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "更新后：<code>x</code> 直接指向 <code>爷爷</code>。",
+              "depth": 2
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "var s = vector<int>(n + 1);\nvar d = vector<int>(n + 1); // i 与根节点的关系\nfa(i, 1, n)s[i] = i;\nvar find = [&](var find, int x)->int {\n\tif (s[x] == x)return x;\n\tint root = find(find, s[x]); // 先让当前的根节点找到自己的根（爹去找爷）\n\n\t// d[x] 是 x 和旧爸爸的关系\n\t// d[s[x]] 已经是旧爸爸和根节点的关系了（因为上面那句递归已经算完了）\n\t// d[x] => x 和根的关系 = (x 和爸爸的关系) + (爸爸和根的关系)\n\n\treturn s[x] = root;\n\t};",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "集合合并",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "目的：将 <code>y</code> 所在集合 <code>e2</code>（根为 <code>e2</code>），合并到 <code>x</code> 所在集合（根为 <code>e1</code>），并<strong>求出 <code>e2</code> 跟 <code>e1</code> 的关系 <code>d[e2]</code></strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<em>（当然，不是每个题都这样，还是得具体情况具体分析，但都是想办法更新 <code>d[e2]</code>）</em>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>逻辑推导（向量传递）</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>ru</code> $\\longleftrightarrow$ <code>u</code> $\\longleftrightarrow$ <code>v</code> $\\longleftrightarrow$ <code>rv</code>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>u</code> 和 <code>ru</code> 的关系是 <code>d[u]</code>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>v</code> 和 <code>rv</code> 的关系是 <code>d[v]</code>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>u</code> 和 <code>v</code> 的关系是 <code>rel</code>（题目给的）",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "那么 <code>ru</code> 和 <code>rv</code> 的关系，可以通过 <code>u</code> 和 <code>v</code> 这座桥梁推导出来：<strong><code>d[ru] = d[u] 运算 rel 运算 d[v]</code></strong>。",
+              "depth": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "典型应用",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "例子一：相对距离 / 数值差问题（加减法）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>场景</strong>：在一条直线上，你有若干个点，你不知道它们的绝对坐标，但每次我会告诉你：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "“点 $A$ 在点 $B$ 右边 5 米处”",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "“点 $C$ 在点 $B$ 左边 3 米处”",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>问题</strong>：点 $A$ 和点 $C$ 相距多远？谁在谁右边？如果我告诉你“点 $A$ 在点 $C$ 右边 10 米处”，你能判断出我在撒谎吗？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>带权并查集怎么做</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>权值 <code>d[x]</code> 含义</strong>：节点 $x$ 距离它父节点的坐标差（比如 $x$ 坐标 - 父节点坐标）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>路径压缩规律</strong>：<code>d[x] = d[x] + d[fa[x]]</code>。（我比爸爸多5米，爸爸比爷爷多3米，所以我比爷爷多8米）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>解决两点关系</strong>：当你要查询 $u$ 和 $v$ 的关系时，只要它们同属一个集合（同一个根/参考系），那么 <strong>u 相对 v 的位置 = <code>d[u] - d[v]</code></strong>。",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "例子二：区间奇偶性推导（异或运算）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>场景</strong>：有一个由 0 和 1 组成的超长序列。每次我告诉你一个区间内 1 的个数是奇数还是偶数。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "“第 1 个到第 5 个数字，和是偶数”",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "“第 4 个到第 5 个数字，和是奇数”",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>问题</strong>：你能推导出“第 1 个到第 3 个数字”的和是奇数还是偶数吗？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>带权并查集怎么做</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>转化思路</strong>：利用前缀和数组 $S$。区间 $[L, R]$ 的和的奇偶性，就等于前缀和 $S[R]$ 和 $S[L-1]$ 之间的奇偶性差异！",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "“和是偶数”说明 $S[R]$ 和 $S[L-1]$ 同奇或同偶。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "“和是奇数”说明 $S[R]$ 和 $S[L-1]$ 一奇一偶。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>权值 <code>d[x]</code> 含义</strong>：节点 $x$ 的前缀和，与它父节点的前缀和，奇偶性是否相同（<code>0</code> 相同，<code>1</code> 不同）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>路径压缩规律</strong>：<code>d[x] = d[x] ^ d[fa[x]]</code>（异或运算。不同+不同=相同，不同+相同=不同）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>解决两点关系</strong>：想知道区间 $[L, R]$ 的奇偶性，只要找 $L-1$ 和 $R$ 是不是同根。如果是，它们的相对奇偶性就是 <code>d[R] ^ d[L-1]</code>。",
+              "depth": 3
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-30",
+  "parsed_at": "2026-06-14T18:45:12.061319+00:00",
+  "type_directory": "k"
+}

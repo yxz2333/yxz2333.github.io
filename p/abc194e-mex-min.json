@@ -1,0 +1,186 @@
+{
+  "slug": "abc194e-mex-min",
+  "title": "ABC194E Mex Min",
+  "type": "题目",
+  "tags": [
+    "经典问题/MEX问题",
+    "二分答案"
+  ],
+  "difficulty": 1.0,
+  "summary": "二分答案+滑动窗口法，间隙法 $O(n)$。",
+  "link": "https://atcoder.jp/contests/abc194/tasks/abc194_e",
+  "link_text": "E - Mex Min",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "定义 $\\mathrm{mex}(x_1,\\ x_2,\\ x_3,\\ \\dots,\\ x_k)$ 为不包含在 $x_1,\\ x_2,\\ x_3,\\ \\dots,\\ x_k$ 中的最小非负整数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定一个长度为 $N$ 的整数序列 $A = (A_1,\\ A_2,\\ A_3,\\ \\dots,\\ A_N)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于所有满足 $0\\le i \\le N - M$ 的整数 $i$，计算 $\\mathrm{mex}(A_{i+1},\\ A_{i+2},\\ A_{i+3},\\ \\dots,\\ A_{i+M})$，在这 $N - M + 1$ 个值中，求出最小值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入以以下格式从标准输入读入：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $N$ $M$ $A_1$ $A_2$ $A_3$ $\\cdots$ $A_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le M \\le N \\le 1.5 \\times 10^6$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$0 \\le A_i < N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入中的所有值均为整数",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7 3\n0 0 1 2 0 1 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "二分答案法 $O(nlogn)$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$\\text{MEX}$ 本身存在单调性，那二分答案即可。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>bool check(mid)</code> 函数里进行滑动窗口式的枚举，既然是 $\\text{MEX}$，那每个窗口都得存在 $[0, mid - 1]$ 内的所有数，枚举窗口的同时维护一个 <code>vis</code> 数组即可。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "间隙法（注意力惊人法） $O(n)$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "回归 $\\text{MEX}$ 的定义：第一个<strong>没有出现</strong>的数，那我们在意的就是每个窗口中没出现的数，重点放在数本身而不是枚举窗口。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>注意到</strong>：如果数字 $v$ 在某两个相邻位置之间的间隙 $\\ge m$，就说明在这个间隙里可以塞下一个长度为 $m$ 的窗口。那么这个窗口的 $\\text{MEX}$ 一定小于或等于 $v$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 二分答案法\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar check = [&](int mid)->bool {\n\t\tvar vis = vector<int>(n + 1);\n\t\tfa(i, 1, m)vis[a[i]]++;\n\t\tfa(i, 0, mid)if (!vis[i])return 1;\n\t\tfa(i, m + 1, n) {\n\t\t\tvis[a[i]]++;\n\t\t\tvis[a[i - m]]--;\n\t\t\tif (a[i - m] <= mid and !vis[a[i - m]])return 1;\n\t\t}\n\t\treturn 0;\n\t\t};\n\tint l = 0, r = n, ans = 0;\n\twhile (l <= r) {\n\t\tint mid = l + r >> 1;\n\t\tif (check(mid)) {\n\t\t\tans = mid;\n\t\t\tr = mid - 1;\n\t\t}\n\t\telse l = mid + 1;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// O(n) 间隙法\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar mp = vector<int>(n + 1);\n\tint ans = n;\n\tfa(i, 1, n) {\n\t\tif (i - mp[a[i]] > m)ans = min(ans, a[i]);\n\t\tmp[a[i]] = i;\n\t}\n\tfa(i, 0, n)\n\t\tif (!mp[i] or n + 1 - mp[i] > m)\n\t\t\tans = min(ans, i);\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-01",
+  "parsed_at": "2026-06-14T18:39:35.964572+00:00",
+  "type_directory": "p"
+}

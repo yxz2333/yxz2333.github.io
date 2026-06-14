@@ -1,0 +1,357 @@
+{
+  "slug": "cf2183e-lcm-is-legendary-counting-master",
+  "title": "CF2183E LCM is Legendary Counting Master",
+  "type": "题目",
+  "tags": [
+    "打表找规律",
+    "dp"
+  ],
+  "difficulty": 2.5,
+  "summary": "主要就是本题公式的性质不是很好找，dp 还是很好写的。",
+  "link": "https://codeforces.com/problemset/problem/2183/E",
+  "link_text": "Problem - 2183E - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给你一个长度为 $n$ 的序列 $a$ 和一个正整数 $m$。$a$ 中的每个元素都是 $[0, m]$ 范围内的整数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一个序列 $a$ 被认为是<strong>好</strong>的，当且仅当满足以下两个条件：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1. $a_1 < a_2 < a_3 < \\ldots < a_n$ （严格递增），且",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2. $\\frac{1}{\\operatorname{lcm}(a_1,a_2)}+\\frac{1}{\\operatorname{lcm}(a_2,a_3)}+\\ldots+{\\frac{1}{\\operatorname{lcm}(a_{n-1},a_n)}+{\\frac{1}{\\operatorname{lcm}(a_n,a_1)}}}\\ge1$。$^{\\text{∗}}$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你需要将 $a$ 中所有的 $0$ 替换为 $[1, m]$ 范围内的整数。请计算有多少种不同的替换方法，使得最终的序列 $a$ 是<strong>好</strong>的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输出答案对 $998\\,244\\,353$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试点包含多组测试数据。第一行包含测试用例的数量 $t$ ($1 \\le t \\le 1000$)。接下来是每组测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组测试用例的第一行包含两个整数 $n$ 和 $m$ ($2 \\le n\\le m \\le 3000$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组测试用例的第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$ ($0 \\le a_i \\le m$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $m$ 的总和不超过 $3000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试用例，输出一个整数——即补全序列使其变“好”的方案数，结果对 $998\\,244\\,353$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n4 6\n1 0 0 6\n2 2\n2 1\n5 24\n0 0 4 0 0\n5 6\n0 0 6 0 0\n20 2000\n1 0 0 0 0 14 0 0 0 0 0 0 0 0 0 514 0 0 0 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n0\n10\n0\n973702700",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一组测试用例中，有 $2$ 种替换 $0$ 的方法使得序列变好：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$[1, 2, 3, 6]$：求和为 $\\frac{1}{\\operatorname{lcm}(1, 2)} + \\frac{1}{\\operatorname{lcm}(2, 3)} + \\frac{1}{\\operatorname{lcm}(3, 6)} + \\frac{1}{\\operatorname{lcm}(6, 1)} = \\frac{1}{2} + \\frac{1}{6} + \\frac{1}{6} + \\frac{1}{6} = 1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$[1, 2, 4, 6]$：求和为 $\\frac{1}{\\operatorname{lcm}(1, 2)} + \\frac{1}{\\operatorname{lcm}(2, 4)} + \\frac{1}{\\operatorname{lcm}(4, 6)} + \\frac{1}{\\operatorname{lcm}(6, 1)} = \\frac{1}{2} + \\frac{1}{4} + \\frac{1}{12} + \\frac{1}{6} = 1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在第二组测试用例中，初始序列为 $[2, 1]$。由于 $2 \\not< 1$，不满足严格递增条件，所以答案为 $0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第四组测试用例中，序列固定为 $[0, 0, 6, 0, 0]$ 且 $m=6$。第三个元素是 $6$。由于序列必须严格递增且元素不能超过 $6$，我们需要 $6 < a_4 < a_5 \\le 6$，这是不可能的。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 题目分析与直觉",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "拿到题目，首先看数据范围：$n, m \\le 3000$。这是一个非常典型的 $O(n^2)$ 或 $O(nm)$ 的数据范围。结合题目要求“计算方案数”，我们可以初步断定这大概率是一道 <strong>动态规划 (DP)</strong> 题。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "题目的核心约束在于那个关于 $\\operatorname{lcm}$ 的不等式：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\sum_{i=1}^{n-1} \\frac{1}{\\operatorname{lcm}(a_i, a_{i+1})} + \\frac{1}{\\operatorname{lcm}(a_n, a_1)} \\ge 1 $$\n要在 DP 中维护这个复杂的求和式是非常困难的。因此，我们需要通过数学推导或“打表找规律”来简化这个条件。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 核心结论推导",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们在手写 Checker 并手玩样例后，可以层层递进地发现以下结论：",
+              "depth": 1
+            },
+            {
+              "heading": "(1) 起始条件的限制",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "首先观察小数据，发现一个铁律：序列的开头必须是 $a_1 = 1, a_2 = 2$。如果输入数据违反这一点（或不为0），直接判定无解。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "(2) 式子结果随序列增长的限制",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "接下来观察 $a_i$ 的增长情况。我们发现序列中的下一个数 $a_i$ 实际上受到了极大的限制。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>最核心的结论在于：</strong> 在我们逐个选择 $a_i$ 的过程中，前面已经选好的序列本身，通过题目 $\\operatorname{lcm}$ 式子计算的结果必须时刻保持“饱和”状态（即<strong>结果等于理论最大值 1</strong>）。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>为什么？</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "因为 $a_i$ 是严格单调递增的，分母会越来越大。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "如果前面选好的序列算出来的和不到 1，后面再怎么加数（因为数越来越大，贡献 $\\frac{1}{\\operatorname{lcm}}$ 越来越小），都很难再补救回 1；而如果超过 1 则直接违规。",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "(3) 关键检查公式",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "基于上述“结果必须为 1”的性质，我们在选定 $a_i$ 接在 $a_{i-1}$ 后面时，必须满足一个拆分性质：即新加入的项，必须能够完美“继承”并“维持”前一个数的贡献。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "具体来说，得满足以下等式：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\frac{1}{\\operatorname{lcm}(a_i, a_{i-1})} + \\frac{1}{a_i} = \\frac{1}{a_{i-1}} $$\n**这一步的物理含义是**：上一项留下的“空缺”是 $\\frac{1}{a_{i-1}}$，我们新加的一项 $\\frac{1}{\\operatorname{lcm}}$ 加上 $a_i$ 本身未来作为结尾留下的“空缺” $\\frac{1}{a_i}$，必须恰好填满这个空缺。\n接下来我们对这个式子进行代数变形：\n$$ \\frac{\\gcd(a_i, a_{i-1})}{a_i \\cdot a_{i-1}} + \\frac{1}{a_i} = \\frac{1}{a_{i-1}} $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "两边同时乘上 $a_i \\cdot a_{i-1}$：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\gcd(a_i, a_{i-1}) + a_{i-1} = a_i $$\n**这就是本题最重要的结论！**\n这个结论非常简洁，且极其适合 DP 转移。它不仅告诉了我们如何判定合法性，还隐含了 $a_i$ 的**范围限制**（因为 $\\gcd \\ge 1$，所以 $a_i > a_{i-1}$；且 $\\gcd \\le a_{i-1}$，所以 $a_i \\le 2a_{i-1}$）。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "3. 动态规划设计",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "状态定义",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "设 $dp[i][j]$ 表示填好了序列的前 $i$ 个数，且第 $i$ 个数为 $j$ 的合法方案数。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "转移方程",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "对于第 $i$ 个位置的数 $k$（即 $a_i=k$），枚举第 $i-1$ 个位置的数 $j$（即 $a_{i-1}=j$）：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ dp[i][k] = \\sum dp[i-1][j] $$\n**转移条件**为：",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "复杂度优化（预处理）",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "如果我们直接三重循环（枚举位置 $i$，枚举上一个数 $j$，枚举当前数 $k$）进行转移，复杂度接近 $O(n \\cdot m^2)$。当 $n, m=3000$ 时，计算量高达 $2.7 \\times 10^{10}$，显然会 <strong>TLE</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "因此我们需要<strong>预处理</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "观察转移条件 $\\gcd(j, k) + j = k$ 只与<strong>数值本身</strong>有关，与<strong>位置</strong> $i$ 无关。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "我们可以预先计算出所有合法的数对 $(j, k)$，存入 <code>g[j]</code> 中：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<code>g[j]</code> 存储了所有满足条件的 $k$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "预处理时，外层枚举 $j$，内层枚举 $k$ 从 $j+1$ 到 $\\min(m, 2j)$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "这样，DP 转移时只需要遍历 <code>g[j]</code> 即可，大大减少了无效的状态检查。",
+                  "depth": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "Math::fastGL<N> f;\nvector<int> g[N];\nvoid init() {\n\tfa(j, 2, 3000)\n\t\tfa(k, j + 1, min(3000, 2 * j))\n\t\tif (f.gcd(j, k) + j == k) \n\t\t\tg[j].pb(k);\n}\nvoid solve(int CASE)\n{\n\t// gcd(a[i - 1], a[i]) + a[i - 1] = a[i];\n\tint n, m; cin >> n >> m;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\n\tif (a[1] != 1 and a[1] != 0 or a[2] != 2 and a[2] != 0) {\n\t\tcout << 0 << endl;\n\t\treturn;\n\t}\n\ta[1] = 1, a[2] = 2;\n\n\tvar dp = Vec2<ll>(n + 1, m + 1);\n\tdp[2][2] = 1;\n\tfa(i, 3, n)\n\t\tfa(j, 2, m) {\n\t\tif (a[i] == 0) {\n\t\t\tfor (int k : g[j]) if(k <= m)\n\t\t\t\tdp[i][k] = (dp[i][k] + dp[i - 1][j]) % mod;\n\t\t}\n\t\telse {\n\t\t\tint k = a[i];\n\t\t\tif (f.gcd(j, k) + j == k)\n\t\t\t\tdp[i][k] = (dp[i][k] + dp[i - 1][j]) % mod;\n\t\t}\n\t}\n\n\tll ans = 0;\n\tfa(i, 2, m)ans = (ans + dp[n][i]) % mod;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-26",
+  "parsed_at": "2026-06-14T18:39:36.384487+00:00",
+  "type_directory": "p"
+}

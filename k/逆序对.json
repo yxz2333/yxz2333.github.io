@@ -1,0 +1,44 @@
+{
+  "slug": "逆序对",
+  "title": "逆序对",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "逆序对"
+  ],
+  "parent": "经典问题",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "归并排序",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "归并排序的求法，简单来说就是 <code>当前子树答案 = 左子树答案 + 右子树答案 + 跨越左右子树的答案</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所以对于当前子树，我们主要求<strong>跨越左右子树的答案</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "因为左右子树都排好序了，直接<strong>双指针</strong>枚举一下就能算出来了。",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-26",
+  "parsed_at": "2026-06-14T18:45:12.179800+00:00",
+  "type_directory": "k"
+}

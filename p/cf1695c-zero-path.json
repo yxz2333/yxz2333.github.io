@@ -1,0 +1,142 @@
+{
+  "slug": "cf1695c-zero-path",
+  "title": "CF1695C Zero Path",
+  "type": "题目",
+  "tags": [
+    "dp",
+    "数学/介值定理"
+  ],
+  "difficulty": 1.5,
+  "summary": "如果我们已经定好了路径，那么改一个位置总和会 $+2, -2, +0$，可以用介质定理，特判一下 $n + m - 1$ 是否为奇数，然后算最大最小 $dp$ 即可。",
+  "link": "https://www.luogu.com.cn/problem/CF1695C",
+  "link_text": "CF1695C Zero Path - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个有 $n$ 行 $m$ 列的网格。我们用 $(i, j)$ 表示第 $i$ 行（$1\\le i\\le n$）、第 $j$ 列（$1\\le j\\le m$）的格子，该格子的数值为 $a_{i,j}$。所有的数值均为 $1$ 或 $-1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你从格子 $(1, 1)$ 出发，每次可以向下或向右移动一格。最终你需要到达格子 $(n, m)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "是否存在一种移动方式，使得经过的所有格子的数值之和（包括 $a_{1,1}$ 和 $a_{n,m}$）恰好为 $0$？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1695C/8f2d98d121e7e351eaa9a88e08080da6d06835b5.png)",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每组测试数据包含多组测试用例。第一行包含一个整数 $t$（$1 \\leq t \\leq 10^4$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组测试用例的第一行包含两个整数 $n$ 和 $m$（$1 \\le n, m \\le 1000$），表示网格的大小。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行，每行包含 $m$ 个整数。第 $i$ 行第 $j$ 个整数为 $a_{i,j}$（$a_{i,j} = 1$ 或 $-1$），表示格子 $(i, j)$ 的数值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n\\cdot m$ 的总和不超过 $10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试用例，如果存在一条从左上角到右下角的路径，使得经过的所有格子的数值之和为 $0$，输出 \"YES\"；否则输出 \"NO\"。输出时字母大小写均可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n1 1\n1\n1 2\n1 -1\n1 4\n1 -1 1 -1\n3 4\n1 -1 -1 -1\n-1 1 1 -1\n1 1 1 -1\n3 4\n1 -1 1 1\n-1 1 -1 1\n1 -1 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "NO\nYES\nYES\nYES\nNO",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第四组测试用例的一个可行路径如题面图片所示。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int mn[N][N], mx[N][N], a[N][N];\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tfa(i, 1, n)fa(j, 1, m)cin >> a[i][j];\n\tif ((n + m - 1) & 1) {\n\t\tcout << \"NO\" << endl;\n\t\treturn;\n\t}\n\tfa(i, 0, n)fa(j, 0, m)mn[i][j] = INF, mx[i][j] = -INF;\n\tmn[1][1] = mx[1][1] = a[1][1];\n\tfa(i, 1, n)fa(j, 1, m) {\n\t\tif (i == 1 and j == 1)continue;\n\t\tmn[i][j] = min(mn[i - 1][j], mn[i][j - 1]) + a[i][j];\n\t\tmx[i][j] = max(mx[i - 1][j], mx[i][j - 1]) + a[i][j];\n\t}\n\tif (mn[n][m] <= 0 and mx[n][m] >= 0)cout << \"YES\" << endl;\n\telse cout << \"NO\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-08",
+  "parsed_at": "2026-06-14T18:39:36.256064+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,79 @@
+{
+  "slug": "背包",
+  "title": "背包",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "01背包, 完全背包, 多重背包, 二进制拆分多重背包"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "type": "p",
+      "html": "一般是求<strong>最大价值</strong>、<strong>选择方案数</strong>、<strong>可行性</strong>、<strong>最小代价</strong>、<strong>具体选择方案</strong>等。",
+      "depth": 0
+    },
+    {
+      "heading": "01 背包",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "最常见的背包。每种物品只能拿一次。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "完全背包",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每种物品可以无限拿，也就是<strong>装到直到装不下</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "题目可能不会直接说物品可以无限拿，但只要发现能<strong>装到直到装不下</strong>，也就是最多装 $V / v[i]$ 个该物品，那么就是完全背包。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "多重背包（二进制拆分优化）",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$n$ 种物品，每种物品有 $m$ 个，重量为 $w$，价值为 $v$，求最大能拿的价值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "转成 $n \\cdot \\log n$ 个物品，然后 01 背包操作。",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 原物品：N 种 N 个\n//\t\t=> \n// 新物品: N * logN 种 1 个\nvar h = MT::map_to_vector(yuan); // 原物品 { 物品重量 w：物品个数 }\nvar ve = vector<int>();          // 二进制拆分后新物品 { 物品新重量 nw：个数为 1 } \nfa(i, 0, vs(h)) {\n\tvar[x, y] = h[i];\n\tfor (int j = 1; j <= y; j <<= 1) { // 枚举物品个数\n\t\ty -= j;\n\t\tve.pb(j * x);\n\t}\n\tif (y)ve.pb(y * x); // 存在余数\n}\n\n// 01 背包\nvar dp = vector<bool>(n + 1);\ndp[0] = 1;\nfor (const var& x : ve)\n\tfb(i, n, x)\n\t\tdp[i] = dp[i] || dp[i - x];",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-15",
+  "parsed_at": "2026-06-14T18:45:12.194080+00:00",
+  "type_directory": "k"
+}

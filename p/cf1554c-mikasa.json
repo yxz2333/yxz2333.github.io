@@ -1,0 +1,196 @@
+{
+  "slug": "cf1554c-mikasa",
+  "title": "CF1554C Mikasa",
+  "type": "题目",
+  "tags": [
+    "按位贪心",
+    "经典问题/MEX问题"
+  ],
+  "difficulty": 2.0,
+  "summary": "需要先对问题进行转化（题目<strong>本质</strong>是求最小的非负整数 $k$，使得 $n \\oplus k > m$），再使用按位贪心。",
+  "link": "https://www.luogu.com.cn/problem/CF1554C",
+  "link_text": "CF1554C Mikasa - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给出两个整数 $n$ 和 $m$。请你求出序列 $n \\oplus 0,n \\oplus 1,\\dots,n \\oplus m$ 的 $\\operatorname{MEX}$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$ 表示数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $t$ 行，每行包含两个整数 $n$ 和 $m$作为一组数据，意义如上。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq t \\leq 3\\times10^4$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$0 \\leq n,m \\leq 1\\times10^9$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组数据，换行输出一个整数作为答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n3 5\n4 6\n3 2\n69 696\n123456 654321",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n3\n0\n640\n530866",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在样例的第一组数据中，序列为 $3 \\oplus 0, 3 \\oplus 1, 3 \\oplus 2, 3 \\oplus 3, 3 \\oplus 4, 3 \\oplus 5$ 即 $3, 2, 1, 0, 7, 6$。其中没有出现的最小的非负整数是 $4$，则序列的 $\\operatorname{MEX}$ 为 $4$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在样例的第二组数据中，序列为 $4 \\oplus 0,4 \\oplus 1,4 \\oplus 2,4 \\oplus 3,4 \\oplus 4,4 \\oplus 5,4 \\oplus 6$ 即 $4, 5, 6, 7, 0, 1, 2$。其中没有出现的最小的非负整数是 $3$，则序列的 $\\operatorname{MEX}$ 为 $3$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在样例的第三组数据中，序列为 $3 \\oplus 0,3 \\oplus 1,3 \\oplus 2 $ 即 $3, 2, 1$。其中没有出现的最小的非负整数是 $0$，则序列的 $\\operatorname{MEX}$ 为 $0$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "问题转化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目要求 $\\text{MEX}(\\{n \\oplus 0, \\dots, n \\oplus m\\})$。根据 $\\text{MEX}$ 的定义，答案是第一个无法由 $n \\oplus x$ ($0 \\le x \\le m$) 得到的值。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设答案为 $k$，这等价于方程 $n \\oplus x = k$ 在 $x \\in [0, m]$ 中无解，即 $n \\oplus k > m$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>所以，题目本质是求最小的非负整数</strong> $k$<strong>，使得</strong> $n \\oplus k > m$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "按位贪心",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "核心策略是 <strong>“能不填 1 就不填 1，除非被迫营业”</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们只关注 <code>n</code> 的第 <code>i</code> 位是 <strong>0</strong> 的情况（因为如果 <code>n</code> 这一位是 1，<code>n ^ ans</code> 这一位天然是 1，优势很大，不需要 <code>ans</code> 来帮倒忙）。",
+              "depth": 1
+            },
+            {
+              "heading": "何时填 1？",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "对于当前位 <code>i</code>，我们做个假设：如果我们这一位不填 1（即让 <code>ans</code> 这一位保持 0），哪怕后面的低位（0 到 <code>i-1</code>）全部取最大值（即全为 1，用 <code>mask1</code> 表示），最终的异或和 <code>(ans ^ n) | mask1</code> 是否依然 $\\le m$？",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "如果答案是肯定的，说明 “仅靠低位填满也无法超越 $m$”，因此我们<strong>被迫</strong>在当前第 <code>i</code> 位填 1，以确保总值能大于 $m$。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tll ans = 0;\n\tfb(i, 30, 0)if (!(n & (1ll << i))) {\n\t\tll mask = (1ll << i) - 1;\n\t\tif ((mask | (ans ^ n)) <= m) // 后面全填满也 <= m\n\t\t\tans |= (1ll << i);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-08",
+  "parsed_at": "2026-06-14T18:39:36.208939+00:00",
+  "type_directory": "p"
+}

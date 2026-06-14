@@ -1,0 +1,195 @@
+{
+  "slug": "2023山东省赛-j-都什么年代了还在做传统路径查询问题？",
+  "title": "2023山东省赛 J 都什么年代了还在做传统路径查询问题？",
+  "type": "题目",
+  "tags": [
+    "并查集",
+    "二进制",
+    "LCP",
+    "图论经典问题/图的连通性"
+  ],
+  "difficulty": 2.0,
+  "summary": "跟 <a href=\"/p/2025icpc南京区域赛f-按位与路径\" class=\"wikilink\">2025ICPC南京区域赛F 按位与路径</a> 的思路很像，都是图上靠并查集解决问题。把肯定大于等于 V 的 $lcp$ 们都找出来，在这基础上构造 60 组并查集，判断是否连通即可。",
+  "link": "https://qoj.ac/contest/1280/problem/6679",
+  "link_text": "Not Another Path Query Problem - Problem - QOJ.ac",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小青鱼有一张包含 \\( n \\) 个节点与 \\( m \\) 条无向边的图，节点编号从 1 到 \\( n \\)。第 \\( i \\) 条边连接节点 \\( u_i \\) 和 \\( v_i \\)，边权为 \\( w_{ij} \\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于任意一条连接节点 \\( u \\) 和 \\( v \\) 的路径，定义路径的价值为路径上所有边的边权进行按位与（bitwise AND）计算的结果。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小青鱼很喜欢高价值的路径，因此他设定了一个固定的阈值 \\( V \\)。称小青鱼喜爱一条路径，当且仅当这条路径的价值至少为 \\( V \\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来，小青鱼将会提出 \\( q \\) 次询问，第 \\( i \\) 次询问可以用一对整数 \\( (u_i, v_i) \\) 表示。对于每次询问，您需要判断节点 \\( u_i \\) 到 \\( v_i \\) 是否存在一条小青鱼喜爱的路径。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试文件仅有一组测试数据。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输入四个整数 \\( n \\)、\\( m \\)、\\( q \\) 和 \\( V \\) (\\( 1 \\leq n \\leq 10^5 \\)、\\( 0 \\leq m \\leq 5 \\times 10^5 \\)、\\( 1 \\leq q \\leq 5 \\times 10^5 \\)、\\( 0 \\leq V < 2^{60} \\))",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "表示图中的节点数以及边数，小青鱼的询问数以及固定阈值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于接下来 \\( m \\) 行，第 \\( i \\) 行输入三个整数 \\( u_i \\)、\\( v_i \\) 和 \\( w_i \\) (\\( 1 \\leq u_i, v_i \\leq n \\)、\\( u_i \\neq v_i \\)、\\( 0 \\leq w_i < 2^{60} \\)) 表示一条连接节点 \\( u_i \\) 和 \\( v_i \\) 的无向边，边权为 \\( w_i \\)。两个节点之间可能存在多条边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于接下来 \\( q \\) 行，第 \\( i \\) 行输入两个整数 \\( u_i \\) 和 \\( v_i \\) (\\( 1 \\leq u_i, v_i \\leq n \\)、\\( u_i \\neq v_i \\)) 表示一次询问。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每次询问输出一行。若节点 \\( u_i \\) 和 \\( v_i \\) 之间存在一条价值至少为 \\( V \\) 的路径输出 Yes，否则输出 No。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9 8 4 5\n1 2 8\n1 3 7\n2 4 1\n3 4 14\n2 5 9\n4 5 7\n5 6 6\n3 7 15\n1 6\n2 7\n7 6\n1 8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\nNo\nYes\nNo",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "![](https://espresso.codeforces.com/f2c65c34a7f9c82348cf048e33472303cd827a80.png)",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "题目要求路径上所有边权的按位与结果 $\\text{AND\\_SUM} \\ge V$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如何确保一个数 $X \\ge V$？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "根据 LCP（最长公共前缀）思想，$X$ 满足以下条件之一即可：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>完全匹配：</strong> $X$ 的前缀与 $V$ 相同，且更低位也与 $V$ 对应位一致（即包含了 $V$ 所有的 1），此时 $X = V$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>在某一位超越：</strong> 存在某一个最高的分歧位 $i$。在第 $i$ 位上，$V$ 是 0，而 $X$ 是 1。且对于所有 $> i$ 的高位，$X$ 与 $V$ 完全相同。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>高位碾压：</strong> $X$ 在比 $V$ 的最高位（<code>high</code>）还要高的某一位 $i$ 上是 1。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "既然掩码集合 $P$ 的大小最多只有约 60，我们可以直接开 60 个并查集。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果当前边满足 <strong><code>(w &amp; p[j]) == p[j]</code></strong>，说明这条边在第 $j$ 种掩码条件的下是合法的，连通即可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m, q, V; cin >> n >> m >> q >> V;\n\tvar p = vector<ll>();\n\tll high = Math::log2(V);\n\tp.pb(V);\n\tfa(i, 1, 60) {\n\t\tif (i <= high) {\n\t\t\tif (!(V & (1ll << i))) {\n\t\t\t\tll mask = (((1ll << (high + 1)) - 1) ^ ((1ll << (i + 1)) - 1));\n\t\t\t\tll pre = mask & V | (1ll << i);\n\t\t\t\tp.pb(pre);\n\t\t\t}\n\t\t}\n\t\telse p.pb(1ll << i);\n\t}\n\n\tvar s = Vec2<int>(n + 1, p.size());\n\tfa(i, 1, n)fa(j, 0, vs(p))s[i][j] = i;\n\tvar find = [&](var find, int x, int y)->int {\n\t\tif (s[x][y] == x)return x;\n\t\treturn s[x][y] = find(find, s[x][y], y);\n\t\t};\n\tfa(i, 1, m) {\n\t\tll u, v, w; cin >> u >> v >> w;\n\t\tfa(j, 0, vs(p)) {\n\t\t\tint e1 = find(find, u, j);\n\t\t\tint e2 = find(find, v, j);\n\t\t\tif (e1 != e2 and (w & p[j]) == p[j])s[e2][j] = e1;\n\t\t}\n\t}\n\n\twhile (q--) {\n\t\tint u, v; cin >> u >> v;\n\t\tbool ok = 0;\n\t\tfa(i, 0, vs(p)) {\n\t\t\tint e1 = find(find, u, i);\n\t\t\tint e2 = find(find, v, i);\n\t\t\tif (e1 == e2) {\n\t\t\t\tok = 1;\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t\tif (ok)cout << \"Yes\" << endl;\n\t\telse cout << \"No\" << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-08",
+  "parsed_at": "2026-06-14T18:39:35.697905+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,98 @@
+{
+  "slug": "cf2197e2-interactive-graph-(hard-version)",
+  "title": "CF2197E2 Interactive Graph (Hard Version)",
+  "type": "题目",
+  "tags": [
+    "交互题"
+  ],
+  "difficulty": 2.5,
+  "summary": "",
+  "link": "https://codeforces.com/contest/2197/problem/E2",
+  "link_text": "Problem - E2 - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\n\tvar mp = map<int, vector<int>>();\n\tvar Q = [&](int x)->vector<int> {\n\t\tif (mp.count(x))return mp[x];\n\n\t\tcout << '?' << ' ' << x << endl;\n\t\tcout.flush();\n\t\tvar res = vector<int>();\n\t\tint n; cin >> n;\n\t\tfa(i, 1, n) {\n\t\t\tint x; cin >> x;\n\t\t\tres.pb(x);\n\t\t}\n\n\t\treturn mp[x] = res;\n\t\t};\n\n\tvar p = set<pii>();\n\tvar cnt = vector<int>(n + 1);\n\tvar vis = vector<bool>(n + 1);\n\tint now = 1;\n\tvar dfs = [&](var dfs, int u, vector<int> pre)->void {\n\t\tvis[u] = 1;\n\t\tcnt[u] = 1;\n\n\t\tnow++;\n\t\tpre.pb(u);\n\n\t\twhile (1) {\n\t\t\tvar res = Q(now);\n\n\t\t\tif (res.size() <= pre.size())break;\n\n\t\t\tbool ok = 1;\n\t\t\tfa(i, 0, vs(pre))if (pre[i] != res[i]) {\n\t\t\t\tok = 0;\n\t\t\t\tbreak;\n\t\t\t}\n\t\t\tif (!ok)break;\n\n\t\t\tint v = res.back();\n\t\t\tp.insert({ u,v });\n\n\t\t\tif (vis[v])now += cnt[v];\n\t\t\telse dfs(dfs, v, pre);\n\t\t\tcnt[u] += cnt[v];\n\t\t}\n\t\t};\n\tfa(i, 1, n) {\n\t\tif (vis[i])now += cnt[i];\n\t\telse dfs(dfs, i, {});\n\t}\n\n\t//fa(i, 1, n)cout << cnt[i] << ' ';\n\t//cout << endl;\n\n\tcout << \"!\" << ' ' << p.size() << endl;\n\tfor (const var& [x, y] : p)cout << x << ' ' << y << endl;\n\tcout.flush();\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-12",
+  "parsed_at": "2026-06-14T18:39:36.421457+00:00",
+  "type_directory": "p"
+}

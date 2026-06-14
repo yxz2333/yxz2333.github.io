@@ -1,0 +1,35 @@
+{
+  "slug": "k进制",
+  "title": "k进制",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "找 $k^i$ 位拿了多少",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int get_bitk(ll x, ll i) {\n\treturn x / _k[i] % k; // _k[i] 为 k^i\n}",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-04",
+  "parsed_at": "2026-06-14T18:45:11.955179+00:00",
+  "type_directory": "k"
+}

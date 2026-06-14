@@ -1,0 +1,290 @@
+{
+  "slug": "2026杭电春季赛5-008-草料集市",
+  "title": "2026杭电春季赛5 008 草料集市",
+  "type": "题目",
+  "tags": [
+    "单调队列",
+    "线段树",
+    "单调队列优化dp",
+    "线段树优化dp",
+    "划分型dp"
+  ],
+  "difficulty": 1.5,
+  "summary": "转移方程还是非常好想的，明显设。可以用<strong>线段树/单调队列优化</strong>，线段树优化 dp 还是很好写的，这里给出单调队列的写法，全程维护个<strong>单调增</strong>的队列即可。",
+  "link": "https://acm.hdu.edu.cn/contest/problem?cid=1201&pid=1008",
+  "link_text": "1008 草料集市",
+  "source": "[[2026杭电春季赛5]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "2026 丙午马年，某马术俱乐部需要在 \\( n \\) 天内从商城采购马匹所需的草料与器具，每天恰好购买一件商品，第 \\( i \\) 天的商品原价为 \\( a_i \\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "商铺有一套特殊的折扣规则：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若第 \\( i \\) 天以原价购买商品，则接下来的 \\( k \\) 天内（即第 \\( i+1 \\) 天到第 \\( i+k \\) 天）购买的商品可以享受半价优惠（可以选择不使用）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每件商品至多享受一次半价优惠。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "请你帮俱乐部算出购买全部商品的最小总花费。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题有多组测试数据。输入 \\( T \\) (\\( 1 \\leq T \\leq 10 \\))，表示数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输入两个整数 \\( n, k \\) (\\( 1 \\leq k \\leq n \\leq 10^5 \\))，分别表示商品数量和折扣持续天数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行输入 \\( n \\) 个整数 \\( a_1, a_2, \\dots, a_n \\) (\\( 2 \\leq a_i \\leq 10^9 \\))，表示每件商品的原价。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有 \\( a_i \\) 为偶数，同时也保证所有数据的 \\( n \\) 的和不超过 \\( 10^5 \\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组数据，输出一行一个整数，表示最小总花费。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n5 2\n2 6 6 6 6\n5 2\n2 4 6 8 10",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "17\n19",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "状态定义",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们在打折规则中可以发现一个核心要素：<strong>“以原价购买”是一个触发打折的“锚点”</strong>。因此，我们的 DP 状态应该围绕“原价购买”来定义。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong><code>pre[i]</code></strong>：表示前 $i$ 件商品<strong>半价</strong>的前缀和。利用它可以很方便地算出任意区间的半价花费 <code>pre[R] - pre[L]</code> 以及原价花费 <code>(pre[R] - pre[L]) * 2</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong><code>dp[i]</code></strong>：表示前 $i$ 天，且<strong>第</strong> $i$ <strong>天必须以原价购买</strong>的最小总花费。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "状态转移方程",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然第 $i$ 天是原价购买的，那么上一次以原价购买的天数假设为 $j$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "根据规则，第 $j$ 天买完后，接下来的 $k$ 天可以享受半价。为了让中间的商品都能享受半价，第 $i$ 天必须在第 $j$ 天的打折覆盖范围内，或者紧挨着打折结束的第一天。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "区间限制：中间的商品 $j+1 \\dots i-1$ 都要半价，所以必须满足 $j+k \\ge i-1$，即 $j \\ge i - k - 1$。同时 $j \\ge 1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "转移花费：<code>dp[j]</code>（前 $j$ 天的花费）+ 第 $j+1 \\dots i-1$ 天的半价花费 + <code>a[i]</code>（第 $i$ 天的原价）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "由此写出最初的转移方程：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i] = a_i + \\min_{j = \\max(1, i-k-1)}^{i-1} \\Big( dp[j] + pre[i-1] - pre[j] \\Big)$$\n把与 $j$ 无关的项（常数项）提出来：\n$$dp[i] = a_i + pre[i-1] + \\min_{j = \\max(1, i-k-1)}^{i-1} \\Big( dp[j] - pre[j] \\Big)$$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "统计全局答案 (ans)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于最后一件以原价购买的商品不一定在第 $n$ 天，它可以是任意一天 $i$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果第 $i$ 天是<strong>最后一次原价购买</strong>，那么：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $i+1 \\dots \\min(n, i+k)$ 天可以享受半价（享受满最后的打折天数）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "剩余的商品（如果没买完）由于没有任何打折覆盖，只能全部以原价购买。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此对于每一个 <code>dp[i]</code>，它能贡献的最终答案为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ans = \\min(ans,\\; dp[i] + 半价区间花费 + 剩余无折扣区间花费)$$\n代码中的体现即为：\n```cpp\n\t\t  j = min(n, i + k);\n\t\t  ans = min(ans, dp[i] + pre[j] - pre[i] + (pre[n] - pre[j]) * 2);\n\t\t  ```",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "单调队列优化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "观察上述的状态转移方程，发现我们需要求的是一个滑动窗口 $j \\in [i-k-1, i-1]$ 内 <code>dp[j] - pre[j]</code> 的最小值。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "窗口的长度固定为 $k+1$，且左右端点随着 $i$ 同步向右移动，这是标准的<strong>单调队列</strong>应用场景：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1.  <strong>维护单调性</strong>：我们要找最小值，所以队列 <code>Q</code> 里的元素（代表下标 $j$），其对应的 <code>dp[j] - pre[j]</code> 必须严格<strong>单调递增</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2.  <strong>淘汰过期元素</strong>：当队首元素 <code>Q.front() &lt; i - k - 1</code> 时，说明它已经超出了第 $i$ 天能享受的折扣窗口，直接 <code>pop_front()</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3.  <strong>获取最小值</strong>：经过清理后，队首元素 <code>Q.front()</code> 就是合法区间内的最小值，直接用它来计算 <code>dp[i]</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "4.  <strong>新状态入队</strong>：将当前刚算出的 <code>dp[i] - pre[i]</code> 入队前，把队尾所有大于等于当前值的劣势状态 <code>pop_back()</code>，保证单调性。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, k; cin >> n >> k;\n\tvar a = vector<ll>(n + 1);\n\tvar pre = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i], pre[i] = pre[i - 1] + a[i] / 2;\n\n\tvar dp = vector<ll>(n + 1);\n\tdp[1] = a[1];\n\n\tll j = min(n, 1 + k);\n\tll ans = dp[1] + pre[j] - pre[1] + (pre[n] - pre[j]) * 2;\n\n\tvar Q = deque<int>();\n\tQ.push_back(1);\n\tfa(i, 2, n) {\n\t\tll j = max(1ll, i - k - 1);\n\t\twhile (Q.front() < j)Q.pop_front();\n\n\t\tdp[i] = pre[i - 1] + a[i] + dp[Q.front()] - pre[Q.front()];\n\n\t\twhile (dp[Q.back()] - pre[Q.back()] > dp[i] - pre[i])Q.pop_back();\n\t\tQ.push_back(i);\n\t\t\n\t\tj = min(n, i + k);\n\t\tans = min(ans, dp[i] + pre[j] - pre[i] + (pre[n] - pre[j]) * 2);\n\t}\n\t\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-24",
+  "parsed_at": "2026-06-14T18:39:35.877795+00:00",
+  "type_directory": "p"
+}
