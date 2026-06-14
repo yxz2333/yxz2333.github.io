@@ -1,0 +1,271 @@
+{
+  "slug": "2025icpc南昌邀请赛-f-caloric-difference",
+  "title": "2025ICPC南昌邀请赛 F Caloric Difference",
+  "type": "题目",
+  "tags": [
+    "贡献法",
+    "数学推导"
+  ],
+  "difficulty": 2.0,
+  "summary": "考虑算每个 $r_i$ 对 $\\sum c_i$ 的贡献，把 $c_i$ 的公式全拆开，发现<strong>等比数列求和公式</strong>，然后推出式子，发现 $r_i$ 越小越好。",
+  "link": "https://codeforces.com/gym/105911/problem/F",
+  "link_text": "Problem - F - Codeforces",
+  "source": "[[2025ICPC南昌邀请赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "红龙小露的主人认为她最近吃太多，导致起飞时摇摇晃晃，巡航时间也缩短了。因此命令她必须控制热量摄入。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在接下来的 $n$ 天里，假设第 $i$ 天小露摄入了 $r_i$ 卡路里，代谢掉了 $c_i$ 克质量。根据龙族特性，质量损失应为：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$c_i = p \\times c_{i-1} + (1 - p) \\times r_{i-1}$$\n其中参数 $r_0$、$c_0$ 和 $p$ ($0 < p < 1$) 已由主人测定。\n当然，红龙小露表示不会完全听从“厨子”的命令。她声明在未来 $n$ 天中有 $k$ 天要放纵饮食。这 $k$ 天的热量摄入已预先确定，且每日热量摄入必须在 $[L, R]$ 范围内，即所有 $r_i$ 都应满足 $r_i \\in [L, R]$。\n在以上条件下，小露想安排非放纵日的饮食，使得未来 $n$ 天内总热量消耗与摄入的差值 $\\max \\sum_{i=1}^{n} (c_i - r_i)$ 达到最大。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试用例包含多个测试数据。第一行给出测试用例数量 $T$ ($1 \\le T \\le 10000$)。随后描述每个测试用例：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$ 和 $k$ ($1 \\le k \\le n \\le 10^5, 1 \\le \\sum n \\le 2 \\times 10^5$)，表示未来有 $n$ 天，其中 $k$ 天的热量摄入已预定。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行包含五个实数 $r_0, c_0, p, L$ 和 $R$ ($1 \\le L \\le r_0 \\le R \\le 10^9, 0 < p < 1, 1 \\le c_0 \\le 10^9$)，代表前述参数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来 $k$ 行，每行包含一个整数 $p_i$ ($1 \\le p_i \\le n, \\forall i \\neq j, p_i \\neq p_j$) 和一个实数 $v_i$ ($L \\le v_i \\le R$)，表示第 $r_{p_i}$ 天的摄入量固定为 $v_i$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有输入的实数最多保留 6 位小数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出 $\\sum_{i=1}^{n} (c_i - r_i)$ 的最大值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当你的答案与标准答案的绝对误差或相对误差不超过 $10^{-6}$ 时视为正确。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "更正式地说，设 $a$ 为你的答案，$b$ 为标准答案。当满足 $\\frac{|a-b|}{\\max(1, b)} \\le 10^{-6}$ 时判定为正确。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n3 2\n5 6 0.5 1 10\n1 4\n2 5\n5 2\n10 5 0.5 3 12\n1 4\n3 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5.1250000000\n7.9062500000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "For the first testcase, one optimal possible $r=[5, 4, 5, 1]$ and its corresponding $c=[6, 5.5, 4.75, 4.875]$.",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 拆解目标函数",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们的目标是最大化：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ S = \\sum_{i=1}^{n} (c_i - r_i) = \\sum_{i=1}^{n} c_i - \\sum_{i=1}^{n} r_i $$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 分析 $r_j$ 对 $\\sum c_i$ 的贡献",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "根据题目的递推公式：$c_i = p \\cdot c_{i-1} + (1 - p) \\cdot r_{i-1}$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们不整体看，而是单独盯住某一天摄入的 $r_j$，<strong>看看它会在后续的哪些</strong> $c$ <strong>中出现</strong>，并且权重是多少：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$r_j$ 第一次出现是在 $c_{j+1}$ 中，系数是 $(1-p)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$r_j$ 在 $c_{j+2}$ 中也会出现（因为 $c_{j+2}$ 包含了 $c_{j+1}$），系数是 $p \\cdot (1-p)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$r_j$ 在 $c_{j+3}$ 中的系数是 $p^2 \\cdot (1-p)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "...",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$r_j$ 在最后一个 $c_n$ 中的系数是 $p^{n-j-1} \\cdot (1-p)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "所以，对于任意一个 $r_j$ ($1 \\le j < n$)，它在 $\\sum_{i=1}^{n} c_i$ 这部分总和里的<strong>总系数</strong>，是一个等比数列求和：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\text{总系数} = (1-p) + p(1-p) + p^2(1-p) + \\dots + p^{n-j-1}(1-p) $$\n提取公因式 $(1-p)$：\n$$ \\text{总系数} = (1-p) \\cdot (1 + p + p^2 + \\dots + p^{n-j-1}) $$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "根据等比数列求和公式：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\text{总系数} = (1-p) \\cdot \\frac{1 - p^{n-j}}{1 - p} = 1 - p^{n-j} $$",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "3. 代回目标函数",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "现在我们知道了 $\\sum c_i$ 中包含了常数项（$p \\cdot c_0 + (1 - p) \\cdot r_0$）以及各个 $r_i$ 的项。我们把 $r_i$ 组合起来，代回目标函数 $S$：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ S = \\text{常数项} + \\sum_{i=1}^{n} (1 - p^{n-i}) \\cdot r_i - \\sum_{i=1}^{n} r_i $$\n$$\\text{常数项}  = (p \\cdot c_0 + (1 - p) \\cdot r_0) \\cdot n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "合并关于 $r_i$ 的项：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ S = \\text{常数项} + \\sum_{i=1}^{n} \\left[ (1 - p^{n-i}) - 1 \\right] \\cdot r_i $$\n$$ S = \\text{常数项} + \\sum_{i=1}^{n} (- p^{n-i}) \\cdot r_i $$",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$ S = \\text{常数项} - \\sum_{i=1}^{n} p^{n-i} \\cdot r_i $$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论：所以</strong> $r_i$ <strong>全取最小即可解决。</strong>",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, k; cin >> n >> k;\n\tdb r0, c0, p, L, R; cin >> r0 >> c0 >> p >> L >> R;\n\tvar r = vector<db>(n + 1, L);\n\tvar c = vector<db>(n + 1);\n\tr[0] = r0, c[0] = c0;\n\tdb ans = 0;\n\tfa(i, 1, k) {\n\t\tint x; cin >> x;\n\t\tcin >> r[x];\n\t}\n\tfa(i, 1, n) {\n\t\tc[i] = c[i - 1] * p + (1 - p) * r[i - 1];\n\t\tans += c[i] - r[i];\n\t}\n\tcout << fixed << setprecision(12) << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-28",
+  "parsed_at": "2026-06-14T18:39:35.776343+00:00",
+  "type_directory": "p"
+}

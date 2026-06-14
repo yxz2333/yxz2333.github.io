@@ -1,0 +1,156 @@
+{
+  "slug": "p1196-[noi2002]-银河英雄传说",
+  "title": "P1196 [NOI2002] 银河英雄传说",
+  "type": "题目",
+  "tags": [
+    "并查集/带权并查集"
+  ],
+  "difficulty": null,
+  "summary": "带权并查集板子题",
+  "link": "[P1196 [NOI2002] 银河英雄传说 - 洛谷](https://www.luogu.com.cn/problem/P1196)",
+  "link_text": "[P1196 [NOI2002] 银河英雄传说 - 洛谷](https://www.luogu.com.cn/problem/P1196)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在这次决战中，他将巴米利恩星域战场划分成 $30000$ 列，每列依次编号为 $1, 2,\\ldots ,30000$。之后，他把自己的战舰也依次编号为 $1, 2, \\ldots , 30000$，让第 $i$ 号战舰处于第 $i$ 列，形成“一字长蛇阵”。这是初始阵形。当进犯之敌到达时，杨威利会多次发布合并指令，将大部分战舰集中在某几列上，实施密集攻击。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "合并指令为 <code>M i j</code>，含义为第 $i$ 号战舰所在的整个战舰队列，作为一个整体（头在前尾在后）接至第 $j$ 号战舰所在的战舰队列的尾部。显然战舰队列是由处于同一列的一个或多个战舰组成的。合并指令的执行结果会使队列增大。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "莱因哈特也会发出一些询问指令：<code>C i j</code>。该指令意思是，询问电脑，杨威利的第 $i$ 号战舰与第 $j$ 号战舰当前是否在同一列中，如果在同一列中，那么它们之间布置有多少战舰。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行有一个整数 $T$（$1 \\le T \\le 5 \\times 10^5$），表示总共有 $T$ 条指令。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "以下有 $T$ 行，每行有一条指令。指令有两种格式：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1. <code>M i j</code>：$i$ 和 $j$ 是两个整数（$1 \\le i,j \\le 30000$），表示指令涉及的战舰编号。该指令是莱因哈特窃听到的杨威利发布的舰队调动指令，并且保证第 $i$ 号战舰与第 $j$ 号战舰不在同一列。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2. <code>C i j</code>：$i$ 和 $j$ 是两个整数（$1 \\le i,j \\le 30000$），表示指令涉及的战舰编号。该指令是莱因哈特发布的询问指令。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每条指令中都保证 $i\\neq j$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "依次对输入的每一条指令进行分析和处理：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果是杨威利发布的舰队调动指令，则表示舰队排列发生了变化，你的程序要注意到这一点，但是不要输出任何信息。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果是莱因哈特发布的询问指令，你的程序要输出一行，仅包含一个整数，表示在同一列上，第 $i$ 号战舰与第 $j$ 号战舰之间布置的战舰数目。如果第 $i$ 号战舰与第 $j$ 号战舰当前不在同一列上，则输出 $-1$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\nM 2 3\nC 1 2\nM 2 4\nC 4 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-1\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "战舰位置图：表格中阿拉伯数字表示战舰编号。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/image_hosting/tkmxbxks.png)",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar s = vector<int>(n + 1);\n\tvar d = vector<int>(n + 1);\n\tvar siz = vector<int>(n + 1);\n\tfa(i, 1, n)s[i] = i, siz[i] = 1;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return x;\n\t\tint r = find(find, s[x]);\n\t\td[x] += d[s[x]];\n\t\treturn s[x] = r;\n\t\t};\n\tfa(i, 1, n) {\n\t\tchar op; cin >> op;\n\t\tint x, y; cin >> x >> y;\n\t\tint e1 = find(find, x), e2 = find(find, y);\n\t\tif (op == 'M') {\n\t\t\tif (e1 != e2) {\n\t\t\t\ts[e2] = e1;\n\t\t\t\td[e2] = siz[e1]; // 根据 siz 更新 d[e2]\n\t\t\t\tsiz[e1] += siz[e2];\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tif (e1 != e2)cout << -1 << endl;\n\t\t\telse cout << abs(d[x] - d[y]) - 1 << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-30",
+  "parsed_at": "2026-06-14T18:39:36.809295+00:00",
+  "type_directory": "p"
+}

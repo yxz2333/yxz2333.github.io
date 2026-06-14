@@ -1,0 +1,290 @@
+{
+  "slug": "cf165e-compatible-numbers",
+  "title": "CF165E Compatible Numbers",
+  "type": "题目",
+  "tags": [
+    "SOS dp"
+  ],
+  "difficulty": null,
+  "summary": "<strong>SOS dp</strong> 板子题。",
+  "link": "https://codeforces.com/problemset/problem/165/E",
+  "link_text": "Problem - 165E - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "如果两个整数 $x$ 和 $y$ 的按位与运算结果为 $0$，即 $x\\ \\&\\ y=0$，那么它们是兼容的。例如，$90\\ (1011010_2)$ 和 $36\\ (100100_2)$ 是兼容的，因为 $1011010_2\\ \\&\\ 100100_2=0_2$，而 $3\\ (11_2)$ 和 $6\\ (110_2)$ 则不兼容，因为 $11_2\\ \\&\\ 110_2=10_2$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定一个整数数组 $a_1,a_2,\\ldots,a_n$。你需要判断，对于每个数组元素，是否存在数组中的其它元素跟它兼容？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果存在兼容元素，还需要输出一个满足条件的元素。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\leq n \\leq 10^6$），表示数组的元素个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个用空格分隔的整数 $a_1,a_2,\\ldots,a_n$（$1 \\leq a_{i} \\leq 4 \\cdot 10^6$），表示数组元素。数组中的数字可以重复。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $n$ 个整数 $ans_1\\ ans_2\\ \\ldots\\ ans_n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果 $a_i$ 与数组 $a_1,a_2,\\ldots,a_n$ 中不存在任何其它元素兼容，则 $ans_i$ 等于 $-1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "否则 $ans_i$ 是与 $a_i$ 兼容的任一数组中的元素，即满足 $a_i\\ \\&\\ ans_i=0$，且 $ans_i$ 出现在数组中。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n90 36",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "36 90",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n3 6 3 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-1 -1 -1 -1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n10 6 9 8 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-1 8 2 2 8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "要快速获取补集或补集的子集是否存在嘛，我们直接套 <strong>SOS dp</strong> 板子就行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这边主要讲讲为啥不能用<strong>字典树</strong>做。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>能用字典树写，但会 TLE (超时)。</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>核心矛盾：单路查找 vs 多路分叉</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Trie 最擅长处理的是 <strong>“贪心走唯一路径”</strong> 的问题（比如最大异或值）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>最大异或值</strong>：如果当前位是 0，为了异或最大，我<strong>必须</strong>走 1 的分支（如果存在）；如果当前位是 1，我<strong>必须</strong>走 0 的分支。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>特点</strong>：每一步的决策是<strong>确定</strong>的，不用犹豫。查询一次是 $O(\\text{位数})$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "回到本题：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "我们需要找 $y$ 使得 $x \\ \\& \\ y = 0$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "假设 $x$ 的当前位是 <code>bit</code>，我们在 Trie 上遍历找 $y$：",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>情况 A：x 的 bit 是 1</strong>",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "为了 $1 \\ \\& \\ y_{\\text{bit}} = 0$， $y$ 的这一位<strong>必须</strong>是 0。",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "<strong>操作</strong>：只能往 Trie 的 <code>0</code> 分支走。如果 <code>0</code> 分支没有，这条路这就死胡同了。",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "<em>（这里还没问题，是单路）</em>",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "<strong>情况 B：x 的 bit 是 0</strong>",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "为了 $0 \\ \\& \\ y_{\\text{bit}} = 0$， $y$ 的这一位是 0 还是 1 <strong>都可以</strong>。",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "<strong>操作</strong>：",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "Trie 的 <code>0</code> 分支可以走吗？<strong>可以</strong>。",
+          "depth": 5
+        },
+        {
+          "type": "p",
+          "html": "Trie 的 <code>1</code> 分支可以走吗？<strong>也可以</strong>。",
+          "depth": 5
+        },
+        {
+          "type": "p",
+          "html": "<strong>后果</strong>：你必须<strong>递归搜索两个分支</strong>。",
+          "depth": 4
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[1 << 22];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfa(i, 0, (1 << 22) - 1)dp[i] = -1;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n) {\n\t\tint x; cin >> x;\n\t\tdp[x] = x, a[i] = x;\n\t}\n\tfa(i, 0, 21) { // 枚举所有位\n\t\tfa(mask, 0, (1 << 22) - 1) { // 从小到大，满足前缀和\n\t\t\tif (mask & (1 << i)) { // i 位是 1，转移子集答案\n\t\t\t\tif (dp[mask] == -1)dp[mask] = dp[mask ^ (1 << i)];\n\t\t\t}\n\t\t}\n\t}\n\n\t// 输出补集或补集的子集答案\n\tfa(i, 1, n)cout << dp[a[i] ^ ((1 << 22) - 1)] << ' ';\n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-22",
+  "parsed_at": "2026-06-14T18:39:36.245816+00:00",
+  "type_directory": "p"
+}

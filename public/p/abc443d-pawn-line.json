@@ -1,0 +1,263 @@
+{
+  "slug": "abc443d-pawn-line",
+  "title": "ABC443D Pawn Line",
+  "type": "题目",
+  "tags": [
+    "前后缀",
+    "dp"
+  ],
+  "difficulty": 1.5,
+  "summary": "发现本题明显可以写出<strong>转移方程</strong>，设 $dp[i]$：第 $i$ 位受影响后的最大高度。对于前 $i$ 个，可以得到 $dp[i] = min(a[i], dp[i - 1] + 1)$；对于后 $i$ 个，可以得到 $dp[i] = min(a[i], dp[i + 1] + 1)$。这个 $dp$ 拆成两个，整成<strong>前后缀 dp</strong>，这题也就结束了。",
+  "link": "https://atcoder.jp/contests/abc443/tasks/abc443_d",
+  "link_text": "D - Pawn Line",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有一个 $N \\times N$ 的网格，每一列都放置了一个棋子。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $i$ 列的棋子位于从上往下数的第 $R_i$ 行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你可以执行零次或多次以下操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选择一个不在最上方一行的棋子，将其移动到<strong>正上方的格子</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你需要求出满足以下条件所需的最小操作次数：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于所有满足 $1 \\le i \\le N-1$ 的整数 $i$，假设第 $i$ 列的棋子位于第 $x$ 行，第 $i+1$ 列的棋子位于第 $y$ 行，则满足 $|x-y| \\le 1$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "共有 $T$ 组测试数据，请分别求解。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入通过标准输入给出，格式如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $T$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "> $\\text{case}_1$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "> $\\text{case}_2$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "> $\\vdots$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "> $\\text{case}_T$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每个测试数据的格式如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $N$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "> $R_1$ $R_2$ $\\dots$ $R_N$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有输入数值均为整数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le T \\le 50000$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2 \\le N \\le 3 \\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le R_i \\le N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于单个输入，$N$ 的总和不超过 $3 \\times 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $T$ 行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $i$ 行应包含第 $i$ 组测试数据的答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n5\n5 2 1 3 4\n2\n1 1\n3\n1 3 1\n9\n9 9 8 2 4 4 3 5 3\n20\n7 4 6 2 15 5 17 15 1 8 18 1 5 1 12 11 2 7 8 14",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n0\n1\n16\n105",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一组数据，通过以下操作，可以用最少的 4 次操作满足题目条件：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "将左数第 5 列的棋子向上移动一格。此时棋子从左到右位于第 $5,2,1,3,3$ 行。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "将左数第 1 列的棋子向上移动一格。此时棋子从左到右位于第 $4,2,1,3,3$ 行。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "将左数第 1 列的棋子向上移动一格。此时棋子从左到右位于第 $3,2,1,3,3$ 行。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "将左数第 4 列的棋子向上移动一格。此时棋子从左到右位于第 $3,2,1,2,3$ 行。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于第二组数据，无需操作即可满足条件。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "发现本题明显可以写出<strong>转移方程</strong>，设 $dp[i]$：第 $i$ 位受影响后的最大高度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于前 $i$ 个，可以得到 $dp[i] = min(a[i], dp[i - 1] + 1)$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于后 $i$ 个，可以得到 $dp[i] = min(a[i], dp[i + 1] + 1)$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "这个 $dp$ 拆成两个，整成<strong>前后缀 dp</strong>，这题也就结束了。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar pre = vector<int>(n + 1);\n\tvar suf = vector<int>(n + 1);\n\tpre[1] = a[1], suf[n] = a[n];\n\tfa(i, 2, n)pre[i] = min(a[i], pre[i - 1] + 1);\n\tfb(i, n - 1, 1)suf[i] = min(a[i], suf[i + 1] + 1);\n\tll ans = 0;\n\tfa(i, 1, n)ans += a[i] - min(pre[i], suf[i]);\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-01",
+  "parsed_at": "2026-06-14T18:39:36.004581+00:00",
+  "type_directory": "p"
+}

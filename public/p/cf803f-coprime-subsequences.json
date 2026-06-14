@@ -1,0 +1,261 @@
+{
+  "slug": "cf803f-coprime-subsequences",
+  "title": "CF803F Coprime Subsequences",
+  "type": "题目",
+  "tags": [
+    "数论容斥",
+    "正难则反",
+    "gcd",
+    "思维定势"
+  ],
+  "difficulty": 2.5,
+  "summary": "乍一看觉得是 dp，但实际上本题的 <strong>GCD</strong> 和 <strong>互质</strong> 才是关键。通过<strong>数论容斥</strong>，算出最大公约数为 $g \\ (g \\ge 2)$ 的序列个数，然后全集减掉，这题也就解决了。",
+  "link": "https://codeforces.com/problemset/problem/803/F",
+  "link_text": "Problem - 803F - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "如果一个非空正整数序列 $a_{1},a_{2},\\ldots,a_{k}$ 的所有元素的最大公约数等于 $1$，那么称这个序列为「互质序列」。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定一个长度为 $n$ 的正整数数组 $a$，请你求出其互质子序列的个数。由于答案可能非常大，请输出答案对 $10^{9}+7$ 取模后的结果。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意，如果选取的下标不同，则两个子序列被认为是不同的。例如，在数组 $[1,1]$ 中，有 $3$ 个不同的子序列：$[1]$，$[1]$ 和 $[1,1]$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1\\leq n\\leq 100000$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个正整数 $a_{1},a_{2},\\ldots,a_{n}$（$1\\leq a_{i}\\leq 100000$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $a$ 的互质子序列的个数，对 $10^{9}+7$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n1 1 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "15",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n1 3 5 15 3 105 35",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "100",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，互质子序列为：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. $1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. $1,2$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3. $1,3$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "4. $1,2,3$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "5. $2,3$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在第二个样例中，所有子序列都是互质的。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "理解题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>直观</strong>：乍一看觉得是 dp，但实际上本题的 <strong>GCD</strong> 和 <strong>互质</strong> 才是关键。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>深层</strong>：虽然互质序列本质上序列里只需要有一对互质数即可，但实际上直接算非常不好算，考虑<strong>正难则反</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "因为 $a_i$ 的范围很小，可以<strong>直接枚举 gcd</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "通过<strong>数论容斥</strong>，算出最大公约数为 $g$ 的序列个数，然后全集减掉，这题也就解决了。",
+          "depth": 1
+        },
+        {
+          "heading": "难点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>跳脱出思维定势，考虑正难则反，发现 GCD 容斥。</strong>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "思维钩子",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>GCD 的计数问题</strong> \\rightarrow <strong>GCD 容斥</strong>",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll cnt[N], dp[N];\nvoid solve(int CASE)\n{\n\tll n; cin >> n;\n\tfa(i, 1, n) {\n\t\tll x; cin >> x;\n\t\tcnt[x]++;\n\t}\n\n\tll ans = ((Math::fastPow(2, n, mod) - 1) % mod + mod) % mod;\n\t// 正难则反，把 gcd 不为 1 的全算出来\n\tfb(g, 1e5, 2) {\n\t\t// 算公约数为 g 的序列个数\n\t\tll tot = 0;\n\t\tfor (int bei = g; bei <= 1e5; bei += g)tot += cnt[bei];\n\t\tdp[g] = ((Math::fastPow(2, tot, mod) - 1) % mod + mod) % mod;\n\n\t\t// 算最大公约数为 g 的序列个数\n\t\t// 公约数为 g 的序列数中，可能包含最大公约数大于 g 的，减掉得到最大公约数为 g 的序列个数\n\t\tfor (int gg = 2 * g; gg <= 1e5; gg += g)\n\t\t\tdp[g] = ((dp[g] - dp[gg]) % mod + mod) % mod;\n\n\t\tans = ((ans - dp[g]) % mod + mod) % mod;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-16",
+  "parsed_at": "2026-06-14T18:39:36.589223+00:00",
+  "type_directory": "p"
+}

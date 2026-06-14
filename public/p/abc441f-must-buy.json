@@ -1,0 +1,307 @@
+{
+  "slug": "abc441f-must-buy",
+  "title": "ABC441F Must Buy",
+  "type": "题目",
+  "tags": [
+    "背包",
+    "前后缀"
+  ],
+  "difficulty": 1.5,
+  "summary": "经典前后缀背包问题。",
+  "link": "https://atcoder.jp/contests/abc441/tasks/abc441_f",
+  "link_text": "F - Must Buy",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一家商店出售 $N$ 件商品，编号为商品 $1$，商品 $2$，$\\ldots$，商品 $N$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "商品 $i$ $(1 \\leq i \\leq N)$ 的价格为 $P_i$ 日元，价值为 $V_i$。商店中每种商品只有一件库存。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "高桥会选择一些商品，使得总价格不超过 $M$ 日元。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这里保证 $M$ 不小于任何一件商品的价格。也就是说，对于任意 $1 \\leq i \\leq N$，都存在一种选择商品的方式，使得总价格不超过 $M$ 日元且包含商品 $i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个 $1 \\leq i \\leq N$，判断商品 $i$ 属于以下三种类别中的哪一种：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>类别 A</strong>：为了最大化所选商品的总价值（同时保持总价格不超过 $M$ 日元），<strong>必须</strong>选择该商品。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>类别 B</strong>：为了最大化所选商品的总价值（同时保持总价格不超过 $M$ 日元），可以选择该商品，也可以不选择该商品。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>类别 C</strong>：为了最大化所选商品的总价值（同时保持总价格不超过 $M$ 日元），<strong>绝对不能</strong>选择该商品。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入通过标准输入按以下格式给出：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$N$ $M$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$P_1$ $V_1$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$P_2$ $V_2$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\vdots$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$P_N$ $V_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq N \\leq 1000$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq M \\leq 5 \\times 10^4$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq P_i \\leq M$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq V_i \\leq 10^9$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有输入值都是整数。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个长度为 $N$、由 <code>A</code>、<code>B</code> 和 <code>C</code> 组成的字符串。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果商品 $i$ $(1 \\leq i \\leq N)$ 属于类别 $X$（其中 $X$ 是 A、B 或 C），则输出字符串的第 $i$ 个字符应为 $X$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 7\n2 5\n2 5\n3 5\n3 10\n3 20",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "BBCBA",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例 1 说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "当选择总价格不超过 $7$ 日元的商品时，可能的最大总价值是 $30$，可以通过以下两种方式之一实现：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "选择商品 $1$、$2$ 和 $5$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "选择商品 $4$ 和 $5$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "（没有其他方法可以在总价格不超过 $7$ 日元且总价值为 $30$ 的情况下选择商品。）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此，每件商品的类别如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "商品 $5$ 是最大化所选商品总价值时必须选择的商品（类别 A）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "商品 $1$、$2$ 和 $4$ 是最大化所选商品总价值时可以选择或不选择的商品（类别 B）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "商品 $3$ 是最大化所选商品总价值时绝对不能选择的商品（类别 C）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此，根据输出格式，打印 <code>BBCBA</code>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7 3\n1 1\n1 1\n1 2\n1 2\n1 2\n1 3\n1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "CCBBBAA",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "主要问题就是看当前物品 $i$ <strong>是不是可选、是不是必要</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>前者：</strong>只需要考虑硬选 $i$ 的情况下，能不能到全局最大值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这个很好说，直接朴素背包都能解决。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>后者：</strong>得考虑不选 $i$ 的情况下，是不是一定到不了全局最大值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当时第一眼想到可撤销背包，但是本题为最大值问题，<strong>可撤销背包解决不了</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那就用经典的<strong>前后缀背包</strong>了，这样即可保证仅 $i$ 没处理，别的都处理过了。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "枚举前后缀背包拿多少重量，就能检查完毕了。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll pre[N], suf[1005][N];\nvoid solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tvar p = vector<pll>(n + 1);\n\tfa(i, 1, n)cin >> p[i].px >> p[i].py;\n\tvar ans = vector<char>(n + 1, 'C');\n\n\tfb(i, n, 1) {\n\t\tconst var& [w, v] = p[i];\n\t\tfa(j, 0, m) {\n\t\t\tsuf[i][j] = suf[i + 1][j];\n\t\t\tif (j >= w)suf[i][j] = max(suf[i][j], suf[i + 1][j - w] + v);\n\t\t}\n\t}\n\n\tll mx = suf[1][m];\n\tfa(i, 1, n) {\n\t\tconst var& [w, v] = p[i];\n\t\tfa(j, 0, m - w) {\n\t\t\tint k = m - j - w;\n\t\t\tif (k < 0)break;\n\t\t\tif (pre[j] + suf[i + 1][k] + v == mx) {\n\t\t\t\t// 有 i 能到 mx，说明可选\n\t\t\t\tans[i] = 'B';\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\n\t\tbool ok = 1;\n\t\tfa(j, 0, m) {\n\t\t\tint k = m - j;\n\t\t\tif (pre[j] + suf[i + 1][k] == mx) {\n\t\t\t\t// 没有 i 也能到 mx，说明非必要\n\t\t\t\tok = 0;\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t\tif (ok)ans[i] = 'A';\n\n\t\tfb(j, m, w)pre[j] = max(pre[j], pre[j - w] + v);\n\t}\n\n\tfa(i, 1, n)cout << ans[i];\n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-18",
+  "parsed_at": "2026-06-14T18:39:35.998159+00:00",
+  "type_directory": "p"
+}

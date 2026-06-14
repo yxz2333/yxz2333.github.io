@@ -1,0 +1,84 @@
+{
+  "slug": "中位数",
+  "title": "中位数",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "经典问题",
+    "中位数"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "二分答案求中位数",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>原问题</strong>：谁是中位数？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\to <strong>二分转化</strong>：中位数是不是 $\\ge X$ ？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "根据中位数的定义：<strong>如果一个数组的中位数</strong> $\\ge X$，<strong>那么这个数组里至少有一半的数字</strong> $\\ge X$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这时候，数字瞬间只剩下两类：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\ge X$ 的数：统统标记为 <strong>1</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$< X$ 的数：统统标记为 <strong>-1</strong>（或者 0）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>于是，一道复杂的 “求中位数” 题目，变成了一道 “求和” 题目：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> 只要这个 0/1 数组的和大于 0（即 1 的数量多于 -1），那么中位数就一定 $\\ge X$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "对顶堆求中位数",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct TwoSet {\n\t// priority_queue 比 multiset 更快\n\tpriority_queue<int> l;\n\tpriority_queue<int, vector<int>, greater<int>> r;\n\tint len = 0;\n\tvoid insert(int x) {\n\t\tlen++;\n\t\tif (l.empty() or x <= l.top())l.push(x);\n\t\telse r.push(x);\n\t\tint mid = (len + 1) / 2;\n\t\twhile (l.size() > mid) {\n\t\t\tr.push(l.top());\n\t\t\tl.pop();\n\t\t}\n\t\twhile (l.size() < mid) {\n\t\t\tl.push(r.top());\n\t\t\tr.pop();\n\t\t}\n\t}\n\tint get() {\n\t\tif (len == 0)return -1;\n\t\treturn l.top();\n\t}\n};",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-26",
+  "parsed_at": "2026-06-14T18:45:11.975617+00:00",
+  "type_directory": "k"
+}

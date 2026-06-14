@@ -1,0 +1,242 @@
+{
+  "slug": "2024icpc昆明邀请赛j-冲向黄金城",
+  "title": "2024ICPC昆明邀请赛J 冲向黄金城",
+  "type": "题目",
+  "tags": [
+    "最短路/Dijkstra",
+    "st表",
+    "二分"
+  ],
+  "difficulty": 2.0,
+  "summary": "本题把距离 dis 进行了抽象，定义 <code>dis[u] = {ticket_id, left}</code>，且这样的抽象满足<strong>单调性</strong>，可以使用 Dij 跑最短路。本题存在<strong>换票</strong>，还得用 二分+st 来优化。",
+  "link": "https://codeforces.com/gym/105386/problem/J",
+  "link_text": "Problem - J - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "某个国家有 $n$ 座城市以及 $m$ 条连接城市的双向铁路。第 $i$ 条铁路由第 $c_i$ 家铁路公司运营，铁路的长度是 $l_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "您想要从城市 $1$ 开始进行全国旅行。您已经为旅行购买了 $k$ 张车票。第 $i$ 张车票可以记为两个整数 $a_i$ 和 $b_i$，表示如果您使用了这张车票，就可以一次性经过若干条均由公司 $a_i$ 运营的，且总长度不超过 $b_i$ 的铁路。即使您使用了车票，也可以选择待在当前城市。您同时只能使用一张车票，且每张车票只能使用一次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于决定车票的使用顺序太麻烦了，您打算直接按现有的顺序（从 $1$ 到 $k$）使用车票。更正式地，您将执行 $k$ 次操作。在第 $i$ 次操作中，您可以选择待在当前的城市 $u$；也可以选择一座不同的城市 $v$，满足城市 $u$ 和 $v$ 之间存在一条路径，且路径上的所有铁路均由公司 $a_i$ 运营，且铁路总长不超过 $b_i$，然后移动到城市 $v$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每座城市，判断在使用 $k$ 张车票之后能否到达该城市。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有多组测试数据。第一行输入一个整数 $T$ 表示测试数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输入三个整数 $n, m, k$ ($2 \\le n \\le 5 \\times 10^5$, $1 \\le m \\le 5 \\times 10^5$, $1 \\le k \\le 5 \\times 10^5$) 表示城市的数量，铁路的数量以及车票的数量。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行，第 $i$ 行输入四个整数 $u_i, v_i, c_i, l_i$ ($1 \\le u_i, v_i \\le n$, $u_i \\ne v_i$, $1 \\le c_i \\le m$, $1 \\le l_i \\le 10^9$)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来 $k$ 行，第 $i$ 行输入两个整数 $a_i, b_i$ ($1 \\le a_i \\le m$, $1 \\le b_i \\le 10^9$)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有数据 $n$ 之和、$m$ 之和与 $k$ 之和均不超过 $5 \\times 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每组数据输出一行一个长度为 $n$ 的字符串 $s_1s_2\\dots s_n$，其中每个字符要么是 $0$，要么是 $1$。如果您可以用 $k$ 张车票从城市 $1$ 到达城市 $i$，则 $s_i=1$；否则 $s_i=0$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n5 6 4\n1 2 1 30\n2 3 1 50\n2 5 5 50\n3 4 6 10\n2 4 5 30\n2 5 1 40\n1 70\n6 100\n5 40\n1 30\n3 1 1\n2 3 1 10\n1 100",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "11011\n100",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "打破常规的距离定义与状态压缩",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "本题的核心在于重新定义 Dijkstra 算法中的 “距离”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由于点数和票数太多，无法开出多维数组 <code>dis[node][ticket_id]</code>，且本题本质只求 “能否到达” 而非 “最短几何距离”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此我们<strong>把状态直接压缩在 <code>dis</code> 数组的值中</strong>：定义 <code>dis[u] = {ticket_id, left}</code>，表示到达节点 $u$ 时使用的车票编号及该票剩余的可用里程。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在比较时，<code>ticket_id</code> 越小越优，若编号相同则 <code>left</code> 越大越优。这种绝妙的自定义距离完美满足了局部最优推导全局最优的<strong>单调性</strong>，使得我们可以顺理成章地使用 Dijkstra 算法进行状态转移。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "图上转移逻辑",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在 Dijkstra 的优先队列中每次取出当前最优状态 <code>(now, ticket, left)</code> 向邻居 <code>to</code> 拓展。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "面对一条颜色为 <code>tpe</code>、长度为 <code>w</code> 的边时，分为两种情况：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果当前手里的车票颜色恰好吻合且剩余里程足够（<code>left &gt;= w</code>），则可以直接“白嫖”，无缝转移到状态 <code>(ticket, left - w)</code>；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果当前票不满足条件，则必须<strong>“换票”</strong>，这就要求我们在全国的车票列表中，找到下一张颜色为 <code>tpe</code>、编号大于 <code>ticket</code>、且总长度 $\\ge w$ 的<strong>最早出现的车票</strong>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "二分 + ST",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "寻找 “下一张合法车票” 的操作如果暴力遍历必定 TLE。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为此，我们可以将车票按颜色分类存储。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当需要找票时，先利用<strong>一次二分</strong>找到该颜色下首个编号大于当前 <code>ticket</code> 的位置；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "接着，利用预处理好的 <strong>ST 表（维护区间最大长度）配合第二次二分</strong>，快速定位到该位置之后首个长度 $\\ge w$ 的车票。找到后，直接带着新票转移即可。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "整体来看，这道题思维跨度不大，但非常考验将逻辑严密落地成代码的代码力。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tll id, ticket, left;\n\tbool operator<(const node& a)const {\n\t\tif (a.ticket == ticket)return a.left > left;\n\t\treturn a.ticket < ticket;\n\t}\n};\nvoid solve(int CASE)\n{\n\tll n, m, k; cin >> n >> m >> k;\n\tvar g = vector<vector<tuple<ll, ll, ll>>>(n + 1);\n\tfa(i, 1, m) {\n\t\tll u, v, id, w; cin >> u >> v >> id >> w;\n\t\tg[u].pb({ v,id,w }), g[v].pb({ u,id,w });\n\t}\n\n\tvar at = vector<pll>(k + 1);\n\tvar t = vector<vector<pll>>(m + 1);\n\tvar st = vector<ST<ll>>(m + 1);\n\tfa(i, 1, k) {\n\t\tll a, b; cin >> a >> b;\n\t\tt[a].pb({ b,i });\n\t\tat[i] = { a,b };\n\t}\n\tfa(i, 1, m)if (t[i].size()) {\n\t\tint n = t[i].size();\n\t\tvar res = vector<ll>(n + 1);\n\t\tfa(j, 1, n)res[j] = t[i][j - 1].px;\n\t\tst[i] = ST<ll>(res, ST<ll>::_max);\n\t}\n\n\tvar dis = vector<pll>(n + 1, { LNF,0 });\n\tvar Q = priority_queue<node>();\n\tQ.push({ 1,1,at[1].py });\n\tdis[1] = { 1,at[1].py };\n\twhile (Q.size()) {\n\t\tvar[now, ticket, left] = Q.top(); // 当前节点，车票 id，车票还剩路程\n\t\tQ.pop();\n\t\tif (ticket > dis[now].px or\n\t\t\tticket == dis[now].px and left < dis[now].py)\n\t\t\tcontinue;\n\n\t\tint tpe = at[ticket].px; // 当前票种\n\t\tfor (const var& [to, ntpe, w] : g[now]) { // 下一个节点，票种，花费时间\n\t\t\tif (tpe == ntpe and left >= w and // 票种一致，且时间够用\n\t\t\t\t(dis[to].px > ticket or\n\t\t\t\t dis[to].px == ticket and dis[to].py < left - w)) {\n\t\t\t\tdis[to] = { ticket,left - w };\n\t\t\t\tQ.push({ to, ticket, left - w });\n\t\t\t}\n\t\t\telse {\n\t\t\t\tvar check = [&](int mid)->bool {\n\t\t\t\t\t// 票 id 大于当前的 id\n\t\t\t\t\treturn t[ntpe][mid].py > ticket;\n\t\t\t\t\t};\n\t\t\t\t// t[ntpe] 中找离 ticket 最近的车票 id\n\t\t\t\tint l = 0, r = vs(t[ntpe]), ansid = -1;\n\t\t\t\twhile (l <= r) {\n\t\t\t\t\tint mid = l + r >> 1;\n\t\t\t\t\tif (check(mid)) {\n\t\t\t\t\t\tr = mid - 1;\n\t\t\t\t\t\tansid = mid;\n\t\t\t\t\t}\n\t\t\t\t\telse l = mid + 1;\n\t\t\t\t}\n\t\t\t\t// 注意对 ansid 的转换，此 ansid 为 t 的 id，给 st 用要 +1\n\t\t\t\tif (ansid != -1) {\n\t\t\t\t\tvar check = [&](int mid)->bool {\n\t\t\t\t\t\t// 前缀最大值够用\n\t\t\t\t\t\treturn st[ntpe].queryMax(ansid + 1, mid) >= w;\n\t\t\t\t\t\t};\n\t\t\t\t\t// t[ntpe] 中找离 ansid 最近的，够用的车票 id\n\t\t\t\t\tint l = ansid + 1, r = vs(t[ntpe]) + 1, ans = -1;\n\t\t\t\t\twhile (l <= r) {\n\t\t\t\t\t\tint mid = l + r >> 1;\n\t\t\t\t\t\tif (check(mid)) {\n\t\t\t\t\t\t\tr = mid - 1;\n\t\t\t\t\t\t\tans = mid;\n\t\t\t\t\t\t}\n\t\t\t\t\t\telse l = mid + 1;\n\t\t\t\t\t}\n\t\t\t\t\t// 注意对 ans 的转换，此 ans 为 st 的 id，给 t 用要 -1\n\t\t\t\t\tif (ans != -1) {\n\t\t\t\t\t\tvar[left, ticket] = t[ntpe][ans - 1];\n\t\t\t\t\t\tif (dis[to].px > ticket or\n\t\t\t\t\t\t\tdis[to].px == ticket and dis[to].py < left - w) {\n\t\t\t\t\t\t\tdis[to] = { ticket,left - w };\n\t\t\t\t\t\t\tQ.push({ to, ticket, left - w });\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\n\tfa(i, 1, n) {\n\t\tif (dis[i].px != LNF)cout << 1;\n\t\telse cout << 0;\n\t}\n\n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-08",
+  "parsed_at": "2026-06-14T18:39:35.707556+00:00",
+  "type_directory": "p"
+}

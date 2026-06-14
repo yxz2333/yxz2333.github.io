@@ -1,0 +1,267 @@
+{
+  "slug": "cf2132f-rada-and-the-chamomile-valley",
+  "title": "CF2132F Rada and the Chamomile Valley",
+  "type": "题目",
+  "tags": [
+    "tarjan/双联通分量",
+    "多源最短路"
+  ],
+  "difficulty": 2.5,
+  "summary": "写起来挺麻烦，题目倒是不难。",
+  "link": "https://codeforces.com/problemset/problem/2132/F",
+  "link_text": "https://codeforces.com/problemset/problem/2132/F",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "山谷由 $n$ 个房屋和 $m$ 条小路组成，这些小路连接着房屋。小路编号从 $1$ 到 $m$。你可以沿着小路双向行走。已知从任意一个房屋出发，都可以通过这些小路到达任意其他房屋，没有小路连接一个和它自身相同的房屋，即没有自环。此外，任意两座房屋之间至多只有一条小路相连。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Rada 知道 Smeshariki 每天都会从 $1$ 号房屋走到 $n$ 号房屋，但她并不知道他们具体会选择哪些小路。Rada 会在接下来的 $q$ 天里，每天都在山谷中。在第 $k$ 天，她会在 $c_k$ 号房屋。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于 Rada 不知道 Smeshariki 具体会走哪些小路，她只关心那些他们一定会经过的小路。为了确保不会错过任何一条，她希望知道每天距离她最近的这样的小路的编号。Rada 太忙于在山谷中散步了，所以她请你帮忙确定所需的小路编号。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "从房屋 $c$ 到连接房屋 $a$ 和 $b$ 的小路的距离定义为 $\\min(\\rho(a, c), \\rho(b, c))$，其中 $\\rho(a, b)$ 表示从房屋 $a$ 出发到达房屋 $b$ 至少需要经过的小路数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含一个整数 $t$（$1 \\leq t \\leq 10^4$）——表示测试用例的数量。每个测试用例的描述如下。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含两个整数 $n$ 和 $m$（$1 \\leq n \\leq 2 \\cdot 10^5$，$n-1 \\leq m \\leq \\min(\\frac{n \\cdot (n-1)}{2}, 2 \\cdot 10^5)$）——表示房屋数量和小路数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $m$ 行，每行包含两个整数 $u \\neq v$（$1 \\leq u, v \\leq n$）——表示一条连接 $u$ 号房屋和 $v$ 号房屋的小路。小路按编号顺序给出，即第 $1$ 条小路描述在前，第 $2$ 条小路描述在后，依此类推直到第 $m$ 条。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来一行包含一个整数 $q$（$1 \\leq q \\leq 2 \\cdot 10^5$）——表示 Rada 在山谷中散步的天数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $q$ 行，每行包含一个整数 $c$（$1 \\leq c \\leq n$）——表示 Rada 在当天所在的房屋编号。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证从任意房屋出发都可以通过小路到达任意其他房屋，且没有自环，任意两房屋之间至多只有一条小路。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $2 \\cdot 10^5$，$m$ 的总和不超过 $2 \\cdot 10^5$，$q$ 的总和不超过 $2 \\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出每一天的答案。如果某一天有多条符合条件的小路，输出编号最小的那一条。如果没有符合条件的小路，输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n3 3\n1 2\n2 3\n3 1\n1\n1\n5 4\n1 2\n2 3\n3 4\n4 5\n3\n1\n2\n3\n7 6\n1 2\n1 5\n2 3\n3 4\n5 7\n6 7\n7\n1\n2\n3\n4\n5\n6\n7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-1 \n1 1 2 \n2 2 2 2 2 5 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在所有后续解释中，我们用 $a \\xrightarrow{c} b$ 表示通过编号为 $c$ 的小路从房屋 $a$ 到房屋 $b$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第一个样例中，从 $1$ 号房屋到 $3$ 号房屋，至少可以经过以下路径：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$1 \\xrightarrow{3} 3$$\n$$1 \\xrightarrow{1} 2 \\xrightarrow{2} 3$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "可以看到，这两条路径没有任何公共的小路，因此没有符合条件的小路。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个样例中，可以注意到从 $1$ 号房屋到 $n$ 号房屋的路径是唯一的：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$1 \\xrightarrow{1} 2 \\xrightarrow{2} 3 \\xrightarrow{3} 4 \\xrightarrow{4} 5$$\n可以看出，对于第 $v$ 个房屋，答案是 $\\max(v-1, 1)$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 寻找“必经边”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在无向图中，如果一条边是必经边，它首先必须是一个<strong>桥</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "利用 <strong>Tarjan 算法</strong> 找到图中所有的桥，并将非桥边连接的点缩点，形成<strong>边双连通分量</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "缩点后，原图变成了一棵<strong>桥树</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "从 $1$ 所在的分量到 $n$ 所在的分量在树上有且仅有一条简单路径。<strong>这条路径上的所有桥</strong>，就是从 $1$ 到 $n$ 的必经边。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 处理特殊情况",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如果 $1$ 和 $n$ 在同一个边双连通分量中，说明它们之间至少有两条不相交路径，必经边不存在。直接输出 <code>-1</code>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 计算最近距离",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目定义点 $c$ 到边 $(a, b)$ 的距离为 $\\min(\\rho(a, c), \\rho(b, c))$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这等价于：将所有<strong>必经边的端点（即割点）</strong>作为起点，进行一次<strong>多源 BFS</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>多源 BFS 细节</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>起点初始化</strong>：将所有必经边的两个端点放入队列，初始距离为 $0$。若一个点连接了多条必经边，初始编号设为其中最小的边编号。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态转移</strong>：在 BFS 过程中，如果到达一个点 $v$ 的距离更短，更新距离和边编号；如果距离相等，根据题意取边编号的最小值。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "4. 回答询问",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于每个询问点 $c$，直接输出 BFS 计算得到的最小边编号即可。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "vector<vector<int>> bcc_edge(int n, const vector<vector<int>>& g) {\n\t/**\n\t* 无向图边双连通分量：不包含桥的极大连通子图\n\t*\n\t* - 可能还要进一步用并查集缩点，然后建树\n\t*/\n\n\tvector<int> dfn(n + 1);   // dfs序时间戳\n\tvector<int> low(n + 1);   // 能回溯到的最早祖先的dfn\n\tvector<int> bcc_id(n + 1, 0); // 每个点所属的边双连通分量id\n\tstack<int> stk;\n\tvector<vector<int>> bccs; // 存储所有边双连通分量\n\tint time = 0;\n\tint bcc_cnt = 0;\n\n\tauto tarjan = [&](auto self, int u, int fa) -> void {\n\t\tdfn[u] = low[u] = ++time;\n\t\tstk.push(u);\n\n\t\tfor (int v : g[u]) {\n\t\t\tif (v == fa) continue;\n\n\t\t\tif (!dfn[v]) {\n\t\t\t\tself(self, v, u);\n\t\t\t\tlow[u] = min(low[u], low[v]);\n\t\t\t}\n\t\t\telse {\n\t\t\t\t// 环\n\t\t\t\tlow[u] = min(low[u], dfn[v]);\n\t\t\t}\n\t\t}\n\n\t\t// 如果 u 是边双连通分量的根\n\t\tif (low[u] == dfn[u]) {\n\t\t\tbcc_cnt++;\n\t\t\tvector<int> bcc;\n\t\t\twhile (true) {\n\t\t\t\tint top = stk.top();\n\t\t\t\tstk.pop();\n\t\t\t\tbcc_id[top] = bcc_cnt;\n\t\t\t\tbcc.push_back(top);\n\t\t\t\tif (top == u) break;\n\t\t\t}\n\t\t\tbccs.push_back(bcc);\n\t\t}\n\t\t};\n\n\tfor (int i = 1; i <= n; i++) {\n\t\tif (!dfn[i]) {\n\t\t\ttarjan(tarjan, i, 0);\n\t\t}\n\t}\n\treturn bccs;\n}\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar g = vector<vector<int>>(n + 1);\n\tvar e = vector<pii>(m + 1);\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t\te[i] = { u,v };\n\t}\n\tvar qu = vector<int>();\n\tint q; cin >> q;\n\twhile (q--) {\n\t\tint x; cin >> x;\n\t\tqu.pb(x);\n\t}\n\n\t// 找边双连通分量，对双连通分量进行缩点\n\tvar bccs = bcc_edge(n, g);\n\tint nn = bccs.size();\n\tvar s = vector<int>(n + 1); // 原点 -> 缩点\n\tfa(i, 0, nn - 1) {\n\t\tfor (int x : bccs[i])\n\t\t\ts[x] = i + 1;\n\t}\n\n\t// 在一个双连通分量内，没有必经之路，不满足题意\n\tif (s[1] == s[n]) {\n\t\tfor (int q : qu)cout << -1 << ' ';\n\t\tcout << endl;\n\t\treturn;\n\t}\n\n\t// 缩点建树\n\tvar ng = vector<vector<pii>>(nn + 1); // 缩点后的树\n\tvar mp = vector<int>(nn + 1);         // 缩点 -> 原点\n\tfa(i, 1, m) {\n\t\tconst var& [u, v] = e[i];\n\t\tif (s[u] != s[v]) { // u -> v 是桥，u、v 是割点\n\t\t\tng[s[u]].pb({ s[v],i });\n\t\t\tng[s[v]].pb({ s[u],i });\n\t\t\tmp[s[u]] = u, mp[s[v]] = v;\n\t\t}\n\t}\n\n\t// 找 1 -> n 的必经边 \n\tvar must = vector<int>();\n\tvar dfs = [&](var dfs, int now, int fa)->bool {\n\t\tif (now == s[n])return 1;\n\t\tfor (const var& [to, id] : ng[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tif (dfs(dfs, to, now)) {\n\t\t\t\tmust.pb(id);\n\t\t\t\treturn 1;\n\t\t\t}\n\t\t}\n\t\treturn 0;\n\t\t};\n\tdfs(dfs, s[1], 0);\n\n\t// 多源最短路，找所有点到割点的最短距离\n\tvar dis = vector<pii>(n + 1, { INF, INF });\n\tvar Q = queue<pii>();\n\tsort(all(must)); // 按边 id 排序\n\tfor (int id : must) {\n\t\tconst var& [x, y] = e[id];\n\t\tif (dis[x].px)Q.push({ x,0 }), dis[x] = { 0,id };\n\t\tif (dis[y].px)Q.push({ y,0 }), dis[y] = { 0,id };\n\t}\n\twhile (Q.size()) {\n\t\tvar[now, d] = Q.front();\n\t\tQ.pop();\n\t\tif (d > dis[now].px)continue;\n\t\tfor (int to : g[now]) {\n\t\t\tif (dis[to].px > dis[now].px + 1) {\n\t\t\t\tdis[to].px = dis[now].px + 1;\n\t\t\t\tdis[to].py = dis[now].py;\n\t\t\t\tQ.push({ to,dis[to].px });\n\t\t\t}\n\t\t\telse if (dis[to].px == dis[now].px + 1) {\n\t\t\t\tdis[to].py = min(dis[now].py, dis[to].py);\n\t\t\t}\n\t\t}\n\t}\n\n\tfor (int x : qu)cout << dis[x].py << ' ';\n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-06",
+  "parsed_at": "2026-06-14T18:39:36.333310+00:00",
+  "type_directory": "p"
+}

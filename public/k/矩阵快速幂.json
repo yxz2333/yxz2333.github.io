@@ -1,0 +1,95 @@
+{
+  "slug": "矩阵快速幂",
+  "title": "矩阵快速幂",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "矩阵快速幂优化dp"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "处理最短路问题",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<a href=\"/tags\" class=\"tag-link\">#floyd</a> 算法的核心操作，本质上就是一种特殊的矩阵乘法。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>逻辑</strong>：计算 $M^K = M \\times M \\times ... \\times M$。每次乘法内部是 $O(N^3)$ 的 Floyd 松弛。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>含义</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$M$ 是初始邻接矩阵（1 步的距离）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$M^2 = M \\times M$：恰好（或最多）经过 <strong>2 条边</strong> 的最短路。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$M^K$：恰好（或最多）经过 <strong>K 条边</strong> 的最短路。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>复杂度</strong>：$O(N^3 \\log K)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>结果</strong>：<strong>严格限制路径长度（边数）</strong>的最短路。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "矩阵快速幂优化DP",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "已推出 $dp$ 转移方程：$dp[i] = cal(dp[i - 1])$，该方程只在乎上一维。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "且 $n$ 过大导致 $O(n)$ 过不了时，考虑使用矩阵快速幂优化至 $O(logn)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>将转移方程构造成矩阵连乘</strong>形式，即可套用快速幂：$ans^{i}[1, n] = base[n, n] * ans^{i-1}[1, n]$，其中 $ans$ 为行向量，$base$ 为系数矩阵。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "需要对答案矩阵 $ans$ 的第一项、系数矩阵 $base$ 进行初始化。",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-15",
+  "parsed_at": "2026-06-14T18:45:12.144992+00:00",
+  "type_directory": "k"
+}

@@ -1,0 +1,171 @@
+{
+  "slug": "p12144-[蓝桥杯-2025-省-a]-地雷阵",
+  "title": "P12144 [蓝桥杯 2025 省 A] 地雷阵",
+  "type": "题目",
+  "tags": [
+    "计算几何",
+    "贪心"
+  ],
+  "difficulty": null,
+  "summary": "把每个圆与切线的<strong>两个交点的极角</strong>算出来（此处用的比较简单的方法，看图就知道怎么整了，没真的算交点），这样就整成了若干个<strong>区间</strong>，直接进行<strong>区间合并</strong>就能解决本题。挺有意思的高中几何题。",
+  "link": "[P12144 [蓝桥杯 2025 省 A] 地雷阵 - 洛谷](https://www.luogu.com.cn/problem/P12144)",
+  "link_text": "[P12144 [蓝桥杯 2025 省 A] 地雷阵 - 洛谷](https://www.luogu.com.cn/problem/P12144)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小蓝正在平面直角坐标系中的第一象限里玩一个逃生小游戏。在第一象限中埋有 $n$ 颗地雷，第 $i$ 颗地雷的坐标为 $(x_i, y_i)$，触发范围为以 $(x_i, y_i)$ 为圆心，半径为 $r_i$ 的圆。一旦小蓝走进了圆内就会触发地雷导致游戏失败。小蓝初始在原点 $(0, 0)$ 上，他需要在第一象限内选择一个方向一直往前走，如果能不触发任何地雷即可成功通关游戏。他想知道在 $[0, \\frac{\\pi}{2}]$ 中均匀随机选择一个方向，即在 $0^\\circ$（朝向 $x$ 轴正方向）至 $90^\\circ$（朝向 $y$ 轴正方向）之间随机选择一个方向，通关游戏的概率是多少？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含一个正整数 $n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行，每行包含三个正整数 $x_i, y_i, r_i$，相邻整数之间使用一个空格分隔。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq n \\leq 10^5$，$1 \\leq x_i, y_i \\leq 10^4$，$r_i < \\min(x_i, y_i)$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行包含一个实数，四舍五入保留三位小数，表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n2 2 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0.540",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n1 3 1\n3 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0.181",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "!<a href=\"../assets/image_1771487301675_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>{:height 373, :width 544}",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "!<a href=\"../assets/image_1771487326460_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>{:height 389, :width 548}",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>注：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<code>fixed &lt;&lt; setprecision(3)</code>：保留 3 位小数，自带四舍五入。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>round()</code>：小数变整数的四舍五入。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>atan(), atan2()</code>：前者值域 $[-\\frac{\\pi}{2}, \\frac{\\pi}{2}]$；后者值域 $[-\\pi, \\pi]$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "const double eps = 1e-9;\nconst double PI = acos(-1.0);\nconst double PI2 = PI / 2.0;\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar p = vector<pair<db, db>>(n + 2);\n\tfa(i, 1, n) {\n\t\tint x, y, r; cin >> x >> y >> r;\n\t\tdb now = atan((db)y / x); // atan -> [-PI2, PI2]; atan2 -> [-PI, PI]\n\t\tdb del = asin((db)r / sqrt(x * x + y * y));\n\t\tp[i] = { max(0.0, now - del), min(PI2, now + del) };\n\t}\n\tp[n + 1] = { PI2, PI2 };\n\tsort(all1(p));\n\tdb now = 0, ans = 0;\n\tfa(i, 1, n + 1) {\n\t\tconst var& [l, r] = p[i];\n\t\tif (l > now)ans += l - now;\n\t\tnow = max(now, r);\n\t}\n\tcout << fixed << setprecision(3) << ans / PI2 << endl; // 自带四舍五入；round 是四舍五入到整数\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-20",
+  "parsed_at": "2026-06-14T18:39:36.814805+00:00",
+  "type_directory": "p"
+}

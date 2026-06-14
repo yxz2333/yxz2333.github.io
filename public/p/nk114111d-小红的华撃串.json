@@ -1,0 +1,144 @@
+{
+  "slug": "nk114111d-小红的华撃串",
+  "title": "NK114111D 小红的华撃串",
+  "type": "题目",
+  "tags": [
+    "状态机dp"
+  ],
+  "difficulty": 1.5,
+  "summary": "一开始当分类讨论的思维题做了，结果写起来特别复杂，看到 $n = 500$，考虑使用 $O(N^2)$ 的<strong>状态机dp</strong>解决，因为最后的字符串的形式肯定是 <code>0101</code> 或 <code>1010</code>，定 4 个状态也就解决了。本题定位是周赛 D 题，写这么慢真得好好反思了。",
+  "link": "https://ac.nowcoder.com/acm/contest/114111/D",
+  "link_text": "D-小红的华撃串_牛客周赛 Round 102",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$小红定义一个仅由字符 $\\texttt{`0'}$ 和 $\\texttt{`1'}$ 组成的字符串（简称 01 串）为华撃串，当且仅当其恰好包含三个 $\\texttt{\"01\"}$ 或 $\\texttt{\"10\"}$ 子串。换句话说，一个 01 串为华撃串，当且仅当 $\\operatorname{count}(\\texttt{\"01\"}) + \\operatorname{count}(\\texttt{\"10\"})$ 等于 $3$。其中，$\\operatorname{count}(\\texttt{\"01\"})$ 表示字符串中 $\\texttt{\"01\"}$ 子串的数量，$\\operatorname{count}(\\texttt{\"10\"})$ 表示字符串中 $\\texttt{\"10\"}$ 子串的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$现在，小红拿到了一个长为 $n$ 的 01 串，他想要将其变为一个华撃串。为此，他可以进行以下操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{23pt}\\bullet\\,$选择任意一个位置，将其反置（若该位置的字符为 $\\texttt{`1'}$，反置后为 $\\texttt{`0'}$；若该位置的字符为 $\\texttt{`0'}$，反置后为 $\\texttt{`1'}$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$我们可以证明，当字符串长度大于等于 $4$ 时，一定可以通过若干次这样的操作，将原串变为华撃串。小红想知道最少的操作次数是多少。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行输入一个整数 $n\\left(4 \\leqq n \\leqq 500\\right)$，表示字符串的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第二行输入一个长度为 $n$ 的 01 串 $s$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$输出一个整数，表示最少翻转次数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n1010",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n11111",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp1[N][4], dp2[N][4], pre1[N], pre0[N];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tstring s; cin >> s; s = ' ' + s;\n\tfa(i, 1, n)pre1[i] = pre1[i - 1] + (s[i] == '1');\n\tfa(i, 1, n)pre0[i] = pre0[i - 1] + (s[i] == '0');\n\tfa(i, 0, n)fa(j, 0, 3)dp1[i][j] = dp2[i][j] = INF;\n\tvar st1 = vector<int>{ 0,1,0,1 };\n\tvar st2 = vector<int>{ 1,0,1,0 };\n\tif (s[1] == '1') {\n\t\tdp1[1][0] = 1;\n\t\tdp2[1][0] = 0;\n\t}\n\telse {\n\t\tdp1[1][0] = 0;\n\t\tdp2[1][0] = 1;\n\t}\n\tfa(i, 2, n) {\n\t\t// [j, i - 1]\n\t\tfa(j, 1, i - 1)fa(k, 0, 2) {\n\t\t\t// 1\n\t\t\tif (st1[k + 1])\n\t\t\t\tdp1[i][k + 1] = dp1[j][k] + (pre1[i - 1] - pre1[j]) + (s[i] == '0');\n\t\t\telse\n\t\t\t\tdp1[i][k + 1] = dp1[j][k] + (pre0[i - 1] - pre0[j]) + (s[i] == '1');\n\n\t\t\t// 2\n\t\t\tif (st2[k + 1])\n\t\t\t\tdp2[i][k + 1] = dp2[j][k] + (pre1[i - 1] - pre1[j]) + (s[i] == '0');\n\t\t\telse\n\t\t\t\tdp2[i][k + 1] = dp2[j][k] + (pre0[i - 1] - pre0[j]) + (s[i] == '1');\n\t\t}\n\n\t\t// [j, i]\n\t\tfa(j, 1, i - 1)fa(k, 0, 3) {\n\t\t\t// 1\n\t\t\tif (st1[k])\n\t\t\t\tdp1[i][k] = min(dp1[i][k], dp1[j][k] + (pre0[i] - pre0[j]));\n\t\t\telse\n\t\t\t\tdp1[i][k] = min(dp1[i][k], dp1[j][k] + (pre1[i] - pre1[j]));\n\n\t\t\t// 2\n\t\t\tif (st2[k])\n\t\t\t\tdp2[i][k] = min(dp2[i][k], dp2[j][k] + (pre0[i] - pre0[j]));\n\t\t\telse\n\t\t\t\tdp2[i][k] = min(dp2[i][k], dp2[j][k] + (pre1[i] - pre1[j]));\n\t\t}\n\t}\n\n\tcout << min(dp1[n][3], dp2[n][3]) << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-22",
+  "parsed_at": "2026-06-14T18:39:36.696587+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,210 @@
+{
+  "slug": "bd202515-trink",
+  "title": "BD202515 Trink",
+  "type": "题目",
+  "tags": [
+    "奇妙树论",
+    "并查集",
+    "树链"
+  ],
+  "difficulty": 3.5,
+  "summary": "妙妙题，纯靠思维，这种题看来还是得多做点。分析题意想到怎么算最大值，然后考虑<strong>维护最右链</strong>，再利用<strong>并查集</strong>算答案。",
+  "link": "https://www.matiji.net/exam/brushquestion/15/4698/91E0C8915821F2C440B65EABFE649804",
+  "link_text": "码蹄集OJ-Trink",
+  "source": "[[2025百度之星初赛第二场]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一棵以 1 为根结点的有根树 \\( T \\)，儿子之间有左右顺序，初始时 \\( T \\) 只有一个结点 1。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来有 \\( n \\) 次操作，第 \\( i \\) 次操作给出 \\( f_i \\)，需要新建一个结点 \\( i+1 \\) 作为 \\( f_i \\) 最右侧的儿子结点，加入树 \\( T \\)。每次操作后，需要回答以下问题：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对一棵树，定义「Trink 变换」为：<strong>同时</strong>考虑<strong>所有</strong>不为 1 的结点 \\( u \\)，如果 \\( u \\) 不是 \\( u \\) 父亲从左向右的第一个儿子，则把 \\( u \\) 的父亲改为所有在 \\( u \\) 左侧的兄弟中最靠右的一个。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "问：对 \\( T \\) 最少执行多少次 Trink 变换后，树 \\( T \\) 满足：对 \\( T \\) 继续进行一次 Trink 变换后，树 \\( T \\) 的形态保持不变。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "询问之间相互独立，也就是说，并不会真的对原图进行「Trink 变换」 。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行，一个整数 \\( n \\)（\\( 1 \\leq n \\leq 10^5 \\)）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行，\\( n \\) 个整数，依次表示 \\( f_1, \\dots, f_n \\)（\\( 1 \\leq f_i \\leq i \\)）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 \\( n \\) 行，第 \\( i \\) 行包含一个整数，表示第 \\( i \\) 次操作后的答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n1 1 2 2 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0\n1\n2\n3\n4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于最后一次询问，以下展示了第 \\( k(0 \\leq k \\leq 4) \\) 次操作后，树 \\( T \\) 的形态：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/image_hosting/i8rzjnpk.png)",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：每个节点往左挪，操作完会变成一条链，相当于在最左链上持续加节点",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：每个非最左节点每次的被操作次数是左边兄弟节点的最大子树大小（过程相当于这个节点一直往左边挪嘛，还是很好想通的）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那么答案其实就是找 $max$ { 对于每个子树 $i$ 而言，如果它右边存在兄弟节点，那么他被操作的次数就是左边兄弟节点的最大子树大小 } 。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "进而发现，要找的最大子树都挂在了<strong>最右链</strong>上，我们只需要维护这个<strong>最右链</strong>（即 <strong>维护链</strong> ），找它挂着的<strong>最大子树大小</strong>即可。这么些个子树可以用 <strong>并查集</strong> 维护大小 $siz$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "观察题意、模拟画图，发现对于一个节点而言被操作的次数等于它左边兄弟节点的最大子树大小，进而发现最右链",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "多模拟整个过程，考虑一个节点被操作的次数",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "加入一个节点，考虑一整块（一整棵子树）的大小，考虑 <strong>并查集</strong>",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar s = vector<int>(n + 2);\n\tvar siz = vector<int>(n + 2, 1);\n\tfa(i, 1, n + 1)s[i] = i;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return s[x];\n\t\treturn s[x] = find(find, s[x]);\n\t\t};\n\tvar vis = vector<int>(n + 2); // 是否在最右链上\n\tvar to = vector<int>(n + 2);  // i 在最右链上，to[i] 是 i 在最右链上的子节点\n\tvar g = vector<vector<int>>(n + 2);\n\tvis[1] = 1;\n\n\tint ans = 0;\n\tfa(i, 2, n + 1) {\n\t\tint f; cin >> f;\n\t\tif (vis[f]) {\n\t\t\t// f 在最右链上\n\t\t\t// 处理 f 的子树中，原来也在最右链上的\n\t\t\tvar it = to[f];\n\t\t\tif (it) {\n\t\t\t\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\t\t\t\tvis[now] = 0;\n\t\t\t\t\tint e1 = find(find, now);\n\t\t\t\t\tfor (int to : g[now]) {\n\t\t\t\t\t\tint e2 = find(find, to);\n\t\t\t\t\t\ts[e2] = e1;\n\t\t\t\t\t\tsiz[e1] += siz[e2];\n\t\t\t\t\t\tif (vis[to])dfs(dfs, to, now);\n\t\t\t\t\t}\n\t\t\t\t\t};\n\t\t\t\tdfs(dfs, it, 0);\n\t\t\t\tans = max(ans, siz[it]);\n\t\t\t}\n\t\t\tto[f] = i;\n\t\t\tvis[i] = 1;\n\t\t}\n\t\telse {\n\t\t\tint e1 = find(find, f);\n\t\t\tint e2 = find(find, i);\n\t\t\ts[e2] = e1;\n\t\t\tsiz[e1] += siz[e2];\n\t\t\tans = max(ans, siz[e1]);\n\t\t}\n\t\tg[f].pb(i);\n\t\tcout << ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-21",
+  "parsed_at": "2026-06-14T18:39:36.078994+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,281 @@
+{
+  "slug": "cf2207c-where's-my-water%3f",
+  "title": "CF2207C Where's My Water%3F",
+  "type": "题目",
+  "tags": [
+    "ad-hoc",
+    "容斥",
+    "前后缀",
+    "单调栈",
+    "dp"
+  ],
+  "difficulty": 3.0,
+  "summary": "因为 $n$ 比较小，考虑 $O(n^2)$ 枚举两个出水口，发现只要把他们<strong>单独的出水量</strong>，和他们<strong>中间最高位置</strong>的出水量算出来，容斥一下本题就解决了。可惜这个点是本题最难想到的部分，具体实现<strong>用单调栈辅助的前后缀</strong>即可。",
+  "link": "https://www.luogu.com.cn/problem/CF2207C",
+  "link_text": "CF2207C Where's My Water? - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "设 $n,h$ 为正整数。Swampy 鳄鱼需要给他的浴缸注水，你的任务是帮他引来水。Swampy 的家上方有一个 $h \\times n$ 的网格，由泥土和水瓷砖组成，$n$ 列编号为 $1, \\ldots, n$。在第 $i$ 列的最底部，有 $a_i$ 个瓷砖是泥土，剩下的顶端都是水瓷砖。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了把水送到 Swampy，你可以在任意不是泥土的瓷砖上安装排水口。安装排水口后，所有能够通过仅向下、向左或向右移动且不经过泥土瓷砖而到达排水口的水瓷砖都会被引走。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例如，在下图中，将排水口放在符号 $\\times$ 所在的位置，除了最左上方和最右上方的水瓷砖之外，其他瓷砖都能够被排走，总共可以引走 $10$ 个瓷砖的水：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/60b08f5290a489960693936583d67903134ed07ac9d9f444f8a0730941e52414.png)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请问在最多放置两个排水口的情况下，最多能够获取多少水瓷砖？注意，如果某个水瓷砖能够被两个排水口同时引走，只计一次。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试点包含多个测试用例。第一行包含整数 $t$（$1 \\le t \\le 10^3$），表示测试用例的组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含两个整数 $n$ 和 $h$（$1 \\leq n \\leq 2000, 1 \\leq h \\leq 10^9$），分别表示网格的列数和高度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来一行包含 $n$ 个整数 $a_i$（$1 \\leq a_i \\leq h$），表示第 $i$ 列泥土的高度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $2000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数，表示在最多放置两个排水口的情况下能够获取的最大水瓷砖数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n7 4\n1 3 1 2 3 1 1\n8 10\n7 5 1 3 2 5 6 8\n1 1\n1\n10 20\n5 2 1 2 1 3 6 7 1 1\n5 1000000000\n1 420420420 1 420420420 1\n1 1000000000\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "14\n43\n0\n170\n3738738738\n999999999",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，网格如题面所示。可以如图所示放置排水口，共能引走 $14$ 块水瓷砖：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/7da283f17711496aeda1750c9fa6966a2045db328c1716b7bf5db31b201bd7c0.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个测试用例中，网格如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/cdb8ceb2594d555a4a03357ca0a3016219c0fde6f88a4974feca510fdd8d2a29.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "可以如下图所示放置排水口，引走所有 $43$ 块水瓷砖：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/076bec40c1db767644d4dd39c5251361a0dba8cfd528cc95ede910ba1d7eb198.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个测试用例中，整个网格只有一个泥土瓷砖，无法安装排水口，因此答案为 $0$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心结论",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "设我们在位置 $i$ 和位置 $j$ （$i < j$）打开了排水口。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们把流入 $i$ 的水集视为集合 $A$ ，流入 $j$ 的水集视为集合 $B$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由于物理重力的特性，这盆水被限制在各种高度的隔板中。<strong>这俩排水口的“共同控制范围”（即交集</strong> $A \\cap B$<strong>）是谁？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "答案是：$i$ <strong>和</strong> $j$ <strong>之间的最高点</strong> $k$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由于水往低处流，能够同时有概率流向 $i$ 又能流向 $j$ 的水，必然高过了它们两人中间所有的山峰，因此这些重叠区域的水，<strong>完全等价于仅仅在最高峰</strong> $k$ <strong>处开一个洞能排出的水量</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "借用集合的容斥原理 $|A \\cup B| = |A| + |B| - |A \\cap B|$，这道题的答案公式被极简地确立了：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>两点排水总量</strong> = $f[i] + f[j] - f[k]$  （其中 $k$ 为区间 $[i, j]$ 内高程最大值的下标，且 $f[x]$ 代表只在 $x$ 开洞时的单独排水量）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "实现流程",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "1. 单调栈求单点单独排水量 <code>f[i]</code>",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "你想知道只在 $i$ 开洞排多少水，就可以分为 “往左辐射” 和 “往右辐射” 两部分。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>计算 <code>pre[i]</code> 和 <code>suf[i]</code></strong>：对于点 $i$ ，单调栈里存下了挡在左边/右边的最高峰们，把各阶梯围成的一条条水平面面积（<code>len * high</code>）相加，算出流进该点左半边和右半边的水量。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>组合求 <code>f[i]</code></strong>：左水量 + 右水量后，由于 $i$ 正上方的那个小柱状水体 <code>(h - a[i])</code> 在左和右被加了两次，用 <code>pre[i] + suf[i] - (h - a[i])</code> 把这个重复贡献扣除了。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "2. 区间最值预处理 <code>mx[i][j]</code>",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "因为允许 $O(n^2)$，用了一个最朴素简单的动态规划，求出了任意两点间的高地 $k$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "状态转移极其直观：<code>mx[i][j]</code> 的最高点下标要么是当前的 $j$，要么是前一截 <code>mx[i][j-1]</code> 的最高点。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "3. $O(n^2)$ 枚举出答案",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "最后就是水到渠成了，拿着准备好的 <code>f</code> 和区间最值 <code>mx</code>，两个 <code>for</code> 循环把所有组合试一遍：<code>ans = max(ans, f[i] + f[j] - f[mx[i][j].px]);</code>",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, h; cin >> n >> h;\n\tvar a = vector<ll>(n + 2);\n\ta[0] = a[n + 1] = LNF;\n\tfa(i, 1, n)cin >> a[i];\n\n\t// 单调栈算当前位置如果排水，左边和右边的排水量\n\tvar pre = vector<ll>(n + 1);\n\tvar st = stack<int>();\n\tst.push(0);\n\tfa(i, 1, n) {\n\t\twhile (a[st.top()] <= a[i])st.pop();\n\t\tst.push(i);\n\t\tvar cst = st;\n\t\tvar tmp = vector<pll>();\n\t\twhile (cst.size()) {\n\t\t\tint now = cst.top();\n\t\t\tcst.pop();\n\t\t\ttmp.pb({ a[now], now });\n\t\t}\n\t\tfa(j, 0, vs(tmp) - 1) {\n\t\t\tll len = abs(tmp[j].py - tmp[j + 1].py);\n\t\t\tll high = h - tmp[j].px;\n\t\t\tpre[i] += len * high;\n\t\t}\n\t}\n\n\tvar suf = vector<ll>(n + 1);\n\twhile (st.size())st.pop();\n\tst.push(n + 1);\n\tfb(i, n, 1) {\n\t\twhile (a[st.top()] <= a[i])st.pop();\n\t\tst.push(i);\n\t\tvar cst = st;\n\t\tvar tmp = vector<pll>();\n\t\twhile (cst.size()) {\n\t\t\tint now = cst.top();\n\t\t\tcst.pop();\n\t\t\ttmp.pb({ a[now], now });\n\t\t}\n\t\tfa(j, 0, vs(tmp) - 1) {\n\t\t\tll len = abs(tmp[j].py - tmp[j + 1].py);\n\t\t\tll high = h - tmp[j].px;\n\t\t\tsuf[i] += len * high;\n\t\t}\n\t}\n\t\n\t// 如果这个点被为排水口，会排多少水\n\tvar f = vector<ll>(n + 1);\n\tfa(i, 1, n)f[i] = pre[i] + suf[i] - (h - a[i]);\n\t\n\t// 两点间最高的\n\tvar mx = Vec2<pll>(n + 1, n + 1);\n\tfa(i, 1, n)fa(j, i, n) {\n\t\tif (i == j)mx[i][j] = { j, a[j] };\n\t\telse {\n\t\t\tif (a[j] > mx[i][j - 1].py)mx[i][j] = { j, a[j] };\n\t\t\telse mx[i][j] = mx[i][j - 1];\n\t\t}\n\t}\n\n\tll ans = 0;\n\tfa(i, 1, n)fa(j, i, n)ans = max(ans, f[i] + f[j] - f[mx[i][j].px]);\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-25",
+  "parsed_at": "2026-06-14T18:39:36.456144+00:00",
+  "type_directory": "p"
+}

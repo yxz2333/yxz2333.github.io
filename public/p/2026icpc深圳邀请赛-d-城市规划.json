@@ -1,0 +1,318 @@
+{
+  "slug": "2026icpc深圳邀请赛-d-城市规划",
+  "title": "2026ICPC深圳邀请赛 D 城市规划",
+  "type": "题目",
+  "tags": [
+    "线段树/线段树二分",
+    "线段树/权值线段树",
+    "贪心"
+  ],
+  "difficulty": 2.5,
+  "summary": "对<strong>连续的 F 和 W 进行考虑</strong>，最关键的就是连续 W 的最后一个 W，这个 W 来进行分配，前面的 W 都默认<strong>取 F 前 k 大</strong>（线段树二分实现）的，最后这个 W 来决定下一组 F 该怎么选取，具体选取方式我是算 F 的<strong>贡献</strong>，然后倒序排序，然后一个一个枚举取最大即可。",
+  "link": "https://qoj.ac/contest/3587/problem/17756",
+  "link_text": "City Management - Problem - QOJ.ac",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "你正在管理一座城市。将有几家工厂在你的城市建立，也会有几名工人来到你的城市寻找工作。你需要合理安排这些事务，以最大化总利润。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每家工厂都有一个生产能力 $x_i$，这意味着在一轮生产中：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果有工人在这家工厂里工作，它将产生 $x_i$ 的利润。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果没有工人在这家工厂里工作，它将不会产生利润。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每家工厂最多只能有一名工人工作。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你已经预见到在接下来的 $n$ 天里，每天都会发生以下两种事件之一：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>一名工人来找工作。</strong> 这名工人到达后，你可以重新分配所有工人（包括目前已经在工厂里工作的工人）的岗位。具体来说，对于每一位工人，你可以安排他/她去任何一家工厂工作，或者让他/她保持闲置。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>一家生产能力为</strong> $x_i$ <strong>的工厂建立。</strong> 这家工厂建立后，如果有闲置的工人，你可以选择是否安排一名闲置工人在该工厂工作。当然，你也可以让这家工厂空置。特别地，如果没有闲置的工人，这家工厂就只能空置。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "在当天的事件执行完毕后，所有工厂都会进行一轮生产，并按照上述规则产生利润。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你需要求出能够获得的最大总利润。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "包含多组测试数据。输入的第一行包含一个整数 $T$ ($1 \\le T \\le 10^6$)，表示测试数据的组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$ ($1 \\le n \\le 2 \\times 10^5$)，表示天数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在接下来的 $n$ 行中，第 $i$ 行首先包含一个字符 $op_i$ ($op_i \\in \\{\\mathtt{W}, \\mathtt{F}\\}$)，表示第 $i$ 天发生的事件类型。如果 $op_i = \\mathtt{W}$，表示当天有一名工人来找工作；否则，如果 $op_i = \\mathtt{F}$，其后会跟有一个整数 $x_i$ ($1 \\le x_i \\le 10^7$)，表示当天建立了一家生产能力为 $x_i$ 的工厂。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例的 $n$ 的总和不超过 $10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据，输出一行，包含一个整数，表示最大总利润。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n8\nF 1\nF 2\nW\nF 100\nW\nW\nF 10000\nW\n9\nW\nF 51\nF 1\nF 1\nF 1\nF 1\nF 100\nF 100\nW",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "20509\n557",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第1天：建厂($x=1$)，无工人，利润0。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第2天：建厂($x=2$)，无工人，利润0。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第3天：工人到来，分配其到工厂($x=2$)或闲置，但因后续操作，本样例此处选择让其闲置（实际上选$x=2$也是对的，只是官方样例给出的步骤是闲置），利润0。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第4天：建厂($x=100$)，安排闲置工人进入，利润100。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第5天：工人到来，重新分配，两名工人去工厂($x=2$ 和 $x=100$)，利润102。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第6天：工人到来，重新分配，让一名工人去 $x=100$，一名工人去 $x=2$，第三名工人闲置，利润102。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第7天：建厂($x=10000$)，安排闲置工人进入，三个工人分别在($10000, 100, 2$)，利润10102。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第8天：工人到来，重新分配，全部四个工人去工作($10000, 100, 2, 1$)，利润10103。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "总利润：$0 + 0 + 0 + 100 + 102 + 102 + 10102 + 10103 = 20509$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "阶段划分",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "将输入的操作序列划分为交替的 <code>W</code> 块和 <code>F</code> 块。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>对于 <code>W</code> 块中的前几个工人</strong>：由于他们到来时没有新的工厂建立，他们的最优策略就是单纯地在当前已有的 “旧工厂” 中贪心地选取<strong>前</strong> $k$ <strong>大</strong>的工厂干活（只干 1 天）。对应代码中的 <code>fa(i, 0, vs(ve) - 1) ans += getk(workers + i + 1);</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>对于 <code>W</code> 块的最后一个工人</strong>：这是<strong>决定命运的时刻！</strong>他（以及之前所有的工人）需要决定接下来的日子里（直到下一批工人到来前），如何在新旧工厂间分配劳动力。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "新工厂的预处理与贪心排序",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在下一个 <code>W</code> 到来之前，会有一段连续的 <code>F</code> 块（假设有 $m$ 个新工厂）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这个阶段的总时长是 $m + 1$ 天。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $i$ 个新工厂在这个阶段内的总贡献是：<code>工厂容量 * 剩余天数</code>（对应代码中的 <code>ve[i].px += ve[i].py * cnt;</code>）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为工人是同质的，所以对于分配给新工厂的工人，我们必然优先分配给<strong>总贡献最大</strong>的新工厂。因此直接对新工厂按总贡献降序排序。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "枚举分配策略求局部最优",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在当前阶段（最后一个 <code>W</code> 带领所有工人面对接下来的 $m$ 个新工厂），我们可以<strong>枚举分配给新工厂的工人数</strong> $c$（对应代码中的 <code>free = i + 1</code>）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "分配给<strong>新工厂</strong>的 $c$ 个工人，他们产生的总收益就是排序后新工厂前 $c$ 项的前缀和（对应 <code>pre</code>）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "剩下的 $workers - c$ 个工人，只能去<strong>旧工厂</strong>干活。他们在接下来的 $m+1$ 天里每天都会产生收益，因此去权值线段树中查询前 $workers - c$ 大的旧工厂容量之和，然后乘以天数（对应 <code>getk(workers - free) * durt</code>）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "遍历所有可能的 $c \\in [0, \\min(workers, m)]$，取收益最大值即可。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "数据结构维护（线段树二分）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "每当一个阶段结算完毕，这批“新工厂”就变成了“旧工厂”，把它们按离散化后的容量插入到权值线段树中（对应 <code>seg.modify</code>）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "利用线段树二分（代码中的 <code>query_kth</code> 和 <code>query</code>，结合外部抹平叶子节点误差的巧妙设计），在 $O(\\log N)$ 时间内快速求出前 $k$ 大旧工厂的容量之和。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "整体时间复杂度为 $O(N \\log N)$，完美契合题意。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "\t// 查询第 k 大的元素的离散化排名\n\t// 因为求最大，所以优先往右子树(较大的值)找\n\tint query_kth(int p, int pl, int pr, ll k) {\n\t\tif (pl == pr)return pl;\n\t\tint mid = pl + pr >> 1;\n\t\tif (info[r(p)].cnt >= k)return query_kth(r(p), mid + 1, pr, k);\n\t\telse return query_kth(l(p), pl, mid, k - info[r(p)].cnt);\n\t}\n\tint query_kth(ll k) {\n\t\treturn query_kth(1, 1, n, k);\n\t}\n\t\n\t// 查询前 k 大的元素的 Info (包含总个数 cnt 和总容量 sum)\n\t// 注意：如果叶子节点里有多个相同的元素，这里会把整个叶子节点都拿上来\n\t// 这会导致返回的 res.cnt 可能会大于 k。这个误差会在外部的 getk 函数中抹平\n\tInfo query(int p, int pl, int pr, ll k) {\n\t\tif (pl == pr)return info[p];\n\t\tint mid = pl + pr >> 1;\n\t\tif (info[r(p)].cnt >= k)return query(r(p), mid + 1, pr, k);\n\t\telse {\n\t\t\tvar res = query(l(p), pl, mid, k - info[r(p)].cnt);\n\t\t\tres.cnt += info[r(p)].cnt;\n\t\t\tres.sum += info[r(p)].sum;\n\t\t\treturn res;\n\t\t}\n\t}\n\tInfo query(ll k) {\n\t\tvar res = query(1, 1, n, k);\n\t\treturn res;\n\t}\nstruct Info {\n\tInfo() :cnt(0), sum(0) {};\n\tInfo(ll cnt, ll sum) :cnt(cnt), sum(sum) {};\n\n\t// 要维护的值: cnt 是工厂数量，sum 是容量之和\n\tll cnt, sum;\n\tvoid apply(const Info& v) {\n\t\tcnt += v.cnt;\n\t\tsum += v.sum;\n\t}\n};\nInfo operator+(const Info& a, const Info& b) {\n\tInfo c;\n\tc.cnt = a.cnt + b.cnt;\n\tc.sum = a.sum + b.sum;\n\treturn c;\n}\nint pos[N];\nvoid solve(int CASE)\n{\n\tll n; cin >> n;\n  \t// p 用于分块存储输入，将连续的 W 压成一块，连续的 F 压成一块\n  \t// pair.first: 1 表示 W 块, 0 表示 F 块\n\tvar p = vector<pair<bool, vector<pll>>>();\n\tvar b = vector<ll>();\n\tchar lastop = '0';\n\tfa(i, 1, n) {\n\t\tchar op; cin >> op;\n\t\tif (op == 'W') {\n\t\t\tif (lastop != op)p.pb({ 1,{} });\n\t\t\tp.back().py.pb({ 1,0 });\n\t\t}\n\t\telse {\n\t\t\tll f; cin >> f;\n\t\t\tif (lastop != op)p.pb({ 0,{} });\n\t\t\tp.back().py.pb({ 0,f });\n\t\t\tb.pb(f);\n\t\t}\n\t\tlastop = op;\n\t}\n\n\tif (b.empty()) {\n\t\tcout << 0 << endl;\n\t\treturn;\n\t}\n\n  \t// 离散化去重，pos[x] 快速获取排名\n\tsort(all(b));\n\tb.erase(unique(all(b)), b.end());\n\tvar find = [&](ll x)->ll {\n\t\treturn upper_bound(all(b), x) - b.begin();\n\t\t};\n\tfor (ll x : b)pos[x] = find(x);\n\n  \t// 预处理：计算每一块连续 F（新工厂）在该段区间内的存活贡献\n\tfor (var& [op, ve] : p) {\n\t\tif (op)continue;\n\t\tll cnt = ve.size();\n\t\tfa(i, 0, vs(ve)) {\n\t\t\tve[i].px += ve[i].py * cnt;\n\t\t\tcnt--;\n\t\t}\n     \t // 贪心核心：按新工厂的“区间总贡献”从大到小排序，方便后续枚举\n\t\tsort(all(ve), greater<>());\n\t}\n\n\tvar init = vector<Info>(b.size() + 1);\n\tfa(i, 0, vs(b))init[i + 1] = { 0,0 };\n\tvar seg = SegmentTree<Info>(init);\n\tll seg_size = 0;\n\n  \t// 核心封装函数 getk：完美解决线段树叶子节点“多拿”问题的补丁\n\tvar getk = [&](ll k)->ll {\n\t\tk = min(k, seg_size);\n\t\tif (!k)return 0;\n\t\tll kth = seg.query_kth(k); // 找到第 k 大工厂的排名\n\t\tkth = b[kth - 1];\t\t   // 还原出第 k 大工厂的真实容量\n\t\tvar res = seg.query(k);    // 拿到前 k 大的汇总 Info (可能会多拿)\n\t\tll ans = res.sum;\n\t\tif (res.cnt > k) {\n          \t// 如果多拿了同等容量的工厂，把多拿的部分扣除\n\t\t\tll cha = res.cnt - k;\n\t\t\tans -= cha * kth;\n\t\t}\n\t\treturn ans;\n\t\t};\n\n\tll ans = 0, workers = 0;\n\tfa(i, 0, vs(p)) {\n\t\tconst var& [op, ve] = p[i];\n\t\tif (!op) {\n          \t// 如果是 F 块：说明它们已经跨越了 W，变成了“旧工厂”，全部加入线段树\n\t\t\tfor (const var& [ans, w] : ve)\n\t\t\t\tseg.modify(pos[w], { 1, w });\n\t\t\tseg_size += ve.size();\n\t\t\tcontinue;\n\t\t}\n\t\t\n     \t // (1) 处理连续 W 中除了最后一个之外的 W：它们只能在旧工厂里挑\n\t\tfa(i, 0, vs(ve) - 1)\n\t\t\tans += getk(workers + i + 1);\n\n      \t// (2) 最后一个 W：命运的十字路口\n\t\tworkers += ve.size();\n\t\tll mx = getk(workers); // 默认情况：如果没有新工厂，所有人都去旧工厂的日收益\n\n\t\tif (i + 1 <= vs(p)) {\n\t\t\tconst var& [_, f] = p[i + 1];\n          \t// 默认情况(0人去新工厂)的区间总收益：日收益 * (新工厂建立天数 + 1)\n\t\t\tmx *= ((ll)f.size() + 1);\n\n\t\t\tll pre = 0;\n\t\t\tfa(i, 0, vs(f)) {\n\t\t\t\tll free = i + 1ll;\n                ll durt = f.size() + 1;  // 剩下的工人去旧工厂持续的天数\n\t\t\t\tif (free > workers)continue;  // 工人不够分，直接跳过\n\t\t\t\tpre += f[i].px;\n             \t // 局部最优解 = 新工厂的总贡献 + (剩余工人去旧工厂的日收益 * 持续天数)\n\t\t\t\tll res = pre + getk(workers - free) * durt;\n\t\t\t\tmx = max(mx, res);\n\t\t\t}\n\t\t}\n\n\t\tans += mx;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-15",
+  "parsed_at": "2026-06-14T18:39:35.834648+00:00",
+  "type_directory": "p"
+}

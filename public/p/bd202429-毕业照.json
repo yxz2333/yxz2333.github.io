@@ -1,0 +1,242 @@
+{
+  "slug": "bd202429-毕业照",
+  "title": "BD202429 毕业照",
+  "type": "题目",
+  "tags": [
+    "二分答案",
+    "模拟",
+    "倍增",
+    "st表",
+    "二分"
+  ],
+  "difficulty": 2.5,
+  "summary": "一般做的都是<strong>树上倍增</strong>，<strong>序列倍增</strong>没怎么做过，算是学到了吧。",
+  "link": "https://www.matiji.net/exam/brushquestion/29/4498/F16DA07A4D99E21DFFEF46BD18FF68AD",
+  "link_text": "码蹄集OJ-毕业照",
+  "source": "[[2024百度之星决赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "快到毕业季了，小度的班级组织大家拍毕业照。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小度的班级一共有 \\( n \\) 名同学，第 \\( i \\) 名同学学号为 \\( i \\)，身高为 \\( h_i \\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一张符合要求的毕业照最多包含 \\( k \\) 排，且需要符合以下要求：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每一排内的同学的学号从小到大排序后依次 \\( +1 \\)，也就是说，如果这一排的同学中最小的学号是 \\( x \\)，则这一排内的同学们的学号从小到大依次是 \\( x, x+1, x+2, \\cdots \\)",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每一排内最高的同学和最低的同学身高差距不大于 \\( d \\)",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第 \\( i+1 (1 \\leq i < k) \\) 排的同学中最小的学号恰好是第 \\( i \\) 排的同学中最大的学号 \\( +1 \\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "现在小度有三个问题请你回答：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1. 假设只给定 \\( k \\)，如果想要一张照片容纳所有同学，最小的 \\( d \\) 是多少？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2. 假设只给定 \\( d \\)，如果想要一张照片容纳所有的同学，最小的 \\( k \\) 是多少？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "3. 假设给定 \\( k, d \\)，如果只拍一张照片，最多可以容纳多少位同学？",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第 1 行 3 个整数 \\( n, k, d \\) (\\( 1 \\leq k \\leq n \\leq 5 \\times 10^5, 1 \\leq d \\leq 10^9 \\))，表示班级里的人数，和询问的两个参数；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 2 行 \\( n \\) 个整数 \\( h_1, h_2, \\cdots, h_n \\) (\\( 1 \\leq h_i \\leq 10^9 \\))，表示每位同学的身高。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出3行，每行一个整数，代表对应问题的答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 2 3\n6 3 1 4 2 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n3\n5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：1，2 问非常简单，问题是第 3 问怎么整",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：第 3 问可以 $O(n^2)$ 暴力对拍，主要就是想怎么优化了，自然的想法是枚举一个点 $i$ ，然后考虑怎么根据这个 $i$ 算当前的答案。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "前两问一个<strong>二分答案</strong>一个$O(n)$<strong>模拟</strong>，没啥好说的，小心别犯蠢就行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三问发现可以用<strong>二分</strong> + <strong>st表</strong>预处理出<code>从 i 出发，最远能到达的不需要换行的位置  R[i]</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "枚举起点 <code>i</code>，算当前答案的过程相当于找 k 个 <code>R[j]</code>，第 k 个 <code>R[j]</code> 到 <code>i</code> 的距离就是答案。过程相当于：<code>i</code> -> <code>R[i]</code>, <code>R[i] + 1</code> -> <code>R[R[i] + 1]</code>... 一共 k 组。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这个过程可以看作<strong>跳格子游戏</strong>，过程变成：<code>i</code> -> <code>next[i]</code> -> <code>next[next[i + 1]]</code>...，<code>next[i] = R[i] + 1</code>，一共跳 k 次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "于是转成<strong>倍增</strong>问题，预处理 <code>dp[i][j]：从 i 跳 2^j 次到的位置</code>，对每个起点 <code>i</code> 查询 <code>k</code> 的二进制即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "算答案的过程转换成<strong>跳格子游戏</strong>，从而转成<strong>倍增</strong>问题。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "能够构造成<strong>跳格子游戏</strong>的问题，即有一个数组 <code>next[i]</code> 表示在 <code>i</code> 位置会跳到 <code>next[i]</code>，问从某个位置开始跳 <code>k</code> 次后的位置，都可以使用<strong>倍增</strong>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template<typename T>\nMT::Log2Table<2000000> MT::ST<T>::Log2;\nint dp[N][20];\nvoid solve(int CASE)\n{\n\tll n, k, d; cin >> n >> k >> d;\n\tvar h = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> h[i];\n\n\t///////////// 1 /////////////\n\tvar check1 = [&](ll mid)->bool {\n\t\tll cnt = 1;\n\t\tll mx = h[1], mn = h[1];\n\t\tfa(i, 2, n) {\n\t\t\tif (mx - h[i] > mid or h[i] - mn > mid) {\n\t\t\t\tmx = h[i], mn = h[i];\n\t\t\t\tcnt++;\n\t\t\t}\n\t\t\telse mx = max(mx, h[i]), mn = min(mn, h[i]);\n\t\t}\n\t\treturn cnt <= k;\n\t\t};\n\tll l = 1, r = 1e9, ans1 = 0;\n\twhile (l <= r) {\n\t\tll mid = l + r >> 1;\n\t\tif (check1(mid)) {\n\t\t\tr = mid - 1;\n\t\t\tans1 = mid;\n\t\t}\n\t\telse l = mid + 1;\n\t}\n\n\t///////////// 2 /////////////\n\tll ans2 = 1;\n\tll mx = h[1], mn = h[1];\n\tfa(i, 2, n) {\n\t\tif (mx - h[i] > d or h[i] - mn > d) {\n\t\t\tmx = h[i], mn = h[i];\n\t\t\tans2++;\n\t\t}\n\t\telse mx = max(mx, h[i]), mn = min(mn, h[i]);\n\t}\n\n\t///////////// 3 /////////////\n\tvar stmn = MT::ST<ll>(h, MT::ST<ll>::_min);\n\tvar stmx = MT::ST<ll>(h, MT::ST<ll>::_max);\n\tvar R = vector<int>(n + 1); // 从 i 出发，最远能到达的不需要换行的位置\n\tfa(i, 1, n) {\n\t\tint l = i, r = n;\n\t\tR[i] = i;\n\t\twhile (l <= r) {\n\t\t\tint mid = l + r >> 1;\n\t\t\tif (abs(stmx.queryMax(i, mid) - stmn.queryMin(i, mid)) <= d) {\n\t\t\t\tl = mid + 1;\n\t\t\t\tR[i] = mid;\n\t\t\t}\n\t\t\telse r = mid - 1;\n\t\t}\n\t}\n\n\t// 在 i 位置跳一次，到达 R[i] + 1，即换行后的第一个位置\n\tfa(i, 1, n)dp[i][0] = R[i] + 1;\n\tdp[n + 1][0] = n + 1;\n\tfa(j, 1, 19) \n\t\tfa(i, 1, n + 1) \n\t\t\tdp[i][j] = max(dp[i][j - 1], dp[dp[i][j - 1]][j - 1]);\n\t\n\t// 换 k 行，即最多跳 k 次\n\tint ans3 = 1;\n\tfa(i, 1, n) {\n\t\tint now = i;\n\t\tfa(j, 0, 19) \n\t\t\tif (k & (1ll << j)) \n\t\t\t\tnow = dp[now][j];\n\t\tans3 = max(ans3, now - i);\n\t}\n\n\t//int ans4 = 0;\n\t//fa(i, 1, n)\n\t//\tfa(j, i, n) {\n\t//\tll cnt = 1;\n\t//\tll mx = h[i], mn = h[i];\n\t//\tfa(q, i, j) {\n\t//\t\tif (mx - h[q] > d or h[q] - mn > d) {\n\t//\t\t\tmx = h[q], mn = h[q];\n\t//\t\t\tcnt++;\n\t//\t\t}\n\t//\t\telse mx = max(mx, h[q]), mn = min(mn, h[q]);\n\t//\t}\n\t//\tif (cnt <= k)ans4 = max(j - i + 1, ans4);\n\t//}\n\t//if (ans3 != ans4) {\n\t//\tdebug(\"NOOOOOOOOOOOOOOOOOOO\");\n\t//\tdebug(ans3, ans4);\n\t//\tdebug(n, k, d);\n\t//\tfa(i, 1, n)cout << h[i] << ' ';\n\t//\tcout << endl;\n\t//}\n\n\tcout << ans1 << endl << ans2 << endl << ans3 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-23",
+  "parsed_at": "2026-06-14T18:39:36.067715+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,119 @@
+{
+  "slug": "带余除法",
+  "title": "带余除法",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "数学",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "扩大模数",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "求不了逆元",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>条件</strong>：$X$ 一定能被 $D$ 整除，要求 $(X / D) \\bmod M$。但 $\\gcd(D, M) > 1$，求不出逆元。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>操作</strong>：计算 $Y = X \\bmod (M \\times D)$，答案是 $(Y / D) \\bmod M$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>证明</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为是对 $M \\times D$ 取模，所以真实值 $X$ 可以写成：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$X = k \\cdot (M \\times D) + Y$$\n我们在等式两边同时除以 $D$。因为题目保证了 $X$ 能被 $D$ 整除，且 $k \\cdot (M \\times D)$ 显然也能被 $D$ 整除，所以 $Y$ 绝对能被 $D$ 完美整除。\n$$\\frac{X}{D} = k \\cdot M + \\frac{Y}{D}$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们要求的是最终答案对 $M$ 取模，等式两边同时对 $M$ 取模：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\\frac{X}{D} \\bmod M = (k \\cdot M + \\frac{Y}{D}) \\bmod M$$\n因为 $k \\cdot M$ 是 $M$ 的倍数，取模直接消掉：\n$$\\frac{X}{D} \\bmod M = \\frac{Y}{D} \\bmod M$$",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "下取整取模",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>条件</strong>：$X$ 不一定能被 $D$ 整除，要求 $\\lfloor X / D \\rfloor \\bmod M$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>操作</strong>：计算 $Y = X \\bmod (M \\times D)$，答案是 $\\lfloor Y / D \\rfloor \\bmod M$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>证明</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "同样，把真实值 $X$ 写出来：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$X = k \\cdot (M \\times D) + Y$$\n两边同时除以 $D$：\n$$\\frac{X}{D} = k \\cdot M + \\frac{Y}{D}$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "两边同时套上<strong>向下取整</strong>的符号 $\\lfloor \\dots \\rfloor$。",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\\lfloor \\frac{X}{D} \\rfloor = k \\cdot M + \\lfloor \\frac{Y}{D} \\rfloor$$\n两边同时对 $M$ 取模：\n$$\\lfloor \\frac{X}{D} \\rfloor \\bmod M = (k \\cdot M + \\lfloor \\frac{Y}{D} \\rfloor) \\bmod M$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$k \\cdot M$ 被模掉，化简得到：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\\lfloor \\frac{X}{D} \\rfloor \\bmod M = \\lfloor \\frac{Y}{D} \\rfloor \\bmod M$$",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-15",
+  "parsed_at": "2026-06-14T18:45:12.089430+00:00",
+  "type_directory": "k"
+}

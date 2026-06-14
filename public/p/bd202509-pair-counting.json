@@ -1,0 +1,286 @@
+{
+  "slug": "bd202509-pair-counting",
+  "title": "BD202509 Pair Counting",
+  "type": "题目",
+  "tags": [
+    "计数问题",
+    "正难则反",
+    "树形dp",
+    "奇妙树论"
+  ],
+  "difficulty": 2.5,
+  "summary": "这种 <strong>奇妙树论</strong> 题还是得多做，多画图，看出题目中的结论。剩下的其实也都好说，想到用 <strong>树形dp</strong> 算 <strong>距离差为 3 的叶子节点对数</strong> 即可。",
+  "link": "https://www.matiji.net/exam/brushquestion/9/4698/91E0C8915821F2C440B65EABFE649804",
+  "link_text": "码蹄集OJ-Pair Counting",
+  "source": "[[2025百度之星初赛第二场]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一棵包含 \\( n \\) 个结点的无根树。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "初始时，你需要确定一个结点为根；接下来，可以进行任意次操作。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每次操作需依次执行以下步骤：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选择一个正整数 \\( k \\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "标记当前每一棵树中到其根距离为 \\( k \\) 的结点，删掉这些结点与其父亲的连边，形成若干棵新树。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "令这些被标记的结点为对应新树的根。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "其中，点 \\( u \\) 到点 \\( v \\) 的距离等于两点之间简单路径上边的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于点对 \\( (x, y) \\)，如果有一种选定根与操作的方案，能使得结点 \\( x \\) 与结点 \\( y \\) 在同一次操作中被标记，我们称该二元组是<strong>优美的</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你需要求出满足 \\( 1 \\leq x < y \\leq n \\) 的点对 \\( (x, y) \\) 中，有多少个点对是优美的。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题有多组测试数据。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行一个整数 \\( T \\) 表示测试数据组数（\\( 1 \\leq T \\leq 10^5 \\)）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 \\( n \\)（\\( 3 \\leq n \\leq 10^6 \\)）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "接下来 \\( n-1 \\) 行，第 \\( i \\) 行包含两个整数 \\( u_i, v_i \\)，表示树上编号为 \\( i \\) 的边连接结点 \\( u_i \\) 和 \\( v_i \\)。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "保证给出的所有边构成一棵树；保证对于单个测试点，所有 \\( n \\) 的和不超过 \\( 10^6 \\)。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据，输出一行一个整数表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n3\n12\n26\n28\n36",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n3\n12\n26\n28\n36",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一组数据，优美的点对只有 \\((1,3)\\)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第二组数据，优美的点对有 \\((1,3)\\)、\\((1,4)\\) 和 \\((3,4)\\)。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：以每个点为根节点，距离这个根节点相同的点们可以相互成对",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：但是发现不止这么些，可以通过一定操作接着找出成对的点，比如：$s - x - o - y$，$s$ 为根节点，先操作 $k = 2$，再操作 $k = 1$，$x$ $y$ 成对",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>进一步</strong>：考虑到 <strong>深层</strong> 这一步操作，结合样例中答案跟全集 $n * (n - 1) / 2$ 都较大，观察出成对点可能很多",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "但是光是 <strong>直观</strong> 这一步的模拟就很复杂，考虑到成对点可能很多，使用 <strong>容斥</strong> 考虑不成对点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>进一步手玩样例</strong>发现：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>初步</strong>：相邻两点一定不成对",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>进一步</strong>：剩下不成对的点对貌似只有两个叶子节点的情况（可以证明在两个节点均为叶子的情况下，可能不能使用 <strong>深层</strong> 操作成对）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>紧接着</strong>：发现当两个叶子节点在任何点为根节点时，它们的深度差都为 1，那么肯定无法套用 <strong>深层</strong> 操作，于是就不成对",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>最后</strong>：没别不成立的情况了，因为除了两个叶子，别的情况都能套 <strong>深层</strong> 操作",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "当两个叶子节点在任何点为根节点时，它们的深度差都为 1，那么他们的距离为 3，这很容易想到。所以我们只需要减掉 <strong>边的个数</strong> $(n-1)$，再减掉 <strong>距离差为 3 的点对个数</strong> 即可。后者用 <strong>树形dp</strong> 解决。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "观察题意、模拟画图、发现结论",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这种 <strong>奇妙树论</strong> 题还是得多画图，看出题目中的结论",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "计数问题，易想到可以用 <strong>容斥计数</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "计算距离为 <strong>3</strong> 的点对个数，可以想到 <strong>树形dp</strong> 的 <strong>拐弯</strong> 操作，故发现可以用 <strong>树形dp</strong> 解决",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\tll ans = n * (n - 1) / 2 - (n - 1);\n\n\tll sum = 0;                    // 距离差为 3 的叶子节点对数\n\tvar cnt = Vec2<ll>(n + 1, 3);  // 离 i 距离为 j 的叶子节点个数\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tif (g[now].size() == 1) {\n\t\t\tcnt[now][0] = 1;\n\t\t\treturn; \n\t\t}\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\tfa(i, 1, 2) {      \n\t\t\t\t// i, j：左右子树到叶子节点距离\n\t\t\t\tint j = 3 - i;\n\t\t\t\tsum += cnt[now][i] * cnt[to][j - 1];\n\t\t\t}\n\t\t\tfa(i, 1, 2)cnt[now][i] += cnt[to][i - 1];\n\t\t}\n\t\t};\n\tfa(i, 1, n)if (g[i].size() != 1) {\n\t\tdfs(dfs, i, 0);\n\t\tbreak;\n\t}\n\tans -= sum;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-21",
+  "parsed_at": "2026-06-14T18:39:36.071245+00:00",
+  "type_directory": "p"
+}

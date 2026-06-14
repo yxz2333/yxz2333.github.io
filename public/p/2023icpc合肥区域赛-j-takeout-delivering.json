@@ -1,0 +1,203 @@
+{
+  "slug": "2023icpc合肥区域赛-j-takeout-delivering",
+  "title": "2023ICPC合肥区域赛 J Takeout Delivering",
+  "type": "题目",
+  "tags": [
+    "瓶颈路问题"
+  ],
+  "difficulty": 1.5,
+  "summary": "经典瓶颈路问题，因为只求 $1 \\to n$ 的瓶颈路，所以考虑从 $1$ 和 $n$ 跑<strong>最大瓶颈路最短路</strong>，然后<strong>枚举每条边</strong>，看看这条边是否能当最大瓶颈路。",
+  "link": "https://codeforces.com/gym/104857/problem/J",
+  "link_text": "Problem - J - Codeforces",
+  "source": "[[2023ICPC合肥区域赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "火腿先生是中国科学技术大学一只非常勤奋的仓鼠，他总是利用周末送外卖来赚取外快。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了最大化配送效率，他想编写一个程序来寻找最短路线。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "具体来说，我们可以将火腿先生所在的合肥市视为一个具有 $n$ 个顶点和 $m$ 条边的无向图。每条边都有一个拥堵系数 $w$。火腿先生从顶点 1 出发，需要将外卖送到顶点 $n$。火腿先生发现配送时间总是由路径上拥堵程度最高的两条边决定。因此，火腿先生将路径长度定义为：该路径中拥堵系数最大的两条边之和。当路径中只有一条边时，路径长度即为该边的拥堵系数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在，火腿先生想知道从顶点 1 到顶点 $n$ 的最小路径长度。由于火腿先生不会编程，他把这个任务交给了你。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n \\ (2 \\le n \\le 3 \\times 10^5)$ 和 $m \\ (\\max(1, n-1) \\le m \\le 10^6)$，分别表示顶点数和边数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行每行描述图中的一条边。第 $i$ 行包含三个整数 $u_i, v_i$ 和 $w_i \\ (1 \\le u_i, v_i \\le n, u_i \\neq v_i, 1 \\le w_i \\le 10^9)$，表示顶点 $(u, v)$ 之间存在一条拥堵系数为 $w$ 的边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定的图中没有自环和重边，且保证图是连通的。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行，仅包含一个整数，表示顶点 1 到顶点 $n$ 的最小路径长度。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 6\n1 2 2\n1 3 4\n1 4 7\n2 3 1\n2 4 3\n3 4 9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "我当时向 AI 请教了以下这个问题：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> <strong>“枚举边这个部分，大部分题是不是得考虑 dis[u], dis[v] 是否覆盖了 u - v 这条边？”</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "回答是：<strong>绝大多数求“最短路/最小代价”的题目中，是不需要考虑覆盖问题的。</strong>",
+          "depth": 1
+        },
+        {
+          "heading": "为什么通常不需要考虑“边被覆盖/重叠”？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "假设我们在求 $S \\to T$ 的最短路，我们在枚举中间的一条边 $(u, v)$，权值为 $w$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们计算的代价通常是：<code>Cost = dist[S][u] + w + dist[T][v]</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "你担心的“覆盖”情况可能是指：<strong>从 S 走到 u 的路径中，其实已经经过了 v</strong>（即形成了 $S \\to \\dots \\to v \\to \\dots \\to u \\to v \\to \\dots \\to T$ 的回路）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但是在求<strong>最小</strong>值的过程中，这种情况会被自动淘汰：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果图的边权都是非负的（或者像本题这样的瓶颈路），那么 $S \\to \\dots \\to v$ 的代价一定小于等于 $S \\to \\dots \\to v \\to \\dots \\to u$ 的代价。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>如果出现了重叠，意味着你在走“回头路”或者“绕圈子”。</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "既然我们在取 <code>min(ans, ...)</code>，这种<strong>绕圈子的劣质解</strong>一定会被更优的、没有重叠的简单路径给顶替掉。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "<strong>结论：</strong> 只要是<strong>求最小值</strong>，且图<strong>没有负环</strong>，数学上的<strong>单调性</strong>保证了最优解一定是一条简单路径（不重复经过点或边），所以不需要手动判断。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar g = vector<vector<pll>>(n + 1);\n\tvar p = vector<tuple<ll, ll, ll>>();\n\tfa(i, 1, m) {\n\t\tll u, v, w; cin >> u >> v >> w;\n\t\tp.pb({ u,v,w });\n\t\tg[u].pb({ v,w }), g[v].pb({ u,w });\n\t}\n\n\tvar dis = Vec2<ll>(2, n + 1, LNF);\n\tvar dij = [&](int s, vector<ll>& dis)->void {\n\t\tvar vis = vector<int>(n + 1);\n\t\tvar Q = priority_queue<pll, vector<pll>, greater<pll>>();\n\t\tQ.push({ dis[s] = 0, s });\n\t\twhile (Q.size()) {\n\t\t\tvar[d, now] = Q.top();\n\t\t\tQ.pop();\n\t\t\tif (vis[now])continue;\n\t\t\tvis[now] = 1;\n\t\t\tfor (const var& [to, w] : g[now]) {\n\t\t\t\tif (dis[to] > max(dis[now], w)) {\n\t\t\t\t\tdis[to] = max(dis[now], w);\n\t\t\t\t\tQ.push({ dis[to], to });\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\t};\n\tdij(1, dis[0]); // 算 1 -> u 的最大瓶颈路\n\tdij(n, dis[1]); // 算 n -> u 的最大瓶颈路\n\n\tll ans = LNF;\n\tfor (const var& [x, y, w] : p) {\n\t\t// 枚举边\n\t\t// w 为最大瓶颈路，max(dis[0][x], dis[1][y]) 为次大瓶颈路\n\t\tif (w >= max(dis[0][x], dis[1][y]))\n\t\t\tans = min(ans, max(dis[0][x], dis[1][y]) + w);\n\t\tif (w >= max(dis[1][x], dis[0][y]))\n\t\t\tans = min(ans, max(dis[1][x], dis[0][y]) + w);\n\t}\n\tif (ans == LNF)cout << -1 << endl;\n\telse cout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-25",
+  "parsed_at": "2026-06-14T18:39:35.692777+00:00",
+  "type_directory": "p"
+}

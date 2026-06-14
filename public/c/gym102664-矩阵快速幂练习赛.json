@@ -1,0 +1,20 @@
+{
+  "slug": "gym102664-矩阵快速幂练习赛",
+  "title": "GYM102664 矩阵快速幂练习赛",
+  "type": "比赛",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "https://codeforces.com/gym/102644",
+  "link_text": "Dashboard - Matrix Exponentiation - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-15",
+  "parsed_at": "2026-06-14T18:39:37.183262+00:00",
+  "type_directory": "c"
+}

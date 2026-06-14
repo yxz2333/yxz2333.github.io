@@ -1,0 +1,256 @@
+{
+  "slug": "cf817d-imbalanced-array",
+  "title": "CF817D Imbalanced Array",
+  "type": "题目",
+  "tags": [
+    "贡献法",
+    "子段计数问题",
+    "单调栈"
+  ],
+  "difficulty": 1.5,
+  "summary": "经典子段计数的贡献法问题，要算 max - min 之和，考虑拆分成 max和 - min和，然后结合单调栈算左右合法边界的个数即可。",
+  "link": "https://www.luogu.com.cn/problem/CF817D",
+  "link_text": "CF817D Imbalanced Array - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于给定由 $n$ 个元素构成的数组。一个子数组的不平衡值是这个区间的最大值与最小值的差值。数组的不平衡值是它所有子数组的不平衡值的总和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "以下是数组 $[1,4,1]$ 不平衡值的例子，共有 $6$ 个子序列：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$[1]$ (从第 $1$ 号到第 $1$ 号)，不平衡值为 $1-1=0$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$[1, 4$] (从第 $1$ 号到第 $2$ 号), 不平衡值为 $4-1=3$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$[1, 4, 1]$ (从第 $1$ 号到第 $3$ 号)，不平衡值为 $4-1=3$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$[4]$ (从第 $2$ 号到第 $2$ 号)，不平衡值为 $4-4=0$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$[4, 1]$ (从第 $2$ 号到第 $2$ 号)，不平衡值为 $4-1=3$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$[1]$ (从第 $3$ 号到第 $3$ 号)，不平衡值为 $1-1=0$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "综上所述，数组的不平衡值为 $3+3+3=9$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入共 $2$ 行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含一个正整数 $n(1 \\le n \\le 10^6)$，表示数组元素的个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个正整数 $a_1,a_2 \\dots a_n(1 \\le a_i \\le 10^6)$，表示数组的元素。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $100 \\%$ 的数据，$1 \\le n \\le 10^6$，$1 \\le a_i \\le 10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "仅一行，即数组的不平衡值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 4 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "贡献法拆解",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目要求计算所有子段的 $(\\max - \\min)$ 之和。直接枚举子段复杂度为 $O(N^2)$，不可行。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "根据求和的线性性质，可以将问题拆解为两个独立的部分：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\text{Ans} = \\sum (\\text{所有子段的最大值}) - \\sum (\\text{所有子段的最小值}) $$\n于是问题转化为：**对于数组中的每个元素** $a_i$**，计算它是多少个子段的最大值（以及最小值）。**",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "单调栈",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "为了计算 $a_i$ 的贡献，我们需要找到它作为最大值/最小值的<strong>最大管辖区间</strong> $[L, R]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "以计算最大值贡献为例：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>左边界</strong> $L_{mx}$：左边第一个<strong>大于</strong> $a_i$ 的元素位置。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>右边界</strong> $R_{mx}$：右边第一个<strong>大于</strong> $a_i$ 的元素位置。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这可以通过两次<strong>单调栈</strong>扫描（一次正向，一次反向）在 $O(N)$ 时间内求出。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于 $a_i$，在 $(L_{mx}, R_{mx})$ 范围内的所有跨越 $i$ 的子段，其最大值都是 $a_i$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "根据乘法原理，以 $i$ 为最大值的子段数量为：$(i - L_{mx}) \\times (R_{mx} - i)$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "去重",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "当数组中存在重复元素时（例如 <code>[2, 3, 3, 2]</code>），如果不做特殊处理，两个 <code>3</code> 可能会计算重复的子段。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "代码中采用了<strong>“左闭右开”</strong>（或左开右闭）的策略来避免重复计算：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在向左找边界时，使用 <code>a[st.top()] &lt;= a[i]</code>（取等号，遇到相等的继续弹栈，找<strong>严格</strong>大于/小于的）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在向右找边界时，使用 <code>a[st.top()] &lt; a[i]</code>（不取等号，遇到相等的停止，找<strong>大于等于</strong>/小于等于的）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这相当于规定：<strong>对于数值相同的元素，只有最右边（或最左边）的那个才拥有该区间的“所有权”。</strong>",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tvar a = vector<ll>(n + 2);\n\tfa(i, 1, n)cin >> a[i];\n \n\tvar pmx = vector<pll>(n + 1);\n\tvar pmn = vector<pll>(n + 1);\n\tfa(i, 1, n)pmx[i] = pmn[i] = { i,i };\n \n\tvar stmx = stack<ll>();\n\tvar stmn = stack<ll>();\n\tfa(i, 1, n) {\n\t\twhile (stmx.size() and a[stmx.top()] <= a[i])stmx.pop();\n\t\twhile (stmn.size() and a[stmn.top()] >= a[i])stmn.pop();\n\t\tif (stmx.empty())pmx[i].px = 1;\n\t\telse pmx[i].px = stmx.top() + 1;\n\t\tif (stmn.empty())pmn[i].px = 1;\n\t\telse pmn[i].px = stmn.top() + 1;\n\t\tstmx.push(i), stmn.push(i);\n\t}\n \n\twhile (stmx.size())stmx.pop();\n\twhile (stmn.size())stmn.pop();\n\tfb(i, n, 1) {\n\t\twhile (stmx.size() and a[stmx.top()] < a[i])stmx.pop();\n\t\twhile (stmn.size() and a[stmn.top()] > a[i])stmn.pop();\n\t\tif (stmx.empty())pmx[i].py = n;\n\t\telse pmx[i].py = stmx.top() - 1;\n\t\tif (stmn.empty())pmn[i].py = n;\n\t\telse pmn[i].py = stmn.top() - 1;\n\t\tstmx.push(i), stmn.push(i);\n\t}\n \n\tll mx = 0, mn = 0;\n\tfa(i, 1, n) {\n\t\tconst var& [lmx, rmx] = pmx[i];\n\t\tmx += a[i] * (i - lmx + 1) * (rmx - i + 1);\n\t\tconst var& [lmn, rmn] = pmn[i];\n\t\tmn += a[i] * (i - lmn + 1) * (rmn - i + 1);\n\t}\n\tcout << mx - mn << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-27",
+  "parsed_at": "2026-06-14T18:39:36.595679+00:00",
+  "type_directory": "p"
+}

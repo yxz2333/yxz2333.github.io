@@ -1,0 +1,222 @@
+{
+  "slug": "abc230d-destroyer-takahashi",
+  "title": "ABC230D Destroyer Takahashi",
+  "type": "题目",
+  "tags": [
+    "贪心/排序",
+    "正难则反"
+  ],
+  "difficulty": 1.0,
+  "summary": "正难则反，破坏问题变成建造问题，从而转化成<strong>最少点覆盖问题</strong>，按<strong>右端点贪心排序</strong>，仅攻击未覆盖节点的右端点即可。",
+  "link": "[AT_abc230_d [ABC230D] Destroyer Takahashi - 洛谷](https://www.luogu.com.cn/problem/AT_abc230_d)",
+  "link_text": "[AT_abc230_d [ABC230D] Destroyer Takahashi - 洛谷](https://www.luogu.com.cn/problem/AT_abc230_d)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在一个被划分为 $N$ 行 $10^9$ 列格子的城市中，有 $N$ 面墙，每面墙都被分配了从 $1$ 到 $N$ 的编号。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $i$ 面墙位于第 $i$ 行，从左起第 $L_i$ 列到第 $R_i$ 列的范围内。（也请参考输入输出样例 $1$ 的图示。）",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "高桥君决定要摧毁所有 $N$ 面墙。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "拥有超人力量的高桥君可以用一次拳击同时对连续的 $D$ 列造成伤害。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "更严格地说，可以选择一个 $1$ 到 $10^9 - D + 1$ 之间的整数 $x$，对第 $x$ 列到第 $x + D - 1$ 列范围内（只要有一部分在该范围内）的所有尚未被摧毁的墙造成拳击伤害。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "只要墙的任意部分受到伤害，整面墙就会因拳击的冲击波而被彻底摧毁。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请问高桥君至少需要多少次拳击才能摧毁所有的墙？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入以如下格式从标准输入读入。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $N$ $D$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $L_1$ $R_1$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $L_2$ $R_2$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $\\vdots$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $L_N$ $R_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq N \\leq 2 \\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq D \\leq 10^9$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq L_i \\leq R_i \\leq 10^9$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入均为整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出摧毁所有墙所需的最少拳击次数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3\n1 2\n4 7\n5 9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "下图展示了与输入样例 $1$ 对应的墙的分布。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://img.atcoder.jp/ghi/b7b9e6741514f51c6c0aac924589c9d2.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "例如，可以如下方式进行拳击，仅用 $2$ 次拳击摧毁所有的墙。（下述说明中，$a$ 列到 $b$ 列的范围记作 $[a, b]$。）",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "首先对 $[2, 4]$ 进行拳击。位于 $[2, 4]$ 的墙 $1$ 和墙 $2$ 受到伤害，被摧毁。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "然后对 $[5, 7]$ 进行拳击。位于 $[5, 7]$ 的墙 $3$ 受到伤害，被摧毁。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "另外，也可以如下方式用 $2$ 次拳击摧毁所有墙：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "首先对 $[7, 9]$ 进行拳击，摧毁墙 $2$ 和墙 $3$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "然后对 $[1, 3]$ 进行拳击，摧毁墙 $1$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, d; cin >> n >> d;\n\tvar p = vector<pii>(n + 1);\n\tfa(i, 1, n)cin >> p[i].px >> p[i].py;\n\tsort(all1(p), [](const pii& a, const pii& b)->bool {\n\t\treturn a.py < b.py;\n\t\t});\n\tint ans = 1;\n\tint r = p[1].py + d - 1;\n\tfa(i, 2, n) {\n\t\tconst var& [x, y] = p[i];\n\t\tif (x > r) {\n\t\t\tr = y + d - 1;\n\t\t\tans++;\n\t\t}\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-15",
+  "parsed_at": "2026-06-14T18:39:35.971801+00:00",
+  "type_directory": "p"
+}

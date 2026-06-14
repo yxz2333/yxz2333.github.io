@@ -1,0 +1,295 @@
+{
+  "slug": "cf1209e2-rotate-columns-(hard-version)",
+  "title": "CF1209E2 Rotate Columns (hard version)",
+  "type": "题目",
+  "tags": [
+    "状压",
+    "状压dp",
+    "ad-hoc"
+  ],
+  "difficulty": 1.5,
+  "summary": "列看似很多，实际上有用的只有列最大值最大的前 $K = min(n, m)$ 个，这样行列都被压缩到 12，然后再跑<strong>状压dp</strong>就行了。",
+  "link": "https://codeforces.com/problemset/problem/1209/E2",
+  "link_text": "Problem - 1209E2 - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给你一个 $n \\times m$ 的矩形矩阵 $a$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在一次操作中，你可以选择任意一列，并将该列中的元素进行<strong>循环移位</strong>（Cyclic Shift）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<em>解释：例如一列是 [1, 2, 3]，向下循环移位一次变成 [3, 1, 2]。</em>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你可以进行任意多次操作（可以是 $0$ 次）。你也可以对同一列进行多次操作。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当你完成所有操作后，对于矩阵的每一行，计算该行的最大值。假设第 $i$ 行的最大值为 $r_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你的目标是找到一种操作方案，使得 $r_1 + r_2 + \\ldots + r_n$ 的值<strong>最大</strong>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$ ($1 \\le t \\le 40$)，表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含两个整数 $n$ 和 $m$ ($1 \\le n \\le 12, 1 \\le m \\le 2000$)，分别表示矩阵的行数和列数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行，每行包含 $m$ 个整数，表示矩阵 $a$ 的元素 ($1 \\le a_{i, j} \\le 10^5$)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $t$ 个整数：按输入顺序输出每个测试用例的答案（即最大可能的行最大值之和）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n2 3\n2 5 7\n4 2 4\n3 6\n4 1 5 2 10 4\n8 6 6 4 9 10\n5 4 9 5 8 7\n3 3\n9 9 9\n1 1 1\n1 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "12\n29\n27",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，你可以将第三列向下移动一位，这样：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 1 行的最大值 $r_1 = 5$（来自原第三列的下半部分移上来）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 2 行的最大值 $r_2 = 7$（原第二列）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "总和 $5+7=12$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "理解题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>直观</strong>：题意是通过循环移位各列，使得每一行的最大值之和最大。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>深层</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$N$ 极小 $\\Rightarrow$ 能否使用<strong>状压</strong>？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$M$ 远大于 $N$，而我们只需要选取 $N$ 个数 $\\Rightarrow$ <strong>绝大多数列是没用的</strong>。每一行只取一个数，最多只需要 $N$ 列。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "发现性质：虚张声势的 M",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>列之间互相独立</strong>，假设每列也只能选一个数，那么肯定是选最大的数，因为操作是循环移位，答案就是前 $N$ 大个列最大值的总和。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "那如果一列要选多个数呢？因为行之间不完全独立，所以会比较麻烦。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但是想想看，<strong>绝大多数的列是没用的</strong>，那是不是只需要考虑<strong>特定的</strong>几列即可？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们上面就讨论了一种特别的情况，这种情况只需要靠列最大值前 $N$ 大的那么几个列，推广到一般情况也是这样吗？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "是的，具体证明就不细讲，稍微想想就知道了。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所以我们只需要考虑 <strong>列最大值前</strong> $K(=min(n,m))$ <strong>大的几个列</strong> 即可。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "枚举超集，状压dp",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<em>（发现了性质后面的都好说，下面就简单讲讲。）</em>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为 $N$ $K$ 都很小，定义 $dp[i][mask]$ 为考虑前 $i$ 个优选列，覆盖了行集合 $mask$ 的最大得分。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>转移方程</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i][mask | sub] = \\max(dp[i][mask | sub], \\ dp[i-1][mask] + ans[i][sub])$$\n这里 $sub$ 是 $mask$ 的补集的子集（即新的一列负责填充之前没填好的行）。\n注意一下这个**选取状态**，进行 $dp$ 转移的时候我们需要枚举上一个选取状态的超集，这里用 $O(3^N)$ 的板子解决即可。 ((693d2e8c-ab16-40e0-9c37-5d0b68230134))",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "难点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>敢于丢弃数据</strong>：最大的难点在于意识到 $M$ 是<strong>“虚张声势”</strong>，如果不进行 $M \\to N$ 的缩减，DP 复杂度会炸。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>预处理的必要性</strong>：如果把移位操作放在 DP 内部枚举，复杂度会多一个 $N$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "思维钩子",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$N \\ll M$ $\\rightarrow$ <strong>可能 M 中实际用到的只有 N 个</strong>。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int a[15][2005];\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tfa(i, 1, n)fa(j, 1, m)cin >> a[i][j];\n\tvar p = vector<pii>(m + 1);\n\tfa(j, 1, m) {\n\t\tint mx = 0;\n\t\tfa(i, 1, n)mx = max(mx, a[i][j]);\n\t\tp[j] = { mx, j };\n\t}\n\n\t// 提取列最大值前 K 大的列\n\tsort(all1(p), greater<>());\n\tconst int K = min(n, m);\n\tvar np = vector<vector<int>>(K + 1, vector<int>(n + 1));\n\tfa(k, 1, K) {\n\t\tint j = p[k].py;\n\t\tfa(i, 1, n)np[k][i] = a[i][j];\n\t}\n\n\t// 预处理\n\tvar youyi = [&](vector<int>& a)->void {\n\t\t// 数组右移\n\t\tint k = a[n];\n\t\tfb(i, n, 2)a[i] = a[i - 1];\n\t\ta[1] = k;\n\t\treturn;\n\t\t};\n\tvar ans = Vec2<int>(K + 1, 1 << n);\n\tfa(i, 1, K) {\n\t\tvar a = np[i];\n\t\tfa(k, 0, (1 << n) - 1) { // 枚举选取状态\n\t\t\tint mx = 0;\n\t\t\tfa(j, 1, n) {        // 枚举右移次数\n\t\t\t\tyouyi(a);\n\t\t\t\tint res = 0;\n\t\t\t\tfa(q, 1, n)\n\t\t\t\t\tif (k & (1 << (q - 1)))\n\t\t\t\t\t\tres += a[q];\n\t\t\t\tmx = max(res, mx);\n\t\t\t}\n\t\t\tans[i][k] = mx; // i 列在 k 选取状态下，使用右移操作得到的最大值\n\t\t}\n\t}\n\n\tvar dp = Vec2<int>(K + 1, 1 << n);\n\tfa(i, 1, K) { // 枚举 K 列\n\t\tfa(mask, 0, (1 << n) - 1) {   // 已经拿了哪些位置\n\t\t\tint comp = ((1 << n) - 1) ^ mask;\n\t\t\tfor (int sub = comp; ; sub = (sub - 1) & comp) {\n\t\t\t\tint sup = mask | sub; // 合并后拿了哪些位置\n\t\t\t\tint now = sup ^ mask; // 这次我们拿哪些位置\n\t\t\t\tdp[i][sup] = max(dp[i][sup], dp[i - 1][mask] + ans[i][now]);\n\t\t\t\tif (sub == 0) break;\n\t\t\t}\n\t\t}\n\t}\n\tcout << dp[K][(1 << n) - 1] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-19",
+  "parsed_at": "2026-06-14T18:39:36.138795+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,341 @@
+{
+  "slug": "cf1709e-xor-tree",
+  "title": "CF1709E XOR Tree",
+  "type": "题目",
+  "tags": [
+    "前缀异或",
+    "树上启发式合并",
+    "lca"
+  ],
+  "difficulty": 2.0,
+  "summary": "<strong>启发式合并</strong>，用一个 <code>set</code> 来存子树的 $S_x$（$S_x$ 为根到 $x$ 的<strong>前缀异或和</strong>），然后枚举  <code>set</code> 里的 $S_x$ 看看 <code>set</code> 中是否存在 $S_y \\oplus S_x \\oplus a[u] == 0$ 的，有就把 <code>set</code> 清空掉，相当于把 $u$ 节点设为一个 <strong>无敌节点</strong>，经过 $u$ 的都不会出现为 $0$ 的。",
+  "link": "https://codeforces.com/problemset/problem/1709/E",
+  "link_text": "https://codeforces.com/problemset/problem/1709/E",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一棵包含 $n$ 个顶点的树。每个顶点上写有一个数字，第 $i$ 个顶点上的数字为 $a_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们称一条简单路径为每个顶点最多访问一次的路径。路径的权值定义为该路径上所有顶点的值的按位异或。我们称一棵树是“好”的，如果不存在权值为 $0$ 的简单路径。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你可以进行如下操作任意次（也可以不进行）：选择树上的一个顶点，将其上的值替换为任意正整数。请问，最少需要进行多少次操作，才能使这棵树变为“好”的？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\le n \\le 2 \\cdot 10^5$），表示顶点数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$（$1 \\le a_i < 2^{30}$），表示每个顶点上的数字。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n-1$ 行，每行包含两个整数 $x$ 和 $y$（$1 \\le x, y \\le n; x \\ne y$），表示一条连接顶点 $x$ 和顶点 $y$ 的边。保证这些边构成一棵树。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示最少需要进行多少次操作，才能使这棵树变为“好”的。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n3 2 1 3 2 1\n4 5\n3 4\n1 4\n2 1\n6 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n3 2 1 3 2 1\n4 5\n3 4\n1 4\n2 1\n6 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n3 2 1 3 2 1\n4 5\n3 4\n1 4\n2 1\n6 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，只需将顶点 $1$ 上的值替换为 $13$，将顶点 $4$ 上的值替换为 $42$ 即可。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 题目分析",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "题意简述",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "给定一棵点权树，点权为 $a_i$，我们需要最少修改多少个点的权值（可以修改为任意正整数），使得树上不存在任意一条简单路径的异或和为 $0$。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "性质转化",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "定义 $D_u$ 为从根节点（假设为 1 号点）到 $u$ 的路径异或前缀和。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "对于任意两点 $u, v$，设它们的最近公共祖先 $x = \\text{LCA}(u, v)$，路径 $(u, v)$ 的异或和为 $0$ 等价于：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$\nD_u \\oplus D_v \\oplus a_x = 0 \\iff D_u \\oplus D_v = a_x \\iff D_u \\oplus a_x = D_v\n$$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这意味着，如果我们在以 $x$ 为根的子树中，发现分别位于不同分支（或其中一个是公共祖先 $x$）的两个节点 $u, v$ 满足 $D_u \\oplus D_v = a_x$，则说明存在一条“坏路径”。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "2. 贪心策略与等价性证明",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "策略",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "采用<strong>自底向上</strong>的遍历方式，有点像<strong>树形 dp</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "对于节点 $x$，如果发现其子树内存在“坏路径”穿过 $x$，我们选择<strong>修改 x 的权值</strong>。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "为什么修改 $x$ 是最优的？",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "当发现冲突时，我们有两个选择：修改 $x$，或者修改子树中的 $u$ 或 $v$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "如果修改子节点 $u$，只能解决当前这一条坏路径，且无法保证 $u$ 的子树中其他路径向上传导时不出问题。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>如果修改 x</strong>：我们可以将 $a_x$ 修改为一个极大的、特殊的数（例如 $2^{60}$，在这个题目范围内不可能被异或抵消）。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这不仅破坏了当前检测到的坏路径。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "还使得所有<strong>经过 x 节点</strong>的路径的异或和都变成了一个未知的大数，从而不可能为 0。",
+                  "depth": 2
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "3. 树上启发式合并",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "为了高效检查是否存在满足 $D_u \\oplus D_v = a_x$ 的节点对，我们需要维护子树的 $D$ 值<strong>集合</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>既然必须要维护子树集合，那明显是树上启发式合并问题了。</strong>",
+              "depth": 1
+            },
+            {
+              "heading": "1. DSU on Tree 启发式合并",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "<strong>重儿子继承</strong>：处理 $x$ 时，直接继承集合元素最多的子节点（重儿子）的集合，利用 <code>swap</code> 实现 $O(1)$ 转移。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>轻儿子暴力检查</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>检查</strong>：遍历轻儿子的小集合元素 $val$，检查大集合是否存在 $val \\oplus a_x$。若存在，说明发现大集合中的存在节点与小集合当前枚举到的节点组成坏路径，需要对 $x$ 进行修改。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>合并</strong>：若未发现坏路径，将所有 $val$ <strong>插入大集合</strong>。",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "2. 剪枝优化",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "一旦在节点 $x$ 发现冲突，将 $a[x]$ 隐式地设为一个肯定不会出现路径权值为 $0$ 的数，答案 <code>ans++</code>，并立即<strong>清空当前集合</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这意味着以 $x$ 为根的整个子树的信息都不再向上传递。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tset<int> se;\n\tvector<int>ve;\n\tvoid add(int x) {\n\t\tif (se.count(x))return;\n\t\tve.pb(x);\n\t\tse.insert(x);\n\t}\n\tint size() const {\n\t\treturn ve.size();\n\t}\n\tvoid clear() {\n\t\tve.clear();\n\t\tse.clear();\n\t}\n} dp[N];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\tint ans = 0;\n\tvar dfs = [&](var dfs, int now, int fa, int s)->void {\n\t\tbool ok = 0; // now 是否成为超级节点，任何经过 now 的路径权值都为 0\n\t\tdp[now].add(s);\n\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now, s ^ a[to]);\n\n\t\t\t//【启发式合并】：如果有更大的集合，直接交换\n\t\t\tif (dp[to].size() > dp[now].size())\n\t\t\t\tswap(dp[now], dp[to]);\n\n\t\t\tif (ok)continue;\n\n\t\t\tfor (int x : dp[to].ve) {\n\t\t\t\t//【启发式合并】：只枚举小集合\n\t\t\t\tif (dp[now].se.count(x ^ a[now])) {\n\t\t\t\t\tok = 1;\n\t\t\t\t\tans++;\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t}\n\n\t\t\t//【启发式合并】：小集合处理完融入大集合\n\t\t\tfor (int x : dp[to].ve)\n\t\t\t\tdp[now].add(x);\n\t\t}\n\n\t\tif (ok)dp[now].clear();\n\t\t};\n\tdfs(dfs, 1, 0, a[1]);\n\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-20",
+  "parsed_at": "2026-06-14T18:39:36.271743+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,328 @@
+{
+  "slug": "2025icpc南京区域赛f-按位与路径",
+  "title": "2025ICPC南京区域赛F 按位与路径",
+  "type": "题目",
+  "tags": [
+    "思维定势",
+    "状态压缩",
+    "并查集",
+    "贪心/按位贪心",
+    "图论经典问题/图的连通性",
+    "在线问题"
+  ],
+  "difficulty": 3.5,
+  "summary": "在赛时，想不到可以利用<strong>图的连通性</strong>，没察觉<strong>边权这么小</strong>且过程是对边权<strong>按位与</strong>的重要性，一直觉得我得跑 dij，但实际上不是这样的。这题的关键是想到能<strong>通过答案构造连通性</strong>，也就是开 $2^{12}$ 组 $n$ 个元素的并查集 <code>s[1 &lt;&lt; 12][N]</code>，通过<strong>异或贪心</strong>，查看答案中当前这个位 $i$ 能否取。为了满足这样的高效查询，在 $+$ 操作建边时，我们对 $w$ 的子集也建上边，同时为了防止 $TLE$，我使用了<strong>递归</strong>枚举 $w$ 子集，这样就可以进行<strong>剪枝</strong>，在 $q$ 次询问下，这加边的总复杂度也只会到 $n * 2^{12} * logN$。然后这题就解决了。",
+  "link": "https://qoj.ac/contest/2581/problem/14806",
+  "link_text": "Bitwise And Path - Problem - QOJ.ac",
+  "source": "[[2025ICPC南京区域赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一张 $n$ 个节点的无向图，一开始图中没有边。维护 $q$ 次操作，操作可能是以下两种：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<code>+ u v w</code>：在节点 $u$ 和 $v$ 之间连一条边，边权为 $w$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>? u v</code>：定义路径的权值为，路径上所有边权进行<strong>按位与 (Bitwise AND)</strong> 运算的结果。求以节点 $u$ 为起点，节点 $v$ 为终点的路径的<strong>最大权值</strong>。若不存在连接节点 $u$ 和 $v$ 的路径，则答案为 $-1$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有多组测试数据。第一行输入一个整数 $T$ $(1 \\le T \\le 100)$ 表示测试数据组数。对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输入两个整数 $n$ 和 $q$ $(2 \\le n \\le 10^3, \\ 1 \\le q \\le 10^6)$，分别表示节点的数量和操作的数量。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于接下来 $q$ 行，第 $i$ 行首先输入一个字符 $op$ $(op \\in \\{+, ?\\})$ 表示第 $i$ 次操作的类型。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $op = +$，则继续输入三个整数 $u, v$ 和 $w$ $(1 \\le u, v \\le n, \\ 0 \\le w < 2^{12})$，表示第一种操作。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "若 $op = ?$，则继续输入两个整数 $u$ 和 $v$ $(1 \\le u, v \\le n, \\ u \\neq v)$，表示第二种操作。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>约束条件：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证每组数据至少有一次第二种操作。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有数据的 $n$ 之和不超过 $10^3$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有数据的 $q$ 之和不超过 $10^6$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "为了减少输出的大小，每组数据只需要输出<strong>一行一个整数</strong>，表示该组数据中所有第二种操作（查询操作）的答案之<strong>和</strong>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n4 11\n+ 1 3 6\n+ 3 4 2\n? 1 4\n+ 1 4 3\n? 4 1\n+ 4 3 4\n? 1 4\n+ 3 2 3\n? 1 2\n+ 1 1 4\n? 1 3\n4 4\n+ 1 2 64\n+ 3 4 32\n? 1 2\n? 3 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "17\n63",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一组样例数据，第二种操作的答案分别为 2，3，4，2 和 6。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第二组样例数据，第二种操作的答案分别为 64 和 -1。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "理解题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>动态图问题</strong>：支持加边和路径查询。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>非最短路算法</strong>：求的是“路径按位与（AND）最大值”，这不是累加权值，Dijkstra 或 BFS 在此处失效（因为 AND 操作只会让值变小或不变，不具备贪心拓展的最优子结构）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>位运算特征</strong>：看到 $w < 2^{12}$ 这样极小的值域，且涉及位运算，第一反应应是<strong>拆位</strong>或<strong>状压</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>浓缩题意</strong>：在一个初始无边的图中，动态加入边 $(u, v, w)$。对于查询 $(x, y)$，找一条路径，使得路径上所有边权的 AND 和最大。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "1.  确定贪心策略（<strong>按位贪心</strong>）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "要求 Max AND，标准做法是从<strong>高位到低位贪心</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "假设当前 $k$ 位贪心得到的答案是 <code>ans</code>，我们要检查 <code>target = ans | (1 &lt;&lt; (k - 1))</code> 是否可行。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>问题转化成</strong>：如果只保留图中 “权值包含 <code>target</code> 所有 1 的边” （即 $w \\ \\& \\ target == target$ 的边），$u$ 和 $v$ 是否依然连通？",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2.  状态预处理（空间换时间）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "每次查询都遍历边去 check 太慢。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "利用 $w < 2^{12}$，我们可以维护 $2^{12}$ 组<strong>并查集</strong>，利用<strong>并查集</strong>来检查<strong>图的连通性</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "定义 <code>DSU[mask]</code>：只包含 “权值是 <code>mask</code> 的超集” 的边构成的图的连通性。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>查询时</strong>：直接在 <code>DSU[target]</code> 中 <code>find(u) == find(v)</code> 即可，$O(1)$ 判定。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3.  动态加边的维护（枚举子集 + 剪枝优化）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "当加入一条边 $(u, v, w)$ 时，这条边不仅对询问 <code>w</code> 有效，对询问 <code>w</code> 的所有<strong>子集</strong>也都有效。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>朴素做法</strong>：枚举 <code>w</code> 的所有子集 <code>sub</code>，在 <code>DSU[sub]</code> 中合并 $(u, v)$，复杂度爆炸 $O(q*2^{12})$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>剪枝优化（核心逻辑）</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "使用<strong>递归</strong>枚举子集。 ((694b91b1-842d-4306-a616-3f6c2b7d20cd))",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在 <code>DSU[sub]</code> 中合并 $(u, v)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>关键点</strong>：如果 <code>find(sub, u) == find(sub, v)</code>，说明在更高层级（或者之前的操作中）它们已经连通了。根据 SOS 的传递性，更底层的子集肯定也连通了，<strong>直接 return，不再递归</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>复杂度</strong>：由于每个并查集最多合并 $N-1$ 次，总复杂度被均摊限制在 $O(2^{12} \\cdot N \\cdot \\alpha(N))$ 内。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "难点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>思维定势打破</strong>：从“最短路/图论”视角跳出来，转到“位运算贪心 + 连通性维护”视角。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>复杂度分析与剪枝</strong>：直接枚举子集更新会超时，必须利用并查集的连通状态进行剪枝（即：若当前层已连通，则无需向下递归）。这是 AC 的生死线。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "思维钩子",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>“最大 AND 路径” / “最小 OR 生成树”</strong> $\\rightarrow$ <strong>按位贪心</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>边权/值域很小</strong> ($2^{10} \\sim 2^{20}$) $\\rightarrow$ <strong>开全量数组预处理 (DSU / DP)</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>大量重复的状态更新</strong> $\\rightarrow$ <strong>进行递归剪枝</strong>。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int s[1 << 12][N];\nint find(const int st, int x) {\n\tif (s[st][x] == x)return x;\n\treturn s[st][x] = find(st, s[st][x]);\n}\nvoid solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\tfa(mask, 0, (1 << 12) - 1)fa(i, 1, n)s[mask][i] = i;\n\n\tll ans = 0;\n\twhile (q--) {\n\t\tchar op; cin >> op;\n\t\tif (op == '+') {\n\t\t\tint u, v, w; cin >> u >> v >> w;\n\t\t\tvar dfs = [&](var dfs, int sub)->void {\n\t\t\t\t// 处理子集 sub\n\t\t\t\tint e1 = find(sub, u);\n\t\t\t\tint e2 = find(sub, v);\n\t\t\t\tif (e1 == e2)return;\n\t\t\t\ts[sub][e2] = e1;\n\n\t\t\t\tfa(k, 0, 11)\n\t\t\t\t\tif (sub & (1 << k))\n\t\t\t\t\t\tdfs(dfs, sub ^ (1 << k));\n\t\t\t\t};\n\t\t\tdfs(dfs, w);\n\t\t}\n\t\telse {\n\t\t\tint x, y; cin >> x >> y;\n\t\t\tint now = 0;\n\t\t\tfb(k, 11, 0) {\n\t\t\t\tint e1 = find(now | (1 << k), x);\n\t\t\t\tint e2 = find(now | (1 << k), y);\n\t\t\t\tif (e1 == e2)now |= 1 << k;\n\t\t\t}\n\t\t\tif (now == 0) {\n\t\t\t\tint e1 = find(now, x);\n\t\t\t\tint e2 = find(now, y);\n\t\t\t\tif (e1 == e2)ans += 0;\n\t\t\t\telse ans += -1;\n\t\t\t}\n\t\t\telse ans += now;\n\t\t}\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-25",
+  "parsed_at": "2026-06-14T18:39:35.762556+00:00",
+  "type_directory": "p"
+}

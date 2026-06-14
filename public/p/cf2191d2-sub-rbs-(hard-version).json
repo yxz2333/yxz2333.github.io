@@ -1,0 +1,366 @@
+{
+  "slug": "cf2191d2-sub-rbs-(hard-version)",
+  "title": "CF2191D2 Sub-RBS (Hard Version)",
+  "type": "题目",
+  "tags": [
+    "状态机dp"
+  ],
+  "difficulty": 2.5,
+  "summary": "先在 D1 看出来本题的性质，然后根据<strong>要算的答案</strong>、<strong>合法括号序列的性质</strong>、<strong>题目的性质</strong>，来构造出 4 维 dp 状态 <code>dp[i][len][balance][state]</code>：前 $i$ 个字符，选择了长度为 $len$ 的子序列，其括号匹配值为 $balance$，题目性质的持有状态为 $state$。",
+  "link": "https://codeforces.com/contest/2191/problem/D2",
+  "link_text": "Problem - D2 - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>这是该问题的困难版本。两个版本的区别在于，在这个版本中，你需要求出 s 的所有子序列的分数之和；s 不一定是一个正则括号序列，并且对 n 的限制更低。</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们说一个括号序列 $a$ <strong>优于</strong>一个括号序列 $b$，如果以下条件之一成立：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$b$ 是 $a$ 的一个前缀，但 $a \\ne b$；或者",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "设 $i$ 是第一个 $a_i \\neq b_i$ 的位置（如果存在），那么 $\\color{red}{a_i = \\texttt{(}}$ 且 $\\color{red}{b_i = \\texttt{)}}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于一个任意的括号序列 $t$，我们按如下方式定义它的<strong>分数</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果 $t$ <strong>不是</strong>一个正则括号序列$^{\\text{∗}}$，分数为 $0$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果存在 $t$ 的一个正则括号子序列$^{\\text{†}}$ $r$，使得 $r$ <strong>优于</strong> $t$，那么分数等于所有这样的子序列 $r$ 中 $|r|$ 的最大值。$\\color{red}{也就是 |r| - 2}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "否则，分数为 $0$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "换句话说，$t$ 的分数是 $t$ 的、<strong>优于 t</strong> 的最长正则括号子序列的长度。如果 $t$ 不是正则括号序列，或者不存在优于 $t$ 的正则子序列，分数为 $0$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定一个长度为 $n$ 的括号序列 $s$。求 $s$ 的所有非空子序列的分数之和，结果对 $998\\,244\\,353$ 取模。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$^{\\text{∗}}$一个<strong>正则括号序列</strong>是指可以通过在原序列的字符之间插入字符 $\\texttt{1}$ 和 $\\texttt{+}$ 来转换为一个正确的算术表达式的括号序列。例如：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "括号序列 $\\texttt{()()}$ 和 $\\texttt{(())}$ 是正则的（得到的表达式分别是 $\\texttt{(1)+(1)}$ 和 $\\texttt{((1+1)+1)}$）；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "括号序列 $\\texttt{)(}$，$\\texttt{(}$ 和 $\\texttt{)}$ 不是正则的。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$^{\\text{†}}$如果序列 $a$ 可以通过从序列 $b$ 中删除任意位置（可能为零个或全部）的若干个元素得到，那么 $a$ 是 $b$ 的一个<strong>子序列</strong>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试包含多个测试用例。第一行包含测试用例的数量 $t$（$1 \\le t \\le 30$）。接下来是每个测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$（$1 \\le n \\le 100$）—— 字符串 $s$ 的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第二行包含一个长度为 $n$、仅由字符 $\\texttt{(}$ 和 $\\texttt{)}$ 组成的序列 $s$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例的 $n$ 之和不超过 $100$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数 —— $s$ 的所有子序列的分数之和，结果对 $998\\,244\\,353$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n1\n(\n6\n()()()\n6\n(())()\n8\n(())()()\n22\n()()())()()(()()()((()",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0\n4\n0\n22\n563070",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，唯一的非空子序列是 $g = \\texttt{(}$。它不是一个正则括号序列，所以它的分数是 $0$，总和也是 $0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个样例中，考虑 $g = s = \\texttt{()()()}$。它是一个正则括号序列。我们可以选择 $r = \\texttt{(())}$，它是 $g$ 的一个子序列。$r$ 和 $g$ 第一个不同的位置是 $i = 2$。由于 $r_2 = \\texttt{(}$ 且 $g_2 = \\texttt{)}$，$r$ 优于 $g$。因此，$g$ 的分数是 $|r| = 4$。$s$ 的所有其他非空子序列的分数都等于 $0$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 基于 D1 结论",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "根据 Easy Version 的结论，一个括号序列 $S$ 的分数为非零值（具体为 $|S|-2$），当且仅当满足两个条件：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$S$ 是一个合法括号序列（RBS）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$S$ 包含子序列 <code>)((</code>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "2. 状态定义",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于 $N \\le 100$，我们可以将所有制约条件和目标属性直接计入 DP 维度。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "定义状态 $dp[i][j][bal][st]$ 表示：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>i</strong>：当前处理到原串 $s$ 的第 $i$ 个字符。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>j</strong>：已经选出的子序列<strong>长度</strong>为 $j$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>bal</strong>：当前子序列的括号<strong>平衡度</strong>（<code>左括号 - 右括号</code>），需保证过程中 $bal \\ge 0$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>st</strong>：子序列包含 <code>)((</code> 的匹配进度（<strong>状态机</strong>）：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$0$: 未匹配",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "$1$: 已包含 <code>)</code>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "$2$: 已包含 <code>)(</code>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "$3$: 已包含 <code>)((</code>（目标状态）",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "3. 状态转移",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "遍历 $i$ 从 $1$ 到 $n$，因为是子序列计数问题，对于每个状态，分<strong>“选 s[i]”</strong>和<strong>“不选 s[i]”</strong>讨论：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>不选 s[i]</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "直接继承状态：$dp[i][j][bal][st] \\ += \\ dp[i-1][j][bal][st]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>选 s[i]</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "令新长度 $nj = j+1$，根据字符更新 $nbal$ 和 $nst$：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "若 $s[i] == \\text{'('}$：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$nbal = bal + 1$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "$nst$ 转移：若 $st=1 \\to 2$（凑出 <code>)(</code>）；若 $st=2 \\to 3$（凑出 <code>)((</code>）；其余保持。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "若 $s[i] == \\text{')'}$：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$nbal = bal - 1$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "$nst$ 转移：若 $st=0 \\to 1$（凑出 <code>)</code>）；其余保持（<code>s[i]</code> 对后续匹配无贡献但不破坏已有进度）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "累加：$dp[i][nj][nbal][nst] \\ += \\ dp[i-1][j][bal][st]$",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "4. 统计答案",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "最终答案为所有满足条件的子序列分数之和：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\text{Ans} = \\sum_{len=4}^{n} \\left( dp[n][len][0][3] \\times (len - 2) \\right) \\pmod{998244353} $$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "<strong>复杂度</strong>：状态数 $O(N^3)$，转移 $O(1)$，总时间复杂度 $O(N^4)$（$N=100$ 下计算量约 $10^7 \\sim 10^8$，且常数极小，可过）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tstring s; cin >> s; s = ' ' + s;\n\tvar dp = Vec4<ll>(n + 1, n + 1, n + 1, 4); // [i][len][balance][state]\n\n\tdp[0][0][0][0] = 1;\n\tfa(i, 1, n)fa(len, 0, i - 1) {\n\t\tif (s[i] == '(') {\n\t\t\tfa(bal, 0, len) fa(st, 0, 3) {\n\t\t\t\tif (st == 1 or st == 2)\n\t\t\t\t\tdp[i][len + 1][bal + 1][st + 1] = (dp[i][len + 1][bal + 1][st + 1] + dp[i - 1][len][bal][st]) % mod;\n\t\t\t\telse \n\t\t\t\t\tdp[i][len + 1][bal + 1][st] = (dp[i][len + 1][bal + 1][st] + dp[i - 1][len][bal][st]) % mod;\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tfa(bal, 1, len) fa(st, 0, 3) {\n\t\t\t\tif (st == 0)\n\t\t\t\t\tdp[i][len + 1][bal - 1][st + 1] = (dp[i][len + 1][bal - 1][st + 1] + dp[i - 1][len][bal][st]) % mod;\n\t\t\t\telse\n\t\t\t\t\tdp[i][len + 1][bal - 1][st] = (dp[i][len + 1][bal - 1][st] + dp[i - 1][len][bal][st]) % mod;\n\t\t\t}\n\t\t}\n\t\tfa(bal, 0, len)fa(st, 0, 3)dp[i][len][bal][st] = (dp[i][len][bal][st] + dp[i - 1][len][bal][st]) % mod;\n\t}\n\t\n\tll ans = 0;\n\tfa(len, 4, n)ans = (ans + dp[n][len][0][3] * (len - 2ll) % mod) % mod;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-18",
+  "parsed_at": "2026-06-14T18:39:36.400818+00:00",
+  "type_directory": "p"
+}

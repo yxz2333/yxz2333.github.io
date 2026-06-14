@@ -1,0 +1,77 @@
+{
+  "slug": "贡献法",
+  "title": "贡献法",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "案例 1：树上全路径距离和",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>场景</strong>：求树上所有点对的距离之和 $\\sum_{1 \\le i < j \\le N} dist(i, j)$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>痛点</strong>：点对数量是 $O(N^2)$，利用 $dist = dep[u]+dep[v]-2dep[LCA]$ 依然太慢。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>转换视角</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "不考虑“两点之间的路径”，而是考虑“<strong>每一条边被多少条路径经过</strong>”。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "对于一条边 $(u, v)$ （$v$ 是 $u$ 的儿子）：",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "切断这条边，树分为<strong>两部分</strong>，大小分别为 $siz[v]$ 和 $N - siz[v]$。",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "这就意味着有 $siz[v] \\times (N - siz[v])$ 条路径会穿过这条边。",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "<strong>公式</strong>",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$TotalDist = \\sum_{v \\in nodes} \\text{weight}(fa[v], v) \\times siz[v] \\times (N - siz[v])$$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>应用</strong>：将 $O(N^2)$ 的路径求和降维成 $O(N)$ 的边的遍历。",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-09",
+  "parsed_at": "2026-06-14T18:45:12.208645+00:00",
+  "type_directory": "k"
+}

@@ -1,0 +1,235 @@
+{
+  "slug": "nk128675e-小橙的幸运数（hard）",
+  "title": "NK128675E 小橙的幸运数（hard）",
+  "type": "题目",
+  "tags": [
+    "倍增",
+    "基环树",
+    "同余最短路"
+  ],
+  "difficulty": 1.5,
+  "summary": "两个做法，最简单好想的是<strong>倍增+贪心跳跃</strong>，也可以考虑建图<strong>跑基环树+同余最短路</strong>解决，后者可能比较麻烦。",
+  "link": "https://ac.nowcoder.com/acm/contest/128675/E",
+  "link_text": "E-小橙的幸运数（hard）_牛客小白月赛129",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$给定一个长度为 $m$ 的非负整数序列 $a_0,a_1,\\dots,a_{m-1}$，小橙的幸运数是正整数 $c$，因此她很喜欢这个数字。现在有 $q$ 次询问，每次给定一个正整数 $x$，可以执行以下操作任意次（可以不操作）：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{23pt}\\bullet\\,$将 $x$ 的值替换为 $x+a_{(x \\bmod m)}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$小橙想知道，能否通过若干次操作使 $x$ 变为 $c$，请你帮帮她。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行输入三个正整数 $m,c,q\\left(1\\leq m, q\\leq 2\\times 10^5;\\, 1\\leq c\\leq 10^9\\right)$，分别表示序列的长度，幸运数，询问的次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第二行输入 $m$ 个整数 $a_0, a_1, \\dots, a_{m-1}\\left(0\\leq a_i\\leq 10^9\\right)$，表示序列的各个元素。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$此后 $q$ 行，第 $i$ 行输入一个整数 $x_i\\left(1\\leq x_i\\leq 10^9\\right)$，代表第 $i$ 次询问的数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$对于每一次询问新起一行，如果 $x_i$ 能变成 $c$，请输出 $\\texttt{Yes}$，否则输出 $\\texttt{No}$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 13 5\n1 2 6 1 3\n1\n9\n5\n10\n14",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\nNo\nNo\nYes\nNo",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\nNo\nNo\nYes\nNo",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\nNo\nNo\nYes\nNo",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "解法一：倍增 + 贪心跳跃",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>如何想到</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "每个点有且仅有一个<strong>直接后继 next</strong>，明显适合用<strong>倍增</strong>来快速跳跃并累加权值。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>核心思路</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "预处理出每个余数状态向后跳 $2^j$ 步到达的新余数 <code>p[i][j]</code>，以及这 $2^j$ 步累加的权值和 <code>dp[i][j]</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于每个询问 $x$，我们需要凑出的权值差为 <code>cha = c - x</code>。我们直接从 $x \\bmod m$ 开始，整个贪心跳跃就解决了。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "思维难度极低，无脑套板子，容错率高。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "解法二：基环树 + 同余最短路（找环与预处理）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>如何想到</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果我们不仅想做到能做，还想把时间复杂度压到极致的，就必须挖掘本题基环树的性质。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "不管起点在哪，终点 $c$ 的余数必定是 $r = c \\bmod m$。那我们只需要看起点能不能走到 $r$ 所在的同余系，以及走到时还有了多少圈要补即可。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>核心思路</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>最短路</strong>：建反图，从目标的余数 $r = c \\bmod m$ 开始做<strong>逆向 BFS</strong>，求出所有节点<strong>第一次</strong>走到 $r$ 累加的权值 $D[y]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>找环</strong>：顺着 $r$ 走一圈回到 $r$，算出这个环的权值和 $L$；当然有可能回不到 $r$，这时特判一下即可。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$O(1)$ <strong>判定</strong>：对于查询 $x$，若它的余数 $x \\bmod m$ 根本走不到 $r$，直接 <code>No</code>；若能走到，算出它第一次走到目标同余系时的值 $val = x + D[y]$。如果 $val \\le c$ 且剩下的差值 $(c - val)$ 能被环的权值 $L$ 整除，则输出 <code>Yes</code>。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 倍增\nvoid solve(int CASE)\n{\n\tll n, c, q; cin >> n >> c >> q;\n\tvar a = vector<ll>(n);\n\tfa(i, 0, n - 1)cin >> a[i];\n\tvar p = Vec2<ll>(n + 1, 31);\n\tvar dp = Vec2<ll>(n + 1, 31);\n\tfa(i, 0, n - 1) {\n\t\tll nex = (i + a[i]) % n;\n\t\tp[i][0] = nex;\n\t\tdp[i][0] = a[i];\n\t}\n\tfa(j, 1, 30)\n\t\tfa(i, 0, n - 1) {\n\t\tp[i][j] = p[p[i][j - 1]][j - 1];\n\t\tdp[i][j] = dp[i][j - 1] + dp[p[i][j - 1]][j - 1];\n\t}\n\twhile (q--) {\n\t\tll x; cin >> x;\n\t\tif (x > c)cout << \"No\" << endl;\n\t\telse if (x == c)cout << \"Yes\" << endl;\n\t\telse {\n\t\t\tll cha = c - x;\n\t\t\tll now = x % n;\n\t\t\tfb(i, 30, 0) {\n\t\t\t\tif (cha >= dp[now][i]) {\n\t\t\t\t\tcha -= dp[now][i];\n\t\t\t\t\tnow = p[now][i];\n\t\t\t\t}\n\t\t\t}\n\t\t\tif (cha)cout << \"No\" << endl;\n\t\t\telse cout << \"Yes\" << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 基环树+同余最短路+找环\nvoid solve(int CASE)\n{\n\tll n, c, q; cin >> n >> c >> q;\n\tvar a = vector<ll>(n);\n\tfa(i, 0, n - 1)cin >> a[i];\n\n\tvar g = vector<vector<int>>(n);\n\tvar nex = vector<int>(n);\n\tfa(i, 0, n - 1) {\n\t\tnex[i] = (i + a[i]) % n;\n\t\tg[nex[i]].pb(i);\n\t}\n\n\tvar Q = queue<int>();\n\tvar dis = vector<ll>(n, LNF);\n\tvar vis = vector<bool>(n);\n\tll st = c % n;\n\tdis[st] = 0;\n\tQ.push(st);\n\twhile (Q.size()) {\n\t\tint now = Q.front();\n\t\tQ.pop();\n\t\tif (vis[now])continue;\n\t\tvis[now] = 1;\n\t\tfor (int to : g[now]) {\n\t\t\tif (dis[to] > dis[now] + a[to]) {\n\t\t\t\tdis[to] = dis[now] + a[to]; // 注意 + a[to]\n\t\t\t\tQ.push(to);\n\t\t\t}\n\t\t}\n\t}\n\n\tfill(all(vis), 0);\n\tll sum = 0, now = st;\n\twhile (!vis[now]) {\n\t\tvis[now] = 1;\n\t\tsum += a[now];\n\t\tnow = nex[now];\n\t}\n\tif (now != st)sum = -1;\n\n\twhile (q--) {\n\t\tll x; cin >> x;\n\t\tif (x > c)cout << \"No\" << endl;\n\t\telse if (x == c)cout << \"Yes\" << endl;\n\t\telse {\n\t\t\tll now = x % n;\n\t\t\tif (dis[now] == LNF) {\n\t\t\t\tcout << \"No\" << endl;\n\t\t\t\tcontinue;\n\t\t\t}\n\t\t\tx += dis[now];\n\t\t\tif (x == c)cout << \"Yes\" << endl;\n\t\t\telse if (x < c) {\n\t\t\t\tll cha = c - x;\n\t\t\t\tif (sum != -1 and (c - x) % sum == 0)cout << \"Yes\" << endl;\n\t\t\t\telse cout << \"No\" << endl;\n\t\t\t}\n\t\t\telse cout << \"No\" << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-28",
+  "parsed_at": "2026-06-14T18:39:36.700072+00:00",
+  "type_directory": "p"
+}

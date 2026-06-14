@@ -1,0 +1,176 @@
+{
+  "slug": "nk题霸-刷题统计",
+  "title": "NK题霸 刷题统计",
+  "type": "题目",
+  "tags": [
+    "容斥"
+  ],
+  "difficulty": 1.0,
+  "summary": "根据数学公式，容斥计算。",
+  "link": "https://www.nowcoder.com/practice/99ddb1a6e71d47dcbbe4f272aba532b8?channelPut=tracker2",
+  "link_text": "刷题统计_牛客题霸_牛客网",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "牛客推出了新手入门、算法入门、算法进阶三部曲题单。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "设：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$n$ —— 至少刷过任意一个题单的人数；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$a$ —— 刷过新手入门的人数；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$b$ —— 刷过算法入门的人数；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$c$ —— 刷过算法进阶的人数；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$d$ —— 恰好刷过其中任意两个题单的总人数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "数据保证存在唯一非负整数解，请计算同时刷过全部三部曲的人数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "![](https://uploadfiles.nowcoder.com/images/20250701/0_1751342900843/D2B5CA33BD970F64A6301FA75AE2EB22)",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入整数 $T$ ($1 \\le T \\le 10^3$) —— 测试用例数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $T$ 行，每行五个整数 $n, a, b, c, d$ ($1 \\le n, a, b, c, d \\le 10^9$)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个用例输出一行，一个整数表示同时刷过全部三部曲的人数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n28 16 16 22 12",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "设答案 = $ans$ = 三集之和",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "全集总数（至少刷过一个）：$n$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "单集之和：$a+b+c$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "双集之和：$d + 3ans$",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$n = 单集之和 - 双集之和 + 三集之和 = a + b + c - d - 3ans + ans$$\n$$ans = \\frac{a + b + c - d - n}{2}$$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, a, b, c, d; cin >> n >> a >> b >> c >> d;\n\tcout << (a + b + c - d - n) / 2 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-17",
+  "parsed_at": "2026-06-14T18:39:36.759470+00:00",
+  "type_directory": "p"
+}

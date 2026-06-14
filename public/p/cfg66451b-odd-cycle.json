@@ -1,0 +1,138 @@
+{
+  "slug": "cfg66451b-odd-cycle",
+  "title": "CFG66451B Odd Cycle",
+  "type": "题目",
+  "tags": [
+    "图论经典问题/二分图",
+    "图论经典问题/环问题",
+    "强连通分量"
+  ],
+  "difficulty": null,
+  "summary": "单向图的环问题，把 SCC 先全找出来。注意到结论：只要 SCC 里存在奇基本环，那就 SCC 中所有的偶基本环都可以通过这个奇基本环形成<strong>奇循环</strong>，所有只要对单向图的所有 SCC 进行<strong>染色法奇环判定</strong>就行了。",
+  "link": "https://codeforces.com/gym/664651/problem/B",
+  "link_text": "Problem - B - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个包含 $n$ 个顶点（编号从 $1$ 到 $n$）的有向图 $G$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>奇环</strong>（Odd cycle）定义为一个顶点序列（顶点不必互异）$p_0, p_1, \\ldots, p_m$，满足 $m$ 为奇数，且对于任意 $0 \\le i < m$，都存在一条从顶点 $p_i$ 指向 $p_{i+1}$ 的有向边。（注：通常“环”隐含起点等于终点，即 $p_0 = p_m$。若顶点 $u$ 被包含在奇环中，意味着存在一条从 $u$ 出发回到 $u$ 的路径，且路径长度为奇数。）",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个顶点 $u$，请判断 $u$ 是否包含在至少一个奇环中。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试点包含多组测试用例。第一行包含测试用例的数量 $t$ ($1 \\le t \\le 10^4$)。接下来是各测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含两个整数 $n$ 和 $m$ ($1 \\le n \\le 2 \\cdot 10^5$, $0 \\le m \\le 2 \\cdot 10^5$)，分别表示图 $G$ 中顶点和边的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $m$ 行，每行包含两个整数 $u$ 和 $v$ ($1 \\le u,v \\le n$)，表示一条从 $u$ 到 $v$ 的有向边。图 $G$ <strong>可能包含</strong>自环和重边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和以及 $m$ 的总和均不超过 $2 \\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一行包含一个长度为 $n$ 的二进制字符串 $s$。对于每个 $1 \\le i \\le n$，如果顶点 $i$ 包含在至少一个奇环中，则 $s_i=$ 1；否则 $s_i=$ 0。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n1 0\n3 3\n1 2\n2 3\n3 1\n2 2\n1 1\n2 2\n4 4\n1 2\n2 3\n3 4\n4 1\n2 3\n1 2\n2 2\n2 1\n8 8\n1 2\n2 3\n3 1\n4 5\n5 4\n5 6\n6 5\n7 7\n9 14\n1 4\n4 2\n2 5\n5 3\n3 6\n6 1\n1 2\n7 8\n8 7\n8 9\n9 8\n2 4\n4 6\n6 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0\n111\n11\n0000\n11\n11100010\n111111000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "tuple<int, vector<vector<int>>, vector<vector<int>>> scc_shrink(int n, const vector<vector<int>>& g) {\n\tauto dfn = vector<int>(n + 1); // dfs 时间戳\n\tauto low = vector<int>(n + 1); // i 点能回溯到的最顶端祖先的 dfn\n\tauto ins = vector<int>(n + 1); // 是否在栈内\n\tauto bel = vector<int>(n + 1); // i 点属于第几个强连通分量\n\tauto st = stack<int>();        // 正在处理的栈\n\tint time = 0;                  // 时间戳\n\tint scc = 0;                   // 强连通分量个数，同时也是新图节点个数(单个节点也是个 scc)\n\n\tauto tarjan = [&](auto tarjan, int now)->void {\n\t\tdfn[now] = low[now] = ++time;\n\t\tst.push(now);\n\t\tins[now] = 1;\n\t\tfor (const int& to : g[now]) {\n\t\t\tif (!dfn[to]) { // 未遍历到的节点\n\t\t\t\ttarjan(tarjan, to);\n\t\t\t\tlow[now] = min(low[now], low[to]);\n\t\t\t}\n\t\t\telse if (ins[to]) { // 环\n\t\t\t\tlow[now] = min(low[now], dfn[to]);\n\t\t\t}\n\t\t}\n\t\t// 弹栈缩点\n\t\tif (low[now] == dfn[now]) {\n\t\t\tscc++;\n\t\t\twhile (1) {\n\t\t\t\tint cur = st.top();\n\t\t\t\tst.pop();\n\t\t\t\tins[cur] = 0;\n\t\t\t\tbel[cur] = scc;\n\t\t\t\tif (now == cur)break;\n\t\t\t}\n\t\t}\n\t\t};\n\tfor (int i = 1; i <= n; i++) if (!dfn[i]) tarjan(tarjan, i);\n\n\t// 构建新有向图\n\tauto ng = vector<vector<int>>(n + 1);\n\tauto ps = vector<vector<int>>(scc + 1);\n\n\tfor (int now = 1; now <= n; now++) {\n\t\tps[bel[now]].pb(now);\n\t\tfor (const int& to : g[now])\n\t\t\tif (bel[to] == bel[now])ng[now].pb(to);\n\t}\n\n\treturn make_tuple(scc, ng, ps);\n}\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v);\n\t}\n\n\t// 找出所有的 SCC\n\tvar[scc, ng, ps] = scc_shrink(n, g); \n\tvar col = vector<int>(n + 1, -1);\n\tcol[0] = 1;\n\tvar dfs = [&](var dfs, int now, int fa)->bool {\n\t\tcol[now] = col[fa] ^ 1;\n\t\tfor (int to : ng[now]) {\n\t\t\tif (col[to] != -1) {\n\t\t\t\tif (col[now] == col[to])return 1;\n\t\t\t}\n\t\t\telse {\n\t\t\t\tif (dfs(dfs, to, now))return 1;\n\t\t\t}\n\t\t}\n\t\treturn 0;\n\t\t};\n\n\t// 在每个 SCC 内用染色法判奇环\n\tvar ans = vector<int>(n + 1, -1);\n\tfa(i, 1, scc) if (ps[i].size()) {\n\t\tint res = 0;\n\t\tif (dfs(dfs, ps[i][0], 0))res = 1;\n\t\tfor (int x : ps[i])ans[x] = res;\n\t}\n\n\tfa(i, 1, n)cout << ans[i];\n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-25",
+  "parsed_at": "2026-06-14T18:39:36.635737+00:00",
+  "type_directory": "p"
+}

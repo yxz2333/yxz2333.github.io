@@ -1,0 +1,309 @@
+{
+  "slug": "cf721c-journey",
+  "title": "CF721C Journey",
+  "type": "题目",
+  "tags": [
+    "dp",
+    "思维定势"
+  ],
+  "difficulty": 1.5,
+  "summary": "跟 <a href=\"/p/2025四川省赛-a-minimum-product\" class=\"wikilink\">2025四川省赛 A Minimum Product</a> 一样的 trick，已经经过的边个数 cnt 是<strong>满足拓扑序</strong>的，直接按这个拓扑序跑 dp 即可，跑 dij 会超时。",
+  "link": "https://www.luogu.com.cn/problem/CF721C",
+  "link_text": "CF721C Journey - 洛谷",
+  "source": "Codeforces",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "近日，Irina 来到 Berland 最著名的城市之一 —— Berlatov 市。该市有 $n$ 个景点，编号从 $1$ 到 $n$，其中一些景点之间通过有向道路相连。Berlatov 市的道路设计使得任意景点之间不存在环路。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Irina 最初站在景点 $1$，她旅程的终点是景点 $n$。Irina 希望在旅途中尽可能多地参观景点。然而，Irina 在 Berlatov 的停留时间有限，她不能在那里逗留超过 $T$ 个时间单位。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请帮助 Irina 计算，在不超过 $T$ 的时间内，从景点 $1$ 到景点 $n$ 的途中，她最多可以参观多少个景点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证至少存在一条从景点 $1$ 到景点 $n$ 的路线，使 Irina 通行的总时间不超过 $T$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含三个整数 $n, m, T$（$2 \\le n \\le 5000, 1 \\le m \\le 5000, 1 \\le T \\le 10^{9}$）——景点的数量、道路的数量以及最大停留时间。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $m$ 行每行描述一条道路。第 $i$ 行包含三个整数 $u_i, v_i, t_i$（$1 \\le u_i, v_i \\le n, u_i \\ne v_i, 1 \\le t_i \\le 10^{9}$），表示有一条从 $u_i$ 通向 $v_i$ 的有向道路，通过它会花费 $t_i$ 个时间单位。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证这些道路不会构成环路，保证任意一对景点之间至多一条道路。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输出一个整数 $k$（$2 \\le k \\le n$），表示最多可以参观的景点数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行输出 $k$ 个互不相同的整数，按访问顺序依次给出她会参观的景点编号。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果有多种方案，输出任意一种均可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 3 13\n1 2 5\n2 3 7\n2 4 8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 2 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 6 7\n1 2 2\n1 3 3\n3 6 3\n2 4 2\n4 6 2\n6 5 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n1 2 4 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 5 6\n1 3 3\n1 2 2\n2 4 3\n4 5 2\n3 5 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 3 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于 DAG 的性质，我们可以按照 <strong>路径中边的数量（或节点数）</strong> 作为阶段进行 DP。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "定义 <code>dp[v][k]</code> = 到达节点 $v$ 时恰好经过了 $k$ 条边（即访问了 $k+1$ 个节点，包括起点 $1$）的最小时间。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "初始化：<code>dp[1][0] = 0</code>，其余为 $T+1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "转移：对于边 $u \\to v$ 权值 $w$，",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\ndp[v][k+1] = \\min(dp[v][k+1],\\; dp[u][k] + w)\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "注意<strong>外层循环枚举</strong> $k$<strong>，内层扫描所有节点</strong>，利用 $u$ 的当前层 dp 值更新 $v$ 的下一层。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>为什么 DP 有效？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "节点本身没有拓扑序，但 <strong>边的数量</strong> $k$ <strong>具有严格的单调性</strong>：从 $u$ 到 $v$ 经过 $k$ 条边再到下一状态 $k+1$ 条边，$k$ 严格增加。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此，<strong>按</strong> $k$ <strong>从小到大递推，每个状态只依赖</strong> $k-1$ <strong>层的值，天然无环，无需任何最短路算法</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "最终在所有 $dp[n][k] \\le T$ 中取最大的 $k$，即最多经过 $k$ 条边，访问 $k+1$ 个节点。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "路径恢复：在转移时记录 <code>pre[v][k] = u</code>，最后从 <code>(n, k)</code> 逐步回溯即可。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "如果使用 Dijkstra 复杂度会怎样？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "另一种想法：将每个 <code>(节点, 已走边数)</code> 视为独立状态，跑分层图最短路（边权均为 $t$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "状态数：最多 $n \\times n \\approx 25,\\!000,\\!000$（因为最多 $n-1$ 条边）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "转移数：每条原边在每个可能用到的 <code>(节点, 边数)</code> 都会产生一次转移，最坏 $m \\times n \\approx 25,\\!000,\\!000$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "堆优化 Dijkstra 复杂度：$O((V+E) \\log V)$，这里 $V \\approx n^2 \\approx 2.5\\times 10^7$，$E \\approx m\\cdot n \\approx 2.5\\times 10^7$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这意味着大约 $5\\times 10^7$ 次堆操作，每次 $\\log(2.5\\times 10^7) \\approx 25$，总操作约 $1.25\\times 10^9$，不可能接受。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，Dijkstra 在此题不可行，而 DP 利用 <strong>边数严格递增</strong> 的拓扑序以 $O(n\\cdot m)$ 完成，直接递推无需优先队列，常数小且空间可优化，是正确做法。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "总结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "当状态图存在<strong>天然拓扑序（如步数、代价、消耗等单调维度）</strong>时，DP 通常比 Dijkstra 高效且简洁。要养成先分析<strong>\"是否有单调维度\"</strong>的习惯。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[N][N], pre[N][N];\nvoid solve(int CASE)\n{\n    ll n, m, t; cin >> n >> m >> t;\n    var g = vector<vector<pii>>(n + 1);\n    fa(i, 1, m) {\n        ll u, v, w; cin >> u >> v >> w;\n        g[u].pb({ v,w });\n    }\n    fa(i, 0, n)fa(j, 0, n)dp[i][j] = t + 1;\n    dp[1][0] = 0;\n    fa(cnt, 0, n)fa(now, 1, n)if (dp[now][cnt] != t + 1) {\n        for (const var& [to, w] : g[now]) {\n            if (dp[to][cnt + 1] > dp[now][cnt] + w) {\n                dp[to][cnt + 1] = dp[now][cnt] + w;\n                pre[to][cnt + 1] = now;\n            }\n        }\n    }\n    fb(i, n, 0)if (dp[n][i] <= t) {\n        var ans = vector<int>();\n        int now = n, cnt = i;\n        ans.pb(now);\n        while (pre[now][cnt]) {\n            ans.pb(pre[now][cnt]);\n            now = pre[now][cnt], cnt--;\n        }\n        cout << ans.size() << endl;\n        reverse(all(ans));\n        cout << ans << endl;\n        return;\n    }\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-14",
+  "parsed_at": "2026-06-14T18:39:36.577789+00:00",
+  "type_directory": "p"
+}

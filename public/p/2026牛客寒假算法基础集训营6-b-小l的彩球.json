@@ -1,0 +1,291 @@
+{
+  "slug": "2026牛客寒假算法基础集训营6-b-小l的彩球",
+  "title": "2026牛客寒假算法基础集训营6 B 小L的彩球",
+  "type": "题目",
+  "tags": [
+    "组合数学"
+  ],
+  "difficulty": 2.5,
+  "summary": "标准的隔板法组合数学题，先得对题目进行转化，才好解决本题。",
+  "link": "https://ac.nowcoder.com/acm/contest/120566/B",
+  "link_text": "B-小L的彩球_2026牛客寒假算法基础集训营6",
+  "source": "[[2026牛客寒假算法基础集训营6]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$小 L 有 $n$ 个彩球，编号依次为 $1,2,\\dots,n$，放在左右两个盒子里。左边的盒子里有 $x$ 个，右边的盒子里有 $n-x$ 个。每对相邻编号的彩球之间都有一条连线，若相邻的两个彩球被放入不同的盒子，则它们之间的连线会露在外面。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$已知有 $t$ 条露在外面的线，小 L 想知道符合条件的彩球放法有多少种。由于答案可能很大，请将答案对 $998\\,244\\,353$ 取模后输出。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$每个测试文件均包含多组测试数据。第一行输入一个整数 $T\\left(1\\leq T\\leq 10^4\\right)$ 代表数据组数，每组测试数据描述如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$在一行上输入三个整数 $n,x,t\\left(1\\le x \\le n \\le 10^6;\\, 0\\le t \\le n-1\\right)$，表示彩球数、左盒球数、露在外面的线数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$对于每一组测试数据，新起一行输出一个整数，表示符合条件的彩球放法对 $998\\,244\\,353$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n3 1 2\n3 2 1\n4 2 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n2\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 核心模型转化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目的本质是一个<strong>排列计数</strong>问题，但直接思考“球放在左盒还是右盒”容易陷入细节。我们将题目条件进行如下数学映射：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>物理对象</strong> $\\to$ <strong>01 序列</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "左盒子的球记为 <code>0</code>，右盒子的球记为 <code>1</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "题目给定的 $n$ 个球就变成了一个长度为 $n$ 的 01 字符串。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>物理限制</strong> $\\to$ <strong>串的特征</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "“$t$ 条露在外部的线”意味着左右盒子的球在编号上交替了 $t$ 次。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对应在 01 串中，就是出现 <code>01</code> 或 <code>10</code> 的次数之和为 $t$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>重要推论</strong>：如果 01 串发生了 $t$ 次跳变，那么整个串就被划分成了 $t+1$ <strong>个连续颜色段</strong>（例如 <code>001110</code> 跳变2次，分成了 <code>00</code>、<code>111</code>、<code>0</code> 共3段）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "2. 隔板法",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "根据上述推论，问题转化为：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>将</strong> $x$ <strong>个</strong> <code>0</code> <strong>和</strong> $n-x$ <strong>个</strong> <code>1</code> <strong>排成一列，使得连续的颜色段恰好有</strong> $t+1$ <strong>段。</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这是一个经典的<strong>隔板法</strong>问题。 类似：<a href=\"/p/abc132d-blue-and-red-balls\" class=\"wikilink\">ABC132D Blue and Red Balls</a>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们需要根据 $t$ 的奇偶性，讨论 <code>0</code> 和 <code>1</code> 分别被分成了多少段。",
+              "depth": 1
+            },
+            {
+              "heading": "情况一：$t$ 为奇数，总段数为偶数",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "<strong>结构特征</strong>：由于段是交替的（如 <code>0...01...10...01...1</code>），偶数段意味着 <code>0</code> 的段数和 <code>1</code> 的段数<strong>相等</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>方案统计</strong>：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "有两种排列模式：<code>0</code> 开头 或 <code>1</code> 开头。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong><code>0</code> 开头</strong>：<code>0</code> 分 $k$ 段，<code>1</code> 分 $k$ 段。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "方案数：$\\binom{x-1}{k-1} \\times \\binom{(n-x)-1}{k-1}$",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "即先从 <code>1</code> 段的空隙中跳出 $k$ 个来填，然后用 $x$ 个 <code>0</code> 来填这几个空隙，且保证每个空隙都填上。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "<strong><code>1</code> 开头</strong>：与上同理，只是顺序不同，组合数数值一样。",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "情况二：$t$ 为偶数，总段数为奇数",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "<strong>结构特征</strong>：段数不同，必然是一种颜色的段数为 $k$，另一种为 $k+1$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>方案统计</strong>：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "此时 <code>0</code> 和 <code>1</code> 的段数不相等，必须分类讨论：",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong><code>0</code> 多一段</strong>（即 <code>0</code> 开头 <code>0</code> 结尾）：",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<code>0</code> 分成 $k+1$ 段，<code>1</code> 分成 $k$ 段。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "方案数：$\\binom{x-1}{(k+1)-1} \\times \\binom{(n-x)-1}{k-1} = \\binom{x-1}{k} \\times \\binom{n-x-1}{k-1}$",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "<strong><code>1</code> 多一段</strong>（即 <code>1</code> 开头 <code>1</code> 结尾）：",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<code>1</code> 分成 $k+1$ 段，<code>0</code> 分成 $k$ 段。",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "方案数：$\\binom{n-x-1}{k} \\times \\binom{x-1}{k-1}$",
+                  "depth": 3
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "MT::Combinatorics c(N, mod);\nvoid solve(int CASE)\n{\n\tll n, x, t; cin >> n >> x >> t;\n\n\tif (t == 0) {\n\t\tif (x == n)cout << 1 << endl;\n\t\telse cout << 0 << endl;\n\t\treturn;\n\t}\n\n\tll ans = 0;\n\tif (t & 1) {\n\t\tll tt = t / 2 + 1;\n\t\tll M = n - x - 1, N = x;\n\t\tans = c.lucas(N - 1, tt - 1) * c.lucas(M, tt - 1) % mod;\n\t\tM = x - 1, N = n - x;\n\t\tans = (ans + c.lucas(N - 1, tt - 1) * c.lucas(M, tt - 1) % mod) % mod;\n\t}\n\telse {\n\t\tll tt = t / 2;\n\t\tll M = n - x - 1, N = x;\n\t\tans = c.lucas(N - 1, tt - 1) * c.lucas(M, tt) % mod;\n\t\tM = x - 1, N = n - x;\n\t\tans = (ans + c.lucas(N - 1, tt - 1) * c.lucas(M, tt) % mod) % mod;\n\t}\n\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-16",
+  "parsed_at": "2026-06-14T18:39:35.923822+00:00",
+  "type_directory": "p"
+}

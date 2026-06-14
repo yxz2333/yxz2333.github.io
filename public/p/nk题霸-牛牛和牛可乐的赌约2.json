@@ -1,0 +1,190 @@
+{
+  "slug": "nk题霸-牛牛和牛可乐的赌约2",
+  "title": "NK题霸 牛牛和牛可乐的赌约2",
+  "type": "题目",
+  "tags": [
+    "博弈论/sg函数",
+    "博弈论/尼姆游戏"
+  ],
+  "difficulty": 1.0,
+  "summary": "典型的<strong>博弈论</strong>题，把二维坐标拆成两个独立的减法游戏，各自 SG 函数就是 $n \\bmod 3$，两维异或判胜负即可。",
+  "link": "https://www.nowcoder.com/practice/4f3a725a55224d5781c88460eeb3dd82?channelPut=tracker2",
+  "link_text": "https://www.nowcoder.com/practice/4f3a725a55224d5781c88460eeb3dd82?channelPut=tracker2",
+  "source": "NK题霸",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "棋盘左上角为 $(0,0)$，$(x,y)$ 处有一个棋子。牛牛和牛可乐轮流移动，每次可以将棋子向左或向上移动 1 格或 2 格。棋子到达 $(0,0)$ 时无法继续移动，无法操作者判负。牛牛先手，双方最优策略下，问牛牛是否能获胜。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $t$ ($1 \\le t \\le 10^6$)，数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $t$ 行，每行两个整数 $x, y$ ($0 \\le x, y \\le 10^9$)，表示棋子初始位置。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每组数据：牛牛胜输出 <code>yyds</code>，否则输出 <code>awsl</code>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n0 0\n0 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "awsl\nyyds",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "每次操作只改变一个维度（左移改 $y$，上移改 $x$），两个方向互不影响。这正是 <strong>SG 定理</strong>的标准应用场景——把二维游戏拆成两个独立的一维减法游戏。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "单个游戏：每次可以从 $n$ 减 1 或减 2。按 SG 的 mex 定义递推：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$sg(0) = 0$（终态，无法操作）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$sg(1) = \\operatorname{mex}\\{sg(0)\\} = \\operatorname{mex}\\{0\\} = 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$sg(2) = \\operatorname{mex}\\{sg(1), sg(0)\\} = \\operatorname{mex}\\{1, 0\\} = 2$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$sg(3) = \\operatorname{mex}\\{sg(2), sg(1)\\} = \\operatorname{mex}\\{2, 1\\} = 0$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$sg(4) = \\operatorname{mex}\\{sg(3), sg(2)\\} = \\operatorname{mex}\\{0, 2\\} = 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "后续依此类推，呈周期 $0,1,2,0,1,2,\\dots$，即 $sg(n) = n \\bmod 3$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "根据 SG 定理，整个游戏的 SG 值为两维异或：$sg(x,y) = (x \\bmod 3) \\oplus (y \\bmod 3)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$sg = 0$ 为必败态，$sg \\neq 0$ 为必胜态。又因为 $0,1,2$ 三个数异或为零当且仅当它们相等，所以判据等价于：$x \\bmod 3 = y \\bmod 3$ 时先手必败，否则先手必胜。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "总结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "二维独立博弈的标准起手式：拆成两个一维游戏，分别算 SG 然后异或。单个减法游戏（减 1 或减 2）的周期性是经典结论，记 $n \\bmod 3$ 即可。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll x, y; cin >> x >> y;\n\tx %= 3, y %= 3;\n\tif (x == y)cout << \"awsl\" << endl;\n\telse cout << \"yyds\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-11",
+  "parsed_at": "2026-06-14T18:39:36.796134+00:00",
+  "type_directory": "p"
+}

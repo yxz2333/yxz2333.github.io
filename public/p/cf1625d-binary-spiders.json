@@ -1,0 +1,325 @@
+{
+  "slug": "cf1625d-binary-spiders",
+  "title": "CF1625D Binary Spiders",
+  "type": "题目",
+  "tags": [
+    "01字典树",
+    "分治"
+  ],
+  "difficulty": 3.0,
+  "summary": "要整个<strong>遍历字典树</strong>，对着字典树写分治。然后考虑树上两支下的合法答案我该怎么选，<strong>大于最高位</strong>的肯定两支下合法的答案我都能选上；<strong>等于最高位</strong>时，左右两支最多取一个数，但凡其中一支多取了就不满足条件了。细节挺多的题。",
+  "link": "https://www.luogu.com.cn/problem/CF1625D",
+  "link_text": "CF1625D Binary Spiders - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在织网时，蜘蛛会两两结对。如果一对中第一个蜘蛛有 $x$ 条腿，第二个蜘蛛有 $y$ 条腿，那么它们可以织出耐久度为 $x \\oplus y$ 的蛛网。这里的 $\\oplus$ 表示按位异或运算。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "二进制蜘蛛通常群居生活。你观察到一个有 $n$ 只蜘蛛的群体，第 $i$ 只蜘蛛有 $a_i$ 条腿。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当群体受到威胁时，会有一些蜘蛛成为防御者。选择防御者的方式如下：首先，防御者的数量至少为两只；其次，任意一对防御者都能织出耐久度不少于 $k$ 的蛛网；最后，防御者的数量要尽可能多。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "总能以最优方式选择防御者，使上述条件都满足。你需要计算出最多有多少只蜘蛛可以成为防御者。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$ 和 $k$（$2 \\le n \\le 3 \\cdot 10^5$，$0 \\le k \\le 2^{30} - 1$），分别表示蜘蛛的数量和蛛网的最小允许耐久度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_i$（$0 \\le a_i \\le 2^{30} - 1$），表示第 $i$ 只蜘蛛的腿数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输出一个整数 $\\ell$（$2 \\le \\ell \\le n$），表示最多可以选择的防御者数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行输出 $\\ell$ 个用空格分隔的整数 $b_i$（$1 \\le b_i \\le n$），表示成为防御者的蜘蛛的编号。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果存在多种选择防御者的方式，可以输出任意一种。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果无法选择出符合条件的防御者，输出一个整数 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 8\n2 8 4 16 10 14",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 5 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 1024\n1 2 3 1 4 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 核心洞察：异或的“分歧点”与最高位",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目要求选出一个最大的子集，使得子集内任意两个元素的异或和 $X \\oplus Y \\ge K$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "全是异或，估计要用 <strong>01 字典树</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但本题的难点在于：建好字典树后该怎么选数？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "突破口在于 $K$ 的<strong>最高位</strong>。我们从字典树的根节点（第 30 位）开始向下做类似树形 DP 的遍历。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 状态转移方程（DFS 决策）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "假设我们当前遍历到字典树的第 $i$ 层，面前有左右两个分支（左分支第 $i$ 位是 0，右分支是 1）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>阶段一：极度自由的高位 (</strong>$i > hb$<strong>)</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由于 $K$ 在第 $i$ 位是 0，而左右两支的数字在第 $i$ 位必定不同（异或结果在第 $i$ 位必定是 1）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这意味着：<strong>只要从左支随便拿一个数，从右支随便拿一个数，它们的异或和必定严格</strong> $> K$<strong>。</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>决策</strong>：左右两支互不干扰，左边合法的答案我们可以全要，右边合法的答案我们也可以全要。直接递归 <code>dfs</code> 左右子树，把返回的合法集合合并即可。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>阶段二：生死抉择的分歧位 (</strong>$i == hb$<strong>)</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此时来到了 $K$ 的最高位（即 $K$ 的这一位是 1）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在这个节点：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果我们从左支（或右支）<strong>内部</strong>挑 2 个数，它们在第 $i$ 位的异或结果是 0，必然导致最终异或和 $< K$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "因此结论是：<strong>在这整个子树中，左分支最多只能挑 1 个数，右分支最多也只能挑 1 个数。这棵子树最多只能为最终答案贡献 2 个数。</strong>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>决策</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "拿出左分支里的<strong>所有数</strong>（通过 <code>get_all</code> 函数暴力收集）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "拿着左边的每一个数 $x$，去右分支里贪心地找<strong>能和它异或出最大值的数</strong> $y$（通过 <code>find_max</code> 函数）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "只要找到<strong>哪怕一对</strong>满足 $x \\oplus y \\ge K$，我们就可以直接带着这 <code>{x, y}</code> 两个数光荣退场。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "如果左边拿不出匹配的，或者某一分支为空，启动<strong>“保底策略”</strong>。",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "3. 细节填充：保底策略与辅助函数",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>保底策略 (<code>baodi</code>)</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果在 $i == hb$ 时找不出合法的一对数，我们不能空手而归。因为这棵树本身对于更高位的节点来说，是合法的“左分支”或“右分支”。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "所以我们要<strong>被迫放弃双全，随便在这棵子树里挑 1 个数</strong>作为保底返回。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>子树全收集 (<code>get_all</code>)</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这是一个精妙的小 DFS。当确定了某棵子树需要被完全搜刮时，向下走到所有叶子节点，并利用参数 <code>pre</code> 顺手把数字的真实值 $x$ 给还原出来。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>字典树贪心 (<code>find_max</code>)</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "拿着 $x$，在指定的子树里顺着 $i-1$ 往下走。尽量走与 $x$ 当前位相反的边。走的同时，不仅算出 <code>maxXor</code>，还同样利用位运算把匹配到的那个真实数字 $y$ 顺手还原了出来。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "class Trie01Vector {\nprivate:\n\tstruct TrieNode {\n\t\tarray<int, 2> children; \n\t\tint cnt;\n\t\tTrieNode() : children{ 0, 0 }, cnt(0) {}\n\t};\n\n\tvector<TrieNode> tr;\n\tint newNode() { \n\t\ttr.push_back(TrieNode()); \n\t\treturn ++nodeCnt; \n\t}\n\n\tint MAX; \t   \n\tint nodeCnt = 1;\n\tint root = 1;\n\npublic:\n\tTrie01Vector(int MAX) :MAX(MAX), tr(2) {}\n\n\tvoid insert(int num) {\n\t\tint now = root;\n\t\ttr[now].cnt++;\n\n\t\tfor (int i = MAX; i >= 0; i--) {\n\t\t\tbool bit = (num >> i) & 1;\n\t\t\tif (not tr[now].children[bit]) {\n\t\t\t\tint tmp = newNode();\n\t\t\t\ttr[now].children[bit] = tmp;\n\t\t\t}\n\t\t\tnow = tr[now].children[bit];\n\t\t\ttr[now].cnt++;\n\t\t}\n\t}\n\n\tvector<int> get_all(int now, int i, int pre) {\n\t\t// 获取 now 子树下，带上 pre 前缀的所有数\n\t\tvar dfs = [&](var dfs, int now, int i, int pre)->vector<int> {\n\t\t\tvar to = array<int, 2>{ tr[now].children[0], tr[now].children[1] };\n\n\t\t\tvar res = vector<int>();\n\t\t\tif (to[0]) {\n\t\t\t\tvar dr = dfs(dfs, to[0], i - 1, pre);\n\t\t\t\tres.insert(res.end(), all(dr));\n\t\t\t}\n\t\t\tif (to[1]) {\n\t\t\t\tvar dr = dfs(dfs, to[1], i - 1, pre + (1ll << i));\n\t\t\t\tres.insert(res.end(), all(dr));\n\t\t\t}\n\t\t\tif (!to[0] and !to[1])res.pb(pre);\n\n\t\t\treturn res;\n\t\t\t};\n\t\treturn dfs(dfs, now, i, pre);\n\t}\n\tpii find_max(int now, int k, int pre, int x) {\n\t\t// 获取 now 子树下，带上 pre 前缀能跟 x 异或最大的数 y 以及异或值 maxXor\n\t\tint maxXor = 0, y = pre;\n\t\tfb(i, k, 0) {\n\t\t\tbool bit = (x >> i) & 1;\n\t\t\tif (tr[now].children[!bit]) {\n\t\t\t\tmaxXor |= (1ll << i);\n\t\t\t\tif (!bit)y |= (1ll << i);\n\t\t\t\tnow = tr[now].children[!bit];\n\t\t\t}\n\t\t\telse {\n\t\t\t\tif (bit)y |= (1ll << i);\n\t\t\t\tnow = tr[now].children[bit];\n\t\t\t}\n\t\t}\n\t\treturn { maxXor,y };\n\t}\n\tvector<int> get_ans(int V) {\n\t\tint hb = Math::log2(V);\n\t\tvar dfs = [&](var dfs, int now, int i, int pre)->vector<int> {\n\t\t\tvar to = array<int, 2>{ tr[now].children[0], tr[now].children[1] }; \n\t\t\tif (i == hb) { // 到了最高位，树的两边只能拿一个数\n\t\t\t\t// 先把保底的 1 个拿了\n\t\t\t\t// 拿什么都可以，毕竟只有一个，不存在 XOR\n\t\t\t\tvar baodi = vector<int>();\n\t\t\t\tif (to[0] and baodi.empty()) {\n\t\t\t\t\tvar res = get_all(to[0], i - 1, pre);\n\t\t\t\t\tif (res.size())baodi.pb(res[0]);\n\t\t\t\t}\n\t\t\t\tif (to[1] and baodi.empty()) {\n\t\t\t\t\tvar res = get_all(to[1], i - 1, pre + (1ll << i));\n\t\t\t\t\tif (res.size())baodi.pb(res[0]);\n\t\t\t\t}\n\t\t\t\tif (!to[0] and !to[1] and baodi.empty())baodi.pb(pre);\n\n\t\t\t\tif (to[0] and to[1]) {\n\t\t\t\t\tvar res = get_all(to[0], i - 1, pre);\n\t\t\t\t\tfor (int x : res) {\n\t\t\t\t\t\tvar[maxXor, y] = find_max(to[1], i - 1, pre + (1ll << i), x);\n\t\t\t\t\t\tif ((maxXor | (1ll << i)) >= V)return { x, y };\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\treturn baodi;\n\t\t\t}\n\t\t\telse { // 比最高位高，那两边合法的数都能拿\n\t\t\t\tvar res = vector<int>();\n\t\t\t\tif (to[0]) {\n\t\t\t\t\tvar dr = dfs(dfs, to[0], i - 1, pre);\n\t\t\t\t\tres.insert(res.end(), all(dr));\n\t\t\t\t}\n\t\t\t\tif (to[1]) {\n\t\t\t\t\tvar dr = dfs(dfs, to[1], i - 1, pre + (1ll << i));\n\t\t\t\t\tres.insert(res.end(), all(dr));\n\t\t\t\t}\n\t\t\t\tif (!to[0] and !to[1])res.pb(pre);\n\t\t\t\treturn res;\n\t\t\t}\n\t\t\t};\n\t\treturn dfs(dfs, root, MAX, 0);\n\t}\n};\n\nvoid solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\n\tif (k == 0) {\n\t\tcout << n << endl;\n\t\tfa(i, 1, n)cout << i << \" \\n\"[i == n];\n\t\treturn;\n\t}\n\n\tvar t = Trie01Vector(30);\n\tfa(i, 1, n)t.insert(a[i]);\n\tvar res = t.get_ans(k);\n\tif (res.size() < 2)cout << -1 << endl;\n\telse {\n\t\tvar mp = map<int, int>();\n\t\tfa(i, 1, n)mp[a[i]] = i;\n\t\tcout << res.size() << endl;\n\t\tfor (int x : res)cout << mp[x] << ' ';\n\t\tcout << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-08",
+  "parsed_at": "2026-06-14T18:39:36.222378+00:00",
+  "type_directory": "p"
+}

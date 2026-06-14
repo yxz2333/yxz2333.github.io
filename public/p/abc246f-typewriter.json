@@ -1,0 +1,283 @@
+{
+  "slug": "abc246f-typewriter",
+  "title": "ABC246F typewriter",
+  "type": "题目",
+  "tags": [
+    "暴力容斥"
+  ],
+  "difficulty": 1.5,
+  "summary": "跟 <a href=\"/p/mc0474-赤壁战场\" class=\"wikilink\">MC0474 赤壁战场</a> 这题思路一致，只不过要<strong>留意容斥对象</strong>。",
+  "link": "https://atcoder.jp/contests/abc246/tasks/abc246_f",
+  "link_text": "F - typewriter",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有一个由 $N$ 层组成的打字机。从上到下，第 $i$ 层的按键可以输入字符串 $S_i$ 中包含的字符。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在你要用这个键盘按照以下规则输入一个字符串：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "首先，选择一个整数 $1 \\leq k \\leq N$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "然后，从空字符串开始，只能使用第 $k$ 层的按键，输入恰好 $L$ 个字符组成一个字符串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "请问，按照上述规则可以输入多少种长度为 $L$ 的字符串？由于答案可能非常大，请输出答案对 $998244353$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入以如下格式从标准输入给出。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$N$ $L$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$S_1$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$S_2$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\dots$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$S_N$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "请输出答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 2\nab\nac",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 3\nabcdefg\nhijklmnop\nqrstuv\nwxyz",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1352",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 1000000000\nabc\nacde\ncefg\nabcfh\ndghi",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "346462871",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "样例 1：可以输入的字符串有 <code>aa</code>、<code>ab</code>、<code>ac</code>、<code>ba</code>、<code>bb</code>、<code>ca</code>、<code>cc</code>，共 $7$ 种。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "你的误区",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<em>(一开始的错误做法，容斥的对象不对)</em>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "你现在的做法是在对 <strong>字符集 (2^{26})</strong> 做容斥。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "虽然逻辑上也许能圆回来，但 $2^{26} \\approx 6.7 \\times 10^7$，而且你内部还有子集遍历或者其他逻辑，绝对会 <strong>TLE</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "正确的切入点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "请看题目限制：$N \\leq 18$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这才是这道题的题眼！这在暗示你复杂度应该是 $O(2^{18})$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "你应该对 <strong>N 个字母集合</strong> 进行容斥，而不是对 26 个字母进行容斥。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "容斥模型推导",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们要算的是：所有行能打出的字符串集合的 <strong>并集</strong> 的大小。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设 $A_i$ 是只用第 $i$ 行的按键能打出的长度为 $L$ 的字符串集合。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "答案是 $|\\bigcup_{i=1}^N A_i|$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "根据 <strong>容斥原理</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ |\\bigcup A_i| = \\sum |A_i| - \\sum |A_i \\cap A_j| + \\sum |A_i \\cap A_j \\cap A_k| - \\dots $$\n**关键问题：**$|A_i \\cap A_j|$ **是什么？**",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll dp[N];\nbool vis[20][26];\nvoid solve(int CASE)\n{\n\tll n, L; cin >> n >> L;\n\tfa(i, 0, n - 1) {\n\t\tstring s; cin >> s;\n\t\tint cnt = 0;\n\t\tfor (char c : s)if (!vis[i][c - 'a']) {\n\t\t\tvis[i][c - 'a'] = 1;\n\t\t\tcnt++;\n\t\t}\n\t}\n\n\tll ans = 0;\n\tfa(k, 1, (1 << n) - 1) {\n\t\tint cnt = 0;\n\t\tvar mp = vector<int>(26);\n\t\tfa(i, 0, n - 1)if (k & (1 << i)) {\n\t\t\tfa(j, 0, 25)mp[j] += vis[i][j];\n\t\t}\n\t\tfa(i, 0, 25)cnt += (mp[i] == popcnt(k));\n\t\t\n\t\tdp[k] = Math::fastPow(cnt, L, mod);\n\t\tif (popcnt(k) & 1)ans = (ans + dp[k]) % mod;\n\t\telse ans = ((ans - dp[k]) % mod + mod) % mod;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-15",
+  "parsed_at": "2026-06-14T18:39:35.975332+00:00",
+  "type_directory": "p"
+}

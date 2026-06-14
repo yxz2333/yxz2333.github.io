@@ -1,0 +1,320 @@
+{
+  "slug": "arc100e-or-plus-max",
+  "title": "ARC100E Or Plus Max",
+  "type": "题目",
+  "tags": [
+    "最小生成树"
+  ],
+  "difficulty": 1.5,
+  "summary": "给机场和港口都设个超级原点，然后分情况跑最小生成树算答案就行了。",
+  "link": "[AT_arc100_c [ARC100E] Or Plus Max - 洛谷](https://www.luogu.com.cn/problem/AT_arc100_c)",
+  "link_text": "[AT_arc100_c [ARC100E] Or Plus Max - 洛谷](https://www.luogu.com.cn/problem/AT_arc100_c)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>题目大意</strong>：有 $N$ 个城市。你可以花 $Z_i$ 的代价在两个城市之间修路。此外，你还可以花 $X_i$ 的代价在第 $i$ 个城市建<strong>机场</strong>，或者花 $Y_i$ 的代价建<strong>港口</strong>。<strong>任意两个有机场的城市可以零成本互通，有港口的同理</strong>。问让所有城市连通的最小花费。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在 AtCoder 国有 $N$ 个岛屿，最初每个岛屿上都没有机场和港口，岛屿之间也没有道路。作为国王的高桥君决定为这些岛屿之间提供交通方式。具体来说，高桥君可以无限次地选择并执行以下三种操作之一：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选择满足 $1\\leq i\\leq N$ 的 $i$，支付费用 $X_i$，在岛屿 $i$ 上建造机场。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "选择满足 $1\\leq i\\leq N$ 的 $i$，支付费用 $Y_i$，在岛屿 $i$ 上建造港口。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "选择满足 $1\\leq i\\leq M$ 的 $i$，支付费用 $Z_i$，在岛屿 $A_i$ 和岛屿 $B_i$ 之间建造一条双向道路。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "高桥君的目标是，使得对于任意两个不同的岛屿 $U$ 和 $V$，都可以从岛屿 $U$ 出发，通过无限次地选择并执行以下三种操作之一，到达岛屿 $V$：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果岛屿 $S$ 和 $T$ 都有机场，可以从 $S$ 移动到 $T$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果岛屿 $S$ 和 $T$ 都有港口，可以从 $S$ 移动到 $T$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果存在连接岛屿 $S$ 和 $T$ 的道路，可以从 $S$ 移动到 $T$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "请你求出高桥君达成目标所需的最小总费用。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入以如下格式从标准输入读入。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $N$ $M$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $X_1$ $X_2$ $\\ldots$ $X_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $Y_1$ $Y_2$ $\\ldots$ $Y_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $A_1$ $B_1$ $Z_1$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $A_2$ $B_2$ $Z_2$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $\\vdots$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $A_M$ $B_M$ $Z_M$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2 \\leq N \\leq 2\\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq M \\leq 2\\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq X_i \\leq 10^9$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq Y_i \\leq 10^9$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq A_i < B_i \\leq N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq Z_i \\leq 10^9$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若 $i \\neq j$，则 $(A_i,B_i) \\neq (A_j,B_j)$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入均为整数",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出高桥君达成目标所需的最小总费用。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 2\n1 20 4 7\n20 2 20 3\n1 3 5\n1 4 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "16",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 1\n1 1 1\n10 10 10\n1 2 100",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7 8\n35 29 36 88 58 15 25\n99 7 49 61 67 4 57\n2 3 3\n2 5 36\n2 6 89\n1 6 24\n5 7 55\n1 3 71\n3 4 94\n5 6 21",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "160",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>稠密图的痛点（为什么必须优化）</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "“任意两个有机场的城市互通”，意味着所有建了机场的城市构成了一个<strong>边权为 0 的完全图</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果我们在跑 Kruskal 之前，把所有可能通过机场互通的边都连上，图的边数会达到 $O(N^2)$ 级别。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>辅助点建图（超级原点法）</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "凭空捏造一个<strong>“天空枢纽”</strong>（<strong>虚拟节点</strong> $N+1$）和一个<strong>“海洋枢纽”</strong>（<strong>虚拟节点</strong> $N+2$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果城市 $i$ 建了机场，就相当于<strong>从城市</strong> $i$ <strong>向 “天空枢纽” 连一条权重为</strong> $X_i$ <strong>的边</strong>，“海洋枢纽” 同理。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "这样一来，$O(N^2)$ 的两两连边，瞬间变成了 $O(N)$ 条连向中心枢纽的边。图的点数变成 $N+2$，边数变成 $M+2N$，直接分 4 种情况跑最基础的 Kruskal 即可 AC。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tll x, y, w;\n};\nvoid solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tvar p = vector<node>();\n\tvar f = vector<node>();\n\tvar s = vector<node>();\n\tfa(i, 1, n) {\n\t\tll w; cin >> w;\n\t\tf.pb({ i, n + 1, w });\n\t}\n\tfa(i, 1, n) {\n\t\tll w; cin >> w;\n\t\ts.pb({ i, n + 2, w });\n\t}\n\tfa(i, 1, m) {\n\t\tll x, y, w; cin >> x >> y >> w;\n\t\tp.pb({ x,y,w });\n\t}\n\n\tvar cal = [&](int cnt, const vector<node>& fly, const vector<node>& sea)->ll {\n\t\tvar tmp = p;\n\t\ttmp.insert(tmp.end(), all(fly));\n\t\ttmp.insert(tmp.end(), all(sea));\n\t\tsort(all(tmp), [](node& a, node& b)->bool {\n\t\t\treturn a.w < b.w;\n\t\t\t});\n\n\t\tvar s = vector<int>(n + 3);\n\t\tfa(i, 1, n + 2)s[i] = i;\n\t\tvar find = [&](var find, int x)->int {\n\t\t\tif (s[x] == x)return x;\n\t\t\treturn s[x] = find(find, s[x]);\n\t\t\t};\n\n\t\tll ans = 0;\n\t\tfor (const var& [x, y, w] : tmp) {\n\t\t\tint e1 = find(find, x);\n\t\t\tint e2 = find(find, y);\n\t\t\tif (e1 != e2) {\n\t\t\t\ts[e2] = e1;\n\t\t\t\tans += w;\n\t\t\t\tcnt--;\n\t\t\t}\n\t\t\tif (cnt == 0)break;\n\t\t}\n\t\tif (cnt != 0)return LNF;\n\t\telse return ans;\n\t\t};\n\n\t// 四种情况全考虑一下就行：不带港口机场、只带机场、只带港口、都带上\n\tll ans = min({ \n\t\tcal(n - 1, {}, {}), \n\t\tcal(n, f, {}),\n\t\tcal(n, {}, s),\n\t\tcal(n + 1, f, s)\n\t\t});\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-11",
+  "parsed_at": "2026-06-14T18:39:36.042449+00:00",
+  "type_directory": "p"
+}

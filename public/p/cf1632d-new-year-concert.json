@@ -1,0 +1,261 @@
+{
+  "slug": "cf1632d-new-year-concert",
+  "title": "CF1632D New Year Concert",
+  "type": "题目",
+  "tags": [
+    "前后缀",
+    "gcd"
+  ],
+  "difficulty": 2.0,
+  "summary": "依旧是围绕前缀 gcd 的 Log-Trick 写，考虑枚举 $r$ 然后算在当前 gcd 的情况下，最远/最近的左边界位置 $l_l, l_r$。当然可以用 <strong>二分+st表</strong> 直接算，复杂度为 $O(nlog^2n)$，但我这直接用个数组了，复杂度是 $O(nlogn)$。",
+  "link": "https://www.luogu.com.cn/problem/CF1632D",
+  "link_text": "CF1632D New Year Concert - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "学校里有 $n$ 个班级，编号从 $1$ 到 $n$，第 $i$ 个班级准备了一个时长为 $a_i$ 分钟的节目。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "作为音乐会的主要负责人，Idnar 知道，如果一场音乐会有 $k$ 个节目，时长分别为 $b_1, b_2, \\ldots, b_k$ 分钟，那么如果存在两个整数 $l$ 和 $r$，满足 $1 \\le l \\le r \\le k$，并且 $\\gcd(b_l, b_{l+1}, \\ldots, b_r) = r - l + 1$，观众就会感到无聊。其中 $\\gcd(b_l, b_{l+1}, \\ldots, b_r)$ 表示这些数的最大公约数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了避免观众感到无聊，Idnar 可以多次（也可以不做）要求第 $t$ 个班级（$1 \\le t \\le k$）重新准备一个时长为 $d$ 分钟的新节目，其中 $d$ 可以是任意正整数。每次操作后，$b_t$ 变为 $d$。注意，每次操作的 $t$ 和 $d$ 可以不同。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于一个节目时长序列 $b_1, b_2, \\ldots, b_k$，定义 $f(b)$ 为 Idnar 至少需要要求多少个班级更换节目，才能避免观众感到无聊。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Idnar 还没有决定哪些节目会被选入音乐会，因此他想知道对于 $a$ 的每一个非空前缀，$f$ 的值分别是多少。换句话说，Idnar 想知道 $f(a_1), f(a_1, a_2), \\ldots, f(a_1, a_2, \\ldots, a_n)$ 的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\le n \\le 2 \\times 10^5$）——学校的班级数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个正整数 $a_1, a_2, \\ldots, a_n$（$1 \\le a_i \\le 10^9$）——各班级准备的节目时长。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行 $n$ 个整数，依次表示 $f(a_1), f(a_1, a_2), \\ldots, f(a_1, a_2, \\ldots, a_n)$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 4 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n2 12 4 8 18 3 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0 1 1 1 2 2 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试中，可以将 $1$ 改为 $2$，所以答案是 $1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个测试中：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$[1]$ 可以改为 $[2]$，",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$[1, 4]$ 可以改为 $[3, 4]$，",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$[1, 4, 2]$ 可以改为 $[2, 3, 2]$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>一、 Log-Trick 状态压缩</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "利用了 “固定右端点向左延伸，区间 GCD 值单调递减且种类极少” 的<strong>前缀 gcd Log-Trick</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "我们从左到右遍历右端点 $r$，动态维护当前<strong>所有可能的后缀 GCD 值</strong>，以及这些值对应的<strong>左端点连续区间</strong> $[L, R]$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每次加入新数时，只需把相邻的老集合与其算 GCD，相同则存入同一个区间即可，状态数永远保持在极小常数级别。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>二、</strong> $O(1)$ <strong>极速判定坏区间</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于当前维护的任意一个状态（其 GCD 值为 $G$，对应的左端点范围是 $[L, R]$），只需一步简单的 <code>if (g &gt;= mnlen &amp;&amp; g &lt;= mxlen)</code> 就能找出是否有坏区间。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>三、 极致优雅的贪心清空</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一旦在 $r$ 处发现了坏区间，最优贪心策略就是把当前最右侧的 $a[r]$ 修改为一个极大质数（如 $10^9+7$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "它会让未来任何跨越 $r$ 的区间 GCD 直接变成 1，而 $GCD=1$ 意味着长度也必须是 1 才能使坏，但跨越 $r$ 的区间长度至少为 2，因此<strong>过去的元素再也不可能作妖</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "代码实现上只需 <code>ans++</code> 并直接 <code>clear()</code> 清空当前状态集合即可。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tint l, r, g;\n\t// gcd([l, i]) == gcd([r, i]) == g\n\t// 最大左边界 l，最大右边界 r\n};\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tint ans = 0;\n\tvar p = vector<node>(); // r 在前，倒序排序\n\tfa(i, 1, n) {\n\t\tvar np = vector<node>();\n\t\tnp.pb({ i,i,a[i] });\n\t\tfor (const var& [l, r, g] : p) {\n\t\t\tif (g == np.back().g)np.back().l = l;\n\t\t\telse np.pb({ l, r, (int)Math::gcd(g, a[i]) });\n\t\t}\n\t\tp = move(np);\n\t\tbool ok = 0;\n\t\tfor (const var& [l, r, g] : p) {\n\t\t\tint mxlen = i - l + 1;\n\t\t\tint mnlen = i - r + 1;\n\t\t\tif (g >= mnlen and g <= mxlen) {\n\t\t\t\tok = 1;\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t\tif (ok) {\n\t\t\tp.clear();\n\t\t\tans++;\n\t\t}\n\t\tcout << ans << ' ';\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-05",
+  "parsed_at": "2026-06-14T18:39:36.231658+00:00",
+  "type_directory": "p"
+}

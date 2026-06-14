@@ -1,0 +1,150 @@
+{
+  "slug": "cf1201c-maximum-median",
+  "title": "CF1201C Maximum Median",
+  "type": "题目",
+  "tags": [
+    "中位数",
+    "二分答案"
+  ],
+  "difficulty": 1.0,
+  "summary": "经典对中位数进行二分答案，$a$ 中 $\\ge mid$ 的个数超过一半，说明 $mid$ 可以为中位数。",
+  "link": "https://www.luogu.com.cn/problem/CF1201C",
+  "link_text": "CF1201C Maximum Median - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个长度为 $n$ 的数组 $a$（$n$ 为奇数）。您可以对数组进行如下操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选择数组中的一个元素，使其增加 $1$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "您有 $k$ 次操作机会，请最大化数组的中位数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一组数据的中位数是指数组从小到大排序后位于最中间的数，例如 $[1,5,2,3,5]$ 的中位数是 $3$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$（$1 \\leq n \\le 2\\times 10^5$）个整数，表示数组 $a$（$1 \\leq a_i \\leq 10^9$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行两个整数 $n$ 和 $k$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行一共 $n$ 个整数，表示数组 $a$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一个整数，经过 $k$ 次操作后数组最大中位数",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2\n1 3 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7 7\n4 1 2 4 3 4 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, k; cin >> n >> k;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tsort(all1(a));\n\tvar check = [&](ll mid)->bool {\n\t\tll cnt = 0;\n\t\tfa(i, 1, n)cnt += a[i] >= mid;\n\t\tif (cnt >= (n + 1) / 2)return 1;\n\t\tll left = k;\n\t\tfb(i, n, 1)if (a[i] < mid) {\n\t\t\tll tmp = min(left, mid - a[i]);\n\t\t\tleft -= tmp;\n\t\t\tif (tmp != mid - a[i])return 0;\n\t\t\tcnt++;\n\t\t\tif (cnt >= (n + 1) / 2)return 1;\n\t\t}\n\t\t};\n\tll l = 1, r = 2e9, ans = 0;\n\twhile (l <= r) {\n\t\tll mid = l + r >> 1;\n\t\tif (check(mid)) {\n\t\t\tl = mid + 1;\n\t\t\tans = mid;\n\t\t}\n\t\telse r = mid - 1;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-25",
+  "parsed_at": "2026-06-14T18:39:36.128109+00:00",
+  "type_directory": "p"
+}

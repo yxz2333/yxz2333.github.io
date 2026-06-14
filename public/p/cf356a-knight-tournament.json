@@ -1,0 +1,134 @@
+{
+  "slug": "cf356a-knight-tournament",
+  "title": "CF356A Knight Tournament",
+  "type": "题目",
+  "tags": [
+    "并查集/链式并查集"
+  ],
+  "difficulty": null,
+  "summary": "链式并查集模板题。每个区间<strong>最多被赋值一次</strong>（实际上会留一个数），非常适合链式并查集。",
+  "link": "https://codeforces.com/problemset/problem/356/A",
+  "link_text": "Problem - 356A - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有n个骑士，他们每个人都被从1-n进行编号，他们现在需要进行一次比赛，且总共会进行m场比赛。每场比赛会在编号在Li-Ri这段区间内的骑士之间举行，对于每场比赛，它的胜利者的编号为Xi，其他的骑士会出局，之后无法进行比赛。最后留下的骑士就是这次比赛的最终胜利者。比赛结束后，每个骑士都想知道他被哪一个骑士击败了，请你告诉他们。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行为两个整数n，m。代表有n个骑士参加m场比赛；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "之后的m行，每行3个整数Li，Ri，Xi，代表第i场比赛在编号在Li-Ri之间的骑士举行，胜利者的编号为Xi；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证输入数据正确，保证至少有两名骑士参加每一场战斗。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出只有一行，包括n个整数，第i个数代表第i个骑士被编号为第i个数的骑士打败，特别的，如果第i个骑士是最后的胜者，输出0。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 3\n1 2 1\n1 3 3\n1 4 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 1 4 0 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8 4\n3 5 4\n3 7 6\n2 8 8\n1 8 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0 8 4 6 4 8 6 1 ",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar s = vector<int>(n + 2);\n\tvar ans = vector<int>(n + 1);\n\tfa(i, 1, n + 1)s[i] = i;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return s[x];\n\t\treturn s[x] = find(find, s[x]);\n\t\t};\n\twhile (m--) {\n\t\tint l, r, x; cin >> l >> r >> x;\n\t\tfor (int i = find(find, l); i <= r; i = find(find, i + 1)) {\n\t\t\tif (i != x) {\n\t\t\t\tans[i] = x;\n\t\t\t\ts[i] = find(find, i + 1);\n\t\t\t}\n\t\t}\n\t}\n\tfa(i, 1, n)cout << ans[i] << \" \\n\"[i == n];\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-04",
+  "parsed_at": "2026-06-14T18:39:36.524619+00:00",
+  "type_directory": "p"
+}

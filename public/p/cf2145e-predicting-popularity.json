@@ -1,0 +1,245 @@
+{
+  "slug": "cf2145e-predicting-popularity",
+  "title": "CF2145E Predicting Popularity",
+  "type": "题目",
+  "tags": [
+    "线段树/线段树二分",
+    "线段树/权值线段树"
+  ],
+  "difficulty": 2.5,
+  "summary": "明显的权值线段树上二分题，难点在于设计线段树二分，这里我们对<strong>节点属性 Info 类</strong>进行设计，带上两个属性：<code>cnt, min_precnt</code>，即 出现次数的总数 和 $\\min$ { 出现次数总数的前缀和 $-$ 这个前缀和要往下走的需求 }。",
+  "link": "https://www.luogu.com.cn/problem/CF2145E",
+  "link_text": "CF2145E Predicting Popularity - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "假设你正在 Berflix 工作——这是伯兰最大的流媒体服务平台，专注于电影分发。该服务有 $n$ 个用户，对于每个用户，都已知其偏好：对于电影动作程度 $a_i$ 和剧情程度 $d_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你当前需要预测某部电影的受欢迎度。你关心的这部电影包含 $ac$ 单位的动作和 $dr$ 单位的剧情（此数据由分析团队提供）。如果电影的动作和剧情程度同时达到或超过某个用户的门槛，该用户一定会观看这部电影。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果电影的动作或剧情有一项不达标，用户会犹豫是否观看。然而，其他观众对这部电影的欢迎程度可能会影响他们的决定。经过长时间讨论，你们团队选择了如下的用户行为模型。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "令 $p$ 表示已经观看该电影的人数（初始 $p=0$）。我们认为，当且仅当用户 $i$ 满足",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\n\\max(a_i - ac, 0) + \\max(d_i - dr, 0) \\le p\n$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "时，电影对他来说就是“合适”的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "用户会不断查看推荐。因此，只要存在尚未观看但已认为该电影合适的用户，他一定会观看。每有一人观看，$p$ 增加 $1$，这可能使其他用户也觉得合适。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "该过程会持续，直到所有人都看过影片，或者剩下的观众都未认为电影合适为止。你的任务是统计最终会有多少人观看该电影。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "还有一个问题——用户的偏好是不断变化的。具体来说，有 $m$ 次对某个用户偏好的更改请求。对于每次更改后，你需要重新计算电影的最终受欢迎度 $p$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $ac$ 和 $dr$（$1 \\le ac, dr \\le 10^6$），表示电影的动作和剧情评分。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含一个整数 $n$（$1 \\le n \\le 5 \\cdot 10^5$），表示 Berflix 的用户数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含 $n$ 个整数 $a_1, a_2, \\dots, a_n$（$1 \\le a_i \\le 10^6$），表示每位用户的动作偏好。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第四行包含 $n$ 个整数 $d_1, d_2, \\dots, d_n$（$1 \\le d_i \\le 10^6$），表示每位用户的剧情偏好。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第五行包含一个整数 $m$（$1 \\le m \\le 3 \\cdot 10^5$），表示用户偏好更改次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $m$ 行，每行包含：\"$k_j$ $na_j$ $nd_j$\"（$1 \\le k_j \\le n$；$1 \\le na_j, nd_j \\le 10^6$），表示第 $k_j$ 位用户将动作偏好更改为 $na_j$，剧情偏好更改为 $nd_j$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每次更改请求，输出一次更新后该电影的总观看人数 $p$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "20 25\n4\n1 22 1 30\n1 22 50 30\n5\n3 1 25\n2 23 22\n4 10 27\n1 21 21\n3 20 26",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n2\n4\n4\n0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "以第一个更改请求为例。第 $1$ 和第 $3$ 位观众此时已经认为电影合适，他们会立即观看，此时受欢迎度 $p$ 增加 $2$。当 $p=2$ 时，第 $2$ 位观众觉得电影合适，也会观看，$p$ 再加 $1$。但第 $4$ 位观众不认为电影合适，因为 $\\max(30-20,0)+\\max(30-25,0)$ 大于 $3$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，第一次更改后，最终共有 $3$ 个人观看该电影。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "权值线段树上二分的设计思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "只要当前积累的人数 $S_i$（值域$[0, i]$出现次数的总和，即前缀和）大于等于当前的门槛 $i$（即 $S_i \\ge i$），答案就能继续增长。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们需要找到<strong>第一个</strong>不满足条件的位置，或者说找到这个过程能维持到的最大位置。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了快速处理 $m$ 次修改并查询，我们将不等式移项变形为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ S_i - i \\ge 0 $$\n这转化为一个**权值线段树**问题：我们需要维护序列 $val_i = S_i - i$ 的最小值，并通过**线段树二分**快速找到第一个 $val_i < 0$ 的位置。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "节点 Info 类设计",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong><code>cnt</code></strong>：<strong>区间内出现次数的总和</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这是基础的权值线段树功能，用于统计人数。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong><code>mnpre</code></strong>：<strong>区间内</strong> $\\{ \\text{cnt前缀和} - \\text{对应下标需求} \\}$ <strong>的最小值</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>初始化</strong>：对于下标 $i$，初始时没有人，<code>cnt</code> 为 0，因此 <code>mnpre</code> 初始化为 $0 - i = -i$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>单点修改</strong>：当有人对电影的需求为 $x$ 时，相当于在权值线段树的 $x$ 位置，$cnt$ 加 1。由于该点及之后的 $cnt$ 前缀和都会增加 1，因此该点对应的 <code>mnpre</code> 也增加 1。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "\tint Query(int p, int pl, int pr, int cnt) {\n\t\t// cnt：p 前面已经取了多少个\n\t\tif (pl == pr)return info[p].cnt;\n\t\tint mid = pl + pr >> 1;\n\t\tif (cnt + info[l(p)].mnpre < 0)return Query(l(p), pl, mid, cnt);\n\t\telse return info[l(p)].cnt + Query(r(p), mid + 1, pr, cnt + info[l(p)].cnt);\n\t}\n\tint Query() {\n\t\treturn Query(1, 1, n, 0);\n\t}\n\nstruct Info {\n\tInfo() :cnt(0), mnpre(0) {};\n\tInfo(int cnt) :cnt(cnt), mnpre(cnt) {};\n\n\t// cnt：当前值域区间的数出现次数的总数\n\t// mnpre：区间内的最小{ cnt 前缀和 - 这个前缀和对应的需求(即下一个值) }\n\tint cnt, mnpre; \n\tvoid apply(const Info& v) {\n\t\t// 如何单点修改\n\t\tcnt += v.cnt;\n\t\tmnpre += v.cnt;\n\t}\n};\nInfo operator+(const Info& a, const Info& b) {\n\tInfo c;\n\tc.cnt = a.cnt + b.cnt;\n\tc.mnpre = min(a.mnpre, a.cnt + b.mnpre); // 最小前缀和\n\treturn c;\n}\nvoid solve(int CASE)\n{\n\tvar a = vector<Info>(2e6 + 2);\n\tfa(i, 1, 2e6 + 1)a[i].cnt = 0, a[i].mnpre = -i; // 初始化，先减掉需求\n\n\tint ac, dr; cin >> ac >> dr;\n\tint n; cin >> n;\n\tvar p = vector<pii>(n + 1);\n\tfa(i, 1, n)cin >> p[i].px;\n\tfa(i, 1, n)cin >> p[i].py;\n\tfa(i, 1, n) {\n\t\tint val = max(0, p[i].px - ac) + max(0, p[i].py - dr);\n\t\t// 线段树下标从 1 开始，所以这边 + 1 的偏移\n\t\ta[val + 1].cnt++;\n\t\ta[val + 1].mnpre++;\n\t}\n\tvar seg = SegmentTree<Info>(a);\n\n\tint q; cin >> q;\n\twhile (q--) {\n\t\tint k, na, nd; cin >> k >> na >> nd;\n\t\tint res = max(0, p[k].px - ac) + max(0, p[k].py - dr) + 1;\n\t\tint nres = max(0, na - ac) + max(0, nd - dr) + 1;\n\t\tp[k] = { na,nd };\n\t\tseg.modify(res, -1), seg.modify(nres, 1);\n\t\tcout << seg.Query() << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-20",
+  "parsed_at": "2026-06-14T18:39:36.340963+00:00",
+  "type_directory": "p"
+}

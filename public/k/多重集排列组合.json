@@ -1,0 +1,184 @@
+{
+  "slug": "多重集排列组合",
+  "title": "多重集排列组合",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "组合数学",
+    "多重集排列组合"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "多重集全排列",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对多重集 $S$ 中的<strong>所有</strong> $n$ 个元素进行排列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>公式：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ P = \\frac{n!}{n_1! \\cdot n_2! \\cdot \\dots \\cdot n_k!} $$\n**解释**：先假设所有元素都不同，有 $n!$ 种排法；然后因为第 $i$ 种元素内部是相同的，它们之间的 $n_i!$ 种内部交换不产生新排列，所以要除以 $n_i!$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "典型问题",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>平均分组问题</strong>：有 $n$ 个不同的小球，让他们组成 $k$ 个组，且每个组球数都为 $m = n / k$，求分组的总方案数。",
+          "depth": 1
+        },
+        {
+          "heading": "有序分组",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "假设这 $k$ 个组分别为“第1组”、“第2组”、……、“第$k$组”。我们可以按顺序把球填进去：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>选第1组</strong>：从 $n$ 个球中选出 $m$ 个。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "方案数：$C_n^m$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>选第2组</strong>：从剩下的 $n-m$ 个球中选出 $m$ 个。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "方案数：$C_{n-m}^m$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>选第3组</strong>：从剩下的 $n-2m$ 个球中选出 $m$ 个。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "方案数：$C_{n-2m}^m$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "……",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>选第k组</strong>：从剩下的 $m$ 个球中选出 $m$ 个。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "方案数：$C_m^m = 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "根据乘法原理，总方案数为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ C_n^m \\times C_{n-m}^m \\times \\dots \\times C_m^m $$\n我们把组合数公式 $C_n^m = \\frac{n!}{m!(n-m)!}$ 代入并化简：\n$$ \\frac{n!}{m!(n-m)!} \\times \\frac{(n-m)!}{m!(n-2m)!} \\times \\dots \\times \\frac{m!}{m!0!} $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "你会发现分子和分母会发生连锁消去，比如第一项的分母 $(n-m)!$ 和第二项的分子 $(n-m)!$ 抵消。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>最终的公式是</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\frac{n!}{(m!)^k} $$\n这是上面的**多重集全排列**公式，相当于对着 $k$ 个 $1、2、3、...$ 进行多重集全排列，全排列后的序列就为每个球标上了队序号，即进行了分组。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "无序分组",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "组与组之间没有区别。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "只需要把<strong>全排列的公式除以组的排列数</strong> $k!$ 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>最终的公式是</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\frac{n!}{(m!)^k \\times k!} $$，其中 $m = n/k$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "无限多重集组合",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "假设每种元素的数量无限（或者至少大于等于我们要选的数量 $r$），从 $k$ 种不同元素中取出 $r$ 个元素（允许重复取）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>公式：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ H(k, r) = \\binom{k+r-1}{r} = \\binom{k+r-1}{k-1} $$\n**解释**：这是上面的**隔板法**模型，相当于把 $r$ 个球放入 $k$ 个不同的盒子中（盒子可以为空）。",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-05",
+  "parsed_at": "2026-06-14T18:45:12.043353+00:00",
+  "type_directory": "k"
+}

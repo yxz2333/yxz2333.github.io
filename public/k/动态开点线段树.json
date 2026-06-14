@@ -1,0 +1,31 @@
+{
+  "slug": "动态开点线段树",
+  "title": "动态开点线段树",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "线段树",
+  "format": "markdown",
+  "sections": [
+    {
+      "type": "p",
+      "html": "如果要<strong>开多个线段树</strong>，那为了<strong>省空间</strong>，那肯定得用动态开点线段树了。",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "如果不用开多个线段树，那用别的方法都可以规避动态开点。",
+      "depth": 1
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-14",
+  "parsed_at": "2026-06-14T18:45:12.152617+00:00",
+  "type_directory": "k"
+}

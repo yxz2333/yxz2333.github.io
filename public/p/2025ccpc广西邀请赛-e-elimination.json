@@ -1,0 +1,267 @@
+{
+  "slug": "2025ccpc广西邀请赛-e-elimination",
+  "title": "2025CCPC广西邀请赛 E Elimination",
+  "type": "题目",
+  "tags": [
+    "字符串哈希",
+    "剪枝/数学型剪枝"
+  ],
+  "difficulty": 1.5,
+  "summary": "手玩发现 t 必须是 s 的子串，因为 n 很小，直接模拟枚举子串验证即可，然后用<strong>字符串哈希</strong>和<strong>值域剪枝</strong>进行优化。",
+  "link": "https://ac.nowcoder.com/acm/contest/110811/E",
+  "link_text": "https://ac.nowcoder.com/acm/contest/110811/E",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>这是问题的简单版本。两个版本之间的唯一区别在于</strong> $n$ <strong>的范围。</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Colin 喜欢玩\"快乐消除\"游戏来消磨时间。通常，玩家需要在给定内容中找到一个固定模式，然后将其消除。模式的多样性使得游戏丰富多彩且充满趣味。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了研究哪种模式能让游戏最有趣，Colin 建立了一个模型：给用户的内容用一个字符串 $s$ 表示，模式是另一个字符串 $t$。在游戏的每一轮中，玩家可以执行以下两种操作之一，游戏一直持续直到 $t$ 变为空：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1. <strong>删除模式</strong> $t$ <strong>的最后一个字符。</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2. <strong>在</strong> $s$ <strong>中找到一个等于</strong> $t$ <strong>的子串</strong>，设其为 $s[i,j] = t$，然后删除 $s$ 前缀中的若干字符直到 $s[i+1]$（即将 $s$ 变为 $s[i+1,|s|]$），<strong>然后</strong>删除模式 $t$ 的最后一个字符。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "Colin 将游戏的<strong>刺激度</strong>定义为：<strong>可以执行第二种操作的最大次数</strong>。他想找到能够最大化刺激度的最佳模式，但不知道如何构造。因此，他把这个问题交给了你——Happy Eliminate 游戏的顶尖玩家。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $T$，表示测试数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行一个整数 $n$（$1 \\le n \\le 6000$），表示字符串 $s$ 的长度。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行一个字符串 $s$，仅由小写字母组成。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试数据的 $n$ 之和不超过 $6000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据，输出一行一个整数，表示最大可能的刺激度（即最多能执行多少次第二种操作）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n9\nabcabcabc\n4\naaaa\n5\nababa",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n4\n3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一个样例：可以选择 $t$ 为 $\\texttt{abc}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二个样例：可以选择 $t$ 为 $\\texttt{aaaa}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第三个样例：可以选择 $t$ 为 $\\texttt{aba}$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "关键洞察：最优 $t$ 必为 $s$ 的子串",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "操作 2 的本质是 \"在 $s$ 中找 $t$ 的匹配\" 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果 $t$ 不是 $s$ 的子串，操作 2 一次都执行不了，刺激度为 0，显然不优。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此只需在 $s$ 的所有子串中枚举候选 $t$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "模拟验证：check 函数",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "设候选 $t = s[ik\\ldots jk]$，长度为 $mid$。问题转化为：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "> 能否在 $s$ 中从左到右依次找到长度递减的 $t$ 的匹配（长度依次为 $mid,\\ mid-1,\\ \\ldots,\\ 1$），从而执行 $mid$ 次操作 2？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "匹配需<strong>有序、不重叠</strong>（因为每次操作 2 会截断 $s$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "check 实现：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "双指针扫描 $s$，每当 <code>hs.get(i, i+len-1) == hs.get(ik, jk)</code> 时匹配成功",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "匹配后 $len$ 减 1，$jk$ 减 1（模拟删除 $t$ 最后一个字符），继续向后找",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$len = 0$ 则成功，全部消耗完毕 → 返回 true",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "字符串比较用<strong>双哈希</strong>做到 $O(1)$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "值域剪枝：去掉二分",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "朴素做法：枚举起点 $ik$，二分最大可行长度 → $O(n^2 \\log n)$，偏紧。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>剪枝</strong>：答案上限为 $n$，且全局答案 $ans$ 单调递增。",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "int ans = 1;\nfor (int ik = 1; ik <= n; ik++) {\n  while (check(ik, ans + 1)) {\n      ans++;\n  }\n}",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对每个起点，<strong>只在它有潜力突破当前最优时才验证</strong>。$ans$ 只会增加不超过 $n$ 次，$check$ 单次 $O(n)$，整体 $O(n^2)$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n    int n; cin >> n;\n    string s; cin >> s;\n    var hs = DoubleHashString(s);\n \n    var check = [&](int ik, int mid)->bool {\n        int jk = ik + mid - 1, len = mid;\n        if (jk > n)return 0;\n        fa(i, 1, n) {\n            int j = i + len - 1;\n            if (j > n)break;\n            if (hs.get(i, j) == hs.get(ik, jk)) {\n                jk--;\n                len--;\n                if (len == 0)return 1;\n            }\n        }\n        return 0;\n        };\n    int ans = 1;\n    fa(ik, 1, n) {\n        while (check(ik, ans + 1)) {\n            ans++;\n        }\n    }\n    cout << ans << endl;\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-28",
+  "parsed_at": "2026-06-14T18:39:35.729730+00:00",
+  "type_directory": "p"
+}

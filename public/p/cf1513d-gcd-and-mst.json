@@ -1,0 +1,214 @@
+{
+  "slug": "cf1513d-gcd-and-mst",
+  "title": "CF1513D GCD and MST",
+  "type": "题目",
+  "tags": [
+    "最小生成树",
+    "贪心",
+    "并查集"
+  ],
+  "difficulty": 2.5,
+  "summary": "全程按<strong>最小生成树的贪心</strong>思路来即可，暴力枚举的同时进行相应的<strong>剪枝</strong>。",
+  "link": "https://codeforces.com/problemset/problem/1513/D",
+  "link_text": "Problem - 1513D - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个长度为 $n$（$n \\geq 2$）的正整数数组 $a$ 和一个整数 $p$。考虑一个有 $n$ 个顶点的无向带权图，顶点编号从 $1$ 到 $n$，对于每一对顶点 $i$ 和 $j$（$i<j$），按照如下方式添加边：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果 $gcd(a_i, a_{i+1}, a_{i+2}, \\dots, a_j) = min(a_i, a_{i+1}, a_{i+2}, \\dots, a_j)$，则在 $i$ 和 $j$ 之间添加一条权值为 $min(a_i, a_{i+1}, a_{i+2}, \\dots, a_j)$ 的边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果 $i+1=j$，则在 $i$ 和 $j$ 之间添加一条权值为 $p$ 的边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这里 $gcd(x, y, \\ldots)$ 表示整数 $x, y, \\ldots$ 的最大公约数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意，如果上述两种情况都满足，则 $i$ 和 $j$ 之间会有多条边；如果两种情况都不满足，则 $i$ 和 $j$ 之间没有边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你的目标是求出该图的最小生成树的权值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\leq t \\leq 10^4$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含两个整数 $n$（$2 \\leq n \\leq 2 \\times 10^5$）和 $p$（$1 \\leq p \\leq 10^9$），分别表示节点数和参数 $p$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, a_3, \\dots, a_n$（$1 \\leq a_i \\leq 10^9$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $2 \\times 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $t$ 行，每行一个整数，表示对应图的最小生成树的权值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n2 5\n10 10\n2 5\n3 3\n4 5\n5 2 4 9\n8 8\n5 3 3 6 10 100 9 15",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n3\n12\n46",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "以下是样例的四个测试用例对应的图（可能的最小生成树的边用粉色标记）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于测试用例 1",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/73410493ea480145bcececd4920bc7b442158d5d.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于测试用例 2",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/244430036440b5951052685b881ac283e38569b1.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于测试用例 3",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/3b76480fd803697ef4eb1c8f9a262cb141140b6b.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于测试用例 4",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/2aa511e43d0533b40192099a2b9004202f659de5.png)",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题主要是注意两个点，<strong>Kruskal 贪心</strong>和<strong>剪枝优化</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>贪心策略</strong>：既然要权值最小，那我们就先把数组 $a$ <strong>从小到大排序</strong>，先处理最小的 $a_i$，让它尽可能向左向右延伸，去连接它的倍数。模拟 Kruskal 从小到大加边的过程。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>剪枝原理</strong>：在左右延伸的过程中，发现 $i$ 和 $id$ 已经在同一个集合里，说明它们之间已经被<strong>比当前边权 w 更小（或相等）的边</strong>连通了，既然已经连通且代价更低，现在的 $w$ 肯定不需要再连，而且再往外扩也大概率是连通的（或者不满足GCD），所以可以直接 <code>break</code>。所以实际上操作 $n - 1$ 次就能结束，<strong>暴力左右延伸</strong>不会超时。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, p; cin >> n >> p;\n\tvar a = vector<ll>(n + 1);\n\tvar b = vector<pll>();\n\tfa(i, 1, n)cin >> a[i], b.pb({ a[i],i });\n\tsort(all(b));\n\n\tvar s = vector<int>(n + 1);\n\tfa(i, 1, n)s[i] = i;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return x;\n\t\treturn s[x] = find(find, s[x]);\n\t\t};\n\n\tll ans = 0, cnt = n - 1;\n\tfor (const var& [w, id] : b) {\n\t\tif (w > p or cnt == 0)break;\n\t\tint e1 = find(find, id);\n\n\t\tfa(i, id + 1, n) {\n\t\t\tif (a[i] % w != 0)break;\n\t\t\tint e2 = find(find, i);\n\t\t\tif (e1 != e2) {\n\t\t\t\ts[e2] = e1;\n\t\t\t\tans += w;\n\t\t\t\tcnt--;\n\t\t\t\tif (cnt == 0)break;\n\t\t\t}\n\t\t\telse break;\n\t\t}\n\n\t\tfb(i, id - 1, 1) {\n\t\t\tif (a[i] % w != 0)break;\n\t\t\tint e2 = find(find, i);\n\t\t\tif (e1 != e2) {\n\t\t\t\ts[e2] = e1;\n\t\t\t\tans += w;\n\t\t\t\tcnt--;\n\t\t\t\tif (cnt == 0)break;\n\t\t\t}\n\t\t\telse break;\n\t\t}\n\t}\n\n\tcout << ans + cnt * p << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-18",
+  "parsed_at": "2026-06-14T18:39:36.184768+00:00",
+  "type_directory": "p"
+}

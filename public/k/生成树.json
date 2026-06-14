@@ -1,0 +1,22 @@
+{
+  "slug": "生成树",
+  "title": "生成树",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "最小生成树, 最大生成树"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-18",
+  "parsed_at": "2026-06-14T18:45:12.142553+00:00",
+  "type_directory": "k"
+}

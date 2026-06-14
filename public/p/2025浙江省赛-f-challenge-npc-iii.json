@@ -1,0 +1,188 @@
+{
+  "slug": "2025浙江省赛-f-challenge-npc-iii",
+  "title": "2025浙江省赛 F Challenge NPC III",
+  "type": "题目",
+  "tags": [
+    "多源最短路"
+  ],
+  "difficulty": 1.5,
+  "summary": "多源最短路<strong>算每个点到源点的最短路和次短路</strong>，这样源点到源点的最短路就是次短路，开个 <code>dis[N][2]</code> 加上 <code>tar[N][2]</code>，可以当作多源最短路的一个板子记忆。",
+  "link": "https://qoj.ac/contest/2021/problem/10728",
+  "link_text": "Challenge NPC III - Problem - QOJ.ac",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "陈教授是解决图着色问题的专家。现在，他向你展示了一个带有颜色的有向图，并声称：图中每条<strong>长度 ≤ k</strong> 的<strong>简单路径</strong>中，所有顶点的颜色均互不相同。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请判断陈教授的说法是否正确。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "†：<strong>简单路径</strong> 是由不同顶点 \\(u_1, u_2, \\ldots, u_L\\) 组成的序列，并且对于每个 \\(i \\in [1, L-1]\\)，存在从 \\(u_i\\) 到 \\(u_{i+1}\\) 的边。该简单路径的长度为 \\(L\\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有多组测试数据。第一行输入一个整数 \\(T\\)（\\(1 \\leq T \\leq 10^5\\)），表示测试数据的组数。对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输入三个整数 \\(n, m, k\\)（\\(1 \\leq n, k \\leq 10^5, 0 \\leq m \\leq 10^5\\)），分别表示图的顶点数、边数以及陈教授的参数 \\(k\\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行输入 \\(n\\) 个整数 \\(c_i\\)（\\(1 \\leq c_i \\leq 50\\)），表示每个顶点的颜色。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 \\(m\\) 行，每行输入两个整数 \\(u_j, v_j\\)（\\(1 \\leq u_j, v_j \\leq n\\)），表示图中的一条有向边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试数据的 \\(n\\) 的总和不超过 \\(10^5\\)，所有测试数据的 \\(m\\) 的总和也不超过 \\(10^5\\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据，如果陈教授的说法正确，则输出一行 <code>&quot;YES&quot;</code>，否则输出一行 <code>&quot;NO&quot;</code>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n3 2 2\n1 2 1\n1 2\n2 3\n3 3 2\n1 2 1\n1 2\n2 3\n1 3\n3 3 50\n1 1 2\n1 2\n2 3\n1 3\n3 2 3\n43 7 19\n2 2\n3 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "YES\nNO\nNO\nYES",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心状态定义",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于每个节点 $v$，我们维护两个状态：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>dist[v][0]</code> 和 <code>color[v][0]</code>：节点 $v$ 距离最近的源点的<strong>距离</strong>和<strong>源点编号</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>dist[v][1]</code> 和 <code>color[v][1]</code>：节点 $v$ 距离第二近的源点的<strong>距离</strong>和<strong>源点编号</strong>（要求 <code>color[v][1] != color[v][0]</code>）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于队列 node 状态，我们维护三个：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "节点编号 <code>id</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "节点到现在走的距离 <code>d</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "节点的起源源点 <code>origin</code>",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m, k; cin >> n >> m >> k;\n\tvar col = vector<int>(n + 1);\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n)cin >> col[i];\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v);\n\t}\n\tfa(c, 1, 50) {\n\t\tstruct node {\n\t\t\tint id, d, origin; // 这里还得记录起源\n\t\t};\n\t\tvar dis = Vec2<int>(n + 1, 2, INF);\n\t\tvar tar = Vec2<int>(n + 1, 2);\n\t\tvar Q = queue<node>();\n\t\tfa(i, 1, n)if (col[i] == c) {\n\t\t\ttar[i][0] = i;\n\t\t\tQ.push({ i, dis[i][0] = 1, i });\n\t\t}\n\t\twhile (Q.size()) {\n\t\t\tvar [now, d, ori] = Q.front();\n\t\t\tQ.pop();\n\t\t\tfor (int to : g[now]) {\n\t\t\t\tif (dis[to][0] > d + 1) {\n\t\t\t\t\tdis[to][0] = d + 1;\n\t\t\t\t\ttar[to][0] = ori;\n\t\t\t\t\tQ.push({ to, dis[to][0], ori });\n\t\t\t\t}\n\t\t\t\telse if (dis[to][1] > d + 1 and tar[to][0] != ori) {\n\t\t\t\t\tdis[to][1] = d + 1;\n\t\t\t\t\ttar[to][1] = ori;\n\t\t\t\t\tQ.push({ to, dis[to][1], ori });\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\tfa(i, 1, n)if (dis[i][1] <= k and col[i] == c) {\n\t\t\tcout << \"NO\" << endl;\n\t\t\treturn;\n\t\t}\n\t}\n\tcout << \"YES\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-02",
+  "parsed_at": "2026-06-14T18:39:35.812837+00:00",
+  "type_directory": "p"
+}

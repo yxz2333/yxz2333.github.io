@@ -1,0 +1,63 @@
+{
+  "slug": "链式并查集",
+  "title": "链式并查集",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "链式并查集"
+  ],
+  "parent": "并查集",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "When？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "假设我们要处理一个长度为 $n$ 的数组，初始所有位置都是“激活”状态。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们要支持一个操作：<strong>处理区间 [L, R] 中所有“激活”的位置，并把它们设为“失效”。</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "适合区间<strong>只被处理一次</strong>的情况。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "相当于<strong>链表的删除</strong>，比手写链表简单。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "参考代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int fa[MAXN]; // fa[i] 表示位置 i 及其右侧第一个“激活”的位置\n\n// 标准并查集查找\nint find(int x) {\n  if (fa[x] == x) return x;\n  return fa[x] = find(fa[x]); \n}\n\nvoid solve() {\n  int n = 10;\n  \n  // 注意：要初始化到 n + 1，作为越界后的“终点”\n  for (int i = 1; i <= n + 1; i++) {\n      fa[i] = i;\n  }\n\n  // 假设我们要处理区间 [3, 7]\n  int L = 3, R = 7;\n\n  // 我们从 find(L) 开始，它会直接带我们找到 L 右侧第一个还没被处理的位置\n  for (int i = find(L); i <= R; i = find(i + 1)) {\n      \n      // --- 在这里执行你对位置 i 的逻辑 ---\n      cout << \"处理位置: \" << i << endl;\n      // ------------------------------\n\n      // “删除”位置 i\n      // 将 i 的父亲指向 i + 1 的当前根节点\n      // 这样下次 find(i) 或者 find(更小的数) 经过这里时，会直接跳到 i + 1 之后\n      fa[i] = find(i + 1);\n  }\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-21",
+  "parsed_at": "2026-06-14T18:45:12.065028+00:00",
+  "type_directory": "k"
+}

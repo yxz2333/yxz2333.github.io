@@ -1,0 +1,116 @@
+{
+  "slug": "cf1272e-nearest-opposite-parity",
+  "title": "CF1272E Nearest Opposite Parity",
+  "type": "题目",
+  "tags": [
+    "图论经典问题/图论建模问题",
+    "bfs"
+  ],
+  "difficulty": 1.0,
+  "summary": "一眼<strong>图论建模</strong>，建完图后，发现一定会<strong>至少存在一个终点</strong>，即一步结束，从这个<strong>终点往回跑 bfs 即可</strong>。",
+  "link": "https://codeforces.com/problemset/problem/1272/E",
+  "link_text": "Problem - 1272E - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给出一个长度为 $n$ 的序列 $a_1,a_2,\\cdots,a_n$，当你在第 $i$ 号位置时，你可以一步跳到 $i-a_i$ 或 $i+a_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每一个位置 $i$，你想知道最少需要多少步可以到达一个位置 $j$，使得 $a_j$ 与 $a_i$ 的奇偶性不同。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $n$，表示序列的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个整数 $a_1,a_2, \\cdots ,a_n$，表示题目中的序列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le n \\le 2 \\cdot 10^5$，$1 \\le a_i \\le n$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行 $n$ 个整数 $d_1,d_2, \\cdots ,d_n$，其中 $d_i$ 表示对于位置 $i$，到达一个位置 $j$，使得 $a_j$ 与 $a_i$ 的奇偶性不同需要的最少步数，如果不能到达这样的位置 $j$，输出$-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10\n4 5 7 6 7 5 4 4 6 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 1 1 2 -1 1 1 3 1 1 ",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int a[N], ans[N];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfa(i, 1, n)ans[i] = INF;\n\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n) {\n\t\tif (i - a[i] >= 1) {\n\t\t\tint j = i - a[i];\n\t\t\tg[j].pb(i);\n\t\t\tif (a[j] % 2 != a[i] % 2)ans[i] = 1;\n\t\t}\n\t\tif (i + a[i] <= n) {\n\t\t\tint j = i + a[i];\n\t\t\tg[j].pb(i);\n\t\t\tif (a[j] % 2 != a[i] % 2)ans[i] = 1;\n\t\t}\n\t}\n\n\tvar Q = queue<int>();\n\tfa(i, 1, n)if (ans[i] == 1)Q.push(i);\n\twhile (Q.size()) {\n\t\tint now = Q.front();\n\t\tQ.pop();\n\t\tfor (int to : g[now]) {\n\t\t\tif (ans[to] > ans[now] + 1) {\n\t\t\t\tans[to] = ans[now] + 1;\n\t\t\t\tQ.push(to);\n\t\t\t}\n\t\t}\n\t}\n\n\tfa(i, 1, n) {\n\t\tif (ans[i] >= INF)cout << -1 << ' ';\n\t\telse cout << ans[i] << ' ';\n\t}\n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-01",
+  "parsed_at": "2026-06-14T18:39:36.146365+00:00",
+  "type_directory": "p"
+}

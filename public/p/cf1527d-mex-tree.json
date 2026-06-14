@@ -1,0 +1,220 @@
+{
+  "slug": "cf1527d-mex-tree",
+  "title": "CF1527D MEX Tree",
+  "type": "题目",
+  "tags": [
+    "经典问题/MEX问题",
+    "树链",
+    "容斥",
+    "正难则反"
+  ],
+  "difficulty": 3.5,
+  "summary": "跟 <a href=\"/p/abc438f-sum-of-mex\" class=\"wikilink\">ABC438F Sum of Mex</a> 很像，但是麻烦的多，这题用<strong>容斥计数、正难则反</strong>才好解决。",
+  "link": "https://codeforces.com/problemset/problem/1527/D",
+  "link_text": "Problem - 1527D - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一棵有 $n$ 个节点的树，节点编号从 $0$ 到 $n-1$。对于每个 $k$，$0 \\leq k \\leq n$，你需要统计有多少无序点对 $(u, v)$，$u \\neq v$，使得从 $u$ 到 $v$ 的最短路径（包括端点）上所有节点编号的 MEX 等于 $k$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\leq t \\leq 10^4$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$（$2 \\leq n \\leq 2 \\cdot 10^{5}$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n-1$ 行，每行包含两个整数 $u$ 和 $v$（$0 \\leq u,v \\leq n-1$），表示树中的一条边（$u \\neq v$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证给出的边构成一棵树。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $2 \\cdot 10^{5}$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出 $n+1$ 个整数，第 $k$ 个整数表示树中所有路径的数量，使得该路径上所有节点编号的 MEX 等于 $k$，$k$ 从 $0$ 到 $n$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n4\n0 1\n0 2\n2 3\n2\n1 0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 2 1 1 1 \n0 0 1",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题直接计算 MEX 等于 $k$ 的路径数量比较困难，我们可以利用<strong>容斥原理</strong>来转换问题。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "那么，MEX <strong>恰好</strong> 等于 $k$ 的路径数量，就是：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\n\\text{Ans}_k = (\\text{包含 } \\{0, \\dots, k-1\\} \\text{ 的路径数}) - (\\text{包含 } \\{0, \\dots, k\\} \\text{ 的路径数})\n$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "即：",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$\n\\text{Ans}_k = cnt[k-1] - cnt[k]\n$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "在代码中，<code>ans</code> 变量维护的是上一轮的 $cnt[i-1]$，而 <code>nex</code> 变量计算的是当前的 $cnt[i]$。输出的答案正是 <code>ans - nex</code>。",
+          "depth": 1
+        },
+        {
+          "heading": "难点：如何优雅地计算 $cnt[k]$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "要计算包含 $\\{0, \\dots, k\\}$ 的路径数，这 $k+1$ 个点在树上必须构成一条<strong>简单路径</strong>。如果它们构成分叉，则 $cnt[k]$ 及后续所有答案均为 0。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们需要<strong>动态维护这条路径的两个端点</strong> $x$ 和 $y$。初始时，集合只有 $\\{0\\}$（代码中对应节点 <code>1</code>），$x=1, y=1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当我们要加入新节点 $u$（对应 $k$）时，我们让 $u$ <strong>往上跳</strong>（利用 <code>par</code> 数组），直到遇到已经访问过的节点 <code>now</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果 <code>now == x</code>，说明 $u$ 接在端点 $x$ 后面，更新 $x = u$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 <code>now == y</code>，说明 $u$ 接在端点 $y$ 后面，更新 $y = u$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "否则，说明 $u$ 从路径中间分叉出去，无法形成简单路径，直接 <code>fail</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>关键技巧：维护 <code>xzhi</code> 和 <code>yzhi</code></strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当端点 $x$ 或 $y$ 位于根节点（题目中的 <code>0</code>，代码中的 <code>1</code>）时，我们需要知道另一个端点到底在根节点的<strong>哪一棵子树（分支）</strong>里。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>xzhi</code>: 当 $x$ 从根节点延伸出去时，记录它属于根节点的哪个直接儿子分支。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>yzhi</code>: 同理，记录 $y$ 的分支。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>维护这两个来处理</strong> $x = 1$ <strong>或</strong> $y = 1$ <strong>的情况。</strong>",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tu++, v++;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\tvar siz = vector<ll>(n + 1);\n\tvar par = vector<int>(n + 1);\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tsiz[now] = 1;\n\t\tpar[now] = fa;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\tsiz[now] += siz[to];\n\t\t}\n\t\t};\n\tdfs(dfs, 1, 0);\n\n\t// mex 为 0 的点对\n\tll ans = 0;\n\tfor (int to : g[1])ans += siz[to] * (siz[to] - 1) / 2;\n\tcout << ans << ' ';\n\n\tll tot = n * (n - 1) / 2; // 全集\n\tans = tot - ans;          // 减掉 mex 为 0 的\n\n\tint x = 1, y = 1;\n\tint xzhi = 1, yzhi = 1; // x 端点进入的分支，y 端点进入的分支\n\tvar vis = vector<bool>(n + 1); \n\tvis[1] = 1;\n\tbool fail = 0;\n\tfa(i, 1, n - 1) { // 枚举 mex，算 ans = mex 为 i 的点对数\n\t\tint u = i + 1;\n\n\t\tif (vis[u] or fail)cout << 0 << ' ';\n\t\telse {\n\t\t\tint now = u, last = 0;\n\t\t\twhile (!vis[now]) {\n\t\t\t\tvis[now] = 1;\n\t\t\t\tlast = now;\n\t\t\t\tnow = par[now];\n\t\t\t}\n\n\t\t\tif (now == x) {\n\t\t\t\tx = u;\n\t\t\t\tif (now == 1)xzhi = last;\n\t\t\t}\n\t\t\telse if (now == y) {\n\t\t\t\ty = u;\n\t\t\t\tif (now == 1)yzhi = last;\n\t\t\t}\n\t\t\telse fail = 1; // mex >= i + 1 的情况不存在\n\n\t\t\t// 计算 mex >= i + 1 的点对数 nex\n\t\t\tll nex = 0;\n\t\t\tif (!fail) {\n\t\t\t\tif (x == 1) { \n\t\t\t\t\t// x = 1, y = u\n\t\t\t\t\t// 对于 mex >= i + 1 的情况下\n\t\t\t\t\t// 一个端点在 siz[y] 内，另一个端点在 siz[yzhi] 外\n\t\t\t\t\tnex = siz[y] * (n - siz[yzhi]);\n\t\t\t\t}\n\t\t\t\telse if (y == 1) {\n\t\t\t\t\t// x = u, y = 1\n\t\t\t\t\tnex = siz[x] * (n - siz[xzhi]);\n\t\t\t\t}\n\t\t\t\telse nex = siz[x] * siz[y];\n\t\t\t}\n\n\t\t\t// 容斥\n\t\t\t// mex >= i 点对数 - mex >= i + 1 的点对数\n\t\t\tcout << ans - nex << \" \";\n\t\t\tans = nex;\n\t\t}\n\t}\n\n\tif (fail)cout << 0 << endl;\n\telse cout << 1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-06",
+  "parsed_at": "2026-06-14T18:39:36.195589+00:00",
+  "type_directory": "p"
+}

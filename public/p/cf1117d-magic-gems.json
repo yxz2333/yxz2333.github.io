@@ -1,0 +1,161 @@
+{
+  "slug": "cf1117d-magic-gems",
+  "title": "CF1117D Magic Gems",
+  "type": "题目",
+  "tags": [
+    "矩阵快速幂优化dp"
+  ],
+  "difficulty": 1.5,
+  "summary": "虽然题意有点不清，但是打表可以发现，转移方程跟<strong>斐波那契数列</strong>类似，最经典的矩阵快速幂优化dp问题，作为<strong>模板题</strong>参考。",
+  "link": "https://www.luogu.com.cn/problem/CF1117D",
+  "link_text": "CF1117D Magic Gems - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "xht37 有很多魔法宝石。每颗魔法宝石可以分解成 $m$ 颗普通宝石，魔法宝石和普通宝石都占据 $1$ 体积的空间，但普通宝石不能再被分解。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "xht37 想要使一些魔法宝石分解，使得所有宝石占据的空间<strong>恰好</strong>为 $n$ 单位体积。显然，一个魔法宝石分解后会占据 $m$ 体积空间，不分解的魔法宝石仍占据 $1$ 体积空间。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在 xht37 想要求出有多少种分解方案，可以让最后得到的宝石<strong>恰好</strong>占据 $n$ 单位体积。两种分解方案不同当且仅当分解的魔法宝石数量不同，或者是所用的宝石的编号不同。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入包含两个数字 $n,m (1 \\le N \\le 10^{18},2 \\le M \\le 100)$ 。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出能使宝石占据恰好 $n$ 体积的方案数。因为方案数实在太大了，请输出方案数 $\\mod 10^9+7$ 后的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "该样例中一颗魔法宝石可以分解得到两颗普通宝石，我们的目标是拿到 $4$ 颗宝石。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "让我们用 $1$ 代表魔法宝石，$0$ 代表普通宝石。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "则存在如下几种方案：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$1111$ ：没有宝石被分解。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$0011$ ：第一颗宝石分解。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1001$ ：第二颗宝石分解。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1100$ ：第三颗宝石分解。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$0000$ ：第一颗和第二颗宝石分解。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此答案为 $5$ 。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template<const int N>\nclass Matrix {\npublic:\n\t// 下标从 1 开始\n\tarray<array<ll, N + 1>, N + 1> mat;\n\n\tMatrix() {\n\t\tfor (int i = 0; i <= N; i++)\n\t\t\tfor (int j = 0; j <= N; j++)\n\t\t\t\tmat[i][j] = 0;\n\t}\n\n\tMatrix operator* (const Matrix& x) {\n\t\t// 矩阵乘法\n\t\t// 进行：行向量(答案矩阵) = 行向量(答案矩阵) * 矩阵(系数矩阵) \n\t\tMatrix ret;\n\t\tfor (int i = 1; i <= N; i++)\n\t\t\tfor (int k = 1; k <= N; k++) {\n\t\t\t\tif (mat[i][k] == 0) continue; // 简单剪枝\n\t\t\t\tfor (int j = 1; j <= N; j++) {\n\t\t\t\t\tret.mat[i][j] = (ret.mat[i][j] + mat[i][k] * x.mat[k][j] % mod) % mod;\n\t\t\t\t}\n\t\t\t}\n\t\treturn ret;\n\t}\n\n\tvoid ksm(ll k, Matrix& base) {\n\t\twhile (k) {\n\t\t\tif (k & 1)*this = *this * base;\n\t\t\tbase = base * base;\n\t\t\tk >>= 1;\n\t\t}\n\t}\n\n\tvoid init_ans() {\n\t\tmat[1][1] = 1;\n\t}\n\n\tvoid init_base(int m) {\n\t\t// dp[i] = dp[i - 1] + dp[i - m]\n\t\tmat[1][1] = 1;\n\t\tmat[m][1] = 1;\n\t\tfa(i, 2, m)mat[i - 1][i] = 1; // 继承上一维 dp 用\n\t}\n};\n\nMatrix<105> ans, base;\nvoid solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tans.init_ans();\n\tbase.init_base(m);\n\tans.ksm(n, base);\n\tcout << ans.mat[1][1] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-15",
+  "parsed_at": "2026-06-14T18:39:36.097435+00:00",
+  "type_directory": "p"
+}

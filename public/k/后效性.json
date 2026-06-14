@@ -1,0 +1,106 @@
+{
+  "slug": "后效性",
+  "title": "后效性",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "What?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>“后效性” 的本质，确实就是 “当前决策对未来的干涉程度” 。</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>“为了确定当前的这一位，我是否需要知道 ‘未来’ 的信息？”</strong>",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "如果“影响很小”，是不是就可以正向考虑了？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "是的。",
+          "depth": 2
+        },
+        {
+          "heading": "A. 贪心 —— 影响几乎为零",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如果当前的最好选择，<strong>恰好</strong>也是对未来最有利的选择（或者对未来完全没坏处），我们就说这个策略没有后效性。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>例子</strong>：Dijkstra 算法。我选当前最短的路，不会导致未来变长。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>特征</strong>：局部最优 = 全局最优。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "B. 动态规划（DP）—— 影响是有限的、可记录的",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<em>（实际上 DP 一般是已知求未知，这里当例子）</em>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果当前的选择会影响未来，但这种影响<strong>可以用一个简单的状态来表示</strong>（比如：当前还剩多少钱、当前在哪一格），那我们就可以用 DP。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>例子</strong>：背包问题。选这个物品会占空间（影响后面），但我只要记录“剩余空间”，这个影响就被量化了。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>特征</strong>：虽然有影响，但我们可以通过“加维度”来消除后效性。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "何时是否一定要倒序考虑？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "> <strong>最后一步，是不是最 ‘确定’ 的那一步？</strong>",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-11",
+  "parsed_at": "2026-06-14T18:45:12.018421+00:00",
+  "type_directory": "k"
+}

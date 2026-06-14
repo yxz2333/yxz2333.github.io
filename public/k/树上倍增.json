@@ -1,0 +1,222 @@
+{
+  "slug": "树上倍增",
+  "title": "树上倍增",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "倍增",
+    "树上倍增"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "What？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "树天然满足<strong>状态的唯一后效性</strong>，适合用倍增。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在<strong>树（或链表/基环树）</strong>上，利用结合律信息，快速合并路径状态。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "什么是“结合律信息”？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "只要满足 <code>merge(A, B)</code> 的结果等价于先算 A 再算 B，就可以用倍增。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>可行</strong>：求和、最大/最小值、异或和、矩阵乘法、线性基合并。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>不可行</strong>：求众数（难以合并两个区间的众数）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "树上倍增虽然不能进行修改，但是可以<strong>动态加点</strong>，有新点连上了直接 $O(MaxLog)$ 处理一下即可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "经典题型",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>路径统计 (RMQ / Sum)</strong>：在线问题，多次询问路径上的 <strong>最大边权/最小边权/点权和/异或和</strong>。<strong>路径</strong>可能是节点 $u$ 到某个祖先节点的路径（即<strong>跳格子游戏</strong>），也可能是节点 $u$ 和 $v$ 之间的路径，后者需要用到 <a href=\"/k/lca\" class=\"wikilink\">LCA</a>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>跳格子游戏</strong>：从 $u$ 出发，按规则走 $k$ 步，问终点在哪里？或者问沿途经过的权值和？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例题： <a href=\"/p/abc438e-heavy-buckets\" class=\"wikilink\">ABC438E Heavy Buckets</a>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>贪心跳跃</strong>：从 $u$ 往根走，只要路径和 $\\le W$ 就继续走（即<strong>满足某种条件</strong>），问最多能走多远？（或走到哪里？）",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例题： <a href=\"/p/p14456-[icpc-2025-xi'an-r]-january's-color\" class=\"wikilink\">P14456 [ICPC 2025 Xi'an R] January's Color</a>",
+          "depth": 2
+        },
+        {
+          "heading": "例题 1 （一个点往上跳）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题面：<strong>在线问题</strong>，在<strong>基环树</strong>上，从 $now$ 开始向 $to[now]$ 走 $k$ 步，求经过的点的<strong>点权和</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "本题是 <strong>路径统计 Sum + 跳 k 格子游戏</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "走 $k$ 步涉及到了 $k + 1$ 个点 $[0, k]$，所以要留意一下写法，需要加上终点（或起点）的权值。",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "void solve(int CASE)\n{\n\tll n, q; cin >> n >> q;\n\n\tvar to = vector<int>(n + 1);\n\tvar w = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> to[i];\n\tfa(i, 1, n)cin >> w[i];\n\n\tvar p = Vec2<int>(n + 1, 31); // 倍增父节点表\n  \t// dp[i][j]：从节点 i 开始，执行 2^j 次跳跃操作获得的信息\n  \t// 本题设的 dp 是 [i, 2^p) 的点权和 （2^p 代指 i 跳 2^p 步的祖先节点）\n\tvar dp = Vec2<ll>(n + 1, 31);\n\n\t// 为何 dp[i][0] = w[i] 而不是 dp[i][0] = w[to[i]] ？\n\t// 一次操作：从 i 获得点权，然后跳到下一个点 to[i]\n\t// 在操作的过程中，产生贡献的是 i 不是 to[i]\n\t// 最后再把终点补上即可\n\tfa(i, 1, n) {\n\t\tp[i][0] = to[i];\n\t\tdp[i][0] = w[i];\n\t}\n\n\t// 初始化倍增\n\tfa(j, 1, 30) {\n\t\tfa(i, 1, n) {\n\t\t\tp[i][j] = p[p[i][j - 1]][j - 1];\n          \t// 根据本题的 dp 定义：\n         \t// dp[i][j] 的权值 = [i, 2^p) 的点权和\n            //               = [i, 2^(p-1)) 的点权和 + [2^(p-1), 2^p) 的点权和\n\t\t\tdp[i][j] = dp[i][j - 1] + dp[p[i][j - 1]][j - 1];\n\t\t}\n\t}\n\n\t// 基环树上，从 now 开始走 k 步，求经过的点的点权和\n\twhile (q--) {\n\t\tll k, now; cin >> k >> now; // 从 now 开始，走 k 步，经过的点的点权和\n\t\tll ans = 0;\n\t\tfa(i, 0, 30) {\n\t\t\tif (k & (1ll << i)) {\n\t\t\t\tans += dp[now][i];\n\t\t\t\tnow = p[now][i];\n\t\t\t}\n\t\t}\n\t\tans += w[now]; // 再加上终点的权值\n\t\tcout << ans << endl;\n\t}\n\treturn;\n}",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "例题 2 （x,y 两个点一起跳）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>题面</strong>：在线问题，给定一棵 $n$ 个节点的树，每个节点有权值 $w_i$。多次询问 $u$ 到 $v$ 路径上的<strong>最大点权</strong>（含端点）。$n,q \\le 2\\times 10^5$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>思路</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "预处理 LCA 和两个倍增表：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>mx[u][i]</code>：从 $u$ 向上 $2^i$ 步（<strong>包括</strong> $u$，不包括 $2^i$ 步后的目标节点）的最大点权。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "转移：$mx[u][i] = \\max(mx[u][i-1], mx[fa[u][i-1]][i-1])$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "查询时，将 $u \\to v$ 路径拆成 $u \\to lca$ 和 $v \\to lca$ 两段，用倍增分别取 $\\max$，最后再与 $lca$ 的点权取一次 $\\max$。",
+              "depth": 2
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "struct LCA {\n    vector<int> depth;\n    vector<vector<int>> f, mx;\n    int LOG = 20;\n\n    LCA(int n, const vector<int>& w, const vector<vector<int>>& g) {\n        depth.resize(n + 1);\n        f.assign(n + 1, vector<int>(LOG + 1));\n        mx.assign(n + 1, vector<int>(LOG + 1));\n        dfs(1, 0, w, g);\n    }\n\n    void dfs(int u, int p, const vector<int>& w, const vector<vector<int>>& g) {\n        f[u][0] = p;\n        mx[u][0] = w[u];               // 包括起点 u 的权值\n        depth[u] = depth[p] + 1;\n        for (int i = 1; i <= LOG; i++) {\n            f[u][i] = f[f[u][i-1]][i-1];\n            mx[u][i] = max(mx[u][i-1], mx[f[u][i-1]][i-1]);\n        }\n        for (int v : g[u]) if (v != p) dfs(v, u, w, g);\n    }\n\n    int query(int u, int v) {\n        if (depth[u] < depth[v]) swap(u, v);\n\n        int ans = 0;\n        // 上升段：u 提到与 v 同深度\n        for (int i = LOG; i >= 0; i--) {\n            if (depth[u] - (1 << i) >= depth[v]) {\n                ans = max(ans, mx[u][i]);\n                u = f[u][i];\n            }\n        }\n        if (u == v) return max(ans, mx[u][0]);   // 此时 u == v，已经包含 lca\n\n        // 一起向上跳，直到 lca 的儿子\n        for (int i = LOG; i >= 0; i--) {\n            if (f[u][i] != f[v][i]) {\n                ans = max({ans, mx[u][i], mx[v][i]});\n                u = f[u][i];\n                v = f[v][i];\n            }\n        }\n        // 此时 u, v 是 lca 的两个直接儿子，lca = f[u][0]\n        ans = max({ans, mx[u][0], mx[v][0], mx[f[u][0]][0]});\n        return ans;\n    }\n};",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "树上倍增结构化合并 <code>Info operator+</code>",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本质上，你可以把树上倍增看作是<strong>在链上维护的静态线段树</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "只要满足<strong>结合律</strong>的信息，都可以用这种 <code>Info operator+</code> 的方式维护。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "线段树合并的是 <code>Left_Child + Right_Child</code>，倍增合并的是 <code>Lower_Path (下半段) + Upper_Path (上半段)</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>唯一难点</strong>：倍增只有“自底向上”一种方向。处理 $u \\to v$ 路径时，合并的时候必须显式地把其中一段（如 $v \\to LCA$）的 <code>Info</code> 进行 <strong>Reverse（翻转）</strong>。",
+          "depth": 1
+        },
+        {
+          "heading": "核心模板",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "struct Info {\n  // 定义需要维护的属性\n};\n\n// 重载加法：合并 下半段(lower) + 上半段(upper)\nInfo operator+(const Info& lower, const Info& upper) {\n  Info res;\n  // ...合并逻辑，注意 lower 在逻辑顺序的前面还是后面...\n  return res;\n}\n\nInfo reverse(Info a) {\n\t//swap(a.x, a.y); 对数据进行翻转\n\treturn a;\n}",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "参考案例（树上两点间最大/最小子段和）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<a href=\"/p/cf1843f2-omsk-metro-(hard-version)\" class=\"wikilink\">CF1843F2 Omsk Metro (hard version)</a>",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "struct Info {\n  \tint sum;\t      // 整个区间和\n\tint mxpre, mnpre; // 最大/最小前缀和\n\tint mxsuf, mnsuf; // 最大/最小后缀和\n\tint mxsub, mnsub; // 最大/最小子段和\n  \n\tInfo() :\n\t\tsum(0), \n\t\tmxpre(0), mnpre(0), \n\t\tmxsuf(0), mnsuf(0), \n\t\tmxsub(0), mnsub(0)\n\t{}\n\tInfo(int x) :\n\t\tsum(x), \n\t\tmxpre(max(0, x)), mnpre(min(0, x)), \n\t\tmxsuf(max(0, x)), mnsuf(min(0, x)), \n\t\tmxsub(max(0, x)), mnsub(min(0, x))\n\t{}\n};\nInfo operator+(const Info& lower, const Info& upper) {\n\t// 合并 下半段(lower) 和 上半段(upper)\n\tInfo res;\n\tres.sum = lower.sum + upper.sum;\n\tres.mxpre = max(upper.mxpre, upper.sum + lower.mxpre);\n\tres.mnpre = min(upper.mnpre, upper.sum + lower.mnpre);\n\tres.mxsuf = max(lower.mxsuf, lower.sum + upper.mxsuf);\n\tres.mnsuf = min(lower.mnsuf, lower.sum + upper.mnsuf);\n\tres.mxsub = max({\n\t\tupper.mxsub, lower.mxsub,\n\t\tupper.sum + lower.mxpre - upper.mnpre,\n\t\tlower.sum + upper.mxsuf - lower.mnsuf\n\t\t});\n\tres.mnsub = min({\n\t\tupper.mnsub, lower.mnsub,\n\t\tupper.sum + lower.mnpre - upper.mxpre,\n\t\tlower.sum + upper.mnsuf - lower.mxsuf\n\t\t});\n\treturn res;\n}\nvar reverse = [](Info a)->Info {\n\tswap(a.mxpre, a.mxsuf);\n\tswap(a.mnpre, a.mnsuf);\n\treturn a;\n\t};",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-13",
+  "parsed_at": "2026-06-14T18:45:12.116980+00:00",
+  "type_directory": "k"
+}

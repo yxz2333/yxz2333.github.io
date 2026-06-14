@@ -1,0 +1,208 @@
+{
+  "slug": "莫队",
+  "title": "莫队",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "When？",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 莫队的标准适用场景",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "只要满足以下<strong>三个条件</strong>，无脑上莫队：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>离线</strong>：题目允许你把所有查询读完再统一输出答案（没有强制在线）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>区间查询</strong>：问题是求数组某一段的答案。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态好转移</strong>：已知 $[l, r]$ 的答案，能在 $O(1)$ 或极小代价（比如 $O(\\log n)$）内推导出 $[l+1, r]$、$[l-1, r]$、$[l, r+1]$、$[l, r-1]$ 的答案。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "常见的有：求区间不同数字个数、求区间众数。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "2. “没有区间查询也必须用莫队” 的情况",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "很有可能是以下两种情况之一：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况 A：树上莫队（极其经典）</strong>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "题目给你一棵树，问你 “节点 $u$ 到节点 $v$ 的最短路径上” 有多少个不同的颜色。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "那就是<strong>树剖套莫队</strong>了。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况 B：二维平面的莫队映射</strong>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "其实莫队算法的数学本质是：<strong>求平面上</strong> $Q$ <strong>个点</strong> $(x_1,y_1), (x_2,y_2)...$ <strong>的最短曼哈顿路径（TSP问题）的近似解</strong>。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "所以，如果某个问题能转化为二维平面上的两个变量的联动，即使它字面上没提 “区间”，也可以用莫队的指针移动思想来优化。",
+              "depth": 4
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "What？",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 核心思想：分块与排序",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "莫队的核心就是<strong>对查询进行排序</strong>，使得 $L$ 和 $R$ 指针移动的总距离最小。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "怎么排呢？<strong>分块！</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们把长度为 $N$ 的序列分成若干个块（通常块的大小取 $S = \\frac{N}{\\sqrt{Q}}$ 或直接取 $\\sqrt{N}$）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "对于所有的查询区间 $[l, r]$，我们按照<strong>左端点 l 所在的块</strong>作为第一关键字排序。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "如果左端点在同一个块内，我们按照<strong>右端点 r</strong> 作为第二关键字排序。",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "2. 奇偶优化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "为了让右指针 $R$ 少跑冤枉路，我们可以在重载小于号时做一个优化：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果左端点所在的块编号是<strong>奇数</strong>，右端点就<strong>从小到大</strong>排；",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "如果左端点所在的块编号是<strong>偶数</strong>，右端点就<strong>从大到小</strong>排。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<em>原理：当左指针在同一个块里一点点往右挪时，右指针一路向右扫；等左指针进入下一个块时，右指针不用“飞回”最左边，而是直接一路向左扫回来。这能提速约 30%！</em>",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "3. 复杂度为什么是 $O(N\\sqrt{Q})$？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们把数组分成 $\\sqrt{N}$ 个块。然后按照 “左端点所在块” 排序，同一个块内按 “右端点” 排序。我们来看看指针移动了多少步：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>右指针 R 的移动</strong>：",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "当左端点 $L$ 一直在同一个块里时，右端点 $R$ 是从小到大排好的。所以 $R$ 只会一路向右走，绝不回头。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>扫完这一个块，R 最多走 N 步。</strong>总共有 $\\sqrt{N}$ 个块，所以 $R$ 的总移动步数最多是 $N\\sqrt{N}$。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>左指针 L 的移动</strong>：",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "每次换查询时，$L$ 是怎么动的？因为 $L$ 被限制在同一个块里，块的长度是 $\\frac{N}{\\sqrt{Q}}$，所以 <strong>L 每次查询的移动最多不超过这个块的长度</strong>。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "总共有 $Q$ 个查询，所以 $L$ 的总移动步数最多是 $Q \\times \\frac{N}{\\sqrt{Q}} = N\\sqrt{Q}$。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "两者相加，总时间复杂度就是 $O(N\\sqrt{Q})$ 级别。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-18",
+  "parsed_at": "2026-06-14T18:45:12.197170+00:00",
+  "type_directory": "k"
+}

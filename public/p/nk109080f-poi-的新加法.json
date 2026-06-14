@@ -1,0 +1,270 @@
+{
+  "slug": "nk109080f-poi-的新加法",
+  "title": "NK109080F Poi 的新加法",
+  "type": "题目",
+  "tags": [
+    "异或"
+  ],
+  "difficulty": 1.5,
+  "summary": "$f(x,y) = (x + y) - (x \\oplus y) = 2 * (x  \\& y)$，本来想用线段树或者 st 表的，但是发现 $x \\& y$ 带上了 $* 2$ 就变得<strong>不满足结合律</strong>了，那所有的数据结构就都不能用。于是考虑这个运算的性质，发现这个运算一直会产生进位，进位多了就会出现 0，有 0 那全都是 0 了。",
+  "link": "https://ac.nowcoder.com/acm/contest/109080/F",
+  "link_text": "F-Poi 的新加法（Hard Version）_牛客小白月赛116",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$需要注意的是，我们只考虑一次进位，即不考虑进位造成的其他位的变动导致的再次进位，比如 $f(\\texttt{11},\\texttt{01})=\\texttt{10}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$简而言之，$f(x,y)=x+y -(x \\oplus y)$，其中 $\\oplus$ 代表二进制按位异或运算。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$现在，给定一个长度为 $n$ 的序列 $\\{a_1, a_2, \\dots, a_n\\}$。你需要处理 $q$ 个查询，每个查询会给定 $l$ 和 $r$，求解：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$f\\Bigg( f\\bigg( f\\Big( \\cdots f\\big( f(a_l , a_{l+1}) , a_{l+2} \\big), \\cdots \\Big) , a_{r-1} \\bigg) , a_r \\Bigg)$",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$每个测试文件均包含多组测试数据。第一行输入一个整数 $T\\left(1\\leq T\\leq 10^6\\right)$ 代表数据组数，每组测试数据描述如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行输入两个整数 $n, q \\left(1\\leq n, q \\leq 10^6\\right)$，代表序列中的元素个数、查询次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第二行输入 $n$ 个整数 $a_1, a_2, \\dots, a_n \\left(0 \\le a_i \\lt 2^{60}\\right)$，代表序列中的元素。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$此后 $q$ 行，第 $i$ 行输入两个整数 $l_i, r_i \\left(1 \\le l_i \\le r_i \\le n\\right)$，代表第 $i$ 次询问的区间。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$除此之外，保证单个测试文件的 $n$ 之和不超过 $10^6$，$q$ 之和不超过 $10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$对于每个查询，新起一行。输出一个整数，代表该次查询的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n3 3\n2 3 3\n1 1\n1 2\n1 3\n8 3\n0 13 0 0 0 7 2 1\n2 2\n6 7\n1 8\n5 5\n31 31 31 31 31\n1 1\n1 2\n1 3\n1 4\n1 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n4\n0\n13\n4\n0\n31\n62\n60\n56\n48",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "公式转化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由定义：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nf(x,y) = x + y - (x \\oplus y)\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "利用恒等式 $x + y = (x \\oplus y) + 2(x \\ \\&\\ y)$，代入得：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nf(x,y) = (x \\oplus y) + 2(x \\ \\&\\ y) - (x \\oplus y) = 2 \\cdot (x \\ \\&\\ y)\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>核心化简</strong>：整个运算就是<strong>两数按位与后再左移一位</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "无法使用数据结构",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "复合运算定义为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\ng(a_l, a_{l+1}, \\dots, a_r) = f(\\cdots f(f(a_l, a_{l+1}), a_{l+2})\\cdots , a_r)\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "若把 $f$ 写成二元运算 $x \\circ y = 2(x \\ \\&\\ y)$，则显然：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>不满足结合律</strong>：$(a \\circ b) \\circ c \\neq a \\circ (b \\circ c)$（因为 $\\times 2$ 破坏了结合性）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此所有依赖结合律的数据结构（线段树、ST表、树状数组、倍增）<strong>全部失效</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "只能另寻运算性质。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "关键观察：进位爆炸 → 快速归零",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "设当前累积结果为 $ans$，新来一个数 $a_i$：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nans' = 2 \\cdot (ans \\ \\&\\ a_i)\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "每次运算<strong>只保留两数同为 1 的位</strong>，然后<strong>左移一位</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这意味着结果中的 1 会持续向高位“迁移”，同时低位不断被清零",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果连续运算足够多次，所有位上的 1 最终都会被 “推” 出 60 位范围以外，结果变为 <strong>0</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "一个数最多有 60 个二进制位（$a_i < 2^{60}$）。每次运算至少<strong>左移 1 位</strong>，所以：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "连续运算 $t$ 次后，结果 $\\ge 2^t \\cdot (\\text{与的结果})$，即最低的 $t$ 位必为 0",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当 $t > 60$ 时，结果的所有位都必须来自更低位，而这些低位早已被清空，因此结果<strong>必然为 0</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "结论：$$\\text{若区间长度 } L = r-l+1 > 60 \\quad\\Rightarrow\\quad \\text{答案为 } 0$$",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n    int n, q; cin >> n >> q;\n    var a = vector<ll>(n + 1);\n    fa(i, 1, n)cin >> a[i];\n    while (q--) {\n        int l, r; cin >> l >> r;\n        if (r - l + 1 > 61)cout << 0 << endl;\n        else {\n            ll ans = a[l];\n            fa(i, l + 1, r)ans = 2 * (a[i] & ans);\n            cout << ans << endl;\n        }\n    }\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-27",
+  "parsed_at": "2026-06-14T18:39:36.692199+00:00",
+  "type_directory": "p"
+}

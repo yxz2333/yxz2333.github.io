@@ -1,0 +1,199 @@
+{
+  "slug": "nk105623f-小苯的ovo2.0",
+  "title": "NK105623F 小苯的ovo2.0",
+  "type": "题目",
+  "tags": [
+    "dp",
+    "贡献法",
+    "经典问题/构造结构问题"
+  ],
+  "difficulty": 2.0,
+  "summary": "dp 的思路纯按 <code>ovo</code> 的形状定，考虑 <code>v</code> 对答案的贡献，应该是标准的贡献法 dp 题。思想上跟传统线性 dp 不太一样，因为考虑了<strong>未来的信息</strong>。",
+  "link": "https://ac.nowcoder.com/acm/contest/105623/F",
+  "link_text": "F-小苯的ovo2.0_牛客周赛 Round 87",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小苯平时很喜欢使用”颜文字“：\"$\\rm ovo$\" 来表达惊讶。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这天他在键盘上输入了若干 $\\rm o$, $\\rm v$ 和 $\\rm ?$ 字符，字符们组成了一个字符串 $S$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "他想将 $S$ 中所有的 $\\rm ?$ 都改成 $\\rm o$ 或者 $\\rm v$ 中的一种，以最大化 $\\rm ovo$ 子序列（不一定连续）的个数，请你帮他算一算，$\\rm ovo$ 子序列的个数最多可以达到多少吧。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题每个测试文件中均包含多组测试数据。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入的第一行包含一个正整数 $T\\ (1 \\leq T \\leq 100)$，表示数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来包含 $T$ 组数据，每组数据的格式如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行一个字符串 $S\\ (1 \\leq |S| \\leq 500)$，表示题目所述的字符串。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "（保证 $S$ 仅由 '$\\rm o$', '$\\rm v$', '$\\rm ?$' 三种字符构成。）",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "（保证同一个测试文件中测试数据中 $|S|$ 的总和不超过 $500$。）",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输出一行一个整数，表示 \"$\\rm ovo$\" 子序列的最多个数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\nov??ovoov\n?????",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "16\n4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一组测试数据，修改为：$\\rm ovovovoov$ 即可。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第二组测试数据，修改为：$\\rm oovoo$ 即可。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一开始的想法是：$O(n^4)$ DP 状态 <code>dp(index, count_o, count_ov)</code> ，这个状态之所以需要 <code>count_ov</code>，是因为<strong>未来的 <code>o</code> 想要形成 <code>ovo</code>，必须要知道前面有多少个 <code>ov</code></strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "明显过不了本题，所以得转换视角：<strong>从 “按顺序拼凑” 到 “算单点贡献”</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "考虑 <strong>最终的字符串里，每一个 <code>v</code> 对 <code>ovo</code> 总数的贡献是多少？</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "假设在最终的字符串中，某个 <code>v</code> 的左边有 $L$ 个 <code>o</code>，右边有 $R$ 个 <code>o</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那么仅仅是这个 <code>v</code>，就能和左右的 <code>o</code> 组合出 $L \\times R 个 <code>ovo</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "整个字符串的 <code>ovo</code> 总数，就是 $\\sum (L_i \\times R_i)$ （对所有的 <code>v</code> 求和）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那么直接全局枚举 <code>Total_o</code>，定义 <code>dp[i][j]</code> 表示处理到第 $i$ 个字符，当前<strong>已经累计放置了</strong> $j$ <strong>个 'o'</strong> 时，能获得的最大 <code>ovo</code> 数量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tstring s; cin >> s;\n\tll n = s.size(); s = ' ' + s;\n\tint cnto = 0, cntw = 0;\n\tfa(i, 1, n)cnto += s[i] == 'o', cntw += s[i] == '?';\n\tll ans = 0;\n\tfa(o, cnto, cnto + cntw) { // 枚举总共用多少 o\n\t\tvar dp = Vec2<ll>(n + 1, o + 1, -1);\n\t\tdp[0][0] = 0;\n\t\tfa(i, 1, n)fa(j, 0, o)if (dp[i - 1][j] != -1) {\n\t\t\tif (s[i] == 'o') {\n\t\t\t\tif (j < o)dp[i][j + 1] = max(dp[i][j + 1], dp[i - 1][j]);\n\t\t\t}\n\t\t\telse if (s[i] == 'v') {\n\t\t\t\tdp[i][j] = max(dp[i][j], dp[i - 1][j] + (o * 1ll - j) * j);\n\t\t\t}\n\t\t\telse {\n\t\t\t\tif (j < o)dp[i][j + 1] = max(dp[i][j + 1], dp[i - 1][j]);\n\t\t\t\tdp[i][j] = max(dp[i][j], dp[i - 1][j] + (o * 1ll - j) * j);\n\t\t\t}\n\t\t}\n\t\tans = max(ans, dp[n][o]);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-30",
+  "parsed_at": "2026-06-14T18:39:36.688038+00:00",
+  "type_directory": "p"
+}

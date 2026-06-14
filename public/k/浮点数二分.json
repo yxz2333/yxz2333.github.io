@@ -1,0 +1,41 @@
+{
+  "slug": "浮点数二分",
+  "title": "浮点数二分",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "二分",
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "模板代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "double L = ..., R = ..., ans = L; // 留意一下初始化\nfor (int i = 0; i < 100; i++) {\n    double mid = (L + R) / 2.0;\n    if (check(mid)) L = mid, ans = mid; // 根据题目逻辑选L或R\n    else R = mid;\n}\ncout << ans << endl;",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "double L = ..., R = ..., ans = R;\nfor (int i = 0; i < 100; i++) {\n    double mid = (L + R) / 2.0;\n    if (check(mid)) R = mid, ans = mid; // 根据题目逻辑选L或R\n    else L = mid;\n}\ncout << ans << endl;",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-02",
+  "parsed_at": "2026-06-14T18:45:11.981497+00:00",
+  "type_directory": "k"
+}

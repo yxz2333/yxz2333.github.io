@@ -1,0 +1,223 @@
+{
+  "slug": "abc438e-heavy-buckets",
+  "title": "ABC438E Heavy Buckets",
+  "type": "题目",
+  "tags": [
+    "倍增"
+  ],
+  "difficulty": 1.5,
+  "summary": "看出来是<strong>倍增</strong>就能秒。",
+  "link": "https://atcoder.jp/contests/abc438/tasks/abc438_e",
+  "link_text": "E - Heavy Buckets",
+  "source": "[[AtCoder Beginner Contest 438]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有 $N$ 个人和 $N$ 个桶，编号均为 $1 \\sim N$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "初始时，第 $i$ 个人手里拿着第 $i$ 号桶（桶是空的）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来进行 $10^9$ 轮操作，每一轮所有人<strong>同时</strong>进行以下动作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1.  第 $i$ 个人往自己手里的桶中加入 <strong>i</strong> 升水。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2.  把手里的桶传给第 $A_i$ 个人。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "给出 $Q$ 次询问，每次问：在第 $T$ 轮操作结束后，<strong>编号为 B 的那个桶</strong>里一共有多少水？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入内容由标准输入法提供，格式如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$N$ $Q$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$A_1$ $A_2$ $\\ldots$ $A_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$T_1$ $B_1$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$T_2$ $B_2$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\vdots$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$T_Q$ $B_Q$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $Q$ 行。 $i$ \\-th 行应包含 $i$ \\-th 查询的答案。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2 \\leq N \\leq 2 \\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq Q \\leq 2 \\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq A_i \\leq N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq T_i \\leq 10^9$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq B_i \\leq N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入值均为整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 6\n3 4 2 2 5\n4 3\n6 5\n1 4\n10 1\n10 2\n1000000000 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "11\n30\n4\n28\n30\n2999999998",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心模型",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这是一张<strong>基环树</strong>。每个点 $i$ 只有一条出边指向 $A_i$，不管桶怎么传，它的移动路径是固定的：$B \\to A_B \\to A_{A_B} \\to \\dots$，满足<strong>唯一后效性</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为轮数 $T$ 高达 $10^9$，直接模拟必死。但由于路径固定且信息满足结合律（加法），这是典型的<strong>倍增</strong>应用场景。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "只要看懂题目是在<strong>固定路径</strong>上<strong>跳跃</strong>并<strong>求和</strong>，就能秒出<strong>倍增</strong>解法。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, q; cin >> n >> q;\n\tvar p = Vec2<int>(n + 1, 31); // 倍增父节点表\n\tvar dp = Vec2<ll>(n + 1, 31); // 从节点 i 开始，向上跳跃 2 ^ j 步的路径上的信息\n\tfa(i, 1, n)cin >> p[i][0], dp[i][0] = i;\n\tfa(j, 1, 30) {\n\t\tfa(i, 1, n) {\n\t\t\tp[i][j] = p[p[i][j - 1]][j - 1];\n\t\t\tdp[i][j] = dp[i][j - 1] + dp[p[i][j - 1]][j - 1];\n\t\t}\n\t}\n\n\twhile (q--) {\n\t\tll k, now; cin >> k >> now;\n\t\tll ans = 0;\n\t\tfa(i, 0, 30) {\n\t\t\tif (k & (1ll << i)) {\n\t\t\t\tans += dp[now][i];\n\t\t\t\tnow = p[now][i];\n\t\t\t}\n\t\t}\n\t\tcout << ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-13",
+  "parsed_at": "2026-06-14T18:39:35.988507+00:00",
+  "type_directory": "p"
+}

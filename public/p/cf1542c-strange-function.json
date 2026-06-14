@@ -1,0 +1,279 @@
+{
+  "slug": "cf1542c-strange-function",
+  "title": "CF1542C Strange Function",
+  "type": "题目",
+  "tags": [
+    "lcm",
+    "倒序容斥"
+  ],
+  "difficulty": 2.0,
+  "summary": "题意就是找 $i$ 的最小非约数 $x$，那 $[1,x-1]$ 肯定都得是 $i$ 的约数，那么 $i$ 必须是 $\\text{lcm}(1, 2, \\dots, x - 1)$ 的倍数。因为 $\\text{lcm}(1..41)$ 远大于 $10^{16}$，所以 $f(i)$ 的值域范围就是 $[2, 41]$，用倒序容斥就能把答案算出来了。",
+  "link": "https://www.luogu.com.cn/problem/CF1542C",
+  "link_text": "CF1542C Strange Function - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "设 $f(i)$ 表示最小的正整数 $x$，使得 $x$ 不是 $i$ 的约数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "计算 $\\sum_{i=1}^n f(i)$ 对 $10^9+7$ 取模的结果。换句话说，计算 $f(1)+f(2)+\\dots+f(n)$ 对 $10^9+7$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1\\leq t\\leq 10^4$），表示测试用例的数量。接下来有 $t$ 个测试用例。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例包含一行，一个整数 $n$（$1\\leq n\\leq 10^{16}$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数 $ans$，其中 $ans=\\sum_{i=1}^n f(i)$，并对 $10^9+7$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n1\n2\n3\n4\n10\n10000000000000000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n5\n7\n10\n26\n366580019",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "以第四个测试用例 $n=4$ 为例，$ans=f(1)+f(2)+f(3)+f(4)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$1$ 是 $1$ 的约数，但 $2$ 不是，所以 $2$ 是最小的不是 $1$ 的约数的正整数。因此 $f(1)=2$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1$ 和 $2$ 是 $2$ 的约数，但 $3$ 不是，所以 $3$ 是最小的不是 $2$ 的约数的正整数。因此 $f(2)=3$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1$ 是 $3$ 的约数，但 $2$ 不是，所以 $2$ 是最小的不是 $3$ 的约数的正整数。因此 $f(3)=2$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1$ 和 $2$ 是 $4$ 的约数，但 $3$ 不是，所以 $3$ 是最小的不是 $4$ 的约数的正整数。因此 $f(4)=3$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此，$ans=f(1)+f(2)+f(3)+f(4)=2+3+2+3=10$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "题意就是找 $i$ 的最小非约数 $x$，那 $[1,x-1]$ 肯定都得是 $i$ 的约数，那么 $i$ 必须是 $\\text{lcm}(1, 2, \\dots, x - 1)$ 的倍数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "因为 $\\text{lcm}(1..41)$ 远大于 $10^{16}$，所以 $f(i)$ 的值域范围就是 $[2, 41]$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "找不能被 $\\text{lcm}(1..k)$ 整除的数 $y \\ (y \\le n)$的个数，会发现个数是呈包含关系的，可以用<strong>倒序容斥</strong>直接解决。",
+          "depth": 1
+        },
+        {
+          "heading": "举个例子：当 $n = 10$ 时，我们来看看包含关系是如何“套娃”的",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们要找 $1$ 到 $10$ 里每个数的 $f(i)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "首先，我们把前几个 $\\text{lcm}$ 算出来：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$L_1 = \\text{lcm}(1) = 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$L_2 = \\text{lcm}(1, 2) = 2$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$L_3 = \\text{lcm}(1, 2, 3) = 6$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$L_4 = \\text{lcm}(1, 2, 3, 4) = 12$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>第一层过滤网：找</strong> $f(i) \\ge 2$ <strong>的数</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "什么样的数 $f(i) \\ge 2$？说明它至少能被 $1$ 整除。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "所以 $1 \\sim 10$ 这 $10$ 个数全进了第一张网：<code>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>第二层过滤网：找</strong> $f(i) \\ge 3$ <strong>的数</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "什么样的数 $f(i) \\ge 3$？说明它能被 $1$ 和 $2$ 整除，即它是 $L_2 (2)$ 的倍数。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1 \\sim 10$ 里有 $\\lfloor \\frac{10}{2} \\rfloor = \\textbf{5}$ 个数：<code>{2, 4, 6, 8, 10}</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>第三层过滤网：找</strong> $f(i) \\ge 4$ <strong>的数</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "什么样的数 $f(i) \\ge 4$？说明它能被 $1, 2, 3$ 整除，即它是 $L_3 (6)$ 的倍数。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1 \\sim 10$ 里有 $\\lfloor \\frac{10}{6} \\rfloor = \\textbf{1}$ 个数：<code>{6}</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>第四层过滤网：找</strong> $f(i) \\ge 5$ <strong>的数</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "需要是 $L_4 (12)$ 的倍数。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1 \\sim 10$ 里有 $\\lfloor \\frac{10}{12} \\rfloor = \\textbf{0}$ 个数：<code>{}</code> （到这里就终结了）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "你会发现一个完美的<strong>严格嵌套关系（包含关系）</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>{6}</code> $\\subset$ <code>{2, 4, 6, 8, 10}</code> $\\subset$ <code>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这个包含关系明显能用<strong>倒序容斥</strong>算出答案对应的出现个数。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tll ans = 0;\n\tvar cnt = vector<ll>(42);\n\tll l = 1;\n\tfa(i, 2, 41) {\n\t\tl = Math::lcm(l, i);\n\t\tcnt[i] = n - n / l;\n\t\tfa(j, 2, i - 1)cnt[i] -= cnt[j];\n\t\tans = (ans + cnt[i] * i % mod) % mod;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-10",
+  "parsed_at": "2026-06-14T18:39:36.203679+00:00",
+  "type_directory": "p"
+}

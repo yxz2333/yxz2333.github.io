@@ -1,0 +1,142 @@
+{
+  "slug": "2026牛客寒假算法基础集训营6-i-小l的构造2",
+  "title": "2026牛客寒假算法基础集训营6 I 小L的构造2",
+  "type": "题目",
+  "tags": [
+    "构造",
+    "循环节"
+  ],
+  "difficulty": 2.0,
+  "summary": "每 12 个数构造一串就行，因为每 12 个数中有 8 个能整除 2 或 3 的数，剩下的数暴力。<strong>特判</strong> $n$ 取模等于 3 或 5 的情况，这两个情况也得手搓构造。",
+  "link": "https://ac.nowcoder.com/acm/contest/120566/I",
+  "link_text": "I-小L的构造2_2026牛客寒假算法基础集训营6",
+  "source": "[[2026牛客寒假算法基础集训营6]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$小L有一个正整数 $n$，他想构造一个长度为 $n$ 的排列$^\\texttt{[1]}$ $p_1, p_2, \\dots, p_n$，使得该排列中<strong>任意相邻的三个元素</strong>中，都至少存在两个数不互质$^\\texttt{[2]}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$换言之，对于任意 $1 \\leq i \\leq n-2$，在集合 $\\{p_i, p_{i+1}, p_{i+2}\\}$ 中存在两个不同的数 $x, y$，满足 $\\gcd(x, y) > 1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$如果存在这样的排列，请输出任意一个符合条件的方案；若不存在，直接输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$输入一个正整数 $n\\left(3 \\leq n \\leq 10^6\\right)$，表示排列的长度。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$如果不存在符合条件的排列，直接输出 $-1$。否则，在一行上输出 $n$ 个整数，表示构造出的排列，整数之间用空格分隔。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$如果存在多个解决方案，您可以输出任意一个，系统会自动判定是否正确。注意，自测运行功能可能因此返回错误结果，请自行检查答案正确性。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 4 2 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在这个样例中，构造出的排列为 $\\{3, 4, 2, 1\\}$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $1$ 个相邻三元组为 $\\{3, 4, 2\\}$。其中 $4$ 和 $2$ 的最大公约数为 $2 > 1$，满足条件。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $2$ 个相邻三元组为 $\\{4, 2, 1\\}$。其中 $4$ 和 $2$ 的最大公约数为 $2 > 1$，满足条件。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "所有相邻三元组均满足条件，故答案合法。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tif (n == 3 or n == 5) {\n\t\tcout << -1 << endl;\n\t\treturn;\n\t}\n\n\tvar ans = vector<int>();\n\tvar add = vector<int>{ 1,2,4,7,10,8,11,12,3,5,9,6 };\n\tfor (int i = 1; i <= n / 12 * 12; i += 12) {\n\t\tfor (int x : add)ans.pb(i + x - 1);\n\t}\n\tvar left = vector<int>();\n\tif (n % 12 == 3 or n % 12 == 5) {\n\t\tint cnt = 12;\n\t\twhile (ans.size() and cnt--)ans.pop_back();\n\n\t\tif (n % 12 == 3)add = vector<int>{ 1,2,4,5,8,10,7,14,6,11,12,3,13,9,15 };\n\t\telse add = vector<int>{ 1,2,4,5,8,10,7,14,16,11,6,12,13,3,9,17,15 };\n\n\t\tint now = (n / 12 - 1) * 12 + 1;\n\t\tfor (int x : add)ans.pb(now + x - 1);\n\t}\n\telse {\n\t\tfa(i, n / 12 * 12 + 1, n)\n\t\t\tleft.pb(i);\n\t}\n\n\tdo {\n\t\tbool ok = 1;\n\t\tif (ans.size()) {\n\t\t\tvar tmp = vector<int>{ ans[vs(ans) - 1], ans[vs(ans)] };\n\t\t\ttmp.insert(tmp.end(), all(left));\n\t\t\tfa(i, 0, vs(tmp) - 2) {\n\t\t\t\tint x = Math::gcd(tmp[i], tmp[i + 1]);\n\t\t\t\tint y = Math::gcd(tmp[i + 1], tmp[i + 2]);\n\t\t\t\tint z = Math::gcd(tmp[i], tmp[i + 2]);\n\t\t\t\tif (x + y + z == 3) {\n\t\t\t\t\tok = 0;\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tfa(i, 0, vs(left) - 2) {\n\t\t\t\tint x = Math::gcd(left[i], left[i + 1]);\n\t\t\t\tint y = Math::gcd(left[i + 1], left[i + 2]);\n\t\t\t\tint z = Math::gcd(left[i], left[i + 2]);\n\t\t\t\tif (x + y + z == 3) {\n\t\t\t\t\tok = 0;\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\tif (ok) {\n\t\t\tans.insert(ans.end(), all(left));\n\t\t\tbreak;\n\t\t}\n\t} while (next_permutation(all(left)));\n\n\tcout << ans << endl;\n\n\t//if (ans.size() != n)debug(\"NOOOOOOOO\");\n\t//else {\n\t//\tfa(i, 0, vs(ans) - 2) {\n\t//\t\tint x = Math::gcd(ans[i], ans[i + 1]);\n\t//\t\tint y = Math::gcd(ans[i + 1], ans[i + 2]);\n\t//\t\tint z = Math::gcd(ans[i], ans[i + 2]);\n\t//\t\tif (x + y + z == 3) {\n\t//\t\t\tdebug(\"NOOOOOOOO\");\n\t//\t\t\tdebug(ans[i], ans[i + 1], ans[i + 2]);\n\t//\t\t}\n\t//\t}\n\t//}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-15",
+  "parsed_at": "2026-06-14T18:39:35.928215+00:00",
+  "type_directory": "p"
+}

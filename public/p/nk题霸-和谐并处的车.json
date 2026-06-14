@@ -1,0 +1,201 @@
+{
+  "slug": "nk题霸-和谐并处的车",
+  "title": "NK题霸 和谐并处的车",
+  "type": "题目",
+  "tags": [
+    "图论建模"
+  ],
+  "difficulty": 2.5,
+  "summary": "一开始当思维题做，发现车之间的依赖关系太乱，根本理不清。想到可以建图，但不知道怎么建。关键一步是<strong>行列建图</strong>——把行和列看作图的节点，车看作有向边 $x \\to y$。这样每个节点的<strong>出入度天然表达了行/列的占用状态</strong>，图的结构只有<strong>路径</strong>和<strong>环</strong>两种。这种把二维坐标映射到图边上的建图方式之前从未见过，很新颖。",
+  "link": "https://www.nowcoder.com/practice/1a44f9b7eee348f9ba8233a551e48ca6?channelPut=tracker2",
+  "link_text": "https://www.nowcoder.com/practice/1a44f9b7eee348f9ba8233a551e48ca6?channelPut=tracker2",
+  "source": "NK题霸",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个 $n \\times n$ 的棋盘，上面有 $m$ 个车 ($m < n$)，初始时任意两个车不互相攻击（不同行不同列）。每一步可以选一个车沿水平或垂直方向移动任意格数，移动后也不能被其他车攻击。求将所有车移到主对角线 $(i, i)$ 上的最少步数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行 $T$ ($1 \\le T \\le 10^3$)，测试用例数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组数据：第一行 $n, m$ ($2 \\le n \\le 10^5$, $1 \\le m < n$)。接下来 $m$ 行每行 $x_i, y_i$，表示车的坐标。保证初始无互相攻击。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例 $n$ 之和不超过 $10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每组数据输出一个整数，最少步数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n3 1\n2 3\n3 2\n2 1\n1 2\n5 3\n2 3\n3 1\n1 2\n5 4\n4 5\n5 1\n2 2\n3 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n3\n4\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "前三组的一种可行方案：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. $(2,3) \\to (2,2)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. $(2,1) \\to (2,3)$，$(1,2) \\to (1,1)$，$(2,3) \\to (2,2)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3. $(2,3) \\to (2,4)$，$(2,4) \\to (4,4)$，$(3,1) \\to (3,3)$，$(1,2) \\to (1,1)$",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "初看像一道纯思维题——手动模拟时能隐约发现数据中的 $(1,2)$ 和 $(2,1)$ 成二元环、$(1,2)\\to(2,3)\\to(3,1)$ 成三元环——但车一多，依赖关系就乱得理不清。（<strong>发现能图论建模的主要突破口</strong>）",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "确认了\"要建图\"之后，接下来的问题是怎么建。并不是把棋盘格子当节点，而是把<strong>行和列当作节点</strong>（$1 \\sim n$），把每个<strong>车当作一条有向边</strong> $x \\to y$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这条<strong>边的含义</strong>：出边 $x$ 表示第 $x$ 行被该车占用，入边 $y$ 表示第 $y$ 列被该车占用。由于初始没有两个车同行同列，每个节点出入度至多为 1。整张图只能由两种结构组成：",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "路径与环",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>路径</strong>（如 $A \\to B \\to C$）：链条末端无出边，意味着有一行/列完全空闲。从空闲端开始，依次把车归位到它入边对应的列（或出边对应的行），没有任何阻碍。路径上有 $k$ 条边（$k$ 个不在对角线上的车），恰好需要 $k$ 步。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>环</strong>（如 $A \\to B \\to C \\to A$）：死锁。每辆车想去行对角线和列对角线的路都被别的车堵死。利用 $m < n$ 保证存在的空闲对角线位置，先牺牲 1 步把环中某辆车挪到空地\"借道\"，环断开成路径，剩下车依次归位后借道的车再归位。环上有 $k$ 条边，需要 $k + 1$ 步。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "实现",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "用并查集判环：遍历每辆不在对角线上的车 $(x, y)$，令 <code>ans++</code>。若 $x$ 和 $y$ 已在同一集合，说明成环，<code>ans++</code>；否则合并 $x$ 和 $y$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "总结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "本题的核心 trick 是把<strong>二维坐标映射为图的边</strong>、行列作为节点，一举将复杂的棋盘约束转化为有向图的结构分析（只存在路径和环）。这种建图方式在同行同列限制的棋盘问题中具有通用性。最终结论非常简洁：<strong>最少步数 = 错位的车数 + 环数</strong>。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar s = vector<int>(n + 1);\n\tfa(i, 1, n)s[i] = i;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return x;\n\t\treturn s[x] = find(find, s[x]);\n\t\t};\n\tint ans = 0;\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> u >> v;\n\t\tif (u != v)ans++;\n\t\telse continue;\n\t\tint e1 = find(find, u), e2 = find(find, v);\n\t\tif (e1 != e2)s[e2] = e1;\n\t\telse ans++;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-13",
+  "parsed_at": "2026-06-14T18:39:36.773573+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,40 @@
+{
+  "slug": "二维差分",
+  "title": "二维差分",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "差分数组",
+  "format": "markdown",
+  "sections": [
+    {
+      "type": "p",
+      "html": "<strong>矩阵示意图：</strong>",
+      "depth": 1
+    },
+    {
+      "type": "code",
+      "lang": "",
+      "code": "对以下矩阵每个位置 += 1\n(x, y)             (x, y + leny - 1)\n(x + lenx - 1, y)  (x + lenx - 1, y + leny - 1)",
+      "depth": 2
+    },
+    {
+      "type": "code",
+      "lang": "cpp",
+      "code": "cnt[x][y]++;\ncnt[x + lenx][y]--;\ncnt[x][y + leny]--;\ncnt[x + lenx][y + leny]++;\n\nfa(i, 1, n)fa(j, 1, m)\n  cnt[i][j] += cnt[i - 1][j] + cnt[i][j - 1] - cnt[i - 1][j - 1];",
+      "depth": 1
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-18",
+  "parsed_at": "2026-06-14T18:45:12.053818+00:00",
+  "type_directory": "k"
+}

@@ -1,0 +1,420 @@
+{
+  "slug": "cf2216e-oriented-journey",
+  "title": "CF2216E Oriented Journey",
+  "type": "题目",
+  "tags": [
+    "通信题",
+    "交互题"
+  ],
+  "difficulty": 2.0,
+  "summary": "因为给一条边必须直接输出边的方向，故而玩家 A 无法知道整个树的形状，只能<strong>抛弃边权看点权</strong>，利用给出无向边时保证 $u < v$ 这一条件。",
+  "link": "https://codeforces.com/contest/2216/problem/E",
+  "link_text": "Problem - E - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "这是一个<strong>两轮（通信）交互问题</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "有两名玩家：玩家 A（Neri）和玩家 B（Mashiro）。裁判首先与玩家 A 交互。玩家 A 的交互结束后，裁判再与玩家 B 交互。注意，玩家 A 和玩家 B 不能直接传递信息；双方只能向裁判发送信息或从裁判接收信息，但他们可以事先商定交互策略。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在交互开始前，裁判确定一棵大小为 \\(n\\) 的无向树 \\(T\\) 和一个整数 \\(s\\)（\\(1 \\le s \\le 2^{n-1}\\)）。这两个值对两名玩家是一致的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "玩家 A（Neri）首先从裁判处接收两个整数 \\(n\\) 和 \\(s\\)，但不会获得关于树 \\(T\\) 的其他信息。然后，裁判与 Neri 进行恰好 \\(n-1\\) 轮交互。在每一轮交互中：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "裁判向 Neri 揭示 \\(T\\) 的一条无向边，然后 Neri <strong>必须立即</strong>为这条边指定一个方向。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有 \\(n-1\\) 条边都被指定方向后，形成一个新的有向树 \\(T'\\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "玩家 B（Mashiro）接收到 Neri 与裁判交互生成的有向树 \\(T'\\)。她的任务是根据收到的信息确定整数 \\(s\\) 的值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Neri 希望确保 Mashiro 能够正确确定整数 \\(s\\)。你的任务是扮演两名玩家，为双方设计一个最优的交互策略，使得 Mashiro 能正确确定 \\(s\\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "第一轮运行",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "你的代码将在每个测试点上恰好运行两次。第一次运行时，你将扮演玩家 A（Neri）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>输入</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 \\(t\\) 和 \\(q\\)（\\(1 \\le t \\le 10^4\\)，\\(q=1\\)）——测试用例的数量和运行编号。这里 \\(q=1\\) 表示程序识别出这是第一次运行，应扮演玩家 A（Neri）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于每个测试用例，你首先需要读取两个整数 \\(n\\) 和 \\(s\\)（\\(3 \\le n \\le 30\\)，\\(1 \\le s \\le 2^{n-1}\\)）——树 \\(T\\) 的大小和需要传递的整数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>交互</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个测试用例，你首先按照上述输入格式从裁判处读取 \\(n\\) 和 \\(s\\)。然后，你需要与裁判进行恰好 \\(n-1\\) 轮交互：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "首先，从裁判处读取两个整数 \\(u\\) 和 \\(v\\)（\\(1 \\le u < v \\le n\\)），表示 \\(T\\) 中的一条无向边 \\((u, v)\\)；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "然后，向裁判输出一行两个整数 \\(a\\) 和 \\(b\\)，用空格分隔，其中 \\((a, b)\\) 必须是 \\((u, v)\\) 或 \\((v, u)\\)。输出 \\((a, b) = (u, v)\\) 表示指定方向 \\(u \\to v\\)，输出 \\((a, b) = (v, u)\\) 表示指定方向 \\(v \\to u\\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "注意，你必须在获取下一条边的信息之前为当前的无向边指定方向。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "之后，你将进入下一个测试用例，或者如果所有测试用例都已处理完毕，程序必须终止。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "交互器<strong>不是自适应</strong>的，这意味着每个测试用例中的树 \\(T\\) 在所有交互开始前就已固定。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每轮交互后不要忘记输出换行并刷新输出缓冲区。否则，你将收到 Idleness limit exceeded 的判定。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果在任何交互步骤中读取到 \\(-1\\) 而不是有效数据，你的解必须立即退出。这意味着由于无效交互或其他错误，你的解将收到 Wrong answer 判定。不退出可能导致任意判定，因为你的解将继续从已关闭的流中读取。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "第二轮运行",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第二次运行时，你将扮演玩家 B（Mashiro）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>输入</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 \\(t\\) 和 \\(q\\)（\\(1 \\le t \\le 10^4\\)，\\(q=2\\)）——测试用例的数量和运行编号。这里 \\(q=2\\) 表示程序识别出这是第二次运行，应扮演玩家 B（Mashiro）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 \\(n\\)（\\(3 \\le n \\le 30\\)）——有向树 \\(T'\\) 的大小。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来 \\(n-1\\) 行，每行包含两个整数 \\(u\\) 和 \\(v\\)（\\(1 \\le u, v \\le n\\)），表示 \\(T'\\) 中的一条有向边 \\(u \\to v\\)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "注意，第二轮运行中的测试用例顺序可能被打乱。具体请参见样例。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>输出</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数 \\(s\\) —— 你根据 \\(T'\\) 确定的整数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "之后，不要忘记输出换行并刷新输出缓冲区。否则，你将收到 Idleness limit exceeded 判定。然后继续下一个测试用例，如果是最后一个测试用例则终止程序。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "第一轮输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 1\n\n7 21\n1 6\n3 5\n2 4\n3 4\n1 2\n6 7\n\n9 59\n1 2\n1 4\n3 4\n3 5\n3 8\n5 6\n6 7\n8 9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第一轮输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 1\n3 5\n4 2\n3 4\n1 2\n7 6\n\n1 2\n1 4\n3 4\n3 5\n8 3\n5 6\n6 7\n9 8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第二轮输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 2\n\n9\n8 3\n9 8\n1 4\n3 4\n1 2\n5 6\n6 7\n3 5\n\n7\n3 4\n1 2\n7 6\n6 1\n3 5\n4 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "第二轮输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "59\n21",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心思想",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于 $1 \\le s \\le 2^{n-1}$，所以 <code>s-1</code> 恰好可以表示为一个 $n-1$ 位的二进制数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们将这 $n-1$ 个比特位分别绑定在编号为 <code>0</code> 到 <code>n-2</code> 的点权 <code>p[i]</code> 上。而编号为 <code>n-1</code> 的点，由于超过了 <code>s-1</code> 的最高位，其点权 <code>p[n-1]</code> 永远是 <code>0</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这个<strong>恒为 <code>0</code> 的 <code>n-1</code> 号节点</strong>，就是整棵树复原信息的 <strong>“基准锚点”</strong> 。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "Player A 的策略 (q == 1)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "A 的目标是把 <code>s-1</code> 的二进制信息打散到点权 <code>p</code> 中，然后通过定向边把相邻点的异或关系告诉 B。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. <strong>分配点权</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "收到 $n$ 和 $s$ 后，先将 <code>s</code> 减一。然后遍历 $i \\in [0, n-1]$，利用 <code>s &amp; (1 &lt;&lt; i)</code> 取出二进制的第 $i$ 位，赋值给布尔数组 <code>p[i]</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<em>(注：此时 <code>p[n-1]</code> 因为对应第</em> $n-1$ <em>位，必然恒为 0)</em>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>在线定向</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "交互库每次给出一条无向边，<strong>且保证输入的</strong> $u < v$（代码中统一减一转为了 0-base）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "A 只需要对比这两个端点的点权 <code>p[u]</code> 和 <code>p[v]</code>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 <strong><code>p[u] == p[v]</code></strong>：说明两点状态相同。A 就按照交互库<strong>原样输出 <code>u v</code></strong>（因为交互库给的 $u < v$，所以输出的也是小指大）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "如果 <strong><code>p[u] != p[v]</code></strong>：说明两点状态不同。A 就<strong>反向输出 <code>v u</code></strong>（此时输出的边变成了大指小）。",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "Player B 的策略 (q == 2)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "B 的目标是根据边的方向（是大指小还是小指大）推导出相邻点的点权关系，然后从锚点 <code>n-1</code> 开始 BFS，还原出所有的点权。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. <strong>解读边权，建图</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "B 收到 $n-1$ 条已经定向的边（代码中记为 $u \\to v$）。由于 B 知道交互库原本给 A 的是小点到大点，所以 B 可以倒推 A 当时的判断：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果收到的方向是 <strong><code>u &lt; v</code></strong>：说明 A 顺着原样输出了，代表这两个点点权相同。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "如果收到的方向是 <strong><code>u &gt; v</code></strong>：说明 A 把边反向了，代表这两个点点权不同。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>BFS 还原全局点权</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>B 知道 <code>n-1</code> 号节点的点权绝对是 0</strong>，所以把 <code>n-1</code> 放入队列 <code>Q</code>，并初始化它的结果数组 <code>res[n-1] = 0</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "然后开始 BFS 遍历：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "从 <code>now</code> 走到 <code>to</code> 时，如果边权 <code>w == 1</code>，说明它们不同，则 <code>res[to] = res[now] ^ 1</code>（异或翻转）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "如果边权 <code>w == 0</code>，说明它们相同，则 <code>res[to] = res[now]</code>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "3. <strong>重组答案</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "BFS 结束后，所有的点权 <code>res</code> 都已还原。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "最后输出 <code>ans + 1</code>，完美还原原始的 $s$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint t, q; cin >> t >> q;\n\tif (q == 1) {\n\t\twhile (t--) {\n\t\t\tint n, s; cin >> n >> s;\n\t\t\tvar p = vector<bool>(n);\n\t\t\ts--;\n\t\t\tfa(i, 0, n - 1) {\n\t\t\t\tif (s & (1 << i))p[i] = 1;\n\t\t\t\telse p[i] = 0;\n\t\t\t}\n\t\t\tfa(i, 1, n - 1) {\n\t\t\t\tint u, v; cin >> u >> v;\n\t\t\t\tu--, v--;\n\t\t\t\tif (p[u] == p[v]) {\n\t\t\t\t\tcout << u + 1 << ' ' << v + 1 << endl;\n\t\t\t\t\tcout.flush();\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tcout << v + 1 << ' ' << u + 1 << endl;\n\t\t\t\t\tcout.flush();\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t}\n\telse {\n\t\twhile (t--) {\n\t\t\tint n; cin >> n;\n\t\t\tvar g = vector<vector<pii>>(n);\n\t\t\tfa(i, 1, n - 1) {\n\t\t\t\tint u, v; cin >> u >> v;\n\t\t\t\tu--, v--;\n\t\t\t\tif (u < v) {\n\t\t\t\t\tg[u].pb({ v,0 });\n\t\t\t\t\tg[v].pb({ u,0 });\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tg[u].pb({ v,1 });\n\t\t\t\t\tg[v].pb({ u,1 });\n\t\t\t\t}\n\t\t\t}\n\t\t\tvar Q = queue<int>();\n\t\t\tvar res = vector<int>(n, -1);\n\t\t\tQ.push(n - 1); res[n - 1] = 0;\n\t\t\twhile (Q.size()) {\n\t\t\t\tint now = Q.front();\n\t\t\t\tQ.pop();\n\t\t\t\tfor (const var& [to, w] : g[now]) {\n\t\t\t\t\tif (res[to] != -1)continue;\n\t\t\t\t\tif (w)res[to] = (res[now] ^ 1);\n\t\t\t\t\telse res[to] = res[now];\n\t\t\t\t\tQ.push(to);\n\t\t\t\t}\n\t\t\t}\n\t\t\tint ans = 0;\n\t\t\tfa(i, 0, n - 1)if (res[i])ans += (1 << i);\n\t\t\tcout << ans + 1 << endl;\n\t\t\tcout.flush();\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-16",
+  "parsed_at": "2026-06-14T18:39:36.473304+00:00",
+  "type_directory": "p"
+}

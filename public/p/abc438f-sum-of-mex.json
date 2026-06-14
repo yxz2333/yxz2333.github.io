@@ -1,0 +1,348 @@
+{
+  "slug": "abc438f-sum-of-mex",
+  "title": "ABC438F Sum of Mex",
+  "type": "题目",
+  "tags": [
+    "贡献法",
+    "树链",
+    "经典问题/MEX问题"
+  ],
+  "difficulty": 2.0,
+  "summary": "从节点 $0$ 开始，<strong>维护一条链</strong>，每次只考虑这条链上节点组成的 $mex$，剩下的可能性我们用<strong>乘法原理</strong>和<strong>贡献法</strong>算。这条链当前的 $mex$ 对链进行<strong>延申</strong>，假如当前 $mex$ 为 $2$，那我去找节点编号为 $2$ 的点，看看能不能跟这个点连接，且还是保持一条链的形状。<strong>边维护边算答案</strong>，这题就解决了。",
+  "link": "https://atcoder.jp/contests/abc438/tasks/abc438_f",
+  "link_text": "F - Sum of Mex",
+  "source": "[[AtCoder Beginner Contest 438]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一棵拥有 $N$ 个顶点的树 $T$。顶点编号为 $0$ 至 $N-1$。第 $i$ 条边（$1 \\le i \\le N-1$）双向连接顶点 $u_i$ 和 $v_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每一对整数 $(i, j)$，其中 $0 \\le i, j < N$，定义函数 $f(i, j)$ 如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$f(i, j)$ 表示所有<strong>未包含</strong>在顶点 $i$ 到顶点 $j$ 简单路径上的顶点中，编号最小的顶点的编号。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "特殊地，如果顶点 $i$ 到顶点 $j$ 的简单路径包含了从 $0$ 到 $N-1$ 的所有顶点，则令 $f(i, j) = N$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "注意：顶点 $i$ 到顶点 $j$ 的路径包含端点 $i$ 和 $j$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请计算并输出 $\\displaystyle \\sum_{0 \\le i \\le j < N} f(i, j)$ 的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入从标准输入按以下格式给出：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$u_1$ $v_1$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$u_2$ $v_2$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\vdots$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$u_{N-1}$ $v_{N-1}$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示 $\\displaystyle \\sum_{0 \\le i \\le j < N} f(i, j)$ 的计算结果。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2 \\le N \\le 2 \\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$0 \\le u_i < v_i < N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入保证给出的图是一棵树。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入均为整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n0 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n0 1\n0 2\n2 3\n2 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "16",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n1 4\n2 6\n0 5\n0 3\n2 5\n1 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "16",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "理解题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>直观</strong>：<strong>MEX 的标准套路</strong>，看到 $\\sum \\text{MEX}$，第一反应几乎都是<strong>贡献法</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>深层</strong>：与其算每个路径的 MEX，不如算：<strong>“有多少条路径包含节点</strong> $0, 1, \\dots, k-1$<strong>？”</strong>（即 $\\text{MEX} \\ge k$ 的路径数）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "转化统计对象",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "令 $P(k)$ 为包含节点 $\\{0, 1, \\dots, k-1\\}$ 的路径数量。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "答案即为 $\\sum_{k=1}^{N} P(k)$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "动态维护链",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "从节点 $0$ 开始，逐个尝试加入节点 $1, 2, 3 \\dots$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "初始状态：链的两个端点 $u=0, v=0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>增量更新</strong>：假设当前覆盖 $\\{0, \\dots, k-1\\}$ 的最小链端点为 $u, v$。现在考虑节点 $k$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果 $k$ 已在路径 $u \\to v$ 上：端点不变。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $k$ 不在路径上：检查 $k$ 能否与 $u$ 或 $v$ 延长，即从 $u$ 或 $v$ 延申没 $vis$ 到的节点，是否能延申到 $k$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $k$ 既不在路径上，也不能延长路径（即<strong>必须分叉</strong>）：说明 $\\{0, \\dots, k\\}$ 无法构成一条链，后续所有 $P(m) (m > k)$ 均为 0，直接跳出循环。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "计算 $P(k)$（<strong>乘法原理</strong>）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "确定了<strong>最小覆盖链</strong>的端点 $u, v$ 后，任何以 $u$ 端外侧节点为起点、以 $v$ 端外侧节点为终点的路径都包含这组点：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况 A（</strong> $u, v$ <strong>互不为祖先）</strong>：包含该链的路径数 = $size(u) \\times size(v)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况 B（</strong> $u$ <strong>是</strong> $v$ <strong>的祖先，如</strong> $u=0$ <strong>）</strong>：此时 $u$ 端的<strong>“外侧”</strong>是指：除去 $v$ 所在的那条分支后，$u$ 剩下的部分。此时路径树 = $(N - size(v\\_branch)) \\times size(v)$，其中 $v\\_branch$ 是 $u$ 靠近 $v$ 方向的那个儿子节点 <code>xzhi</code>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "难点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>Case B 的细节处理</strong>：当端点之一是 0 时，不能直接用 $size(u)$，必须减去包含另一个端点的那棵子树的大小。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "思维钩子",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>MEX 升序性</strong>：因为 $\\{0 \\dots k\\}$ 包含 $\\{0 \\dots k-1\\}$，所以能覆盖前者的路径集一定是后者的子集。这保证了我们可以从 $0$ 开始一路<strong>顺藤摸瓜地维护这条链</strong>。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tu++, v++;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\tvar lca = MT::LCA(n, g);\n\tvar siz = vector<ll>(n + 1);\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tsiz[now] = 1;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\tsiz[now] += siz[to];\n\t\t}\n\t\t};\n\tdfs(dfs, 1, 0);\n\n\tll ans = 0;\n\tint x = 1, y = 1, xzhi = 1; // 链的两个端点 x，y; x 端点进入的一个子树 xzhi\n\tll now = 1, last = 0;       // 当前链的 mex，之前链的 mex\n\tvar vis = vector<bool>(n + 1);\n\tvis[1] = 1;\n\twhile (now != n + 1) {\n\n\t\tif (x == y) {\n\t\t\tfor (int to : g[x])ans += siz[to] * (siz[x] - siz[to] - 1) * (now - last);\n\t\t\tans /= 2;\n\t\t\tans += siz[1] * (now - last);\n\t\t}\n\t\telse {\n\t\t\tif (y == 1)ans += siz[x] * (siz[y] - siz[xzhi]) * (now - last);\n\t\t\telse ans += siz[x] * siz[y] * (now - last);\n\t\t}\n\n\t\tif (now == n)break;\n\n\t\tif (lca.lca(x, now + 1) == x and lca.lca(y, now + 1) == 1) {\n\n\t\t\t// 预期 now += 1\n\t\t\tint cur = now + 1;\n\t\t\twhile (cur != x) {\n\t\t\t\tvis[cur] = 1;\n\t\t\t\tif (lca.f[cur][0] == 1)xzhi = cur; // x 端点进的第一个子树的编号\n\t\t\t\tcur = lca.f[cur][0];\n\t\t\t}\n\n\t\t\t// 更新 now\n\t\t\tlast = now;\n\t\t\tfa(i, last + 1, n) {\n\t\t\t\tif (vis[i])now = i;\n\t\t\t\telse break;\n\t\t\t}\n\t\t\tx = last + 1;\n\t\t}\n\t\telse if (lca.lca(y, now + 1) == y and lca.lca(x, now + 1) == 1) {\n\n\t\t\t// 预期 now += 1\n\t\t\tint cur = now + 1;\n\t\t\twhile (cur != y) {\n\t\t\t\tvis[cur] = 1;\n\t\t\t\tcur = lca.f[cur][0];\n\t\t\t}\n\n\t\t\t// 更新 now\n\t\t\tlast = now;\n\t\t\tfa(i, last + 1, n) {\n\t\t\t\tif (vis[i])now = i;\n\t\t\t\telse break;\n\t\t\t}\n\t\t\ty = last + 1;\n\t\t}\n\t\telse break;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-29",
+  "parsed_at": "2026-06-14T18:39:35.991313+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,90 @@
+{
+  "slug": "期望dp",
+  "title": "期望dp",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "视角转换",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "传统 DP",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "思考方向：<strong>当前这个状态从哪来的？</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "状态定义：<code>dp[i]</code> 表示从【起点】走到【状态 $i$】的最优解。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "已知起点（如 <code>dp[0] = 0</code>），由已知推向终点，顺着时间流正推。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "期望 DP",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "思考方向：<strong>当前这个状态接下来会去哪？</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "状态定义：<code>E[i]</code> 表示从【状态 $i$】出发，走到【终点】还需要的期望代价。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "已知终点（如 <code>E[目标] = 0</code>，因为已经到了，不需要再走），由已知推向起点。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "什么是真正的倒推？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>期望 dp 要倒推</strong>。什么才叫倒推？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>“倒推”</strong> 指的是逻辑上从目标状态（<strong>已知</strong>）向初始状态（<strong>未知</strong>）推导，而不是数组下标的递减。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>要想算当前状态，它依赖的未来状态必须已经算完。</strong> 循环的方向，就是从【已知】走向【未知】的方向。",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-01",
+  "parsed_at": "2026-06-14T18:45:12.108342+00:00",
+  "type_directory": "k"
+}

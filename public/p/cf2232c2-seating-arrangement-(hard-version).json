@@ -1,0 +1,353 @@
+{
+  "slug": "cf2232c2-seating-arrangement-(hard-version)",
+  "title": "CF2232C2 Seating Arrangement (Hard Version)",
+  "type": "题目",
+  "tags": [
+    "反悔贪心"
+  ],
+  "difficulty": 2.0,
+  "summary": "发现本题能使用<strong>反悔贪心</strong>，然后默认 A 在还有空桌子剩的时候就去开空桌子，如果到 I 没空桌子了，就考虑反悔 A，反悔出来的 A 看看能不能补回去。",
+  "link": "https://codeforces.com/contest/2232/problem/C2",
+  "link_text": "CF2232C2 Seating Arrangement (Hard Version)",
+  "source": "Codeforces Round 1101 (Div. 2)",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "这是问题的困难版本。两个版本的区别在于，本版本中 $n$、$x$、$s$、$t$ 的约束条件更大。只有当你解决了该问题的所有版本时，才允许进行攻击。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "爱丽丝的朋友们来参加派对，现在他们正在排队入场。派对上有 $x$ 张桌子，每张桌子有 $s$ 个座位。每个座位只能坐一个人。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个朋友具有以下三种性格之一：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>内向者（I）</strong>：必须坐在空桌子旁",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>外向者（E）</strong>：必须坐在非空桌子旁",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>中间者（A）</strong>：可以坐在任何桌子旁",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "最初，所有座位都是空的。爱丽丝无法改变朋友的顺序。对于队伍中的每个人，爱丽丝必须为他们分配一张桌子，或者将他们赶出派对。每个人入座后，才为下一个人分配桌子。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意：一旦朋友入座，即使之后他们不再符合自己的性格要求，也不允许移动。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "求派对中最多能有多少位朋友入座。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试包含多个测试用例。第一行包含测试用例的数量 $t$（$1 \\le t \\le 10^4$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含三个整数 $n$、$x$ 和 $s$（$1 \\le n,x,s \\le 2\\cdot 10^5$）——分别表示朋友数量、桌子数量和每张桌子的座位数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含一个长度为 $n$ 的字符串 $u$，仅由字母 A、E 和 I 组成，分别代表中间性格者、外向者和内向者。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $2 \\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数：可坐下的最大人数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "6\n5 2 2\nEIAIE\n20 5 5\nAEIEEEEIEAAEIEEEEIEA\n8 2 4\nAAAAAIEE\n8 4 2\nAIEAEAAI\n8 3 3\nAIEAEAAI\n4 2 2\nIAEE",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "4\n20\n7\n7\n7\n4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一个测试用例中，有 $2$ 张桌子，每张桌子有 $2$ 个座位。以下是一种实现最大入座人数的方式：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第一个人是外向者。由于所有桌子都是空的，他们不得不离开派对。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第二个人是内向者。Alice 可以将他们安排到第一张空桌子。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第三个人是中间性格者。Alice 可以将他们安排到第一张桌子。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第四个人是内向者。Alice 可以将他们安排到第二张空桌子。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第五个人是外向者。Alice 可以将他们安排到第二张桌子，该桌子并非空着。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此，派对上有四人入座。由于派对只有四个座位，这是最大人数。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "本题的核心矛盾在于如何处理<strong>中间者（A）</strong>：他们既可以开新桌也可以拼桌。若一味开桌，会挤占后面<strong>内向者（I）</strong>的空桌名额；若一律拼桌，又可能错失让 A 坐下的机会。解决这一矛盾的利器是<strong>反悔贪心</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "默认让 A 在有剩余空桌时直接开新桌，优先保证当前人入座。当后续 I 到来且无空桌时，从之前开桌的 A 手中\"反悔\"一张桌子给 I，同时尝试将被反悔的 A 安排到其他非空桌上。这一策略通过维护两类桌子资源来实现。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "状态维护",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<code>left</code>：剩余空桌数量。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>I 桌集合</strong> <code>I_set</code>：用 <code>set&lt;pair&lt;时间戳, 当前人数&gt;&gt;</code> 存储内向者开的非满桌。I 桌可供后续 E/A 拼桌，但<strong>不允许被反悔</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>A 桌队列</strong> <code>A_que</code>：用 <code>deque&lt;pair&lt;时间戳, 当前人数&gt;&gt;</code> 按开桌时间顺序存储中间者开的非满桌。A 桌可被拼桌，并且当其上只有原 A 一人时，<strong>可以被反悔</strong>（整桌回收）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "处理流程（按到场顺序遍历，记当前人到达时间为 <code>id</code>）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>E（外向者）</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "无空桌 → 调用拼桌函数 <code>in(id)</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>I（内向者）</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "有空桌 → 开新桌，<code>left--</code>；若 $s>1$ 则存入 <code>I_set</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "无空桌 → 检查 <code>A_que</code> 尾部是否有仅 $1$ 人的桌子：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "有：弹出该 A 桌，原 A 调用 <code>in(原A.id)</code> 重新拼桌；当前 I 占据该桌，若 $s>1$ 加入 <code>I_set</code>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "无：I 离开",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>A（中间者）</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "有空桌 → 开新桌，<code>left--</code>；若 $s>1$ 则加入 <code>A_que</code> 尾部",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "无空桌 → 当作外向者处理，调用 <code>in(id)</code>",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "拼桌函数 <code>in(id)</code>",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "为到达时间 <code>id</code> 的人寻找一张<strong>开桌时间 < id</strong> 且未满的非空桌，规则如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. <strong>优先从 <code>I_set</code> 中选</strong>：利用 <code>upper_bound</code> 找到开桌时间最大（最新）且 $\\le id$ 的桌子。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>为什么选最新？</strong> I 桌永不反悔，用掉最新的可以把时间戳小的老 I 桌留给将来被反悔出来的早期 A（早期 A 的 <code>id</code> 较小，只有老桌子才满足\"开桌时间 < 自己\"的条件）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>若 <code>I_set</code> 无可用</strong>：转从 <code>A_que</code> 队首开始，跳过已满桌子，选择第一个开桌时间 < <code>id</code> 的桌子。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>为什么选最老？</strong> 反悔时总是从队尾（最新）开始，优先填老 A 桌能保护新 A 桌不被拼满，使其更大概率保持\"仅 $1$ 人\"的可反悔状态，且被踢出的新 A 由于到达时间晚，重新拼桌的机会也更大。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3. 选中桌子后人数 $+1$，若仍未满则放回原结构，否则移除。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "关键点说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>反悔对象的选择</strong>：只反悔最新且只有原 A 一人的 A 桌。最新 A 到达时间晚，重新拼桌的选择范围更大；且只反悔单人桌避免了牵连已入座的其他人。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>边界处理</strong>：当 $s=1$ 时，开桌即满，不需要加入 <code>I_set</code> 或 <code>A_que</code>，反悔机制因无可反悔元素而自动失效，处理正确。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>贪心正确性</strong>：该策略通过\"I 桌用新不用旧，A 桌用旧不用新\"的资源分配，最大化了全局入座人数，可通过交换论证证明其最优性。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, tab, cha; cin >> n >> tab >> cha;\n\tstring s; cin >> s; s = ' ' + s;\n\tll ans = 0;\n\tll cnt = 0, leftt = tab;\n\tvar A = deque<pll>();\n\tvar I = set<pll>();\n\tvar in = [&](int id)->void {\n\t\tvar it = I.upper_bound({ id, INF });\n\t\tif (it != I.begin()) {\n\t\t\tit = prev(it);\n\t\t\tvar res = *it;\n\t\t\tI.erase(it);\n\t\t\tres.py++;\n\t\t\tans++;\n\t\t\tif (res.py < cha)I.insert(res);\n\t\t\treturn;\n\t\t}\n \n\t\twhile (A.size() and A.front().py == cha)A.pop_front();\n\t\tif (A.size() and A.front().px < id) {\n\t\t\tA.front().py++;\n\t\t\tans++;\n\t\t}\n\t\t};\n\tfa(i, 1, n) {\n\t\tif (s[i] == 'E')in(i);\n\t\telse if (s[i] == 'I') {\n\t\t\tif (leftt) {\n\t\t\t\tleftt--;\n\t\t\t\tans++;\n\t\t\t\tif (cha != 1)I.insert({ i, 1 });\n\t\t\t}\n\t\t\telse {\n\t\t\t\tif (A.size() and A.back().py == 1) {\n\t\t\t\t\tvar res = A.back();\n\t\t\t\t\tA.pop_back();\n\t\t\t\t\tin(res.px);\n\t\t\t\t\tif (cha != 1)I.insert({ i, 1 });\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tif (leftt) {\n\t\t\t\tleftt--;\n\t\t\t\tans++;\n\t\t\t\tif (cha != 1)A.pb({ i, 1 });\n\t\t\t}\n\t\t\telse in(i);\n\t\t}\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-02",
+  "parsed_at": "2026-06-14T18:39:36.493764+00:00",
+  "type_directory": "p"
+}

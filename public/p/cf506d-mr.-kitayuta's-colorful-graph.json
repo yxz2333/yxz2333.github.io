@@ -1,0 +1,235 @@
+{
+  "slug": "cf506d-mr.-kitayuta's-colorful-graph",
+  "title": "CF506D Mr. Kitayuta's Colorful Graph",
+  "type": "题目",
+  "tags": [
+    "根号分治",
+    "并查集",
+    "图论经典问题/图的连通性"
+  ],
+  "difficulty": 2.0,
+  "summary": "主要难点就是看出<strong>根号分治</strong>，如何操作这个根号分治，然后就是<strong>用并查集处理连通性</strong>了。",
+  "link": "https://codeforces.com/problemset/problem/506/D",
+  "link_text": "Problem - 506D - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给出一个 $n$ 个点，$m$ 条边的无向图，每条边上是有颜色的。有 $q$ 组询问",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于第 $i$ 组询问，给出点对 $u_i,v_i$， 求有多少种颜色 $c$，满足存在至少一条从 $u_i$ 到 $v_i$ 的路径，使得该路径上的所有边的颜色均为 $c$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行两个整数 $n,m$ 分别表示点的个数和边的个数",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行，每行三个整数 $x_i,y_i,c_i$，表示有一条连接点 $x_i,y_i$ 的边，且该边的颜色为 $c_i$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来一行一个整数 $q$，表示询问的个数",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行，每行两个整数 $u_i,v_i$，表示一组询问",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2 \\le n \\le 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le m,q \\le 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\le x_i,y_i,u_i,v_i \\le n$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le c_i \\le m$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每一组询问，在单独的一行输出对应的答案",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 5\n1 2 1\n1 2 2\n2 3 1\n2 3 3\n2 4 3\n3\n1 2\n3 4\n1 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n1\n0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 7\n1 5 1\n2 5 1\n3 5 1\n4 5 1\n1 2 2\n2 3 2\n3 4 2\n5\n1 5\n5 1\n2 5\n1 5\n1 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n1\n1\n1\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "理解题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>直观</strong>：问的是两点是否存在一条全是相同颜色的边组成的路径，那其实就是问两点在特定颜色下的<strong>连通性</strong>嘛。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>深层</strong>：用<strong>并查集判连通性</strong>，但是这样可能要开 $1e5$ 组并查集，需要解决这个问题。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "那么最主要的线索就是这个边数 $M \\le 1e5$，就这么点边数要分配给最多 $M$ 种颜色，$\\sum (\\text{每种颜色的边数}) = M$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>暗示</strong>：颜色的分布极不均匀。可能有一种颜色有 $10^5$ 条边（大颜色），也可能有 $10^5$ 种颜色每种只有 1 条边（小颜色）。说明可以使用<strong>根号分治</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们对<strong>边数</strong>根号分治，边数大于<strong>阈值</strong> $B$ 的颜色为<strong>大颜色</strong>，小于的则为<strong>小颜色</strong>。其中阈值 $B = \\sqrt {N}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>大颜色</strong>涉及的<strong>点对</strong>最多有 $N^2$，不可能直接预处理掉点对的答案，我们直接开最多 $B$ 组并查集存连通性信息，询问的时候直接<strong>枚举</strong>这些并查集即可。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>小颜色</strong>涉及的<strong>点对</strong>最多有 $B^2$ 个，那总复杂度就 $O(B^3)$，直接对小颜色用<strong>哈希表/map</strong>组个离散化并查集，在这个并查集的基础上判断连通性，把答案存起来即可。",
+          "depth": 2
+        },
+        {
+          "heading": "思维钩子",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>“总量固定 (N 或 M)，但组别数量 (K) 不定，且组的大小不均”</strong>  <strong>根号分治</strong>",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "const int B = 333; // 边数阈值\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar a = vector<pair<int, pii>>();\n\tfa(i, 1, m) {\n\t\tint x, y, c; cin >> x >> y >> c;\n\t\tif (x > y)swap(x, y);\n\t\ta.pb({ c,{x,y} });\n\t}\n\tsort(all(a));\n\n\t// 提取所有颜色对应的边\n\tvar e = vector<vector<pii>>();\n\tvar now = vector<pii>();\n\tint nowc = 0;\n\tfor (const var& [c, p] : a) {\n\t\t const var& [x, y] = p;\n\t\t if (!nowc) {\n\t\t\t nowc = c;\n\t\t\t now.pb({ x,y });\n\t\t }\n\t\t else {\n\t\t\t if (nowc != c) {\n\t\t\t\t e.pb(now);\n\t\t\t\t now.clear();\n\t\t\t\t nowc = c;\n\t\t\t\t now.pb({ x,y });\n\t\t\t }\n\t\t\t else now.pb({ x,y });\n\t\t }\n\t}\n\te.pb(now);\n\n\tvar mp = gpHashMap<pii, int, MT::custom_hash>(); // 存颜色边少的暴力答案\n\tvar s = vector<vector<int>>(); // 存颜色边多的并查集们\n\tvar find = [&](var find, const int id, int x)->int {\n\t\tif (s[id][x] == x)return x;\n\t\treturn s[id][x] = find(find, id, s[id][x]);\n\t\t};\n\n\tfor (const var& es : e) {\n\t\tif (es.size() >= B) {\n\t\t\t// 处理颜色边多的大颜色\n\t\t\t// 总复杂度：O(B ^ 2) = O(m)\n\n\t\t\tint id = s.size();\n\t\t\tvar _s = vector<int>(n + 1);\n\t\t\tfa(i, 1, n)_s[i] = i;\n\t\t\ts.pb(_s);\n\n\t\t\tfor (const var& [x, y] : es) {\n\t\t\t\tint e1 = find(find, id, x);\n\t\t\t\tint e2 = find(find, id, y);\n\t\t\t\tif (e1 != e2)s[id][e2] = e1;\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\t// 处理颜色边少的小颜色\n\t\t\t// 总复杂度：O(m + B ^ 3) \n\n\t\t\t// 提取出所有边涉及的点\n\t\t\tvar ps = vector<int>();\n\t\t\tfor (const var& [x, y] : es)ps.pb(x), ps.pb(y);\n\t\t\tsort(all(ps));\n\t\t\tps.erase(unique(all(ps)), ps.end());\n\n\t\t\t// 用 map 开并查集，总复杂度 O(m)\n\t\t\tvar s = gpHashMap<int, int, MT::custom_hash>();\n\t\t\tfor (int x : ps)s[x] = x;\n\t\t\tvar find = [&](var find, int x)->int {\n\t\t\t\tif (s[x] == x)return s[x];\n\t\t\t\treturn s[x] = find(find, s[x]);\n\t\t\t\t};\n\t\t\tfor (const var& [x, y] : es) {\n\t\t\t\tint e1 = find(find, x);\n\t\t\t\tint e2 = find(find, y);\n\t\t\t\tif (e1 != e2)s[e2] = e1;\n\t\t\t}\n\n\t\t\t// 枚举所有点对，判连通性，O(B ^ 2)\n\t\t\tfa(i, 0, vs(ps))fa(j, i + 1, vs(ps)) {\n\t\t\t\tint e1 = find(find, ps[i]);\n\t\t\t\tint e2 = find(find, ps[j]);\n\t\t\t\tif (e1 == e2)mp[{ps[i], ps[j]}]++;\n\t\t\t}\n\t\t}\n\t}\n\n\tint q; cin >> q;\n\twhile (q--) {\n\t\tint x, y; cin >> x >> y;\n\t\tif (x > y)swap(x, y);\n\n\t\tint ans = 0;\n\n\t\t// 小颜色贡献\n\t\tif (mp.find({ x,y }) != mp.end())ans += mp[{x, y}];\n\n\t\t// 大颜色贡献，直接枚举判断 x y 是否连通，最多 O(B)\n\t\tfa(i, 0, vs(s)) {\n\t\t\tint e1 = find(find, i, x);\n\t\t\tint e2 = find(find, i, y);\n\t\t\tif (e1 == e2)ans++;\n\t\t}\n\t\tcout << ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-26",
+  "parsed_at": "2026-06-14T18:39:36.546311+00:00",
+  "type_directory": "p"
+}

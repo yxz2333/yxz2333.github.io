@@ -1,0 +1,222 @@
+{
+  "slug": "cf280c-game-on-tree",
+  "title": "CF280C Game on Tree",
+  "type": "题目",
+  "tags": [
+    "期望/线性性",
+    "贡献法"
+  ],
+  "difficulty": null,
+  "summary": "还是按照贡献法的思路来考虑这个期望问题，算每个点删掉对答案的贡献即可。",
+  "link": "https://www.luogu.com.cn/problem/CF280C",
+  "link_text": "CF280C Game on Tree - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一棵有根树，结点编号从 $1$ 到 $n$。根结点为 $1$ 号结点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每一次操作，等概率的选择一个<strong>尚未被删去</strong>的结点并将它及其子树全部删去。当所有结点被删除之后，游戏结束；也就是说，删除 $1$ 号结点后游戏即结束。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "要求求出删除所有结点的期望操作次数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行，一个正整数 $n$ 表示结点数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n-1$ 行每行两个数，表示树上的一条连接 $a_i$ 与 $b_i$ 的边 $(a_i,b_i)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证给定的数据是一棵树。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\le n\\le 10^5,1\\le a_i,b_i\\le n,a_i\\neq b_i$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个实数，表示期望操作次数。答案误差在 $10^{-6}$ 之内则认为正确。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1.50000000000000000000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 2\n1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2.00000000000000000000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>如果一个点被主动点中了，那么它就会提供一个贡献。</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "虽然树上有很多节点，但<strong>能影响节点</strong> $i$ <strong>命运（即决定它是否被主动点中）的，只有它自己和它的祖先</strong>。其他节点的删除既不会让 $i$ 消失，也不会让 $i$ 的祖先消失。因此，我们只需要在那 $depth_i$ 个决定命运的节点中，看 $i$ 成为 ‘第一个被选中者’ 的概率即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "假设点删掉点 \\( i \\)，它的深度为 \\( depth_i \\)。<strong>它的生涯肯定最后会被删掉</strong>，那么它被删掉只可能是因为 \\( depth_i \\) 种方式：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "点 \\( i \\) 的老祖先(根节点)被删掉",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "点 \\( i \\) 的次老祖先(根的儿子)被删掉",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "……",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "点 \\( i \\) 的父亲节点被删掉",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "自己被主动点中删掉",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "因此一个点被删掉会对答案产生 \\(\\frac{1}{depth_i}\\) 的贡献。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "根据期望的线性性，简单来说就是 \\( E(x + y) = E(x) + E(y), E(ax) = aE(x), a \\in \\mathbb{R} \\)，其中 \\( E(x) \\) 表示期望。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所以总次数期望为各点期望之和，即答案为 \\[\\sum_{i=1}^n \\frac{1}{depth_i}\\]",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\tvar dep = vector<int>(n + 1);\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tdep[now] = dep[fa] + 1;\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t}\n\t\t};\n\tdfs(dfs, 1, 0);\n\tdb ans = 0;\n\tfa(i, 1, n)ans += 1.0 / dep[i];\n\tcout << fixed << setprecision(12) << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-29",
+  "parsed_at": "2026-06-14T18:39:36.518341+00:00",
+  "type_directory": "p"
+}

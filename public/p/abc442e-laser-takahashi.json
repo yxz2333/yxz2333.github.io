@@ -1,0 +1,98 @@
+{
+  "slug": "abc442e-laser-takahashi",
+  "title": "ABC442E Laser Takahashi",
+  "type": "题目",
+  "tags": [
+    "计算几何"
+  ],
+  "difficulty": null,
+  "summary": "",
+  "link": "[AT_abc442_e [ABC442E] Laser Takahashi - 洛谷](https://www.luogu.com.cn/problem/AT_abc442_e)",
+  "link_text": "[AT_abc442_e [ABC442E] Laser Takahashi - 洛谷](https://www.luogu.com.cn/problem/AT_abc442_e)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-19",
+  "parsed_at": "2026-06-14T18:39:36.001661+00:00",
+  "type_directory": "p"
+}

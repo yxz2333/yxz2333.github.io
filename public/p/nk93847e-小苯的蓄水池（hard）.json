@@ -1,0 +1,167 @@
+{
+  "slug": "nk93847e-小苯的蓄水池（hard）",
+  "title": "NK93847E 小苯的蓄水池（hard）",
+  "type": "题目",
+  "tags": [
+    "链式并查集",
+    "珂朵莉树"
+  ],
+  "difficulty": 1.5,
+  "summary": "不单纯是链式并查集的模板，维护的是<strong>带权并查集</strong>；不单纯是珂朵莉树模板，本题不需要 <code>split</code> 操作。作为代码参考题，主要看看代码上进行了什么修改即可。",
+  "link": "https://ac.nowcoder.com/acm/contest/93847/E",
+  "link_text": "E-小苯的蓄水池（hard）_牛客周赛 Round 66",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小苯有一个大的蓄水场，其中有恰好 $n$ 个蓄水池排成一排，编号分别为 $1$ 到 $n$，其中第 $i$ 个蓄水池中的水量为 $a_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "起初每两个相邻蓄水池之间都有一个隔板，而现在小苯希望在蓄水场维护一些操作和查询，具体的：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\bullet\\ 1\\ \\ l\\ \\ r$ 表示将第 $l$ 个水池和第 $r$ 个水池之间所有的挡板拿走。（保证：$1 \\leq l < r \\leq n$）",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\bullet\\ 2\\ \\ i$ 表示查询第 $i$ 个水池目前的水量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "（如果挡板被拿走，则原本挡板两侧水会混合在一起，最终对应的水量会变为平均值，具体可以看样例解释。）",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入包含 $m + 2$ 行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行输入两个正整数 $1 \\leq n, m \\leq 2 \\times 10^5$，分别表示蓄水场中水池的个数，以及操作的次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个整数 $a_i\\ (1 \\leq a_i \\leq 10^9)$，表示每个水池初始时的水量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行，每行第一个整数  $\\ op (1 \\leq op \\leq 2)$ 表示操作。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\bullet$ 如果 $op = 1$，则表示取掉挡板操作，再输入两个正整数 $l, r\\ (1 \\leq l < r \\leq n)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\bullet$ 如果 $op = 2$，则表示查询操作，再输入一个正整数 $i\\ (1 \\leq i \\leq n)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "（注意：已经拿走的挡板在以后的操作中都是“被拿走”的状态。）",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "（数据保证至少有一次查询操作。）",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出包含若干行，每行一个实数，表示对每个 $op=2$ 的询问做出的回答。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "（与正确答案的绝对误差不超过 $10^{-4}$ 则视为正确。）",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 6\n1 2 4 5\n1 1 3\n2 1\n2 3\n1 1 4\n2 1\n2 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2.3333333333\n2.3333333333\n3.0000000000\n3.0000000000",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 链式并查集\nvoid solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\n\tvar s = vector<ll>(n + 2);\n\tvar sum = vector<ll>(n + 2);\n\tvar siz = vector<ll>(n + 2);\n\tfa(i, 1, n)s[i] = i, sum[i] = a[i], siz[i] = 1;\n\ts[n + 1] = n + 1;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return x;\n\t\treturn s[x] = find(find, s[x]);\n\t\t};\n\n\twhile (m--) {\n\t\tint op; cin >> op;\n\t\tif (op == 1) {\n\t\t\tint l, r; cin >> l >> r;\n\t\t\tfor (int i = find(find, l); i < r; i = find(find, i + 1)) {\n\t\t\t\tint j = find(find, i + 1);\n\t\t\t\ts[i] = j;\n\t\t\t\tsum[j] += sum[i];\n\t\t\t\tsiz[j] += siz[i];\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tint i; cin >> i;\n\t\t\tint e = find(find, i);\n\t\t\tcout << fixed << setprecision(12) << (db)sum[e] / siz[e] << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 珂朵莉树\nclass ODT {\nprivate:\n\tstruct ODT_Node {\n\t\tint l, r;\n\t\tmutable pll v; // { 总数，个数 }\n\n\t\t// 重载小于号以用于 set 排序\n\t\tbool operator<(const ODT_Node& a)const {\n\t\t\treturn l < a.l;\n\t\t}\n\t};\n\n\tset<ODT_Node> se;\n\npublic:\n\tODT(int n, const vector<ll>& a) {\n\t\tfa(i, 1, n)se.insert({ i, i, { a[i], 1 } });\n\t}\n\n\t// ODT 的核心操作：区间赋值（推平）\n\tvoid assign(int l, int r) {\n\t\t// 必须先 split 右边，再 split 左边，否则迭代器可能失效\n\n\t\tauto it = se.lower_bound({ l, 0, {0, 0} });\n\t\tauto itl = it;\n\t\tif (it != se.end() and it->l == l)itl = it;\n\t\telse {\n\t\t\tit = prev(it);\n\t\t\titl = it;\n\t\t}\n\n\t\tit = se.lower_bound({ r, 0, {0, 0} });\n\t\tauto itr = it;\n\t\tif (it != se.end() and it->l == r)itr = it;\n\t\telse {\n\t\t\tit = prev(it);\n\t\t\titr = it;\n\t\t}\n\n\t\tint L = itl->l, R = itr->r;\n\t\tit = itl;\n\t\tll sum = 0, cnt = 0;\n\t\twhile (it != itr) {\n\t\t\tauto [l, r, v] = *it;\n\t\t\tsum += v.px;\n\t\t\tcnt += v.py;\n\t\t\tit = se.erase(it);\n\t\t}\n\t\tsum += itr->v.px;\n\t\tcnt += itr->v.py;\n\t\tit = se.erase(it);\n\n\t\tse.insert({ L, R, { sum, cnt } });\n\t}\n\n\tpll query(int pos) {\n\t\tauto it = se.lower_bound({ pos, 0, {0, 0} });\n\t\tif (it != se.end() and it->l == pos)return it->v;\n\t\tit = prev(it);\n\t\treturn it->v;\n\t}\n};\nvoid solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar odt = ODT(n, a);\n\twhile (m--) {\n\t\tint op; cin >> op;\n\t\tif (op == 1) {\n\t\t\tint l, r; cin >> l >> r;\n\t\t\todt.assign(l, r);\n\t\t}\n\t\telse {\n\t\t\tint i; cin >> i;\n\t\t\tvar[sum, siz] = odt.query(i);\n\t\t\tcout << fixed << setprecision(12) << (db)sum / siz << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-09",
+  "parsed_at": "2026-06-14T18:39:36.742237+00:00",
+  "type_directory": "p"
+}

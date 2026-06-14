@@ -1,0 +1,98 @@
+{
+  "slug": "cf2197d-another-problem-about-beautiful-pairs",
+  "title": "CF2197D Another Problem about Beautiful Pairs",
+  "type": "题目",
+  "tags": [
+    "根号分治"
+  ],
+  "difficulty": 2.0,
+  "summary": "",
+  "link": "https://codeforces.com/contest/2197/problem/D",
+  "link_text": "Problem - D - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tconst ll B = sqrt(n);\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n \n\tll ans = 0;\n\tfa(val, 1, B) { // 枚举 val => a[j]\n\t\tfa(i, 1, n)if (a[i] < n) { // 枚举 i => a[i]\n\t\t\tll j = i - val * a[i];\n\t\t\tif (j >= 1 and a[j] == val)ans++;\n\t\t\tj = i + val * a[i];\n\t\t\tif (j <= n and a[j] == val)ans++;\n\t\t}\n\t}\n \n\tfa(i, 1, n)if (a[i] > B) { // 枚举 i => a[i]\n\t\tfa(val, 1, n) { // 枚举 val => a[j]\n\t\t\tll j = i + a[i] * val;\n\t\t\tif (j > n)break;\n\t\t\tif (a[j] == val)ans++;\n\t\t}\n\t\tfa(val, 1, n) { // 枚举 val => a[j]\n\t\t\tll j = i - a[i] * val;\n\t\t\tif (j < 1)break;\n\t\t\tif (a[j] == val)ans++;\n\t\t}\n\t}\n \n\tcout << ans / 2 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-12",
+  "parsed_at": "2026-06-14T18:39:36.416806+00:00",
+  "type_directory": "p"
+}

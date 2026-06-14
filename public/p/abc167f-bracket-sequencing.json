@@ -1,0 +1,272 @@
+{
+  "slug": "abc167f-bracket-sequencing",
+  "title": "ABC167F Bracket Sequencing",
+  "type": "题目",
+  "tags": [
+    "贪心/排序",
+    "经典问题/括号匹配问题"
+  ],
+  "difficulty": 1.5,
+  "summary": "先用 <strong>+1/-1 前缀和</strong> 来算<strong>总和（收益/代价）</strong>与<strong>拼接门槛</strong>，然后搞个小复杂的排序就行了，本题主要是分析排序怎么写。",
+  "link": "https://atcoder.jp/contests/abc167/tasks/abc167_f",
+  "link_text": "F - Bracket Sequencing",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给出的是 $N$ 字符串 $S_i$ 。能否按一定顺序将所有 $N$ 字符串连接起来形成一个括号序列？",
+          "depth": 1
+        },
+        {
+          "heading": "限制因素",
+          "level": 4,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$1 \\leq N \\leq 10^6$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "字符串 $S_i$ 的总长度最多为 $10^6$ 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$S_i$ 是一个由 <code>(</code> 和 <code>)</code> 组成的非空字符串。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入内容由标准输入法提供，格式如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$S_1$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$:$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$S_N$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "如果按一定顺序连接所有 $N$ 字符串可以形成一个括号序列，则打印 \"是\"；否则打印 \"否\"。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n)\n(()",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n)(\n()",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "No",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "EX 输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 \n))()) \n))( \n(( \n(( \n() ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "EX 输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "EX 输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n)\n))(\n((",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "EX 输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "先把显然不满足条件的特判掉。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "使用 <strong>+1/-1 前缀和</strong> 搞出来每个字符串的<strong>总和（收益/代价）k</strong>与<strong>拼接门槛 maxr</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<em>（以下为<strong>贪心排序</strong>策略，排序没设计好很可能出现想当然的错误，上面的 EX 样例能判掉。）</em>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "先把<strong>有收益</strong>的那几个分为一组，即<strong>上山组（k >= 0）</strong>，按<strong>门槛升序</strong>和<strong>收益倒序</strong>来依次即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "然后就是要代价的<strong>下山组（k < 0）</strong>，因为收益已经全拿完了，为了保证这一组也能全拿完，自然想到<strong>先处理门槛高</strong>的，怕后面收益用完了处理不了门槛高的了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "但光这样想过不了样例，门槛高的可能代价也很高，于是想到按照 <code>maxr + k</code> <strong>倒序</strong>排序，表示我们<strong>先处理门槛高且代价少</strong>的。这样处理，<strong>最次的情况</strong>下我们有门槛的水平，处理完后总收益为 <code>maxr + k</code> 还是大于等于后面的，所以肯定满足条件。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar p = vector<pii>(n + 1);\n\tint tot = 0;\n\tfa(i, 1, n) {\n\t\tstring s; cin >> s;\n\t\tint k = 0, maxr = 0; // 总和，门槛\n\t\tfor (char c : s) {\n\t\t\tif (c == '(')k++;\n\t\t\telse k--;\n\t\t\tmaxr = max(maxr, -k);\n\t\t}\n\t\tp[i] = { maxr,k };\n\t\ttot += k;\n\t}\n\n\tif (tot != 0) {\n\t\tcout << \"No\" << endl;\n\t\treturn;\n\t}\n\n\tsort(all1(p), [](const var& a, const var& b)->bool {\n\t\tif (a.py < 0 and b.py < 0)return a.px + a.py > b.px + b.py; // 门槛高且代价少\n\t\telse if (a.py < 0)return 0;\n\t\telse if (b.py < 0)return 1;\n\t\telse {\n\t\t\tif (a.px == b.px)return a.py > b.py;\n\t\t\treturn a.px < b.px;\n\t\t}\n\t\t});\n\n\tint k = 0;\n\tfa(i, 1, n) {\n\t\tconst var& [maxr, nk] = p[i];\n\t\tif (k >= maxr) {\n\t\t\tk += nk;\n\t\t\tif (k < 0) {\n\t\t\t\tcout << \"No\" << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tcout << \"No\" << endl;\n\t\t\treturn;\n\t\t}\n\t}\n\tif (k == 0)cout << \"Yes\" << endl;\n\telse cout << \"No\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-24",
+  "parsed_at": "2026-06-14T18:39:35.960998+00:00",
+  "type_directory": "p"
+}

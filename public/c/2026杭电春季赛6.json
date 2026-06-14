@@ -1,0 +1,20 @@
+{
+  "slug": "2026杭电春季赛6",
+  "title": "2026杭电春季赛6",
+  "type": "比赛",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "https://acm.hdu.edu.cn/contest/problems?cid=1202",
+  "link_text": "Problems",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-24",
+  "parsed_at": "2026-06-14T18:39:37.139568+00:00",
+  "type_directory": "c"
+}

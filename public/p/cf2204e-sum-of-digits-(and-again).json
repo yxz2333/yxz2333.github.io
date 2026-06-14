@@ -1,0 +1,160 @@
+{
+  "slug": "cf2204e-sum-of-digits-(and-again)",
+  "title": "CF2204E Sum of Digits (and Again)",
+  "type": "题目",
+  "tags": [
+    "ad-hoc"
+  ],
+  "difficulty": 2.0,
+  "summary": "乍一看可能无从下手，不过明显的，我们对原串做不了什么，只能<strong>存每个数位有多少个</strong>，然后回归题意。这种数位操作明显是<strong>操作不了多少</strong>的，设最终结果是 $s_1 + s_2 + s_3...$，那么 $s_1$ 的数位和最大为 $9e5$，那也就是说 $s_2$ <strong>的范围为</strong> $[1, 9e5]$，枚举 $s_2$ 就行了。已知 $s_2$ 的情况下，后面的 $s_3...$ 也好算了，然后回头来验证 $s_2$ 能不能生成即可。",
+  "link": "https://codeforces.com/contest/2204/problem/E",
+  "link_text": "Problem - E - Codeforces",
+  "source": "[[Educational Codeforces Round 188 (Rated for Div. 2)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于一个正（严格大于 $0$）整数 $x$，字符串 $S(x)$ 通过以下过程形成：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1.  初始时，字符串为空；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2.  然后将数字 $x$ 的无前导零的十进制表示附加到其右侧；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "3.  之后，如果 $x \\le 9$，则过程结束。否则，将 $x$ 替换为其各位数字之和，然后返回步骤 2；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "例如：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$S(75)$ 是 75123；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$S(30)$ 是 303；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$S(9)$ 是 9。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "给定一个由数字组成的字符串 $s$。你的任务是重新排列该字符串中的字符，使其成为某个数 $x$ 的字符串 $S(x)$。不允许移除字符和/或添加新字符。如果给定的字符串 $s$ 已经是某个数 $x$ 的字符串 $S(x)$，你可以保持其不变。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$ ($1 \\le t \\le 10^4$) —— 测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例由一行包含字符串 $s$ ($1 \\le |s| \\le 10^5$) —— 一个数字序列组成。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入的附加约束：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例的 $s$ 长度之和不超过 $10^5$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "可以重新排列 $s$ 中的数字，使其成为某个正整数 $x$ 的 $S(x)$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个字符串 —— 重新排列字符后的 $s$。如果有多个有效答案，输出其中任意一个。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n12735\n1\n011\n99999299999999299959999999999999\n4621467",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "75123\n1\n101\n99999999999999999999999999992529\n6442167",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tstring s; cin >> s;\n\tif (s.size() == 1) {\n\t\tcout << s << endl;\n\t\treturn;\n\t}\n\tvar cnt = vector<ll>(10);\n\tfor (char c : s)cnt[c - '0']++;\n\tfa(i, 1, 900000) {\n\t\tvar ncnt = cnt;\n\t\tll now = i;\n\t\twhile (now > 9) {\n\t\t\tll x = now, sum = 0;\n\t\t\twhile (x) {\n\t\t\t\tsum += x % 10;\n\t\t\t\tncnt[x % 10]--;\n\t\t\t\tx /= 10;\n\t\t\t}\n\t\t\tnow = sum;\n\t\t}\n\t\tncnt[now]--;\n\n\t\tll sum = 0;\n\t\tbool ok = 1;\n\t\tfa(i, 0, 9)if (ncnt[i] < 0) {\n\t\t\tok = 0;\n\t\t\tbreak;\n\t\t}\n\t\tif (!ok)continue;\n\n\t\tfa(i, 1, 9)sum += ncnt[i] * i;\n\t\tif (sum == i) {\n\t\t\tstring ans;\n\t\t\tfb(i, 9, 0)while (ncnt[i]--)ans.pb(i + '0');\n\n\t\t\tll now = i;\n\t\t\twhile (now > 9) {\n\t\t\t\tll x = now, sum = 0;\n\t\t\t\tstring tmp;\n\t\t\t\twhile (x) {\n\t\t\t\t\tsum += x % 10;\n\t\t\t\t\ttmp.pb(x % 10 + '0');\n\t\t\t\t\tx /= 10;\n\t\t\t\t}\n\t\t\t\treverse(all(tmp));\n\t\t\t\tans.insert(ans.end(), all(tmp));\n\t\t\t\tnow = sum;\n\t\t\t}\n\t\t\tans.pb(now + '0');\n\n\t\t\tcout << ans << endl;\n\t\t\treturn;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-17",
+  "parsed_at": "2026-06-14T18:39:36.449692+00:00",
+  "type_directory": "p"
+}

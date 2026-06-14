@@ -1,0 +1,239 @@
+{
+  "slug": "p1417-烹调方案",
+  "title": "P1417 烹调方案",
+  "type": "题目",
+  "tags": [
+    "背包/贪心排序",
+    "贪心/排序",
+    "01背包"
+  ],
+  "difficulty": 1.5,
+  "summary": "贪心排序背包模板题。",
+  "link": "https://www.luogu.com.cn/problem/P1417",
+  "link_text": "P1417 烹调方案 - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "由于你的帮助，火星只遭受了最小的损失。但 gw 懒得重建家园了，就造了一艘飞船飞向遥远的 earth 星。不过飞船飞到一半，gw 发现了一个很严重的问题：肚子饿了 ~。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "gw 还是会做饭的，于是拿出了储藏的食物准备填饱肚子。gw 希望能在 $T$ 时间内做出最美味的食物，但是这些食物美味程度的计算方式比较奇葩，于是绝望的 gw 只好求助于你了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一共有 $n$ 件食材，每件食材有三个属性，$a_i$，$b_i$ 和 $c_i$，如果在 $t$ 时刻完成第 $i$ 样食材则得到 $a_i-t\\times b_i$ 的美味指数，用第 $i$ 件食材做饭要花去 $c_i$ 的时间。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "众所周知，gw 的厨艺不怎么样，所以他需要你设计烹调方案使得美味指数最大。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行是两个正整数 $T$ 和 $n$，表示到达地球所需时间和食材个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "下面一行 $n$ 个整数，$a_i$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "下面一行 $n$ 个整数，$b_i$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "下面一行 $n$ 个整数，$c_i$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于 $100\\%$ 的数据 $1 \\le n \\le 50$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有数字均小于 $10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出最大美味指数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "74 1\n502\n2\n47",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "408",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>题目核心：</strong>物品 $i$ 做菜耗时 $c_i$。如果在时刻 $t$ 完成，这道菜的美味度为 $a_i - t \\cdot b_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>开始推导：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "假设在做这两道相邻的菜 $i$ 和 $j$ 之前，<strong>已经过去的时间是 $T$</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>情况 1：先做菜</strong> $i$<strong>，后做菜</strong> $j$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "做完 $i$ 时的时刻是 $T + c_i$。 $i$ 的美味度：$a_i - (T + c_i)b_i$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "做完 $j$ 时的时刻是 $T + c_i + c_j$。 $j$ 的美味度：$a_j - (T + c_i + c_j)b_j$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>总美味度 A</strong> = $a_i - Tb_i - c_ib_i \\quad + \\quad a_j - Tb_j - c_ib_j - c_jb_j$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>情况 2：先做菜</strong> $j$，<strong>后做菜</strong> $i$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "做完 $j$ 时的时刻是 $T + c_j$。 $j$ 的美味度：$a_j - (T + c_j)b_j$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "做完 $i$ 时的时刻是 $T + c_j + c_i$。 $i$ 的美味度：$a_i - (T + c_j + c_i)b_i$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>总美味度 B</strong> = $a_j - Tb_j - c_jb_j \\quad + \\quad a_i - Tb_i - c_jb_i - c_ib_i$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>列不等式：</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "我们希望<strong>先做 $i$ 后做 $j$ 更优</strong>，所以令：<strong>总美味度 A > 总美味度 B</strong>",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$a_i - Tb_i - c_ib_i + a_j - Tb_j - c_ib_j - c_jb_j > a_j - Tb_j - c_jb_j + a_i - Tb_i - c_jb_i - c_ib_i$$\n**暴力化简（消消乐时间）：**\n两边都有 $a_i, a_j, -Tb_i, -Tb_j, -c_ib_i, -c_jb_j$，统统划掉！\n最后竟然只剩下极其干净的两项：\n$$-c_ib_j > -c_jb_i$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "两边同乘 $-1$（记得变号）：",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$\\mathbf{c_i \\cdot b_j < c_j \\cdot b_i}$$",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tll a, b, c;\n};\nll dp[N];\nvoid solve(int CASE)\n{\n\tint t, n; cin >> t >> n;\n\tvar p = vector<node>(n + 1);\n\tfa(i, 1, n)cin >> p[i].a;\n\tfa(i, 1, n)cin >> p[i].b;\n\tfa(i, 1, n)cin >> p[i].c;\n\tsort(all1(p), [](const node& a, const node& b)->bool {\n\t\treturn a.c * b.b < b.c * a.b;\n\t\t});\n\tll ans = 0;\n\tfa(i, 1, n) {\n\t\tconst var& [a, b, c] = p[i];\n\t\tfb(j, t, c) {\n\t\t\tdp[j] = max(dp[j], dp[j - c] + a - j * b);\n\t\t\tans = max(ans, dp[j]);\n\t\t}\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-15",
+  "parsed_at": "2026-06-14T18:39:36.831289+00:00",
+  "type_directory": "p"
+}

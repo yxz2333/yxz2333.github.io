@@ -1,0 +1,370 @@
+{
+  "slug": "蓝桥算法挑战赛34-6-登山路线图",
+  "title": "蓝桥算法挑战赛34-6 登山路线图",
+  "type": "题目",
+  "tags": [
+    "dp",
+    "数学/介值定理"
+  ],
+  "difficulty": 2.5,
+  "summary": "每次把其中某一个 <code>F</code> 的策略从“选 <code>U</code> ”改为“选 <code>D</code> ”，高度整体会发生 <strong>-2 的步长跳跃</strong>，同理得步长跳跃值为 $+2$ 或 $-2$。故本题满足介值定理，想到可以开 $dp[max][min]$，",
+  "link": "https://www.lanqiao.cn/problems/21305/learning/?contest_id=284",
+  "link_text": "6.登山路线图【算法赛】 - 蓝桥云课",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "窗外的暴风雪呼啸着拍打着玻璃，小蓝正坐在温暖的壁炉旁，对着一张沾了雪水而模糊不清的“登山路线规划图”发愁。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了确保寒假登山活动的安全，小蓝必须严格审查路线。这张路线图原本由一串字符组成，记录了每一步的海拔变化。不幸的是，雪水晕开了墨迹，使得很多步骤无法辨认。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在的路线图由一个长度为 $N$ 的字符串 $S$ 表示，其中包含了以下四种字符：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong><code>U</code> (Up)</strong>：表示<strong>上坡</strong>，海拔上升 1 个单位。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong><code>D</code> (Down)</strong>：表示<strong>下坡</strong>，海拔下降 1 个单位。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong><code>F</code> (Free)</strong>：表示<strong>自由路段</strong>，这部分地形特殊，登山者可以自行选择作为“上坡”还是“下坡”处理。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong><code>*</code> (Blurry)</strong>：表示<strong>墨迹模糊</strong>，这部分数据已经完全丢失。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "为了修复这张图，小蓝必须首先处理所有的 <code>*</code>。每一个 <code>*</code> 都必须被补写为 <code>U</code>、<code>D</code> 或 <code>F</code> 中的任意一种。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小蓝的目标是统计有多少种补写 <code>*</code> 的方案，使得补写后的路线图是一张“<strong>可行路线图</strong>”。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一张只包含 <code>U</code>、<code>D</code>、<code>F</code> 的路线图 $T$ 被称为“<strong>可行路线图</strong>”，当且仅当满足以下条件：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1.  <strong>存在一种决策方案</strong>：我们可以为 $T$ 中的每一个 <code>F</code>（自由路段）指定具体的方向（即替换为 <code>U</code> 或 <code>D</code>），使得形成的新路径满足“安全路径”的要求。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2.  <strong>安全路径定义</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>起点与终点海拔一致</strong>：登山从大本营出发（海拔为 0），最终必须回到大本营（海拔归零）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>全程不低于大本营</strong>：在路径的任何一步，海拔都不能低于 0。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "现在，作为小蓝的领航员，请你统计满足条件的方案数。由于答案可能很大，你只需要给出答案对 $10^9 + 7$ 取模后的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $N$ ($1 \\le N \\le 10^3$)，表示字符串的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含一个由字符 <code>U</code>、<code>D</code>、<code>F</code> 和 <code>*</code> 组成的字符串 $S$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示能够将原始数据修复为“可行路线图”的方案数对 $10^9 + 7$ 取模后的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n*",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n**",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "样例 2 合法的修复方案（替换 <code>**</code>）有 4 种：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1.  <code>UD</code>：本身就是安全路径（上 1 下 1），是“可行路线图”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "2.  <code>UF</code>：我们可以把 <code>F</code> 选为 <code>D</code>，变成 <code>UD</code>（安全），所以 <code>UF</code> 可行。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "3.  <code>FD</code>：我们可以把 <code>F</code> 选为 <code>U</code>，变成 <code>UD</code>（安全），所以 <code>FD</code> 可行。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "4.  <code>FF</code>：我们可以把两个 <code>F</code> 分别选为 <code>U</code> 和 <code>D</code>，变成 <code>UD</code>（安全），所以 <code>FF</code> 可行。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "海拔是连续变化的 $\\to$ 可以维护 $[min, max]$ 区间，故设 $dp[max][min]$：能到最高高度 $max$ 和最低高度 $min$ 的方案数，转移很简单，复杂度约为 $O(N^3) = 1e9 \\div 6$。",
+          "depth": 1
+        },
+        {
+          "heading": "介值定理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们先不管 <code>*</code> 号怎么填方案，假如已经给定了完整的包含了 <code>U</code>, <code>D</code>, <code>F</code> 的路线 $T$。你怎么判断这<strong>一条线段里存在合法解</strong>呢？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "每次把其中某一个 <code>F</code> 的策略从“选 <code>U</code> ”改为“选 <code>D</code> ”，高度整体会发生 <strong>-2 的步长跳跃</strong>。故满足介值定理。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在这个大前提下，要判断在中间的某个第 $i$ 步存不存在合法选择，我们无需保存那一步它具体到底处于几米。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们<strong>只需要维护第</strong> $i$ <strong>步它可能的「最小高度边界</strong> $L$<strong>」 和「最大高度边界</strong> $R$<strong>」 组成的封顶集合</strong> $[L_i, R_i]$ 即可！",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "如何推演最大 $R$ 与最小 $L$？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们现在站在位置 $i-1$ ，维护出来的海拔闭包集合是 $[L, R]$，那么读入下方的任意一个字符，新的 $L'$ 和 $R'$ 是多少？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>如果读入的是明确的 <code>&#x27;U&#x27;</code>（上升）：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "没得选，强制整体抬升一层。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$L' = L+1, \\quad R' = R+1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>如果读入的是明确的 <code>&#x27;D&#x27;</code>（下降）：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此时我们被迫全部减 $1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$L' = max(0, L-1), \\quad R' = R-1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>一旦 R' < 0</strong> 说明整队全军覆灭低于海拔零线，说明该情况直接<strong>死局，路径废掉</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>如果读入的是特殊的 <code>&#x27;F&#x27;</code>（通配点）：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们要扩大范围！",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果要争取最<strong>大</strong>高度，那就给它分配成上升 $U$ $\\implies$ $R$ 最大能冲到 $R' = R+1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果要争取最<strong>低</strong>高度，那就给它分配为下降 $D$ $\\implies L' = max(0, L-1)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>如果是 <code>*</code>：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "把上面的情况全考虑即可。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "既然所有的合理解都连续铺设在了这上下界之内。这条路径能合法<strong>仅需同时满足 2 点：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>中途绝不能“灭团”</strong>：在任意一步推演的过程中，必须有 $R_i \\ge 0$ <strong>始终成立</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>终局能够闭环归零</strong>：必须让这组路线压到底能够抵达终点零界：$L_N == 0$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "$O(N^3)$ ？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "算不满 $O(n ^3)$，写的时候维护之前出现过的<strong>最大最高高度</strong> <code>max_h</code> 即可。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll dp[N][N], ndp[N][N];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tstring s; cin >> s;\n\n\tdp[0][0] = 1;\n\tint max_h = 0;\n\tfor (char c : s) {\n\t\tfa(i, 0, max_h)fa(j, 0, i)ndp[i][j] = 0;\n\n\t\tvar ops = vector<char>();\n\t\tif (c == '*')ops = { 'U','D','F' };\n\t\telse ops = { c };\n\n\t\tint final_next_max_h = max_h;\n\n\t\tfa(now_max_h, 0, max_h)\n\t\t\tfa(now_min_h, 0, now_max_h) {\n\t\t\tif (!dp[now_max_h][now_min_h])continue;\n\t\t\t\n\t\t\tfor (char op : ops) {\n\t\t\t\tint next_max_h = -1, next_min_h = -1;\n\n\t\t\t\tif (op == 'U') {\n\t\t\t\t\tnext_max_h = now_max_h + 1;\n\t\t\t\t\tnext_min_h = now_min_h + 1;\n\t\t\t\t}\n\t\t\t\telse if (op == 'D') {\n\t\t\t\t\tnext_max_h = now_max_h - 1;\n\t\t\t\t\tnext_min_h = max(0, now_min_h - 1);\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tnext_max_h = now_max_h + 1;\n\t\t\t\t\tnext_min_h = max(0, now_min_h - 1);\n\t\t\t\t}\n\n\t\t\t\tif (next_max_h >= 0 and next_max_h >= next_min_h and next_max_h < N) {\n\t\t\t\t\tndp[next_max_h][next_min_h] = (ndp[next_max_h][next_min_h] + dp[now_max_h][now_min_h]) % mod;\n\t\t\t\t\tfinal_next_max_h = max(final_next_max_h, next_max_h);\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\n\t\tmax_h = final_next_max_h;\n\t\tfa(i, 0, max_h)fa(j, 0, i)dp[i][j] = ndp[i][j];\n\t}\n\n\tll ans = 0;\n\tfa(h, 0, max_h)ans = (ans + dp[h][0]) % mod;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-29",
+  "parsed_at": "2026-06-14T18:39:36.935617+00:00",
+  "type_directory": "p"
+}

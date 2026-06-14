@@ -1,0 +1,261 @@
+{
+  "slug": "换根dp",
+  "title": "换根dp",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "1. 思维模型",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于树上的任意节点 $u$，它的最终答案通常由两部分组成：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>“下面”的贡献</strong>：来自 $u$ 的所有子树（这部分很普通，就是基础树形 DP）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>“上面”的贡献</strong>：来自 $u$ 的父亲节点以及父亲的其他分支（这部分是换根的精髓）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "所谓的换根，其实就是我们在第二次 DFS 时，<strong>把父亲</strong> $fa$ <strong>当作</strong> $u$ <strong>的一个“特殊子节点”</strong>，把父亲那边的信息传给 $u$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "2. 标准解题流程",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "几乎所有的换根 DP 都可以套用这个模板：",
+          "depth": 2
+        },
+        {
+          "heading": "第一步：定义状态",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "通常我们需要两个数组：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>dp[u]</code>：表示以 1 为根时，以 $u$ 为根的<strong>子树</strong>产生的贡献（只看下面）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>up[u]</code> (或者叫 <code>ex[u]</code>)：表示<strong>除去</strong> $u$ 这棵子树外，树的其他部分对 $u$ 的贡献（只看上面）。",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "第二步：第一次 DFS（自底向上）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这一步和普通树形 DP 一模一样。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "选定 1 为根。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "递归处理子节点，用子节点的 <code>dp[v]</code> 更新当前节点的 <code>dp[u]</code>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>目的</strong>：算好了所有节点“下面”的信息。",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "第三步：第二次 DFS（自顶向下，核心）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这一步是换根的关键。我们要从父亲 $u$ 走到儿子 $v$，推导出 <code>up[v]</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当我们从 $u$ 转移到 $v$ 时，$v$ 的“上面”包括了什么？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "包括 $u$ 的“上面” (<code>up[u]</code>)。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "包括 $u$ 的<strong>其他</strong>所有子节点（即 $u$ 的子树中<strong>扣除</strong> $v$ 这一支）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>最难点就在这里：如何快速算出“扣除</strong> $v$ <strong>这一支后</strong> $u$ <strong>的状态”？</strong>",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "第四步：合并答案",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于每个节点 $i$，最终答案就是合并 <code>dp[i]</code> 和 <code>up[i]</code>。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "3. 处理“扣除操作”的两种情况",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "情况 A：运算具有“可逆性” (简单)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>不需要</strong> 显式地维护一个 <code>up</code> 数组。你只需要：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong><code>dp</code> 数组</strong>：存子树信息（用于第一次 DFS）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong><code>ans</code> 数组</strong>：存最终答案（用于第二次 DFS）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "比如：求和、异或。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>例子</strong>：求所有节点到根的距离之和。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>做法</strong>：直接减。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "第一次 DFS：<code>dp[u] = sum(dp[v] + siz[v]), siz[u] += sum(siz[v]);</code>",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "第二次 DFS：<code>ans[1] = dp[1], ans[v] = ans[u] - siz[v] + (n - siz[v]);</code>",
+              "depth": 4
+            }
+          ]
+        },
+        {
+          "heading": "情况 B：运算“不可逆” (复杂，重点！)",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "比如：求最大值 (max)、最小值 (min)。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>例子</strong>：求树上每个节点能到达的最远距离。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>难点</strong>：如果 $u$ 的最远距离是由 $v$ 贡献的，那你传给 $v$ 时，减不掉 $v$（不知道第二远是多少）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>做法</strong>：<strong>维护前缀和后缀</strong> 或者 <strong>记录最大值和次大值</strong>。",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "通用解法（前后缀分解）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>对于情况 B</strong> 的例子，当我们在 $u$ 节点准备遍历所有孩子 $v_1, v_2, \\dots, v_k$ 时：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "把所有孩子的 <code>dp</code> 值存到一个数组里。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "计算这个数组的<strong>前缀 max</strong> 和 <strong>后缀 max</strong>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "当你算 $v_i$ 的 <code>up[v_i]</code> 时，它需要的正是：<code>max(up[u], prefix_max[i-1], suffix_max[i+1])</code>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "意思是：父亲那边传下来的，或者 $u$ 的左边兄弟提供的，或者 $u$ 的右边兄弟提供的。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>对于情况 A 同理也可以解决。</strong>",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-22",
+  "parsed_at": "2026-06-14T18:45:12.078145+00:00",
+  "type_directory": "k"
+}

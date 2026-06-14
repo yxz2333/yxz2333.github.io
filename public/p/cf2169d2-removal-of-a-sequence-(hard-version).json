@@ -1,0 +1,518 @@
+{
+  "slug": "cf2169d2-removal-of-a-sequence-(hard-version)",
+  "title": "CF2169D2 Removal of a Sequence (Hard Version)",
+  "type": "题目",
+  "tags": [
+    "数论分块",
+    "数学推导",
+    "数学/带余除法"
+  ],
+  "difficulty": 3.5,
+  "summary": "纯推数学公式题恶心死我了，搞了三个<strong>不等式</strong>解决的。",
+  "link": "https://codeforces.com/problemset/problem/2169/D2",
+  "link_text": "Problem - 2169D2 - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "这是该问题的困难版本。不同之处在于本版本对 $x$ 的约束更大：$x \\le 10^{12}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Polycarp 拥有一个从 $1$ 到 $10^{12}$ 的所有自然数组成的序列。他决定对这个序列执行如下操作 $x$ 次：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每次同时删除所有位于位置 $y$、$2 \\cdot y$、$3 \\cdot y$、……、$m \\cdot y \\le n$ 的数字，其中 $n$ 是当前序列的长度。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "之后，Polycarp 想要找到剩余序列中的第 $k$ 个数，或判断最终序列长度是否小于 $k$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "例如，设 $x = 2$，$y = 3$，$k = 5$，那么：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF2169D2/876b3e672202bb55fb9d796b30f1d1ab45983bc12ae4343982ca3d411cc48a73.png)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "用红线划掉的数字表示第一次操作被删除的元素，用蓝线划掉的数字表示第二次操作后被删除的元素。因此，$k = 5$ 位置上的元素是 $10$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试包含多个测试用例。第一行包含测试用例个数 $t$（$1 \\le t \\le 10$）。接下来是每个测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例仅一行，包含三个整数 $x, y, k$（$1 \\le x, y, k \\le 10^{12}$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试用例输出一行，表示最终序列中第 $k$ 个位置上的正整数。如果最终序列长度小于 $k$，则输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n2 3 5\n2 5 1\n20 2 1000000000000\n175 10 28\n1000000000 998244353 1999999999\n1 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10\n1\n-1\n2339030304\n4672518823\n-1",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一问用二分答案，算 $[1, mid]$ 有多少个剩下的数，只要剩下的数等于 $k$ 即可，满足单调性，$check$ 函数里可以暴力计算删了多少数解决。",
+          "depth": 1
+        },
+        {
+          "heading": "1. 解题思路：从二分到逆向还原",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "初看此题，<strong>容易想到接着用二分答案解决</strong>。即二分原始序列中的位置 $mid$，判断经过 $x$ 次删除操作后，剩余的位置是否达到 $k$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "然而，即使使用二分也会 $TLE$，故得考虑把二分的 $O(logN)$ 复杂度优化掉。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了消除多余的 $\\log n$，我们转换视角，采用<strong>逆向还原（倒序处理）</strong>的策略：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>正向操作是“删数”，逆向操作则是“加数”。</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "设当前剩余序列中的第 $k$ 个数，还原回上一次操作前，其位置变为了 $k_{next}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "显然有递推关系：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$ k_{next} = k + \\text{被删去的数的个数} $$\n即：\n$$ k_{next} = k + \\lfloor \\frac{k_{next}}{y} \\rfloor $$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们的目标是从初始的 $k$ 出发，执行 $x$ 次逆向操作（或直到 $k$ 越界）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "2. 核心算法：不等式推导与数论分块加速",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "直接利用公式 $k = k + \\lfloor k/y \\rfloor$ 进行一个一个迭代仍然可能太慢，我们需要像<strong>数论分块</strong>一样，<strong>加速处理“增量不变”的阶段</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "整个算法分为两个部分：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>阶段内加速</strong>：当增量 $\\text{add} = \\lfloor k/y \\rfloor$ 保持不变时，批量处理。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>阶段间跃迁</strong>：计算下一个增量 $\\text{add\\_next}$，进行一次精确跳转。",
+              "depth": 2
+            },
+            {
+              "heading": "2.1 阶段内加速：批量处理恒定增量 $add, cnt$",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "设当前的增量为 $\\text{add} = \\lfloor k / y \\rfloor$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "我们<strong>要计算最大的步数</strong> $\\text{cnt}$，<strong>使得在这</strong> $\\text{cnt}$ <strong>次操作中，增量</strong> $\\text{add}$ <strong>都不变。</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这意味着，执行 $\\text{cnt}$ 次加法后，新的位置 $k'$ 仍然满足 $\\lfloor k' / y \\rfloor = \\text{add}$，即 $k'$ 还没有触碰到下一个 $y$ 的倍数边界，下一个倍数边界是 $y \\cdot (\\text{add} + 1)$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "根据题意，操作后的位置必须<strong>严格小于</strong>下一个边界（否则增量就会变成 $\\text{add}+1$）：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k + \\text{cnt} \\cdot \\text{add} \\le y \\cdot (\\text{add} + 1) - 1 $$\n解这个不等式，求 $\\text{cnt}$ 的最大整数解：\n$$ \\text{cnt} \\cdot \\text{add} \\le y \\cdot (\\text{add} + 1) - k - 1 $$",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\text{cnt} = \\lfloor \\frac{y \\cdot (\\text{add} + 1) - k - 1}{\\text{add}} \\rfloor $$\n算出 $\\text{cnt}$ 后，我们可以直接更新：\n$$ k \\leftarrow k + \\min(x, \\text{cnt}) \\cdot \\text{add} $$",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ x \\leftarrow x - \\min(x, \\text{cnt}) $$\n若 $x$ 耗尽或 $k$ 越界，则结束；否则，说明我们到达了当前增量阶段的边界，需要计算新的增量。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "2.2 阶段间跃迁：利用夹逼定理求解 $add_{next}$",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "当批量处理结束，或者 $\\text{cnt}=0$ 时，意味着下一步的增量 $\\text{add\\_next}$ 一定会发生变化。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>直觉上</strong> $\\text{add\\_next}$ <strong>似乎等于</strong> $\\text{add} + 1$<strong>，但实际上它可能会跳跃。</strong>我们<strong>需要通过严格的不等式来求解确切的</strong> $\\text{add\\_next}$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "设下一步我们一次性加上了 $\\text{add\\_next}$，新的位置变为 $k + \\text{add\\_next}$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这个新位置必须满足两个约束：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>下界约束</strong>：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "还原后的位置必须<strong>严格大于</strong>第 $\\text{add\\_next}$ 个被删除的数的位置。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>注意：</strong>如果等于，说明<strong>该位置本身被删除</strong>了，不可能作为幸存者存在，所以 $k$ 绝对不能等于 $y \\cdot \\text{add\\_next}$。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "第 $\\text{add\\_next}$ 个被删数的位置是 $y \\cdot \\text{add\\_next}$。",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k + \\text{add\\_next} > y \\cdot \\text{add\\_next} $$\n由于是整数，严格大于等价于 $\\ge \\dots + 1$：\n$$ k + \\text{add\\_next} \\ge y \\cdot \\text{add\\_next} + 1 $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "移项得：",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k - 1 \\ge (y - 1) \\cdot \\text{add\\_next} $$\n$$ \\text{add\\_next} \\le \\frac{k - 1}{y - 1} $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>上界约束</strong>：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "还原后的位置算出的被删数个数，不能超过 $\\text{add\\_next}$，也就是说，它还够不着第 $\\text{add\\_next} + 1$ 个被删数。",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k + \\text{add\\_next} < y \\cdot (\\text{add\\_next} + 1) $$\n展开：\n$$ k + \\text{add\\_next} < y \\cdot \\text{add\\_next} + y $$",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k - y < (y - 1) \\cdot \\text{add\\_next} $$\n$$ \\text{add\\_next} > \\frac{k - y}{y - 1} = \\frac{k - 1}{y - 1} - 1 $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>联立上述两个不等式：</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\frac{k - 1}{y - 1} - 1 < \\text{add\\_next} \\le \\frac{k - 1}{y - 1} $$\n在这个长度为 1 的区间 $(M-1, M]$ 中，**唯一的整数解**就是上界的向下取整：\n$$ \\text{add\\_next} = \\lfloor \\frac{k - 1}{y - 1} \\rfloor $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "至此，我们得到了精确的跃迁公式。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "执行单步更新：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k \\leftarrow k + \\text{add\\_next} $$\n$$ x \\leftarrow x - 1 $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "然后进入下一轮循环。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "3. 复杂度分析",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "该算法的时间复杂度为 $O(\\sqrt{N})$（其中 $N=10^{12}$），甚至更优，分析如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "关键迭代公式：$k_{next} \\approx k + k/y = k(1 + 1/y)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当 $t$ 代表操作次数时，增长公式是：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$ k_t = k_0 \\cdot (1 + \\frac{1}{y})^t $$\n结合 $cnt$ 跳跃加速来看这个函数图像：",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "本题还可以用公式法得到第二个不等式。 ((6972dd5a-01c1-483b-b5d6-2f84b49acbef))",
+          "depth": 1
+        },
+        {
+          "heading": "使用下取整转换 $k = X - \\lfloor X/y \\rfloor$",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "第一步：设元",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "根据带余除法，令：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ X = qy + r $$\n这里的核心约束是：",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "第二步：化简（隔离 $r$）",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "把 $X = qy + r$ 代入原方程 $k = X - \\lfloor X/y \\rfloor$：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k = (qy + r) - q $$\n$$ k = q(y - 1) + r $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "我们要定界 $q$，所以先把 <strong>r</strong> 孤立出来：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\mathbf{r = k - q(y - 1)} $$",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "第三步：定界（把 $r$ 塞进不等式）",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "利用铁律约束 $1 \\le r \\le y - 1$，把上面的 $r$ 代进去：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ 1 \\le k - q(y - 1) \\le y - 1 $$\n现在这是一个关于 $q$ 的不等式组，我们分别解左右两边。\n**1. 解左边（确定 q 的上限）：**\n**2. 解右边（确定 q 的下限）：**",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "第四步：夹逼求解（见证唯一解）",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "现在把 $q$ 的范围合起来：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\frac{k}{y - 1} - 1 \\le q \\le \\frac{k - 1}{y - 1} $$\n为了看得更清楚，我们令 $A = \\frac{k - 1}{y - 1}$。\n那么上界就是 $A$，下界是 $\\frac{k - y + 1}{y - 1} = \\frac{k - 1 - (y - 2)}{y - 1} = A - \\frac{y - 2}{y - 1}$。\n所以 $q$ 的范围区间是：\n$$ [A - \\frac{y - 2}{y - 1}, \\quad A] $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "注意分式 $\\frac{y - 2}{y - 1}$ 是一个<strong>小于 1 的正数</strong>（假设 $y \\ge 2$）。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这意味着：<strong>这个区间的长度小于 1。</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "在数轴上，一个长度小于 1 的闭区间里，<strong>最多只能有一个整数</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "既然方程一定有解，那这个整数必然存在。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "既然 $q$ 必须小于等于 $A$（上界），那么这个整数一定是 <strong>A 的向下取整</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>结论：</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ q = \\lfloor A \\rfloor = \\lfloor \\frac{k - 1}{y - 1} \\rfloor $$",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll x, y, k; cin >> x >> y >> k;\n\n\tif (y == 1) {\n\t\tcout << -1 << endl;\n\t\treturn;\n\t}\n\tif (k < y) {\n\t\tcout << k << endl;\n\t\treturn;\n\t}\n\n\twhile (k <= 1e12 and x) {\n\t\tll add = k / y;\n\t\tll cnt = (y * (add + 1) - k - 1) / add;\n\t\t\n\t\tif (cnt < 0)break;\n\n\t\tll tmp = min(x, cnt);\n\t\tk += tmp * add;\n\t\tx -= tmp;\n\t\tif (x == 0 or k > 1e12)break;\n\n\t\tll add_next = (k - 1) / (y - 1);\n\t\tk += add_next;\n\t\tx--;\n\t}\n\n\tif (k > 1e12)cout << -1 << endl;\n\telse cout << k << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-15",
+  "parsed_at": "2026-06-14T18:39:36.352694+00:00",
+  "type_directory": "p"
+}

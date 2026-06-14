@@ -1,0 +1,273 @@
+{
+  "slug": "abc446f-reachable-set-2",
+  "title": "ABC446F Reachable Set 2",
+  "type": "题目",
+  "tags": [
+    "瓶颈路问题",
+    "单向边",
+    "最短路/Dijkstra"
+  ],
+  "difficulty": 1.5,
+  "summary": "可以转换成<strong>瓶颈路问题</strong>，用 $dij$ 求从点 $1$ 到点 $x$ 的所有可行路径中，<strong>路径上经过的最大顶点编号的最小值</strong>，就能判断无解了。答案计算很简单，维护个 $set$ 即可。",
+  "link": "https://atcoder.jp/contests/abc446/tasks/abc446_f",
+  "link_text": "F - Reachable Set 2",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个包含 $N$ 个顶点和 $M$ 条边的有向图 $G$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "顶点编号分别为 $1$ 到 $N$，第 $i$ 条边（$1\\leq i\\leq M$）从顶点 $U_i$ 指向顶点 $V_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $k=1,2,\\ldots,N$，请分别解决以下问题：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "高桥君的目标是从图 $G$ 中删除一些（可能为 $0$ 个）顶点以及与它们相连的所有边，使得图满足以下条件：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "从顶点 $1$ 出发，经过 $0$ 条或多条边，<strong>恰好</strong>只能到达顶点 $1,2,\\ldots,k$。（即不能到达任何 $>k$ 的点，且必须能到达所有 $\\le k$ 的点）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "请判断他是否能达成该目标。如果可以，输出最少需要删除的顶点数量；如果不可以，输出 <code>-1</code>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "标准输入格式如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$N$ $M$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$U_1$ $V_1$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$U_2$ $V_2$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\vdots$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$U_M$ $V_M$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2\\leq N\\leq 3\\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\leq M\\leq 3\\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\leq U_i,V_i\\leq N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入全为整数",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $N$ 行。第 $i$ 行（$1\\leq i\\leq N$）输出 $k=i$ 时的答案。如果无解输出 <code>-1</code>，否则输出最少需要删除的顶点数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 5\n1 2\n2 4\n2 5\n4 3\n4 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n2\n-1\n1\n0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 5\n1 1\n1 2\n3 1\n3 1\n3 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n0\n-1\n-1\n-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "样例一：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于 $k=1$ ，删除顶点 $2$ 即可达到目标。请注意，顶点 $3,4,5$ 在不删除的情况下已经无法从顶点 $1$ 到达。如果不删除至少一个顶点，就无法实现目标，因此在第一行输出 $1$ 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于 $k=2$ ，删除顶点 $4$ 和 $5$ 可以实现目标。删除一个或更少的顶点无法实现目标，因此在第二行输出 $2$ 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于 $k=3$ ，无论高桥如何删除顶点都无法达到目标。因此在第三行输出 $-1$ 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于 $k=4$ ，删除顶点 $5$ 可以达到目标。如果不删除至少一个顶点，则无法实现目标，因此在第四行输出 $1$ 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于 $k=5$ ，不删除任何顶点也可以实现目标。因此在第五行输出 $0$ 。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题最棘手的地方在于判定“无解”。对于某个给定的 $k$，我们需要保证<strong>点 1 必须能到达所有</strong> $\\le k$ <strong>的点</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>何时无解？</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "假设我们要从 $1$ 到达某个点 $x$（$x \\le k$），如果从 $1$ 到 $x$ 的<strong>所有</strong>路径上，都不可避免地经过了至少一个 $> k$ 的点 $y$，那么对于询问 $k$ 来说必定无解。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>转化为瓶颈路模型：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "基于上述逻辑，要想成功到达 $x$ 且不违规，必须存在一条从 $1$ 到 $x$ 的路径，<strong>该路径上所有点的最大编号</strong> $\\le k$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "于是，问题自然而然地转化为了一个 “求路径最大点编号的最小值” 的问题，即<strong>瓶颈最短路</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "定义 <code>dis[x]</code> 表示：从点 $1$ 到点 $x$ 的所有可行路径中，<strong>路径上经过的最大顶点编号的最小值</strong>，跑 dij 即可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n\tint id, d;\n\tbool operator<(const node& a)const {\n\t\treturn a.d < d;\n\t}\n};\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v);\n\t}\n\tvar dis = vector<int>(n + 1, INF);\n\tvar Q = priority_queue<node>();\n\tQ.push({ 1,dis[1] = 1 });\n\twhile (Q.size()) {\n\t\tvar[now, d] = Q.top();\n\t\tQ.pop();\n\t\tif (d > dis[now])continue;\n\t\tfor (int to : g[now]) {\n\t\t\tif (dis[to] > max(dis[now], to)) {\n\t\t\t\tdis[to] = max(dis[now], to);\n\t\t\t\tQ.push({ to, dis[to] });\n\t\t\t}\n\t\t}\n\t}\n\tvar se = set<int>();\n\tint now = 0, mxdis = 0;\n\tfa(i, 1, n) {\n\t\tmxdis = max(mxdis, dis[i]); // 前缀最大瓶颈\n\t\tif (mxdis > i) {\n\t\t\tcout << -1 << endl;\n\t\t\tcontinue;\n\t\t}\n\t\twhile (now + 1 <= i) {\n\t\t\tnow++;\n\t\t\tfor (int to : g[now])se.insert(to);\n\t\t}\n\t\twhile (se.size() and *se.begin() <= i)se.erase(se.begin());\n\t\tcout << se.size() << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-22",
+  "parsed_at": "2026-06-14T18:39:36.020499+00:00",
+  "type_directory": "p"
+}

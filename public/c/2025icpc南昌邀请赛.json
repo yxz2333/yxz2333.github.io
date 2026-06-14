@@ -1,0 +1,20 @@
+{
+  "slug": "2025icpc南昌邀请赛",
+  "title": "2025ICPC南昌邀请赛",
+  "type": "比赛",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "https://codeforces.com/gym/105911",
+  "link_text": "2025 ICPC Nanchang Invitational and Jiangxi Provincial Collegiate Programming Contest",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-28",
+  "parsed_at": "2026-06-14T18:39:37.114688+00:00",
+  "type_directory": "c"
+}

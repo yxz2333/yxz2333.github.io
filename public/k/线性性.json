@@ -1,0 +1,119 @@
+{
+  "slug": "线性性",
+  "title": "线性性",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "期望",
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "What?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "期望的线性性质，数学公式只有短短一行：",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$E(X + Y) = E(X) + E(Y)$$\n即：**整体的期望 = 各部分的期望之和**。\n如果你有多个变量，那就是：\n$$E(X_1 + X_2 + \\dots + X_n) = E(X_1) + E(X_2) + \\dots + E(X_n)$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "简要理解就是 <strong>“概率版的贡献法”</strong> 。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "案例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "题目求 “某种关系的对数” —— 拆解为“无序/有序对”",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>适用场景：</strong> 题目问“期望的逆序对数”、“期望相交的线段数”、“期望满足条件的 (i, j) 对数”。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>拆解法：</strong> 不要去管整体序列长什么样，直接把目光锁定在<strong>任意两个元素构成的一对</strong>上。设 $X_{i,j}$ 表示这对元素是否满足条件 (1/0)。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>经典例题：</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "> 一个长度为 $n$ 的数组，本来是 $1, 2, 3 \\dots n$。现在将它<strong>完全随机打乱</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "> 问：打乱后，数组中<strong>逆序对</strong>数量的期望是多少？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>题目求：</strong> 逆序对的总数量。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>基本个体：</strong> 任意两个位置上的数构成的一对 $(i, j)$，其中 $i < j$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>定变量：</strong> $X_{i,j}$ 表示 “位置 $i$ 和位置 $j$ 上的数是否构成了逆序对（即前面的数大于后面的数） (1/0)”。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>算概率（不管依赖）：</strong> 虽然位置 1 和 2 的大小关系，会影响位置 2 和 3 的大小关系（存在传递性依赖）。但是！当我们<strong>只死死盯着</strong> $(i, j)$ 这两个位置时，在完全随机打乱的情况下，这两个位置上到底谁大谁小？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "显然，要么前面大，要么后面大，概率绝对是一半对一半！",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "所以 $P(X_{i,j} = 1) = \\frac{1}{2}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>求和：</strong> 长度为 $n$ 的数组一共有 $C_n^2 = \\frac{n(n-1)}{2}$ 对 $(i, j)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "所以总期望 = $\\sum X_{i,j} = \\frac{n(n-1)}{2} \\times \\frac{1}{2} = \\frac{n(n-1)}{4}$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-22",
+  "parsed_at": "2026-06-14T18:45:12.104786+00:00",
+  "type_directory": "k"
+}

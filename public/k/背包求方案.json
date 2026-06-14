@@ -1,0 +1,90 @@
+{
+  "slug": "背包求方案",
+  "title": "背包求方案",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "背包求方案"
+  ],
+  "parent": "背包",
+  "format": "logseq",
+  "sections": [
+    {
+      "type": "p",
+      "html": "我们始终要判断的是，<strong>“在第 i 轮，容量 j 的时候，我到底有没有选这个物品？”</strong>，对于 $i$ 的枚举，可能<strong>倒序</strong>可能<strong>正序</strong>。",
+      "depth": 0
+    },
+    {
+      "heading": "一般方法（求最大字典序）",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>正序背包，倒序回溯</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "开个 <code>vis</code> 数组来辅助，在 <code>j</code> 容量的情况下，为了拿最大，是否应该使用第 <code>i</code> 个物品。",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "var dp = vector<int>(m + 1);\nvar vis = Vec2<bool>(n + 2, m + 1); // 在 j 容量的情况下，为了拿最大，是否应该使用第 i 个物品\nfa(i, 1, n) {\n\tconst var& [w, v] = p[i];\n\tfb(j, m, w) {\n\t\tif (dp[j] <= dp[j - w] + v) // 取等号，是因为要取最大下标\n\t\t\tvis[i][j] = 1; // j 容量下，为了取最大可以装 i 物品\n\t\tdp[j] = max(dp[j], dp[j - w] + v);\n\t}\n}\ncout << dp[m] << endl;\n\n// 倒推还原路径，看看 i 是否可取\nint now = m;\nfb(i, n, 1) {\n\tconst var& [w, v] = p[i];\n\tif (vis[i][now]) {\n\t\tcout << i << ' ';\n\t\tnow -= w;\n\t}\n}\ncout << endl;",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "求最小字典序的方案",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>模板题</strong>： <a href=\"/p/p1759-通天之潜水\" class=\"wikilink\">P1759 通天之潜水</a>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>倒序背包，正序回溯</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "开个 <code>vis</code> 数组来辅助，在 <code>j</code> 容量的情况下，为了拿最大，是否应该使用第 <code>i</code> 个物品。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当然也可以用<strong>朴素背包</strong>直接得到方案，虽然需要更大的空间，但是思路更清晰。",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 使用 vis 辅助数组\nvar dp = vector<int>(m + 1);\nvar vis = Vec2<bool>(n + 2, m + 1); // 在 j 容量的情况下，为了拿最大，是否应该使用第 i 个物品\nfb(i, n, 1) { // 为了最小字典序方案，倒序\n\tconst var& [w, v] = p[i];\n\tfb(j, m, w) {\n\t\tif (dp[j] <= dp[j - w] + v) // 取等号，是因为要取最小下标\n\t\t\tvis[i][j] = 1; // j 容量下，为了取最大可以装 i 物品\n\t\tdp[j] = max(dp[j], dp[j - w] + v);\n\t}\n}\ncout << dp[m] << endl;\n\n// 正序枚举，看看 i 是否可取，可取一定取，这样肯定最小字典序\nint now = m;\nfa(i, 1, n) {\n\tconst var& [w, v] = p[i];\n\tif (vis[i][now]) {\n\t\tcout << i << ' ';\n\t\tnow -= w;\n\t}\n}\ncout << endl;",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 使用朴素背包\nvar dp = Vec2<int>(n + 2, m + 1); // 为了回溯方案路径，多开一维\nfb(i, n, 1) { // 为了最小字典序方案，倒序\n\tconst var& [w, v] = p[i];\n\tdp[i] = dp[i + 1];\n\tfb(j, m, w)\n\t\tdp[i][j] = max(dp[i][j], dp[i][j - w] + v);\n}\ncout << dp[1][m] << endl;\n\n// 正序枚举，看看 i 是否可取\nint now_w = m, now_v = dp[1][m];\nfa(i, 1, n) {\n\tconst var& [w, v] = p[i];\n\tif (now_w >= w and dp[i + 1][now_w - w] + v == now_v) {\n\t\tcout << i << ' ';\n\t\tnow_w -= w, now_v -= v;\n\t}\n}\ncout << endl;",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-01",
+  "parsed_at": "2026-06-14T18:45:12.188613+00:00",
+  "type_directory": "k"
+}

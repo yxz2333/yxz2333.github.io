@@ -1,0 +1,267 @@
+{
+  "slug": "cf2182e-new-year's-gifts",
+  "title": "CF2182E New Year's Gifts",
+  "type": "题目",
+  "tags": [
+    "双指针"
+  ],
+  "difficulty": 2.0,
+  "summary": "双指针好题。",
+  "link": "https://codeforces.com/contest/2182/problem/E",
+  "link_text": "Problem - E - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Monocarp 有 $n$ 个朋友，他决定给每位朋友送一份新年礼物。他还准备了 $m$ 个盒子来装这些礼物；第 $i$ 个盒子的美观度为 $a_i$。每个盒子最多只能装一份礼物。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Monocarp 想要给第 $i$ 个朋友送一份价值至少为 $y_i$ 金币的礼物。此外，他知道如果满足以下<strong>至少一个</strong>条件，第 $i$ 个朋友就会开心：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "礼物被装在一个美观度至少为 $x_i$ 的盒子里；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "礼物的价值至少为 $z_i$（其中 $z_i > y_i$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你的任务是帮助 Monocarp 计算，如果他总共有 $k$ 个金币，最多能让多少个朋友开心。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意，Monocarp <strong>必须</strong>为每个朋友购买一份礼物，但礼物不一定非要装在盒子里。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$ ($1 \\le t \\le 10^4$) —— 测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含三个整数 $n, m$ 和 $k$ ($1 \\le n, m \\le 2 \\cdot 10^5$; $1 \\le k \\le 10^{15}$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $m$ 个整数 $a_1, a_2, \\dots, a_m$ ($1 \\le a_i \\le m$) —— 盒子的美观度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来有 $n$ 行；其中第 $i$ 行包含三个整数 $x_i, y_i$ 和 $z_i$ ($1 \\le x_i \\le m$; $1 \\le y_i < z_i \\le 10^9$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入的额外限制：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\sum\\limits_{i=1}^{n} y_i \\le k$ （所有朋友的基础礼物花费之和不超过总预算）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例中 $n$ 的总和不超过 $2 \\cdot 10^5$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例中 $m$ 的总和不超过 $2 \\cdot 10^5$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数 —— Monocarp 在拥有 $k$ 个金币的情况下，最多能让多少个朋友开心。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n2 1 6\n1\n1 2 3\n1 2 7\n2 2 3\n1 1\n2 1 3\n2 1 5\n3 4 11\n1 2 2 1\n3 2 5\n4 4 6\n3 1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n0\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，Monocarp 可以让两个朋友都开心，做法如下：给第一个朋友一份价值 $3$ 金币的礼物（满足 $z_1=3$，无需盒子），给第二个朋友一份价值 $2$ 金币的礼物并装在美观度为 $1$ 的盒子里（满足 $x_2=1$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个样例中，Monocarp 无法让任何朋友开心，因为他没有足够的钱给任何一个人买价值 $z_i$ 的礼物；同时，所有盒子的美观度都低于任何一个 $x_i$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个样例中，Monocarp 可以让两个朋友（第 2 个和第 3 个）开心，做法如下：给第一个朋友一份 $2$ 金币的礼物（只满足基础 $y_1$），给第二个朋友一份 $6$ 金币的礼物（满足 $z_2=4$），给第三个朋友一份 $3$ 金币的礼物（满足 $z_3=3$）。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "理解题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "是个<strong>“为了省钱去匹配资源”</strong>的贪心题。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "每个人都要花基础费 $y_i$，除此之外想让他开心，要么<strong>直接砸钱</strong>（花 $z_i - y_i$），要么<strong>白嫖盒子</strong>（只要盒子美观度 $\\ge x_i$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>关键直觉</strong>：看到 $a_i, x_i \\le m$ 且 $m$ 只有 $2 \\cdot 10^5$，立刻意识到<strong>要遍历“盒子美观度值域”</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "预处理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "先把所有人必须花的基准钱 $y_i$ 扣掉，这样朋友 $i$ 有的数据只有 { $x_i, z_i - y_i$ }。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "排序与双指针",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "把朋友按 $x_i$ 排序，盒子用美丽度桶装好。指针 $i$ 指向朋友，指针 $j$ 指向美观度 $1 \\to m$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "扫描线",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这里的<strong>扫描线</strong>，指的是 $j$ 对美丽度 $1 \\to m$ 的扫描。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>进池子</strong>：当盒子美观度枚举到 $v$ 时，所有要求 $x_i == v$ 的朋友都有资格用盒子了，把他们的“省钱潜力” ($z_i - y_i$) 扔进<strong>大根堆</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>消耗资源</strong>：手里有多少个美观度恰好为 $v$ 的盒子？这些盒子是<strong>“过期不候”</strong>的（对于要求 $>v$ 的人没用）。所以<strong>必须现在消耗掉</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>贪心匹配</strong>：用这些盒子去匹配堆里<strong>最贵</strong>的那些人（省下最多的钱）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "收尾",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "跑完 $1 \\to m$ 后，堆里剩下没分到盒子的，只能用钱买单。按便宜的买，直到没钱。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m, k; cin >> n >> m >> k;\n\tvar mp = vector<ll>(m + 1);\n\tfa(i, 1, m) {\n\t\tll x; cin >> x;\n\t\tmp[x]++;\n\t}\n\tvar p = vector<pll>(n + 1);\n\tfa(i, 1, n) {\n\t\tll x, y, z; cin >> x >> y >> z;\n\t\tk -= y;\n\t\tp[i] = { x,z - y };\n\t}\n\tsort(all1(p));\n \n\tint j = p[1].px;\n\twhile (j <= m and !mp[j])j++;\n\tvar Q = priority_queue<ll>();\n\tint ans = 0;\n\tfa(i, 1, n) {\n\t\twhile (j <= m and !mp[j])j++;\n\t\tQ.push(p[i].py);\n\t\twhile ((i == n or p[i + 1].px > j) and j <= m) {\n\t\t\twhile (Q.size() and mp[j]) {\n\t\t\t\tQ.pop();\n\t\t\t\tmp[j]--;\n\t\t\t\tans++;\n\t\t\t}\n\t\t\tj++;\n\t\t}\n\t}\n \n\tvar st = stack<ll>();\n\twhile (Q.size()) {\n\t\tst.push(Q.top());\n\t\tQ.pop();\n\t}\n\twhile (st.size() and k >= st.top()) {\n\t\tk -= st.top();\n\t\tst.pop();\n\t\tans++;\n\t}\n \n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-01",
+  "parsed_at": "2026-06-14T18:39:36.380202+00:00",
+  "type_directory": "p"
+}

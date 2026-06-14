@@ -1,0 +1,100 @@
+{
+  "slug": "cf616e-sum-of-remainders",
+  "title": "CF616E Sum of Remainders",
+  "type": "题目",
+  "tags": [
+    "整除分块"
+  ],
+  "difficulty": 1.0,
+  "summary": "数很大，又是<strong>取模</strong>，改造成公式 $n = k_i * i + r_i$ 后，因为有整除分块的原理，$k_i$ 存在一样的连续段，当 $k_i$ 一样时，$r_i$ 呈一段等差数列。",
+  "link": "https://www.luogu.com.cn/problem/CF616E",
+  "link_text": "CF616E Sum of Remainders - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "计算以下式子的和：$n \\bmod 1 + n \\bmod 2 + n \\bmod 3 + \\dots + n \\bmod m$。由于结果可能很大，你需要输出其对 $10^9+7$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行两个整数 $n,m(1 \\leq n,m \\leq 10^{13})$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出整数 $s$，表示结果对 $10^9+7$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tvar res = Math::division_block(n);\n\tres.pb(n + 1);\n\tif (res.back() <= m)res.pb(m + 1);\n\tll ans = 0;\n\tfa(i, 0, vs(res)) {\n\t\tif (res[i] > m)break;\n\t\tll len = min(m + 1, res[i + 1]) - res[i];\n\t\tll d = -n / res[i];\n\t\tll a1 = n % res[i];\n\t\tlen = (len % mod + mod) % mod;\n\t\td = (d % mod + mod) % mod;\n\t\ta1 = (a1 % mod + mod) % mod;\n\n\t\tll sum = a1 * len % mod + len * (len - 1) % mod * d % mod * Math::inv(2, mod) % mod;\n\t\tsum %= mod;\n\t\tans += sum;\n\t\tans %= mod;\n\n\t\t//debug(n / res[i], res[i], n % res[i]); // n = k * x + r\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-09",
+  "parsed_at": "2026-06-14T18:39:36.567267+00:00",
+  "type_directory": "p"
+}

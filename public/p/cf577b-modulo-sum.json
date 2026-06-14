@@ -1,0 +1,155 @@
+{
+  "slug": "cf577b-modulo-sum",
+  "title": "CF577B Modulo Sum",
+  "type": "题目",
+  "tags": [
+    "bitset",
+    "dp",
+    "数论/鸽巢原理"
+  ],
+  "difficulty": 1.5,
+  "summary": "转成算子串和就可以考虑前缀和，然后发现只要 $n \\ge m$ ，那就可以套鸽巢原理，<strong>前</strong> $n$ <strong>个前缀和肯定存在相同的或者</strong> $0$，那么 $n \\ge m$ 时就必定是 $YES$；$n \\le m$ 时，跑 $O(nm)$ 的 $dp$ 即可解决。还有个方法是直接 $bitset$，毕竟是<strong>可达型 dp</strong>，<strong>留意一下取模的写法</strong>即可。",
+  "link": "https://www.luogu.com.cn/problem/CF577B",
+  "link_text": "CF577B Modulo Sum - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给出 $1$ 个长度为 $n$ 的序列，以及 $1$ 个正整数 $m$。问这个原序列中是否存在非空子序列，使其元素之和能被 $m$ 整除。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第 $1$ 行，有 $2$ 个正整数，分别为原序列的长度 $n$ 和 除数 $m$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "（数据范围：$1 \\leqslant n \\leqslant 10^{6}$，$2 \\leqslant m \\leqslant 10^{3}$）",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $2$ 行，有 $n$ 个自然数，表示该原序列的元素 $a_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "（数据范围：$0 \\leqslant a_i \\leqslant 10^{9}$）",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "仅 $1$ 行，如果存在符合条件的子序列，输出 <strong>YES</strong>，否则输出 <strong>NO</strong>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 5\n1 2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "YES",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "转成算子串和就可以考虑前缀和，子串也是子序列的一种嘛。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "然后发现只要 $n \\ge m$ ，那就可以套鸽巢原理，<strong>前</strong> $n$ <strong>个前缀和肯定存在相同的或者</strong> $0$，那么 $n \\ge m$ 时就必定是 $YES$；$n \\le m$ 时，跑 $O(nm)$ 的 $dp$ 即可解决。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "还有个方法是直接 $bitset$，毕竟是<strong>可达型 dp</strong>，<strong>留意一下取模的写法</strong>即可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// bitset\nbitset<N> dp;\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i], a[i] %= m;\n\tfa(i, 1, n) {\n      \t// (dp << a[i]) 表示余数直接加上 a[i]\n\t\t// (dp >> (m - a[i])) 表示余数加上 a[i] 后大于等于 m 了，绕回到前面\n\t\tdp |= (dp << a[i]) | (dp >> (m - a[i]));\n\t\tdp[a[i]] = 1; // 为了不初始化 dp[0] = 1，在这单独给出\n\t}\n\tif (dp[0])cout << \"YES\" << endl;\n\telse cout << \"NO\" << endl;\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 鸽巢原理\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i], a[i] %= m;\n\tif (n >= m) {\n\t\tcout << \"YES\" << endl;\n\t\treturn;\n\t}\n\tvar dp = Vec2<int>(n + 1, m + 1);\n\tfa(i, 1, n) {\n\t\tfa(j, 0, m - 1) {\n\t\t\tdp[i][(j + a[i]) % m] |= dp[i - 1][j];\n\t\t\tdp[i][j] |= dp[i - 1][j];\n\t\t}\n\t\tdp[i][a[i]] = 1;\n\t}\n\tif (dp[n][0])cout << \"YES\" << endl;\n\telse cout << \"NO\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-25",
+  "parsed_at": "2026-06-14T18:39:36.552684+00:00",
+  "type_directory": "p"
+}

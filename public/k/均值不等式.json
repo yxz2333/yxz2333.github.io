@@ -1,0 +1,42 @@
+{
+  "slug": "均值不等式",
+  "title": "均值不等式",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "数学",
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "What?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "均值不等式包含四个常见的均值：<strong>调和平均数</strong> $\\le$ <strong>几何平均数</strong> $\\le$ <strong>算术平均数</strong> $\\le$ <strong>平方平均数</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "用数学公式严格表达，假设有一组正实数 $a, b > 0$（通常也推广到 $n$ 个数）：",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\frac{2}{\\frac{1}{a} + \\frac{1}{b}} \\le \\sqrt{ab} \\le \\frac{a+b}{2} \\le \\sqrt{\\frac{a^2+b^2}{2}} $$\n但在算法竞赛中，常见的是：**几何平均数** $\\le$ **算术平均数**",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-29",
+  "parsed_at": "2026-06-14T18:45:12.085892+00:00",
+  "type_directory": "k"
+}

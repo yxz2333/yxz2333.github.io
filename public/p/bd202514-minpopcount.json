@@ -1,0 +1,265 @@
+{
+  "slug": "bd202514-minpopcount",
+  "title": "BD202514 Minpopcount",
+  "type": "题目",
+  "tags": [
+    "二进制",
+    "异或",
+    "位运算",
+    "多源最短路",
+    "图论经典问题/图论建模问题"
+  ],
+  "difficulty": 3.0,
+  "summary": "有点难想到能转化成图论问题，想到了之后还得优化一下建图方式",
+  "link": "https://www.matiji.net/exam/brushquestion/14/4698/91E0C8915821F2C440B65EABFE649804",
+  "link_text": "码蹄集OJ-Minpopcount",
+  "source": "[[2025百度之星初赛第二场]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小度熊有一个集合 $S$，包含 $[0, 2^k)$ 之内的元素。接下来，$q$ 个事件将会发生，每个属于以下两种之一：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给出一个整数 $x \\in [0, 2^k)$，把 $x$ 插入到 $S$ 中。保证 $x$ 在此次操作之前不在 $S$ 中。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "给出一个整数 $x \\in [0, 2^k)$。对所有 $y \\in S$，计算 $\\text{popcount}(x \\oplus y)$ 的最小值，其中 $\\text{popcount}(a)$ 表示 $a$ 在二进制表示下 $1$ 的个数。保证此次操作之前 $S$ 非空。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "请通过告诉他所有类型 $2$ 事件的正确答案，帮助小度熊解决这个问题。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行，两个整数 \\( q \\) 和 \\( k \\)（\\( 1 \\leq q \\leq 5 \\cdot 10^6 \\)，\\( 1 \\leq k \\leq 20 \\)），表示事件个数和值域的大小。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 \\( q \\) 行，每行包含两个整数 \\( o \\) 和 \\( x \\)（\\( o \\in \\{1, 2\\} \\)，\\( 0 \\leq x < 2^k \\)），描述一次事件，其中 \\( o \\) 是事件的类型，\\( x \\) 是事件的参数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每种类型 2 事件，输出一行一个整数表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 3\n1 2\n1 3\n2 5\n1 4\n2 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "12 4\n1 5\n1 11\n2 7\n2 12\n1 3\n2 2\n1 6\n1 0\n2 5\n2 11\n1 14\n2 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n2\n1\n0\n0\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "40 5\n1 7\n2 0\n2 18\n2 23\n2 13\n2 5\n2 30\n1 1\n2 9\n2 5\n2 29\n2 10\n2 29\n2 18\n2 29\n1 20\n2 19\n2 4\n1 18\n2 13\n2 14\n2 10\n2 1\n1 15\n2 28\n2 2\n1 0\n2 19\n1 8\n2 8\n1 13\n2 7\n1 31\n2 1\n1 14\n2 6\n1 30\n2 9\n2 20\n2 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n3\n1\n2\n1\n3\n1\n1\n3\n3\n3\n3\n3\n2\n1\n2\n2\n2\n0\n1\n1\n1\n0\n0\n0\n1\n1\n0\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一个样例，第一个查询发生时有 $x=5$ 且 $S=2,3$，其中 $\\text{popcount}(5 \\oplus 2) = 3$，$\\text{popcount}(5 \\oplus 3) = 2$，因此查询的答案为 $2$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二个查询发生在 $x=6$ 且 $S=2,3,4$ 时，其中 $\\text{popcount}(6 \\oplus 2) = 1$，$\\text{popcount}(6 \\oplus 3) = 2$，$\\text{popcount}(6 \\oplus 4) = 1$，因此查询的答案为 $1$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "考虑<strong>图论建模</strong>，一共 $2^k$ 个节点，点 $i$ 与点 $j$ 的距离就为 $popcount(i \\oplus j)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "但是直接这样建模，一共需要 $2^k * 2^k$ 条边，肯定不行，需要<strong>减少边的数量</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于本题的数据范围，可以想到的边数为 $k * 2^k$，考虑仅与 $i$ 有一位二进制位不同的数建边，即<strong>直接子集/超集</strong>，<strong>边长度均为 1</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这其实是 #<a href=\"/k/sos-dp\" class=\"wikilink\">SOS dp</a> 的 trick。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "建好图后，整个询问过程相当于<strong>多源最短路</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每次询问一个数相当于询问这个数 $x$ 到加入 $S$ 的所有数的最近距离，即<strong>多源最短路</strong>中其它点到起点的最近距离。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每次加入新的数 $x$，相当于 $dis[x] = 0$，需要据此对整个图的 $dis$ 进行更新，因为距离 $dis$ 最大为 $k$，所以 <strong>最多跑</strong> $k*2^k$ <strong>次</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "想到转换为图论问题，<strong>图论建模</strong>的时候还得进行优化。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>本题可作为一般题转换成图论问题（即<strong>图论建模</strong>问题）的思维钩子。</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$k = 20$，$k * 2^k = 2e7$，根据数据范围想到如何对进行<strong>图论建模</strong>的优化。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dis[N];\nvoid solve(int CASE)\n{\n\tint q, k; cin >> q >> k;\n\tfa(i, 0, (1 << k) - 1)dis[i] = INF;\n\twhile (q--) {\n\t\tint o, x; cin >> o >> x;\n\t\tif (o == 1) {\n\t\t\tdis[x] = 0;\n\t\t\t// 最多跑 k * 2 ^ k\n\t\t\tvar Q = queue<int>();\n\t\t\tQ.push(x);\n\t\t\twhile (Q.size()) {\n\t\t\t\tint now = Q.front();\n\t\t\t\tQ.pop();\n\t\t\t\tfa(i, 0, k - 1) {\n\t\t\t\t\tint to = now ^ (1 << i);\n\t\t\t\t\tif (dis[to] > dis[now] + 1) {\n\t\t\t\t\t\tdis[to] = dis[now] + 1;\n\t\t\t\t\t\tQ.push(to);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t\telse cout << dis[x] << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-11",
+  "parsed_at": "2026-06-14T18:39:36.074575+00:00",
+  "type_directory": "p"
+}

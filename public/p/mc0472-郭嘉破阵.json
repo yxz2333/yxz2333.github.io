@@ -1,0 +1,229 @@
+{
+  "slug": "mc0472-郭嘉破阵",
+  "title": "MC0472 郭嘉破阵",
+  "type": "题目",
+  "tags": [
+    "前缀和",
+    "前缀异或",
+    "二进制",
+    "位运算",
+    "经典问题/计数问题/子段计数问题",
+    "数学推导"
+  ],
+  "difficulty": 2.0,
+  "summary": "<strong>并非贡献法的子段计数问题</strong>，关键还是<strong>按位拆分</strong>，然后推前缀和、前缀异或的公式。令 $P_x$ 表示 $a$ 数组前 $x$ 个元素在第 $k$ 位的<strong>前缀异或和</strong>，令 $S_x$ 表示 $b$ 数组前 $x$ 个元素的<strong>前缀和</strong>。那么答案为 $\\sum_{j=1}^{n} \\sum_{\\substack{1 \\le i \\le j \\\\ P_{i-1} \\neq P_j}} (S_j - S_{i-1})$，也是个比较经典的<strong>前缀和公式推导问题</strong>。",
+  "link": "https://www.matiji.net/exam/brushquestion/72/4693/305EE97B0D5E361DE6A28CD18C929AF0",
+  "link_text": "码蹄集OJ-郭嘉破阵",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "袁绍阵中悬着两列长度为 \\( n \\) 的星斗：天罡列 \\( a_1 \\sim a_n \\) 主杀伐，地煞列 \\( b_1 \\sim b_n \\) 主守御。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "破阵关键的计算法则如下：选定天罡地煞符连续段 \\([i, j]\\)，其符阵威能计算为：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "\\[f(i, j) = (a_i \\oplus a_{i+1} \\oplus \\cdots \\oplus a_j) \\times (b_i + b_{i+1} + \\cdots + b_j)\\]",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "其中 \\(\\oplus\\) 为星斗相斥，即整数 \\(x\\) 和整数 \\(y\\) 按位异或的结果，若计算所有连续符段威能总和 \\(\\sum_{i=1}^n \\sum_{j=i}^n f(i, j)\\) 的值，便可通过此阵。注意结果需要对 \\(10^9 + 7\\) 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 \\(n(1 \\leq n \\leq 5 \\times 10^5)\\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 \\(n\\) 个整数，表示 \\(a_1 \\sim a_n(1 \\leq a_i \\leq 10^9)\\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行 \\(n\\) 个整数，表示 \\(b_1 \\sim b_n(1 \\leq b_i \\leq 10^9)\\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行一个整数，表示答案对 \\(10^9 + 7\\) 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n1 2 3 4 5\n1 2 3 4 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "251",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "按位拆分",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于单独的第 $k$ 位，我们只关心 $a$ 中的数字在这一位是 0 还是 1。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果子区间 $[i, j]$ 在这一位的异或和为 1，那么这个子区间就会对总答案产生 $(1 \\ll k) \\times (b_i + \\dots + b_j)$ 的贡献。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "引入前缀思想（针对某一个确定的第 $k$ 位）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "令 $P_x$ 表示 $a$ 数组前 $x$ 个元素在第 $k$ 位的<strong>前缀异或和</strong>，规定 $P_0 = 0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "令 $S_x$ 表示 $b$ 数组前 $x$ 个元素的<strong>前缀和</strong>，规定 $S_0 = 0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "区间 $[i, j]$ 的性质可以转化为：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>区间 b 的和</strong>：$b_i + \\dots + b_j = S_j - S_{i-1}$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>区间 a 的异或和为 1</strong> 的条件是：$P_j \\oplus P_{i-1} = 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这等价于：$P_j$ <strong>和</strong> $P_{i-1}$ <strong>必须不相等</strong>（即一个是 0，一个是 1）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "将 $O(n^2)$ 转化为 $O(n)$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于 $k$ 位，我们枚举 $j$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们要计算的是满足 $P_j \\neq P_{i-1}$ 的所有 $(S_j - S_{i-1})$ 之和。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了方便，我们把 $i-1$ 替换成 $L$（左端点的前一个位置），显然 $0 \\le L < j$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们要算：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\sum_{j=1}^{n} \\sum_{\\substack{0 \\le L < j \\\\ P_L \\neq P_j}} (S_j - S_L) $$\n把内层求和拆开：\n$$ \\sum_{j=1}^{n} \\left( \\sum_{\\substack{0 \\le L < j \\\\ P_L \\neq P_j}} S_j - \\sum_{\\substack{0 \\le L < j \\\\ P_L \\neq P_j}} S_L \\right) $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "提取公因式 $S_j$：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\sum_{j=1}^{n} \\left( S_j \\times (\\text{满足 } P_L \\neq P_j \\text{ 的 } L \\text{ 的个数}) - (\\text{满足 } P_L \\neq P_j \\text{ 的 } S_L \\text{ 的总和}) \\right) $$\n公式推到这题，本题也就解决了，开个 $cnt[2], sum[2]$，然后套式子即可：",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tvar a = vector<ll>(n + 1);\n\tvar b = vector<ll>(n + 1);\n\tvar pre = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n)cin >> b[i], pre[i] = (pre[i - 1] + b[i]) % mod;\n\tll ans = 0;\n\tfa(k, 0, 30) {\n\t\tll res = 0;\n\t\tvar sum = vector<ll>(2);\n\t\tvar cnt = vector<ll>(2);\n\t\tint p = 0;\n\t\tcnt[p]++;\n\t\tfa(i, 1, n) {\n\t\t\tif (a[i] & (1ll << k))p ^= 1;\n\t\t\tres += ((cnt[p ^ 1] * pre[i] % mod - sum[p ^ 1]) % mod + mod) % mod;\n\t\t\tres %= mod;\n\t\t\tcnt[p] = (cnt[p] + 1) % mod;\n\t\t\tsum[p] = (sum[p] + pre[i]) % mod;\n\t\t}\n\t\tres = res * Math::fastPow(2, k, mod) % mod;\n\t\tans = (ans + res) % mod;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-21",
+  "parsed_at": "2026-06-14T18:39:36.645278+00:00",
+  "type_directory": "p"
+}

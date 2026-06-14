@@ -1,0 +1,355 @@
+{
+  "slug": "nk题霸-旅行者的大逃脱",
+  "title": "NK题霸 旅行者的大逃脱",
+  "type": "题目",
+  "tags": [
+    "dp",
+    "前缀和优化dp"
+  ],
+  "difficulty": 2.0,
+  "summary": "我一开始是按 $i,j,t$ 顺序跑的 dp，但发现不开滚动会 MLE，但按 $i,j,t$ 顺序不能开滚动，所以我按 $t,i,j$ 顺序跑了，然后为了降维，进行了前缀和优化。",
+  "link": "https://www.nowcoder.com/practice/3a02e2b818144c2dbad8dd3dc28d04cf?channelPut=tracker2",
+  "link_text": "旅行者的大逃脱_牛客题霸_牛客网",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "旅行者偷走了芙宁娜最爱的甜点。此时，芙宁娜正在由 \\( n \\) 行 \\( m \\) 列方格组成的枫丹国内四处搜捕他。方格从上到下编号 \\( 1, 2, \\dots, n \\)，从左到右编号 \\( 1, 2, \\dots, m \\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "初始时刻为 <strong>1</strong>，旅行者位于左上角 \\((1, 1)\\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "目标：在大门关闭前到达右下角 \\((n, m)\\) 逃离枫丹国。",
+          "depth": 1
+        },
+        {
+          "heading": "移动规则",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在<strong>每一个时刻</strong>，他只能沿<strong>向下</strong>或<strong>向右</strong>选择一个方向移动，并可以一次前进<strong>任意正整数步</strong>；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "移动完成后，时刻加 1。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "检查官（障碍）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "芙宁娜派出了 \\( q \\) 名检查官，第 \\( i \\) 名检查官将在<strong>时刻 \\( t_i \\)</strong> 占据格子 \\((x_i, y_i)\\) 并<strong>一直驻守</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "无论旅行者在时刻 \\( \\tau \\)（\\( \\tau \\ge t_i \\)）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "到达该格子；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "经过该格子；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "离开该格子；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "都会立即被捕获，导致逃脱失败。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "大门关闭",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在时刻 \\( k \\) 之后大门将被永久关闭。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "若旅行者到达 \\((n, m)\\) 时时刻已经<strong>大于 \\( k \\)</strong>，则逃脱失败。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 \\( T \\)（\\( 1 \\le T \\le 5 \\)），表示数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行四个整数 \\( n, m, q, k \\)（\\( 2 \\le n, m \\le 500,\\ 1 \\le q \\le 100,\\ 1 \\le k \\le 100 \\)）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来 \\( q \\) 行，每行三个整数 \\( x_i, y_i, t_i \\)（\\( 1 \\le x_i \\le n,\\ 1 \\le y_i \\le m,\\ 1 \\le t_i \\le k \\)）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>保证</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\((1, 1)\\) 和 \\((n, m)\\) 不会有检查官出现。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "同一格可能出现多个检查官（时刻可能不同）。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若旅行者无论如何都无法逃脱，输出一行 <code>-1</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "否则输出两个整数：<strong>方案数量</strong>（对 \\( 998\\,244\\,353 \\) 取模）与<strong>最短时间</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "方案数量：所有能成功逃脱的路径方案总数（按移动规则计数）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "最短时间：所有成功方案中，到达 \\((n, m)\\) 时刻的最小值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n2 3 2 5\n1 3 1\n2 2 3\n2 3 2 5\n1 3 1\n2 2 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 2\n-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n8 8 11 8\n7 4 2\n3 1 2\n1 8 1\n2 1 1\n5 4 1\n5 8 3\n8 5 4\n7 1 1\n3 6 1\n7 2 1\n1 7 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7763 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>状态设计</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "设 <code>dp[t][i][j]</code>：时刻 <code>t</code> 恰好到达 <code>(i,j)</code> 的方案数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>转移</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "从上一时刻 <code>t-1</code> 的所有可能前驱转移来——即同一列上方任意行，或同一行左侧任意列。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "朴素枚举前驱是 <code>O(k * n * m * (n+m))</code>，显然需要优化。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>前缀和优化</strong>",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\ndp[t][i][j] = \\sum_{r=1}^{i-1} dp[t-1][r][j] \\;+\\; \\sum_{c=1}^{j-1} dp[t-1][i][c]\n$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "这就是典型的<strong>二维前缀和加速</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>pre_down[i][j]</code>：列方向前缀和，即 <code>(1,j)~(i,j)</code> 的 <code>dp[t-1]</code> 之和",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<code>pre_right[i][j]</code>：行方向前缀和，即 <code>(i,1)~(i,j)</code> 的 <code>dp[t-1]</code> 之和",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "于是每个状态的转移变成 <code>O(1)</code>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>dp[i][j] = pre_down[i-1][j] + pre_right[i][j-1]</code>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>滚动 + 维度交换</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你一开始按 <code>(i,j,t)</code> 三维顺序跑，发现 <code>dp[505][505][105]</code> 会 MLE（约 2.6e7 个 int，约 100MB 以上）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "但你很快意识到：<code>dp[t]</code> 只依赖 <code>dp[t-1]</code>，<strong>可以滚动</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "然而按 <code>(i,j,t)</code> 顺序写滚动时，前缀和不易维护（因为需要完整的上一个时刻的二维信息）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "于是你改成 <strong><code>(t,i,j)</code> 外层按时间滚动</strong>，每层重新计算 <code>dp[][]</code> 和 <code>pre[][]</code>，空间降到 <code>O(n*m)</code>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll dp[505][505], pre[2][505][505];\nbool vis[505][505][105];\nvoid solve(int CASE)\n{\n\tint n, m, q, k; cin >> n >> m >> q >> k;\n\tfa(i, 0, n)fa(j, 0, m)fa(k, 0, 1)dp[i][j] = pre[k][i][j] = 0;\n\tfa(i, 0, n)fa(j, 0, m)fa(t, 0, k)vis[i][j][t] = 0;\n\tfa(i, 1, q) {\n\t\tint x, y, t; cin >> x >> y >> t;\n\t\tvis[x][y][t] = 1;\n\t}\n\tfa(i, 1, n)fa(j, 1, m)fa(t, 1, k)if (vis[i][j][t - 1])vis[i][j][t] = 1;\n\tdp[1][1] = 1;\n\tfa(i, 1, n) {\n\t\tif (vis[i][1][1])continue;\n\t\tpre[0][i][1] = (pre[0][i - 1][1] + dp[i][1]) % mod;\n\t}\n\tfa(j, 1, m) {\n\t\tif (vis[1][j][1])continue;\n\t\tpre[1][1][j] = (pre[1][1][j - 1] + dp[1][j]) % mod;\n\t}\n\tll mn = 0, ans = 0;\n \tfa(t, 2, k + 1) {\n\t\tfa(i, 0, n)fa(j, 0, m)dp[i][j] = 0;\n\t\tfa(i, 1, n)fa(j, 1, m) {\n\t\t\tdp[i][j] = (dp[i][j] + pre[0][i - 1][j]) % mod;\n\t\t\tdp[i][j] = (dp[i][j] + pre[1][i][j - 1]) % mod;\n\t\t}\n\t\tif (dp[n][m] and !mn)mn = t;\n\t\tans = (ans + dp[n][m]) % mod;\n\t\tfa(i, 0, n)fa(j, 0, m)fa(k, 0, 1)pre[k][i][j] = 0;\n\t\tfa(j, 1, m)fa(i, 1, n) {\n\t\t\tif (vis[i][j][t])continue;\n\t\t\tpre[0][i][j] = (pre[0][i - 1][j] + dp[i][j]) % mod;\n\t\t}\n\t\tfa(i, 1, n)fa(j, 1, m) {\n\t\t\tif (vis[i][j][t])continue;\n\t\t\tpre[1][i][j] = (pre[1][i][j - 1] + dp[i][j]) % mod;\n\t\t}\n\t}\n\tif (!mn)cout << -1 << endl;\n\telse cout << ans << ' ' << mn - 1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-27",
+  "parsed_at": "2026-06-14T18:39:36.783426+00:00",
+  "type_directory": "p"
+}

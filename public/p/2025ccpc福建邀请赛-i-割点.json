@@ -1,0 +1,172 @@
+{
+  "slug": "2025ccpc福建邀请赛-i-割点",
+  "title": "2025CCPC福建邀请赛 I 割点",
+  "type": "题目",
+  "tags": [
+    "构造",
+    "图论"
+  ],
+  "difficulty": 1.5,
+  "summary": "有点意思的构造题吧。对于一条链，除了首尾都是割点，对于一个简单环，点都是非割点，就按这个性质，把链和环挂载到 $1$ 节点上即可。<strong>非割点组成环</strong>，挂载在 $1$ 上；<strong>割点组成链</strong>，挂载在 $1$ 上。",
+  "link": "https://codeforces.com/gym/105977/",
+  "link_text": "Dashboard - 2025 National Invitational of CCPC (Fujian), The 12th Fujian Collegiate Programming Contest - Codeforces",
+  "source": "[[2025CCPC福建邀请赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个正整数 $n$ 和一个长度为 $n-2$ 的 01 序列 $a_2, a_3, \\dots, a_{n-1}$，要求你构造一个 $n$ 个点的<strong>无向简单连通图</strong> $G$，使得：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "点 1 是割点，点 $n$ 不是割点。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于每个 $1 < i < n$：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $a_i = 1$，则点 $i$ 在图 $G$ 中是割点；",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "若 $a_i = 0$，则点 $i$ 在图 $G$ 中不是割点。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "图 $G$ 中各项点的度数满足：$\\text{deg}_1 \\ge \\text{deg}_2 \\ge \\dots \\ge \\text{deg}_n$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题包含多组测试数据。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行一个正整数 $T$ $(1 \\le T \\le 500)$，表示测试数据的组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行一个正整数 $n$ $(4 \\le n \\le 1000)$，表示图中点的个数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "接下来一个长度为 $n-2$ 的 01 串，表示序列 $a_2, a_3, \\dots, a_{n-1}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有数据的 $\\sum n \\le 2000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若无解，输出 -1；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若有解，第一行输出 $m$ $(0 < m \\le \\frac{n(n-1)}{2})$，表示图的边数。接下来 $m$ 行，每行输出两个正整数，第 $i$ 行的两个正整数表示第 $i$ 条边两个点的编号。若有多种满足题意的图，你可以输出任意一种。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n4\n11\n7\n11000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-1\n7\n1 4\n4 5\n5 6\n6 1\n1 2\n2 3\n3 7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "!<a href=\"../assets/image_1771954511385_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>{:height 639, :width 509}",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tstring s; cin >> s;\n\ts = \"  \" + s;\n\tvar _0 = vector<int>();\n\tvar _1 = vector<int>();\n\tfa(i, 2, n - 1) {\n\t\tif (s[i] == '1')_1.pb(i);\n\t\telse _0.pb(i);\n\t}\n\tif (_0.size() == 0 or\n\t\t_0.size() == 1 and s[n - 1] != '0') {\n\t\tcout << -1 << endl;\n\t\treturn;\n\t}\n\n\tvar ans = vector<pii>();\n\n\t// 非割点组成环，挂载在 1 上\n\tint last = 1;\n\tfor (int x : _0) {\n\t\tans.pb({ last, x });\n\t\tlast = x;\n\t}\n\tif (_0.size() != 1)ans.pb({ last, 1 });\n\n\t// 割点组成链，挂载在 1 上\n\tlast = 1;\n\tfor (int x : _1) {\n\t\tans.pb({ last, x });\n\t\tlast = x;\n\t}\n\tans.pb({ last,n });\n\t\n\tcout << ans.size() << endl;\n\tfor (const var& [x, y] : ans)cout << x << ' ' << y << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-25",
+  "parsed_at": "2026-06-14T18:39:35.743003+00:00",
+  "type_directory": "p"
+}

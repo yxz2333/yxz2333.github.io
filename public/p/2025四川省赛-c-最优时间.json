@@ -1,0 +1,256 @@
+{
+  "slug": "2025四川省赛-c-最优时间",
+  "title": "2025四川省赛 C 最优时间",
+  "type": "题目",
+  "tags": [
+    "期望dp",
+    "后效性",
+    "迭代法"
+  ],
+  "difficulty": 3.0,
+  "summary": "期望 dp 本身的式子是很好推的，纯套路，但因为后效性，推出来的式子不能直接用。<strong>迭代法</strong>这个东西，也太罕见了，学过的话这题就好说了。",
+  "link": "https://codeforces.com/gym/105949/problem/C",
+  "link_text": "Problem - C - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "定义集合 $S(x)$ 为：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$S(x) = \\{d \\mid d \\mid x\\} \\cup \\left\\{kx \\mid 2 \\le k \\le \\left\\lfloor \\frac{N}{x} \\right\\rfloor \\right\\}$$\n简单地说，$S(x)$ 是 $x$ 的所有约数和所有不超过 $N$ 的倍数的并集。\n假设当前你的状态是 $x$，每一秒，你有两种选择：\n在每秒结束后，$x \\leftarrow x - 1$。\n求在最优决策下走到 $0$ 状态的期望时间。\n小 A 想知道针对不同的 $x$，最优决策下 $x$ 走到 $0$ 的期望时间，所以他有 $Q$ 次询问，请你帮助他回答这些问题。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行两个正整数 $N, Q \\ (1 \\le N, Q \\le 10^5)$，分别表示值域大小和询问次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $Q$ 行，每行一个正整数 $x \\ (1 \\le x \\le N)$，表示一次询问。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个询问，你需要输出一个实数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果和正确答案的绝对误差或相对误差不超过 $10^{-6}$，则认为是正确答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2\n3\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1.7500000000\n1.5000000000",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1000 2\n114\n514",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4.7506538205\n3.7750763456",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "状态定义与贝尔曼方程",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "设 \\(E(x)\\) 为从状态 \\(x\\) 出发，最优决策下到达 \\(0\\) 的期望时间。边界 \\(E(0)=0\\)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对 \\(x>0\\)，考虑下一秒的选择：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>什么都不做</strong>：下一秒变为 \\(x-1\\)，期望 \\(1+E(x-1)\\)。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>行动</strong>：均匀随机转移到 \\(S(x)\\) 中的某个元素 \\(p\\)，下一秒变为 \\(p-1\\)，期望 \\(1+\\frac{1}{|S(x)|}\\sum_{p\\in S(x)} E(p-1)\\)。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "最优决策取两者中期望较小者，故",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$E(x)=1+\\min\\left\\{E(x-1),\\ \\frac{1}{|S(x)|}\\sum_{p\\in S(x)}E(p-1)\\right\\}\\tag{1}$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "由于 \\(S(x)\\) 中包含 \\(kx\\ (k\\ge2)\\)，同一方程右端出现了比 \\(x\\) 更大的状态，形成<strong>环状依赖</strong>，无法直接递推。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "值迭代（不动点逼近）",
+          "level": 2,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "将 (1) 视为不动点方程 \\(E=TE\\)，其中算子 \\(T\\) 定义为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$(Tf)(x)=1+\\min\\left\\{f(x-1),\\ \\frac{1}{|S(x)|}\\sum_{p\\in S(x)}f(p-1)\\right\\}。$$\n值迭代就是从一个初始估计 \\(E^{(0)}\\) 开始，反复施加 \\(T\\)：\n$$E^{(k+1)}(x)=1+\\min\\left\\{E^{(k)}(x-1),\\ \\frac{1}{|S(x)|}\\sum_{p\\in S(x)}E^{(k)}(p-1)\\right\\}。$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>为什么能收敛？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "“什么都不做”的选项保证每步至少减 1，所有策略都能到达吸收态 0（proper 性质）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "取初值 \\(E^{(0)}(x)=x\\)（最坏情况），由于更新时总是取 min，新值 ≤ 旧值，序列<strong>单调递减</strong>，下界为 0，故收敛到不动点。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "实践中固定迭代足够多轮（如 100 轮），精度可达 \\(10^{-6}\\) 以上。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "为什么这样可行——核心洞察",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "1. <strong>公式 (1) 是不动点方程</strong>，迭代就是反复代入逼近；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>单调性保证收敛</strong>：初值取上界，每轮更新值只减不增；",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "3. <strong>所有策略 proper</strong> 保证不动点唯一且就是最优解；",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "vector<int> s[N];\ndb E[N];\nvoid solve(int CASE)\n{\n\tint MAXN, q; cin >> MAXN >> q;\n\tfa(n, 1, MAXN) {\n\t\tfor (int i = 1; i <= n / i; i++) {\n\t\t\tif (n % i == 0) {\n\t\t\t\ts[n].pb(i);\n\t\t\t\tif (i != n / i)s[n].pb(n / i);\n\t\t\t}\n\t\t}\n\t\tfor (int i = 2; i * n <= MAXN; i++)\n\t\t\ts[n].pb(i * n);\n\t}\n\n\t// 初始值，最坏的情况\n\tfa(i, 0, MAXN)E[i] = i;\n\tfa(_, 1, 100) { // 迭代 \n\t\tfa(i, 1, MAXN) {\n\t\t\tdb sum = 0;\n\t\t\tfor (int p : s[i])sum += E[p - 1];\n\t\t\tdb x = sum / s[i].size();\n\t\t\tdb y = E[i - 1];\n\t\t\tE[i] = min(x, y) + 1;\n\t\t}\n\t}\n\n\twhile (q--) {\n\t\tint x; cin >> x;\n\t\tcout << fixed << setprecision(12) << E[x] << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-15",
+  "parsed_at": "2026-06-14T18:39:35.799860+00:00",
+  "type_directory": "p"
+}

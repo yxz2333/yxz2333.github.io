@@ -1,0 +1,344 @@
+{
+  "slug": "cf1534d-lost-tree",
+  "title": "CF1534D Lost Tree",
+  "type": "题目",
+  "tags": [
+    "交互题",
+    "二分图"
+  ],
+  "difficulty": 2.0,
+  "summary": "找个<strong>点集</strong>，通过询问这个点集里的所有点，来找出所有的边，这要求<strong>每条边的一个端点都在这个点集里</strong>，结合二分图性质解决。主要难点还是是想不到用二分图啊。",
+  "link": "https://codeforces.com/problemset/problem/1534/D",
+  "link_text": "codeforces.com/problemset/problem/1534/D",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "这是一个交互题。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Little Dormi 在嘉年华上遇到了一个尴尬的问题：他必须猜出一个 $n$ 个节点的无权树的所有边！树的节点编号为 $1$ 到 $n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "游戏主持人只允许他提出一种类型的问题：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Little Dormi 选择一个节点 $r$（$1 \\le r \\le n$），主持人会回复一个数组 $d_1, d_2, \\ldots, d_n$，其中 $d_i$ 表示节点 $r$ 到节点 $i$ 的最短路径长度，$1 \\le i \\le n$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "此外，为了让游戏更具挑战性，主持人最多只允许他提出 $\\lceil\\frac{n}{2}\\rceil$ 个问题，其中 $\\lceil x \\rceil$ 表示大于等于 $x$ 的最小整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含一个整数 $n$（$2 \\le n \\le 2000$），表示树的节点数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来你将进入交互环节。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "当你的程序确定了树的结构后，首先输出一行仅包含一个感叹号 \"!\"，随后输出 $n-1$ 行，每行包含两个用空格分隔的整数 $a$ 和 $b$，表示一条连接节点 $a$ 和 $b$ 的边（$1 \\le a, b \\le n$）。输出完毕后，立即刷新输出流并正常结束程序。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你可以以任意顺序输出这些边，边 $(a,b)$ 和 $(b,a)$ 视为相同。输出答案不计入查询次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "读入输入后，你最多可以进行 $\\lceil\\frac{n}{2}\\rceil$ 次查询。每次查询格式为 \"? r\"，其中 $r$ 是你选择的节点编号（$1 \\le r \\le n$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "随后你会收到 $n$ 个用空格分隔的整数 $d_1, d_2, \\ldots, d_n$，其中 $d_i$ 表示节点 $r$ 到节点 $i$ 的最短路径长度，后跟一个换行。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n\n0 1 2 2\n\n1 0 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "? 1\n\n? 2\n\n!\n4 2\n1 2\n2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1534D/db5986557f00451a4bfc4f6b9560af77b9bcbfc0.png)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "注意，边的输出顺序可以任意。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "此外，以下是对示例 1 中每个节点进行查询的返回结果：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$1$ ：$[0,1,2,2]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$2$ ：$[1,0,1,1]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$3$ ：$[2,1,0,2]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$4$ ：$[2,1,2,0]$",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 题目简述",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>交互题</strong>。有一棵包含 $N$ 个节点的隐藏树。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "你可以进行询问 <code>? r</code>，系统会返回节点 $r$ 到树上所有其他节点的距离数组。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "你需要通过不超过 $\\lceil \\frac{N}{2} \\rceil$ 次询问，还原出这棵树的所有边。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2. 思维路径：为什么是二分图？",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "线索一：询问一次能得到什么？",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "当我们询问 <code>? r</code> 时，我们得到了 $r$ 到所有点的距离。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "所有距离为 $1$ 的点，必定与 $r$ 直接相连。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这意味着：<strong>只要询问一个点，我们就能确定所有与它相连的边。</strong>",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "线索二：如何覆盖所有边？",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "如果要确定整棵树的所有边，最笨的办法是把 $N$ 个点全问一遍。但这超过了 $\\lceil N/2 \\rceil$ 的限制。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>我们需要选出一个</strong> $\\lceil N/2 \\rceil$ <strong>大小的点集 S，使得树上的每一条边，至少有一个端点在 S 中</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "如果一条边的两个端点都在 $S$ 中，问谁都能发现这条边。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "如果一条边只有一个端点在 $S$ 中，问那个端点就能发现这条边。",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "线索三：树的特殊结构",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "树是一个<strong>二分图</strong>，把树按<strong>黑白染色</strong>后，也十分适合 $\\lceil N/2 \\rceil$ 的限制。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这是树最本质的性质之一：树上的节点可以被染成黑色和白色，使得<strong>所有的边都是连接一黑一白的</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>如何染色？</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "如果我们定节点 $1$ 为根：",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "距离为 $0$（根）：黑色",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "距离为 $1$（儿子）：白色",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "距离为 $2$（孙子）：黑色",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "距离为 $3$：白色",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "...",
+                  "depth": 3
+                },
+                {
+                  "type": "p",
+                  "html": "你会发现：<strong>节点的深度的奇偶性，天然决定了它的颜色！</strong>",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "结论",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于所有的边都是“黑-白”连接：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果我们询问所有的<strong>黑点</strong>，<strong>因为每条边都连着黑点，我们能还原所有边。</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果我们询问所有的<strong>白点</strong>，<strong>因为每条边都连着白点，我们也能还原所有边。</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这就是解题的核心：<strong>我们要么问完所有奇数深度的点，要么问完所有偶数深度的点。哪边人少，就问哪边。</strong>",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "vector<int> g[N];\nint dis[N][N];\nint n;\nbool vis[N][N];\nvoid Q(int x) {\n\tcout << \"? \" << x << endl;\n\tcout.flush();\n\tfa(i, 1, n)cin >> dis[x][i];\n}\nvoid A() {\n\tcout << \"!\" << endl;\n\tfa(i, 1, n)fa(j, 1, n)vis[i][j] = 0;\n\tfa(i, 1, n)for (int to : g[i]) {\n\t\tif (!vis[i][to]) {\n\t\t\tvis[i][to] = vis[to][i] = 1;\n\t\t\tcout << i << ' ' << to << endl;\n\t\t}\n\t}\n\tcout.flush();\n}\nvoid solve(int CASE)\n{\n\tcin >> n;\n\tint cnt = n - 1;\n\n\tQ(1);\n\tint _1 = 0;\n\tfa(i, 1, n) {\n\t\tif (dis[1][i] == 1 and !vis[1][i]) {\n\t\t\tvis[1][i] = vis[i][1] = 1;\n\t\t\tg[1].pb(i), g[i].pb(1);\n\t\t\tcnt--;\n\t\t}\n\n\t\tif (dis[1][i] & 1)_1++;\n\t\tif (!cnt) {\n\t\t\tA();\n\t\t\tbreak;\n\t\t}\n\t}\n\n\tvar ve = vector<int>();\n\tif (_1 <= n - 1 - _1) {\n\t\tfa(i, 1, n)\n\t\t\tif (dis[1][i] & 1)\n\t\t\t\tve.pb(i);\n\t}\n\telse {\n\t\tfa(i, 1, n)\n\t\t\tif (dis[1][i] % 2 == 0 and i != 1)\n\t\t\t\tve.pb(i);\n\t}\n\n\tfor (int now : ve) {\n\t\tQ(now);\n\n\t\tfa(i, 1, n) {\n\t\t\tif (dis[now][i] == 1 and !vis[now][i]) {\n\t\t\t\tvis[now][i] = vis[i][now] = 1;\n\t\t\t\tg[now].pb(i), g[i].pb(now);\n\t\t\t\tcnt--;\n\t\t\t}\n\n\t\t\tif (!cnt) {\n\t\t\t\tA();\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-21",
+  "parsed_at": "2026-06-14T18:39:36.198902+00:00",
+  "type_directory": "p"
+}

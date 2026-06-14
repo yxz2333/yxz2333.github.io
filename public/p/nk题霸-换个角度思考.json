@@ -1,0 +1,172 @@
+{
+  "slug": "nk题霸-换个角度思考",
+  "title": "NK题霸 换个角度思考",
+  "type": "题目",
+  "tags": [
+    "离线处理",
+    "树状数组",
+    "莫队",
+    "主席树"
+  ],
+  "difficulty": 1.0,
+  "summary": "一眼可以用主席树或莫队秒，不过这里还是给出离线处理+树状数组的做法。",
+  "link": "https://www.nowcoder.com/practice/cf4b6551a42d4676911fcbfa81a4c2a9?channelPut=tracker2",
+  "link_text": "换个角度思考 - NowCoder",
+  "source": "NowCoder NK题霸",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个序列，有多次询问，每次查询区间里小于等于某个数的元素的个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "即对于询问 $(l, r, x)$，需要输出 $\\sum_{i=l}^{r} [a_i \\leq x]$ 的值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "其中 $[exp]$ 是一个函数，返回 $1$ 当且仅当 $exp$ 成立。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行两个整数 $n, m$（$1 \\le n, m \\le 10^5$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个整数表示序列 $a$，下标从 $1$ 开始，$1 \\le a_i \\le 10^5$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行，每行三个整数 $l, r, k$（$1 \\le l \\le r \\le n$，$1 \\le k \\le 10^5$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每一个询问，输出一行一个整数表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 1\n1 2 3 4 5\n1 5 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "区间 $[1,5]$ 中小于等于 $3$ 的元素有 $1,2,3$，共 $3$ 个。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心观察",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "查询只关心值 $\\le k$ 的元素，且 $k$ 在不同询问中不同。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果将所有元素按值从小到大排序，同时将所有询问也按 $k$ 从小到大排序，那么随着 $k$ 增大，满足 $a_i \\le k$ 的元素<strong>只会增加，不会减少</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "算法思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "按 $k$ 升序处理询问，维护一个数据结构，其中只包含当前值 $\\le k$ 的元素的位置。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于当前询问 $(l, r, k)$，只需要知道在这个数据结构中，区间 $[l, r]$ 内有多少个点——用<strong>树状数组</strong>维护即可。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct node {\n    int l, r, k, i;\n};\nvoid solve(int CASE)\n{\n    int n, m; cin >> n >> m;\n    var a = vector<pii>(n + 1);\n    fa(i, 1, n)cin >> a[i].px, a[i].py = i;\n    var p = vector<node>(m + 1);\n    fa(i, 1, m) {\n        int l, r, x; cin >> l >> r >> x;\n        p[i] = { l, r, x, i };\n    }\n    sort(all1(a));\n    sort(all1(p), [](const node& a, const node& b)->bool {\n        return a.k < b.k;\n        });\n    var t = FenwickTree<int>(n + 1);\n    var ans = vector<int>(m + 1);\n    int now = 1;\n    fa(i, 1, m) {\n        const var& [l, r, k, id] = p[i];\n        while (now <= n and a[now].px <= k) {\n            t.update(a[now].py, 1);\n            now++;\n        }\n        ans[id] = t.query(l, r);\n    }\n    fa(i, 1, m)cout << ans[i] << endl;\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-12",
+  "parsed_at": "2026-06-14T18:39:36.778112+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,131 @@
+{
+  "slug": "2024陕西省赛-g-消失的数字",
+  "title": "2024陕西省赛 G 消失的数字",
+  "type": "题目",
+  "tags": [
+    "数位"
+  ],
+  "difficulty": 1.5,
+  "summary": "实际上枚举数位就能解决了，考虑 <code>x000...</code> 有多少个保留的数，原本的十进制实际上退化成了<strong>九进制</strong>。",
+  "link": "https://codeforces.com/gym/105257/problem/G",
+  "link_text": "Problem - G - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "但某一天，他发现 \\(1,2,\\ldots,9\\) 这九个数字中的 \\(x\\) 消失了，也就是说所有包含 \\(x\\) 这个数字的数都消失了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在，他希望你能帮助他求出这九个数中 \\(x\\) 在未消失的自然数中小到大排在第几位。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题有多组测试数据，输入第一行为一个整数 \\(T\\) (\\(1 \\leq T \\leq 10^5\\))，表示测试数据的组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "共一行两个整数 \\(n, x\\) (\\(0 \\leq n \\leq 10^{18}, 1 \\leq x \\leq 9\\))，由空格隔开，含义如题目描述所述。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "数据保证 \\(n\\) 中不包含数字 \\(x\\)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据：输出一行一个整数，表示 \\(x\\) 在未消失的自然数中小到大的排名。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n9 4\n99 7\n12345678 9\n9475632111234123 8\n998244353114514 7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "9\n81\n6053445\n1758041005111510\n205404686678741",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, x; cin >> n >> x;\n\tstring s = to_string(n);\n\tvar p = vector<ll>(s.size() + 1);\n\tp[0] = 1;\n\tfa(i, 1, vs(p))p[i] = p[i - 1] * 9;\n\tll ans = 0;\n\tfa(i, 0, vs(s)) {\n\t\tll now = s[i] - '0';\n\t\tif (now >= x)ans += p[(int)s.size() - i - 1] * (now - 1);\n\t\telse ans += p[(int)s.size() - i - 1] * now;\n\t}\n\tcout << ans + 1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-22",
+  "parsed_at": "2026-06-14T18:39:35.722093+00:00",
+  "type_directory": "p"
+}

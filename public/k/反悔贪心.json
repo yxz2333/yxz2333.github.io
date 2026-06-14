@@ -1,0 +1,96 @@
+{
+  "slug": "反悔贪心",
+  "title": "反悔贪心",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "反悔贪心"
+  ],
+  "parent": "贪心",
+  "format": "logseq",
+  "sections": [
+    {
+      "type": "p",
+      "html": "维护一个反悔堆，堆把所有可以维护的东西全装了。",
+      "depth": 0
+    },
+    {
+      "heading": "永久丢弃",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "例题： <a href=\"/p/cf1526c2-potions-(hard-version)\" class=\"wikilink\">CF1526C2 Potions (Hard Version)</a>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "反悔堆中存的是<strong>累赘</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "默认全要，等到实在满足不了条件时，抛弃掉<strong>反悔堆</strong>堆顶的最大累赘们。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "替换",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "例题： <a href=\"/p/p4053-[jsoi2007]-建筑抢修\" class=\"wikilink\">P4053 [JSOI2007] 建筑抢修</a>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "默认全取，有更好的就和反悔堆里最差的替换掉。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "股票问题",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "要<strong>数学推导</strong>，并不简单。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例题： <a href=\"/p/cf866d-buy-low-sell-high\" class=\"wikilink\">CF866D Buy Low Sell High</a>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "反悔堆中存的是获得贡献所需的<strong>代价</strong>，和反悔所需的<strong>反悔代价</strong><em>（其实本质上就是获得贡献所需的代价）</em>。对应到这个股票题，那就是存<strong>买入成本</strong>和<strong>赎回成本</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "把代价和反悔代价都丢进反悔堆中，如果能需更多的贡献，就利用代价最小的获取贡献。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果是第一次买入，只会产生一个相应的<strong>反悔代价</strong>；如果是反悔，产生<strong>反悔代价</strong>的同时，之前的反悔被撤销，还会产生上次反悔<strong>本身的代价</strong>。",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-15",
+  "parsed_at": "2026-06-14T18:45:12.216531+00:00",
+  "type_directory": "k"
+}

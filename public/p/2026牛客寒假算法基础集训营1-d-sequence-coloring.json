@@ -1,0 +1,145 @@
+{
+  "slug": "2026牛客寒假算法基础集训营1-d-sequence-coloring",
+  "title": "2026牛客寒假算法基础集训营1 D Sequence Coloring",
+  "type": "题目",
+  "tags": [
+    "二分答案"
+  ],
+  "difficulty": 2.5,
+  "summary": "一开始看这题估计会觉得有点邪门，不过实际上二分答案就能解决，从左到右一个一个处理即可，配合暴力对拍写用不了多久就能解决。",
+  "link": "https://ac.nowcoder.com/acm/contest/120561/D",
+  "link_text": "D-Sequence Coloring_2026牛客寒假算法基础集训营1",
+  "source": "[[2026牛客寒假算法基础集训营1]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个长度为 $n$ 的数字序列 $a_1, a_2, \\dots, a_n$，每一个元素都有一个颜色，且初始时要么为白色，要么为黑色，使用其值的大小表示其颜色：若 $a_i > 0$，则第 $i$ 个元素为白色；否则为黑色。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小苯可以在第 $0$ 秒时选择其中至多 $k$ 个白色元素染红，随后，从第 $1$ 秒开始，每秒都会发生如下事件：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于第 $i$ 个元素 $a_i$，如果它是红色的，那么将其右侧 $a_i$ 个元素中的白色元素也染红。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "形式化地，对于所有红色元素所在的位置 $i \\, (1 \\le i \\le n)$，将第 $i+1$ 到第 $\\min(n, i+a_i)$ 个元素中的白色元素也染红；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有的红色元素同步进行这一操作（即每一秒开始时已经是红色的元素，会在该秒内尝试染红其它元素）；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "黑色元素并不会、也无需被染红。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "请你帮助小苯以最优策略染色最初的数字，使得所有的白色元素都被染红的时间尽可能短（可以为 $0$ 秒）。求出这个最短时间，或报告无论如何都无法将所有的白色元素都染红。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试文件均包含多组测试数据。第一行输入一个整数 $T \\, (1 \\le T \\le 10^5)$ 代表数据组数，每组测试数据描述如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行两个整数 $n, k \\, (1 \\le k \\le n \\le 5 \\times 10^5)$，表示数字序列的长度、最开始可以染红的元素个数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个整数 $a_1, a_2, \\dots, a_n \\, (0 \\le a_i \\le n)$，表示序列中的元素。其中 $a_i > 0$ 表示白色， $a_i = 0$ 表示黑色。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "除此之外，保证单个测试文件的 $n$ 之和不超过 $5 \\times 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每一组测试数据，新起一行。如果可以将所有的白色元素都染红，输出一个整数表示最短的全染红时间；否则输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n6 2\n2 0 1 1 0 1\n5 1\n1 1 1 1 1\n5 1\n1 0 1 0 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n4\n-1",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n    int n, k; cin >> n >> k;\n    var a = vector<int>(n + 1);\n    var b = vector<int>(n + 1);\n    var pre = vector<int>(n + 1);\n    int tot = 0;\n    fa(i, 1, n) {\n        cin >> a[i];\n        b[i] = min(n, i + a[i]);\n        pre[i] = max(pre[i - 1], b[i]);\n        if (a[i])tot++;\n    }\n\n    if (k >= tot) {\n        cout << 0 << endl;\n        return;\n    }\n\n    int id = 0;\n    fa(i, 1, n)if (a[i]) {\n        id = i;\n        break;\n    }\n\n    var check = [&](int mid)->bool {\n        int cnt = 1, tim = mid - 1; // 初始点个数，时间片剩余\n        int r = b[id]; // 初始点最远能染色的点\n\n        fa(i, id, n) if (a[i]) {\n            if (i > r) { // 之前的初始点不能到\n                if (tim) {\n                    r = pre[r];\n                    if (i > r) {\n                        // 时间段内任何点作为初始点都不能给 i 染色\n                        // i 作为初始点，开启新的时间片\n                        cnt++;\n                        tim = mid - 1;\n                        r = b[i];\n                    }\n                    else tim--; // 能给 i 染色，延用同一段时间\n                }\n                else {\n                    // 时间片用完\n                    // 选前 i 个中染色最远的作为起始点，开启新的时间片\n                    cnt++;\n                    tim = mid - 1;\n                    r = pre[i];\n                }\n            }\n        }\n        return cnt <= k;\n        };\n\n    int l = 1, r = n, ans = -1;\n    while (l <= r) {\n        int mid = l + r >> 1;\n        if (check(mid)) {\n            r = mid - 1;\n            ans = mid;\n        }\n        else l = mid + 1;\n    }\n    cout << ans << endl;\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-04",
+  "parsed_at": "2026-06-14T18:39:35.895050+00:00",
+  "type_directory": "p"
+}

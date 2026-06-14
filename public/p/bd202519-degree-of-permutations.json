@@ -1,0 +1,209 @@
+{
+  "slug": "bd202519-degree-of-permutations",
+  "title": "BD202519 Degree of Permutations",
+  "type": "题目",
+  "tags": [
+    "背包/可撤销背包",
+    "计数问题"
+  ],
+  "difficulty": 2.5,
+  "summary": "",
+  "link": "https://www.matiji.net/exam/brushquestion/19/4698/91E0C8915821F2C440B65EABFE649804",
+  "link_text": "码蹄集OJ-Degree of Permutations",
+  "source": "[[2025百度之星决赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "type": "p",
+      "html": "TODO BD202519 Degree of Permutations",
+      "depth": 0
+    },
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定两个长为 $n$ 的序列 $a_1, a_2, \\dots, a_n$ 和 $b_1, b_2, \\dots, b_n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于一个 $1 \\sim n$ 的排列 $p$ 和其第 $x (1 < x \\le n)$ 个位置，若",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ a_{p_x} = \\sum_{i=1}^{x-1} b_{p_i} $$\n则称第 $x$ 个位置是好的，反之则是不好的。\n定义一个排列的度为其好的位置的数量。问 $1 \\sim n$ 所有排列的度之和为多少？\n由于答案可能很大，请对 $10^9 + 7$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $n \\ (1 \\le n \\le 200)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个整数 $a_1, a_2, \\dots, a_n \\ (1 \\le a_i \\le 10^9)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行 $n$ 个整数 $b_1, b_2, \\dots, b_n \\ (1 \\le b_i \\le 100)$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数表示答案对 $10^9 + 7$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 2 3\n2 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$p=[1,2,3]$ 时，第 $2,3$ 个位置是好的，度为 $2$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$p=[1,3,2]$ 时，没有位置是好的，度为 $0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$p=[2,1,3]$ 时，第 $2,3$ 个位置是好的，度为 $2$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$p=[2,3,1]$ 时，没有位置是好的，度为 $0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$p=[3,1,2]$ 时，第 $2$ 个位置是好的，度为 $1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$p=[3,2,1]$ 时，没有位置是好的，度为 $0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所有排列的度之和为 $2+0+2+0+1+0=5$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll a[205], b[205], dp[205][N], fac[205];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfac[0] = 1; fa(i, 1, n)fac[i] = fac[i - 1] * i % mod;\n\n\tfa(i, 1, n)cin >> a[i];\n\tint tot = 0;\n\tfa(i, 1, n)cin >> b[i], tot += b[i];\n\n\tdp[0][0] = 1;\n\tfa(i, 1, n) {\n\t\tfb(j, i, 1) fb(k, tot, b[i])\n\t\t\t// 拿了 j 个物品，背包装了 k 体积\n\t\t\tdp[j][k] = (dp[j][k] + dp[j - 1][k - b[i]]) % mod;\n\t}\n\n\tll ans = 0;\n\tfa(i, 1, n) if (a[i] <= tot) {\n\t\t// dp[j][k]：拿了 j 个 b 物品，背包恰好装满 k 体积的方案数\n\t\t// 但是为了算答案，不能拿 b[i] 物品，使用可撤销背包\n\t\tfa(j, 1, n)\n\t\t\tfa(k, b[i], tot)\n\t\t\tdp[j][k] = ((dp[j][k] - dp[j - 1][k - b[i]]) % mod + mod) % mod;\n\n\t\tfa(j, 1, n - 1) \n\t\t\tans = (ans + dp[j][a[i]] * fac[j] % mod * fac[n - 1 - j] % mod) % mod;\n\n\t\tfb(j, n, 1)\n\t\t\tfb(k, tot, b[i])\n\t\t\tdp[j][k] = (dp[j][k] + dp[j - 1][k - b[i]]) % mod;\n\t}\n\tcout << ans << endl;\n\n\t//ll anss = 0;\n\t//var p = vector<int>(n + 1);\n\t//fa(i, 1, n)p[i] = i;\n\t//do {\n\t//\tint pre = 0, now = 0;\n\t//\tfa(i, 1, n) {\n\t//\t\tif (pre == a[p[i]])anss++, now++;\n\t//\t\tpre += b[p[i]];\n\t//\t}\n\t//\t//fa(i, 1, n)cout << a[p[i]] << ' ';\n\t//\t//cout << endl;\n\t//\t//fa(i, 1, n)cout << b[p[i]] << ' ';\n\t//\t//cout << endl;\n\t//\t//if (now)cout << now << endl;\n\t//\t//cout << endl;\n\t//} while (next_permutation(all1(p)));\n\n\t//if (anss != ans) {\n\t//\tdebug(\"NOOOOOOOOOOOOOOOOOOOOOOOOOOOO\");\n\t//\tdebug(ans, anss);\n\t//}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-01",
+  "parsed_at": "2026-06-14T18:39:36.082672+00:00",
+  "type_directory": "p"
+}

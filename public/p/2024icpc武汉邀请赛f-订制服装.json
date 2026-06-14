@@ -1,0 +1,163 @@
+{
+  "slug": "2024icpc武汉邀请赛f-订制服装",
+  "title": "2024ICPC武汉邀请赛F 订制服装",
+  "type": "题目",
+  "tags": [
+    "交互题",
+    "二分答案"
+  ],
+  "difficulty": 2.5,
+  "summary": "本题的<strong>性质</strong>很不一般，明显适合二分，考虑二分答案。那么check函数里只能进行最多 2500 次操作，考虑到 $n = 1000$，考虑 check 每次仅进行 1000 次操作。",
+  "link": "https://codeforces.com/gym/105143/problem/F",
+  "link_text": "Problem - F - Codeforces",
+  "source": "[[2024ICPC武汉邀请赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "我将她的问题抽象了出来：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "有一个 $n \\times n$ 的正整数方阵 $a_{i,j}$ ($1 \\le a_{i,j} \\le n \\times n$)，其满足若 $i > 1$，则 $a_{i,j} \\ge a_{i-1,j}$；若 $j > 1$，则 $a_{i,j} \\ge a_{i,j-1}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我只知道方阵的大小 $n$，但不知道其中的元素内容，但是我可以询问方阵的某个位置 $a_{i,j}$ 是否不大于某个整数 $x$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我需要使用不超过 50000 次询问找出 $\\{a_{i,j}\\}$ 中的第 $k$ 大值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意，$a_{i,j}$ 可能存在相同的值，第 $k$ 大值被定义为将 $n \\times n$ 个元素从大到小排序后的第 $k$ 个元素的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "首先从标准输入读入给出的参数 $n, k$ ($1 \\le n \\le 1000, 1 \\le k \\le n \\times n$)。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "接着可以进行不超过 50000 次询问，每次询问形如 \"? $i$ $j$ $x$\" ($1 \\le i,j \\le n, 1 \\le x \\le n \\times n$)，并从标准输入读取回答。若 $a_{i,j} \\le x$，标准输入将返回 1，否则返回 0。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "需要给出答案时，在单独的一行输出 \"! $x$\"，表示方阵的第 $k$ 大值，回答不计入询问次数。给出答案后，立即结束程序。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 3\n1\n1\n0\n0\n0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "? 1 1 2\n? 1 2 2\n? 2 1 2\n? 2 2 2\n? 1 2 1\n! 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "样例中，一种可能的方阵为 $\\begin{bmatrix} 1 & 2 \\\\ 3 & 4 \\end{bmatrix}$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本题的<strong>性质</strong>很不一般，明显适合二分，考虑二分答案。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "那么 check 函数里只能进行最多 $2500$ 次操作，考虑到 $n = 1000$，考虑 check 每次仅进行 $1000$ 次操作。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于本题非常妙的性质，我们考虑从 $(n,1)$ 点出发，先往上走 $x--$，发现 $Q(x,y) = 1$，就右拐 $y++$，明显可以用约 $1000$ 次操作把 $\\le mid$ 的数的个数全找出来。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $k$ 大就是第 $n * n - k + 1$ 小，$\\le mid$ 的个数 $\\ge n * n - k + 1$ j就可以解决本题了。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int Q(int x, int y, int k) {\n\tcout << \"? \" << x << ' ' << y << ' ' << k << endl;\n\tcout.flush();\n\tint res; cin >> res;\n\treturn res;\n}\nvoid A(int k) {\n\tcout << \"! \" << k << endl;\n\tcout.flush();\n}\nvoid solve(int CASE)\n{\n\tint n, k; cin >> n >> k;\n\tvar check = [&](int mid)->bool {\n\t\tint x = n, y = 1, sum = 0;\n\t\twhile (x >= 1 and y <= n) {\n\t\t\tif (Q(x, y, mid)) {\n\t\t\t\ty++;\n\t\t\t\tsum += x;\n\t\t\t}\n\t\t\telse x--;\n\t\t}\n\t\treturn sum >= n * n - k + 1;\n\t\t};\n\tint l = 1, r = n * n, ans = 0;\n\twhile (l <= r) {\n\t\tint mid = l + r >> 1;\n\t\tif (check(mid)) {\n\t\t\tr = mid - 1;\n\t\t\tans = mid;\n\t\t}\n\t\telse l = mid + 1;\n\t}\n\tA(ans);\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-15",
+  "parsed_at": "2026-06-14T18:39:35.714625+00:00",
+  "type_directory": "p"
+}

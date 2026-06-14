@@ -1,0 +1,141 @@
+{
+  "slug": "第十五届山东省赛-i-方阵谜题",
+  "title": "第十五届山东省赛 I 方阵谜题",
+  "type": "题目",
+  "tags": [
+    "bfs"
+  ],
+  "difficulty": 1.5,
+  "summary": "一眼发现状态不多 $9! < 4e5$，明显能想到用 $bfs$ 算出一个状态（123456789）到其它所有状态的最少步骤。明显能发现，我们<strong>不在乎每个格子具体是什么数字</strong>，也就说，我们可以把 $a$ 看做 123456789，然后对 $b$ 进行重新映射，这样本题就解决了。",
+  "link": "https://codeforces.com/gym/105930/problem/I",
+  "link_text": "Problem - I - Codeforces",
+  "source": "[[第十五届山东省赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "考虑一个 3 行 3 列的网格。网格里的每个格子都写着一个整数。从 1 到 9（含两端）的每个整数在网格中恰好出现一次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "您可以对网格执行以下三种操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "!<a href=\"../assets/image_1773932224334_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "给定两个这样的网格，求将第一个网格转换为第二个网格所需的最小操作次数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有多组测试数据。第一行输入一个整数 \\( T \\) (\\( 1 \\leq T \\leq 2 \\times 10^5 \\)) 表示测试数据组数。对于每组测试数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于前三行，第 \\( i \\) 行输入一个字符串 \\( a_{i,1}a_{i,2}a_{i,3} \\) (\\( 1 \\leq a_{i,j} \\leq 9 \\))，表示第一个网格的第 \\( i \\) 行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于接下来的三行，第 \\( i \\) 行输入一个字符串 \\( b_{i,1}b_{i,2}b_{i,3} \\) (\\( 1 \\leq b_{i,j} \\leq 9 \\))，表示第二个网格的第 \\( i \\) 行。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每组数据输出一行。如果可以将第一个网格转换为第二个网格，则输出一个整数，表示所需的最小操作次数；如果无法完成转换，则输出 -1。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n293\n678\n514\n624\n579\n183\n624\n579\n183\n293\n678\n514\n123\n456\n789\n321\n456\n789\n123\n456\n789\n123\n456\n789",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n5\n-1\n0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "map<array<array<int, 3>, 3>, int> mp;\nint dis[N];\nstruct node {\n\tint id, d;\n\tarray<array<int, 3>, 3> a;\n};\nvoid init() {\n\tvar a = vector<int>();\n\tfa(i, 1, 9)a.pb(i);\n\tint id = 1;\n\tdo {\n\t\tvar now = array<array<int, 3>, 3>();\n\t\tfa(i, 0, 8) {\n\t\t\tint x = i / 3, y = i % 3;\n\t\t\tnow[x][y] = a[i];\n\t\t}\n\t\tmp[now] = id++;\n\t} while (next_permutation(all(a)));\n\n\tfa(i, 1, 1e6)dis[i] = INF;\n\tvar now = array<array<int, 3>, 3>();\n\tfa(i, 0, 8) {\n\t\tint x = i / 3, y = i % 3;\n\t\tnow[x][y] = i + 1;\n\t}\n\n\tvar Q = queue<node>();\n\tQ.push({ 1,dis[1] = 0,now });\n\twhile (Q.size()) {\n\t\tvar[now, d, a] = Q.front();\n\t\tQ.pop();\n\t\tif (d > dis[now])continue;\n\n\t\tvar na = a;\n\t\tfa(i, 0, 2) {\n\t\t\tfa(j, 0, 2)na[i][j] = a[i][(j + 2) % 3];\n\t\t\tint to = mp[na];\n\t\t\tif (dis[to] > dis[now] + 1) {\n\t\t\t\tdis[to] = dis[now] + 1;\n\t\t\t\tQ.push({ to, dis[to], na });\n\t\t\t}\n\t\t\tna = a;\n\t\t}\n\n\t\tfa(j, 0, 2) {\n\t\t\tfa(i, 0, 2)na[i][j] = a[(i + 2) % 3][j];\n\t\t\tint to = mp[na];\n\t\t\tif (dis[to] > dis[now] + 1) {\n\t\t\t\tdis[to] = dis[now] + 1;\n\t\t\t\tQ.push({ to, dis[to], na });\n\t\t\t}\n\t\t\tna = a;\n\t\t}\n\n\t\tfa(i, 0, 2)fa(j, 0, 2)na[i][j] = a[2 - j][i];\n\t\tint to = mp[na];\n\t\tif (dis[to] > dis[now] + 1) {\n\t\t\tdis[to] = dis[now] + 1;\n\t\t\tQ.push({ to, dis[to], na });\n\t\t}\n\t}\n}\nvoid solve(int CASE)\n{\n\tarray<string, 3> sa, sb;\n\tfa(i, 0, 2)cin >> sa[i];\n\tfa(i, 0, 2)cin >> sb[i];\n\tarray<array<int, 3>, 3> a, b;\n\tfa(i, 0, 2)fa(j, 0, 2)a[i][j] = sa[i][j] - '0';\n\tfa(i, 0, 2)fa(j, 0, 2)b[i][j] = sb[i][j] - '0';\n\tvar mp9 = vector<int>(10);\n\tint id = 1;\n\tfa(i, 0, 2)fa(j, 0, 2)mp9[a[i][j]] = id++;\n\tfa(i, 0, 2)fa(j, 0, 2)b[i][j] = mp9[b[i][j]];\n\tif (dis[mp[b]] >= INF)cout << -1 << endl;\n\telse cout << dis[mp[b]] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-20",
+  "parsed_at": "2026-06-14T18:39:36.932956+00:00",
+  "type_directory": "p"
+}

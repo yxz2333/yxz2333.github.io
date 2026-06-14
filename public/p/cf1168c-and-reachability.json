@@ -1,0 +1,275 @@
+{
+  "slug": "cf1168c-and-reachability",
+  "title": "CF1168C And Reachability",
+  "type": "题目",
+  "tags": [
+    "dp",
+    "位运算",
+    "在线问题"
+  ],
+  "difficulty": 2.0,
+  "summary": "看着像图论，实则因为是<strong>稠密图</strong>，不好直接跑，使用 dp 解决。",
+  "link": "https://codeforces.com/problemset/problem/1168/C",
+  "link_text": "Problem - 1168C - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Toad Pimple 有一个整数数组 $a_1,\\dots,a_n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当 $x < y$ 且存在 $x = p_1 < \\dots < p_k = y$ 的数列 $p$ 满足 $a_{p_i} \\& a_{p_{i+1}} > 0$ 时，我们称 $y$ 是可从 $x$ 到达的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在给出 $q$ 组下标，请检查它们可否到达。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行，两个整数 $n,q\\;(2 \\le n \\le 300\\,000,1 \\le q \\le 300\\,000)$，表示数组的长度和查询的个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行，$n$ 个整数 $a_1,\\dots,a_n\\;(0 \\le a_i \\le 300\\;000)$，表示给定的数组。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行中，第 $i$ 行两个整数 $x_i,y_i\\;(1 \\le x_i < y_i \\le n)$，表示你需要检查 $y_i$ 是否可从 $x_i$ 到达。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $q$ 行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个询问，如果可到达，输出「Shi」，否则输出「Fou」。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 3\n1 3 0 2 1\n1 3\n2 4\n1 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Fou\nShi\nShi",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一个样例中，$a_3 = 0$，与其按位与结果总是 $0$，所以不可到达。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$a_2 \\& a_4 > 0$，所以 $4$ 可从 $2$ 到达。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "并且从 $1$ 到达 $4$ 中，$p = [1,2,4]$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "理解题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>连通性问题</strong>：给定数组，两数按位与非零即连通，问可达性。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>稠密图陷阱</strong>：如果暴力建图，$N=3 \\times 10^5$，边数可能是 $N^2$，BFS/DFS 必死。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>位运算特征</strong>：值域 $2^{19}$ 很小。<strong>“按位与非零”</strong> 意味着两个数只要共享哪怕 1 个 bit，就能“换乘”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>浓缩题意</strong>：把 19 个二进制位看作“高速公路”，数字看作“站点”。问从起点站能否通过换乘（共有位）到达终点站。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "1.  状态定义（跳出图论看 DP）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然不能遍历点，我们就遍历“位”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们关心的是：<strong>从位置 i 出发，如果不限制步数，我最早能在哪里“接触”到第 k 位？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "定义 <code>dp[i][k]</code>：从下标 $i$ 出发，能到达的<strong>拥有第 k 位为 1</strong> 的<strong>最小下标</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "2.  逆向递推",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "从右向左遍历 $i$ ($n \\to 1$)，因为我们需要利用 $i$ 右边的连通信息。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "维护 <code>suf[k]</code>：表示当前位置右边，<strong>最近的</strong>一个拥有第 $k$ 位的数字的下标。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3.  状态转移（松弛/继承）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于当前数字 $a[i]$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>自身能力</strong>：如果 $a[i]$ 这一位 $k$ 是 1，那 $i$ 本身就是接触 $k$ 位的最早位置，即 <code>dp[i][k] = i</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>dp 转移</strong>：如果 $a[i]$ 这一位 $x$ 是 1，说明 $i$ 可以跳到右边最近的拥有 $x$ 的兄弟 <code>suf[x]</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "那么，<code>suf[x]</code> 能到达的任何位 $y$，我也能到达！",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>转移方程</strong>：枚举 $y$ 位 <code>dp[i][y] = min(dp[i][y], dp[suf[x]][y])</code>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "4.  查询判定",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "询问 $(x, y)$。只要 $x$ 能到达 $y$ 拥有的<strong>任意</strong>一位 $k$（条件：<code>dp[x][k] &lt;= y</code>），且 $a[y]$ 确实有第 $k$ 位，说明可以先跳到某个中转点接触到 $k$ 位，然后直达 $y$（因为 $y$ 也有 $k$ 位，二者连通）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "难点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>思维转换</strong>：从“人走迷宫”（DFS/BFS）转变为“计算路标”（DP）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>传递性的理解</strong>：很难直接想到利用“位”作为桥梁。需要理解：$i$ 和 <code>suf[x]</code> 连通，意味着 $i$ 继承了 <code>suf[x]</code> 所有的可达性。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[N][20], suf[20];\nvoid solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n)fa(j, 0, 19)dp[i][j] = n + 1;\n\tfa(i, 0, 19)suf[i] = n + 1; // 后缀 i 位为 1 的最近点\n\n\tfb(i, n, 1) {\n\t\tvar _1 = vector<int>();\n\t\tvar _0 = vector<int>();\n\t\tfa(k, 0, 19) {\n\t\t\tif (a[i] & (1 << k)) {\n\t\t\t\t_1.pb(k);\n\t\t\t\tdp[i][k] = i;\n\t\t\t}\n\t\t\telse _0.pb(k);\n\t\t}\n\n\t\tfor (int x : _1) \n\t\t\tfor (int y : _0)\n\t\t\t\tif (suf[x] != n + 1)\n\t\t\t\t\tdp[i][y] = min(dp[i][y], dp[suf[x]][y]);\n\n\t\tfor (int x : _1)suf[x] = i;\n\t}\n\n\twhile (q--) {\n\t\tint x, y; cin >> x >> y;\n\t\tbool ok = 0;\n\t\tfa(k, 0, 19)if (a[y] & (1 << k)) {\n\t\t\tif (dp[x][k] <= y) {\n\t\t\t\tok = 1;\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t\tif (ok)cout << \"Shi\" << endl;\n\t\telse cout << \"Fou\" << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-11",
+  "parsed_at": "2026-06-14T18:39:36.121141+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,26 @@
+{
+  "slug": "图的连通性",
+  "title": "图的连通性",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "图论经典问题",
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "并查集判图的连通性 <a href=\"/tags\" class=\"tag-link\">#并查集</a>",
+      "level": 2,
+      "blocks": []
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-08",
+  "parsed_at": "2026-06-14T18:45:12.033942+00:00",
+  "type_directory": "k"
+}

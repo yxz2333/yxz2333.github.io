@@ -1,0 +1,49 @@
+{
+  "slug": "鸽巢原理",
+  "title": "鸽巢原理",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "鸽巢原理"
+  ],
+  "parent": "数论",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "核心定义",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>狭义（找重复）：</strong> 把 $N+1$ 件物品放入 $N$ 个抽屉，<strong>必然</strong>至少有一个抽屉里有 $\\ge 2$ 件物品。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<em>(竞赛潜台词：只要状态数大于容量，必然发生“碰撞/相同”。)</em>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>广义（找极值）：</strong> 把 $N$ 件物品放入 $K$ 个抽屉，<strong>必然</strong>至少有一个抽屉里有 $\\lceil \\frac{N}{K} \\rceil$ 件物品。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<em>(竞赛潜台词：物品不能绝对均匀分配，必然有某个抽屉承受了“平均值向上取整”的压力。)</em>",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-11",
+  "parsed_at": "2026-06-14T18:45:12.091852+00:00",
+  "type_directory": "k"
+}

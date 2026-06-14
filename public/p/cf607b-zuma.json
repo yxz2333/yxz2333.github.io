@@ -1,0 +1,236 @@
+{
+  "slug": "cf607b-zuma",
+  "title": "CF607B Zuma",
+  "type": "题目",
+  "tags": [
+    "回文",
+    "区间dp"
+  ],
+  "difficulty": 2.0,
+  "summary": "回文串结合区间 dp 的模板题。",
+  "link": "https://www.luogu.com.cn/problem/CF607B",
+  "link_text": "CF607B Zuma - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\texttt{Genos}$ 最近在他的手机上下载了祖玛游戏。在祖玛游戏里，存在 $n$ 个一行的宝石，第 $i$ 个宝石的颜色是 $C_i$。这个游戏的目标是尽快的消灭一行中所有的宝石。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在一秒钟，$\\texttt{Genos}$ 能很快的挑选出这些有颜色的宝石中的一个回文的、连续的子串，并将这个子串移除。每当一个子串被删除后，剩余的宝石将连接在一起，形成一个新的行列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你的任务是：求出把整个宝石串都移除的最短时间。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n(1 \\le n \\le 500)$，表示宝石串的长度。第二行包含 $n$ 个被空格分开的整数，第 $i(1 \\le i \\le n)$ 个表示这行中第 $i$ 个珠子的颜色。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，把这行珠子移除的最短时间。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 2 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n1 4 4 2 3 2 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个例子中，$\\texttt{Genos}$ 可以在一秒钟就把这行珠子全部移走。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个例子中，$\\texttt{Genos}$ 一次只能移走一个珠子，所以移走三个珠子花费他三秒。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个例子中，为了达到 $2$ 秒的最快时间，先移除回文串 $\\texttt{4 4}$,再移除回文串 $\\texttt{1 2 3 2 1}$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "题意：从一个序列中每次取出一个回文串，求最少取几次（取出后两端外的数会相接）",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "设 \\( dp[i][j] \\) 为在 \\([i, j]\\) 的区间内最少的花费",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "显然",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "\\[\\begin{cases}\ndp[i][i] = 1 \\\\\ndp[i][i+1] = 1 \\quad (a[i] = a[i+1]) \\\\\ndp[i][i+1] = 2 \\quad (a[i] \\neq a[i+1])\n\\end{cases}\\]",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "于是可以推出转移方程：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "\\[\\begin{cases}\ndp[i][j] = dp[i+1][j-1] \\quad (a[i] = a[j]) \\\\\ndp[i][j] = \\min_{k=i}^{j-1} dp[i][k] + dp[k+1][j]\n\\end{cases}\\]",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这里唯一需要注意的点是：$dp[i][j] = dp[i+1][j-1] \\quad (a[i] = a[j])$ 的正确性。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "下意识会认为是先把 $(i +1,j -1)$ 消掉再消除 $a[i]$ 和 $a[j]$，难道答案要再 $+1$ 吗？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "但实际上，我们可以 <strong>“借用”</strong> 给中间区间 $[i+1, j-1]$ 的最后一次消除过程。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "因此，消除 $[i, j]$ 的代价等于消除 $[i+1, j-1]$ 的代价，不需要 $+1$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int a[505], dp[505][505];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n)fa(j, 1, n)dp[i][j] = INF;\n\tfa(i, 1, n) {\n\t\tdp[i][i] = 1;\n\t\tif (i != n) {\n\t\t\tif (a[i] == a[i + 1])dp[i][i + 1] = 1;\n\t\t\telse dp[i][i + 1] = 2;\n\t\t}\n\t}\n\tfa(len, 3, n)\n\t\tfa(i, 1, n) {\n\t\tint j = i + len - 1;\n\t\tif (j > n)break;\n\t\tif (a[i] == a[j])\n\t\t\tdp[i][j] = dp[i + 1][j - 1];\n\t\tfa(k, i, j - 1)\n\t\t\tdp[i][j] = min(dp[i][j], dp[i][k] + dp[k + 1][j]);\n\t}\n\tcout << dp[1][n] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-08",
+  "parsed_at": "2026-06-14T18:39:36.559528+00:00",
+  "type_directory": "p"
+}

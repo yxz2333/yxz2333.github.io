@@ -1,0 +1,360 @@
+{
+  "slug": "abc451f-make-bipartite-3",
+  "title": "ABC451F Make Bipartite 3",
+  "type": "题目",
+  "tags": [
+    "并查集/带权并查集",
+    "二分图"
+  ],
+  "difficulty": 2.5,
+  "summary": "带权并查集，维护节点 $x$ 与其跟节点 $s[x]$ 的颜色是否相同，不需要真的用二分图染色，全程带权并查集即可。",
+  "link": "https://atcoder.jp/contests/abc451/tasks/abc451_f",
+  "link_text": "F - Make Bipartite 3",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有一个包含 \\(N\\) 个顶点的无向图 \\(G\\)，顶点编号为 \\(1\\) 到 \\(N\\)，初始时没有任何边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "共有 \\(Q\\) 个查询。在第 \\(i\\) 个查询中，向图 \\(G\\) 中添加一条连接顶点 \\(u_i\\) 和 \\(v_i\\) 的边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在处理完每个查询后，请立即判断是否可以将 \\(G\\) 的每个顶点涂成白色或黑色，使得满足以下条件；如果可能，请找出黑色顶点数的最小可能值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每条边，其两个端点的颜色不同。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入从标准输入中以以下格式给出：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": ">\\(N\\) \\(Q\\)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\(u_1\\) \\(v_1\\)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\(u_2\\) \\(v_2\\)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\(\\vdots\\)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\(u_Q\\) \\(v_Q\\)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\(2 \\le N \\le 2 \\times 10^5\\)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\(1 \\le Q \\le 2 \\times 10^5\\)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\(1 \\le u_i < v_i \\le N\\)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\((u_i, v_i) \\neq (u_j, v_j) \\ (i \\neq j)\\)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入值均为整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 \\(Q\\) 行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 \\(i\\) 行应包含处理完第 \\(i\\) 个查询后，图 \\(G\\) 的以下值：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果存在有效的涂色方案，则输出黑色顶点数的最小可能值。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果不存在有效的涂色方案，则输出 \\(-1\\)。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 4\n1 2\n2 3\n3 4\n1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n1\n2\n-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入  2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10 10\n1 10\n6 7\n2 7\n4 9\n5 9\n6 10\n7 8\n2 5\n3 4\n8 10",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n2\n2\n3\n3\n3\n3\n4\n4\n4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "数据维护",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "维护一个数组 <code>d[x]</code>，用来表示 <strong>节点</strong> $x$ <strong>与它的并查集父节点的颜色关系</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>d[x] = 0</code> 表示 $x$ 和它的父节点（或根节点）<strong>颜色相同</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>d[x] = 1</code> 表示 $x$ 和它的父节点（或根节点）<strong>颜色不同</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "由于颜色只有黑白两种，<strong>“关系”的叠加</strong>完美符合<strong>异或（<code>^</code>）运算</strong>的规律（俗称：敌人的敌人是朋友）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "同色(0) ^ 同色(0) = 同色(0)",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "同色(0) ^ 异色(1) = 异色(1)",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "异色(1) ^ 同色(0) = 异色(1)",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>异色(1) ^ 异色(1) = 同色(0)</strong> （我和爸爸不同色，爸爸和爷爷不同色 $\\to$ 我和爷爷同色）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "除此之外，对于每个并查集的<strong>根节点</strong> <code>root</code>，我们维护当前这个连通块里：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>sz[root][0]</code>：与根节点 <code>root</code> 颜色<strong>相同</strong>的节点数量。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>sz[root][1]</code>：与根节点 <code>root</code> 颜色<strong>不同</strong>的节点数量。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因为每个连通块是相互独立的，对于任意一个二分图连通块，我们只要把人数较少的那一部分染成黑色，另一部分染成白色即可。所以：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>当前连通块对答案的贡献就是：<code>min(sz[root][0], sz[root][1])</code></strong>。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "路径压缩",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>关键：</strong> x 和根的关系 = (x 和爸爸的关系) ^ (爸爸和根的关系)",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>d[x] = d[x] ^ d[fa[x]]; </code>",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "合并连通块",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目强制<strong>要求</strong> $u$ <strong>和</strong> $v$ <strong>必须是异色（关系为 1）。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "假设 $u$ 的根节点是 $ru$，$v$ 的根节点是 $rv$。现在这两个家族要联姻了，我们要把 $ru$ 认 $rv$ 做爸爸，也就是 <code>fa[ru] = rv</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>问题来了：既然</strong> $ru$ <strong>的爸爸变成了</strong> $rv$<strong>，那么 <code>d[ru]</code>（</strong> $ru$ <strong>和</strong> $rv$ <strong>的颜色关系）该填什么呢？</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们可以画一条逻辑链条：<code>ru</code> $\\longleftrightarrow$ <code>u</code> $\\longleftrightarrow$ <code>v</code> $\\longleftrightarrow$ <code>rv</code>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>u</code> 和 <code>ru</code> 的关系是 <code>d[u]</code>。（因为刚才执行了 <code>find(u)</code>，<code>u</code> 直接连着 <code>ru</code>）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>u</code> 和 <code>v</code> 的关系是 <code>1</code>。（因为它们之间连了新边，必须异色）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>v</code> 和 <code>rv</code> 的关系是 <code>d[v]</code>。（同理，执行过 <code>find(v)</code>）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因为颜色关系具备传递性，我们可以顺藤摸瓜，从 <code>ru</code> 走到 <code>rv</code>，把路上的关系全“叠加（异或）”起来！",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>ru</code> 和 <code>rv</code> 的关系 = (<code>ru</code>和<code>u</code>) ^ (<code>u</code>和<code>v</code>) ^ (<code>v</code>和<code>rv</code>)",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\n\tvar s = vector<int>(n + 1);\n\tvar d = vector<int>(n + 1);    // d[x] = {0,1} 0：x 与根节点颜色相同；1：x 与根节点颜色不同\n\tvar siz = Vec2<int>(2, n + 1); // 0：x 与根节点颜色相同的数量；1：x 与根节点颜色不同的数量\n\tfa(i, 1, n)s[i] = i, siz[0][i] = 1;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return x;\n\t\tint root = find(find, s[x]);\n\t\td[x] = d[x] ^ d[s[x]]; \n\t\treturn s[x] = root;\n\t\t};\n\n\tint ans = 0;\n\tbool ok = 0;\n\twhile (q--) {\n\t\tint x, y; cin >> x >> y;\n\t\t\n\t\tif (ok) {\n\t\t\tcout << -1 << endl;\n\t\t\tcontinue;\n\t\t}\n\n\t\tint e1 = find(find, x), e2 = find(find, y);\n\t\tif (e1 == e2) {\n\t\t\t// 只有奇环才能造成图不能二分，故只可能在同一集里判断\n\t\t\tif (d[x] == d[y]) {\n\t\t\t\tok = 1;\n\t\t\t\tcout << -1 << endl;\n\t\t\t\tcontinue;\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tans -= min(siz[0][e1], siz[1][e1]);\n\t\t\tans -= min(siz[0][e2], siz[1][e2]);\n\n\t\t\t// e2 - y - x - e1\n\t\t\td[e2] = d[y] ^ 1 ^ d[x];\n\t\t\ts[e2] = e1;\n\n\t\t\tif (d[e2] == d[e1]) {\n\t\t\t\tsiz[0][e1] += siz[0][e2];\n\t\t\t\tsiz[1][e1] += siz[1][e2];\n\t\t\t}\n\t\t\telse {\n\t\t\t\tsiz[0][e1] += siz[1][e2];\n\t\t\t\tsiz[1][e1] += siz[0][e2];\n\t\t\t}\n\n\t\t\tans += min(siz[0][e1], siz[1][e1]);\n\t\t}\n\t\tcout << ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-29",
+  "parsed_at": "2026-06-14T18:39:36.030581+00:00",
+  "type_directory": "p"
+}

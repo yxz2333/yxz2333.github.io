@@ -1,0 +1,416 @@
+{
+  "slug": "2026icpc亚太锦标赛-k-最多可以制作的时间显示",
+  "title": "2026ICPC亚太锦标赛 K 最多可以制作的时间显示",
+  "type": "题目",
+  "tags": [
+    "二分答案",
+    "数学推导"
+  ],
+  "difficulty": 2.5,
+  "summary": "非常数学的二分答案，二分答案后，对每一位来写不等式，然后写出上下界看看是否合法即可。很巧妙的题，将看似复杂的组合问题，通过限制条件，成功转化为了对整数变量 a1 的简单不等式判定，最后再用二分得出答案。",
+  "link": "https://codeforces.com/contest/2206/problem/K",
+  "link_text": "Problem - K - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "你有一套共 $n$ 个数字贴纸，用一个长度为 $n$ 的字符串 $S$ 表示。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$S$ 中的每个字符都是 0 到 9 的数字，表示该数字的一张贴纸。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你想用这些贴纸制作时间显示。每个时间显示采用 <code>HH:MM</code> 的格式，其中：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<code>HH</code> 是一个两位的小时，范围在 <code>00</code> 到 <code>11</code> 之间（包含两端）；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>MM</code> 是一个两位的分钟，范围在 <code>00</code> 到 <code>59</code> 之间（包含两端）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "换句话说，每个时间显示恰好需要四张贴纸：两张用于小时，两张用于分钟。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每张贴纸最多只能用于一个时间显示。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "问：你最多能制作出多少个时间显示？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\le t \\le 10\\,000$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来有 $t$ 个测试用例，每个测试用例的格式如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\le n \\le 10^6$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行包含一个长度为 $n$ 的字符串 $S$，仅由数字 0~9 构成。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例的 $n$ 之和不超过 $10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出最多可以制作的时间显示数量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n10\n0123456789\n11\n00123456789\n8\n99111111\n4\n1234",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n2\n2\n0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一个测试用例，您可以创建一个时间显示 10:59。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第二个测试用例，您可以创建两个时间显示：10:59 和 04:27。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第三个测试用例，可以创建两个时间显示：11:19 和 11:19。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第四个测试用例，您不能创建任何时间显示。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "!<a href=\"../assets/551d170d871aba82bf85a5766a261444_720_1777108329236_0.jpg\" target=\"_blank\" class=\"md-link\">551d170d871aba82bf85a5766a261444_720.jpg</a>{:height 372, :width 373}",
+          "depth": 1
+        },
+        {
+          "heading": "变量定义",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "将数字划分为四个集合：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$c_0$：数字 <code>0</code> 的数量",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$c_1$：数字 <code>1</code> 的数量",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$c_2$：数字 <code>2, 3, 4, 5</code> 的数量",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$c_3$：数字 <code>6, 7, 8, 9</code> 的数量",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$c_{01}$：也就是 $c_0 + c_1$ 的总和",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "二分判断能否组成 $mid$ 个时间。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "时间分为两类：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>0开头的时间 (Type 0)</strong>：格式为 <code>0 [0-9] : [0-5] [0-9]</code>，假设有 $a_0$ 个。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>1开头的时间 (Type 1)</strong>：格式为 <code>1 [0-1] : [0-5] [0-9]</code>，假设有 $a_1$ 个。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "显然有：$a_0 + a_1 = mid$，即 $a_0 = mid - a_1$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "不等式的推导",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "为了凑齐这 $mid$ 个时间，我们需要依次满足各个位置的需求。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1.  <strong>满足 1 开头时间的 H1（小时十位）：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "需要消耗 $a_1$ 个 <code>1</code>。",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$0 \\le a_1 \\le c_1$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2.  <strong>满足 0 开头时间的 H1（小时十位）：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "需要消耗 $a_0$ 个 <code>0</code>。",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$0 \\le a_0 \\le c_0 \\implies 0 \\le mid - a_1 \\le c_0$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3.  <strong>满足 1 开头时间的 H2（小时个位）：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果是 1 开头的时间，它的小时个位必须是 <code>0</code> 或 <code>1</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "此时 $c_{01}$ 集合中已经用掉了 $mid$ 个（$a_0$ 个 <code>0</code> 和 $a_1$ 个 <code>1</code>）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "剩余的 $c_{01} - mid$ 的数量必须足够提供给这 $a_1$ 个时间的 H2。",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$c_{01} - mid \\ge a_1$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "4.  <strong>满足所有时间的 M1（分钟十位）：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所有 $mid$ 个时间的分钟十位必须在 <code>0~5</code> 之间。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "可用的数字池包括 $c_2$，以及刚才 $c_{01}$ 里用剩的数字（即 $c_{01} - mid - a_1$）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这两个池子加起来必须够 $mid$ 个。",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$c_2 + c_{01} - mid - a_1 \\ge mid$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "5.  <strong>满足剩下的位置（Type 0的H2，以及所有时间的M2）：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "剩下的位置可以是 <code>0~9</code> 的任意数字，总共需要填 $a_0 + mid$ 个位置。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "把所有的库存减去前面四步已经用掉的，必须 $\\ge$ $a_0 + mid$。",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$c_3 + c_2 + c_{01} - mid - a_1 - mid \\ge a_0 + mid$$",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "化简出 $a_1$ 的范围",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "把你左边前四个有意义的不等式化简为关于 $a_1$ 的上下界，就得到了你照片右侧的式子：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>下界：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$a_1 \\ge 0$ （来自式1）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$a_1 \\ge mid - c_0$ （来自式2）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>上界：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$a_1 \\le c_1$ （来自式1）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$a_1 \\le mid$ （来自式2）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$a_1 \\le c_{01} - mid$ （来自式3）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$a_1 \\le c_2 + c_{01} - 2 \\cdot mid$ （来自式4）",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tstring s; cin >> s;\n\tvar cnt = vector<int>(10);\n\tfor (char c : s) {\n\t\tint now = c - '0';\n\t\tif (now == 0)cnt[0]++;\n\t\telse if (now == 1)cnt[1]++;\n\t\telse if (now <= 5)cnt[2]++;\n\t\telse cnt[3]++;\n\t}\n\tvar check = [&](int mid)->bool {\n\t\tvar c = cnt;\n\t\tint l = max(0, mid - c[0]);\n\t\tint r = min({ c[1], mid, c[0] + c[1] - mid, c[0] + c[1] + c[2] - 2 * mid });\n\t\treturn l <= r;\n\t\t};\n\tint l = 0, r = n / 4, ans = 0;\n\twhile (l <= r) {\n\t\tint mid = l + r >> 1;\n\t\tif (check(mid)) {\n\t\t\tans = mid;\n\t\t\tl = mid + 1;\n\t\t}\n\t\telse r = mid - 1;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-25",
+  "parsed_at": "2026-06-14T18:39:35.817339+00:00",
+  "type_directory": "p"
+}

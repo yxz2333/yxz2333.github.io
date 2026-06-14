@@ -1,0 +1,334 @@
+{
+  "slug": "cf2204f-sum-of-fractions",
+  "title": "CF2204F Sum of Fractions",
+  "type": "题目",
+  "tags": [
+    "单调栈",
+    "贡献法",
+    "前后缀",
+    "双指针"
+  ],
+  "difficulty": 2.0,
+  "summary": "明显<strong>贡献法</strong>。想进行操作的话，明显我们<strong>只会考虑全改一个数</strong>，所以用<strong>单调栈</strong>算 $a_i$ 作为最小值的区间个数，跟这题一样<a href=\"/p/cf817d-imbalanced-array\" class=\"wikilink\">CF817D Imbalanced Array</a>。具体操作的话，如果分母能全消掉，那肯定先把分母消掉，然后全加分子上；如果不能全消掉，我们证明 $\\frac{1+x}{a} \\ge \\frac{1}{a-x}$，然后考虑全加在分子上，用乘法即可。",
+  "link": "https://codeforces.com/contest/2204/problem/F",
+  "link_text": "Problem - F - Codeforces",
+  "source": "[[Educational Codeforces Round 188 (Rated for Div. 2)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "定义对分数 $\\frac{x}{y}$ 的一次<strong>增加</strong>操作为以下操作之一：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "将其分子 $x$ 增加 $1$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "或者，如果分母 $y > 1$，将其分母 $y$ 减少 $1$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "注意，进行增加操作后，分数不会被约分。例如，如果有一个分数 $\\frac{3}{7}$，你将它的分母减少 $1$，你会得到 $\\frac{3}{6}$，而不是 $\\frac{1}{2}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "假设给定一个整数数组 $b_1, b_2, \\dots, b_m$ 和一个整数 $k$。执行以下算法：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1.  构造数组 $\\frac{1}{b_1}, \\frac{1}{b_2}, \\dots, \\frac{1}{b_m}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2.  选择其中任意一个分数，并对其进行一次增加操作。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "3.  重复上一步骤 $k$ 次（可以多次选择同一个分数）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "4.  计算最终所有分数的和。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "我们用 $\\mathrm{MSF}(b, k)$ 表示从数组 $b$ 出发，通过恰好执行 $k$ 次增加操作所能得到的最大分数和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "令 $a[l \\dots r]$ 表示数组 $a$ 的子数组 $a_l, a_{l + 1}, \\dots a_r$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定两个整数数组 $a_1, a_2, \\dots, a_n$ 和 $k_1, k_2, \\dots, k_m$。对于每个 $k_i$，计算",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\n\\left( \\sum\\limits_{l = 1}^{n}{\\sum\\limits_{r = l}^{n}\\mathrm{MSF}(a[l \\dots r], k_i)} \\right) \\bmod 998\\,244\\,353.\n$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "换句话说，对于每个 $k_i$，计算数组 $a$ 的所有子数组的 $\\mathrm{MSF}$ 之和，并输出结果对 $998\\,244\\,353$ 取模的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$ 和 $m$ ($1 \\le n, m \\le 5 \\cdot 10^5$) — 数组 $a$ 和 $k$ 的大小。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\dots, a_n$ ($1 \\le a_i \\le 10^8$) — 数组 $a$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含 $m$ 个整数 $k_1, k_2, \\dots, k_m$ ($0 \\le k_1 \\le k_2 \\le \\dots \\le k_m \\le 10^8$) — 非递减顺序排列的数组 $k$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个 $k_i$，输出一个整数 — 所有子数组的 $\\mathrm{MSF}$ 之和模 $998\\,244\\,353$ 的结果。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "可以证明答案可以表示为不可约分数 $\\frac{P}{Q}$，其中 $Q \\not\\equiv 0 \\pmod{998\\,244\\,353}$。因此，请以 $P \\cdot Q^{-1} \\pmod{998\\,244\\,353}$ 的形式输出答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5 4\n2 3 5 2 3\n0 1 2 10",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "232923695\n332748137\n931694761\n133099397",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对应 $k$ 的答案分别为：$\\frac{379}{30}$、$\\frac{58}{3}$、$\\frac{473}{15}$ 和 $\\frac{2249}{15}$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 核心破局点：对单个数的最优操作策略",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "面对一个分数 $\\frac{1}{a}$ 和 $k$ 次操作机会，我们到底该给分子加 1，还是给分母减 1？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这里隐藏着一个极其漂亮的数学单调性结论：<strong>在分母减到 1 之前，给分子加 1 的收益永远大于等于给分母减 1。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "> <strong>数学证明</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "> 令加分子的结果为 $\\frac{1+x}{a}$，减分母的结果为 $\\frac{1}{a-x}$。我们通过作差法 $\\frac{1+x}{a} - \\frac{1}{a-x} = \\frac{x(a-1-x)}{a(a-x)}$ 可以发现，只要 $x < a-1$（即分母没被减到 1），分子恒大于 0，即加分子的收益严格更大。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，对于任意给定的 $a_i$ 和 $k$，最优策略只有两种极端情况：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. <strong>火力不足（</strong>$k < a_i - 1$<strong>）</strong>：无法将分母减到 1。根据结论，绝对不碰分母，<strong>全部操作加在分子上</strong>。最终分数值为 $\\frac{1+k}{a_i}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>火力充足（</strong>$k \\ge a_i - 1$<strong>）</strong>：花 $a_i - 1$ 次操作把分母消成 1（分数变为 $\\frac{1}{1}$），剩下 $k - (a_i - 1)$ 次操作全部加在分子上。最终分数值为 $1 + k - a_i + 1 = k - a_i + 2$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "2. 贪心策略：子区间内该选谁？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在任意一个子区间内，我们拥有 $k$ 次操作，应该把这些操作集中给谁？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "无论是上述哪种情况，<strong>初始分母</strong> $a_i$ <strong>越小，最终得到的值就越大</strong>。因此，在任何一个子区间中，我们只需要找到那个<strong>最小的</strong> $a_i$，把 $k$ 次操作全部砸在它头上即可，其余元素保持原样 $\\frac{1}{a_j}$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 贡献法与单调栈（统计各个元素的“主场”）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然每次只操作区间最小值，我们不再枚举区间，而是<strong>枚举每个</strong> $a_i$<strong>，算它在多少个区间里充当了最小值。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "利用<strong>单调栈</strong>求出 $a_i$ 作为严格最小值（左边找 <code>&lt;</code>，右边找 <code>&lt;=</code>，<strong>防止相等元素重复计算</strong>）的覆盖范围 $[L_i, R_i]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$a_i$ 作为最小值的区间数量为：$cnt = (i - L_i + 1) \\times (R_i - i + 1)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$a_i$ 存在的总区间数量为：$tot = i \\times (n - i + 1)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "由此，我们可以把 $a_i$ 的总贡献拆成两部分：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>配角贡献（被其他更小的数抢了风头）</strong>：共有 $tot - cnt$ 个区间。在这些区间里它不被操作，死死提供 $\\frac{1}{a_i}$ 的价值。这部分与 $k$ 无关，我们可以预处理出总和 <code>ans1</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>主角贡献（作为区间最小值接受操作）</strong>：共有 $cnt$ 个区间。这部分的贡献取决于当前的 $k$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "4. 离线查询 + 双指针：高效处理 $k$ 的变化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于 $a_i$ 的主角贡献，它属于“火力不足”还是“火力充足”，取决于边界线 $k = a_i - 1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "题目给定的查询 $K$ 数组是<strong>单调不降</strong>的，我们可以把所有的主角们按照 $a_i$ <strong>从小到大排序</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "随着 $k$ 的不断增大，越来越多的 $a_i$ 会从“火力不足”跨越到“火力充足”的状态。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，我们可以维护一个指针 <code>j</code>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>未跨越的后缀部分（</strong>$a > k + 1$<strong>）</strong>：全部采取火力不足策略，总和为 $\\sum cnt_m \\times \\frac{1+k}{a_m}$。我们可以提前做一个关于 $cnt_m / a_m$ 的<strong>后缀和数组 <code>suf</code></strong>，每次 $O(1)$ 计算即可：<code>suf * (1 + k)</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>已跨越的前缀部分（</strong>$a \\le k + 1$<strong>）</strong>：全部采取火力充足策略，总和为 $\\sum cnt_m \\times (k - a_m + 2)$。当 $k$ 增大时，这部分的增量为 $\\Delta k \\times \\sum cnt_m$。我们维护好这部分的动态和 <code>ans2</code> 和被激活元素的 $cnt$ 总和 <code>pre</code> 即可。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tvar a = vector<ll>(n + 1);\n\tvar val = vector<ll>(n + 1); // 1 / a[i]\n\tfa(i, 1, n) {\n\t\tcin >> a[i];\n\t\tval[i] = Math::inv(a[i], mod);\n\t}\n\n\t// 求 a[i] 作为最小值的区间 [l_i, r_i]\n\t// 为了防止 a[i] == a[j] 出现重复区间，L 找最远小于 a[i] 的，R 找最远小于等于 a[i] 的\n\tvar pmn = vector<pll>(n + 1);\n\tvar stmn = stack<ll>();\n\tfa(i, 1, n)pmn[i] = { i,i };\n\tfa(i, 1, n) {\n\t\twhile (stmn.size() and a[stmn.top()] >= a[i])stmn.pop();\n\t\tif (stmn.empty())pmn[i].px = 1;\n\t\telse pmn[i].px = stmn.top() + 1;\n\t\tstmn.push(i);\n\t}\n\twhile (stmn.size())stmn.pop();\n\tfb(i, n, 1) {\n\t\twhile (stmn.size() and a[stmn.top()] > a[i])stmn.pop();\n\t\tif (stmn.empty())pmn[i].py = n;\n\t\telse pmn[i].py = stmn.top() - 1;\n\t\tstmn.push(i);\n\t}\n\n\t// ans1 算 i 贡献只有 1 / a[i] 的情况的贡献总和\n\tll ans1 = 0;\n\tvar p = vector<pll>(n + 1); // 算 i 贡献不只有 1 / a[i] 的情况总数\n\tfa(i, 1, n) {\n\t\tconst var& [L, R] = pmn[i];\n\t\tll tot = (n - i + 1) * i % mod;\n\t\tll now = (i - L + 1) * (R - i + 1) % mod;\n\t\tp[i] = { now,i };\n\t\tans1 += ((tot - now) % mod + mod) % mod * val[i] % mod;\n\t\tans1 %= mod;\n\t}\n\n\t// 按 a[i] 排序，先处理分母小的\n\tsort(all1(p), [&](const var& X, const var& Y)->bool {\n\t\tint x = X.py, y = Y.py;\n\t\treturn a[x] < a[y];\n\t\t});\n\n\t// 后缀和，分母无法全消掉的\n\tvar suf = vector<ll>(n + 2);\n\tfb(i, n, 1)suf[i] = (suf[i + 1] + p[i].px * val[p[i].py] % mod) % mod;\n\n\t// 前缀和，分母能全消掉\n\tint j = 0;\n\tll pre = 0, ans2 = 0, lastk = 0;\n\tfa(i, 1, m) {\n\t\tll k; cin >> k;\n\t\tans2 = (ans2 + pre * (k - lastk) % mod) % mod;\n\t\tlastk = k;\n\t\twhile (j + 1 <= n and a[p[j + 1].py] - 1 <= k) {\n\t\t\tj++;\n\t\t\tpre = (pre + p[j].px) % mod;\n\t\t\tans2 = (ans2 + (k - a[p[j].py] + 2) * p[j].px % mod) % mod;\n\t\t}\n\t\tll ans = ans1 + ans2 + suf[j + 1] + suf[j + 1] * k % mod;\n\t\tcout << ans % mod << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-17",
+  "parsed_at": "2026-06-14T18:39:36.453273+00:00",
+  "type_directory": "p"
+}

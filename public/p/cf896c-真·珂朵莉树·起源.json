@@ -1,0 +1,326 @@
+{
+  "slug": "cf896c-真·珂朵莉树·起源",
+  "title": "CF896C 真·珂朵莉树·起源",
+  "type": "题目",
+  "tags": [
+    "珂朵莉树"
+  ],
+  "difficulty": null,
+  "summary": "真珂朵莉无双 · 起源。因为<strong>数据全随机</strong>，且包含<strong>堆平操作</strong>，直接珂朵莉树<strong>暴力</strong>即可。",
+  "link": "https://codeforces.com/problemset/problem/896/C",
+  "link_text": "Problem - 896C - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "瑟尼欧里斯有 $n$ 片护符。威廉将它们排成一行，第 $i$ 片护符是一个整数 $a _ i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了维护它，威廉需要执行 $m$ 次操作。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "有四种操作类型：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\ l\\ r\\ x$ ：对于 $i$ 满足 $l \\le i \\le r$，将 $a _ i + x$ 赋值给 $a _ i$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$2\\ l\\ r\\ x$ ：对于 $i$ 满足 $l \\le i \\le r$，将 $x$ 赋值给 $a _ i$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$3\\ l\\ r\\ x$ ：输出范围 $[l, r]$ 中第 $x$ 小的数字，即在所有满足 $l \\le i \\le r$ 的 $a _ i$ 排序后第 $x$ 小的数字。保证 $1 \\le x \\le r - l + 1$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$4\\ l\\ r\\ x\\ y$ ：输出范围 $[l, r]$ 中所有 $a _ i$ 的 $x$ 次幂之和模 $y$，即 $\\left( \\sum _ {i = l} ^ r {a _ i} ^ x \\right) \\bmod y$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含四个整数 $n, m, seed, v _ {max}$（$1 \\le n, m \\le 10 ^ 5$，$0 \\le seed < 10 ^ 9 + 7$，$1 \\le v _ {max} \\le 10 ^ 9$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "初始值和操作通过如下伪代码生成：",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "python",
+          "code": "def rnd():\n    ret = seed\n    seed = (seed * 7 + 13) mod 1000000007\n    return ret\n\nfor i = 1 to n:\n    a[i] = (rnd() mod vmax) + 1\n\nfor i = 1 to m:\n    op = (rnd() mod 4) + 1\n    l = (rnd() mod n) + 1\n    r = (rnd() mod n) + 1\n\n    if (l > r): \n         swap(l, r)\n\n    if (op == 3):\n        x = (rnd() mod (r - l + 1)) + 1\n    else:\n        x = (rnd() mod vmax) + 1\n\n    if (op == 4):\n        y = (rnd() mod vmax) + 1",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "这里的 $op$ 是题目中提到的操作类型。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个类型为 $3$ 或 $4$ 的操作，输出答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10 10 7 9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n1\n0\n3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10 10 9 9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n1\n3\n3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于样例 1，初始数组为 $\\{8,9,7,2,3,1,5,6,4,8\\}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "操作如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$2\\ 6\\ 7\\ 9$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1\\ 3\\ 10\\ 8$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$4\\ 4\\ 6\\ 2\\ 4$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1\\ 4\\ 5\\ 8$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$2\\ 1\\ 7\\ 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$4\\ 7\\ 9\\ 4\\ 4$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$1\\ 2\\ 7\\ 9$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$4\\ 5\\ 8\\ 1\\ 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$2\\ 5\\ 7\\ 5$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$4\\ 3\\ 10\\ 8\\ 5$",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 为什么这题用传统线段树是“死路一条”？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们看看这道题的四个操作：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1.  <strong>区间加</strong>：<code>a[i] += x</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2.  <strong>区间赋值</strong>：<code>a[i] = x</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3.  <strong>区间第 k 小</strong>：询问区间 $[l, r]$ 中排名第 $k$ 的数。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "4.  <strong>区间幂次和</strong>：询问 $\\sum_{i=l}^r a_i^x \\pmod y$。<strong>注意：每次询问的指数 $x$ 和模数 $y$ 都是不一样的！</strong>",
+              "depth": 2
+            },
+            {
+              "heading": "噩梦在哪里？",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "<strong>操作 3（区间第 k 小）</strong>：如果是普通的区间第 k 小，我们可以用<strong>主席树</strong>。但这里有<strong>区间加</strong>和<strong>区间赋值</strong>，<strong>主席树这种前缀和结构最怕区间修改</strong>，一旦修改就要动整棵树，复杂度直接爆炸。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>操作 4（区间幂次和）</strong>：这是线段树的坟墓。线段树能维护区间和（1次方和）、区间平方和（2次方和），但它不能维护“区间 $x$ 次方和”，因为 $x$ 是随询问变化的。你没法在 <code>pushdown</code> 的时候预判下一次询问会问 10 次方还是 100 次方。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "2. 题目的“后门”：随机种子",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这道题最特殊的地方在于：<strong>输入数据是用一个指定的随机数生成器产生的。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "出题人其实在暗示你：<strong>不要试图去想 $O(m \\log n)$ 的严谨解法，去想一想在随机数据下，什么样的结构会产生奇迹。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在这个背景下，珂朵莉树诞生了。它的核心逻辑只有两个字：<strong>推平</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由于数据是随机的，<strong>操作 2（区间赋值/推平）</strong>的出现概率非常稳定。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "每执行一次 <code>assign</code>，<code>set</code> 里的区间个数就会大幅减少。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在随机数据下，<code>set</code> 中区间的平均个数是 $O(\\log \\log n)$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "class ODT {\nprivate:\n\tstruct ODT_Node {\n\t\tint l, r;\n\t\tmutable ll v; // 从 v 开始的等差数列\n\t\t\n\t\t// 重载小于号以用于 set 排序\n\t\tbool operator<(const ODT_Node& a)const {\n\t\t\treturn l < a.l;\n\t\t}\n\t};\n\n\t// ODT 的核心操作：分裂区间\n\t// 将包含 pos 的区间 [l, r] 分裂为 [l, pos - 1] 和 [pos, r]\n\t// 返回指向后半段 [pos, r] 的迭代器\n\tauto split(int pos) {\n\t\tauto it = se.lower_bound({ pos, 0, 0 });\n\t\tif (it != se.end() and it->l == pos)return it;\n\n\t\tit = prev(it);\n\t\tauto [l, r, v] = *it;\n\t\tse.erase(it);\n\t\tse.insert({ l, pos - 1, v });\n\n\t\treturn se.insert({ pos, r, v }).first;\n\t}\n\npublic:\n\tset<ODT_Node> se;\n\n\t// 区间加值（不会推平）\n\tvoid assign1(int l, int r, ll v) {\n\t\tauto itr = split(r + 1);\n\t\tauto itl = split(l);\n\n\t\t// 遍历 [itl, itr) 之间的所有区间\n\t\tauto it = itl;\n\t\twhile (it != itr) {\n\t\t\tit->v += v;\n\t\t\tit = next(it);\n\t\t}\n\t}\n\n\t// 区间赋值（推平）\n\tvoid assign2(int l, int r, ll v) {\n\t\tauto itr = split(r + 1);\n\t\tauto itl = split(l);\n\n\t\t// 遍历 [itl, itr) 之间的所有区间\n\t\tauto it = itl;\n\t\twhile (it != itr) {\n\t\t\tauto [l, r, v] = *it;\n\t\t\tit = se.erase(it); // 删除旧区间\n\t\t}\n\n\t\t// 插入新区间\n\t\tse.insert({ l, r, v });\n\t}\n\n\tll query1(int l, int r, ll x) {\n\t\tauto itr = split(r + 1);\n\t\tauto itl = split(l);\n\n\t\tvar mp = map<ll, ll>();\n\t\tauto it = itl;\n\t\twhile (it != itr) {\n\t\t\tauto [l, r, v] = *it;\n\t\t\tmp[v] += r - l + 1;\n\t\t\tit = next(it);\n\t\t}\n\n\t\tll now = 0;\n\t\tfor (const var& [v, cnt] : mp) {\n\t\t\tnow += cnt;\n\t\t\tif (now >= x)return v;\n\t\t}\n\t}\n\n\tll query2(int l, int r, ll x, ll y) {\n\t\tauto itr = split(r + 1);\n\t\tauto itl = split(l);\n\n\t\tll res = 0;\n\t\tauto it = itl;\n\t\twhile (it != itr) {\n\t\t\tauto [l, r, v] = *it;\n\t\t\tres = (res + Math::fastPow(v, x, y) * (r - l + 1ll) % y) % y;\n\t\t\tit = next(it);\n\t\t}\n\n\t\treturn res;\n\t}\n};\n\nll rnd(ll& seed) {\n\tll res = seed;\n\tseed = (seed * 7 + 13) % 1000000007;\n\treturn res;\n}\nvoid solve(int CASE)\n{\n\tll n, q, seed, vmax; cin >> n >> q >> seed >> vmax;\n\tODT odt;\n\tfa(i, 1, n) {\n\t\tll v = rnd(seed) % vmax + 1;\n\t\todt.se.insert({ i, i, v });\n\t}\n\twhile (q--) {\n\t\tll op = rnd(seed) % 4 + 1;\n\t\tll l = rnd(seed) % n + 1;\n\t\tll r = rnd(seed) % n + 1;\n\t\tif (l > r)swap(l, r);\n\n\t\tif (op == 1) {\n\t\t\tll x = rnd(seed) % vmax + 1;\n\t\t\todt.assign1(l, r, x);\n\t\t}\n\t\telse if (op == 2) {\n\t\t\tll x = rnd(seed) % vmax + 1;\n\t\t\t// 操作 2 对节点进行均摊\n\t\t\todt.assign2(l, r, x);\n\t\t}\n\t\telse if (op == 3) {\n\t\t\tll x = rnd(seed) % (r - l + 1) + 1;\n\t\t\tcout << odt.query1(l, r, x) << endl;\n\t\t}\n\t\telse {\n\t\t\tll x = rnd(seed) % vmax + 1;\n\t\t\tll y = rnd(seed) % vmax + 1;\n\t\t\tcout << odt.query2(l, r, x, y) << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "python"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-22",
+  "parsed_at": "2026-06-14T18:39:36.620272+00:00",
+  "type_directory": "p"
+}

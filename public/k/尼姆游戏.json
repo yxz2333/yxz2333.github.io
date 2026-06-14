@@ -1,0 +1,328 @@
+{
+  "slug": "尼姆游戏",
+  "title": "尼姆游戏",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "博弈论",
+    "sg函数"
+  ],
+  "parent": "博弈论",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "必胜态与必败态的定义",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在任何公平组合游戏中，我们可以把局面分为两种状态：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>必败态（P-position）</strong>：当前玩家无论采取什么操作，都会输（即对手有必胜策略）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>必胜态（N-position）</strong>：当前玩家存在至少一种操作，能使对手进入必败态。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>关键性质</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有无法移动的终态是必败态（比如尼姆中所有堆为0）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果一个局面可以转移到任何必败态，那它就是必胜态。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果一个局面的所有可能转移都到达必胜态，那它就是必败态。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "尼姆游戏",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "介绍与解法",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "有若干堆石子，每堆数量分别为 <code>a1, a2, ..., ak</code>。两人轮流操作，每次可以从<strong>任意一堆</strong>中取走<strong>任意数量</strong>的石子（至少1个，至多取完该堆），取走最后一颗石子者获胜。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>解法</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "计算所有堆石子数的异或值：<code>xor_sum = a1 xor a2 xor ... xor ak</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>若 <code>xor_sum == 0</code>，则后手必胜</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>若 <code>xor_sum != 0</code>，则先手必胜</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "先手必胜时，总存在一种取法（从某一堆中取适当数量）使得操作后所有堆的异或值变为0。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "尼姆游戏的结论及原理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "设有 \\(k\\) 堆石子，数量分别为 \\(a_1, a_2, \\dots, a_k\\)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "定义：\\[ S = a_1 \\oplus a_2 \\oplus \\dots \\oplus a_k \\]（\\(\\oplus\\) 表示按位异或）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>若</strong> \\(S = 0\\)，当前局面为<strong>必败态</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>若</strong> \\(S \\neq 0\\)，当前局面为<strong>必胜态</strong>。",
+              "depth": 1
+            },
+            {
+              "heading": "为什么这个结论成立？",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "<strong>(1) 终态</strong>：所有堆都为 0 时，\\(S = 0\\)，且无法移动，符合必败态定义。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>(2) 若当前</strong> \\(S \\neq 0\\)，<strong>则存在一步合法操作使</strong> \\(S\\) <strong>变为 0</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>(3) 若当前</strong> \\(S = 0\\)，<strong>则无论怎么操作，新状态的</strong> \\(S'\\) <strong>一定不为 0</strong>",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "SG函数",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "什么是SG函数？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于一个<strong>公平组合游戏</strong>（两人轮流操作，信息完全，无随机性，无法操作者输），我们定义每个局面的 SG 值如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>终态</strong>：如果一个局面没有任何合法操作（即游戏已经结束），则它的 SG 值为 <strong>0</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>非终态</strong>：假设当前局面 \\(P\\) 可以通过一步合法操作到达若干个后继局面 \\(P_1, P_2, \\dots, P_k\\)，并且这些后继局面的 SG 值已经计算好了（比如通过递归或动态规划），那么：\\[SG(P) = \\text{mex}\\{ SG(P_1), SG(P_2), \\dots, SG(P_k) \\}\\]",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这个定义是递归的，但通常我们可以通过<strong>逆向递推</strong>或<strong>记忆化搜索</strong>来计算所有局面的 SG 值。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>SG定理</strong>：如果一个游戏由多个<strong>独立子游戏</strong>组合而成（比如多堆石子，每堆是一个独立子游戏），那么整个游戏的SG值等于各子游戏SG值的<strong>异或和</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "若异或和为 0，则当前局面为必败态；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "若异或和不为 0，则为必胜态，且存在一步操作使异或和变为 0。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>SG 值的本质：给每个局面贴一个“标签”</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>SG 值告诉你：当前局面能一步到达哪些 “标签” 的局面。</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "SG 值的大小反映了当前局面的 “自由度” —— SG 值越大，它能一步到达的不同标签就越多（但注意，不一定直接等于石子数）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在多子游戏中，知道应该把这个子游戏的标签改成多少才能获胜。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "尼姆游戏与 SG 函数的关系",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在尼姆游戏中，<strong>一堆石子</strong>就是一个子游戏。我们来计算一堆有 \\(x\\) 个石子的 SG 值：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "终态：\\(x=0\\) 时无法取，$SG(0)=0$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当 \\(x>0\\) 时，可以取走 1 个、2 个……直至取完，所以后继局面分别为 \\(x-1, x-2, \\dots, 0\\)，对应的 SG 值就是 \\(SG(x-1), SG(x-2), \\dots, SG(0)\\)。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "通过递推可以发现，\\(SG(x) = x\\)（因为从 $0$ 到 $x-1$ 的所有 SG 值正好是 $0$ 到 $x-1$，它们的 $mex$ 就是 $x$）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此，<strong>一堆石子的 SG 值就等于它的石子数</strong>。那么根据 SG 定理，多堆石子的整体 SG 值就是各堆石子数的异或和，胜负判定与尼姆游戏完全一致。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>所以尼姆游戏是 SG 函数最直接的例子</strong>：每堆的SG值就是数量本身，组合起来用异或判断。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "SG 函数如何推广到其他博弈？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "SG 函数的强大之处在于，它可以把任意一个博弈转化成尼姆游戏。具体做法：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对原游戏的<strong>每个局面</strong>，计算出它的 SG 值。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果原游戏由<strong>多个独立子游戏</strong>组成（比如多堆石子、多个棋盘等），就把<strong>每个子游戏的 SG 值求出来，然后异或</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "整体异或和为 0 则必败，非 0 则必胜。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>例如</strong>，巴什博弈：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "一堆石子，每次取 $[1,m]$ 个。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "SG 值：局面 \\(n\\) 可以转移到 \\(n-1, n-2, \\dots, n-m\\)。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "经过计算，$SG(n) = n % (m+1)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果这个巴什博弈是独立的子游戏，那么它的 SG 值就取这个模数。如果多个这样的游戏组合，就用它们的 SG 值异或来判断。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>再比如</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "一个游戏有若干堆石子，每堆都有各自的取法限制（比如第一堆只能取 $[1,3]$，第二堆只能取 $[2,4]$ 等）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "那么每堆的 SG 值需要单独计算（可能不再是石子数），最后整体异或。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这就是用 SG 函数解决复杂组合博弈的基本思路。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-11",
+  "parsed_at": "2026-06-14T18:45:12.010962+00:00",
+  "type_directory": "k"
+}

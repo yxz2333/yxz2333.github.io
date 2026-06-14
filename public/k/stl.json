@@ -1,0 +1,75 @@
+{
+  "slug": "stl",
+  "title": "STL",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "nth_element",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "将数组重排，使得<strong>第 k 个位置</strong>（迭代器指向的位置）的元素，就是<strong>排序后该位置应有的元素</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>左侧特性</strong>：<code>[begin, nth)</code> 里的元素都 $\\le$ <code>*nth</code>。（当然可以用 greater 实现相反的结果）",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>右侧特性</strong>：<code>(nth, end)</code> 里的元素都 $\\ge$ <code>*nth</code>。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>无序性</strong>：左右两侧内部是<strong>乱序</strong>的，不保证有序。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>时间复杂度</strong>：平均 $O(N)$。（比 <code>sort</code> 的 $O(N \\log N)$ 快很多）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>实例</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>场景：选取最大的前 k 个数 (Top-K)</strong>",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<em>这是算法竞赛最常用的场景</em>",
+          "depth": 3
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "vector<int> a = {10, 50, 30, 20, 40};\nint k = 3; \n// 使用 greater 改为降序逻辑\n// 操作后，前 k 个元素就是最大的 k 个（内部乱序）\nnth_element(a.begin(), a.begin() + k - 1, a.end(), greater<int>());\n// 此时 a[0]~a[k-1] 就是前 k 大的数\n// 可以截断直接拿走\na.resize(k); // a 变为 {50, 40, 30} (顺序不一定)",
+          "depth": 3
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-10",
+  "parsed_at": "2026-06-14T18:45:11.963913+00:00",
+  "type_directory": "k"
+}

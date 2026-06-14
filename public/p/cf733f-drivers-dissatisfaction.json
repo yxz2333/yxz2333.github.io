@@ -1,0 +1,227 @@
+{
+  "slug": "cf733f-drivers-dissatisfaction",
+  "title": "CF733F Drivers Dissatisfaction",
+  "type": "题目",
+  "tags": [
+    "树上倍增",
+    "LCA",
+    "最小生成树"
+  ],
+  "difficulty": 3.0,
+  "summary": "本题整体上就是 <a href=\"/p/cf609e-minimum-spanning-tree-for-each-edge\" class=\"wikilink\">CF609E Minimum spanning tree for each edge</a> 的加强版。",
+  "link": "https://www.luogu.com.cn/problem/CF733F",
+  "link_text": "CF733F Drivers Dissatisfaction - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在一个王国中有 $n$ 个城市和 $m$ 条双向道路。每条道路连接一对城市，对于每条道路，我们知道驾驶员的不满值 $w_{i}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每条道路，还给定 $c_{i}$，表示将该道路的不满值减少 $1$ 需要花费多少 lamzik。因此，要将第 $i$ 条道路的不满值减少 $k$，需花费 $k \\cdot c_{i}$ 个 lamzik。不满值可以减少到 $0$，也允许为负值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "根据国王的命令，我们需要选择 $n-1$ 条道路作为主干道。一个重要的条件是：必须能够通过主干道从任意一个城市到达其他城市。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "道路部门有 $S$ 个 lamzik 的预算用于改革。部门准备将这笔预算用于修缮某些道路（即降低它们的不满值），然后选择 $n-1$ 条主干道。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请帮助他们合理使用预算，使得主干道的总不满值最小。不满值允许为负数，也不一定要把预算 $S$ 全部花完。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证任意两城之间都可以通过现有道路连通。王国中的每条道路都是双向的。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$ 和 $m$（$2 \\leq n \\leq 2 \\cdot 10^{5}$，$n-1 \\leq m \\leq 2 \\cdot 10^{5}$），表示王国中的城市数量和道路数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $m$ 个整数 $w_1, w_2, \\ldots, w_m$（$1 \\leq w_i \\leq 10^9$），其中 $w_i$ 表示第 $i$ 条道路的驾驶员不满值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含 $m$ 个整数 $c_1, c_2, \\ldots, c_m$（$1 \\leq c_i \\leq 10^9$），其中 $c_i$ 表示将第 $i$ 条道路的不满值减少 $1$ 所需的 lamzik 数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行描述道路信息。第 $i$ 行包含两个整数 $a_i$ 和 $b_i$（$1 \\leq a_i, b_i \\leq n$，$a_i \\ne b_i$），表示第 $i$ 条道路连接城市 $a_i$ 和 $b_i$。所有道路为双向，可以从 $a_i$ 到 $b_i$，也可以从 $b_i$ 到 $a_i$。同一对城市可能有多条道路直接连接。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "最后一行包含一个整数 $S$（$0 \\leq S \\leq 10^9$），表示可用来进行道路改革的 lamzik 总数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输出一个整数 $K$，表示主干道的最小总不满值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n-1$ 行，每行输出两个整数 $x, v_x$，表示第 $x$ 条道路被选为主干道，并且经过改革后该道路的不满值为 $v_x$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "假定道路编号为 $1$ 到 $m$，按输入顺序编号。输出的道路顺序任意。如果有多组答案，输出其中任意一组均可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 9\n1 3 1 1 3 1 2 2 2\n4 1 4 2 2 5 3 1 6\n1 2\n1 3\n2 3\n2 4\n2 5\n3 5\n3 6\n4 5\n5 6\n7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0\n1 1\n3 1\n6 1\n7 2\n8 -5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3\n9 5 1\n7 7 2\n2 1\n3 1\n3 2\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n3 0\n2 5",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "明显先跑最小生成树。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "因为边权可以为<strong>负数</strong>，很明显可以考虑把 $S allin 进其中一条边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "其中可能的一种答案是在 MST 中找最小的 $c_{mn}$，然后把 $S$ <strong>全砸进去</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果还有剩的，很明显也用不了了。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "还有一种可能的答案就是把 $S$ 砸向 <strong>MST 外比</strong> $c_{mn}$ <strong>还小的边</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "把这条边连上，会产生一个环，把环上最大边给去掉就行，也就是 CF609E 的解法。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果还有剩的，那剩下的也不太可能让别的边连入 MST，就算能，那还不如 allin 那条边。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>所以整体上我们不需要考虑剩的 S</strong>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "struct Info {\n\tInfo() :val(-LNF), id(0) {}\n\tInfo(ll val, ll id) :val(val), id(id) {}\n\tll val, id;\n};\n\nInfo operator+(const Info& lower, const Info& upper) {\n\tInfo res;\n\tif (lower.val > upper.val)res = lower;\n\telse res = upper;\n\treturn res;\n}\n\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar e = vector<pair<ll, tuple<int, int, int>>>(m + 1);\n\tvar c = vector<ll>(m + 1);\n\tfa(i, 1, m)cin >> e[i].px;\n\tfa(i, 1, m)cin >> c[i];\n\tfa(i, 1, m) {\n\t\tint u, v; cin >> u >> v;\n\t\te[i].py = { u,v,i };\n\t}\n\tll S; cin >> S;\n\n\t// 最小生成树 + 建图\n\tsort(all1(e));\n\tvar s = vector<int>(n + 1);\n\tfa(i, 1, n)s[i] = i;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return x;\n\t\treturn s[x] = find(find, s[x]);\n\t\t};\n\n\tvar g = vector<vector<tuple<int, ll, int>>>(n + 1); // { to, w, id }\n\tvar vis = vector<bool>(m + 1);\n\tll mst_val = 0, cnt = n - 1ll;\n\tll mnc = LNF, mncid = 0;\n\tvar mst = vector<pll>();\n\tfa(i, 1, m) {\n\t\tconst var& [w, tmp] = e[i];\n\t\tconst var& [x, y, id] = tmp;\n\t\tint e1 = find(find, x);\n\t\tint e2 = find(find, y);\n\t\tif (e1 != e2) {\n\t\t\ts[e2] = e1;\n\t\t\tcnt--;\n\t\t\tg[x].pb({ y,w,id });\n\t\t\tg[y].pb({ x,w,id });\n\n\t\t\tmst_val += w;\n\t\t\tvis[id] = 1;\n\t\t\tif (mnc > c[id]) { // 找出最小 c\n\t\t\t\tmnc = c[id];\n\t\t\t\tmncid = id;\n\t\t\t}\n\t\t\tmst.pb({ id,w });\n\t\t\t\n\t\t\tif (!cnt)break;\n\t\t}\n\t}\n\n\t// 倍增 和 lca\n\tvar dp = Vec2<Info>(n + 1, 21);\n\tvar dep = vector<int>(n + 1);\n\tvar p = Vec2<int>(n + 1, 21);\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tdep[now] = dep[fa] + 1;\n\t\tp[now][0] = fa;\n\t\tfor (const var& [to, w, id] : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\tdp[to][0] = { w,id };\n\t\t}\n\t\t};\n\tdfs(dfs, 1, 0);\n\n\tvar lca = [&dep, &p](int x, int y)->int {\n\t\tif (dep[x] < dep[y])swap(x, y);\n\t\tfor (int i = 20; i >= 0; i--)\n\t\t\tif (dep[x] - (1 << i) >= dep[y])\n\t\t\t\tx = p[x][i];\n\t\tif (x == y) return x;\n\t\tfor (int i = 20; i >= 0; i--)\n\t\t\tif (p[x][i] != p[y][i])\n\t\t\t\tx = p[x][i], y = p[y][i];\n\t\treturn p[x][0];\n\t\t};\n\n\tvar jump = [&](int now, int cha)->Info {\n\t\tInfo res;\n\t\tfa(i, 0, 20)if (cha & (1 << i)) {\n\t\t\tres = res + dp[now][i];\n\t\t\tnow = p[now][i];\n\t\t}\n\t\treturn res;\n\t\t};\n\n\tfa(j, 1, 20) {\n\t\tfa(i, 1, n) {\n\t\t\tp[i][j] = p[p[i][j - 1]][j - 1];\n\t\t\tdp[i][j] = dp[i][j - 1] + dp[p[i][j - 1]][j - 1];\n\t\t}\n\t}\n\n\t// 开始算答案\n\tll ans = mst_val - S / mnc;\n\tvar out = mst;\n\tfor (var& [id, w] : out) {\n\t\tif (id == mncid) {\n\t\t\tw -= S / mnc;\n\t\t\tbreak;\n\t\t}\n\t}\n\n\tfa(i, 1, m) {\n\t\tconst var& [w, tmp] = e[i];\n\t\tconst var& [x, y, id] = tmp;\n\t\tif (vis[id] or c[id] >= mnc)continue;\n\t\tint l = lca(x, y);\n\n\t\tInfo info;\n\t\tif (l == y)info = jump(x, dep[x] - dep[l]);\n\t\telse if (l == x)info = jump(y, dep[y] - dep[l]);\n\t\telse info = jump(x, dep[x] - dep[l]) + jump(y, dep[y] - dep[l]);\n\n\t\tll res = mst_val - info.val + w - S / c[id];\n\t\tif (ans > res) {\n\t\t\tans = res;\n\t\t\tvar nout = vector<pll>();\n\t\t\tfor (const var& [id, w] : mst) {\n\t\t\t\tif (id != info.id)nout.pb({ id,w });\n\t\t\t}\n\t\t\tnout.pb({ id,w - S / c[id] });\n\t\t\tout = move(nout);\n\t\t}\n\t}\n\n\tcout << ans << endl;\n\tfor (const var& [id, w] : out)cout << id << ' ' << w << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-13",
+  "parsed_at": "2026-06-14T18:39:36.581794+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,146 @@
+{
+  "slug": "cf1092f-tree-with-maximum-cost",
+  "title": "CF1092F Tree with Maximum Cost",
+  "type": "题目",
+  "tags": [
+    "换根dp"
+  ],
+  "difficulty": 1.5,
+  "summary": "因为是求最大，所以不是重心（重心求最小），考虑换根。换根的话，也是很好写的，本题当换根参考题了。",
+  "link": "https://www.luogu.com.cn/problem/CF1092F",
+  "link_text": "CF1092F Tree with Maximum Cost - 洛谷",
+  "source": "Codeforces",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给你一棵由 $n$ 个节点构成的树。节点从 $1$ 到 $n$ 编号。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第 $i$ 个节点有一个权值 $a_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "定义树上两个节点 $x$ 和 $y$ 之间的距离 $dist(x, y)$ 为节点 $x$ 与节点 $y$ 之间唯一简单路径上的边数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于一个根节点 $v$，定义树的总花费为：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\ncost(v) = \\sum_{i=1}^{n} dist(i, v) \\cdot a_i\n$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你的任务是，选择树中的一个节点作为根 $v$，使得 $cost(v)$ 最大。输出这个最大值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$2 \\le n \\le 2 \\cdot 10^{5}$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\dots, a_n$（$1 \\le a_i \\le 2 \\cdot 10^{5}$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n-1$ 行，每行包含两个整数 $u$、$v$（$1 \\le u, v \\le n$），表示一条无向边。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示可能的最大总花费。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "8\n9 4 1 7 10 1 6 5\n1 2\n2 3\n1 4\n1 5\n5 6\n5 7\n5 8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "121",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\tvar down = vector<ll>(n + 1);\n\tvar sum = vector<ll>(n + 1);\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tsum[now] = a[now];\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\tdown[now] += down[to] + sum[to];\n\t\t\tsum[now] += sum[to];\n\t\t}\n\t\t};\n\tdfs(dfs, 1, 0);\n\n\tll ans = 0;\n\tvar dfss = [&](var dfs, int now, int fa, ll up)->void {\n\t\tll res = up + down[now];\n\t\tans = max(ans, res);\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tll nup = down[now] - down[to] - sum[to] + sum[now] - sum[to] + up + sum[1] - sum[now];\n\t\t\tdfs(dfs, to, now, nup);\n\t\t}\n\t\t};\n\tdfss(dfss, 1, 0, 0);\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-14",
+  "parsed_at": "2026-06-14T18:39:36.090112+00:00",
+  "type_directory": "p"
+}

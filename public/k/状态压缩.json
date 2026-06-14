@@ -1,0 +1,93 @@
+{
+  "slug": "状态压缩",
+  "title": "状态压缩",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "状压"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "数据规模特征",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "问题中的关键维度n通常在 <strong>10~25</strong> 之间（状态空间在 2^n 内）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "状态特征",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "问题的状态可以表示为 <strong>“选择/不选择”</strong> 的集合。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "$O(3^n)$ 枚举所有二进制状态的子集/超集",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 枚举所有 mask 的子集（包括空集和自身）\nfor (int mask = 0; mask < (1 << n); mask++) {\n    // 枚举 mask 的所有子集 sub\n    for (int sub = mask; ; sub = (sub - 1) & mask) {\n\t\t// 处理 sub 子集\n      \n      \tif (sub == 0) break;\n    }\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 枚举所有 mask 的超集（包括自身）\nfor (int mask = 0; mask < (1 << n); mask++) {\n    // 做法是枚举补集的子集\n    int comp = ((1 << n) - 1) ^ mask; // 补集\n    for (int sub = comp; ; sub = (sub - 1) & comp) {\n        int sup = mask | sub;  // sup 是 mask 的超集\n        // 处理超集 sup\n        \n        if (sub == 0) break;\n    }\n}",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "递归枚举二进制状态子集/超集",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "可用于<strong>剪枝优化</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "递归时，每次只枚举当前的<strong>直接子集/超集</strong>（只差一个 bit 的二进制状态），这种处理方法在 #<a href=\"/k/sos-dp\" class=\"wikilink\">SOS dp</a> 中也有。",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void dfs(int sub) {\n    // 已处理过 sub 和它的子集们，剪枝\n    if (vis[sub]) return;\n    vis[sub] = true;\n    \n    // 处理子集 sub\n\n    // 递归遍历直接子集 (去掉 1 个 bit)\n    for (int i = 0; i < MAX_BITS; ++i) \n      \t// 去掉第 i 位的 1，变成子集，递归下去\n        if (sub & (1 << i))    \n            dfs(sub ^ (1 << i));\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void dfs(int sup) {\n    // 已处理过 sup 和它的超集们，剪枝\n    if (vis[sup]) return;\n    vis[sub] = true;\n    \n    // 处理超集 sup\n\n    // 递归遍历直接超集 (加上 1 个 bit)\n    for (int i = 0; i < MAX_BITS; ++i) \n   \t\t// 如果 mask 的第 i 位是 0，我们可以把它变成 1 构成超集\n        if (!(sup & (1 << i))) \n            dfs(sup ^ (1 << i));\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-15",
+  "parsed_at": "2026-06-14T18:45:12.136407+00:00",
+  "type_directory": "k"
+}

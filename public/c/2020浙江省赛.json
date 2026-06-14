@@ -1,0 +1,20 @@
+{
+  "slug": "2020浙江省赛",
+  "title": "2020浙江省赛",
+  "type": "比赛",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "https://qoj.ac/contest/2020",
+  "link_text": "The 2020 ICPC China Zhejiang Provincial Programming Contest (17th) - Dashboard - Contest - QOJ.ac",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-05",
+  "parsed_at": "2026-06-14T18:39:37.090056+00:00",
+  "type_directory": "c"
+}

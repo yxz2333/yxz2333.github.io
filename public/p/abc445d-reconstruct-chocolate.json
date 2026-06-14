@@ -1,0 +1,263 @@
+{
+  "slug": "abc445d-reconstruct-chocolate",
+  "title": "ABC445D Reconstruct Chocolate",
+  "type": "题目",
+  "tags": [
+    "正难则反",
+    "ad-hoc"
+  ],
+  "difficulty": 1.5,
+  "summary": "初见可能有点无从下手，不过关键就在题面里，逆向思考：从最终的大矩形出发，反向模拟切割过程。",
+  "link": "https://atcoder.jp/contests/abc445/tasks/abc445_d",
+  "link_text": "D - Reconstruct Chocolate",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "桌面上放置着 $N$ 块巧克力。第 $i$ 块巧克力 $(1 \\leq i \\leq N)$ 是一个高为 $h_i$ 个方块、宽为 $w_i$ 个方块的长方形。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "已知这些巧克力是通过以下步骤得到的：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "最初，手中持有一块高为 $H$ 个方块、宽为 $W$ 个方块的大巧克力棒。桌面上没有任何东西。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "重复以下操作 $N-1$ 次：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "将手中的巧克力沿着方块边界切成两个长方形。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "将其中一块放在桌面上，另一块留在手中。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "最后，将手中的那块也放在桌面上。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "请找一种方法，将这 $N$ 块巧克力拼成一个高为 $H$ 个方块、宽为 $W$ 个方块的大长方形，并满足以下条件：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "不同的巧克力块互不重叠。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "巧克力块不得旋转。也就是说，如果 $h \\neq w$，那么一块高为 $h$、宽为 $w$ 的巧克力不能以高为 $w$、宽为 $h$ 的方式放置。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入从标准输入中以以下格式给出：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$H$ $W$ $N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$h_1$ $w_1$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$h_2$ $w_2$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\vdots$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$h_N$ $w_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq H \\leq 10^9$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq W \\leq 10^9$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2 \\leq N \\leq 2\\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq h_i \\leq H$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq w_i \\leq W$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证输入数据是通过问题描述中的步骤生成的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入值均为整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "假设在一种有效的拼法中，第 $i$ 块巧克力 $(1 \\leq i \\leq N)$ 的左上角位于整个大长方形的从上往下的第 $x_i$ 行、从左往右的第 $y_i$ 列。请按以下格式输出：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$x_1$ $y_1$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$x_2$ $y_2$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\vdots$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$x_N$ $y_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果存在多种有效拼法，输出其中任何一种即可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 6 6\n2 2\n1 4\n3 1\n1 2\n3 1\n4 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 2\n4 1\n1 1\n1 2\n1 4\n1 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "![](https://img.atcoder.jp/abc445/01efc02bf8be59a646abe39db4b95df1.png)",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "这道题的精髓在于<strong>逆向思考</strong>：既然碎片是由不断切割得到的，那么拼回原矩形就是合并的逆过程。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每次切割要么水平（保持宽度不变，分割高度），要么垂直（保持高度不变，分割宽度），因此合并时只能将<strong>具有相同高度</strong>或<strong>相同宽度</strong>的两个矩形拼在一起，且它们的另一边之和等于新矩形的对应边长。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "直接模拟这个过程即可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll h, w, n; cin >> h >> w >> n;\n\tvar p = vector<pll>(n + 1);\n\tfa(i, 1, n)cin >> p[i].px >> p[i].py;\n\n\tvar mph = HashMap<ll, set<int>>();\n\tvar mpw = HashMap<ll, set<int>>();\n\tvar se = set<int>();\n\tfa(i, 1, n) {\n\t\tconst var& [x, y] = p[i];\n\t\tmph[x].insert(i), mpw[y].insert(i);\n\t\tse.insert(i);\n\t}\n\n\tvar ans = vector<pll>(n + 1);\n\tll nowh = h, noww = w;\n\tll nowx = 1, nowy = 1;\n\twhile (se.size()) {\n\t\tint id = -1;\n\t\tbool h = 0;\n\t\tif (mph.count(nowh)) {\n\t\t\twhile (mph[nowh].size()) {\n\t\t\t\tvar now = mph[nowh].begin();\n\t\t\t\tif (se.count(*now)) {\n\t\t\t\t\tid = *now;\n\t\t\t\t\th = 1;\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t\telse mph[nowh].erase(now);\n\t\t\t}\n\t\t\tif (mph[nowh].empty())mph.erase(nowh);\n\t\t}\n\t\tif (id == -1 and mpw.count(noww)) {\n\t\t\twhile (mpw[noww].size()) {\n\t\t\t\tvar now = mpw[noww].begin();\n\t\t\t\tif (se.count(*now)) {\n\t\t\t\t\tid = *now;\n\t\t\t\t\tbreak;\n\t\t\t\t}\n\t\t\t\telse mpw[noww].erase(now);\n\t\t\t}\n\t\t\tif (mpw[noww].empty())mpw.erase(noww);\n\t\t}\n\n\t\tans[id] = { nowx, nowy };\n\t\tse.erase(id);\n\t\tif (h) {\n\t\t\tmph[nowh].erase(id);\n\t\t\tnowy += p[id].py;\n\t\t\tnoww -= p[id].py;\n\t\t}\n\t\telse {\n\t\t\tmpw[noww].erase(id);\n\t\t\tnowx += p[id].px;\n\t\t\tnowh -= p[id].px;\n\t\t}\n\t}\n\n\tfa(i, 1, n)cout << ans[i].px << ' ' << ans[i].py << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-14",
+  "parsed_at": "2026-06-14T18:39:36.010910+00:00",
+  "type_directory": "p"
+}

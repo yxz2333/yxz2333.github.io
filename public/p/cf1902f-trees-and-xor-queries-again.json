@@ -1,0 +1,226 @@
+{
+  "slug": "cf1902f-trees-and-xor-queries-again",
+  "title": "CF1902F Trees and XOR Queries Again",
+  "type": "题目",
+  "tags": [
+    "LCA",
+    "线性基/前缀线性基"
+  ],
+  "difficulty": 2.0,
+  "summary": "树上套前缀线性基即可。",
+  "link": "https://www.luogu.com.cn/problem/CF1902F",
+  "link_text": "CF1902F Trees and XOR Queries Again - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一棵包含 $n$ 个顶点的树。每个顶点上写有一个整数，第 $i$ 个顶点上写有整数 $a_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你需要处理 $q$ 个询问。第 $i$ 个询问包含三个整数 $x_i$、$y_i$ 和 $k_i$。对于每个询问，你需要回答是否存在一个顶点集合 $v_1, v_2, \\dots, v_m$（可以为空），满足：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个顶点 $v_j$ 都在从 $x_i$ 到 $y_i$ 的简单路径上（可以包含端点）；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$a_{v_1} \\oplus a_{v_2} \\oplus \\dots \\oplus a_{v_m} = k_i$，其中 $\\oplus$ 表示按位异或运算。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$2 \\le n \\le 2 \\cdot 10^5$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_1, a_2, \\dots, a_n$（$0 \\le a_i \\le 2^{20} - 1$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n-1$ 行，每行包含两个整数 $u$ 和 $v$（$1 \\le u, v \\le n$，$u \\ne v$），表示树上的一条边。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "下一行包含一个整数 $q$（$1 \\le q \\le 2 \\cdot 10^5$），表示询问的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行，每行包含三个整数 $x_i$、$y_i$ 和 $k_i$（$1 \\le x_i, y_i \\le n$，$0 \\le k_i \\le 2^{20} - 1$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个询问，如果存在满足条件的顶点集合，输出 YES，否则输出 NO。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你可以以任意大小写输出每个字母。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n0 1 2 10\n2 1\n3 2\n4 2\n8\n3 3 0\n3 4 1\n3 4 7\n1 3 1\n1 3 2\n1 3 10\n1 4 10\n1 4 11",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "YES\nYES\nNO\nYES\nYES\nNO\nYES",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心模型：树上路径的前缀线性基",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "将前缀线性基扩展到树上，我们可以将 “根节点到当前节点 $now$” 的路径看作一个“前缀”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>位置信息</strong>：在树上，我们使用节点的<strong>深度</strong>作为前缀线性基中的 <code>pos</code>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "路径合并",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>合并操作</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>xb[u]</code> 包含了 $root \\to u$ 路径上的所有基底。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>xb[v]</code> 包含了 $root \\to v$ 路径上的所有基底。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "将 <code>xb[u]</code> 和 <code>xb[v]</code> 合并（即遍历其中一个基底插入另一个），得到包含两条路径信息的 <code>res</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>有效性过滤</strong>：在 <code>check(k, L)</code> 时，<strong>只使用 <code>pos[i] &gt;= L</code> 的基底</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "复杂度分析",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>预处理</strong>：$O(N \\log V)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>查询</strong>：每次查询进行一次 LCA ($O(\\log N)$ 或 $O(1)$) 和一次线性基合并 ($O(\\log^2 V)$)。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>总复杂度</strong>：$O(N \\log V + Q \\log^2 V)$。在 $V=2^{20}$ 且 $Q=2 \\cdot 10^5$ 的情况下，计算量约 $8 \\cdot 10^7$，在 C++ 中可以稳稳通过。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "class XorBase {\nprivate:\n\tarray<int, 21> a;    // 线性基基底\n\tarray<int, 21> pos;  // 基底对应最晚出现的下标 \n\tstatic constexpr int MN = 20;\npublic:\n\tXorBase() {\n\t\tfill(a.begin(), a.end(), 0);\n\t\tfill(pos.begin(), pos.end(), 0);\n\t};\n\n\tint& operator[](int x) {\n\t\treturn a[x];\n\t}\n\n\t// 插入新数\n\tvoid insert(int x, int idx) {\n\t\tif (!x)return;\n\t\tfor (int i = MN; i >= 0; i--)\n\t\t\tif (x & (1ll << i)) {\n\t\t\t\tif (!a[i]) {\n\t\t\t\t\t// 线性基里没有 x，插入 x\n\t\t\t\t\ta[i] = x;\n\t\t\t\t\tpos[i] = idx;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\t// 【重点】：新下标放在高位，老下标去低位\n\t\t\t\tif (idx > pos[i]) {\n\t\t\t\t\tswap(idx, pos[i]);\n\t\t\t\t\tswap(x, a[i]);\n\t\t\t\t}\n\t\t\t\tx ^= a[i]; // 线性基里有 x\n\t\t\t}\n\t}\n\n\t// 线性基合并\n\tfriend XorBase operator +(XorBase& x, XorBase& y) {\n\t\tXorBase z = x;\n\t\tfor (int i = MN; i >= 0; i--)\n\t\t\tif (y[i])\n\t\t\t\tz.insert(y[i], y.pos[i]);\n\t\treturn z;\n\t}\n\n\t// 查是否存在线性基内\n\tbool check(long long x, int L) {\n\t\tfor (int i = MN; i >= 0; i--)\n\t\t\tif (x & (1ll << i))\n\t\t\t\tif (!a[i])return false;\n\t\t\t\telse {\n\t\t\t\t\tif (pos[i] >= L)x ^= a[i];\n\t\t\t\t\telse return false;\n\t\t\t\t}\n\t\treturn true;\n\t}\n};\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\tvar lca = LCA(n, g);\n\tvar xb = vector<XorBase>(n + 1);\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\txb[now] = xb[fa];\n\t\txb[now].insert(a[now], lca.depth[now]);\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t}\n\t\t};\n\tdfs(dfs, 1, 0);\n\n\tint q; cin >> q;\n\twhile (q--) {\n\t\tint x, y, k; cin >> x >> y >> k;\n\t\tif (lca.depth[x] > lca.depth[y])swap(x, y);\n\t\tint l = lca.lca(x, y);\n\t\tif (x == l) {\n\t\t\tint L = lca.depth[x];\n\t\t\tif (xb[y].check(k, L))cout << \"YES\" << endl;\n\t\t\telse cout << \"NO\" << endl;\n\t\t}\n\t\telse {\n\t\t\tint L = lca.depth[l];\n\t\t\tvar res = xb[x] + xb[y];\n\t\t\tif (res.check(k, L))cout << \"YES\" << endl;\n\t\t\telse cout << \"NO\" << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-04",
+  "parsed_at": "2026-06-14T18:39:36.309399+00:00",
+  "type_directory": "p"
+}

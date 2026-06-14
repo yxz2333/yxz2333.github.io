@@ -1,0 +1,22 @@
+{
+  "slug": "树链",
+  "title": "树链",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "树的路径"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-02",
+  "parsed_at": "2026-06-14T18:45:12.128660+00:00",
+  "type_directory": "k"
+}

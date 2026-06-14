@@ -1,0 +1,318 @@
+{
+  "slug": "2026杭电春季赛1-003-回文串",
+  "title": "2026杭电春季赛1 003 回文串",
+  "type": "题目",
+  "tags": [
+    "字符串dp",
+    "回文"
+  ],
+  "difficulty": 3.5,
+  "summary": "很有意思的<strong>字符串匹配 + 回文</strong>的好题，分三种情况讨论。判断个 $(i,j)$ 区间是否回文，计算 $LCP$ 长度匹配，然后计数即可解决，整体写起来有点麻烦。",
+  "link": "https://acm.hdu.edu.cn/contest/problem?cid=1197&pid=1003",
+  "link_text": "1003 回文串",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小木最近在学回文串，他很快就掌握了如何求出一个字符串内有多少个回文串，但是...",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果是在两个字符串内找呢？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现给定两个只包含小写字母的字符串 \\( S \\) 和 \\( T \\)，长度均为 \\( n \\)，你可以在 \\( S \\) 和 \\( T \\) 中分别选取子串 \\( S' \\) 和 \\( T' \\)，并将 \\( T' \\) 拼接在 \\( S' \\) 后面组成新字符串。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "问有多少种选法，使得组成的新字符串是个回文串。小木被难住了，来请求你帮助他解决这个问题。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>注：</strong> 回文串是指一个字符串，其正读和反读都一样。例如，“abba”和“aba”都是回文串。而“abc”不是回文串。注意空串不是回文串。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入组数 \\( T \\),",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组数据输入两行表示两个字符串 \\( S \\) 和 \\( T \\),",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "数据保证：\\( n \\leq 2000 \\), \\( T \\leq 10 \\).",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每组输出一行整数，表示多少种选法，使得组成的新字符串是个回文串。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\nab\nac\naba\nbba",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n15",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们要从 $S$ 中选出 $S'$，从 $T$ 中选出 $T'$，使得 $S' + T'$ 构成回文串。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "一个拼接而成的回文串，本质上只可能由以下三种结构构成（想象把 $T$ 翻转一下，问题就变成了找前缀匹配）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>完全对称（无中间回文部分）</strong>：$S'$ 和 $T'$ 长度相等，且 $S'$ 完全等于 $T'$ 的反转。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$S$ <strong>端更长（中间回文在</strong> $S'$ <strong>内）</strong>：由 <strong>“</strong>$S$ <strong>的一部分”</strong> + <strong>“</strong>$S$ <strong>内部的一段回文串”</strong> + <strong>“</strong>$T$ <strong>的一部分”</strong> 构成。左右两端的匹配部分长度相等。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$T$ <strong>端更长（中间回文在</strong> $T'$ <strong>内）</strong>：由 <strong>“</strong>$S$ <strong>的一部分”</strong> + <strong>“</strong>$T$ <strong>内部的一段回文串”</strong> + <strong>“</strong>$T$ <strong>的一部分”</strong> 构成。左右两端的匹配部分长度相等。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "为了方便处理，我们将字符串 $T$ 进行反转，记为 <code>rb</code>。这样，“$S$ 和 $T$ 的两端匹配”就变成了 <strong>“求</strong> $S$ <strong>的某个子串和 <code>rb</code> 的某个子串的完全匹配”</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "实现思路",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "第一步：预处理所有的单一回文串（区间 DP）",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "我们需要知道 $S$ 和 $T$ 中哪些区间本身就是回文串。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<code>ahui[i][j]</code> 表示 $S$ 串中 $[i, j]$ 区间是否为回文串。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<code>bhui[i][j]</code> 表示 $T$ 串中 $[i, j]$ 区间是否为回文串。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "这部分你使用了非常经典的 $O(n^2)$ 区间 DP 解决。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "第二步：预处理前后缀匹配长度（匹配 DP）",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "这一步是寻找上面提到的“左右两端相等的部分”。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "定义 <code>dp[i][j]</code>：表示 $S$ 从位置 $i$ 开始的后缀，与翻转串 <code>rb</code> 从位置 $j$ 开始的后缀，<strong>最长能匹配的长度 (LCP)</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "转移方程非常简单：<code>if (a[i] == rb[j]) dp[i][j] = dp[i + 1][j + 1] + 1;</code> 否则为 <code>0</code>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这意味着，只要选取 $S$ 以 $i$ 为起点、$T$ 以对应的 $j$ 为终点的子串，它们有 <code>dp[i][j]</code> 种合法的相等长度（长度可以是 $1$ 到 <code>dp[i][j]</code>）。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "第三步：巧妙的断点前缀和优化",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "如果我们用暴力去枚举那个 “中间的回文串” ，复杂度会退化到 $O(n^3)$。所以非常聪明地设计了两个前缀和数组：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong><code>cnta[i]</code></strong>：初始时，<code>cnta[i]</code> 统计的是 $S$ <strong>串中以位置</strong> $i$ <strong>为起点的回文串数量</strong>。做完前缀和 <code>cnta[i] += cnta[i-1]</code> 后，<code>cnta[R] - cnta[L-1]</code> 就能 $O(1)$ 得出起点在 $[L, R]$ 范围内的回文串总数。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong><code>cntb[i]</code></strong>：初始时，<code>cntb[j]</code> 统计的是 $T$ <strong>串中以位置</strong> $j$ <strong>为终点的回文串数量</strong>。同样做前缀和后，能 $O(1)$ 求出终点在某个区间内的回文串总数。",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "第四步：分类统计拼凑方案",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "我们枚举 $S$ 的每一个起点和 $T$ 的每一个终点，寻找它们能构成的 <strong>“对称外壳”</strong> 。假设在当前对接位置，两端最多能连续镜像匹配的长度为 $L$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这意味着两端外壳的长度 $k$ 可以在 $1$ 到 $L$ 之间任意取值。基于此，新组合成的回文串必然属于以下三种互不重合的结构：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>1. 外壳直接拼接（</strong>$|S'| = |T'|$<strong>）</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "中间不夹杂任何字符，完全由两端等长的匹配部分组成。因为外壳长度 $k$ 有 $1$ 到 $L$ 这 $L$ 种选择，所以直接产生 <strong>L 种</strong>合法方案。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>2. 中间夹</strong> $S$ <strong>的回文（</strong>$|S'| > |T'|$<strong>）</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "结构为：<strong>“</strong>$k$ <strong>长度外壳” + “</strong>$S$ <strong>内部的现成回文串” + “</strong>$k$ <strong>长度外壳”</strong>。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "由于回文串必须紧挨在 $S$ 的外壳后面，随着 $k$ 从 $1$ 变化到 $L$，这段内部回文串的<strong>“起点”</strong>会在 $S$ 中划出一个长度为 $L$ 的连续区间。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "我们直接利用前缀和，把起点落在这个区间内的所有 $S$ 内部回文串数量一把加上。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>3. 中间夹</strong> $T$ <strong>的回文（</strong>$|S'| < |T'|$<strong>）</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "结构为：<strong>“</strong>$k$ <strong>长度外壳” + “</strong>$T$ <strong>内部的现成回文串” + “</strong>$k$ <strong>长度外壳”</strong>。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "同理，这段回文串必须紧挨在 $T$ 的外壳前面。随着 $k$ 的变化，它在原串 $T$ 中的<strong>“终点”</strong>也会划出一个连续区间。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "再次利用前缀和，将终点落在此区间内的所有 $T$ 内部回文串数量提取并累加。",
+                  "depth": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "bool ahui[2005][2005], bhui[2005][2005];\nll dp[2005][2005], cnta[2005], cntb[2005];\nvoid solve(int CASE)\n{\n\tstring a, b; cin >> a >> b;\n\tll n = a.size();\n\tvar rb = b; reverse(all(rb));\n\ta = ' ' + a, b = ' ' + b, rb = ' ' + rb;\n\n\tfa(i, 0, n + 1)fa(j, 0, n + 1)ahui[i][j] = bhui[i][j] = 0;\n\tfa(i, 0, n)cnta[i] = cntb[i] = 0;\n\tfa(i, 1, n) {\n\t\tahui[i][i] = ahui[i][i - 1] = 1;\n\t\tbhui[i][i] = bhui[i][i - 1] = 1;\n\t}\n\n\tfa(len, 2, n)fa(i, 1, n) {\n\t\tint j = i + len - 1;\n\t\tif (j > n)break;\n\t\tif (ahui[i + 1][j - 1] and a[i] == a[j])ahui[i][j] = 1;\n\t\tif (bhui[i + 1][j - 1] and b[i] == b[j])bhui[i][j] = 1;\n\t}\n\n\tfa(i, 0, n + 1)fa(j, 0, n + 1)dp[i][j] = 0;\n\tfb(i, n, 1) {\n\t\tfb(j, n, 1) {\n\t\t\tif (a[i] == rb[j])dp[i][j] = dp[i + 1][j + 1] + 1;\n\t\t\telse dp[i][j] = 0;\n\t\t}\n\t}\n\n\tfa(i, 1, n)fa(j, i, n)cnta[i] += ahui[i][j]; // a 串看左边界 i\n\tfa(i, 1, n)fa(j, i, n)cntb[j] += bhui[i][j]; // b 串看右边界 j\n\tfa(i, 1, n) {\n\t\tcnta[i] = cnta[i - 1] + cnta[i];\n\t\tcntb[i] = cntb[i - 1] + cntb[i];\n\t}\n\n\tll ans = 0;\n\tfa(i, 1, n)fa(j, 1, n)if (dp[i][j]) {\n\t\tans += dp[i][j]; // 直接匹配，不找中间回文串\n\t\tans += cnta[min(n, i + dp[i][j])] - cnta[i]; // 回文串在\n\t\tans += cntb[n - j] - cntb[max(0ll, n - j - dp[i][j])];\n\t}\n\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-25",
+  "parsed_at": "2026-06-14T18:39:35.854179+00:00",
+  "type_directory": "p"
+}

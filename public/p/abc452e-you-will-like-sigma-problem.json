@@ -1,0 +1,393 @@
+{
+  "slug": "abc452e-you-will-like-sigma-problem",
+  "title": "ABC452E You WILL Like Sigma Problem",
+  "type": "题目",
+  "tags": [
+    "数学/带余除法",
+    "调和级数",
+    "数学推导"
+  ],
+  "difficulty": 2.0,
+  "summary": "注意到 $i \\bmod j = i - j \\lfloor \\frac{i}{j} \\rfloor$，带入公式得$\\sum_{i=1}^N \\sum_{j=1}^M A_i B_j \\left( i - j \\lfloor \\frac{i}{j} \\rfloor \\right)$，拆开得 $\\underbrace{ \\sum_{i=1}^N \\sum_{j=1}^M A_i B_j i }_{\\text{左半部分}} \\quad - \\quad \\underbrace{ \\sum_{i=1}^N \\sum_{j=1}^M A_i B_j j \\lfloor \\frac{i}{j} \\rfloor }_{\\text{右半部分}}$，左半右半分开算即可，因为 $i, j$ <strong>不耦合</strong>，随便提。",
+  "link": "https://atcoder.jp/contests/abc452/tasks/abc452_e",
+  "link_text": "E - You WILL Like Sigma Problem",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给你一个长度为 $N$ 的正整数序列 $A = (A_1, \\cdots, A_N)$ 和一个长度为 $M$ 的正整数序列 $B = (B_1, \\cdots, B_M)$ 。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "求 $\\displaystyle \\sum_{i=1}^{N} \\sum_{j=1}^{M} A_i \\cdot B_j \\cdot (i \\bmod j)$ 的值，取模 $998244353$ 。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入内容由标准输入法提供，格式如下",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$N$ $M$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$A_1$ $A_2$ $\\cdots$ $A_N$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$B_1$ $B_2$ $\\cdots$ $B_M$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq N,M \\leq 5 \\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq A_i, B_j \\leq 5 \\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入值均为整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "单行输出答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 4\n1 6 9 2 3 1\n1 10 3 7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "508",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "20 20\n36625 195265 98908 111868 111868 47382 147644 472464 472464 416653 111868 195265 327972 327972 262769 75439 381156 451275 36625 195265\n327972 111868 416653 177330 340019 262769 47382 262769 47382 340019 47382 262769 327972 327972 359676 381156 327972 36625 451275 381156",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "58141644",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "以下 $24$ 值的总和为 $508$ 。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_1 \\cdot B_1 \\cdot (1 \\bmod 1) = 1 \\cdot 1 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_1 \\cdot B_2 \\cdot (1 \\bmod 2) = 1 \\cdot 10 \\cdot 1 = 10$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_1 \\cdot B_3 \\cdot (1 \\bmod 3) = 1 \\cdot 3 \\cdot 1 = 3$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_1 \\cdot B_4 \\cdot (1 \\bmod 4) = 1 \\cdot 7 \\cdot 1 = 7$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_2 \\cdot B_1 \\cdot (2 \\bmod 1) = 6 \\cdot 1 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_2 \\cdot B_2 \\cdot (2 \\bmod 2) = 6 \\cdot 10 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_2 \\cdot B_3 \\cdot (2 \\bmod 3) = 6 \\cdot 3 \\cdot 2 = 36$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_2 \\cdot B_4 \\cdot (2 \\bmod 4) = 6 \\cdot 7 \\cdot 2 = 84$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_3 \\cdot B_1 \\cdot (3 \\bmod 1) = 9 \\cdot 1 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_3 \\cdot B_2 \\cdot (3 \\bmod 2) = 9 \\cdot 10 \\cdot 1 = 90$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_3 \\cdot B_3 \\cdot (3 \\bmod 3) = 9 \\cdot 3 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_3 \\cdot B_4 \\cdot (3 \\bmod 4) = 9 \\cdot 7 \\cdot 3 = 189$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_4 \\cdot B_1 \\cdot (4 \\bmod 1) = 2 \\cdot 1 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_4 \\cdot B_2 \\cdot (4 \\bmod 2) = 2 \\cdot 10 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_4 \\cdot B_3 \\cdot (4 \\bmod 3) = 2 \\cdot 3 \\cdot 1 = 6$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_4 \\cdot B_4 \\cdot (4 \\bmod 4) = 2 \\cdot 7 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_5 \\cdot B_1 \\cdot (5 \\bmod 1) = 3 \\cdot 1 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_5 \\cdot B_2 \\cdot (5 \\bmod 2) = 3 \\cdot 10 \\cdot 1 = 30$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_5 \\cdot B_3 \\cdot (5 \\bmod 3) = 3 \\cdot 3 \\cdot 2 = 18$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_5 \\cdot B_4 \\cdot (5 \\bmod 4) = 3 \\cdot 7 \\cdot 1 = 21$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_6 \\cdot B_1 \\cdot (6 \\bmod 1) = 1 \\cdot 1 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_6 \\cdot B_2 \\cdot (6 \\bmod 2) = 1 \\cdot 10 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_6 \\cdot B_3 \\cdot (6 \\bmod 3) = 1 \\cdot 3 \\cdot 0 = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$A_6 \\cdot B_4 \\cdot (6 \\bmod 4) = 1 \\cdot 7 \\cdot 2 = 14$",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "原式：$\\displaystyle \\sum_{i=1}^{N} \\sum_{j=1}^{M} A_i \\cdot B_j \\cdot (i \\bmod j)$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>第一步：打破耦合（利用数学恒等式）</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你发现 $i \\bmod j$ 把 $i$ 和 $j$ 绑在一起了。我们利用 $i \\bmod j = i - j \\lfloor \\frac{i}{j} \\rfloor$ 将其拆开。",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\sum_{i=1}^N \\sum_{j=1}^M A_i B_j \\left( i - j \\lfloor \\frac{i}{j} \\rfloor \\right) $$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>第二步：加法分配律，拆成两个</strong> $\\sum$",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ = \\underbrace{ \\sum_{i=1}^N \\sum_{j=1}^M A_i B_j i }_{\\text{左半部分}} \\quad - \\quad \\underbrace{ \\sum_{i=1}^N \\sum_{j=1}^M A_i B_j j \\lfloor \\frac{i}{j} \\rfloor }_{\\text{右半部分}} $$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>第三步：变量分离</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>左半部分</strong>：里面有 $A_i \\cdot i$ 和 $B_j$。按变量分开！",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\sum_{i=1}^N \\sum_{j=1}^M A_i \\cdot B_j \\cdot i $$\n先看**内层**对 $j$ 的求和，在这个求和里，$i$ 是一个已经固定的外层参数，$A_i \\cdot i$ 对于 $j$ 来说就是个常数，故直接提出来：\n$$ \\sum_{i=1}^N \\left( A_i \\cdot i \\sum_{j=1}^M B_j \\right) $$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "$\\sum_{j=1}^M B_j$ 是一个和 $i$ 毫无关系的固定数值，故也可以提出来：",
+          "depth": 3
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\text{左半} = \\left( \\sum_{i=1}^N A_i \\cdot i \\right) \\times \\left( \\sum_{j=1}^M B_j \\right) $$\n$\\left( \\sum_{i=1}^N A_i \\cdot i \\right)$：$O(n)$ 枚举一遍 $i$ 解决。\n$\\left( \\sum_{j=1}^M B_j \\right)$：没有变量，预处理即可解决",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>右半部分</strong>：有 $B_j \\cdot j$ 和 $A_i \\lfloor \\frac{i}{j} \\rfloor$。把对 $i$ 来说是常数的部分（$B_j \\cdot j$）移到外头去！",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\sum_{i=1}^N \\sum_{j=1}^M A_i \\cdot B_j \\cdot \\lfloor \\frac{i}{j} \\rfloor $$\n$$ \\text{右半} = \\sum_{j=1}^M B_j \\cdot j \\left( \\sum_{i=1}^N A_i \\lfloor \\frac{i}{j} \\rfloor \\right) $$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>第四步：发现调和级数</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "此时右半部分的内层是 $\\sum_{i=1}^N A_i \\lfloor \\frac{i}{j} \\rfloor$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你会发现对于固定的 $j$，当 $i$ 在 $[1, j-1]$ 时 $\\lfloor \\frac{i}{j} \\rfloor = 0$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "当 $i$ 在 $[j, 2j-1]$ 时 $\\lfloor \\frac{i}{j} \\rfloor = 1$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "当 $i$ 在 $[2j, 3j-1]$ 时 $\\lfloor \\frac{i}{j} \\rfloor = 2$……",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "可以通过<strong>前缀和</strong> $O(1)$ 求出每一段区间的 $A_i$ 之和。一段长为 $j$，一共分成了 $\\frac{N}{j}$ 段。总时间就是调和级数了！",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tvar a = vector<ll>(n + 1);\n\tvar pre = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i], pre[i] = (pre[i - 1] + a[i]) % mod;\n\n\tll sumb = 0;\n\tvar b = vector<ll>(m + 1);\n\tfa(i, 1, m)cin >> b[i], sumb = (sumb + b[i]) % mod;\n\n\tll ans = 0;\n\tfa(i, 1, n)ans = (ans + a[i] * i % mod * sumb % mod) % mod;\n\t\n\tfa(i, 1, m) {\n\t\tint last = 1;\n\t\tll tmp = b[i] * i % mod;\n\t\tfor (int j = i; j <= n; j += i) {\n\t\t\tint l = last, r = j - 1;\n\t\t\tll val = ((pre[r] - pre[l - 1]) % mod + mod) % mod;\n\t\t\tll now = tmp * val % mod * (r / i) % mod;\n\t\t\tnow = (now + mod) % mod;\n\t\t\tans = ((ans - now) % mod + mod) % mod;\n\t\t\tlast = r + 1;\n\t\t}\n\t\tint l = last, r = n;\n\t\tll val = ((pre[r] - pre[l - 1]) % mod + mod) % mod;\n\t\tll now = tmp * val % mod * (r / i) % mod;\n\t\tnow = (now + mod) % mod;\n\t\tans = ((ans - now) % mod + mod) % mod;\n\t\tlast = r + 1;\n\t}\n\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-04",
+  "parsed_at": "2026-06-14T18:39:36.034871+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,190 @@
+{
+  "slug": "sos-dp",
+  "title": "SOS dp",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "是什么？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "SOS DP（子集和 DP）的本质就是<strong>高维前缀和</strong>。就像在一维数组求前缀和 <code>sum[i] = sum[i-1] + a[i]</code> 一样，这段代码的结构是非常固定的。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>dp[mask]</code>： <strong>表示</strong> <code>mask</code> <strong>及其子集的信息汇总。</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>在</strong> $O(N \\cdot 2^N)$ <strong>的时间内，算出所有</strong> $mask$ <strong>的子集（或超集）信息的聚合值。</strong>",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "复杂度对比",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "假设 $N=20$（即值域 $2^{20} \\approx 10^6$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>做法 1：暴力枚举</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于每个 $mask$，遍历 $0$ 到 $mask$ 检查是否是子集。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "复杂度：$O(4^N)$。<strong>不可接受。</strong>",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>做法 2：子集枚举</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "((693d2e8c-ab16-40e0-9c37-5d0b68230134))",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "只遍历 $mask$ 的子集：<code>for (int s=mask; s; s=(s-1)&amp;mask)</code>。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "复杂度：$O(3^N)$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "当 $N=20$ 时，$3^{20} \\approx 3.4 \\times 10^9$，<strong>依然超时</strong>（通常 $N \\le 15$ 才用这个）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>做法 3：SOS DP</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "利用位运算的递推关系。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "复杂度：$O(N \\cdot 2^N)$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "当 $N=20$ 时，$20 \\times 10^6 = 2 \\times 10^7$，<strong>非常快，轻松 AC</strong>。",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "子集 SOS",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>子集 SOS (Subset)</strong>：我想知道 <code>111</code> 的信息，我需要汇总 <code>011</code>, <code>101</code>, <code>110</code>... 的信息。信息从 <strong>0 流向 1</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "枚举要处理的二进制位，每次只处理 <code>mask</code> 的<strong>直接子集</strong>，通过从小到大枚举 <code>mask</code> 实现答案传递。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "SOS DP 就是在<strong>超立方体图</strong>上，沿着<strong>直接子集/超集</strong>的边，对信息的聚合值（如Sum/Max）进行<strong>多轮松弛</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>通用模板：</strong>",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 这里的 N 是位数，比如 22\nfor (int i = 0; i < N; ++i) { \n    for (int mask = 0; mask < (1 << N); ++mask) { \n      \t// 从小到大枚举 mask，满足前缀和\n      \t// 只处理直接子集\n        if (mask & (1 << i)) {\n            // dp[mask] 表示 mask 及其子集的信息汇总\n            // dp[mask ^ (1 << i)] 是把第 i 位去掉后的子集\n            \n            // 1. 求和：\n            // dp[mask] += dp[mask ^ (1 << i)]; \n            \n            // 2. 求最大值：\n            // dp[mask] = max(dp[mask], dp[mask ^ (1 << i)]);\n            \n            // 3. CF165E (继承赋值)：\n            // if (dp[mask] == -1) dp[mask] = dp[mask ^ (1 << i)];\n        }\n    }\n}",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>例题</strong>： <a href=\"/p/cf165e-compatible-numbers\" class=\"wikilink\">CF165E Compatible Numbers</a>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "这题简要来说是在问一个数它<strong>存不存在</strong>，如果存在就把这个数广播到所有这个数的超集上作为答案。",
+          "depth": 3
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[1 << 22];\nfa(i, 1, n) {\n\tint x; cin >> x;\n\tdp[x] = x, a[i] = x;\n}\nfa(i, 0, 21) { // 枚举所有位\n\tfa(mask, 0, (1 << 22) - 1) { // 从小到大，满足前缀和\n\t\tif (mask & (1 << i)) {   // i 位是 1，转移子集答案\n\t\t\tif (dp[mask] == -1)\n              \tdp[mask] = dp[mask ^ (1 << i)];\n\t\t}\n\t}\n}\n// 输出补集或补集的子集答案\nfa(i, 1, n)cout << dp[a[i] ^ ((1 << 22) - 1)] << ' ';\ncout << endl;",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "超集 SOS",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>超集 SOS (Superset)</strong>：我想知道 <code>001</code> 的信息，我需要汇总 <code>011</code>, <code>101</code>, <code>111</code>... 的信息。信息从 <strong>1 流向 0</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>例题</strong>：<strong>求超集和</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>逻辑：</strong> <code>mask</code> 是 <code>mask | (1&lt;&lt;i)</code> 的子集，我们要把超集的数据拿下来。",
+          "depth": 3
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "for (int i = 0; i < N; ++i) {\n    for (int mask = 0; mask < (1 << N); ++mask) {\n      \t// 只处理直接超集\n        if (!(mask & (1 << i))) { \n          \t// 如果第 i 位是 0\n          \t// 从对应位是 1 的超集拿数据\n            dp[mask] += dp[mask ^ (1 << i)]; \n        }\n    }\n}",
+          "depth": 3
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-15",
+  "parsed_at": "2026-06-14T18:45:11.961193+00:00",
+  "type_directory": "k"
+}

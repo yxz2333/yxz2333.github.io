@@ -1,0 +1,211 @@
+{
+  "slug": "环问题",
+  "title": "环问题",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "图论经典问题",
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "DFS 生成树",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有向图的 DFS 生成树主要有 4 种边（不一定全部出现）：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "!<a href=\"https://oi-wiki.org/graph/images/dfs-tree.svg\" target=\"_blank\" class=\"md-link\">DFS 生成树</a>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>树边（tree edge）</strong>：示意图中以黑色边表示，每次搜索找到一个还没有访问过的结点的时候就形成了一条树边。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>反祖边（back edge）</strong>：示意图中以红色边表示（即 \\(7 \\to 1\\)），也被叫做回边，即指向祖先结点的边。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>横叉边（cross edge）</strong>：示意图中以蓝色边表示（即 \\(9 \\to 7\\)），它主要是在搜索的时候遇到了一个已经访问过的结点，但是这个结点并不是当前结点的祖先。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>前向边（forward edge）</strong>：示意图中以绿色边表示（即 \\(3 \\to 6\\)），它是在搜索的时候遇到子树中的结点的时候形成的。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "有向图",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "环都在 <strong>SCC</strong> 里，得把 <strong>SCC</strong> 都找出来。<a href=\"/tags\" class=\"tag-link\">#tarjan</a>/全联通分量",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>找不出所有的基本环，但也可以进行染色法判断是否存在奇环。</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果是 <a href=\"/tags\" class=\"tag-link\">#基环树</a> ，可以用 <a href=\"/tags\" class=\"tag-link\">#拓扑排序</a> 找环。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "无向图",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "怎么找环？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>注：</strong>只能找出所有的<strong>基本环</strong>（即环内无环），不能找出所有环。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "用 <strong>dfs/bfs 树</strong>，找<strong>树边</strong>和<strong>返祖边</strong>，不能走回头路，所以父节点很关键。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "所以本质上是个<strong>生成树问题</strong>，先找出一棵生成树（由<strong>树边</strong>组成），剩下的边（<strong>返祖边</strong>）随便连就是环。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "生成树骨架是个很重要的点，本质上是棵树，那么我们就可以在树上通过<strong>树论</strong>方法来维护些东西，比如<code>深度 dep</code>、<code>距离 dis</code>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>深度 dep</code>：<a href=\"/p/cf263d-cycle-in-graph\" class=\"wikilink\">CF263D Cycle in Graph</a>、<code>距离 dis</code>：<a href=\"/notes/cf845g-shortest-path-problem?\" class=\"wikilink\">CF845G Shortest Path Problem?</a>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>树边</strong>：DFS 第一次访问某个点时经过的边。这些边构成了<strong>生成树（骨架）</strong>，<strong>绝不会形成环</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>返祖边</strong>：DFS 过程中，发现邻居 $v$ 已经被访问过 <code>vis[v] == 1</code>，且 $v$ 不是 $u$ 的父亲。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这就意味着：$v$ 是 $u$ 的祖先。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>只有返祖边才会创造环！</strong>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "每一条返祖边 $(u, v)$，都对应着<strong>唯一</strong>的一个环：<strong>树路径</strong> $v \\to \\dots \\to u$ + <strong>边</strong> $u \\to v$。",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "找环并输出模板（DFN 时间戳遍历）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "bool vis[N];\nint dfn[N], par[N], timer;\nvector<vector<int>> all_cycles; // 存所有要找的基本环\nvar dfs = [&](var dfs, int now, int fa)->void {\n\tvis[now] = 1;\n\tdfn[now] = ++timer;\n\tpar[now] = fa;\n\n\tfor (int to : g[now]) {\n\t\tif (to == fa)continue;\n\n\t\tif (vis[to]) {\n\t\t\t// 反祖边 now->to，找到环\n\t\t\t// 防止一个环被 now->to 和 to->now 算两次\n\t\t\t// 使用 dfn 遍历，只在 子孙节点看祖先 的时候计算\n\n\t\t\tif (dfn[to] < dfn[now]) {\n\t\t\t\t// to 时间戳小，to 是祖先\n\t\t\t\tvector<int> cycle;\n\n\t\t\t\t// 遍历环\n\t\t\t\tint cur = now;\n\t\t\t\twhile (cur != to) {\n\t\t\t\t\tcycle.pb(cur);\n\t\t\t\t\tcur = par[cur];\n\t\t\t\t}\n\t\t\t\tcycle.pb(to);\n\n\t\t\t\tall_cycles.pb(cycle);\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\t// 树边，接着递归\n\t\t\tdfs(dfs, to, now);\n\t\t}\n\t}\n\t};\ndfs(dfs, 1, 0);",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "多源找环",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "这种题通常跟 <a href=\"/tags\" class=\"tag-link\">#多源最短路</a> 有关系，都要从多个起点出发，看看过程中是否能成环，判环用 <a href=\"/tags\" class=\"tag-link\">#并查集</a> ，类似 <a href=\"/tags\" class=\"tag-link\">#最小生成树</a> 。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "典型例题： <a href=\"/p/p8287-「daoi-r1」flame\" class=\"wikilink\">P8287 「DAOI R1」Flame</a>",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "判断奇环 / 二分图 <a href=\"/tags\" class=\"tag-link\">#二分图</a>",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>题目特征</strong>：判定图是否是二分图，或者问是否存在长度为奇数的环。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>解法</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在 DFS 中维护一个 <code>depth[u]</code> 和 <code>color[u]</code>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "当遇到返祖边 $(u, v)$ 时：",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "环的长度 = <code>depth[u] - depth[v] + 1</code>。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "如果长度是奇数 $\\to$ <strong>奇环</strong> $\\to$ 不是二分图。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "如果长度是偶数 $\\to$ <strong>偶环</strong>。",
+              "depth": 4
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-04",
+  "parsed_at": "2026-06-14T18:45:12.036100+00:00",
+  "type_directory": "k"
+}

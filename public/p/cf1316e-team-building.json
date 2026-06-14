@@ -1,0 +1,237 @@
+{
+  "slug": "cf1316e-team-building",
+  "title": "CF1316E Team Building",
+  "type": "题目",
+  "tags": [
+    "状压dp",
+    "贪心"
+  ],
+  "difficulty": 1.5,
+  "summary": "乍一看有个点不好处理，能想到用<strong>排序</strong>处理这题就差不多解决了，剩下的就是用<strong>状压dp</strong>了。",
+  "link": "https://codeforces.com/problemset/problem/1316/E",
+  "link_text": "Problem - 1316E - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "FCB 俱乐部的主席 Alice 想要为新的排球锦标赛组建一支队伍。这支队伍应该由 $p$ 名球员组成，分别在 $p$ 个不同的位置上比赛。同时，她也意识到观众支持的重要性，因此她想要选出 $k$ 个人作为观众。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Byteland 共有 $n$ 个人。Alice 需要从这 $n$ 个人中恰好选出 $p$ 名球员（每个位置一人）以及恰好 $k$ 名观众。她的最终目标是最大化俱乐部的总实力。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在这 $n$ 个人中，第 $i$ 个人有一个关联的整数 $a_{i}$，表示如果他被选为观众，能为俱乐部增加的实力值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "此外，对于每个人 $i$ 和每个位置 $j$，Alice 都知道 $s_{i, j}$，表示如果第 $i$ 个人被选中在第 $j$ 个位置打球，能为俱乐部增加的实力值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个人最多只能被选中一次（要么当球员，要么当观众，要么不被选中）。你必须为每个位置恰好选定一名球员。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于 Alice 很忙，她需要你帮她求出通过最优的人员选择（确定谁是球员、谁是观众、谁什么都不是），俱乐部能达到的<strong>最大总实力</strong>是多少。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含 $3$ 个整数 $n, p, k$ ($2 \\leq n \\leq 10^{5}, 1 \\leq p \\leq 7, 1 \\le k, p+k \\le n$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a_{1},a_{2},\\ldots,a_{n}$ ($1 \\leq a_{i} \\leq 10^{9}$)，表示每个人当观众时的贡献。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行，每行包含 $p$ 个整数。其中第 $i$ 行的第 $j$ 个数表示 $s_{i, j}$ ($1 \\leq s_{i,j} \\leq 10^{9}$)，即第 $i$ 个人在第 $j$ 个位置打球时的贡献。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数 $res$，表示俱乐部能达到的最大可能实力。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 1 2\n1 16 10 3\n18\n19\n13\n15",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "44",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 2 3\n78 93 9 17 13 78\n80 97\n30 52\n26 17\n56 68\n60 36\n84 55",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "377",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 2 1\n500 498 564\n100002 3\n422332 2\n232323 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "422899",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，我们可以选择第 $1$ 个人去打第 $1$ 个位置，并选择第 $2$ 个人和第 $3$ 个人作为观众。此时俱乐部的总实力将等于 $a_{2}+a_{3}+s_{1,1}$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$n = 7$，<strong>状压</strong>没跑了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "不考虑分配观众席的话，很容易想到<strong>状压dp</strong>，设状态 $dp[i][s]$：前 $i$ 个人，位置分配状态为 $s$ 时的最大实力值，转移方程也非常好写，考虑当前 $i$ 怎么填球员的位置即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "那考虑分配观众席怎么办？怎么在 $dp$ 的过程中分配观众席？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果把分配观众席融入 $dp$ 状态，那肯定要多开一维的状态，肯定会超时。那么得在不融入 $dp$ 状态的前提下，考虑<strong>当前</strong> $i$ <strong>是否应该分配到观众席</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了答案最大，我们直接让 $a$ 和 $s$ 按 $a[i]$ <strong>倒序排序</strong>就行了，这样在从前往后枚举的过程中，如果观众席还有剩的 <code>left = (i - 1) - popcnt(s); if (left &gt;= k)</code>，那就可以把当前的 $i$ 分配到观众席了，这题也就解决了。",
+          "depth": 1
+        },
+        {
+          "heading": "难点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "看出观众席的分配方式 $\\rightarrow$ 用 $a[i]$ <strong>倒序排序</strong>解决。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, p, k; cin >> n >> p >> k;\n\tvar a = vector<pair<ll, vector<ll>>>(n + 1);\n\tfa(i, 1, n)cin >> a[i].px;\n\tfa(i, 1, n) {\n\t\tvar ve = vector<ll>(p);\n\t\tfa(j, 0, p - 1)cin >> ve[j];\n\t\ta[i].py = move(ve);\n\t}\n\tsort(all1(a), [](const var& a, const var& b)->bool {\n\t\treturn a.px > b.px;\n\t\t});\n\tvar dp = Vec2<ll>(n + 1, 1 << p);\n\tfa(i, 1, n) {\n\t\tconst var& [x, y] = a[i];\n\t\tfa(s, 0, (1 << p) - 1) {\n\t\t\tint left = (i - 1) - popcnt(s);\n\t\t\tif (left < 0)continue;\n\t\t\tfa(j, 0, p - 1) {\n\t\t\t\tif (!(s & (1 << j))) {\n\t\t\t\t\t// 在 j 位置填上\n\t\t\t\t\tdp[i][s | (1 << j)] = max(dp[i][s | (1 << j)], dp[i - 1][s] + y[j]);\n\t\t\t\t}\n\t\t\t}\n\t\t\tif (left >= k)dp[i][s] = max(dp[i][s], dp[i - 1][s]);\n\t\t\telse dp[i][s] = max(dp[i][s], dp[i - 1][s] + x);\n\t\t}\n\t}\n\tcout << dp[n][(1 << p) - 1] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2025-12-19",
+  "parsed_at": "2026-06-14T18:39:36.157514+00:00",
+  "type_directory": "p"
+}

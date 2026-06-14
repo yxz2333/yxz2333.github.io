@@ -1,0 +1,169 @@
+{
+  "slug": "cf559c-gerald-and-giant-chess",
+  "title": "CF559C Gerald and Giant Chess",
+  "type": "题目",
+  "tags": [
+    "组合数学",
+    "计数问题",
+    "dp",
+    "容斥"
+  ],
+  "difficulty": 2.0,
+  "summary": "一开始的想法是直接容斥，把真全集算出来然后把不合法的路径全减掉，但是发现不是很好写。于是考虑对于一个点，究竟该如何算这个点到 $(1,1)$ 的合法路径个数，这个点到 $(1,1)$ 点的矩形内存在若干个非法点，发现答案 = $这个点到 (1,1) 的路径总数 - 非法点到这个点的路径总数 * 非法点到 (1,1) 的合法路径总数$，这样肯定不会出现重复了。",
+  "link": "https://www.luogu.com.cn/problem/CF559C",
+  "link_text": "CF559C Gerald and Giant Chess - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在 Geraldion，巨型国际象棋十分常见。我们不去深究游戏的规则，只需要知道游戏发生在一个 $h×w$ 的棋盘上，并且棋盘被涂成两种颜色，但不像国际象棋那样。棋盘上几乎所有格子都是白色的，只有部分格子是黑色的。现在 Gerald 正在和他的朋友 Pollard 完成巨型国际象棋比赛。Gerald 已经接近胜利，他现在只需将一个兵从棋盘左上角（当前位置）走到右下角即可获胜。Gerald 对于胜利信心十足，因而他产生了兴趣，想要知道自己有多少种方式能够获胜？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Gerald 剩下的这个兵每次可以选择两种移动方式：向下移动一格或向右移动一格。此外，他不能走到黑色格子，否则 Gerald 仍然会输。棋盘上没有其他兵或棋子，所以根据巨型国际象棋的规则，Gerald 会持续移动直到游戏结束，而 Pollard 只是旁观。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行包含三个整数：$h, w, n$，表示棋盘的行数、列数以及黑格的数量（$1 \\leq h, w \\leq 10^{5}，1 \\leq n \\leq 2000$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行每行描述一个黑格。第 $i$ 行包含两个整数 $r_{i}, c_{i}$（$1 \\leq r_{i} \\leq h, 1 \\leq c_{i} \\leq w$），表示第 $i$ 个黑格所在的行和列编号。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证左上角和右下角的格子都是白色，并且所有描述的黑格都是不同的。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行，表示将 Gerald 的兵从左上角走到右下角的方案数对 $10^9 + 7$ 取模后的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 4 2\n2 2\n2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "100 100 3\n15 16\n16 15\n99 88",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "545732279",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "!<a href=\"../assets/image_1771601515521_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "到 $i$ 的合法路径个数：$dp[i]$  = $这个点到 (1,1) 的路径总数 - 非法点到这个点的路径总数 * 非法点到 (1,1) 的合法路径总数(即 dp[j])$，这样肯定不会出现重复了。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "MT::Combinatorics c(N, mod);\nvoid solve(int CASE)\n{\n\tll h, w, n; cin >> h >> w >> n;\n\tvar p = vector<pll>(n + 2);\n\tfa(i, 1, n)cin >> p[i].px >> p[i].py;\n\tp[n + 1] = { h,w };\n\tsort(all1(p));\n\n\tvar dp = vector<ll>(n + 2);\n\tfa(i, 1, n + 1) {\n\t\tconst var& [x, y] = p[i];\n\t\tdp[i] = c.lucas(x - 1 + y - 1, x - 1);\n\t\tfa(j, 1, i - 1) {\n\t\t\tconst var& [nx, ny] = p[j];\n\t\t\tif (x >= nx and y >= ny) {\n\t\t\t\tll now = c.lucas(x - nx + y - ny, x - nx);\n\t\t\t\tdp[i] = ((dp[i] - dp[j] * now % mod) % mod + mod) % mod;\n\t\t\t}\n\t\t}\n\t}\n\tcout << dp[n + 1] << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-20",
+  "parsed_at": "2026-06-14T18:39:36.549430+00:00",
+  "type_directory": "p"
+}

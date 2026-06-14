@@ -1,0 +1,286 @@
+{
+  "slug": "2020浙江省赛-h-huge-clouds",
+  "title": "2020浙江省赛 H Huge Clouds",
+  "type": "题目",
+  "tags": [
+    "计算几何"
+  ],
+  "difficulty": 2.0,
+  "summary": "细节很多，思路不难，求个<strong>区间交并集</strong>、<strong>判断向量间关系</strong>、<strong>判断点与线段关系</strong>。",
+  "link": "https://qoj.ac/contest/2020/problem/10920",
+  "link_text": "Huge Clouds - Problem - QOJ.ac",
+  "source": "[[2020浙江省赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "这是一个星光灿烂的夜晚，DreamGrid 正在数星星。可惜天突然起了云，很多星星被遮住了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "DreamGrid 想走出阴影，找个至少能看到一颗星的地方。首先，他想知道阴影覆盖的总面积。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "天空中有 \\( n \\) 颗星星和 \\( m \\) 朵云。具体来说，每颗星星用二维平面上的一个点 \\((x_i, y_i)\\) (\\(1 \\leq i \\leq n\\)) 表示。第 \\( i \\) 颗（编号为 \\( 1 \\leq i \\leq m \\)）云用一条线段 \\((u_{i1}, v_{i1})\\) — \\((u_{i2}, v_{i2})\\) 表示，端点分别是 \\((u_{i1}, v_{i1})\\) 和 \\((u_{i2}, v_{i2})\\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 x 轴上的一个视点 \\((x, 0)\\)，如果从这里看不到任何星星，DreamGrid 就认为这里处于阴影中。视点能看到某颗星星的条件是，连接视点和星星的线段没有与任何云（包括云的端点）相交。注意，如果一朵云（包括端点）正好覆盖了某颗星星，那么这颗星在任何地方都看不到。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "沿着整个 x 轴计算阴影面积太累了，你能帮 DreamGrid 算出阴影在 x 轴上的总长度吗？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入包含多组测试数据。第一行是一个整数 \\( T \\) (\\(1 \\leq T \\leq 500\\))，表示测试组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组测试数据第一行包含两个整数 \\( n \\) 和 \\( m \\) (\\(1 \\leq n, m \\leq 500\\))，分别表示星星和云的数量。接下来 \\( n \\) 行描述星星的位置，第 \\( i \\) 行（编号为 \\( 1 \\leq i \\leq n \\)）包含两个整数 \\( x_i \\) 和 \\( y_i \\) (\\(-10^4 \\leq x_i \\leq 10^4\\), \\(-10^4 \\leq y_i \\leq 10^4\\)），表示第 \\( i \\) 颗星的位置。随后 \\( m \\) 行描述云的位置，第 \\( i \\) 行（编号为 \\( 1 \\leq i \\leq m \\)）包含四个整数 \\( u_{i1}, v_{i1}, u_{i2}, v_{i2} \\) (\\(-10^4 \\leq u_{i1}, u_{i2} \\leq 10^4\\), \\(1 \\leq v_{i1}, v_{i2} \\leq 10^4\\), \\((u_{i1}, v_{i1}) \\neq (u_{i2}, v_{i2})\\)），表示第 \\( i \\) 朵云的两个端点坐标。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证测试组中，\\( \\max(n, m) \\geq 100 \\) 不超过 5。注意，多个星星可能重合，云朵之间也可能相交或重叠。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每组测试数据输出一行，包含一个实数，表示阴影在 x 轴上的总长度。如果答案大于 \\( 10^9 \\)，则输出 \\(-1\\)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你的答案只要绝对误差或相对误差不超过 \\( 10^{-4} \\) 就算正确。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8\n1 2\n0 3\n-2 1 -1 1\n2 1 1 1\n1 2\n0 3\n-2 1 -1 1\n1 2 2 1\n2 2\n10000 100\n-10000 100\n-10000 50 -3000 50\n10000 50 3000 50\n2 2\n0 3\n-1 10\n3 2 0 1\n0 1 -1 10\n1 1\n0 2\n1 1 3 2\n1 1\n0 10000\n-10000 9999 10000 9999\n1 1\n0 10000\n-9999 9999 9999 9999\n1 1\n0 10000\n-10000 1 9999 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3.0000000000\n1.5000000000\n8000.0000000000\n-1\n-1\n200000000.0000000000\n199980000.0000000000\n20002.0003000500",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "一、 宏观思路剖析",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目的要求是：找到 x 轴上“没有任何星星可见”的总长度。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们可以把问题反转一下，不要让 x 轴去找星星，而是<strong>让星星作为光源，云朵作为遮挡物，计算投射在 x 轴上的阴影</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "整个算法可以分为清晰的三步走：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. <strong>单星化影（计算几何）：</strong> 对于某一颗特定的星星 $i$ 和某一朵云 $j$，计算这朵云会在 x 轴上投下怎样的阴影区间（可能是有限区间 $[L, R]$，也可能是无限射线 $[-\\infty, X]$，甚至是全屏遮挡 $[-\\infty, +\\infty]$）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "星星 $S(x_i, y_i)$，云端点 $P(u, v)$，求射线和 $y=0$ 的交点 $X$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "根据相似三角形：",
+              "depth": 3
+            },
+            {
+              "type": "math",
+              "latex": "$$\\frac{x_i - X}{y_i - 0} = \\frac{x_i - u}{y_i - v}$$\n化简直接得到交点 x 坐标：\n$$X = x_i - y_i \\cdot \\frac{x_i - u}{y_i - v}$$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>诸云求并（区间合并）：</strong> 一颗星星会被多朵云遮挡，我们把这 $m$ 朵云对这颗星星产生的阴影区间求<strong>并集</strong>，得到的区域就是<strong>“绝对看不到这颗特定星星的区域”</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3. <strong>众星求交（区间求交）：</strong> 我们要找的是“什么都看不到”的地方。因此，必须把“看不到星星 1 的区域”、“看不到星星 2 的区域”……一直到“看不到星星 n 的区域”，全部求<strong>交集</strong>。最终交集里的线段长度之和，就是答案。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "二、 核心代码片段逐级拆解",
+          "level": 3,
+          "blocks": [
+            {
+              "heading": "细节 1：最霸道的遮挡 —— “日全食”特判",
+              "level": 3,
+              "blocks": []
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "var now = geo::Segment<db>(p1, p2);\nif (geo::point_segment_relation(p, now) == 1) {\n  shadow.clear();\n  shadow.pb({ -1e32,1e32 });\n  break;\n}",
+              "depth": 1
+            },
+            {
+              "heading": "细节 2：高高在上的云 —— 无效遮挡",
+              "level": 3,
+              "blocks": []
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "if ((geo::cmp(p2.y, p.y) == 0 or geo::cmp(p2.y, p.y) == 1) and\n  (geo::cmp(p1.y, p.y) == 0 or geo::cmp(p1.y, p.y) == 1))\n  continue;",
+              "depth": 1
+            },
+            {
+              "heading": "细节 3：跨越天际的云 —— 无穷大射线阴影（全场最难点）",
+              "level": 3,
+              "blocks": []
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "if ((geo::cmp(p2.y, p.y) == 0 or geo::cmp(p2.y, p.y) == 1) and (geo::cmp(p1.y, p.y) == -1) or\n  (geo::cmp(p1.y, p.y) == 0 or geo::cmp(p1.y, p.y) == 1) and (geo::cmp(p2.y, p.y) == -1)) {\n  db l = -1e32, r = 1e32;\n  var A = p1 - p, B = p2 - p; // 构造向量\n  int res = geo::vector_vector_relation(A, B); // 叉积判断方向\n  \n  // 情况 A：p1 在下，p2 在上\n  if ((geo::cmp(p2.y, p.y) == 0 or geo::cmp(p2.y, p.y) == 1) and (geo::cmp(p1.y, p.y) == -1)) {\n      db tmp = p.x - p.y * (p.x - p1.x) / (p.y - p1.y); // 算下方点的交点\n      if (res == 2) shadow.pb({ l, tmp });  // 阴影向左无穷大\n      else shadow.pb({ tmp, r });           // 阴影向右无穷大\n  }\n  // 情况 B：p2 在下，p1 在上 (逻辑同理反转)\n  else { ... }\n}",
+              "depth": 1
+            },
+            {
+              "heading": "细节 4：乖巧的云 —— 普通常规阴影",
+              "level": 3,
+              "blocks": []
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "else {\n  db l = p.x - p.y * (p.x - p1.x) / (p.y - p1.y);\n  db r = p.x - p.y * (p.x - p2.x) / (p.y - p2.y);\n  if (l > r) swap(l, r);\n  shadow.pb({ l, r });\n}",
+              "depth": 1
+            },
+            {
+              "heading": "细节 5：化零为整 —— 一维区间求并集",
+              "level": 3,
+              "blocks": []
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "sort(all(shadow));\nvar nshadow = vector<pair<db, db>>();\nvar[l, r] = shadow[0];\nfa(i, 1, vs(shadow)) {\n  var[nl, nr] = shadow[i];\n  if (geo::cmp(nl, r) == 1) { // 如果新线段的左端点大于当前右端点\n      nshadow.pb({ l,r });    // 区间断开了，保存上一段\n      l = nl, r = nr;         // 开启新一段\n  }\n  else r = max(r, nr);        // 有重合，不断延伸右端点\n}\nnshadow.pb({ l,r });",
+              "depth": 1
+            },
+            {
+              "heading": "细节 6：求同存异 —— 多星区间求交集",
+              "level": 3,
+              "blocks": []
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "if (last_shadow.empty()) last_shadow = move(shadow);\nelse {\n  var nlast_shadow = vector<pair<db, db>>();\n  for (const var& [l, r] : last_shadow) {\n      for (const var& [nl, nr] : shadow) {\n          db L = max(l, nl), R = min(r, nr); // 左端点取大，右端点取小\n          if (L > R) continue;               // 如果构成不了区间则跳过\n          nlast_shadow.pb({ L, R });\n      }\n  }\n  last_shadow = move(nlast_shadow);\n  if (last_shadow.empty()) { cout << 0 << endl; return; } // 提前剪枝\n}",
+              "depth": 1
+            },
+            {
+              "heading": "细节 7：收尾 —— 无穷大的判定",
+              "level": 4,
+              "blocks": []
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "db ans = 0;\nfor (const var& [l, r] : last_shadow) ans += r - l;\nif (ans > 1e9) cout << -1 << endl;\nelse cout << fixed << setprecision(12) << ans << endl;",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar star = geo::PointSet<db>();\n\tfa(i, 1, n) {\n\t\tint x, y; cin >> x >> y;\n\t\tstar.pb({ x,y });\n\t}\n\tvar cloud = vector<geo::Line<db>>();\n\tfa(i, 1, m) {\n\t\tint u1, v1, u2, v2; cin >> u1 >> v1 >> u2 >> v2;\n\t\tcloud.pb({ {u1,v1},{u2,v2} });\n\t}\n\n\tvar last_shadow = vector<pair<db, db>>();\n\tfor (const var& p : star) {\n\t\tvar shadow = vector<pair<db, db>>();\n\n\t\tfor (const var& [p1, p2] : cloud) {\n\t\t\tvar now = geo::Segment<db>(p1, p2);\n\t\t\tif (geo::point_segment_relation(p, now) == 1) {\n\t\t\t\tshadow.clear();\n\t\t\t\tshadow.pb({ -1e32,1e32 });\n\t\t\t\tbreak;\n\t\t\t}\n\n\n\t\t\tif ((geo::cmp(p2.y, p.y) == 0 or geo::cmp(p2.y, p.y) == 1) and\n\t\t\t\t(geo::cmp(p1.y, p.y) == 0 or geo::cmp(p1.y, p.y) == 1))\n\t\t\t\tcontinue;\n\n\n\t\t\tif ((geo::cmp(p2.y, p.y) == 0 or geo::cmp(p2.y, p.y) == 1) and\n\t\t\t\t(geo::cmp(p1.y, p.y) == -1) or\n\t\t\t\t(geo::cmp(p1.y, p.y) == 0 or geo::cmp(p1.y, p.y) == 1) and\n\t\t\t\t(geo::cmp(p2.y, p.y) == -1)) {\n\t\t\t\tdb l = -1e32, r = 1e32;\n\t\t\t\tvar A = p1 - p, B = p2 - p; // A B 向量\n\t\t\t\tint res = geo::vector_vector_relation(A, B);\n\t\t\t\tif ((geo::cmp(p2.y, p.y) == 0 or geo::cmp(p2.y, p.y) == 1) and\n\t\t\t\t\t(geo::cmp(p1.y, p.y) == -1)) {\n\t\t\t\t\tdb tmp = p.x - p.y * (p.x - p1.x) / (p.y - p1.y);\n\t\t\t\t\tif (res == 2)shadow.pb({ l, tmp });\n\t\t\t\t\telse shadow.pb({ tmp, r });\n\t\t\t\t}\n\t\t\t\telse {\n\t\t\t\t\tdb tmp = p.x - p.y * (p.x - p2.x) / (p.y - p2.y);\n\t\t\t\t\tif (res == 1)shadow.pb({ l, tmp });\n\t\t\t\t\telse shadow.pb({ tmp, r });\n\t\t\t\t}\n\t\t\t}\n\t\t\telse {\n\t\t\t\tdb l = p.x - p.y * (p.x - p1.x) / (p.y - p1.y);\n\t\t\t\tdb r = p.x - p.y * (p.x - p2.x) / (p.y - p2.y);\n\n\t\t\t\tif (l > r)swap(l, r);\n\t\t\t\tshadow.pb({ l, r });\n\t\t\t}\n\t\t}\n\t\tsort(all(shadow));\n\n\t\tif (shadow.empty()) {\n\t\t\tcout << 0 << endl;\n\t\t\treturn;\n\t\t}\n\n\t\t// 求并集\n\t\tvar nshadow = vector<pair<db, db>>();\n\t\tvar[l, r] = shadow[0];\n\t\tfa(i, 1, vs(shadow)) {\n\t\t\tvar[nl, nr] = shadow[i];\n\t\t\tif (geo::cmp(nl, r) == 1) {\n\t\t\t\tnshadow.pb({ l,r });\n\t\t\t\tl = nl, r = nr;\n\t\t\t}\n\t\t\telse r = max(r, nr);\n\t\t}\n\t\tnshadow.pb({ l,r });\n\t\tshadow = move(nshadow);\n\n\t\t// 求交集\n\t\tif (last_shadow.empty())last_shadow = move(shadow);\n\t\telse {\n\t\t\tvar nlast_shadow = vector<pair<db, db>>();\n\t\t\tfor (const var& [l, r] : last_shadow) {\n\t\t\t\tfor (const var& [nl, nr] : shadow) {\n\t\t\t\t\tdb L = max(l, nl), R = min(r, nr);\n\t\t\t\t\tif (L > R)continue;\n\t\t\t\t\tnlast_shadow.pb({ L, R });\n\t\t\t\t}\n\t\t\t}\n\t\t\tlast_shadow = move(nlast_shadow);\n\n\t\t\tif (last_shadow.empty()) {\n\t\t\t\tcout << 0 << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t}\n\t}\n\n\tdb ans = 0;\n\tfor (const var& [l, r] : last_shadow)ans += r - l;\n\tif (ans > 1e9)cout << -1 << endl;\n\telse cout << fixed << setprecision(12) << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-07",
+  "parsed_at": "2026-06-14T18:39:35.684565+00:00",
+  "type_directory": "p"
+}

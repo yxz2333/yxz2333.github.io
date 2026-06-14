@@ -1,0 +1,320 @@
+{
+  "slug": "cf2131f-unjust-binary-life",
+  "title": "CF2131F Unjust Binary Life",
+  "type": "题目",
+  "tags": [
+    "数学推导",
+    "双指针",
+    "前缀和"
+  ],
+  "difficulty": 2.0,
+  "summary": "主要是不知道这个 $\\min(X, Y)$ 的转换公式，知道就好说了。事后发现，不知道这个公式也能做，纯对 $\\min$ 做一样的事就行。",
+  "link": "https://codeforces.com/problemset/problem/2131/F",
+  "link_text": "Problem - 2131F - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Yuri 有两个长度为 $n$ 的 01 字符串 $a$ 和 $b$，这两个字符串可以定义一个 $n \\times n$ 的网格。记 $(i, j)$ 为第 $i$ 行第 $j$ 列的单元格。单元格 $(i, j)$ 的值为 $a_i \\oplus b_j$，其中 $\\oplus$ 表示按位异或运算。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Yuri 的旅途永远从单元格 $(1, 1)$ 开始。从单元格 $(i, j)$ 出发，她只能向下移动到单元格 $(i+1, j)$ 或者向右移动到单元格 $(i, j+1)$。当且仅当路径上所有单元格——包括起始单元格 $(1, 1)$——的值均为 $0$ 时，她才能沿着这条路径移动。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在她出发之前，她可以进行任意次下列操作。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选择一个索引 $1 \\le i \\le n$，然后翻转 $a_i$ 或者 $b_i$ 的值。也就是说，$1$ 会变为 $0$，而将$0$ 会变为 $1$。网格也会随之改变。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "记 $f(x, y)$ 为 Yuri 为了到达单元格 $(x, y)$ 需要进行操作的最小次数，你需要计算出所有 $1 \\le x,y \\le n$ 对应的 $f(x,y)$ 之和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意这 $n^2$ 种情况是独立的，也就是说，在计算每一个 $f(x, y)$ 的时候，$a$ 和 $b$ 的值都为初始状态。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入数据包含多组测试用例，第一行包含一个整数 $t$（$1 \\le t \\le 10^4$），表示测试用例的组数。对于每个测试用例：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\le n \\le 2 \\cdot 10^5$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行包含一个 $01$ 字符串 $a$（$|a| = n, a_i \\in \\{0,1\\}$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第三行包含一个 $01$ 字符串 $b$（$|b| = n, b_i \\in \\{0,1\\}$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "输入数据保证所有测试用例的 $n$ 之和不超过 $2 \\cdot 10^5$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数，表示对于所有单元格，所需要的最小操作次数之和。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n2\n11\n00\n2\n01\n01\n4\n1010\n1101",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n4\n24",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，$2 \\times 2$ 的网格如下所示。",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n11 \\\\\n11\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在初始状态下，Yuri 无法到达任何单元格。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "Yuri 可以翻转 $a_1$，然后网格变为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n00 \\\\\n11\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "于是 Yuri 便可以到达单元格 $(1,1)$ 和 $(1,2)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "另一方面，Yuri 可以翻转 $b_1$，然后网格变为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n01 \\\\\n01\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "于是 Yuri 就可以到达单元格 $(1,1)$ 和 $(2,1)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了到达单元格 $(2,2)$，可以证明 Yuri 必须操作至少两次。比如，她可以翻转 $a_1$，然后翻转 $a_2$，网格变为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n00 \\\\\n00\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，答案是 $1+1+1+2=5$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "首先花点时间，能看出来 $O(n^2)$ 的暴力做法：",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "fa(i, 1, n) \n\tfa(j, 1, n) \n\t\tans += min(prea[i] + preb[j], i - prea[i] + j - preb[j]);",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那现在就是要优化一维了，因为 $min$ 很麻烦，考虑消除。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "观察 $\\min(X, Y)$ 的一个经典恒等式：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\\min(X, Y) = \\frac{X + Y - |X - Y|}{2}$$\n令 $X = \\text{prea}[i] + \\text{preb}[j]$ （1 的总数），$Y = (i - \\text{prea}[i]) + (j - \\text{preb}[j])$ （0 的总数）\n那么：\n为了简化，我们定义两个新数组 $f$ 和 $g$：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那么原始公式可以化简为：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\\text{ans} = \\sum_{i=1}^n \\sum_{j=1}^n \\frac{(i+j) - |f(i) + g(j)|}{2}$$\n$$\\text{ans} = \\frac{1}{2} \\left( \\sum_{i=1}^n \\sum_{j=1}^n (i+j) - \\sum_{i=1}^n \\sum_{j=1}^n |f(i) + g(j)| \\right)$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>左半部分（常数项）</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$\\sum_{i=1}^n \\sum_{j=1}^n (i+j) = n \\sum i + n \\sum j = 2n \\cdot \\frac{n(n+1)}{2} = n^2(n+1)$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>右半部分（核心项）</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "我们需要计算 $\\sum_{i=1}^n \\sum_{j=1}^n |f(i) + g(j)|$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "这等价于计算 $\\sum_{i=1}^n \\sum_{j=1}^n |f(i) - (-g(j))|$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "接下来就是如何优化计算剩下的右半部分了：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "计算 $\\sum \\sum |A_i - B_j|$ 是一个经典问题，可以通过<strong>排序+前缀和</strong>来解决：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "构造数组 $F = \\{f(1), f(2), \\dots, f(n)\\}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "构造数组 $G' = \\{-g(1), -g(2), \\dots, -g(n)\\}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对 $F$ 和 $G'$ 分别进行<strong>排序</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "使用<strong>双指针</strong>（下面代码用了双指针）或<strong>二分</strong>配合<strong>前缀和</strong>，在 $O(n)$ 时间内算出所有绝对值差之和。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于 $F$ 中的每一个元素 $x$，计算它与 $G'$ 中所有元素的差的绝对值之和。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "$\\sum |x - G'_j| = (x \\cdot \\text{count}_{<x} - \\text{sum}_{<x}) + (\\text{sum}_{>x} - x \\cdot \\text{count}_{>x})$。",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll prea[N], preb[N];\nvoid solve(int CASE)\n{\n\tll n; cin >> n;\n\tstring a, b; cin >> a >> b; a = ' ' + a, b = ' ' + b;\n\tfa(i, 1, n) {\n\t\tprea[i] = prea[i - 1] + (a[i] == '1');\n\t\tpreb[i] = preb[i - 1] + (b[i] == '1');\n\t}\n\n\t//fa(i, 1, n) \n\t//\tfa(j, 1, n) \n\t//\t\tans += min(prea[i] + preb[j], i - prea[i] + j - preb[j]);\n\t// \n\t// min(X, Y) = (X + Y - |X - Y|) / 2\n\t// X + Y = i + j\n\t// X - Y = (2 ⋅ prea[i] − i) + (2 ⋅ preb[j] − j)\n\t// 设 f(i) = (2 ⋅ prea[i] − i)，g(j) = (2 ⋅ preb[j] − j)\n\t// 求    sum_{i,j} |f(i) + g(j)|\n\t//    => sum_{i,j} |f(i) - (-g(j))|\n\n\tll ans = n * n * (n + 1) / 2;\n\n\tvar f = vector<ll>(n + 1);\n\tvar g = vector<ll>(n + 1);\n\tll totg = 0;\n\tfa(i, 1, n) {\n\t\tf[i] = 2 * prea[i] - i;\n\t\tg[i] = -(2 * preb[i] - i);\n\t\ttotg += g[i];\n\t}\n\tsort(all1(f)), sort(all1(g));\n\n\tll res = 0;\n\tll j = 0, preg = 0;\n\tfa(i, 1, n) {\n\t\twhile (j + 1 <= n and g[j + 1] < f[i]) {\n\t\t\tj++;\n\t\t\tpreg += g[j];\n\t\t}\n\t\tres += f[i] * j - preg;\n\t\tres += (totg - preg) - f[i] * (n - j);\n\t}\n\tres /= 2;\n\n\tcout << ans - res << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-29",
+  "parsed_at": "2026-06-14T18:39:36.328944+00:00",
+  "type_directory": "p"
+}

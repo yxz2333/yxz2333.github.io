@@ -1,0 +1,168 @@
+{
+  "slug": "倍增",
+  "title": "倍增",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "倍增的前提 —— 状态的唯一后继性（确定性）",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "倍增的前提是：<strong>对于任意一个点 u，走 1 步到达的位置是唯一的。</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>树上</strong>：每个点只有一个父亲（向根走）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>基环树/函数图</strong>：每个点只有一条出边（$i \\to A_i$）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>序列</strong>：下一个位置是 $next_i$（即某种特定规则下的“下一个”）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "如果一个点有<strong>多个</strong>“下一步”（比如一般的图），通常就不能直接用这种简单的倍增，而是需要<strong>矩阵快速幂</strong>或者<strong>其他 DP</strong>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "跳格子游戏",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "序列上做倍增操作。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "有一个数组 <code>next[i]</code> 表示在 <code>i</code> 位置会跳到 <code>next[i]</code>，问从某个位置开始跳 <code>k</code> 次后的位置。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "其实大部分倍增题<strong>难点</strong>就在这里，可能通过很多<strong>伪装</strong>让你看不出来<strong>连续的关键点</strong>。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>预处理</strong>：<code>dp[i][p]</code> 表示从 <code>i</code> 开始跳 <code>2^p</code> 次后的位置。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>查询</strong>：将 <code>k</code> 拆分成二进制。",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "const int MAX_LOG = 31;\n\n// dp[p][i]: 从位置 i 开始，跳 2^p 步后到达的位置\nvector<vector<int>> dp(n + 1, vector<int>(MAX_LOG));\n\n// 初始化：2^0 = 1 步的情况就是 next 数组本身\nfor (int i = 1; i <= n; i++) {\n    dp[i][0] = next[i];\n}\n\n// 预处理：填充整个 dp 表\nfor (int p = 1; p < MAX_LOG; p++) {\n    for (int i = 1; i <= n; i++) {\n        // 关键状态转移：\n        // 从 i 跳 2^p 步 = 从 i 跳 2^(p-1) 步，再跳 2^(p-1) 步\n        dp[i][p] = dp[dp[i][p - 1]][p - 1];\n    }\n}\n\n// 处理查询\nwhile (q--) {\n    int s, k;\n    cin >> s >> k;\n\n    int pos = s;\n    // 将 k 按二进制分解，从高位到低位或从低位到高位均可\n    // 这里采用从低位到高位（即 p 从 0 开始）\n    for (int p = 0; p < MAX_LOG; p++) {\n        // 如果 k 的二进制表示中第 p 位是 1\n        if (k & (1 << p)) {\n            pos = dp[pos][p];\n        }\n    }\n\n    cout << pos << '\\n';\n}",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "贪心跳跃",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "题目没指定跳几次。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "倒序枚举，试探性地看最远跳多远。",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 贪心跳跃\n// dp[p][i]: 从位置 i 开始，跳 2^p 步后到达的位置\nvector<vector<int>> dp(n + 1, vector<int>(MAX_LOG));\n\nint now = st; // 当前的位置\nfor (int i = MAX_LOG - 1; i >= 0; i--) { // 倒序枚举，贪心跳跃\n    if (check(dp[now][i]))) { // 能跳到下一个位置\n        now = dp[now][i];     // 就到下一个位置\n    }\n}",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "树上倍增结构化合并 <code>Info operator+</code>",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本质上，你可以把树上倍增看作是<strong>在链上维护的静态线段树</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "只要满足<strong>结合律</strong>的信息，都可以用这种 <code>Info operator+</code> 的方式维护。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "线段树合并的是 <code>Left_Child + Right_Child</code>，倍增合并的是 <code>Lower_Path (下半段) + Upper_Path (上半段)</code>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>唯一难点</strong>：倍增只有“自底向上”一种方向。处理 $u \\to v$ 路径时，合并的时候必须显式地把其中一段（如 $v \\to LCA$）的 <code>Info</code> 进行 <strong>Reverse（翻转）</strong>。",
+          "depth": 2
+        },
+        {
+          "heading": "核心模板",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "struct Info {\n  // 定义需要维护的属性\n};\n\n// 重载加法：合并 下半段(lower) + 上半段(upper)\nInfo operator+(const Info& lower, const Info& upper) {\n  Info res;\n  // ...合并逻辑，注意 lower 在逻辑顺序的前面还是后面...\n  return res;\n}\n\nInfo reverse(Info a) {\n\t//swap(a.x, a.y); 对数据进行翻转\n\treturn a;\n}",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "参考案例（树上两点间最大/最小子段和）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<a href=\"/p/cf1843f2-omsk-metro-(hard-version)\" class=\"wikilink\">CF1843F2 Omsk Metro (hard version)</a>",
+              "depth": 2
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "struct Info {\n  \tint sum;\t      // 整个区间和\n\tint mxpre, mnpre; // 最大/最小前缀和\n\tint mxsuf, mnsuf; // 最大/最小后缀和\n\tint mxsub, mnsub; // 最大/最小子段和\n  \n\tInfo() :\n\t\tsum(0), \n\t\tmxpre(0), mnpre(0), \n\t\tmxsuf(0), mnsuf(0), \n\t\tmxsub(0), mnsub(0)\n\t{}\n\tInfo(int x) :\n\t\tsum(x), \n\t\tmxpre(max(0, x)), mnpre(min(0, x)), \n\t\tmxsuf(max(0, x)), mnsuf(min(0, x)), \n\t\tmxsub(max(0, x)), mnsub(min(0, x))\n\t{}\n};\nInfo operator+(const Info& lower, const Info& upper) {\n\t// 合并 下半段(lower) 和 上半段(upper)\n\tInfo res;\n\tres.sum = lower.sum + upper.sum;\n\tres.mxpre = max(upper.mxpre, upper.sum + lower.mxpre);\n\tres.mnpre = min(upper.mnpre, upper.sum + lower.mnpre);\n\tres.mxsuf = max(lower.mxsuf, lower.sum + upper.mxsuf);\n\tres.mnsuf = min(lower.mnsuf, lower.sum + upper.mnsuf);\n\tres.mxsub = max({\n\t\tupper.mxsub, lower.mxsub,\n\t\tupper.sum + lower.mxpre - upper.mnpre,\n\t\tlower.sum + upper.mxsuf - lower.mnsuf\n\t\t});\n\tres.mnsub = min({\n\t\tupper.mnsub, lower.mnsub,\n\t\tupper.sum + lower.mnpre - upper.mxpre,\n\t\tlower.sum + upper.mnsuf - lower.mxsuf\n\t\t});\n\treturn res;\n}\nvar reverse = [](Info a)->Info {\n\tswap(a.mxpre, a.mxsuf);\n\tswap(a.mnpre, a.mnsuf);\n\treturn a;\n\t};",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-13",
+  "parsed_at": "2026-06-14T18:45:11.992777+00:00",
+  "type_directory": "k"
+}

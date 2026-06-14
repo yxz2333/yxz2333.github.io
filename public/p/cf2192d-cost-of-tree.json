@@ -1,0 +1,181 @@
+{
+  "slug": "cf2192d-cost-of-tree",
+  "title": "CF2192D Cost of Tree",
+  "type": "题目",
+  "tags": [
+    "树形dp",
+    "前后缀"
+  ],
+  "difficulty": 1.5,
+  "summary": "朴素的树形dp，只不过维护的东西有点多。",
+  "link": "https://codeforces.com/contest/2192/problem/D",
+  "link_text": "Problem - D - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于一棵以 $r$ 为根的树 $T$，其中每个节点 $u$ 都有一个关联的值 $a_u$，树的代价定义为：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\n\\sum_{u\\in T} (a_u \\cdot d(r,u))\n$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这里，求和是对树 $T$ 中的所有节点 $u$ 进行的，$d(r,u)$ 表示树中从节点 $r$ 到节点 $u$ 的最短路径上的边数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你得到一棵由 $n$ 个节点组成的树，根节点为 $1$。每个节点 $i$ 都有一个指定的值 $a_i$。对于每个从 $1$ 到 $n$ 的 $r$，请独立解决以下问题：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "考虑节点 $r$ 关于节点 $1$ 的子树。形式上，节点 $r$ 的子树是由所有满足从 $1$ 到 $u$ 的最短路径经过 $r$ 的节点 $u$ 组成的树。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "求在子树上执行<strong>最多一次</strong>以下类型的操作后，子树的最大可能代价：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "选择任意一个节点 $u$ ($u \\neq r$)。移除连接 $u$ 与其父节点$^{\\text{∗}}$的边。然后，添加一条从 $u$ 到任意一个仍然从 $r$ 可达的节点 $v$ 的边。可以证明，在此操作后，该图仍然是一棵树。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "如下图所示，是一个以 $r=1$，$u=5$，$v=4$ 进行操作的例子。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "![](https://espresso.codeforces.com/08cbc8b0340fa37c3036d5842d029b6d770d5775.png){:height 364, :width 711}",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$^{\\text{∗}}$形式化地说，移除从 $u$ 到 $p$ 的边，其中 $p$ 是满足 $d(u,p)=1$ 且 $d(u,r)=d(p,r)+1$ 的唯一节点。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \\le t \\le 10^4$)。接下来是测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$ ($1 \\le n \\le 2 \\cdot 10^5$) — 树中节点的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$ ($1 \\le a_i \\le 2 \\cdot 10^5$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "然后是 $n-1$ 行，第 $i$ 行包含两个整数 $u$ 和 $v$ ($1 \\le u, v \\le n$) — 第 $i$ 条边连接的两个节点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证给定的边构成一棵树。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例的 $n$ 之和不超过 $2 \\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n5\n1 3 2 1 2\n1 2\n2 3\n3 4\n3 5\n7\n1 2 3 1 3 2 1\n1 2\n2 3\n3 4\n4 5\n4 6\n3 7\n5\n5 4 3 2 1\n1 2\n2 3\n3 4\n4 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "18 10 5 0 0 \n40 28 18 8 0 0 0 \n20 10 4 1 0 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，对于 $r=1$，最优选择是 $u=5$ 和 $v=4$。树的代价为 $1\\cdot 0 + 3\\cdot 1+2\\cdot 2+1\\cdot 3+2\\cdot 4=18$。可以证明，在所有合法操作中，无法得到更大的代价。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "例如对于 $r=4$，其子树中只有 $1$ 个节点，因此无法进行操作。子树唯一可能的代价是 $0$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\n\tvar f = vector<ll>(n + 1);      // 子树不进行操作的答案\n\tvar dp = vector<ll>(n + 1);     // 子树进行操作的答案\n\tvar suma = vector<ll>(n + 1);   // 子树权值和\n\tvar mxdep = vector<ll>(n + 1);  // 子树最大深度\n\tvar dfs = [&](var dfs, int now, int fa, int dep)->void {\n\t\tsuma[now] = a[now];\n\t\tmxdep[now] = dep;\n\n\t\tvar sons = vector<int>();\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tsons.pb(to);\n\t\t\tdfs(dfs, to, now, dep + 1);\n\t\t\tsuma[now] += suma[to];\n\t\t\tf[now] += f[to] + suma[to];\n\t\t\tmxdep[now] = max(mxdep[now], mxdep[to]);\n\t\t}\n\n\t\t// 直接继承 to 子树的 dp\n\t\tfa(i, 0, vs(sons)) {\n\t\t\tint to = sons[i];\n\t\t\tdp[now] = max(dp[now], f[now] - f[to] + dp[to]);\n\t\t}\n\n\t\t// 前后缀求最大 suma\n\t\tvar suf = vector<ll>(vs(sons) + 2);\n\t\tfb(i, vs(sons), 0)\n\t\t\tsuf[i] = max(suf[i + 1], suma[sons[i]]);\n\n\t\tll pre = 0;\n\t\tfa(i, 0, vs(sons)) {\n\t\t\tint to = sons[i];\n\t\t\tll now_mx_suma = max(pre, suf[i + 1]); // 除了 to 以外，最大的 suma\n\t\t\tll res = f[now] + now_mx_suma * (mxdep[to] - dep); // 最大的 suma 换根到 to 子树下面\n\t\t\tdp[now] = max(dp[now], res);\n\t\t\tpre = max(pre, suma[to]);\n\t\t}\n\t\t};\n\tdfs(dfs, 1, 0, 0);\n\n\tfa(i, 1, n)cout << dp[i] << ' ';\n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-22",
+  "parsed_at": "2026-06-14T18:39:36.405723+00:00",
+  "type_directory": "p"
+}

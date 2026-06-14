@@ -1,0 +1,220 @@
+{
+  "slug": "cf1446b-catching-cheaters",
+  "title": "CF1446B Catching Cheaters",
+  "type": "题目",
+  "tags": [
+    "字符串dp"
+  ],
+  "difficulty": 1.5,
+  "summary": "简单的字符串匹配 dp，设 \\[dp_{i,j}\\] 代表以 \\( s_i, t_j \\) 结尾的最大相似度，然后双重循环分类讨论即可。",
+  "link": "https://www.luogu.com.cn/problem/CF1446B",
+  "link_text": "CF1446B Catching Cheaters - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定两个字符串 $A$ 和 $B$，它们分别代表两名被怀疑作弊的学生的作文。对于任意两个字符串 $C$ 和 $D$，我们定义它们的相似度分数 $S(C, D)$ 为 $4\\cdot LCS(C, D) - |C| - |D|$，其中 $LCS(C, D)$ 表示字符串 $C$ 和 $D$ 的最长公共子序列的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请计算所有子串对中最大的相似度分数。更正式地说，输出所有 $(C, D)$ 对中最大的 $S(C, D)$，其中 $C$ 是 $A$ 的某个子串，$D$ 是 $B$ 的某个子串。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果 $X$ 是一个字符串，$|X|$ 表示其长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请注意子串和子序列的区别，它们在题目中均有出现。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个正整数 $n$ 和 $m$（$1 \\leq n, m \\leq 5000$），分别表示两个字符串 $A$ 和 $B$ 的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含一个由 $n$ 个小写拉丁字母组成的字符串，表示字符串 $A$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含一个由 $m$ 个小写拉丁字母组成的字符串，表示字符串 $B$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出所有 $(C, D)$ 对中最大的 $S(C, D)$，其中 $C$ 是 $A$ 的某个子串，$D$ 是 $B$ 的某个子串。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 5\nabba\nbabab",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8 10\nbbbbabab\nbbbabaaaaa",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "12",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7 7\nuiibwws\nqhtkxcn",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一个样例：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第一个字符串中的 abb 和第二个字符串中的 abab 的 LCS 等于 abb。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "结果为 $S(abb, abab) = (4 \\cdot |abb|) - |abb| - |abab| = 4 \\cdot 3 - 3 - 4 = 5$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "设 \\[dp_{i,j}\\] 代表以 \\( s_i, t_j \\) 结尾的最大相似度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "两层循环枚举 \\( i, j \\)，这时，会出现两种可能：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "\\( s_{1i} = t_j \\)：最长公共子序列的长度会 +1，会产生 4 的相似度，而两个字符串的长度也 +1，所以总共会产生 \\( 4 - 1 - 1 = 2 \\) 的相似度。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "\\( s_i \\neq t_j \\)：\\( dp_{i,j} \\) 的结果与 \\( dp_{i-1,j}, dp_{i,j-1} \\) 有关系，\\( s \\) 或 \\( t \\) 的字串长度 +1，所以会产生 -1 的相似度，由于 \\( dp_{i-1,j} - 1 \\) 和 \\( dp_{i,j-1} - 1 \\) 会产生负数，所以还要和 0 取 max。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[N][N];\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tstring a; cin >> a; a = ' ' + a;\n\tstring b; cin >> b; b = ' ' + b;\n\tint ans = 0;\n\tfa(i, 1, n)fa(j, 1, m) {\n\t\tif (a[i] == b[j])dp[i][j] = dp[i - 1][j - 1] + 2;\n\t\telse dp[i][j] = max({ 0, dp[i - 1][j] - 1, dp[i][j - 1] - 1 });\n\t\tans = max(ans, dp[i][j]);\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-21",
+  "parsed_at": "2026-06-14T18:39:36.175233+00:00",
+  "type_directory": "p"
+}

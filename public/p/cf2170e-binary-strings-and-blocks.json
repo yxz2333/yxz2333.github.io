@@ -1,0 +1,408 @@
+{
+  "slug": "cf2170e-binary-strings-and-blocks",
+  "title": "CF2170E Binary Strings and Blocks",
+  "type": "题目",
+  "tags": [
+    "计数问题",
+    "经典问题/区间问题",
+    "前缀和优化dp",
+    "划分型dp"
+  ],
+  "difficulty": 2.5,
+  "summary": "主要是得想好这个 <code>dp</code> 状态怎么定",
+  "link": "https://codeforces.com/contest/2170/problem/E",
+  "link_text": "Problem - E - Codeforces",
+  "source": "[[Educational Codeforces Round 185 (Rated for Div. 2)]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "我们将二进制字符串（仅由字符 0 和/或 1 组成的字符串）中的 <strong>块 (block)</strong> 定义为由相同类型字符组成的连续子串，且该子串不能向左或向右扩展。例如，在字符串 110001111 中，有三个块：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "11（从第 $1$ 个字符到第 $2$ 个字符）；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "000（从第 $3$ 个字符到第 $5$ 个字符）；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "1111（从第 $6$ 个字符到第 $9$ 个字符）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "从第 $7$ 个字符到第 $9$ 个字符的子串 111 不是块，因为它可以向左扩展。从第 $1$ 个字符到第 $5$ 个字符的子串 11000 不是块，因为它包含不同类型的字符。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果我们可以从一个字符串中移除 <strong>恰好一个块</strong>，使得剩余字符串由 <strong>奇数</strong> 个块组成，则称该字符串是“漂亮”的。例如：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "字符串 110001111 是漂亮的，因为我们可以移除从第 $3$ 个到第 $5$ 个字符的块，得到字符串 111111，它由 1 个块组成；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "字符串 1010 是漂亮的，因为我们可以移除从第 $1$ 个到第 $1$ 个字符的块，得到字符串 010，它由 3 个块组成；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "字符串 0000 不是漂亮的，因为移除其中唯一的块会导致空字符串，它由 $0$ 个块组成。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "给你一个整数 $n$ 和 $m$ 个约束条件，第 $i$ 个约束条件由一对整数 $l_i, r_i$ 描述。我们用 $s[l:r]$ 表示字符串 $s$ 中从字符 $l$ 到字符 $r$（包含端点）的子串，即 $s[l:r] = s_l s_{l+1} \\dots s_r$。你的任务是计算满足以下条件的长度为 $n$ 的二进制字符串 $s$ 的数量：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于从 $1$ 到 $m$ 的每个 $i$，子串 $s[l_i:r_i]$ 都是漂亮的。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$ ($1 \\le t \\le 10^4$) —— 测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含两个整数 $n$ 和 $m$ ($2 \\le n \\le 3 \\cdot 10^5$; $1 \\le m \\le 3 \\cdot 10^5$) —— 分别表示所需的字符串长度和约束条件的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来有 $m$ 行，第 $i$ 行包含两个整数 $l_i, r_i$ ($1 \\le l_i < r_i \\le n$) —— 第 $i$ 个约束条件的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入的额外限制：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例中 $n$ 的总和不超过 $3 \\cdot 10^5$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例中 $m$ 的总和不超过 $3 \\cdot 10^5$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一个整数 —— 满足条件的字符串数量。由于结果可能很大，请输出其对 $998244353$ 取模后的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n4 3\n1 2\n2 3\n3 4\n4 2\n1 2\n3 4\n200 1\n13 37",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n4\n570529459",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在题目描述的第一个示例中，以下字符串是符合条件的：1010, 0101。对于这些字符串中的每一个，$s[1:2]$、$s[2:3]$ 和 $s[3:4]$ 都是漂亮的。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "理解题意",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>直观</strong>：只要 $m$ 个限制区间中出现一个<strong>块</strong>（区间里只有 0 或只有 1），那么这整个字符串就是不漂亮的。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>深层</strong>：计数问题，可以用<strong>dp</strong>解决，直观来看是构造<code>dp[i]</code>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "直观来说，我们肯定定义 <code>dp[i]</code>：前 $i$ 个长度下字符串有多少种合法方案。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "但这实际上不是正解定的状态。",
+          "depth": 1
+        },
+        {
+          "heading": "如何想到？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>先从手玩数据开始</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "先来个数据：字符串 <code>000111100</code>，限制区间 $[4, 6]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "怎么判断这个字符串是否漂亮？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "先按题意分<strong>块</strong>：<code>000</code> (下标1-3)，<code>1111</code> (下标4-7)，<code>00</code> (下标8-9)。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "发现有一个块 <code>1111</code> (下标4-7) 包含了限制区间，说明不漂亮。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "发现<strong>关键点</strong>：判断漂亮的核心其实在于每个块的<strong>起点</strong>和<strong>终点</strong>，我们只需要检查这些<strong>块的区间</strong>是否<strong>包含</strong>限制区间即可。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>再分析原来错误的状态定义</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果我们只知道 $dp[i-1]$ 是合法的，当我们往后面加第 $i$ 个字符时，我们需要知道：第 $i$ 个字符是<strong>延续了前面的颜色</strong>，还是<strong>开启了新颜色</strong>？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果是<strong>后者</strong>，那肯定不会构造出不合法的。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "但如果是<strong>前者</strong>，不管怎么操作，我们都有可能把不合法的算进来。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "所以在处理<strong>前者</strong>时，我们还得知道我们<strong>延续了前面多少颜色（len）</strong>。根据 <code>len</code> 这个参数，我们就能看此时的计数是否不合法（具体看下方 <code>dp[i][len]</code>）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态定义的进化</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>直观但冗余的定义</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$dp[i][len]$：表示考虑到第 $i$ 位，且当前最后一段颜色的长度为 $len$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "转移：如果<strong>延续前面的颜色</strong>，枚举 $len$，保证 $[i - len, i]$ 不",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>包含</strong>任何限制区间，$dp[i][len] \\leftarrow dp[i-1][len-1]$；如果<strong>开启了新颜色</strong>，$dp[i][1] \\leftarrow \\sum dp[i-1][k]$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "但肯定会 TLE，需要进行优化。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>正解</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "与其记录当前块有多长，不如记录<strong>上一个块结束在哪里</strong>，延续前面的颜色，实际上是选择上一个块的边界。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "当我们决定在 $i$ 这个位置<strong>结束当前块</strong>（画一个断点）时，我们需要找上一个块的边界 $j$ 在哪里。这样，当前新生成的块就是 $(j, i]$，也就是下标 $j+1$ 到 $i$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "即 $dp[i]$ ：第 $i$ 位是整个块的结尾（即 <code>s[i] != s[i - 1]</code>）的合法方案数。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>推导转移方程</strong>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "我现在站在 $i$ 位置，我想把 $i$ 作为当前块的结尾。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "我要去前面找一个 $j$ 作为上一个块的结尾。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "那么 $[j+1, i]$ 就构成了一个纯色的块（全0或全1）。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>限制条件</strong>：这个纯色块 $[j+1, i]$ 不能包含任何限制区间 $[L, R]$。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "为了<strong>避免</strong>包含，对于所有满足 $R \\le i$ 的限制，要保证 $j+1 > L$，也就是 $j \\ge L$。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "所以 $j$ 的取值范围变成了 $[max\\_L, i-1]$。",
+              "depth": 4
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i] = \\sum_{max\\_L}^{i-1} dp[j]$$\n**特例分析**：当 $j = i - 1$ 时，新块区间为 $[i, i]$（长度为 1）。这意味着第 $i$ 位**中断**了前面的颜色延续，作为**新颜色的起点**单独成块。（其实也不算特例，只是以上面的思路来看是特例）\n使用**前缀和**对这个区间和进行优化即可。",
+              "depth": 4
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "状态的思路已经讲完了，还需补充的是，因为本题 1/0 完全是对称的，上面的转移过程并没有设定 $i$ 是 1 还是 0，显然 <code>dp[n] * 2</code> 就是最后的答案了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "想出本题的<code>dp</code>状态定义（<strong>划分型dp</strong>）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "既然限制的是<strong>纯0/1块的范围</strong>，那么决定当前状态是否合法的唯一因素就是：<strong>上一次变0/1（切分）发生在哪里？</strong> $\\rightarrow$ 只要记录最后一切的位置 $i$，就能根据上一切的位置 $j$ 判断这一段 $[j+1, i]$ 是否合法。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tvar p = vector<pii>(m + 1);\n\tvar l = vector<int>(n + 1); // i 前面最近的 L 边界\n\tfa(i, 1, m) {\n\t\tcin >> p[i].px >> p[i].py;\n\t\tl[p[i].py] = max(l[p[i].py], p[i].px);\n\t}\n\tvar dp = vector<ll>(n + 1);\n\tvar pre = vector<ll>(n + 1); // dp 的前缀和\n\tdp[0] = pre[0] = 1;\n\tfa(i, 1, n) {\n\t\tl[i] = max(l[i], l[i - 1]);\n\t\tif (l[i]) dp[i] = ((pre[i - 1] - pre[l[i] - 1]) % mod + mod) % mod;\n\t\telse dp[i] = pre[i - 1];\n\t\tpre[i] = (pre[i - 1] + dp[i]) % mod;\n\t}\n\tll ans = dp[n] * 2 % mod;\n\tcout << ans << endl;\n\n\t//int anss = 0;\n\t//var tmp = vector<bool>();\n\t//tmp.pb(0);\n\t//var dfs = [&](var dfs)->void {\n\t//\tif ((int)tmp.size() == n + 1) {\n\t//\t\tfa(k, 1, m) {\n\t//\t\t\tconst var& [l, r] = p[k];\n\t//\t\t\tint cnt = 0, len = r - l + 1;\n\t//\t\t\tfa(i, l, r)cnt += tmp[i];\n\t//\t\t\tif (cnt == 0 or cnt == len) {\n\t//\t\t\t\t//fa(i, 1, n)cout << tmp[i];\n\t//\t\t\t\t//cout << endl;\n\t//\t\t\t\treturn;\n\t//\t\t\t}\n\t//\t\t}\n\n\t//\t\tanss++;\n\t//\t\treturn;\n\t//\t}\n\t//\ttmp.pb(0);\n\t//\tdfs(dfs);\n\t//\ttmp.pop_back();\n\t//\ttmp.pb(1);\n\t//\tdfs(dfs);\n\t//\ttmp.pop_back();\n\t//\t};\n\t//dfs(dfs);\n\n\t//if (ans != anss) {\n\t//\tdebug(\"NOOOOOOOOOOOOOOOOOOOO\");\n\t//\tdebug(ans, anss);\n\t//\tdebug(n, m);\n\t//\tfa(i, 1, m)debug(p[i].px, p[i].py);\n\t//}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-25",
+  "parsed_at": "2026-06-14T18:39:36.356533+00:00",
+  "type_directory": "p"
+}

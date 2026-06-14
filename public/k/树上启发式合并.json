@@ -1,0 +1,37 @@
+{
+  "slug": "树上启发式合并",
+  "title": "树上启发式合并",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "问题涉及“全量子树信息”的维护",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>普通树形 DP</strong>：通常只需要维护一下子树的 <code>max</code>、<code>sum</code>、<code>size</code> 或者状态简单的 DP 值（比如 <code>dp[u][0/1]</code>），这些信息合并起来是 $O(1)$ 的（比如 <code>sum[u] += sum[v]</code>）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>启发式合并</strong>：你需要维护的信息不是一个简单的数字，而必须是一个<strong>集合（Set）</strong>、<strong>频率数组（Map）</strong> 或者 <strong>列表（Vector）</strong>。",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-19",
+  "parsed_at": "2026-06-14T18:45:12.123070+00:00",
+  "type_directory": "k"
+}

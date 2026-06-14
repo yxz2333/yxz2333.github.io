@@ -1,0 +1,228 @@
+{
+  "slug": "nc126321h-故障机器人",
+  "title": "NC126321H 故障机器人",
+  "type": "题目",
+  "tags": [
+    "状压",
+    "dij",
+    "最短路/TSP状压问题"
+  ],
+  "difficulty": 1.5,
+  "summary": "先用多次<strong>bfs</strong>算了每个点对的最短距离，然后根据这个最短距离，$s$ 作为起点跑所有关键点的最短路，用状压记录已经跑过哪些位置。",
+  "link": "https://ac.nowcoder.com/acm/contest/126321/H",
+  "link_text": "H-故障机器人_浙大城市学院第二十二届大学生程序设计竞赛",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有一个故障机器人被困在一个 $N \\times M$ 的矩形房间里。为了修复自身的导航系统，它必须前往房间内若干个关键点进行数据校准。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "房间的地图由字符矩阵表示，包含以下元素：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>'.'</strong>：空地，机器人可以在上面自由行走。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>'#'</strong>：墙壁，机器人无法穿过或停留在该位置。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>'S'</strong>：机器人的起点（Start）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>'\\*'</strong>：需要访问的关键点（$0 \\leq COUNT(*) \\leq 10$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "机器人的行动规则如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "1.  机器人从起点 <strong>'S'</strong> 出发。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "2.  每一步，机器人可以向 上、下、左、右 四个方向中的任意一个移动一格。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "3.  移动一格消耗 $1$ 单位电量。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "4.  机器人必须访问地图上所有标记为 <strong>'\\*'</strong> 的关键点（访问顺序任意）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "5.  在访问完所有关键点后，机器人必须返回起点 <strong>'S'</strong> 汇报任务。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "请你计算出机器人完成上述任务所需消耗的最少电量。如果机器人无法完成任务（例如无法到达某个关键点或无法返回起点），请输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $N$ 和 $M$（$2 \\le N, M \\le 500$），分别表示房间的行数和列数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $N$ 行，每行包含一个长度为 $M$ 的字符串，描述房间的地图结构。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "地图中仅包含字符 '.' '#' 'S' '\\<em>'。保证地图中恰好有一个 'S'，且 '\\</em>' 的数量满足 $0 \\leq COUNT(*) \\leq 10$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行一个整数。如果任务可以完成，输出最少消耗的电量；否则输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 3\nS..\n.#.\n..*",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 4\nS...\n....\n.###\n.#*.",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "没啥难度，一眼思路就有了，但是最后这个跑 <strong>dij</strong> 的部分，我第一眼居然是<strong>分层图</strong>而不是<strong>状压</strong><em>（虽然状压也算一种分层图）</em>，一开始的想法就只是算已访问了多少个点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "先用多次<strong>bfs</strong>算了每个点对的最短距离，然后根据这个最短距离，$s$ 作为起点跑所有关键点的最短路，用状压记录已经跑过哪些位置。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为啥要用状压呢？因为<strong>“访问了哪些点”</strong>比<strong>“访问了多少个点”</strong>更重要，<strong>已访问的节点集合</strong>才决定了未来能去哪里。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dis[15][15], fdis[15][1 << 15];\npii id_to_xy[15];\nstring a[N];\nbool vis[N][N];\nstruct node {\n\tint id, st, d;\n\tbool operator<(const node& a)const {\n\t\treturn a.d < d;\n\t}\n};\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tfa(i, 1, n)cin >> a[i], a[i] = ' ' + a[i];\n\tfa(i, 1, n)fa(j, 1, m) {\n\t\tif (a[i][j] == 'S') {\n\t\t\tid_to_xy[0] = { i,j };\n\t\t\tbreak;\n\t\t}\n\t}\n\tint tot = 1;\n\tfa(i, 1, n)fa(j, 1, m)if (a[i][j] == '*') {\n\t\tid_to_xy[tot] = { i,j };\n\t\ttot++;\n\t}\n\tif (tot == 1) {\n\t\tcout << 0 << endl;\n\t\treturn;\n\t}\n\n\tfa(i, 0, tot - 1)fa(j, 0, tot - 1) {\n\t\tif (i == j)dis[i][j] = 0;\n\t\telse dis[i][j] = INF;\n\t}\n\n  \t// 所有关键点对的最短路 dis\n\tfa(i, 0, tot - 1)fa(j, i + 1, tot - 1) {\n\t\tfa(i, 1, n)fa(j, 1, m)vis[i][j] = 0;\n\t\tconst var& st = id_to_xy[i];\n\t\tconst var& ed = id_to_xy[j];\n\t\tvar Q = queue<tuple<int, int, int>>();\n\t\tQ.push({ st.px, st.py, 0 });\n\t\twhile (Q.size()) {\n\t\t\tvar[x, y, d] = Q.front();\n\t\t\tQ.pop();\n\t\t\tif (x == ed.px and y == ed.py) {\n\t\t\t\tdis[i][j] = dis[j][i] = d;\n\t\t\t\tbreak;\n\t\t\t}\n\t\t\tif (vis[x][y])continue;\n\t\t\tvis[x][y] = 1;\n\t\t\tfa(k, 0, 3) {\n\t\t\t\tint nx = x + dx[k];\n\t\t\t\tint ny = y + dy[k];\n\t\t\t\tif (nx < 1 or nx > n or ny < 1 or ny > m or a[nx][ny] == '#')continue;\n\t\t\t\tQ.push({ nx,ny,d + 1 });\n\t\t\t}\n\t\t}\n\t}\n\n\tfa(i, 1, tot - 1)if (dis[0][i] == INF) {\n\t\tcout << -1 << endl;\n\t\treturn;\n\t}\n\t\n  \t// s 做起点跑最短路 fdis\n\tvar Q = priority_queue<node>();\n\tfa(i, 0, tot - 1)fa(j, 0, (1 << tot) - 1)fdis[i][j] = INF;\n\tfdis[0][1] = 0;\n\tQ.push({ 0, 1, fdis[0][1] });\n\twhile (Q.size()) {\n\t\tvar[now, st, d] = Q.top();\n\t\tQ.pop();\n\t\tif (d > fdis[now][st])continue;\n\t\tbool ok = 0;\n\t\tfa(to, 1, tot - 1)if (!(st & (1 << to))) {\n\t\t\tok = 1;\n\t\t\tint nst = st | (1 << to);\n\t\t\tif (fdis[to][nst] > d + dis[now][to]) {\n\t\t\t\tfdis[to][nst] = d + dis[now][to];\n\t\t\t\tQ.push({ to, nst, fdis[to][nst] });\n\t\t\t}\n\t\t}\n\t}\n\n\tint ans = INF;\n\tfa(i, 1, tot - 1)ans = min(ans, fdis[i][(1 << tot) - 1] + dis[0][i]);\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-08",
+  "parsed_at": "2026-06-14T18:39:36.667403+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,131 @@
+{
+  "slug": "隔板法",
+  "title": "隔板法",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "组合数学",
+    "隔板法"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "每个组至少分 1 个 ($x_i \\ge 1$)",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>场景</strong>：你有 $N$ 个苹果，要分给 $M$ 个不同的小朋友，<strong>每人至少 1 个</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>推导</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "想象 $N$ 个苹果排成一排：🍎 🍎 🍎 🍎 ... 🍎",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "这 $N$ 个苹果中间有 $N-1$ 个空隙。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "我们要分成 $M$ 组，只需要在这些空隙中插入 $M-1$ 个板子即可。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>公式</strong>：$\\binom{N-1}{M-1}$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "组可以是空的 ($x_i \\ge 0$)",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>场景</strong>：你有 $N$ 个苹果，要分给 $M$ 个不同的小朋友，<strong>允许有人分到 0 个</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>转化思路（借一还一法）</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这就不能直接插板了，因为板子可能插在两头，或者两个板子插在同一个空隙（表示中间那个组是 0）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "怎么办？<strong>我们可以先假装给每个小朋友 1 个苹果</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "既然每人都要先发 1 个，那我们总共需要向这一堆苹果里<strong>借</strong> $M$ 个苹果。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "现在物品总数变成了 $N + M$ 个。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "问题转化为：把 $N + M$ 个苹果分给 $M$ 个人，每人至少 1 个（因为包含了借给他的那个）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "这就回到了<strong>基础模型</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>推导</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "物品总数：$N + M$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "空隙总数：$N + M - 1$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "插板数量：$M - 1$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>公式</strong>：$\\binom{N+M-1}{M-1}$",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-05",
+  "parsed_at": "2026-06-14T18:45:12.237888+00:00",
+  "type_directory": "k"
+}

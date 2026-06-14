@@ -1,0 +1,300 @@
+{
+  "slug": "nk129232c-调色题ⅱ",
+  "title": "NK129232C 调色题Ⅱ",
+  "type": "题目",
+  "tags": [
+    "背包",
+    "因数",
+    "gcd",
+    "前缀单调性"
+  ],
+  "difficulty": 2.0,
+  "summary": "看到 $b$ 数组说要选几个进行 $gcd$ ，我就想到了<strong>背包选取</strong> $dp[i][j]$：与 $j$ 进行 $gcd$ 的最小代价，刚好复杂度合适。然后我就猜想，$dp$ 中真正<strong>能用的肯定不多</strong>，我可以直接枚举。$a$ 的数都会相同，那它们肯定是 $\\gcd (a_i)$ 的因数，枚举看看哪个消耗少就行。",
+  "link": "https://ac.nowcoder.com/acm/contest/129232/C",
+  "link_text": "C-调色题Ⅱ_牛客练习赛149",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$www.com 有 $n$ 个待调色的方格，第 $i$ 个方格的初始颜色编号为 $a_i$。此外，他还有 $m$ 种颜料，第 $i$ 种颜料的编号为 $b_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$www.com 每次可以选择一个方格 $i$ 和一种颜料 $j$，进行一次调色操作。记该方格当前颜色编号为 $a_i'$，则操作后更新为 $\\gcd(a_i', b_j)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$每种颜料可重复使用，次数不限；同一方格可被多次调色。他想要让所有方格的颜色编号完全相同。请你求出实现该目标所需要的最少操作次数，若无法让所有方格的颜色编号完全相同，则输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$每个测试文件均包含多组测试数据。第一行输入一个整数 $T\\left(1\\leq T\\leq 20\\right)$ 代表数据组数，每组测试数据描述如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第一行输入两个整数 $n$ 和 $m \\left(1 \\le n, m \\le 500\\right)$，分别表示方格数量和颜料种类。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第二行输入 $n$ 个整数 $a_1, a_2, \\dots, a_n \\left(1 \\le a_i \\le 5\\times 10^5\\right)$，表示各方格的初始颜色。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$第三行输入 $m$ 个整数 $b_1, b_2, \\dots, b_m \\left(1 \\le b_i \\le 5\\times 10^5\\right)$，表示各颜料的编号。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$除此之外，保证单个测试文件的 $n$ 之和、$m$ 之和均不超过 $500$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$对于每一组测试数据，新起一行。若无法让所有方格的颜色编号完全相同，输出 $-1$；否则，输出一个整数，表示最少的操作次数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n2 1\n2 4\n4\n5 3\n60 90 150 180 210\n240 60 90\n5 4\n9 3 7 10 11\n5 8 9 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "-1\n6\n5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 核心思路拆解",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>第一步：确定最终的目标颜色</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果所有的 $a_i$ 最终都能变成同一个颜色 $p$。因为每次调色都是做 $\\gcd$ 操作（值只会变小或不变），所以 $p$ 必须同时是所有初始 $a_i$ 的约数。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "即：<strong>最终的目标颜色</strong> $p$<strong>，必定是初始全部方格颜色最大公约数</strong> $G = \\gcd(a_1, \\dots, a_n)$ <strong>的因数。</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>第二步：预处理颜料组合的最优代价（类背包 DP）</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对一个方格先后涂上颜料 $x$ 和 $y$，等价于它与 $\\gcd(b_x, b_y)$ 求 $\\gcd$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这就意味着，我们可以把 $B$ 数组看作“物品”，问题变成了：<strong>选出一个</strong> $B$ <strong>的子集，使得它们的</strong> $\\gcd$ <strong>为</strong> $j$<strong>，最少需要选几个物品？</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这可以用类似 01 背包的思路来做：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态</strong>：$dp[i][j]$ 表示考虑前 $i$ 种颜料，组合出 $\\gcd = j$ 的最小使用次数。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>转移</strong>：要么不选当前颜料，要么把当前颜料 $b_i$ 加进之前的组合里，新的 $\\gcd$ 为 $\\gcd(j, b_i)$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>dp[i][gcd(j, b[i])] = min(dp[i-1][j] + 1)</code>",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>第三步：计算各方格到达目标的代价</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于枚举的每一个目标因数 $p$，我们遍历所有的 $a_i$：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $a_i == p$，不需要任何操作，代价为 0。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "否则，遍历我们 DP 求出的所有合法颜料组合 $(j, \\text{cnt})$，只要满足 $\\gcd(a_i, j) == p$，就用它的操作次数 $\\text{cnt}$ 来更新最小代价。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "所有方格代价相加，取所有目标因数中的最小值即为最终答案。",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "2. 关于空间优化（为什么必须用滚动数组？）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目中颜料种类 $m \\le 500$，颜色值上限 $V \\le 5 \\times 10^5$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果直接开二维数组 <code>int dp[505][500005]</code>，需要占用的内存大约是 <strong>1000 MB (1GB)</strong>！绝大多数题目的内存限制是 256MB，直接交必定爆内存（MLE / RE）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由于当前状态 <code>dp[i]</code> 只依赖于上一层 <code>dp[i-1]</code>，我们只需开 <code>dp[2][500005]</code> 利用 <code>% 2</code> 交替使用即可，内存瞬间降为约 <strong>4 MB</strong>，轻松过关。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "3. 解惑：为什么 DP 中的“有效状态”那么少？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "凭直觉猜到了 <code>use</code> 里面存的有效 $\\gcd$ 状态不会很多，并且联想到了<strong>“前缀</strong> $\\gcd$ <strong>递减”</strong>的 Trick。",
+              "depth": 1
+            },
+            {
+              "heading": "原因一：前缀 $\\gcd$ 的“对数级”衰减法则",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "这就是你印象里的那个 Trick。当我们不断地拿数字去求 $\\gcd$ 时（例如 $x, \\gcd(x, y_1), \\gcd(x, y_1, y_2)\\dots$），这个序列的值要么不变，<strong>如果变小，至少会缩小一半</strong>（因为最小的非 1 因数是 2）。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "所以，一个数 $V \\le 5 \\times 10^5$，它连续求 $\\gcd$ 最多只能下降 $\\log_2(5 \\times 10^5) \\approx 19$ 次！这就注定了无论怎么组合，生成的新 $\\gcd$ 种类是极其有限的。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "原因二：因数个数的“天花板”",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "更严格地说，DP 中能生成的任何状态 $j$，<strong>必定是某个</strong> $b_i$ <strong>的因数</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "在 $5 \\times 10^5$ 以内，拥有最多因数的数字是 $360360$（它被称为高合成数），它仅仅只有 <strong>160</strong> 个因数！",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这意味着，即便数据给得再刁钻，每种颜料能衍生出的有效 $\\gcd$ 状态最多也就 100 多种。即便把 $m$ 种颜料的因数全加起来去重，整个 DP 数组中不是 <code>INF</code> 的有效状态往往<strong>只有几百到一两千个</strong>，相比于 $500000$ 的值域，简直是九牛一毛。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[2][N];\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tfa(i, 0, 1)fa(j, 1, 5e5)dp[i][j] = INF;\n\tvar a = vector<int>(n + 1);\n\tvar b = vector<int>(m + 1);\n\tint g = 0;\n\tfa(i, 1, n)cin >> a[i], g = Math::gcd(g, a[i]);\n\tfa(i, 1, m)cin >> b[i];\n\n\t// 类背包\n\tfa(i, 1, m) {\n\t\tfa(j, 1, 5e5)if (dp[(i - 1) % 2][j] != INF) {\n\t\t\tint g = Math::gcd(j, b[i]);\n\t\t\tdp[i % 2][g] = min(dp[i % 2][g], dp[(i - 1) % 2][j] + 1);\n\t\t\tdp[i % 2][j] = min(dp[i % 2][j], dp[(i - 1) % 2][j]);\n\t\t}\n\t\tdp[i % 2][b[i]] = 1;\n\t\tfa(j, 1, 5e5)dp[(i - 1) % 2][j] = INF;\n\t}\n\n\t// 能用的 dp 肯定很少\n\tvar use = vector<pii>();\n\tfa(i, 1, 5e5)if (dp[m % 2][i] != INF)use.pb({ i, dp[m % 2][i] });\n\n\tint ans = INF;\n\tfor (int p : Math::factorNumbers(g)) {\n\t\tint res = 0;\n\t\tbool ok = 1;\n\t\tfa(i, 1, n) {\n\t\t\tint now = INF;\n\t\t\tif (a[i] == p)now = 0;\n\t\t\telse {\n\t\t\t\tfor (const var& [j, cnt] : use)\n\t\t\t\t\tif (Math::gcd(a[i], j) == p)\n\t\t\t\t\t\tnow = min(now, cnt);\n\t\t\t}\n\t\t\tif (now == INF) {\n\t\t\t\tok = 0;\n\t\t\t\tbreak;\n\t\t\t}\n\t\t\tres += now;\n\t\t}\n\t\tif (ok)ans = min(ans, res);\n\t}\n\n\tif (ans == INF)cout << -1 << endl;\n\telse cout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-18",
+  "parsed_at": "2026-06-14T18:39:36.713448+00:00",
+  "type_directory": "p"
+}

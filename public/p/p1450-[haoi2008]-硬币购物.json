@@ -1,0 +1,185 @@
+{
+  "slug": "p1450-[haoi2008]-硬币购物",
+  "title": "P1450 [HAOI2008] 硬币购物",
+  "type": "题目",
+  "tags": [
+    "完全背包",
+    "暴力容斥",
+    "计数问题"
+  ],
+  "difficulty": 2.0,
+  "summary": "典型的<strong>背包容斥</strong>问题，主要还是得先发现是个<strong>暴力容斥</strong>，然后找<strong>限制条件</strong>即可。",
+  "link": "[P1450 [HAOI2008] 硬币购物 - 洛谷](https://www.luogu.com.cn/problem/P1450)",
+  "link_text": "[P1450 [HAOI2008] 硬币购物 - 洛谷](https://www.luogu.com.cn/problem/P1450)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "共有 $4$ 种硬币。面值分别为 $c_1,c_2,c_3,c_4$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "某人去商店买东西，去了 $n$ 次，对于每次购买，他带了 $d_i$ 枚 $i$ 种硬币，想购买 $s$ 的价值的东西。请问每次有多少种付款方法。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入的第一行是五个整数，分别代表 $c_1,c_2,c_3,c_4, n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行，每行有五个整数，描述一次购买，分别代表 $d_1, d_2, d_3, d_4,s$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $100\\%$ 的数据，保证 $1 \\leq c_i, d_i, s \\leq 10^5$，$1 \\leq n \\leq 1000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每次购买，输出一行一个整数代表答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1 2 5 10 2\n3 2 3 1 10\n1000 2 2 2 900",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n27",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>理解题意</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>直观</strong>：<strong>在线询问问题</strong>，肯定不可能每次询问都跑一次背包，得一开始就跑一遍<strong>完全背包</strong>，背包容量上限为 $1e5$，硬币数没有限制。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>： <strong>背包 + 容斥</strong>题，先拆解出限制条件。一共 4 个，也就是每次询问的硬币数限制。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>正难则反</strong>，考虑违反这些硬币数限制，枚举 $2^4 - 1$ 种违反情况。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例如状态 <code>1000</code>，我们第一个硬币确保拿超过 <code>d[1]</code> 枚，也就是拿 <code>d[1] + 1</code>，这样违反状态 <code>1000</code> 的方案数就是 <code>dp[s - (d[1] + 1)]</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "把 $15$ 种违反状态的方案数都算出来，然后按<strong>奇减偶加</strong>的公式算最后的答案即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "看出本题是<strong>背包 + 容斥</strong>的题，得把 4 个限制条件找出来。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll dp[N], c[4], d[4];\nvoid solve(int CASE)\n{\n\tdp[0] = 1;\n\tfa(i, 0, 3) {\n\t\tcin >> c[i];\n\t\t// 完全背包 (装到装不下)\n\t\tfa(j, c[i], 1e5)dp[j] += dp[j - c[i]];\n\t}\n\tint n; cin >> n;\n\n\twhile (n--) {\n\t\tfa(i, 0, 3)cin >> d[i];\n\t\tint s; cin >> s;\n\t\tll ans = 0;\n      \t// 二进制枚举违反哪些限制条件\n\t\tfa(i, 1, 15) {\n\t\t\tint now = s;\n\t\t\tfa(k, 0, 3) if (i & (1 << k))\n\t\t\t\tnow -= (d[k] + 1) * c[k]; // 该位一定不满足要求\n\t\t\tif (now < 0)continue;\n\t\t\tif (popcnt(i) & 1)ans += dp[now];\n\t\t\telse ans -= dp[now];\n\t\t}\n\t\tcout << dp[s] - ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-15",
+  "parsed_at": "2026-06-14T18:39:36.845085+00:00",
+  "type_directory": "p"
+}

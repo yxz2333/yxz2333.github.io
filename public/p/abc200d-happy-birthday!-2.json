@@ -1,0 +1,203 @@
+{
+  "slug": "abc200d-happy-birthday!-2",
+  "title": "ABC200D Happy Birthday! 2",
+  "type": "题目",
+  "tags": [
+    "数论/鸽巢原理"
+  ],
+  "difficulty": null,
+  "summary": "鸽巢原理简单应用题，发现对于前 8 个数，选或不选最后得出的状态数为 $255 > 200$，说明无论如何<strong>只用 8 个数就能出现重复</strong>的下标取法了，所以本题直接暴力求子集即可。",
+  "link": "https://atcoder.jp/contests/abc200/tasks/abc200_d",
+  "link_text": "D - Happy Birthday! 2",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个由 $N$ 个正整数组成的数列 $A = (A_1, A_2, \\dots, A_N)$。请判断是否存在满足以下所有条件的两个数列 $B = (B_1, B_2, \\dots, B_x)$ 和 $C = (C_1, C_2, \\dots, C_y)$，如果存在，请输出其中一组。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq x, y \\leq N$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq B_1 < B_2 < \\dots < B_x \\leq N$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq C_1 < C_2 < \\dots < C_y \\leq N$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$B$ 和 $C$ 是不同的数列。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "当 $x \\neq y$ 时，或者存在某个整数 $i\\ (1 \\leq i \\leq \\min(x, y))$ 使得 $B_i \\neq C_i$ 时，$B$ 和 $C$ 被认为是不同的。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "$A_{B_1} + A_{B_2} + \\dots + A_{B_x}$ 除以 $200$ 的余数与 $A_{C_1} + A_{C_2} + \\dots + A_{C_y}$ 除以 $200$ 的余数相等。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入以以下格式从标准输入读入。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $N$ $A_1$ $A_2$ $\\dots$ $A_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2 \\leq N \\leq 200$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq A_i \\leq 10^9$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "如果不存在满足条件的数列组 $B, C$，请输出一行 <code>No</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果存在，请按以下格式输出 $B, C$：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> Yes $x$ $B_1$ $B_2$ $\\dots$ $B_x$ $y$ $C_1$ $C_2$ $\\dots$ $C_y$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n180 186 189 191 218",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\n1 1\n2 3 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n123 523",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\n1 1\n1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n2013 1012 2765 2021 508 6971",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "No",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "vector<int> ans[N];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar tmp = vector<int>();\n\tvar dfs = [&](var dfs, int now, int val)->void {\n\t\tif (now == n + 1 or now == 9) {\n\t\t\tif (tmp.empty())return;\n\t\t\tif (ans[val].size()) {\n\t\t\t\tcout << \"Yes\" << endl;\n\t\t\t\tcout << ans[val].size() << ' ';\n\t\t\t\tfor (int x : ans[val])cout << x << ' ';\n\t\t\t\tcout << endl;\n\t\t\t\tcout << tmp.size() << ' ';\n\t\t\t\tfor (int x : tmp)cout << x << ' ';\n\t\t\t\tcout << endl;\n\t\t\t\texit(0);\n\t\t\t}\n\t\t\tans[val] = tmp;\n\t\t\treturn;\n\t\t}\n\t\tdfs(dfs, now + 1, val);\n\t\ttmp.pb(now);\n\t\tdfs(dfs, now + 1, (val + a[now]) % mod);\n\t\ttmp.pop_back();\n\t\t};\n\tdfs(dfs, 1, 0);\n\tcout << \"No\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-11",
+  "parsed_at": "2026-06-14T18:39:35.968637+00:00",
+  "type_directory": "p"
+}

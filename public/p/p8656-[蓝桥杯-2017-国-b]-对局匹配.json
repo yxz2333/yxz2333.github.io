@@ -1,0 +1,301 @@
+{
+  "slug": "p8656-[蓝桥杯-2017-国-b]-对局匹配",
+  "title": "P8656 [蓝桥杯 2017 国 B] 对局匹配",
+  "type": "题目",
+  "tags": [
+    "状态机dp",
+    "二分图",
+    "正难则反"
+  ],
+  "difficulty": 2.0,
+  "summary": "两个方法：一个状态机 dp 对每一组都跑一遍；一个二分图两两配对后劈成两半，其中一半和剩下独立的组成答案。",
+  "link": "[P8656 [蓝桥杯 2017 国 B] 对局匹配 - 洛谷](https://www.luogu.com.cn/problem/P8656)",
+  "link_text": "[P8656 [蓝桥杯 2017 国 B] 对局匹配 - 洛谷](https://www.luogu.com.cn/problem/P8656)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小明喜欢在一个围棋网站上找别人在线对弈。这个网站上所有注册用户都有一个积分，代表他的围棋水平。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小明发现网站的自动对局系统在匹配对手时，只会将积分差恰好是 $K$ 的两名用户匹配在一起。如果两人分差小于或大于 $K$，系统都不会将他们匹配。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在小明知道这个网站总共有 $N$ 名用户，以及他们的积分分别是 $A_1,A_2, \\cdots A_N$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小明想了解最多可能有多少名用户同时在线寻找对手，但是系统却一场对局都匹配不起来（任意两名用户积分差不等于 $K$）？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个个整数 $N$ 和 $K$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $N$ 个整数 $A_1,A_2, \\cdots, A_N$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一个整数，代表答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10 0\n1 4 2 8 5 7 1 4 2 8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "10 1\n2 1 1 1 1 4 4 3 4 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于 $30\\%$ 的数据，$1 \\le N \\le 10$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于 $100\\%$ 的数据，$1 \\le N\\le 10^5$，$0\\le K,A_i \\le 10^5$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "时限 1 秒, 256M。蓝桥杯 2017 年第八届国赛",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "首先，无论对于哪个解法，每个数的位置在本题中是无效的，所以先用<strong>桶计数</strong>，即利用 <code>cnt</code> 数组统计每种综合力数值出现的次数。",
+          "depth": 1
+        },
+        {
+          "heading": "解法一 状态机DP",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "注意到本题是<strong>分组独立</strong>的：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当 $K > 0$ 时，综合力为 $x$ 的乐队只可能与 $x-K$ 或 $x+K$ 的乐队产生冲突。这意味着整个数轴根据 <code>x % K</code> 的余数被划分成了 <strong>$K$ 个相互独立的组</strong>（即 $K$ 条公差为 $K$ 的等差数列链）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当 $K==0$ 时，则是每个数独立，直接统计所有非空数值的数量即可（题解代码中特判处理）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于每一组内的情况，问题转化为：在一个数列中选择若干个数，使得相邻的两个数不能同时被选，求选出的数值对应的总人数之和最大。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们设 <code>dp[j][0]</code> 和 <code>dp[j][1]</code> 表示考虑到数值 $j$ 时所能获得的最大人数：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong><code>dp[j][0]</code></strong>：表示<strong>不选</strong>综合力为 $j$ 的乐队。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong><code>dp[j][1]</code></strong>：表示<strong>选择</strong>综合力为 $j$ 的乐队。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>算法流程：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "从 $0$ 到 $K - 1$ 枚举每一个独立的组（余数）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在每一组内，顺着组的方向从小到大遍历数值 $j$ （$j = i, i+K, i+2K, \\dots$）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>状态转移方程</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>不选 j</strong>：那么前一个数 $j-K$ 既可以被选，也可以不被选，我们取其中的最大值。",
+              "depth": 3
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[j][0] = \\max(dp[j-K][0], \\ dp[j-K][1])$$\n**选 j**：为了不冲突，前一个数 $j-K$ 必须处于“不选”的状态，再加上当前数值 $j$ 的人数 `cnt[j]`。\n$$dp[j][1] = dp[j-K][0] + cnt[j]$$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "每一组遍历结束后，该组对答案的贡献即为最后状态的最大值。将所有组的贡献累加，即为最终结果。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "解法二 正难则反",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "正难则反的直观想法是：先把所有能触发对邦的配对对数都找出来。为了消除冲突，我们把两两配对的劈掉一半，强制移除其中一半，留下另一半和剩下没配对的组在一起，答案就出来了。这个方法的代码特别好写。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>数学本质</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这本质上是一个<strong>二分图最大独立集</strong>问题。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>二分图构建</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于任意一个数 $x$，它只和 $x+K$ 有边。我们将整个数轴上的点按照 $(x/K)$ 的奇偶性分为两组（左部点和右部点）。此时，<strong>所有的冲突只发生在左部点和右部点之间，且没有奇圈，天然构成了二分图。</strong>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>答案构造</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "把二分图中间连的边全劈掉，这样就不会起任何冲突，剩下独立的左部点和右部点，因为全是两两配对，所以 $左部点个数 = 右部点个数 = 两两配对对数$，然后和剩下的独立的点相加，<code>ans = 两两配对个数 / 2 + 剩下的独立点数 = n - 2 * 两两配对个数 + 两两配对个数</code>。",
+              "depth": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 解法一\nint cnt[N], dp[N][2];\nvoid solve()\n{\n\tint n, k; cin >> n >> k;\n\n\tint k0 = 0;\n\tfor (int i = 1; i <= n; i++) {\n\t\tint x; cin >> x;\n\t\tif (!cnt[x])k0++;\n\t\tcnt[x]++;\n\t}\n\n\tif (k == 0) {\n\t\tcout << k0 << '\\n';\n\t\treturn;\n\t}\n\n\tint ans = 0;\n\tfor (int i = 0; i <= k - 1; i++) {\n\t\tint res = 0;\n\n\t\tdp[i][0] = 0;\n\t\tdp[i][1] = cnt[i];\n\t\tfor (int j = i + k; j <= 1e5; j += k) {\n\t\t\tdp[j][0] = max(dp[j - k][0], dp[j - k][1]);\n\t\t\tdp[j][1] = dp[j - k][0] + cnt[j];\n\n\t\t\tres = max({ dp[j][0], dp[j][1], res });\n\t\t}\n\n\t\tans += res;\n\t}\n\tcout << ans << '\\n';\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 解法二\nint cnt[N];\nvoid solve()\n{\n\tint n, k; cin >> n >> k;\n\tfor (int i = 1; i <= n; i++) {\n\t\tint x; cin >> x;\n\t\tcnt[x]++;\n\t}\n\n\tint p = 0; // 配对数\n\tfor (int i = 0; i <= 1e5 - k; i++) {\n\t\tint j = i + k;\n\t\tint tmp = min(cnt[i], cnt[j]);\n\t\tif (i == j)tmp = cnt[i] / 2;\n\t\tcnt[i] -= tmp, cnt[j] -= tmp;\n\t\tp += tmp;\n\t}\n\n\tint ans = n - 2 * p + p;\n\tcout << ans << '\\n';\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-26",
+  "parsed_at": "2026-06-14T18:39:36.910855+00:00",
+  "type_directory": "p"
+}

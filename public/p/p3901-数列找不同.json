@@ -1,0 +1,115 @@
+{
+  "slug": "p3901-数列找不同",
+  "title": "P3901 数列找不同",
+  "type": "题目",
+  "tags": [
+    "莫队"
+  ],
+  "difficulty": null,
+  "summary": "莫队板子题。",
+  "link": "https://www.luogu.com.cn/problem/P3901",
+  "link_text": "P3901 数列找不同 - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "现有数列 $A_1,A_2,\\ldots,A_N$，$Q$ 个询问 $(L_i,R_i)$，询问 $A_{L_i} ,A_{L_i+1},\\ldots,A_{R_i}$ 是否互不相同。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行，两个整数 $N,Q$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行，$N$ 个整数 $A_1, A_2, \\ldots , A_N$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $Q$ 行，每行两个整数 $L_i,R_i$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le N,Q \\le 10^5$，$1 \\le A_i \\le N$，$1 \\le L_i \\le R_i \\le N$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对每个询问输出一行，<code>Yes</code> 或 <code>No</code>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 2\n1 2 3 2\n1 3\n2 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\nNo",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "\tstruct Answer {\n\t\t/* 需自行添加需要维护的变量 */\n\t\tint ans;\n\t\tAnswer() :ans(0) {};\n\t\tAnswer(int x) :ans(x) {};\n\t};\n\n\tAnswer current_ans;\n\tvector<Answer> ans;\n\n\t/* 需自行修改 add del init 函数，处理相应需要维护的变量及其初始化 */\n\tvector<int> cnt;\n\tvector<int> a;\n\tint tot = 0;\n\tvoid init() {\n\t\tcnt.assign(n + 1, 0);\n\t\ta.assign(n + 1, 0);\n\t\tcurrent_ans = 1;\n\t}\n\n\t// 扩展区间时加入元素\n\tvoid add(int pos) {\n\t\tcnt[a[pos]]++;\n\t\tif (cnt[a[pos]] == 2) {\n\t\t\ttot++;\n\t\t\tif (tot >= 1)current_ans = 0;\n\t\t}\n\t}\n\n\t// 缩小区间时删除元素\n\tvoid del(int pos) {\n\t\tcnt[a[pos]]--;\n\t\tif (cnt[a[pos]] == 1) {\n\t\t\ttot--;\n\t\t\tif (tot == 0)current_ans = 1;\n\t\t}\n\t}\nvoid solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\tvar mo = Mo(n, q);\n\tmo.init();\n\tfa(i, 1, n)cin >> mo.a[i];\n\tfa(i, 1, q) {\n\t\tint l, r; cin >> l >> r;\n\t\tmo.update_query(l, r, i);\n\t}\n\tmo.sort_query();\n\tfa(i, 1, q) {\n\t\tconst var& [l, r, id] = mo.queries[i];\n\t\tmo.update_lr(l, r, id);\n\t}\n\tfa(i, 1, q) {\n\t\tif (mo.ans[i].ans)cout << \"Yes\" << endl;\n\t\telse cout << \"No\" << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-18",
+  "parsed_at": "2026-06-14T18:39:36.879677+00:00",
+  "type_directory": "p"
+}

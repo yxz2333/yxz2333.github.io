@@ -1,0 +1,250 @@
+{
+  "slug": "abc281f-xor-minimization",
+  "title": "ABC281F Xor Minimization",
+  "type": "题目",
+  "tags": [
+    "01字典树",
+    "分治"
+  ],
+  "difficulty": 2.0,
+  "summary": "一个数对所有数进行异或，明显想到可以用字典树，考虑遍历整个字典树进行操作。",
+  "link": "[AT_abc281_f [ABC281F] Xor Minimization - 洛谷](https://www.luogu.com.cn/problem/AT_abc281_f)",
+  "link_text": "[AT_abc281_f [ABC281F] Xor Minimization - 洛谷](https://www.luogu.com.cn/problem/AT_abc281_f)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个非负整数序列 $A = (a_1, \\ldots, a_N)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对 $A$ 执行如下操作恰好一次：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选择一个非负整数 $x$。然后，对于所有 $i=1,\\ldots,N$，将 $a_i$ 的值替换为“$a_i$ 与 $x$ 的按位异或”。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "操作后，$A$ 中的最大值记为 $M$。请你求出 $M$ 的最小可能值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入以如下格式从标准输入读入：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $N\\ a_1\\ \\ldots\\ a_N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq N \\leq 1.5 \\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$0 \\leq a_i < 2^{30}$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入均为整数",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "请输出答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n12 18 11",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "16",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "如果选择 $x=2$ 进行操作，操作后的数列为 $(12 \\oplus 2, 18 \\oplus 2, 11 \\oplus 2) = (14, 16, 9)$，最大值 $M$ 为 $16$。无法使 $M$ 小于 $16$，因此答案为 $16$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心思路：01字典树 + 分治",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们把所有数字插入一棵 01-Trie 中。设 <code>dfs(u, i)</code> 表示：在当前节点 <code>u</code> 下，考虑从第 <code>i</code> 位到第 0 位，能够得到的<strong>最小的最大异或值</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在遍历当前第 <code>i</code> 位时，存在以下两种情况：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>1. 只有一个分支（只有 0 或只有 1）</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们完全可以让全局 $x$ 的第 <code>i</code> 位与这个分支保持一致，这样异或后所有数的第 <code>i</code> 位都会变成 0。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "此时没有代价，直接继承下一位的最优解：<code>return dfs(son, i - 1)</code>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>2. 存在两个分支（0 和 1 都有）</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "此时产生了冲突，这意味着无论 $x$ 的第 <code>i</code> 位取 0 还是 1，必定有一批数字异或后第 <code>i</code> 位变成 1，另一批变成 0。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "此时该位一定会对最终的最大值产生 $2^i$ 的贡献。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "我们需要从两个分支中选一个作为产生贡献的一方，取两者的较小值：",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>return (1 &lt;&lt; i) + min(dfs(left, i - 1), dfs(right, i - 1))</code>",
+              "depth": 3
+            }
+          ]
+        },
+        {
+          "heading": "核心释疑：为什么局部取 min 能代表全局最优？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "一开始会产生困惑：$x$ 是全局的，如果我为了让其中一个分支变小，而在当前位选了特定的值，那会不会导致另一个分支在低位反弹，反而成了全局最大值？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当你面对两个分支，决定给哪边 1，哪边 0 的瞬间，两波数字的形态就变成了：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>一波是： <code>1 拼上 xxxxxx</code></strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>另一波是： <code>0 拼上 xxxxxx</code></strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因为高位的 <code>1</code> 拥有绝对的统治力，所以无论你在低位如何选择 $x$ 的值（哪怕 <code>0 后的 xxxxxx</code> 全是 1，<code>1 后的 xxxxxx</code> 全是 0），<strong>全局的最大值也绝对、百分之百只会出现在 <code>1 拼上 xxxxxx</code> 的这波数字里</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "也就是说，被你分配到 <code>0</code> 的那个分支，在当前位就已经“失去了竞争全局最大值的资格”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "既然最大值只会在得到 <code>1</code> 的分支里产生，我们后续的决策（后续 $x$ 每一位的选择）就只需要全心全意地去最小化这个产生 <code>1</code> 的分支即可。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template <typename T>\nclass Trie01Vector {\nprivate:\n\tstruct TrieNode {\n\t\tarray<int, 2> children;\n\t\tint cnt;\n\t\tTrieNode() : children{ 0, 0 }, cnt(0) {}\n\t};\n\n\tvector<TrieNode> tr;\n\tint newNode() { tr.push_back(TrieNode()); return ++nodeCnt; }\n\n\tint MAX; \t  \n\tint nodeCnt = 1;\n\tint root = 1;\n\npublic:\n\tTrie01Vector(int MAX) :MAX(MAX), tr(2) {}\n\n\tvoid insert(T num) {\n\t\tint now = root;\n\t\ttr[now].cnt++;\n\n\t\t// 枚举二进制数位\n\t\tfor (int i = MAX; i >= 0; i--) {\n\t\t\tbool bit = (num >> i) & 1; // 当前数位\n\t\t\tif (not tr[now].children[bit]) {\n\t\t\t\t// 没有对应数位的边，则自己造边\n\t\t\t\tint tmp = newNode();\n\t\t\t\ttr[now].children[bit] = tmp;\n\t\t\t}\n\t\t\tnow = tr[now].children[bit];\n\t\t\ttr[now].cnt++;\n\t\t}\n\t}\n\n\t// 遍历整个字典树进行操作\n\tint dfs(int now, int i, T pre) {\n\t\t// 左右子树\n\t\tvar to = array<int, 2>{ tr[now].children[0], tr[now].children[1] };\n\t\tint ans = 0;\n\n\t\t// 遍历左右子树\n\t\tif (to[0] and to[1]) {\n\t\t\tans += 1ll << i;\n\t\t\tans += min(dfs(to[0], i - 1, pre), dfs(to[1], i - 1, pre + (1ll << i))) ;\n\t\t}\n\t\telse if (to[0]) {\n\t\t\tans += dfs(to[0], i - 1, pre);\n\t\t}\n\t\telse if (to[1]) {\n\t\t\tans += dfs(to[1], i - 1, pre + (1ll << i));\n\t\t}\n\t\telse  {\n\t\t\t// 遍历到底了，当前遍历到的数是 pre\n\t\t}\n\t\treturn ans;\n\t}\n\tint query() {\n\t\treturn dfs(root, MAX, 0);\n\t}\n};\n\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tvar t = Trie01Vector<int>(30);\n\tfa(i, 1, n)cin >> a[i], t.insert(a[i]);\n\tcout << t.query() << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-08",
+  "parsed_at": "2026-06-14T18:39:35.978223+00:00",
+  "type_directory": "p"
+}

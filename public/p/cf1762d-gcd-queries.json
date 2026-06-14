@@ -1,0 +1,192 @@
+{
+  "slug": "cf1762d-gcd-queries",
+  "title": "CF1762D GCD Queries",
+  "type": "题目",
+  "tags": [
+    "交互题",
+    "ad-hoc"
+  ],
+  "difficulty": 3.0,
+  "summary": "神仙猜猜题。紧扣对 $0$ 进行 $gcd$ 的性质，然后<strong>以两个候选人为擂台赛的形式，不断引入第三者进行挑战</strong>，就能总结出结论。",
+  "link": "https://www.luogu.com.cn/problem/CF1762D",
+  "link_text": "CF1762D GCD Queries - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "这是一个交互题。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "有一个长度为 $n$ 的秘密排列 $p$，它是 $[0,1,2,\\ldots,n-1]$ 的一个排列。你的任务是找到两个下标 $x$ 和 $y$（$1 \\leq x, y \\leq n$，允许 $x=y$），使得 $p_x=0$ 或 $p_y=0$。为此，你最多可以进行 $2n$ 次询问。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每次询问，你可以给出两个整数 $i$ 和 $j$（$1 \\leq i, j \\leq n$，且 $i \\neq j$），你将会得到 $\\gcd(p_i,p_j)^\\dagger$ 的值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意，排列 $p$ 在所有询问开始前就已经确定，并且不会因为你的询问而改变。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试点包含多组测试数据。第一行包含一个整数 $t$（$1 \\leq t \\leq 10^4$），表示测试数据组数。每组测试数据描述如下。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组测试数据的第一行包含一个整数 $n$（$2 \\leq n \\leq 2 \\cdot 10^4$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "读入每组测试数据的 $n$ 后，你应当开始与评测机交互。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试数据中 $n$ 的总和不超过 $2 \\cdot 10^4$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每组测试数据的交互以读入整数 $n$ 开始。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每次询问，你需要输出 \"? $i$ $j$\"（$1 \\leq i, j \\leq n$，$i \\neq j$），然后读入一个整数，表示本次询问的答案 $\\gcd(p_i,p_j)$。每组测试数据最多可以进行 $2n$ 次询问。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果你想输出答案，输出 \"! $x$ $y$\"（$1 \\leq x, y \\leq n$）。此后，你需要读入 $1$ 或 $-1$。如果 $p_x=0$ 或 $p_y=0$，你将收到 $1$，否则收到 $-1$。如果收到 $-1$，你的程序必须立即终止，否则会被判为 Wrong Answer。否则，你的程序可以继续运行，但会因为读取了关闭的流而得到任意判题结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n2\n\n1\n\n1\n5\n\n2\n\n4\n\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "? 1 2\n\n! 1 2\n\n\n? 1 2\n\n? 2 3\n\n! 3 3",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>目标</strong>：在 $2n$ 次询问内，从排列 $p$ 中找到 $0$ 的位置。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>核心性质</strong>：$0$ <strong>的特殊性</strong>，$\\gcd(0, x) = x$。这意味着 $0$ 和任何数的 GCD 都是那个数本身。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>解法策略：擂台赛</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "题目已经提示，最后输出两个可能为 $0$ 的数，那么我们直接维护者两个数即可，构造出一个<strong>擂台</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "我们维护两个“幸存者”候选人 $x$ 和 $y$（假设它们可能是 $0$），然后不断引入第三者 $z$ 进行挑战。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每次通过 <strong>2 次询问</strong>，这 3 个人里一定能排除掉 1 个非 $0$ 的数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$gcd(x, y) = gcd(x, z)$  \\to  $x != 0$：$x$ 移出擂台，$z$ 进入擂台",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$gcd(x, y) < gcd(x, z)$  \\to  $y != 0$：$y$ 移出擂台，$z$ 进入擂台",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$gcd(x, y) > gcd(x, z)$  \\to  $z != 0$：$z$ 离开",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int Q(int i, int j) {\n\tcout << \"? \" << i << ' ' << j << endl;\n\tcout.flush();\n\tint x; cin >> x;\n\treturn x;\n}\nvoid A(int i, int j) {\n\tcout << \"! \" << i << ' ' << j << endl;\n\tcout.flush();\n\tint x; cin >> x;\n\treturn;\n}\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\t// gcd(a, b) = gcd(a, c) => a != 0\n\t// gcd(a, b) < gcd(a, c) => b != 0\n\t// gcd(a, b) > gcd(a, c) => c != 0\n\tvar se = set<int>();\n\tfa(i, 1, n)se.insert(i);\n\twhile (se.size() > 2) {\n\t\tint a = *se.begin();\n\t\tint b = *next(se.begin());\n\t\tint c = *next(next(se.begin()));\n\n\t\tint gcd_ab = Q(a, b);\n\t\tint gcd_ac = Q(a, c);\n\n\t\tif (gcd_ab == gcd_ac)se.erase(a);\n\t\telse if (gcd_ab < gcd_ac)se.erase(b);\n\t\telse se.erase(c);\n\t}\n\tA(*se.begin(), *next(se.begin()));\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-13",
+  "parsed_at": "2026-06-14T18:39:36.281060+00:00",
+  "type_directory": "p"
+}

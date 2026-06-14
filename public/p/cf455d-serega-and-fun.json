@@ -1,0 +1,145 @@
+{
+  "slug": "cf455d-serega-and-fun",
+  "title": "CF455D Serega and Fun",
+  "type": "题目",
+  "tags": [
+    "分块"
+  ],
+  "difficulty": 2.5,
+  "summary": "因为要纯在线操作，且操作不适合线段树，故使用分块。在每个块里维护一个双端队列 <code>lzq</code> 和计数数组 <code>cnt[N]</code>，然后全在分块的基础上写即可。",
+  "link": "https://www.luogu.com.cn/problem/CF455D",
+  "link_text": "CF455D Serega and Fun - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个由 $n$ 个正整数组成的数组 $a$，以及对它的若干查询。查询有两种类型：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对区间 $[l, r]$（两端都包含）进行一次向右循环平移一位。即将数组中的元素排列为：$a[l],a[l+1],...,a[r-1],a[r] \\rightarrow a[r],a[l],a[l+1],...,a[r-1]$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "统计区间 $[l, r]$ 中等于 $k$ 的数的个数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "Fedor 很快地跑来看 Serega 解这道题，而 Serega 也很快就解决了。让我们看看你能否解决它？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $n$（$1 \\leq n \\leq 10^{5}$），表示数组的元素个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含 $n$ 个整数 $a[1],a[2],...,a[n]$（$1 \\leq a[i] \\leq n$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行包含一个整数 $q$（$1 \\leq q \\leq 10^{5}$），表示查询的个数。接下来的 $q$ 行，每行表示一个查询。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于你需要在线输出查询的答案，题目对查询进行了编码。第一类查询的输入格式为：$1\\ l'_i\\ r'_i$。第二类查询的输入格式为：$2\\ l'_i\\ r'_i\\ k'_i$。所有输入中的数字都是整数，满足：$1 \\leq l'_i, r'_i, k'_i \\leq n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你需要按如下方式对输入中的查询进行解码：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\nl_i = ((l'_i + lastans - 1)\\ \\bmod\\ n) + 1 \\\\\nr_i = ((r'_i + lastans - 1)\\ \\bmod\\ n) + 1 \\\\\nk_i = ((k'_i + lastans - 1)\\ \\bmod\\ n) + 1\n$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "其中，$lastans$ 是上一次第二类查询的输出结果（初始时 $lastans = 0$）。如果经过变换后 $l_i > r_i$，你需要交换两者的值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个第二类（统计）查询，输出一行答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n6 6 2 7 4 2 5\n7\n1 3 6\n2 2 4 2\n2 2 4 7\n2 2 2 5\n1 2 6\n1 1 4\n2 1 7 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n1\n0\n0",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "class BlockDecomposition {\nprivate:\n\t// --------------------------------------\n\t// [通用] 变量\n\t// --------------------------------------\n\tint n;                  // 数组总长度\n\tint block_size;         // 块的大小 S\n\tint num_blocks;         // 块的总数\n\tvector<int> id;         // id[i] 表示原数组第 i 个元素属于哪个块\n\tvector<int> L, R;       // L[b], R[b] 分别表示第 b 个块的左右端点下标\n\n\tint get_block_id(int pos) {\n\t\t// 获取原数组第 pos 个元素属于哪个块\n\t\treturn (pos - 1) / block_size + 1;\n\t}\n\tint get_diff_id(int pos) {\n\t\t// 获取原数组第 pos 个元素的块内下标\n\t\treturn (pos - 1) % block_size;\n\t}\n\n\t// --------------------------------------\n\t// [具体情况具体分析] 块内维护的附加信息与标记\n\t// --------------------------------------\n\tvector<deque<int>> lzq;   // 每个块维护的双端队列\n\tvector<vector<int>> cnt;  // 每个块维护的计数数组，范围：[1, N]\n\npublic:\n\t// --------------------------------------\n\t// [通用] 构造函数，初始化\n\t// --------------------------------------\n\tBlockDecomposition(const vector<int>& input) {\n\t\tn = input.size() - 1;\n\t\tblock_size = max(1, (int)sqrt(n));\n\t\tnum_blocks = (n - 1) / block_size + 1;\n\n\t\tid.resize(n + 1);\n\t\tL.resize(num_blocks + 1, 0);\n\t\tR.resize(num_blocks + 1, 0);\n\n\t\t// [具体情况具体分析] 对具体分析的变量初始化空间\n\t\tlzq.resize(num_blocks + 1);\n\t\tcnt = Vec2<int>(num_blocks + 1, n + 1, 0);\n\n\t\t// 计算每个元素的块归属 和 每个块的左右边界\n\t\tfa(i, 1, n) {\n\t\t\tid[i] = (i - 1) / block_size + 1;\n\t\t\tif (L[id[i]] == 0)L[id[i]] = i;\n\t\t\tR[id[i]] = i;\n\t\t\t\n\t\t\t// 初始化队列和计数数组\n\t\t\tlzq[id[i]].pb(input[i]);\n\t\t\tcnt[id[i]][input[i]]++;\n\t\t}\n\t}\n\n\t// --------------------------------------\n\t// [具体情况具体分析] 区间修改操作，怎么修改具体情况具体分析\n\t// 逻辑骨架是通用的：分同块、左散块、右散块、中间整块\n\t// --------------------------------------\n\tvoid update(int l, int r) {\n\t\tif (l == r)return;\n\n\t\tint bl = id[l], br = id[r];\n\t\tint idxl = get_diff_id(l), idxr = get_diff_id(r);\n\n\t\t// 把 r 位置的元素从 br 块中取出来\n\t\tint val = lzq[br][idxr];\n\t\tlzq[br].erase(lzq[br].begin() + idxr);\n\t\tcnt[br][val]--;\n\n\t\t// 把 l 位置的元素加到 bl 块中\n\t\tlzq[bl].insert(lzq[bl].begin() + idxl, val);\n\t\tcnt[bl][val]++;\n\n\t\t// 中间的进行移位\n\t\tfa(b, bl + 1, br) {\n\t\t\tcnt[b - 1][lzq[b - 1].back()]--;\n\t\t\tcnt[b][lzq[b - 1].back()]++;\n\t\t\tlzq[b].push_front(lzq[b - 1].back());\n\t\t\tlzq[b - 1].pop_back();\n\t\t}\n\t}\n\n\t// --------------------------------------\n\t// [具体情况具体分析] 区间查询操作，怎么查询具体情况具体分析\n\t// 逻辑骨架是通用的：分同块、左散块、右散块、中间整块\n\t// --------------------------------------\n\tint query(int l, int r, int x) {\n\t\tint bl = id[l], br = id[r];\n\t\tint res = 0;\n\t\tif (bl == br) {\n\t\t\t// 在同一个块内，暴力判断\n\t\t\t// 直接把块队列取出来，看看下标是否符合条件即可\n\t\t\tvar tmp = lzq[bl];\n\t\t\tint now = L[bl];\n\t\t\twhile (tmp.size()) {\n\t\t\t\tif (now >= l and now <= r and tmp.front() == x)res++;\n\t\t\t\tnow++;\n\t\t\t\ttmp.pop_front();\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\t// 左散块暴力\n\t\t\t// 直接把块队列取出来，看看下标是否符合条件即可\n\t\t\tvar tmp = lzq[bl];\n\t\t\tint now = L[bl];\n\t\t\twhile (tmp.size()) {\n\t\t\t\tif (now >= l and now <= r and tmp.front() == x)res++;\n\t\t\t\tnow++;\n\t\t\t\ttmp.pop_front();\n\t\t\t}\n\n\t\t\t// 右散块暴力\n\t\t\t// 直接把块队列取出来，看看下标是否符合条件即可\n\t\t\ttmp = lzq[br];\n\t\t\tnow = L[br];\n\t\t\twhile (tmp.size()) {\n\t\t\t\tif (now >= l and now <= r and tmp.front() == x)res++;\n\t\t\t\tnow++;\n\t\t\t\ttmp.pop_front();\n\t\t\t}\n\n\t\t\t// 中间整块，利用预处理的计数数组计算\n\t\t\tfa(b, bl + 1, br - 1)res += cnt[b][x];\n\t\t}\n\t\treturn res;\n\t}\n};\n\n\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tvar bd = BlockDecomposition(a);\n\tint q; cin >> q;\n\tint ans = 0;\n\twhile (q--) {\n\t\tint op, l, r; cin >> op >> l >> r;\n\t\tif (op == 1) {\n\t\t\tl = (l + ans - 1) % n + 1;\n\t\t\tr = (r + ans - 1) % n + 1;\n\t\t\tif (l > r)swap(l, r);\n\t\t\tbd.update(l, r);\n\t\t}\n\t\telse {\n\t\t\tint x; cin >> x;\n\t\t\tl = (l + ans - 1) % n + 1;\n\t\t\tr = (r + ans - 1) % n + 1;\n\t\t\tx = (x + ans - 1) % n + 1;\n\t\t\tif (l > r)swap(l, r);\n\t\t\tans = bd.query(l, r, x);\n\t\t\tcout << ans << endl;\n\t\t}\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-23",
+  "parsed_at": "2026-06-14T18:39:36.532075+00:00",
+  "type_directory": "p"
+}

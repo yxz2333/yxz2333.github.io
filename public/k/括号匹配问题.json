@@ -1,0 +1,78 @@
+{
+  "slug": "括号匹配问题",
+  "title": "括号匹配问题",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "经典问题",
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "构造 +1/-1 前缀和",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "合法序列的充要条件：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "1. 任意位置的前缀和 $\\ge 0$；",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "2. 最终总和 $= 0$。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "一对匹配的括号<code>()</code>进行合法翻转（<code>()</code>变成<code>)(</code>）需要满足的条件：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "设 $s[i] = (, s[j] = ), i < j$，需满足 $min(pre[i],...,pre[j - 1]) \\ge 2$。",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "最长合法括号子序列",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "括号子序列（不要求连续）的最长合法长度结论：",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$M = \\min_{0 \\le p \\le n} \\big( \\text{前缀}[1..p] \\text{中 \\texttt{(} 的个数} + \\text{后缀}[p+1..n] \\text{中 \\texttt{)} 的个数} \\big)$$\n答案为 $2M$。\n### 证明\n### 例子",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "树形结构",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "heading": "卡特兰数",
+      "level": 2,
+      "blocks": []
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-13",
+  "parsed_at": "2026-06-14T18:45:12.168847+00:00",
+  "type_directory": "k"
+}

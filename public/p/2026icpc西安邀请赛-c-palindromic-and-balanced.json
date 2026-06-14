@@ -1,0 +1,272 @@
+{
+  "slug": "2026icpc西安邀请赛-c-palindromic-and-balanced",
+  "title": "2026ICPC西安邀请赛 C Palindromic and Balanced",
+  "type": "题目",
+  "tags": [
+    "区间dp",
+    "回文",
+    "经典问题/括号匹配问题",
+    "ad-hoc"
+  ],
+  "difficulty": 2.5,
+  "summary": "考虑如何生成一个回文平衡括号串：初始时的括号串为 <code>()</code>。每次向中点左侧插入一个 <code>()</code>，向中点右侧插入一个 <code>)(</code>；或者向中点左侧插入一个 <code>)(</code>，向中点右侧插入一个 <code>()</code>。于是可以在找到 $s$ 的最左侧的 <code>(</code> 和最右侧的 <code>)</code> 后，对中间的部分进行<strong>区间 dp</strong>。",
+  "link": "https://qoj.ac/contest/3729/problem/17344",
+  "link_text": "Palindromic and Balanced - 题目 - QOJ.ac",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Yuki 定义了三种括号串：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>回文括号串</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "空串是回文括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>()</code> 是回文括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $s$ 是回文括号串，则 <code>(</code> $s$ <code>)</code> 是回文括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>平衡括号串</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "空串是平衡括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $s$ 是平衡括号串，则 <code>(</code> $s$ <code>)</code> 是平衡括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $s, t$ 均是平衡括号串，则 $st$ 是平衡括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>回文平衡括号串</strong>：括号串 $s = s_1 \\dots s_n$ 满足：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$s_2 \\dots s_{n-1}$ 是回文括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$s_1 \\dots s_n$ 是平衡括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "特殊地，空串和 <code>()</code> 也为回文平衡括号串。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "给定一个长度为 $n$ 的括号串 $s$，求 $s$ 的最长的子序列的长度，使得该子序列是回文平衡括号串。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $t$（$1 \\le t \\le 5000$），表示测试数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行一个整数 $n$（$1 \\le n \\le 5000$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行一个长度为 $n$ 的括号串 $s$（$s_i \\in \\{ (, ) \\}$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所有测试数据中 $n$ 的总和不超过 $10^4$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试数据，输出一行一个整数，表示最长满足条件的子序列的长度。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n6\n()(())\n6\n((()))\n4\n))((",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n4\n0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于第一组 <code>()(())</code>，它本身就是一个回文平衡括号串，长度为 6。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第二组 <code>((()))</code>，最长回文平衡括号子序列如 <code>(())</code>，长度为 4。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于第三组 <code>))((</code>，无法构成非空的回文平衡括号串，长度为 0。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心发现：如何构造 PBS",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "通过手玩样例，发现 PBS 的构造具有对称性，可以从中心向两边扩展。扩展方式有三种（所有操作均从原串中取字符，可以跳着选）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. <strong>直接加一对匹配括号</strong>：在两端各取一个 <code>(</code> 和 <code>)</code>，包住一个已有的 PBS 核心。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>对称加两对括号</strong>：左端取 <code>()</code>，右端取 <code>)(</code>；或左端取 <code>)(</code>，右端取 <code>()</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3. <strong>单边加一对相同括号</strong>：两端都取 <code>(</code> 或都取 <code>)</code>，这种结构不能直接作为最终串，但可以作为中间状态，后续再在外层用相反括号配对。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此，构造过程可以建模为区间合并，用三个 DP 状态分别记录不同类型的中间结构。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "状态设计",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "设 <code>dp0[l][r]</code>：区间 $[l, r]$ 内能选出的<strong>完美嵌套 PBS 核心</strong>的对数（即串 <code>( core )</code> 中的 <code>core</code> 部分的对数，空时为 0）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设 <code>dp1[l][r]</code>：区间内能选出的<strong>左左结构</strong>（形如 <code>( core (</code>，两端都是左括号）的对数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设 <code>dp2[l][r]</code>：区间内能选出的<strong>右右结构</strong>（形如 <code>) core )</code>，两端都是右括号）的对数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所有状态均表示<strong>对数</strong>，最终长度 = 对数 $\\times 2$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[3][5010][5010];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tfa(i, 0, n + 1)fa(j, 0, n + 1)fa(k, 0, 1)dp[k][i][j] = 0;\n\tstring s; cin >> s; s = ' ' + s;\n\tint ans = 0;\n\tfa(len, 2, n)fa(i, 1, n) {\n\t\tint j = i + len - 1;\n\t\tif (j > n)break;\n\t\tdp[0][i][j] = max(dp[0][i][j - 1], dp[0][i + 1][j]); // ()\n\t\tdp[1][i][j] = max(dp[1][i][j - 1], dp[1][i + 1][j]); // (\n\t\tdp[2][i][j] = max(dp[2][i][j - 1], dp[2][i + 1][j]); // )\n\t\tif (s[i] == s[j]) {\n\t\t\tif (s[i] == '(') {\n\t\t\t\tdp[1][i][j] = max(dp[1][i][j], dp[0][i + 1][j - 1] + 1);\n\t\t\t\tif (dp[2][i + 1][j - 1])dp[0][i][j] = max(dp[0][i][j], dp[2][i + 1][j - 1] + 1);;\n\t\t\t}\n\t\t\telse {\n\t\t\t\tdp[2][i][j] = max(dp[2][i][j], dp[0][i + 1][j - 1] + 1);\n\t\t\t\tif (dp[1][i + 1][j - 1])dp[0][i][j] = max(dp[0][i][j], dp[1][i + 1][j - 1] + 1);\n\t\t\t}\n\t\t}\n\t\telse {\n\t\t\tif (s[i] == '(') {\n\t\t\t\tans = max(ans, 2 * (dp[0][i + 1][j - 1] + 1));\n\t\t\t}\n\t\t}\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-11",
+  "parsed_at": "2026-06-14T18:39:35.841597+00:00",
+  "type_directory": "p"
+}

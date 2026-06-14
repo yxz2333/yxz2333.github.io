@@ -1,0 +1,160 @@
+{
+  "slug": "p2398-gcd-sum",
+  "title": "P2398 GCD SUM",
+  "type": "题目",
+  "tags": [
+    "gcd",
+    "容斥",
+    "计数问题"
+  ],
+  "difficulty": 2.5,
+  "summary": "枚举 gcd，算<strong>公因数</strong>的数对个数，再通过<strong>容斥减法</strong><strong>倒序</strong>算出<strong>最大公因数</strong>的数对个数。（<strong>恰好很难，至少很简单</strong>）",
+  "link": "https://www.luogu.com.cn/problem/P2398",
+  "link_text": "P2398 GCD SUM - 洛谷",
+  "source": "[容斥原理求gcd为k的数对个数 - TRTTG - 博客园](https://www.cnblogs.com/TheRoadToTheGold/p/14644240.html)",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "求 $$\\sum_{i=1}^n \\sum_{j=1}^n \\gcd(i, j)$$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $100\\%$ 的数据，$n\\leq 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "备注",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "无",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "不可能写双重循环，所以我们考虑枚举 $g = gcd(i, j)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了算出答案，可以先算满足 $g = gcd(i, j)$ 的数对个数，然后乘以 $g$ 即可。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>最大公因数</strong>不好算，我们算<strong>公因数</strong>，即满足 $g = 公因数(i, j)$ 的数对个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>最大公因数</strong>为 $g$ 的数对个数 = <strong>公因数</strong>为 $g$ 的数对个数 - <strong>最大公因数</strong>为$k * g$ 的数对个数，$k \\ge 2$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "倒序枚举 n \\rightarrow 1 即可解决本题。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\t// 为了算出答案，可以先算满足 g = gcd(i, j) 的数对个数，然后乘以 g 即可\n\t// 最大公因数不好算，我们算公因数，满足 g = i,j 公因数 的数对个数\n\t// 然后再通过容斥减掉\n\n\tint n; cin >> n;\n\tvar bei = vector<ll>(n + 1);\n\tfa(i, 1, n)\n\t\tfor (int j = i; j <= n; j += i)\n\t\t\tbei[i]++;\n\n\tll ans = 0;\n\tvar dp = vector<ll>(n + 1);\n\tfb(g, n, 1) {\n\t\tdp[g] = bei[g] * bei[g]; // 公因数为 g 的数对个数\n\n\t\t// 最大公因数为 g 的数对个数 = 公因数为 g 的数对个数 - 最大公因数为 k * g 的数对个数，k >= 2\n\t\tfor (int gg = 2 * g; gg <= n; gg += g) \n\t\t\tdp[g] -= dp[gg]; \n\n\t\tans += dp[g] * g;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-16",
+  "parsed_at": "2026-06-14T18:39:36.869918+00:00",
+  "type_directory": "p"
+}

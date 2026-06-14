@@ -1,0 +1,127 @@
+{
+  "slug": "cf1207e-xor-guessing",
+  "title": "CF1207E XOR Guessing",
+  "type": "题目",
+  "tags": [
+    "位运算",
+    "交互题"
+  ],
+  "difficulty": 1.0,
+  "summary": "<strong>二进制劈成两半</strong>，分<strong>高 7 位、低 7 位</strong>考虑。为了一次把一半的二进制位全部问出来，每次询问时，让询问的那 100 个数在那 7 位的二进制位全一样就行。",
+  "link": "https://www.luogu.com.cn/problem/CF1207E",
+  "link_text": "CF1207E XOR Guessing - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "jury 随便想了一个在 $[0,2^{14}-1]$ 范围内的整数 $x$，你要猜出它是多少。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你可以进行至多两次询问，每次输出 $100$ 个 $[0,2^{14}-1]$ 范围内的整数 $a_1,a_2,...a_{100}$ 。需要注意的是，你输出的所有数必须两两不同。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "作为回复，jury 会从你的每次输出中选一个数(你并不知道她选了哪个)，告诉你 $x$ 与其按异或的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "当你询问时，需要以 $?\\space a_1 \\space a_2 ...\\space a_{100}$ 的并加一个换行符的形式。在输出询问之后，刷新输出再读入，就能得到询问的答案。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果你给出了一个非法的询问，或询问超过两次，你只会得到 $-1$  作为结果。此时，你的程序应当立即终止。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "当输出答案时，需要以 $!\\space x$ 并加一个换行符的形式结束。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0\n32",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "? 3 5 6\n? 32 24 37\n! 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "注意：样例输出是 <strong>不正确的</strong>。你的每次询问必须输出刚好 $100$ 的整数。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll ans = 0;\n\n\tll mask1 = (1ll << 7) - 1;\n\tcout << \"? \";\n\tfa(i, 1, 100) {\n\t\tll tmp = (ll)i << 7;\n\t\tcout << (tmp ^ mask1) << ' ';\n\t}\n\tcout << endl;\n\tcout.flush();\n\n\tll x; cin >> x;\n\tx &= mask1;\n\tx ^= mask1;\n\tans ^= x;\n\n\tll mask2 = ((1ll << 14) - 1) ^ mask1;\n\tcout << \"? \";\n\tfa(i, 1, 100) {\n\t\tll tmp = (ll)i;\n\t\tcout << (tmp ^ mask2) << ' ';\n\t}\n\tcout << endl;\n\tcout.flush();\n\n\tcin >> x;\n\tx &= mask2;\n\tx ^= mask2;\n\tans ^= x;\n\n\tcout << \"! \" << ans << endl;\n\tcout.flush();\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-13",
+  "parsed_at": "2026-06-14T18:39:36.131685+00:00",
+  "type_directory": "p"
+}

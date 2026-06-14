@@ -1,0 +1,103 @@
+{
+  "slug": "边可以反复走",
+  "title": "边可以反复走",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "图论经典问题",
+  "format": "markdown",
+  "sections": [
+    {
+      "type": "p",
+      "html": "图论中的一种不太常见的题型。",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "其实大部分图论问题边都可以反复走，只不过大部分问题都是算最短路，我们肯定不会想着反复走一条走过的边。",
+      "depth": 1
+    },
+    {
+      "heading": "题目有步数限制 $K$",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "问你：能否 “恰好在第 $K$ 时刻到达某点” 或者 “能否在 $K$ 步以内到达某点”。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<a href=\"/tags\" class=\"tag-link\">#最短路</a>/分层图问题 ：你需要<strong>拆点</strong>，求起点到终点的<strong>奇数长度最短路</strong>和<strong>偶数长度最短路</strong>。（无例题，仅作参考）",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "问你：“走恰好 $K$ 步的方案数”，或者“走恰好 $K$ 步的最大权值”，且 $K$ 非常大。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<a href=\"/tags\" class=\"tag-link\">#矩阵快速幂</a> <a href=\"/tags\" class=\"tag-link\">#floyd</a>",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>例题</strong>：",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<a href=\"/p/bd202330-图论大师\" class=\"wikilink\">BD202330 图论大师</a>",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "n = 100，k = 1e9，边可以反复走，要求算两点的最短路和最长路",
+          "depth": 5
+        },
+        {
+          "type": "p",
+          "html": "n = 100 想到 <strong>floyd</strong>，k = 1e9 想到 <strong>矩阵快速幂</strong>",
+          "depth": 5
+        }
+      ]
+    },
+    {
+      "heading": "边权和为异或和",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "全是用异或算，那肯定就是 <a href=\"/tags\" class=\"tag-link\">#线性基</a> 问题了，要搞搞 <a href=\"/tags\" class=\"tag-link\">#按位贪心</a> 什么的。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "重点就是<strong>考虑什么塞入线性基</strong>，然后大概率会对着线性基来<strong>按位贪心</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "当然既然是异或和，<strong>环</strong>大概率就是关键变量，可能需要把<strong>环上权值异或和</strong>塞入线性基。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>例题</strong>： <a href=\"/notes/cf845g-shortest-path-problem?\" class=\"wikilink\">CF845G Shortest Path Problem?</a>",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-08",
+  "parsed_at": "2026-06-14T18:45:12.041219+00:00",
+  "type_directory": "k"
+}

@@ -1,0 +1,179 @@
+{
+  "slug": "cf1886d-monocarp-and-the-set",
+  "title": "CF1886D Monocarp and the Set",
+  "type": "题目",
+  "tags": [],
+  "difficulty": null,
+  "summary": "正难则反的好题，正向填数很麻烦，故考虑反向从完整的集合 <code>{1,2,...,n}</code> 中<strong>逐个删除</strong>数字，直到空集。删除一个数字时，如果它是当前集合的最小值，则对应字符 <code>&lt;</code>； <code>&gt;</code> 同理。如果字符是 <code>?</code>，则删除的数字既不是最小值也不是最大值，即它位于集合的 “中间” ，此时 “中间” 就是可选的数，可选的数就是<strong>该位的贡献</strong>。总之，发现能正难则反，本题就解决了。",
+  "link": "https://www.luogu.com.cn/problem/CF1886D",
+  "link_text": "CF1886D Monocarp and the Set - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Monocarp 有 $n$ 个数字 $1, 2, \\dots, n$ 和一个集合（初始为空）。他以某种顺序将这些数字依次加入集合中，每次加入一个新的、之前未出现过的数字。换句话说，加入数字的序列是 $1$ 到 $n$ 的一个排列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每当 Monocarp 往集合中加入一个元素（除了第一次）时，他会写下一个字符：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果当前加入的元素成为集合中的最大值，Monocarp 写下字符 $>$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果当前加入的元素成为集合中的最小值，Monocarp 写下字符 $<$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果都不是，Monocarp 写下字符 $?$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "现在给定一个长度为 $n-1$ 的字符串 $s$，它表示 Monocarp 按顺序写下的字符。你需要处理 $m$ 个关于该字符串的查询。每个查询格式如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$i$ $c$ —— 将 $s_i$ 替换为字符 $c$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "你需要在处理所有查询之前，以及每次查询后，计算有多少种不同的排列方式，使得 Monocarp 按这种顺序插入数字后，得到的字符串正好是 $s$。由于答案可能很大，请对 $998244353$ 取模后输出。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$ 和 $m$（$2 \\le n \\le 3 \\cdot 10^5$；$1 \\le m \\le 3 \\cdot 10^5$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含字符串 $s$，长度恰好为 $n-1$，只包含字符 $<$、$>$ 和 $?$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行，每行一个查询，包含一个整数 $i$ 和一个字符 $c$（$1 \\le i \\le n-1$；$c$ 为 $<$、$>$ 或 $?$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在处理所有查询之前以及每次查询后，输出一个整数，表示有多少种排列方式，使得 Monocarp 按这种顺序插入数字后，得到的字符串正好是 $s$。每个答案对 $998244353$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 4\n<?>?>\n1 ?\n4 <\n5 <\n1 >",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n0\n0\n0\n1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个样例中，初始时有三种可能的排列：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$3, 1, 2, 5, 4, 6$；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$4, 1, 2, 5, 3, 6$；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$4, 1, 3, 5, 2, 6$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "在最后一个查询后，只剩下一种可能的排列：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$3, 5, 4, 6, 2, 1$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tstring s; cin >> s; s = ' ' + s;\n\tbool _0 = 0;\n\tll ans = 1;\n\tfa(i, 1, n - 1) {\n\t\tif (s[i] == '?') {\n\t\t\tif (i == 1)_0 = 1;\n\t\t\telse ans = ans * (i - 1ll) % mod;\n\t\t}\n\t}\n\tif (_0)cout << 0 << endl;\n\telse cout << ans << endl;\n\twhile (m--) {\n\t\tint id; cin >> id;\n\t\tchar op; cin >> op;\n\t\tif (op == s[id]) {\n\t\t\tif (_0)cout << 0 << endl;\n\t\t\telse cout << ans << endl;\n\t\t\tcontinue;\n\t\t}\n\t\tif (s[id] == '?') {\n\t\t\tif (id == 1)_0 = 0;\n\t\t\telse ans = ans * Math::inv(id - 1ll, mod) % mod;\n\t\t}\n\t\telse {\n\t\t\tif (op == '?') {\n\t\t\t\tif (id == 1)_0 = 1;\n\t\t\t\telse ans = ans * (id - 1ll) % mod;\n\t\t\t}\n\t\t}\n\t\tif (_0)cout << 0 << endl;\n\t\telse cout << ans << endl;\n\t\ts[id] = op;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-05",
+  "parsed_at": "2026-06-14T18:39:36.300910+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,338 @@
+{
+  "slug": "abc455e-unbalanced-abc-substrings",
+  "title": "ABC455E Unbalanced ABC Substrings",
+  "type": "题目",
+  "tags": [
+    "容斥",
+    "前缀和"
+  ],
+  "difficulty": 2.0,
+  "summary": "主要难点还是在于想到和想出怎么用容斥。",
+  "link": "https://atcoder.jp/contests/abc455/tasks/abc455_e",
+  "link_text": "E - Unbalanced ABC Substrings",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个长度为 $N$ 的字符串 $S$，由 <code>A</code>、<code>B</code>、<code>C</code> 三种字符组成。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$S$ 共有 $\\frac{N(N+1)}{2}$ 个非空子串。请找出其中满足以下条件的子串数量：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "子串中 <code>A</code>、<code>B</code>、<code>C</code> 出现的次数<strong>互不相同</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果两个子串在 $S$ 中的位置不同，即使它们作为字符串本身相同，也视为不同的子串分别计数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入按以下格式从标准输入给出：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": ">$N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$S$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq N \\leq 2 \\times 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$|S| = N$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$N$ 为整数",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$S$ 由 <code>A</code>、<code>B</code>、<code>C</code> 三种字符组成",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在一行中输出答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\nAABBCC",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "从开头删除 $0$ 个字符、从结尾删除 $3$ 个字符得到 <code>AAB</code>，满足条件。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "从开头删除 $1$ 个字符、从结尾删除 $2$ 个字符得到 <code>ABB</code>，满足条件。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "从开头删除 $2$ 个字符、从结尾删除 $1$ 个字符得到 <code>BBC</code>，满足条件。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "从开头删除 $3$ 个字符、从结尾删除 $0$ 个字符得到 <code>BCC</code>，满足条件。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "其他子串均不满足条件。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "正面难算，考虑补集（容斥）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "总数 $T = \\frac{n(n+1)}{2}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "“互不相同”的反面是“存在至少一对字符数量相等”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "设：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$ab$：A 的数量 $=$ B 的数量的子串数",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$bc$：B $=$ C 的子串数",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$ca$：C $=$ A 的子串数",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$abc$：A $=$ B $=$ C 的子串数",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "由容斥原理，至少有一对相等的子串数为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n|A \\cup B \\cup C| = ab + bc + ca - 2\\cdot abc\n$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "（这里 $A$ 表示 A$=$B 的集合，$B$ 表示 B$=$C 的集合，$C$ 表示 C$=$A 的集合。三对两两交集均为 $abc$，三者的交集也是 $abc$，画韦恩图即得。）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此答案为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\text{Ans} = T - (ab + bc + ca - 2\\cdot abc)\n$$",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "如何计算 $ab, bc, ca, abc$？",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "定义前缀和 $pre[i][0], pre[i][1], pre[i][2]$ 分别表示前 $i$ 个字符中 A、B、C 的个数。",
+              "depth": 1
+            },
+            {
+              "heading": "条件转化",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "子串 $(l+1, r)$ 中 A$=$B 等价于：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$\npre[r][0] - pre[l][0] = pre[r][1] - pre[l][1]\n\\;\\Longleftrightarrow\\;\npre[r][0] - pre[r][1] = pre[l][0] - pre[l][1]\n$$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "即<strong>两个端点的差值相等</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "同理：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "B$=$C：$pre[i][1] - pre[i][2]$ 相等",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "C$=$A：$pre[i][2] - pre[i][0]$ 相等",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "A$=$B$=$C：需同时满足前两个条件，即用<strong>二元组</strong> $(pre[i][0]-pre[i][1],\\; pre[i][1]-pre[i][2])$ 作为标识",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "heading": "计数方式",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "从左到右扫描，用哈希表（<code>map</code>）统计每个“特征值”出现过的次数，当前位置的特征值之前出现多少次，就新增多少个满足条件的子串。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "初始时 $pre[0]$ 对应特征值为 $0$（或 $(0,0)$），需提前插入。",
+                  "depth": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "heading": "小结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "本题有两个关键点：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. <strong>想到容斥</strong>而不是直接枚举——这类“互不相同”的计数，补集往往更简单。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>将相等条件转化为前缀差相等</strong>，从而用哈希表统计子串数——这是处理子数组/子串计数问题的经典技巧（类似统计和为 0 的子数组个数）。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll pre[N][3];\nvoid solve(int CASE)\n{\n\tll n; cin >> n;\n\tstring s; cin >> s; s = ' ' + s;\n\tfa(i, 1, n) {\n\t\tfa(j, 0, 2)pre[i][j] = pre[i - 1][j];\n\t\tpre[i][s[i] - 'A']++;\n\t}\n\n\tll ab = 0, bc = 0, ca = 0;\n\tvar mp = map<ll, ll>();\n\tmp[0]++;\n\tfa(i, 1, n) {\n\t\tab += mp[pre[i][0] - pre[i][1]];\n\t\tmp[pre[i][0] - pre[i][1]]++;\n\t}\n\tmp.clear();\n\tmp[0]++;\n\tfa(i, 1, n) {\n\t\tbc += mp[pre[i][1] - pre[i][2]];\n\t\tmp[pre[i][1] - pre[i][2]]++;\n\t}\n\tmp.clear();\n\tmp[0]++;\n\tfa(i, 1, n) {\n\t\tca += mp[pre[i][2] - pre[i][0]];\n\t\tmp[pre[i][2] - pre[i][0]]++;\n\t}\n\n\tll abc = 0;\n\tvar mpp = map<pll, ll>();\n\tmpp[{0, 0}]++;\n\tfa(i, 1, n) {\n\t\tabc += mpp[{ pre[i][0] - pre[i][1], pre[i][1] - pre[i][2] }];\n\t\tmpp[{ pre[i][0] - pre[i][1], pre[i][1] - pre[i][2] }]++;\n\t}\n\n\tcout << n * (n + 1) / 2 - (ab + bc + ca - 2 * abc) << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-28",
+  "parsed_at": "2026-06-14T18:39:36.038586+00:00",
+  "type_directory": "p"
+}

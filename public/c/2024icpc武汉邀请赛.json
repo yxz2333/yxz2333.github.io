@@ -1,0 +1,20 @@
+{
+  "slug": "2024icpc武汉邀请赛",
+  "title": "2024ICPC武汉邀请赛",
+  "type": "比赛",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "https://codeforces.com/gym/105143",
+  "link_text": "2024 ICPC National Invitational Collegiate Programming Contest, Wuhan Site",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-13",
+  "parsed_at": "2026-06-14T18:39:37.102432+00:00",
+  "type_directory": "c"
+}

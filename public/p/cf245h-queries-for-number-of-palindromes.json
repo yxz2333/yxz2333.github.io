@@ -1,0 +1,138 @@
+{
+  "slug": "cf245h-queries-for-number-of-palindromes",
+  "title": "CF245H Queries for Number of Palindromes",
+  "type": "题目",
+  "tags": [
+    "区间dp",
+    "回文",
+    "容斥"
+  ],
+  "difficulty": 1.5,
+  "summary": "<code>dp[i][j] = dp[i+1][j] + dp[i][j-1] - dp[i+1][j-1] + hui[i][j]</code>。",
+  "link": "https://www.luogu.com.cn/problem/CF245H",
+  "link_text": "CF245H Queries for Number of Palindromes - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "题目给定一个仅由小写字母组成的字符串 $s$，下标从 $1$ 开始。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "有 $Q$ 次询问，每组询问给定两个数 $l$ 和 $r$，表示询问 $s_l \\sim s_r$ 这段区间中包含了多少个<a href=\"https://baike.baidu.com/item/%E5%9B%9E%E6%96%87%E4%B8%B2/1274921\" target=\"_blank\" class=\"md-link\">回文串</a>。注意单独一个字符也算回文串。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个字符串 $s$，保证 $|s| \\le 5000$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行一个正整数 $Q$，保证 $1 \\le Q \\le 10^6$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $Q$ 行，每行两个正整数 $l$ 和 $r$，描述一组询问。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "针对 $Q$ 组询问，分别输出对应的答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "caaaba\n5\n1 1\n1 4\n2 3\n4 6\n4 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n7\n3\n4\n2",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一步：用 $O(N^2)$ 的区间 DP 预处理出 <code>is_pal[i][j]</code> 表示 $[i, j]$ 是否是回文串。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二步：定义一个新的状态 <code>dp[i][j]</code> 表示区间 $[i, j]$ 内部的回文串<strong>总数</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "它的转移方程极其优美，利用了二维容斥原理（类似二维前缀和的思想）：<code>dp[i][j] = dp[i+1][j] + dp[i][j-1] - dp[i+1][j-1] + is_pal[i][j]</code>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int dp[N][N];\nbool hui[N][N];\nvoid solve(int CASE)\n{\n\tstring s; cin >> s;\n\tint n = s.size(); s = ' ' + s;\n\tint q; cin >> q;\n\tfa(i, 1, n)hui[i][i] = hui[i][i - 1] = 1, dp[i][i] = 1;\n\tfa(len, 2, n)fa(i, 1, n) {\n\t\tint j = i + len - 1;\n\t\tif (j > n)break;\n\t\tif (hui[i + 1][j - 1] and s[i] == s[j])hui[i][j] = 1;\n\t\tdp[i][j] = dp[i + 1][j] + dp[i][j - 1] - dp[i + 1][j - 1] + hui[i][j];\n\t}\n\twhile (q--) {\n\t\tint l, r; cin >> l >> r;\n\t\tcout << dp[l][r] << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-28",
+  "parsed_at": "2026-06-14T18:39:36.509809+00:00",
+  "type_directory": "p"
+}

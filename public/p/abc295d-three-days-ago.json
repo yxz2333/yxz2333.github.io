@@ -1,0 +1,206 @@
+{
+  "slug": "abc295d-three-days-ago",
+  "title": "ABC295D Three Days Ago",
+  "type": "题目",
+  "tags": [
+    "前缀和",
+    "状态压缩"
+  ],
+  "difficulty": 1.5,
+  "summary": "<strong>前缀和相差</strong>，$[0, 9]$ 个数都出现偶数次，明显可以进行<strong>状态压缩</strong>，看看当前前缀和的各个数位是否出现奇数次，一共 1024 个状态。",
+  "link": "[AT_abc295_d [ABC295D] Three Days Ago - 洛谷](https://www.luogu.com.cn/problem/AT_abc295_d)",
+  "link_text": "[AT_abc295_d [ABC295D] Three Days Ago - 洛谷](https://www.luogu.com.cn/problem/AT_abc295_d)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<code>20230322</code> 经过重新排列后可以变为 <code>02320232</code>，这是将 <code>0232</code> 重复了 $2$ 次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "像这样，只包含数字的字符串，如果通过适当的重新排列（也可以不变），能够变成某个字符串重复 $2$ 次的形式，我们称其为<strong>“开心串”</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定一个只包含数字的字符串 $S$，请你求出满足以下所有条件的整数对 $(l, r)$ 的个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\leq l \\leq r \\leq |S|$（$|S|$ 表示 $S$ 的长度）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$S$ 的第 $l$ 个字符到第 $r$ 个字符组成的（连续的）子串是一个“开心串”",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入为以下格式，从标准输入读取。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $S$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "请输出满足条件的整数对的个数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "20230322",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$S =$ <code>20230322</code>。满足条件的整数对 $(l, r)$ 有 $(1,6), (1,8), (2,7), (7,8)$，共 $4$ 个。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "出现偶数次",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "题目要求子串中每个数字（0-9）都出现偶数次。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在数学逻辑上，“出现偶数次” 等同于：<strong>该数字出现的次数对 2 取模的结果为 0</strong>。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "状态压缩：用一个整数代表 10 个数字的奇偶性",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然我们只关心 0-9 这十个数字出现的<strong>奇偶性</strong>，我们可以用一个 <strong>10 位的二进制数</strong> 来表示当前前缀的状态：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第 $k$ 位为 <code>0</code>：表示数字 $k$ 出现了偶数次。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $k$ 位为 <code>1</code>：表示数字 $k$ 出现了奇数次。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "从区间到前缀",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "设 $PrefixMask[i]$ 为前 $i$ 个字符的状态。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于子串 $S[L, R]$，其内部数字 $k$ 的出现次数，等于 $PrefixMask[R]$ 的第 $k$ 位与 $PrefixMask[L-1]$ 的第 $k$ 位进行<strong>异或</strong>的结果。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "要使子串 $S[L, R]$ 中所有数字都出现偶数次，必须满足：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$PrefixMask[R] \\oplus PrefixMask[L-1] = 0$$\n即：\n$$PrefixMask[R] == PrefixMask[L-1]$$",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int cnt[2000];\nvoid solve(int CASE)\n{\n\tstring s; cin >> s;\n\tint n = s.size(); s = ' ' + s;\n\tll ans = 0, now = 0;\n\tcnt[now]++;\n\tfa(i, 1, n) {\n\t\tnow ^= (1ll << (s[i] - '0'));\n\t\tans += cnt[now];\n\t\tcnt[now]++;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-21",
+  "parsed_at": "2026-06-14T18:39:35.985205+00:00",
+  "type_directory": "p"
+}

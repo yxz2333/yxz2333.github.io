@@ -1,0 +1,209 @@
+{
+  "slug": "abc446e-multiple-free-sequences",
+  "title": "ABC446E Multiple-Free Sequences",
+  "type": "题目",
+  "tags": [
+    "记忆化搜索"
+  ],
+  "difficulty": 1.5,
+  "summary": "$M == 1e3$，总方案不多，直接<strong>记搜</strong>解决，不过容易<strong>爆栈</strong>，需要剪枝提前退出 $dfs$，也可以改成 $while + stack$ 的循环形式。",
+  "link": "https://atcoder.jp/contests/abc446/tasks/abc446_e",
+  "link_text": "E - Multiple-Free Sequences",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "考虑满足 $0 \\leq x,y \\leq M-1$ 的整数对 $(x, y)$。定义无穷序列 $(s_1, s_2, \\dots)$ 满足以下递推关系：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$s_1 = x$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$s_2 = y$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$s_n = A s_{n-1} + B s_{n-2}$ ($n \\geq 3$)",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "请问有多少对 $(x, y)$ 使得该序列中不包含任何 $M$ 的倍数？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入从标准输入中按以下格式给出：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $M$ $A$ $B$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2 \\leq M \\leq 1000$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$0 \\leq A, B \\leq M-1$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有输入值均为整数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在一行中输出答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "446 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1000 784 385",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "995373",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对于样例一，满足问题条件的整数对为 $(x,y) = (1,1), (1,3), (2,1), (2,2), (2,3), (3,1), (3,3)$，总共七对。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "例如，当 $(x,y) = (2,1)$ 时，对应的序列是 $(2,1,5,7,17,31,65,127,\\dots)$。这个序列不包含任何 $4$ 的倍数。因此，$(x,y) = (2,1)$ 满足题目条件。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "另一方面，当 $(x,y) = (3,2)$ 时，对应的序列是 $(3,2,8,12,28,52,108,212,\\dots)$。该序列的第三项是 $8$，它是 $4$ 的倍数。因此，$(x,y) = (3,2)$ 不满足题目条件。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int vis[N][N];\nvoid solve(int CASE)\n{\n\tll m, a, b; cin >> m >> a >> b;\n\tll ans = 0;\n\tvar dfs = [&](var dfs, int x, int y)->bool {\n\t\tif (vis[x][y])return vis[x][y] == 2;\n\t\tvis[x][y] = 1;\n\n\t\tll now = a * x + b * y;\n\t\tnow %= m;\n\t\tif (now == 0) {\n\t\t\t// 剪枝，防止爆栈\n\t\t\tvis[x][y] = 2;\n\t\t\treturn 1;\n\t\t}\n\n\t\tll nx = now, ny = x;\n\t\tif (dfs(dfs, nx, ny))vis[x][y] = 2;\n\t\treturn vis[x][y] == 2;\n\t\t};\n\tfa(i, 1, m - 1)fa(j, 1, m - 1)ans += dfs(dfs, i, j);\n\tcout << (m - 1) * (m - 1) - ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-13",
+  "parsed_at": "2026-06-14T18:39:36.018031+00:00",
+  "type_directory": "p"
+}

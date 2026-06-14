@@ -1,0 +1,265 @@
+{
+  "slug": "cf2229d-me-when-median-problem",
+  "title": "CF2229D Me When Median Problem",
+  "type": "题目",
+  "tags": [
+    "ad-hoc",
+    "二分答案"
+  ],
+  "difficulty": 2.0,
+  "summary": "一开始我没啥方向，甚至在考虑答案会不会是中位数，直到我突然想到能不能用<strong>二分答案</strong>时。我先是考虑到我完全可以把 $a_i,b_i$ 中较小的放 $a_i$，较大的放 $b_i$，然后如果 $a_i \\ge mid$，设 $i$ 为 11，如果 $a_i < mid 且 b < mid$ $i$ 为 00，如果 $a_i <mid 且 b \\ge mid$ $i$ 为 01。然后打打草稿就发现只需要 11 的数量大于 00，那肯定能得到答案 $\\ge mid$ 的情况。",
+  "link": "https://codeforces.com/contest/2229/problem/D",
+  "link_text": "https://codeforces.com/contest/2229/problem/D",
+  "source": "CF2229D",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定两个长度为 $n$ 的正整数数组 $a$ 和 $b$。你需要执行恰好 $n - 1$ 次如下操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "设 $m$ 为当前 $a$ 和 $b$ 的长度，注意两个数组的长度始终相等。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "选择一个整数 $i$（$1 \\le i \\lt m$）：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "令 $S$ 为多重集 $\\{a_i, a_{i+1}, b_i, b_{i+1}\\}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "将 $S$ 中的元素排序，使得 $s_1 \\le s_2 \\le s_3 \\le s_4$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "用 $s_2$ 替换 $a_i, a_{i+1}$，用 $s_3$ 替换 $b_i, b_{i+1}$。即替换后 $a$ 缩短 $1$ 个元素，$b$ 也缩短 $1$ 个元素。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "执行完所有操作后，$a$ 和 $b$ 中均恰好剩下 $1$ 个元素。在最优操作下，求 $\\min(a_1, b_1)$ 可能达到的最大值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\le t \\le 10^4$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含一个整数 $n$（$1 \\le n \\le 10^5$）— 数组 $a$ 和 $b$ 的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第二行包含 $n$ 个整数 $a_1, a_2, \\ldots, a_n$（$1 \\le a_i \\le 2 \\cdot n$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第三行包含 $n$ 个整数 $b_1, b_2, \\ldots, b_n$（$1 \\le b_i \\le 2 \\cdot n$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例的 $n$ 之和不超过 $10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出可达的 $\\min(a_1, b_1)$ 的最大值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6\n1\n1\n2\n3\n2 4 5\n1 3 6\n4\n7 5 4 8\n4 6 7 8\n8\n8 7 13 11 1 10 4 5\n11 11 12 8 9 2 3 13\n9\n16 1 9 12 5 18 10 10 16\n14 6 7 11 12 17 18 3 17\n6\n3 6 12 4 10 12\n2 3 2 7 8 9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n3\n6\n8\n14\n8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一个测试：$n=1$，无需操作，答案为 $\\min(1,2)=1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二个测试：$n=3$，可选择 $i=1$ 得 $S=\\{2,4,1,3\\}$，$s_2=2, s_3=3$ → $a=[2,5], b=[3,6]$；再选 $i=1$ 得 $S=\\{2,5,3,6\\}$，$s_2=3, s_3=5$ → $a=[3], b=[5]$，答案为 $\\min(3,5)=3$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "1. <strong>预处理</strong>：每个位置 $i$ 内部交换，使 $a_i \\le b_i$。该操作不影响最终答案（每次合并只关心四个数的多重集，与标签无关）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "2. <strong>二分答案</strong>：设答案为 $x$，问题转化为判断能否通过操作使最后两个数都 $\\ge x$（即 $\\min \\ge x$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "3. <strong>状态划分</strong>：对于固定的 $x$，每个位置有三种类型：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>好</strong>：$a_i \\ge x$（此时必有 $b_i \\ge x$）；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>半好</strong>：$a_i < x \\le b_i$；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>坏</strong>：$b_i < x$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "4. <strong>关键结论</strong>：存在合法操作顺序使得最终两数都 $\\ge x$ <strong>当且仅当</strong> 好位置的个数 <strong>严格大于</strong> 连续坏位置形成的段数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "坏段：被好位置分隔的连续坏位置区间，每个区间计为一段。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "半好：本身无任何贡献，既可以融入好也可以融入坏，<strong>可忽略</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "5. <strong>证明概要</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "每次合并可以将一个坏段与相邻的好位置配对，逐步\"消耗\"该坏段。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "一个坏段至少需要一个好位置来彻底清除，而好位置一旦参与消耗某个坏段后就不能再用于其他坏段。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此需要好位置数 $\\ge$ 坏段数 $+1$ 才能消除所有坏位置，保证最终留下的两个数都来自好位置。反之，若好位置数不足，则至少有一段坏位置无法被完全清除，导致最终结果 $< x$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "总结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "本题的难点在于二分答案条件的提取。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "通过将每个位置转化为有序数对并分类，发现只需统计好位置个数与坏段个数，即可简洁地判断可行性。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "操作的本质：每个好位置相当于一个\"资源点\"，可以消除一段连续的坏位置。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar a = vector<int>(n + 1);\n\tvar b = vector<int>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\tfa(i, 1, n)cin >> b[i];\n\tfa(i, 1, n)if (a[i] > b[i])swap(a[i], b[i]);\n\tvar check = [&](int mid)->bool {\n\t\tint _00 = 0, _11 = 0, now00 = 0;\n\t\tfa(i, 1, n) {\n\t\t\tif (a[i] >= mid) {\n\t\t\t\tif (now00)_00++;\n\t\t\t\tnow00 = 0;\n\t\t\t\t_11++;\n\t\t\t}\n\t\t\telse {\n\t\t\t\tif (b[i] < mid)now00++;\n\t\t\t}\n\t\t}\n\t\tif (now00)_00++;\n\t\treturn _11 > _00;\n\t\t};\n\tint l = 1, r = 2 * n, ans = 0;\n\twhile (l <= r) {\n\t\tint mid = l + r >> 1;\n\t\tif (check(mid)) {\n\t\t\tans = mid;\n\t\t\tl = mid + 1;\n\t\t}\n\t\telse r = mid - 1;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-28",
+  "parsed_at": "2026-06-14T18:39:36.489703+00:00",
+  "type_directory": "p"
+}

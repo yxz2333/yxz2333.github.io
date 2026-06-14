@@ -1,0 +1,152 @@
+{
+  "slug": "p5656-【模板】二元一次不定方程-(exgcd)",
+  "title": "P5656 【模板】二元一次不定方程 (exgcd)",
+  "type": "题目",
+  "tags": [
+    "exgcd"
+  ],
+  "difficulty": null,
+  "summary": "$exgcd$ 板子题",
+  "link": "https://www.luogu.com.cn/problem/P5656",
+  "link_text": "P5656 【模板】二元一次不定方程 (exgcd) - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定不定方程",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ax+by=c$$\n若该方程无整数解，输出 $-1$。\n若该方程有整数解，且有正整数解，则输出其**正整数**解的数量，所有**正整数**解中 $x$ 的最小值，所有**正整数**解中 $y$ 的最小值，所有**正整数**解中 $x$ 的最大值，以及所有**正整数**解中 $y$ 的最大值。\n若方程有整数解，但没有正整数解，你需要输出所有**整数解**中 $x$ 的最小正整数值， $y$ 的最小正整数值。\n正整数解即为 $x, y$ 均为正整数的解，$\\boldsymbol{0}$ **不是正整数**。\n整数解即为 $x,y$ 均为整数的解。\n$x$ 的最小正整数值即所有 $x$ 为正整数的整数解中 $x$ 的最小值，$y$ 同理。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个正整数 $T$，代表数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $T$ 行，每行三个由空格隔开的正整数 $a, b, c$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $100\\%$ 的数据，$1 \\le T \\le 2 \\times {10}^5$，$1 \\le a, b, c \\le {10}^9$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$T$ 行。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若该行对应的询问无整数解，一个数字 $-1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若该行对应的询问有整数解但无正整数解，包含 $2$ 个由空格隔开的数字，依次代表整数解中，$x$ 的最小正整数值，$y$ 的最小正整数值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "否则包含 $5$ 个由空格隔开的数字，依次代表正整数解的数量，正整数解中，$x$ 的最小值，$y$ 的最小值，$x$ 的最大值，$y$ 的最大值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n2 11 100\n3 18 6\n192 608 17\n19 2 60817\n11 45 14\n19 19 810\n98 76 5432",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 6 2 39 8\n2 1\n-1\n1600 1 18 3199 30399\n34 3\n-1\n2 12 7 50 56",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$exgcd$ 板子题，紧扣通解的写法就能做出来。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll a, b, c; cin >> a >> b >> c;\n\tll g = Math::gcd(a, b);\n\n\t/* 无解 */\n\tif (c % g != 0) {\n\t\tcout << -1 << endl;\n\t\treturn;\n\t}\n\n\t/* 求特解 */\n\tll x0, y0; // 特解\n\tMath::exgcd(a, b, x0, y0);\n\tx0 *= c / g, y0 *= c / g;\n\n\t/* 求最大最小正整数解 */\n\tll dx = b / g, dy = a / g;\n\n\tll x1 = (x0 % dx + dx) % dx; // x 最小正整数解\n\tif (x1 == 0)x1 += dx; // 如果为 0，加上最小步长\n\tll y2 = (c - a * x1) / b;    // y 最大正整数解\n\n\tll y1 = (y0 % dy + dy) % dy; // y 最小正整数解\n\tif (y1 == 0)y1 += dy; // 如果为 0，加上最小步长\n\tll x2 = (c - b * y1) / a;    // x 最大正整数解\n\n\tif (x2 <= 0 or y2 <= 0) {\n\t\tcout << x1 << ' ' << y1 << endl;\n\t\treturn;\n\t}\n\n\tll cnt = (x2 - x1) / dx + 1; // 正整数解的个数\n\tMT::println(cnt, x1, y1, x2, y2);\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-14",
+  "parsed_at": "2026-06-14T18:39:36.898592+00:00",
+  "type_directory": "p"
+}

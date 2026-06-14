@@ -1,0 +1,256 @@
+{
+  "slug": "cf2234c-vessels,-heights-and-two-versions-(easy-version)",
+  "title": "CF2234C Vessels, Heights and Two Versions (Easy Version)",
+  "type": "题目",
+  "tags": [
+    "ad-hoc",
+    "前后缀"
+  ],
+  "difficulty": 1.5,
+  "summary": "脑筋急转弯题，一开始只想着开一个数组两头跑，发现完全不行；看了题解才意识到可以开两个数组 $b, c$，分别从 $i+1$ 和 $i-1$ 出发各跑一遍<strong>前缀最大值</strong>，每个位置取 $\\min(b_j, c_j)$ 累加即是答案，有点类似<strong>容斥</strong>的思想。",
+  "link": "https://codeforces.com/contest/2234/problem/C",
+  "link_text": "https://codeforces.com/contest/2234/problem/C",
+  "source": "Codeforces Round 2234",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有 $n$ 个无限高的连通容器排列成一个圆环。每个容器底面积为 $1$ cm$^2$，在第 $i$ 个容器与第 $(i \\bmod n) + 1$ 个容器之间，高度 $h_i$ cm 处有一根体积可忽略的连接管。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个容器 $i$，求在保证第 $i$ 个容器<strong>保持为空</strong>的条件下，这些容器中最多能容纳多少 cm$^3$ 的水。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "形式化地，给定 $h_1, h_2, \\ldots, h_n$。一个非负整数循环数组 $w_1, w_2, \\ldots, w_n$ 称为\"好的\"，当且仅当：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个 $i$，若 $\\max(w_i, w_{i \\bmod n + 1}) > h_i$，则 $w_i = w_{i \\bmod n + 1}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "即：相邻两个位置的最大水位如果超过了它们之间的挡板高度，则两边水位必须相等（连通器原理）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对每个 $i$，在 $w_i = 0$ 的约束下，求 $\\sum w_i$ 的最大值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $t$ ($1 \\le t \\le 1000$)，测试用例数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每组数据：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一行一个整数 $n$ ($3 \\le n \\le 3000$)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个整数 $h_1, h_2, \\ldots, h_n$ ($1 \\le h_i \\le 10^9$)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例的 $n$ 之和不超过 $3000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组数据，输出 $n$ 个整数，第 $i$ 个表示容器 $i$ 为空时的最大总水量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n4\n1 2 3 4\n5\n5 3 1 5 2\n6\n3 4 2 6 1 5\n7\n1 2 1 4 2 3 5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 6 7 9 \n17 16 14 14 17 \n21 21 20 20 21 21 \n17 17 17 17 21 21 22 ",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "以第一组为例 ($h = [1,2,3,4]$)：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "容器 1 为空：$w = [0,1,2,3]$，总和 $6$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "容器 2 为空：$w = [1,0,2,3]$，总和 $6$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "容器 3 为空：$w = [2,2,0,3]$，总和 $7$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "容器 4 为空：$w = [3,3,3,0]$，总和 $9$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心思路",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "反过来想：固定第 $i$ 个容器为空（$w_i = 0$），那其他位置的水要想存住，就不能顺着管子一路漏到 $i$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "任意位置 $j$ 的水有两条路可以漏到 $i$——顺时针走一圈，或逆时针走一圈。每条路上有很多挡板，但真正决定水能不能一路流过去的，只是其中<strong>最高的那一个</strong>：一旦水位超过它，沿途所有挡板都会被漫过，水直达 $i$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "记 $b_j$ 为顺时针路径上 $h$ 的最大值（从 $i$ 出发顺时针走到 $j$）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "记 $c_j$ 为逆时针路径上 $h$ 的最大值（从 $i$ 出发逆时针走到 $j$）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$w_j$ 只要超过 $b_j$ 或 $c_j$ 中任意一个，水就会沿那条路漏光。所以 $w_j$ 的上限是两侧瓶颈的较小值：$w_j \\le \\min(b_j, c_j)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "直接取等号 $w_j = \\min(b_j, c_j)$ 天然满足题目的连通器条件，不会产生矛盾。因此对每个 $i$，答案就是 $\\sum \\min(b_j, c_j)$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "实现",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对每个 $i$（空容器），做两遍扫描：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "顺时针：从 $i+1$ 出发，$b[\\text{now}] = \\max(b[\\text{last}], h[\\text{last}])$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "逆时针：从 $i-1$ 出发，$c[\\text{now}] = \\max(c[\\text{last}], h[\\text{now}])$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "注意圆环的取模边界。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "总结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "典型的脑筋急转弯——条件看着像模拟，实则是个约束问题。反向思考\"水怎么不漏进空容器\"，两侧各取路径最高挡板，较严的那个就是水位上限，直接累加即得答案。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n; cin >> n;\n\tvar a = vector<ll>(n);\n\tfa(i, 0, n - 1)cin >> a[i];\n\tfa(i, 0, n - 1) {\n\t\tvar b = vector<ll>(n);\n\t\tvar c = vector<ll>(n);\n\t\tint now = (i + 1) % n;\n\t\twhile (now != i) {\n\t\t\tint last = (((now - 1) % n) + n) % n;\n\t\t\tb[now] = max(b[last], a[last]);\n\t\t\tnow = (now + 1) % n;\n\t\t}\n\t\tnow = (((i - 1) % n) + n) % n;\n\t\twhile (now != i) {\n\t\t\tint last = (now + 1) % n;\n\t\t\tc[now] = max(c[last], a[now]);\n\t\t\tnow = (((now - 1) % n) + n) % n;\n\t\t}\n\t\tll ans = 0;\n\t\tfa(i, 0, n - 1)ans += min(b[i], c[i]);\n\t\tcout << ans << ' ';\n\t}cout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-11",
+  "parsed_at": "2026-06-14T18:39:36.505490+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,54 @@
+{
+  "slug": "前后缀",
+  "title": "前后缀",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "前缀单调性"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "前缀单调性 Log-Trick",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>按位与 (<code>&amp;</code>)</strong>：越与越小，每次改变至少会让二进制里的一个 <code>1</code> 变成 <code>0</code>。所以长度为 $N$ 的数组，前缀 AND 最多改变 $\\log X$ 次（$X$ 为值域）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>按位或 (<code>|</code>)</strong>：越或越大，每次改变至少会让二进制里的一个 <code>0</code> 变成 <code>1</code>。前缀 OR 同样最多改变 $\\log X$ 次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>最大公因数 (GCD)</strong>：越求越小，前缀 GCD 同样最多改变 $\\log X$ 次。当我们不断地拿数字去求 $\\gcd$ 时（例如 $x, \\gcd(x, y_1), \\gcd(x, y_1, y_2)\\dots$），这个序列的值要么不变，<strong>如果变小，至少会缩小一半</strong>（因为最小的非 1 因数是 2）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>最小公倍数 (LCM)</strong>：越求越大，虽然它没有严格的步数限制（因为可能无限增长），但在题目限制了 LCM 的最大上限（比如 $\\le 10^{18}$）时，前缀 LCM 同样最多改变 $\\log \\text{上限}$ 次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>按位异或 (<code>^</code>) 的线性基</strong>：注意，单独的异或<strong>没有</strong>这个性质（异或会上下波动），但是如果你维护的是前缀的 <a href=\"/tags\" class=\"tag-link\">#线性基</a> ，前缀线性基的同样最多改变 $\\log X$ 次。",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-18",
+  "parsed_at": "2026-06-14T18:45:11.999663+00:00",
+  "type_directory": "k"
+}

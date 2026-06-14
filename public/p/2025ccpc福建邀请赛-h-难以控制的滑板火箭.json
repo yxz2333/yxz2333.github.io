@@ -1,0 +1,146 @@
+{
+  "slug": "2025ccpc福建邀请赛-h-难以控制的滑板火箭",
+  "title": "2025CCPC福建邀请赛 H 难以控制的滑板火箭",
+  "type": "题目",
+  "tags": [
+    "最短路/拆点问题",
+    "图论经典问题/边可以反复走"
+  ],
+  "difficulty": 1.5,
+  "summary": "因为题目要求是移动满 $[l,r]$ 次，因为可以来回走，很容易想到用拆点最短路算奇偶距离，然后可以来回踱步减少要求的步数。本题的 $[l,r]$ 区间到不用多考虑，大部分情况用最大值 $r$ 即可，分类讨论即可解决。",
+  "link": "https://codeforces.com/gym/105977/",
+  "link_text": "Dashboard - 2025 National Invitational of CCPC (Fujian), The 12th Fujian Collegiate Programming Contest - Codeforces",
+  "source": "[[2025CCPC福建邀请赛]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在一个 $n \\times m$ 的 01 网格中，其中第 $i$ 行第 $j$ 列元素为 $a_{i,j}$，若 $a_{i,j}=1$ 则表示这个位置为空地，反之若 $a_{i,j}=0$ 则表示这个位置上有障碍物。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在小猫从 $(1,1)$ 出发，想要去 $(n,m)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若小猫当前在 $(x,y)$，则<strong>一次移动</strong>后可以到所有周围 8 个方向。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意不能移动到地图外，也不能走到障碍物上。即任意时候 $1 \\le x \\le n, 1 \\le y \\le m, a_{x,y}=1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "因为小猫使用了难以控制的滑板火箭，<strong>每一分钟</strong>都会移动 $[l, r]$ 次。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在需要你求出小猫最少需要几分钟才能成功抵达终点（<strong>必须要某一分钟的移动全部结束后小猫的位置在</strong> $(n,m)$ <strong>才算成功抵达</strong>），如果无论经过多久都不能成功抵达请输出 -1。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $t$ $(1 \\le t \\le 1000)$，表示测试数据组数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来对于每一组测试数据，第一行两个整数 $n, m$ $(2 \\le n, m \\le 1000)$，表示 01 网格的大小。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来一行包含两个整数 $l, r$ $(1 \\le l \\le r \\le 10^9)$，表示在一分钟内移动次数的限制范围。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行，每行 $m$ 个字符，表示网格的元素 $a_{i,j}$，字符仅会出现 0 或 1，且 $a_{1,1}$ 与 $a_{n,m}$ 一定为 1。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试数据的 $n \\times m$ 的和不超过 $10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每一组测试数据输出一行，如果小猫能在有限时间内抵达 $(n,m)$，那么输出最少需要的分钟数，否则输出 -1。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n5 5\n2 3\n10000\n01000\n00110\n11001\n11111\n7 8\n3 3\n10101000\n01010100\n10000100\n01000010\n00100100\n00011010\n00000001\n7 8\n4 4\n10101000\n01010100\n10000100\n01000010\n00100100\n00011010\n00000001",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n3\n3",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tll l, r; cin >> l >> r;\n\tvar a = vector<string>(n + 1);\n\tfa(i, 1, n)cin >> a[i], a[i] = ' ' + a[i];\n\n\tvar dis = Vec3<int>(n + 1, m + 1, 2, INF);\n\tvar Q = queue<tuple<int, int, int>>();\n\tdis[1][1][0] = 0;\n\tQ.push({ 1,1,0 });\n\tvar vis = Vec3<bool>(n + 1, m + 1, 2);\n\twhile (Q.size()) {\n\t\tvar[x, y, st] = Q.front();\n\t\tQ.pop();\n\t\tif (vis[x][y][st])continue;\n\t\tvis[x][y][st] = 1;\n\t\tfa(k, 0, 7) {\n\t\t\tint nx = x + dx[k];\n\t\t\tint ny = y + dy[k];\n\t\t\tif (nx < 1 or nx > n or ny < 1 or ny > m or a[nx][ny] == '0')continue;\n\t\t\tif (dis[nx][ny][st ^ 1] > dis[x][y][st] + 1) {\n\t\t\t\tdis[nx][ny][st ^ 1] = dis[x][y][st] + 1;\n\t\t\t\tQ.push({ nx,ny,st ^ 1 });\n\t\t\t}\n\t\t}\n\t}\n\n\tif (dis[n][m][0] >= INF and dis[n][m][1] >= INF) {\n\t\tcout << -1 << endl;\n\t\treturn;\n\t}\n\n\tvar cal = [&](ll dist)->ll {\n\t\tif (dist >= INF)return LNF;\n\t\tif (dist % r == 0)return dist / r;\n\n\t\tll left = r - dist % r;\n\t\tif (left % 2 == 0 or r - l >= 1)return dist / r + 1;\n\n\t\t// 此时 l == r，left % 2 == 1\n\t\t// dist + 2 * y = r * x\n\t\t// r * x - dist = 2 * y\n\t\t// y = (r * x - dist) / 2\n\t\tll res = (dist + r - 1) / r;\n\t\tbool ok = 0;\n\t\tfa(add, 0, 2) {\n\t\t\tif ((r * (res + add) - dist) % 2 == 0) {\n\t\t\t\tres += add;\n\t\t\t\tok = 1;\n\t\t\t\tbreak;\n\t\t\t}\n\t\t}\n\t\tif (ok)return res;\n\t\telse return LNF;\n\t\t};\n\tll ans = LNF;\n\tans = min(ans, cal(dis[n][m][0]));\n\tans = min(ans, cal(dis[n][m][1]));\n\n\tif (ans == LNF)cout << -1 << endl;\n\telse cout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-08",
+  "parsed_at": "2026-06-14T18:39:35.739392+00:00",
+  "type_directory": "p"
+}

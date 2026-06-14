@@ -1,0 +1,138 @@
+{
+  "slug": "exgcd",
+  "title": "exgcd",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "同余方程"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "type": "p",
+      "html": "用来解二元一次方程 $ax+by=c$，也能解<strong>同余方程</strong> $ax = b (mod  m)$。",
+      "depth": 0
+    },
+    {
+      "heading": "特解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "调用 <code>exgcd(a, b, x0, y0)</code> 得到 $ax_0 + by_0 = g$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "题目要求 $ax + by = c$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果 $c \\% g \\ne 0$，直接无解。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "否则，将特解放大：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$x_0 \\leftarrow x_0 \\times \\frac{c}{g}, \\quad y_0 \\leftarrow y_0 \\times \\frac{c}{g}$$\n此时 $x_0, y_0$ 是方程 $ax+by=c$ 的解，但很可能一正一负，甚至很大。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "通解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "设步长 $dx = \\frac{b}{g},  dy = \\frac{a}{g}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "任意整数 $k$ 都可以生成新解：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$\\begin{cases} x = x_0 + k \\cdot dx \\\\ y = y_0 - k \\cdot dy \\end{cases}$$\n$x$ 增加， $y$ 就会减小。\n$x$ 减小， $y$ 就会增加。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "非负解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "利用取模可以一步到位把 $x$ 调整到最小非负整数（即 $0 \\le x < dx$）：",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "long long dx = b / g; // x 的变化步长\nx = (x % dx + dx) % dx; // 这一步把 x 变成了最小非负整数",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "算出这个最小的 $x$ 后，直接代回方程算 $y$：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$y = (c - a \\cdot x) / b$$\n如果不论 $x$ 多小（只要 $\\ge 0$），算出来的 $y$ 依然 $< 0$，说明**无非负整数解**（两者不能同时非负）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "正整数解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "long long dx = b / g;   // x 的变化步长\nx = (x % dx + dx) % dx; // 这一步把 x 变成了最小非负整数\nif (x == 0) x += dx;    // 如果为 0，加上最小步长",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "abc 负数处理",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "若方程中 $a,b,c$ 出现负数，需要进行处理。",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "long long x0, y0;\n\n// 取绝对值\nlong long g = exgcd(abs(a), abs(b), x0, y0); \nx0 *= c / g, y0 *= c / g;\n\n// 还原\nif (a < 0)x0 = -x0;\nif (b < 0)y0 = -y0;",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-14",
+  "parsed_at": "2026-06-14T18:45:11.946387+00:00",
+  "type_directory": "k"
+}

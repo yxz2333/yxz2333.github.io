@@ -1,0 +1,23 @@
+{
+  "slug": "计数问题",
+  "title": "计数问题",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "经典问题",
+    "计数问题"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-24",
+  "parsed_at": "2026-06-14T18:45:12.199805+00:00",
+  "type_directory": "k"
+}

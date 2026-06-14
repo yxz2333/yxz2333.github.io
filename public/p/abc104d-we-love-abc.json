@@ -1,0 +1,242 @@
+{
+  "slug": "abc104d-we-love-abc",
+  "title": "ABC104D We Love ABC",
+  "type": "题目",
+  "tags": [
+    "贡献法",
+    "前后缀",
+    "经典问题/构造结构问题"
+  ],
+  "difficulty": 1.5,
+  "summary": "跟 <a href=\"/p/nk105623f-小苯的ovo2.0\" class=\"wikilink\">NK105623F 小苯的ovo2.0</a> 的贡献法思考思路一样，都是<strong>考虑中间处理两边</strong>，也就是一种<strong>三明治结构</strong>，毕竟两边都只需要考虑一个字母，简单很多。",
+  "link": "[AT_abc104_d [ABC104D] We Love ABC - 洛谷](https://www.luogu.com.cn/problem/AT_abc104_d)",
+  "link_text": "[AT_abc104_d [ABC104D] We Love ABC - 洛谷](https://www.luogu.com.cn/problem/AT_abc104_d)",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "字符串 $T$ 的 <em>ABC 数</em> 是满足以下所有条件的整数三元组 $(i,\\ j,\\ k)$ 的个数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1\\ <=\\ i\\ <\\ j\\ <\\ k\\ <=\\ |T|$（$|T|$ 表示 $T$ 的长度）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$T_i =$ <code>A</code>（$T_i$ 表示 $T$ 从首位开始的第 $i$ 个字符）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$T_j =$ <code>B</code>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$T_k =$ <code>C</code>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "例如，当 $T =$ <code>ABCBC</code> 时，满足条件的三元组 $(i,\\ j,\\ k)$ 有 $(1,\\ 2,\\ 3),\\ (1,\\ 2,\\ 5),\\ (1,\\ 4,\\ 5)$ 共 $3$ 个，因此 $T$ 的 ABC 数为 $3$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定一个字符串 $S$，其中每个字符都是 <code>A</code>、<code>B</code>、<code>C</code> 或 <code>?</code> 之一。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "设 $S$ 中 <code>?</code> 的个数为 $Q$。将 $S$ 中的每个 <code>?</code> 替换为 <code>A</code>、<code>B</code> 或 <code>C</code> 中的任意一个，可以得到 $3^Q$ 种不同的字符串。请计算这些字符串的 ABC 数之和。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于这个和可能非常大，请输出其对 $10^9 + 7$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输入为以下格式，通过标准输入给出。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "> $S$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$3\\ <=\\ |S|\\ <=\\ 10^5$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$S$ 的每个字符都是 <code>A</code>、<code>B</code>、<code>C</code> 或 <code>?</code> 之一。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "请输出 $3^Q$ 种字符串所有 ABC 数之和对 $10^9 + 7$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "A??C",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "8",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "????C?????B??????A???????",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "979596887",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在本例中，$Q = 2$，将每个 <code>?</code> 替换为 <code>A</code>、<code>B</code> 或 <code>C</code>，共可得到 $3^Q = 9$ 种字符串。每种字符串的 ABC 数如下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>AAAC</code>: $0$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>AABC</code>: $2$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>AACC</code>: $0$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>ABAC</code>: $1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>ABBC</code>: $2$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>ABCC</code>: $2$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>ACAC</code>: $0$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>ACBC</code>: $1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>ACCC</code>: $0$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这些和为 $0 + 2 + 0 + 1 + 2 + 2 + 0 + 1 + 0 = 8$，对 $10^9 + 7$ 取模后输出 $8$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tstring s; cin >> s;\n\tint n = s.size(); s = ' ' + s;\n\tll ans = 0;\n\tvar pre = vector<ll>(n + 2);\n\tvar suf = vector<ll>(n + 2);\n\tvar prea = vector<ll>(n + 2);\n\tvar sufc = vector<ll>(n + 2);\n\tfa(i, 1, n) {\n\t\tpre[i] = pre[i - 1] + (s[i] == '?');\n\t\tprea[i] = prea[i - 1] + (s[i] == 'A');\n\t}\n\tfb(i, n, 1) { \n\t\tsuf[i] = suf[i + 1] + (s[i] == '?');\n\t\tsufc[i] = sufc[i + 1] + (s[i] == 'C');\n\t}\n\tfa(i, 1, n)if (s[i] == 'B' or s[i] == '?') {\n\t\tll suma = prea[i - 1] * Math::fastPow(3, pre[i - 1], mod) % mod;\n\t\tll sumc = sufc[i + 1] * Math::fastPow(3, suf[i + 1], mod) % mod;\n\t\tif (pre[i - 1]) \n\t\t\tsuma = (suma + Math::fastPow(3, pre[i - 1] - 1, mod) * pre[i - 1] % mod) % mod;\n\t\tif (suf[i + 1]) \n\t\t\tsumc = (sumc + Math::fastPow(3, suf[i + 1] - 1, mod) * suf[i + 1] % mod) % mod;\n\t\t//debug(suma, sumc);\n\t\tans = (ans + suma * sumc % mod) % mod;\n\t}\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-30",
+  "parsed_at": "2026-06-14T18:39:35.941490+00:00",
+  "type_directory": "p"
+}

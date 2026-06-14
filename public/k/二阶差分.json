@@ -1,0 +1,49 @@
+{
+  "slug": "二阶差分",
+  "title": "二阶差分",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "二阶差分"
+  ],
+  "parent": "差分数组",
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "What？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对数组 $A$ 做一次差分得到 $D_1$，那么 $D_1$ 的前缀和就是 $A$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对 $D_1$ 再做一次差分得到 $D_2$，这就是 <strong>二阶差分数组</strong>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "关系链",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "type": "math",
+      "latex": "$$ D_2 \\xrightarrow{\\text{前缀和}} D_1 \\xrightarrow{\\text{前缀和}} \\text{原数组 } A $$\n## 作用与应用场景\n## 二阶差分的通用公式\n## 参考代码",
+      "depth": 0
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-18",
+  "parsed_at": "2026-06-14T18:45:12.055841+00:00",
+  "type_directory": "k"
+}

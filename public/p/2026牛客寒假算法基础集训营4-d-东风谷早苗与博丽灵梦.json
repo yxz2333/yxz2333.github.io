@@ -1,0 +1,137 @@
+{
+  "slug": "2026牛客寒假算法基础集训营4-d-东风谷早苗与博丽灵梦",
+  "title": "2026牛客寒假算法基础集训营4 D 东风谷早苗与博丽灵梦",
+  "type": "题目",
+  "tags": [
+    "三分",
+    "exgcd"
+  ],
+  "difficulty": 1.0,
+  "summary": "用<strong>exgcd</strong>求出非负解的通解，然后<strong>三分</strong>枚举 $k$ 即可，计算的时候需要用 $\\text{int128}$。",
+  "link": "https://ac.nowcoder.com/acm/contest/120564/D",
+  "link_text": "D-东风谷早苗与博丽灵梦_2026牛客寒假算法基础集训营4",
+  "source": "[[2026牛客寒假算法基础集训营4]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$有一个长度为 $x$ 的线段，早苗站在线段左端点，灵梦站在线段右端点。早苗每秒可以向右移动 $a$ 个单位长度，灵梦每秒可以向左移动 $s$ 个单位长度。早苗和灵梦每秒可以分别选择移动、不移动，一旦选择移动，必须完整走完这一秒而不能中途停，并且移动过程中不能超出线段端点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$请构造一个方案，使得在某一秒结束时，两人恰好处于同一坐标（即相遇），且用时最短。方案仅需给出两个非负整数 $c_1, c_2$，分别表示早苗的移动次数和灵梦的移动次数，且最小化 $\\max(c_1, c_2)$。如果不存在符合条件的方案，直接输出 $\\texttt{No}$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$每个测试文件均包含多组测试数据。第一行输入一个整数 $T\\left(1\\leq T\\leq 10^4\\right)$ 代表数据组数，每组测试数据描述如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$在一行上输入三个正整数 $x, a, s \\left(1 \\leq x, a, s \\leq 10^{18}\\right)$ ，表示线段长度，早苗移动速度，灵梦移动速度。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$对于每一组测试数据，新起一行。如果不存在符合条件的方案，直接输出 $\\texttt{No}$，否则：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{23pt}\\bullet\\,$第一行输出 $\\texttt{Yes}$；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{23pt}\\bullet\\,$第二行输出两个非负整数 $c_1, c_2$，分别表示早苗、灵梦的移动次数；",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\hspace{15pt}$如果存在多个解决方案，您可以输出任意一个，系统会自动判定是否正确。注意，自测运行功能可能因此返回错误结果，请自行检查答案正确性。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n2 1 1\n1 2 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "Yes\n1 1\nNo",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "先求特解，然后改成非负解，根据通解公式，三分枚举 $k$ 即可解决。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll len, a, b; cin >> len >> a >> b;\n\tll g = Math::gcd(a, b);\n\tif (len % g) {\n\t\tcout << \"No\" << endl;\n\t\treturn;\n\t}\n\n\tll x0, y0;\n\tMath::exgcd(a, b, x0, y0);\n\tll dx = b / g, dy = a / g;\n\tll x1 = ((__int128)x0 * (len / g) % dx + dx) % dx;\n\tll y1 = (len - (__int128)a * x1) / b;\n\n\tif (y1 < 0) {\n\t\tcout << \"No\" << endl;\n\t\treturn;\n\t}\n\n\tvar f = [&](__int128 mid)->__int128 {\n\t\t__int128 x = x1 + mid * dx, y = y1 - mid * dy;\n\t\treturn max(x, y);\n\t\t};\n\tll l = 0, r = y1 / dy;\n\twhile (l < r) {\n\t\tll mid = l + r >> 1;\n\t\tif (f(mid) > f(mid + 1))l = mid + 1;\n\t\telse r = mid;\n\t}\n\n\tcout << \"Yes\" << endl;\n\tcout << x1 + l * dx << ' ' << y1 - l * dy << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-26",
+  "parsed_at": "2026-06-14T18:39:35.917075+00:00",
+  "type_directory": "p"
+}

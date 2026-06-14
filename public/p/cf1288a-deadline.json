@@ -1,0 +1,137 @@
+{
+  "slug": "cf1288a-deadline",
+  "title": "CF1288A Deadline",
+  "type": "题目",
+  "tags": [
+    "剪枝/数学型剪枝",
+    "数学/均值不等式"
+  ],
+  "difficulty": 1.5,
+  "summary": "题目的式子明显是<strong>均值不等式</strong>，$f(x) = (x+1) + \\frac{d}{x+1} - 1 \\ge 2\\sqrt{d} - 1$，函数的最小值一定在 $x \\approx \\sqrt{d}$ 的地方取得。<strong>设定答案上限 <code>ans</code> 进行剪枝</strong>，一旦 $x \\ge ans$，后面的答案也就不用看了。",
+  "link": "https://www.luogu.com.cn/problem/CF1288A",
+  "link_text": "CF1288A Deadline - 洛谷",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Adilbek 被分配到了一个特殊项目。对 Adilbek 来说，这意味着他有 $n$ 天来运行一个特殊程序并提交其结果。但有一个问题：该程序需要运行 $d$ 天才能计算出结果。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "幸运的是，Adilbek 可以对程序进行优化。如果他花费 $x$（$x$ 是非负整数）天来优化程序，那么程序的运行时间将变为 $\\left\\lceil \\frac{d}{x + 1} \\right\\rceil$ 天（$\\left\\lceil a \\right\\rceil$ 表示向上取整函数，例如 $\\left\\lceil 2.4 \\right\\rceil = 3$，$\\left\\lceil 2 \\right\\rceil = 2$）。程序不能在优化和运行的同时进行，因此他总共需要花费的天数为 $x + \\left\\lceil \\frac{d}{x + 1} \\right\\rceil$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Adilbek 能否在不超过 $n$ 天的时间内提交生成的结果？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $T$（$1 \\le T \\le 50$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $T$ 行，每行一个测试用例。每行包含两个整数 $n$ 和 $d$（$1 \\le n \\le 10^9$，$1 \\le d \\le 10^9$），分别表示截止日期前的天数和程序运行所需的天数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $T$ 行答案，每个测试用例输出一行。如果 Adilbek 能在 $n$ 天内完成，输出 YES（不区分大小写），否则输出 NO（不区分大小写）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 1\n4 5\n5 11",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "YES\nYES\nNO",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，Adilbek 决定完全不优化程序，因为 $d \\le n$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个测试用例中，Adilbek 可以花 $1$ 天优化程序，程序将运行 $\\left\\lceil \\frac{5}{2} \\right\\rceil = 3$ 天。总共花费 $4$ 天，可以满足要求。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个测试用例中，无论如何都无法满足要求。例如，如果 Adilbek 花 $2$ 天优化程序，程序仍需运行 $\\left\\lceil \\frac{11}{2+1} \\right\\rceil = 4$ 天，总共 $6$ 天，超出限制。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, d; cin >> n >> d;\n\tll ans = LNF;\n\tfa(x, 0, 1000000000) {\n\t\tif (x > ans)break;\n\t\tans = min(ans, x + Math::ceil(d, x + 1ll));\n\t}\n\tif (ans <= n)cout << \"YES\" << endl;\n\telse cout << \"NO\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-03-25",
+  "parsed_at": "2026-06-14T18:39:36.150329+00:00",
+  "type_directory": "p"
+}

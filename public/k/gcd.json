@@ -1,0 +1,50 @@
+{
+  "slug": "gcd",
+  "title": "gcd",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "lcm"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "GCD 与 LCM",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "\\(\\gcd(a,b) \\times \\operatorname{lcm}(a,b) = a \\times b\\)",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "GCD 相关等式",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>更相减损术</strong>：若 \\(a > b\\)，则 \\(\\gcd(a, b) = \\gcd(a-b, b)\\)",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>辗转相除法</strong>：\\(\\gcd(a, b) = \\gcd(b, a \\bmod b)\\)",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-02",
+  "parsed_at": "2026-06-14T18:45:11.952111+00:00",
+  "type_directory": "k"
+}

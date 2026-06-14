@@ -1,0 +1,363 @@
+{
+  "slug": "cf2195g-idiot-first-search-and-queries",
+  "title": "CF2195G Idiot First Search and Queries",
+  "type": "题目",
+  "tags": [
+    "DFS 序",
+    "树上倍增"
+  ],
+  "difficulty": 2.0,
+  "summary": "先用类似 DFS 序的方式，把本题的移动序列全部找出来（本题算是个特殊的 DFS 序），算出 $in,out,euler$，其中 $euler$ 数组为整个移动的序列，长度为 $2n$，$in[now],out[now]$ 为进入和离开 $now$ 子树的 $euler$ 数组下标。然后就是树上倍增，倍增的思路还是很好想的。",
+  "link": "https://codeforces.com/problemset/problem/2195/G",
+  "link_text": "Problem - 2195G - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>本题与问题 E 共享定义，但要求的答案不同。</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "有一棵具有 $n+1$ 个顶点的二叉树（<strong>n 是奇数</strong>），顶点编号为 $0, 1, \\ldots, n$。树的每个顶点上<strong>最多可以写一个字母</strong>，且所有顶点初始时都未写任何内容。树的根是顶点 $0$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在这棵树中，顶点 $0$ 是顶点 $1$ 的父节点，而所有其他顶点要么有两个子节点，要么没有子节点（即为叶子）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "Bob 迷失在树的某个顶点，并希望通过到达顶点 $0$ 来逃离树。这对大多数有常识的人来说很容易。然而，由于 Bob 是个傻瓜，他创造了一种新的遍历树的方式；称之为\"傻瓜优先搜索\"。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当 Bob 在顶点 $v$（$1 \\le v \\le n$）上时，他的移动规则如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果顶点 $v$ 是叶子，Bob <strong>总是</strong>移动到 $v$ 的父节点；否则，检查接下来的几个条件。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果顶点 $v$ 上什么也没写，Bob 在顶点 $v$ 上写上 'L'，然后移动到 $v$ 的左子节点；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果顶点 $v$ 上写着 'L'，Bob 将其<strong>覆盖</strong>为 'R'，然后移动到 $v$ 的右子节点；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果顶点 $v$ 上写着 'R'，Bob <strong>将其擦除</strong>，然后移动到 $v$ 的父节点。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "Bob 移动到一个相邻的顶点恰好需要 $1$ 秒，因此 Bob 执行 $x$ 次移动将恰好花费 $x$ 秒。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>已经证明</strong>，无论 Bob 从哪个顶点开始，他都能在有限（尽管可能大得离谱）的时间内到达顶点 $0$。我们不知道是谁证明了这一点；肯定不是 Bob，但确实被证明了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你需要回答 $q$ 个如下形式的查询：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$v\\;k$：假设 Bob 从顶点 $v$ 开始，请求出他在<strong>恰好执行了 $k$ 次移动</strong>后所在的顶点 ($1 \\le v \\le n$)。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于每个查询，令 $T_v$ 为从顶点 $v$ 到达顶点 $0$ 所需的总时间。题目保证对于每个查询，都有 $k \\lt T_v$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每个测试包含多个测试用例。第一行包含测试用例的数量 $t$ ($1 \\le t \\le 10^4$)。接下来是测试用例的描述。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例的第一行包含两个整数 $n$ 和 $q$ ($1 \\le n \\le 300\\,001$，$1 \\le q \\le 400\\,000$，<strong>$n$ 是奇数</strong>)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行，每行包含两个整数 $l_i$ 和 $r_i$，表示顶点 $i$ 的子节点 ($0 \\le l_i, r_i \\le n$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果某个顶点没有子节点，则给定 $l_i = r_i = 0$。否则，$l_i$ 和 $r_i$ 分别是顶点 $i$ 的左子节点和右子节点。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $q$ 行，每行包含两个整数 $v_j$ 和 $k_j$，表示第 $j$ 个查询 ($1 \\le v_j \\le n$，$0 \\le k_j \\color{red}{<} \\min(10^9+7, T_{v_j})$)。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证输入定义了一个满足题目所述条件的有效二叉树。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $n$ 的总和不超过 $300\\,001$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例中 $q$ 的总和不超过 $400\\,000$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，在一行中输出所有 $q$ 个查询的答案，每个答案占一行。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3\n1 1\n0 0\n1 0\n5 5\n2 3\n0 0\n4 5\n0 0\n0 0\n3 6\n3 8\n3 11\n4 7\n5 8\n7 7\n2 3\n4 5\n0 0\n6 7\n0 0\n0 0\n0 0\n1 9\n2 18\n3 11\n3 12\n3 13\n5 7\n7 17",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n2 3 5 2 1\n2 2 1 3 1 2 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，只有两个顶点，顶点 $0$ 和顶点 $1$。显然，如果 Bob 从顶点 $1$ 出发且已经执行了 $0$ 次移动，那么他就在顶点 $1$ 上。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二个测试用例的树如下图所示。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "![](https://espresso.codeforces.com/dfccc9cd793030983f22e97a4aefba2172a64dd9.png){:height 235, :width 263}",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "从顶点 $3$ 出发到达顶点 $0$ 需要 $14$ 秒。移动序列如下：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n3 \\xrightarrow{\\mathtt{L}} 4 \\xrightarrow{\\mathtt{X}} 3 \\xrightarrow{\\mathtt{R}} 5 \\xrightarrow{\\mathtt{X}} 3 \\xrightarrow{\\mathtt{X}} 1 \\xrightarrow{\\mathtt{L}} \\color{red}{2} \\xrightarrow{\\mathtt{X}} 1 \\xrightarrow{\\mathtt{R}} \\color{red}{3} \\xrightarrow{\\mathtt{L}} 4 \\xrightarrow{\\mathtt{X}} 3 \\xrightarrow{\\mathtt{R}} \\color{red}{5} \\xrightarrow{\\mathtt{X}} 3 \\xrightarrow{\\mathtt{X}} 1 \\xrightarrow{\\mathtt{X}} 0\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这里，箭头上的字母表示在移动到相邻顶点之前，所在顶点上写的字母，其中 $\\mathtt{X}$ 表示什么也没写。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如红色高亮所示，可以得出：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "从顶点 $3$ 出发执行 $6$ 次移动后，Bob 在顶点 $2$ 上；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "从顶点 $3$ 出发执行 $8$ 次移动后，Bob 在顶点 $3$ 上；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "从顶点 $3$ 出发执行 $11$ 次移动后，Bob 在顶点 $5$ 上。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "用类似 DFS 序的方式，把本题的移动序列全部找出来（本题算是个特殊的 DFS 序），算出 $in,out,euler$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "其中 $euler$ 数组为整个移动的序列，长度为 $2n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$in[now],out[now]$ 为进入和离开 $now$ 子树的 $euler$ 数组下标。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>这个 euler 序列的神奇性质：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>连续性</strong>：对于任意节点 $u$，区间 <code>euler[in[u] ... out[u]]</code> 完整记录了 Bob 遍历 $u$ 整棵子树的所有足迹。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>下标即时间</strong>：<code>euler[in[u] + k]</code> 恰好就是从 $u$ 开始，在 $u$ 的子树内跑 $k$ 步后所在的节点。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>区间长度</strong>：<code>out[u] - in[u]</code> 正好等于遍历完 $u$ 子树所需的总时间步数。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "有了上面的性质，查询 $(u, k)$ 就被拆解为两个阶段：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>逃逸阶段（走出子树）</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如果 $k$ 很大，超过了 $u$ 子树的遍历时间（即 $k > out[u] - in[u]$），说明 Bob 会遍历完 $u$ 的子树，回到 $u$ 的父节点，甚至继续向上。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>往上跑的过程使用树上倍增</strong>：",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<code>dp[u][i]</code>：倍增父节点表。",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "<code>sum[u][i]</code>：记录这 $2^i$ 次跳跃过程中，消耗的总时间步数。",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "<strong>核心状态转移</strong>：<code>sum[u][0] = out[u] - in[u] + 1</code>。",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "这里的 $+1$：代表 Bob 遍历完 $u$ 的子树后，<strong>再多走一步</strong>回到父节点的时间。",
+          "depth": 5
+        },
+        {
+          "type": "p",
+          "html": "查询时，利用倍增从 $u$ 快速向上跳，每跳一次就 <code>k -= sum[now][p]</code>，直到剩余的 $k$ 不足以完成下一次跳跃（即 $k$ 最终会落在当前节点的某个子树范围内）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>俯冲阶段（欧拉序 O(1) 查询）</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "当倍增结束后，剩下的 $k$ 保证了 Bob 必定停留在当前节点 <code>now</code> 的子树内部（或者刚开始遍历 <code>now</code> 的部分）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "此时直接调用我们构造好的 DFS 序：",
+          "depth": 3
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\text{Answer} = \\text{euler}[\\text{in}[\\text{now}] + k] $$",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\tvar g = vector<vector<int>>(n + 1);\n\tfa(i, 1, n) {\n\t\tint x, y; cin >> x >> y;\n\t\tif (x and y)g[i].pb(x), g[i].pb(y);\n\t}\n\n\tint timer = 0;\n\tvar in = vector<ll>(n + 1);\n\tvar out = vector<ll>(n + 1);\n\tvar euler = vector<int>();\n\tvar dp = Vec2<int>(n + 1, 21);  // 倍增父节点表\n\tvar sum = Vec2<ll>(n + 1, 21);\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\teuler.pb(now);\n\t\tin[now] = vs(euler);\n\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\teuler.pb(now);\n\t\t}\n\n\t\tout[now] = vs(euler);\n\n\t\tdp[now][0] = fa;\n\t\t// now 想要往上跳到 fa，必须把当前的子树路径处理完\n\t\tsum[now][0] = out[now] - in[now] + 1; \n\t\t};\n\tdfs(dfs, 1, 0);\n\n\tfa(p, 1, 20)fa(i, 1, n) {\n\t\tdp[i][p] = dp[dp[i][p - 1]][p - 1];\n\t\tsum[i][p] = sum[i][p - 1] + sum[dp[i][p - 1]][p - 1];\n\t}\n\n\twhile (q--) {\n\t\tll now, k; cin >> now >> k;\n\t\t// 这里使用贪心跳跃法\n\t\tfb(p, 20, 0) {\n\t\t\tif (k >= sum[now][p]) {\n\t\t\t\tk -= sum[now][p];\n\t\t\t\tnow = dp[now][p];\n\t\t\t}\n\t\t}\n\t\tcout << euler[in[now] + k] << \" \";\n\t}\n\tcout << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-13",
+  "parsed_at": "2026-06-14T18:39:36.413313+00:00",
+  "type_directory": "p"
+}

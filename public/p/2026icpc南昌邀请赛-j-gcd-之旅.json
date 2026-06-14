@@ -1,0 +1,205 @@
+{
+  "slug": "2026icpc南昌邀请赛-j-gcd-之旅",
+  "title": "2026ICPC南昌邀请赛 J GCD 之旅",
+  "type": "题目",
+  "tags": [
+    "瓶颈路问题",
+    "克鲁斯卡尔重构树"
+  ],
+  "difficulty": 2.5,
+  "summary": "本题的难点其实只有发现本题是瓶颈路问题，然后想到能用克鲁斯卡尔重构树。",
+  "link": "https://qoj.ac/contest/3758/problem/18281",
+  "link_text": "Problem - J - QOJ.ac",
+  "source": "2026ICPC南昌邀请赛",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在 Numerian 的神奇王国中，有 $n$ 座城市，每座城市都有一个魔力等级 $a_i$。国王在每一对城市之间都修建了双向道路。对于连接城市 $u$ 和城市 $v$ 的道路，其守护符文度数（GCD）等于 $\\gcd(a_u, a_v)$，即它们魔力等级的最大公约数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于一位从城市 $x$ 旅行到城市 $y$ 的旅行者，其旅途的魔法免疫数（MIN）为所经过的所有道路的 GCD 中的最小值。皇家顾问认为一条旅途是\"充分免疫\"的，当且仅当其 MIN 被最大化。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你的任务是回答国王的 $q$ 个询问。对于每个询问 $(x, y)$，输出从城市 $x$ 到城市 $y$ 的所有路径中可能的最大 MIN。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "特别地，若 $x = y$，则旅行者从未离开该城市，因此 MIN 就是该城市自身的魔力等级 $a_x$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行两个整数 $n, q$（$1 \\le n, q \\le 10^6$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个整数 $a_1, a_2, \\dots, a_n$（$1 \\le a_i \\le 10^6$），表示每座城市的魔力等级。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行，每行两个整数 $x, y$（$1 \\le x, y \\le n$），表示一个询问。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个询问，输出一行一个整数，表示可能的最大 MIN。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 3\n6 15 22 33 35 63\n5 6\n3 5\n2 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "7\n3\n15",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "魔力等级数组为 $a = [6, 15, 22, 33, 35, 63]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "询问 1：最优路径为 $5 \\to 6$，答案为 $\\gcd(35, 63) = 7$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "询问 2：最优路径为 $3 \\to 4 \\to 6 \\to 5$。边权分别为 $\\gcd(22, 33) = 11$、$\\gcd(33, 63) = 3$、$\\gcd(63, 35) = 7$，因此答案为 $\\min(11, 3, 7) = 3$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "询问 3：由于 $x = y$，旅行者从未离开城市，所以答案为 $a_2 = 15$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "瓶颈路问题",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "我们要最大化路径上边权的最小值，这就是典型的 <strong>最大瓶颈路径</strong> 问题。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "结论：<strong>任意两点之间，最大瓶颈路径一定出现在图的最大生成树中</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，我们只需要构建以 $\\gcd$ 为边权的最大生成树，然后查询树上两点简单路径上的最小边权即可。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但由于 $n$ 可达 $10^6$，显式建边（$O(n^2)$）不可行，必须利用 $\\gcd$ 的性质。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "克鲁斯卡尔重构树",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "更高效的方法：<strong>克鲁斯卡尔重构树</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们将所有可能的 $\\gcd$ 值从大到小枚举，把所有权值是当前 $\\gcd$ 倍数的节点逐渐合并。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "重构树建成后，任意两点的 LCA 的权值就是它们在最大生成树上的瓶颈值（即最大 MIN）。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "const int MAXN = 1e6;\nint s[2 * N], p[2 * N][30], val[2 * N], depth[2 * N];\nint a[N], vis[N];\nvector<int> f[N], g[2 * N];\nvoid solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\tint m = 0;\n\tfa(i, 1, n) {\n\t\tcin >> a[i];\n\t\tif (!vis[a[i]]) {\n\t\t\tm++;\n\t\t\tvis[a[i]] = m;\n\t\t}\n\t}\n\tfa(i, 1, MAXN)for (int j = i; j <= MAXN; j += i) {\n\t\tif (vis[j])f[i].pb(vis[j]);\n\t}\n\n\tfa(i, 1, 2 * m)s[i] = i;\n\tvar find = [&](var find, int x)->int {\n\t\tif (s[x] == x)return x;\n\t\treturn s[x] = find(find, s[x]);\n\t\t};\n\n\t// 建图\n\tint now_cnt = m;\n\tfb(w, MAXN, 1)if (f[w].size() >= 2) {\n\t\tfa(i, 1, vs(f[w])) {\n\t\t\tint e1 = find(find, f[w][i - 1]);\n\t\t\tint e2 = find(find, f[w][i]);\n\t\t\tif (e1 != e2) {\n\t\t\t\tnow_cnt++;\n\t\t\t\tval[now_cnt] = w;\n\t\t\t\tg[now_cnt].pb(e1), g[now_cnt].pb(e2);\n\t\t\t\ts[e1] = s[e2] = now_cnt;\n\t\t\t\tp[e1][0] = p[e2][0] = now_cnt;\n\t\t\t}\n\t\t}\n\t}\n\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tdepth[now] = depth[fa] + 1;\n\t\tfor (int i = 1; (1 << i) <= depth[now]; i++) {\n\t\t\tp[now][i] = p[p[now][i - 1]][i - 1];\n\t\t}\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t}\n\t\t};\n\tdfs(dfs, now_cnt, 0);\n\n\tvar lca = [&](int x, int y)->int {\n\t\tif (depth[x] < depth[y])swap(x, y);\n\t\tfb(i, 29, 0)if (depth[x] - (1 << i) >= depth[y])\n\t\t\tx = p[x][i];\n\t\tif (x == y)return x;\n\t\tfb(i, 29, 0)if (p[x][i] != p[y][i])\n\t\t\tx = p[x][i], y = p[y][i];\n\t\treturn p[x][0];\n\t\t};\n\n\twhile (q--) {\n\t\tint x, y; cin >> x >> y;\n\t\tif (a[x] == a[y])cout << a[x] << endl;\n\t\telse cout << val[lca(vis[a[x]], vis[a[y]])] << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-05-20",
+  "parsed_at": "2026-06-14T18:39:35.820830+00:00",
+  "type_directory": "p"
+}

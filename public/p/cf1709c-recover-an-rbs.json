@@ -1,0 +1,168 @@
+{
+  "slug": "cf1709c-recover-an-rbs",
+  "title": "CF1709C Recover an RBS",
+  "type": "题目",
+  "tags": [
+    "经典问题/括号匹配问题",
+    "前缀和"
+  ],
+  "difficulty": 1.5,
+  "summary": "跟 <a href=\"/p/nc108301g-alice-的模糊括号序列\" class=\"wikilink\">NC108301G Alice 的模糊括号序列</a> 这题用的一个 trick，都是前缀和进行合法括号翻转，看看构造的括号序列是否唯一。",
+  "link": "https://codeforces.com/problemset/problem/1709/C",
+  "link_text": "Problem - 1709C - Codeforces",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "现在有一个 RBS，其中某些括号被替换成了问号。请判断是否存在唯一一种方式将所有问号替换为括号，使得最终得到的序列是一个 RBS？",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数 $t$（$1 \\le t \\le 5 \\cdot 10^4$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每个测试用例占一行，包含一个括号序列，其中某些括号被问号替换。每个字符都是“(”、“)”或“?”。保证至少存在一种方式可以将问号替换为括号，使得得到的序列是 RBS。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有测试用例中括号序列的总长度不超过 $2 \\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，如果将问号替换为括号使得序列成为 RBS 的方式是唯一的，输出“YES”；如果存在多种方式，输出“NO”。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "5\n(?))\n??????\n()\n??\n?(?)()?)",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "YES\nNO\nYES\nYES\nNO",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "在第一个测试用例中，唯一可能的原始 RBS 是“(())”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第二个测试用例中，有多种方式可以恢复出 RBS。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第三个和第四个测试用例中，唯一可能的原始 RBS 是“()”。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在第五个测试用例中，原始 RBS 可能是“((()()))”或“(())()()”。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "((6943842a-c9bc-4b2a-9ee2-29b67d984a9b))",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "根据前缀和，考虑对<strong>合法括号进行交换</strong>，即 <code>(.....)</code> \\to <code>).....(</code>。需要满足 <code>(.....</code> 这段的<strong>前缀和全部大于等于 2</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "既然要对合法括号进行交换，那么得<strong>先构造出合法的括号序列</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这很好说，先让 $?$ 全变成 $($，然后从后往前把再把改成 $($ 的改成 $)$ 即可，因为保证有解，所以这样整肯定能构造出来。那也就是说，单独对 ? 序列来看，它们被改成了 <code>(((())))</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "然后就是找哪个 <code>(.....)</code> 能改成 <code>).....(</code> 了，考虑 ? 序列中间最短的 <code>()</code> 对即可。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tstring s; cin >> s;\n\tint n = s.size(); s = ' ' + s;\n\ts[1] = '(', s[n] = ')';\n\tvar ns = s;\n\n\tvar pre = vector<int>(n + 1);\n\tfa(i, 1, n) {\n\t\tif (ns[i] == '?')ns[i] = '(';\n\t\tpre[i] = pre[i - 1];\n\t\tif (ns[i] == '(')pre[i]++;\n\t\telse pre[i]--;\n\t}\n\n\t// 找距离最近的一对 ()\n\t// j => (\n\tint j = n + 1;\n\tif (pre[n])fb(i, n, 1)\n\t\tif (s[i] == '?' and ns[i] == '(') {\n\t\tns[i] = ')';\n\t\tpre[n] -= 2;\n\t\tj = i;\n\t\tif (pre[n] == 0)break;\n\t}\n\n\tif (j > n) {\n\t\tcout << \"YES\" << endl;\n\t\treturn;\n\t}\n\n\t// 合法序列构造完后的新前缀和\n\tfa(i, 1, n) {\n\t\tpre[i] = pre[i - 1];\n\t\tif (ns[i] == '(')pre[i]++;\n\t\telse pre[i]--;\n\t}\n\n\t// i => (\n\tint mn = pre[j - 1];\n\tfb(i, j - 1, 1) {\n\t\tmn = min(mn, pre[i]);\n\t\tif (s[i] == '?') {\n\t\t\tif (mn >= 2) {\n\t\t\t\tcout << \"NO\" << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t\tbreak;\n\t\t}\n\t}\n\tcout << \"YES\" << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-01-28",
+  "parsed_at": "2026-06-14T18:39:36.268256+00:00",
+  "type_directory": "p"
+}

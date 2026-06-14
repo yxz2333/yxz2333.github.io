@@ -1,0 +1,79 @@
+{
+  "slug": "线段树二分",
+  "title": "线段树二分",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": "线段树",
+  "format": "markdown",
+  "sections": [
+    {
+      "type": "p",
+      "html": "<strong>“保证每次递归只进入一个分支”</strong> 是线段树二分时间复杂度维持在 $O(\\log N)$ 的核心。",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "如果你的 check 逻辑需要先跑完左子树得到结果，再决定是否跑右子树（或者反过来），最坏情况下复杂度会退化成 $O(N)$。",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "为了做到这一点，线段树维护的信息必须<strong>足够强</strong>，强到你在当前节点看一眼左右孩子的<strong>属性 (Info类)</strong>，就能<strong>断定</strong>答案一定在左边，或者一定在右边。",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "通常可以用 <a href=\"/tags\" class=\"tag-link\">#前缀和</a> 设计节点属性 Info，从而满足 <a href=\"/tags\" class=\"tag-link\">#二分</a> 。",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "有些时候，如果以上方法不好写的情况下，可能需要进行<strong>剪枝</strong>。 <em>（懂了可以不看）</em>",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "即进入左子树之前先试探右子树。",
+      "depth": 2
+    },
+    {
+      "type": "p",
+      "html": "如果右边能探到答案，那就不考虑左子树了；否则还是在左子树找答案。",
+      "depth": 2
+    },
+    {
+      "type": "code",
+      "lang": "cpp",
+      "code": "find(右儿子); // 先试探右边\nif (没找到) find(左儿子); // 再去左边",
+      "depth": 2
+    },
+    {
+      "type": "p",
+      "html": "这种写法的前提是：<strong>在二分函数开头进行剪枝，能一眼看出这个分支没戏</strong>。",
+      "depth": 2
+    },
+    {
+      "type": "p",
+      "html": "其实本质还是 <strong>“保证每次递归只进入一个分支”</strong>，这边仅进行补充说明，避免困扰，如 <a href=\"/p/p9695-[gdcpc-2023]-traveling-in-cells\" class=\"wikilink\">P9695 [GDCPC 2023] Traveling in Cells</a>。",
+      "depth": 2
+    },
+    {
+      "type": "p",
+      "html": "<em>通常不会遇到这种情况，因为在父节点对左右子树进行选择的时候，就可以进行判断哪个子树肯定没戏了</em>",
+      "depth": 2
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-02-20",
+  "parsed_at": "2026-06-14T18:45:12.155613+00:00",
+  "type_directory": "k"
+}

@@ -1,0 +1,270 @@
+{
+  "slug": "2023ccpc桂林站-c-master-of-both-iv",
+  "title": "2023CCPC桂林站 C Master of Both IV",
+  "type": "题目",
+  "tags": [
+    "线性基",
+    "因数"
+  ],
+  "difficulty": 2.5,
+  "summary": "得先根据<strong>异或运算的范围</strong>，发现<strong>序列最大值</strong> $M$ 和序列异或和 $S$ 的关系，然后才能推出结论 $S$ 只能为 $M$ 或 0。然后发现本题是典型的<strong>异或的组合计数问题</strong>，用线性基的秩的性质来解决。",
+  "link": "https://codeforces.com/gym/104768/problem/C",
+  "link_text": "Problem - C - Codeforces",
+  "source": "[[2023CCPC桂林站]]",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "陈教授是算术运算和二进制运算的大师。今天给他的学生Putata和Budada的作业是：找出序列$\\{1,2,\\dots,n\\}$的非空子序列$\\{i_1,i_2,\\dots,i_m\\}$（满足$1\\leq i_1 < i_2 < \\dots < i_m \\leq n$，$1\\leq m\\leq n$）的个数，使得对于任意$x\\in[1,m]$，都有$a_{i_x} \\mid \\bigoplus_{j=1}^m a_{i_j}$，其中$\\{a_n\\}$是一个给定的序列。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "这里$\\oplus$表示按位异或运算，$\\bigoplus_{j=1}^m a_{i_j}$等于所有$a_{i_j}$（$1\\leq j\\leq m$）的按位异或结果。我们称$x \\mid s$当且仅当存在非负整数$k$使得$s = k \\cdot x$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "请帮助Putata和Budada完成他们的作业。为了打破传说，请输出答案对$998\\,244\\,353$取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含一个整数$t$（$1\\leq t\\leq 2\\cdot 10^5$），表示测试用例的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个测试用例，第一行包含一个整数$n$（$1\\leq n\\leq 2\\cdot 10^5$），表示序列的长度。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行包含$n$个整数，第$i$个整数是$a_i$（$1\\leq a_i\\leq n$），表示序列中的第$i$个元素。<strong>可能</strong>出现$a_i = a_j$（$i \\neq j$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证所有测试用例的$n$之和不超过$2\\cdot 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每个测试用例，输出一行一个整数，表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2\n3\n1 2 3\n5\n3 3 5 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4\n11",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "符合条件的子序列有 $\\{1\\}, \\{2\\}, \\{3\\}, \\{1, 2, 3\\}$，加起来刚好是 <strong>4</strong> 个。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心推导",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "设选出的子序列中的<strong>最大值</strong>为 $M$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为 $M$ 也在子序列中，所以必须满足 $M | S$，即 $S = k \\cdot M \\ (k \\ge 0, k \\in \\mathbb{Z})$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "根据异或运算的性质，一组不超过 $M$ 的数异或起来，其结果一定严格小于比 $M$ 大的最小的 2 的幂。由此可得一个严格的不等式：$S < 2M$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "结合 $S = k \\cdot M$ 与 $S < 2M$，非负整数 $k$ 的取值只能是 <strong>0</strong> 或 <strong>1</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由此，原问题看似复杂的整除条件，完美坍缩为两种互斥的情况：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况一：</strong> 子序列异或和 $S = 0$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况二：</strong> 子序列异或和 $S = M$（即异或和等于该子序列的最大值）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "分类计数与线性基定理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "利用线性基解决异或组合计数的经典定理：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "> <strong>定理</strong>：若一个大小为 $N$ 的集合，其线性基的秩（Rank）为 $R$。则该集合能异或出 $2^R$ 种不同的值；且对于其中<strong>任意一个能被异或出的值</strong>，都恰好有 <strong>$2^{N - R}$</strong> 种不同的子集组合方式。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "基于此定理，我们对上述两种情况分别计数：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况一：</strong>$S = 0$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "由于 $0$ 总是可以通过空集异或得到（即 $0$ 必定可达），直接将整个数组放入全局线性基。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "设原数组长度为 $n$，全局线性基秩为 $R_{all}$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "方案数为 $2^{n - R_{all}}$。题目要求非空子序列，因此减去空集的 1 种情况：$Ans_1 = 2^{n - R_{all}} - 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况二：</strong>$S = M$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们要枚举数组中所有存在的值 $i$ 作为子序列的异或和 $S$（此时必须满足 $M=i$）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "既然要求任意 $x | S$，即 $x | i$，这意味着<strong>子序列的所有元素必须是</strong> $i$ <strong>的因子</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "1. 取出原数组中所有是 $i$ 的因子的数，设总个数为 $K_i$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. 将这些数构造成一个局部的线性基，设秩为 $R_i$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3. <strong>关键性质（无后效性与可达性）：</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>可达性：</strong> 因为 $i$ 本身在数组中存在（前提条件），且 $i$ 被加入了这个局部线性基，所以异或和 $i$ <strong>必定可达</strong>。因此方案数直接就是 $2^{K_i - R_i}$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>不重不漏：</strong> 如果选出的一堆 $i$ 的因子的异或和等于 $i$，它们的最大值必定等于 $i$。<em>(反证法：若最大值</em> $M' < i$<em>，因为</em> $M'$ <em>是</em> $i$ <em>的因子，必定有</em> $2M' \\le i$<em>。而异或和严格小于</em> $2M'$<em>，即异或和</em> $< i$<em>，与异或和为</em> $i$ <em>矛盾)</em>。这保证了不同 $i$ 之间不会重复计数。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "因此对所有存在的 $i$，累加：$Ans_2 = \\sum_{i \\in a} 2^{K_i - R_i}$",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "class XorBase {\nprivate:\n\tvector<ll> a; // 线性基基底\n\tconst int MN = 62;\n\npublic:\n\tint rank = 0;\n\tXorBase() :a(70, 0) {};\n\n\t// 插入新数\n\tvoid insert(ll x) {\n\t\tfor (int i = MN; ~i; i--)\n\t\t\tif (x & (1ll << i)) {\n\t\t\t\tif (!a[i]) {\n\t\t\t\t\t// 线性基里没有 x，插入 x\n\t\t\t\t\ta[i] = x;\n\t\t\t\t\trank++;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\tx ^= a[i]; // 线性基里有 x\n\t\t\t}\n\t}\n};\n\nvar f = Math::factorsAllArray<N>();\nvoid solve(int CASE)\n{\n\tll n; cin >> n;\n\tvar cnt = vector<ll>(n + 1);\n\tvar xb = XorBase();\n\tfa(i, 1, n) {\n\t\tint a; cin >> a;\n\t\tcnt[a]++;\n\t\txb.insert(a);\n\t}\n\n\t// 子序列异或和为 0 的答案\n\t// 因为异或和为 0，所以这些方案中必然存在一个为空集的情况\n\tll ans = Math::fastPow(2, n - xb.rank, mod); \n\tans = (ans - 1 + mod) % mod;\n\n\t// 子序列异或和为 max 的答案\n\tfa(i, 1, n) if (cnt[i]) {\n\t\t// max{ S } = i\n\t\t// 相当于枚举每个组，这个组里每个数都能被最大的数整除\n\t\t// 用线性基算异或和为 max 的答案个数\n\t\tll sum = 0;\n\t\tvar xb = XorBase();\n\t\tfor (int p : f[i]) {\n\t\t\tsum += cnt[p];\n\t\t\tif (cnt[p])xb.insert(p);\n\t\t}\n\t\tans = (ans + Math::fastPow(2, sum - xb.rank, mod)) % mod;\n\t}\n\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-04-07",
+  "parsed_at": "2026-06-14T18:39:35.688875+00:00",
+  "type_directory": "p"
+}
