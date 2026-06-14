@@ -11,7 +11,7 @@ async function load() {
   loading.value = true
   const all = []
   for (const d of ['p', 'k', 'c']) {
-    const res = await fetch(`/${d}/index.json`)
+    const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
     if (res.ok) all.push(...(await res.json()).notes)
   }
   all.sort((a, b) => (b.parsed_at || '').localeCompare(a.parsed_at || '')

@@ -25,7 +25,7 @@ async function load() {
   loading.value = true
   const dir = nameMap[route.params.name]
   if (!dir) { notes.value = []; loading.value = false; return }
-  const res = await fetch(`/${dir}/index.json`)
+  const res = await fetch(`${import.meta.env.BASE_URL}${dir}/index.json`)
   if (res.ok) {
     const all = (await res.json()).notes
     all.sort((a, b) => (b.parsed_at || '').localeCompare(a.parsed_at || '')

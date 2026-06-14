@@ -16,7 +16,7 @@ onMounted(async () => {
   const dirs = ['p', 'k', 'c']
   const all = []
   for (const d of dirs) {
-    const res = await fetch(`/${d}/index.json`)
+    const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
     if (res.ok) all.push(...(await res.json()).notes)
   }
   notes.value = all

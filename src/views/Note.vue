@@ -30,7 +30,7 @@ async function load() {
   try {
     const slug = route.params.slug
     const dir = ROUTE_DIR[route.name] || 'notes'
-    const res = await fetch(`/${dir}/${slug}.json`)
+    const res = await fetch(`${import.meta.env.BASE_URL}${dir}/${slug}.json`)
     if (!res.ok) throw new Error('not found')
     note.value = await res.json()
     note.value.sections = preprocess(note.value.sections)

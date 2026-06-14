@@ -27,7 +27,7 @@ async function load() {
     const all = []
     for (const d of ['p', 'k', 'c', 'notes']) {
       try {
-        const res = await fetch(`/${d}/index.json`)
+        const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
         if (res.ok) {
           const data = await res.json()
           if (data.notes) all.push(...data.notes)

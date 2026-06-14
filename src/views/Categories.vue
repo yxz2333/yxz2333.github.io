@@ -7,7 +7,7 @@ onMounted(async () => {
   const dirs = ['p', 'k', 'c']
   const all = []
   for (const d of dirs) {
-    const res = await fetch(`/${d}/index.json`)
+    const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
     if (res.ok) all.push(...(await res.json()).notes)
   }
   // 全量排序：parsed_at 倒序 → updated_at 倒序

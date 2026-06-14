@@ -1,4 +1,5 @@
 <script setup>
+const BASE = import.meta.env.BASE_URL
 defineProps({
   active: Boolean,
 })
@@ -12,7 +13,7 @@ defineProps({
       class="fixed inset-0 z-[100] flex items-center justify-center bg-bg-dark"
     >
       <img
-        src="/avatar.png"
+        :src="BASE + 'avatar.png'"
         alt="avatar"
         class="w-28 h-28 rounded-full object-cover animate-avatar-pulse"
       />
