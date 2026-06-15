@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": "背包",
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "When?",
@@ -19,12 +19,12 @@
         {
           "type": "p",
           "html": "<strong>如果打乱被选物品的内部顺序，会导致总收益改变</strong>。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "那就必须先找到那个 “最优顺序（贪心策略）” ，按照这个策略给原数组排序，然后再上 DP 算数值！",
-          "depth": 2
+          "depth": 1
         }
       ]
     },
@@ -35,34 +35,34 @@
         {
           "type": "p",
           "html": "<strong>例题</strong>： <a href=\"/p/cfzcpc-round-4-f-biased-cognition\" class=\"wikilink\">Cfzcpc Round 4 F Biased Cognition</a>， <a href=\"/p/p1417-烹调方案\" class=\"wikilink\">P1417 烹调方案</a>",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "假设已经选定了一个<strong>最优序列</strong>。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "从中抽出<strong>相邻的两个物品</strong>，暂且叫它们物品 $i$ 和物品 $j$。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "写出 <strong>“先放 i 再放 j”</strong> 的总收益（或总代价），再写出 <strong>“先放 j 再放 i”</strong> 的总收益。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "令 <strong>“先 i 后 j 的收益” > “先 j 后 i 的收益”</strong>，化简这个不等式即可。",
-          "depth": 2
+          "depth": 1
         }
       ]
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-03-15",
-  "parsed_at": "2026-06-15T10:23:05.603807+00:00",
+  "parsed_at": "2026-06-15T17:06:06.865015+00:00",
   "type_directory": "k"
 }

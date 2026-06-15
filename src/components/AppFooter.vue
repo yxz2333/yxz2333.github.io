@@ -51,7 +51,7 @@ const socialLinks = Object.entries(siteConfig.social)
 <template>
   <footer class="border-t border-white/5 relative z-10 bg-bg-dark/50 backdrop-blur-md">
     <!-- Social icons -->
-    <div class="flex justify-center -mt-6 mb-8 gap-2 sm:gap-4">
+    <div class="grid grid-cols-4 sm:flex justify-items-center justify-center -mt-6 mb-8 gap-2 sm:gap-4">
       <a v-for="s in socialLinks" :key="s.key" :href="s.url" target="_blank" :title="s.label"
         class="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#1a1a1c] border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-accent hover:shadow-[0_0_15px_rgba(179,139,54,0.5)] transition-all transform hover:-translate-y-1">
         <!-- SVG icon -->

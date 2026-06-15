@@ -1,0 +1,2928 @@
+{
+  "generated_at": "2026-06-15T16:24:31.692544+00:00",
+  "model": "microsoft/codebert-base",
+  "dim": 768,
+  "count": 365,
+  "blocks": [
+    {
+      "note_slug": "2019陕西省赛-c-0689",
+      "note_title": "2019陕西省赛 C 0689",
+      "note_route": "/p/2019陕西省赛-c-0689",
+      "block_index": 0,
+      "code_hash": "51ca4a4edfc8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-a-ad-2020",
+      "note_title": "2020浙江省赛 A AD 2020",
+      "note_route": "/p/2020浙江省赛-a-ad-2020",
+      "block_index": 0,
+      "code_hash": "c3a82cf922fa",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-c-crossword-validation",
+      "note_title": "2020浙江省赛 C Crossword Validation",
+      "note_route": "/p/2020浙江省赛-c-crossword-validation",
+      "block_index": 0,
+      "code_hash": "02a9a0fc7008",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-e-easy-dp-problem",
+      "note_title": "2020浙江省赛 E Easy DP Problem",
+      "note_route": "/p/2020浙江省赛-e-easy-dp-problem",
+      "block_index": 0,
+      "code_hash": "9f05175cd6af",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-e-easy-dp-problem",
+      "note_title": "2020浙江省赛 E Easy DP Problem",
+      "note_route": "/p/2020浙江省赛-e-easy-dp-problem",
+      "block_index": 1,
+      "code_hash": "bbe9614fcde9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-g-gliding",
+      "note_title": "2020浙江省赛 G Gliding",
+      "note_route": "/p/2020浙江省赛-g-gliding",
+      "block_index": 0,
+      "code_hash": "ed0d2110100e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-h-huge-clouds",
+      "note_title": "2020浙江省赛 H Huge Clouds",
+      "note_route": "/p/2020浙江省赛-h-huge-clouds",
+      "block_index": 0,
+      "code_hash": "fb8acfadf793",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-h-huge-clouds",
+      "note_title": "2020浙江省赛 H Huge Clouds",
+      "note_route": "/p/2020浙江省赛-h-huge-clouds",
+      "block_index": 1,
+      "code_hash": "1bde44449a4b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-h-huge-clouds",
+      "note_title": "2020浙江省赛 H Huge Clouds",
+      "note_route": "/p/2020浙江省赛-h-huge-clouds",
+      "block_index": 2,
+      "code_hash": "9e5fd315b77b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-h-huge-clouds",
+      "note_title": "2020浙江省赛 H Huge Clouds",
+      "note_route": "/p/2020浙江省赛-h-huge-clouds",
+      "block_index": 3,
+      "code_hash": "15fc024a1c08",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-h-huge-clouds",
+      "note_title": "2020浙江省赛 H Huge Clouds",
+      "note_route": "/p/2020浙江省赛-h-huge-clouds",
+      "block_index": 4,
+      "code_hash": "ac15742603df",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-h-huge-clouds",
+      "note_title": "2020浙江省赛 H Huge Clouds",
+      "note_route": "/p/2020浙江省赛-h-huge-clouds",
+      "block_index": 5,
+      "code_hash": "b66470e0da3a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2020浙江省赛-h-huge-clouds",
+      "note_title": "2020浙江省赛 H Huge Clouds",
+      "note_route": "/p/2020浙江省赛-h-huge-clouds",
+      "block_index": 6,
+      "code_hash": "191d28d9acc0",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2023ccpc桂林站-c-master-of-both-iv",
+      "note_title": "2023CCPC桂林站 C Master of Both IV",
+      "note_route": "/p/2023ccpc桂林站-c-master-of-both-iv",
+      "block_index": 0,
+      "code_hash": "433e6b351653",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2023icpc合肥区域赛-j-takeout-delivering",
+      "note_title": "2023ICPC合肥区域赛 J Takeout Delivering",
+      "note_route": "/p/2023icpc合肥区域赛-j-takeout-delivering",
+      "block_index": 0,
+      "code_hash": "116911e6c459",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2023山东省赛-j-都什么年代了还在做传统路径查询问题？",
+      "note_title": "2023山东省赛 J 都什么年代了还在做传统路径查询问题？",
+      "note_route": "/p/2023山东省赛-j-都什么年代了还在做传统路径查询问题？",
+      "block_index": 0,
+      "code_hash": "9f6eb2b8f71a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2024ccpc郑州邀请赛-c-中二病也要打比赛",
+      "note_title": "2024CCPC郑州邀请赛 C 中二病也要打比赛",
+      "note_route": "/p/2024ccpc郑州邀请赛-c-中二病也要打比赛",
+      "block_index": 0,
+      "code_hash": "4dfbe20a074b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2024icpc昆明邀请赛j-冲向黄金城",
+      "note_title": "2024ICPC昆明邀请赛J 冲向黄金城",
+      "note_route": "/p/2024icpc昆明邀请赛j-冲向黄金城",
+      "block_index": 0,
+      "code_hash": "bb5aa325df15",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2024icpc武汉邀请赛b-无数的我",
+      "note_title": "2024ICPC武汉邀请赛B 无数的我",
+      "note_route": "/p/2024icpc武汉邀请赛b-无数的我",
+      "block_index": 0,
+      "code_hash": "92b04435a97b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2024icpc武汉邀请赛f-订制服装",
+      "note_title": "2024ICPC武汉邀请赛F 订制服装",
+      "note_route": "/p/2024icpc武汉邀请赛f-订制服装",
+      "block_index": 0,
+      "code_hash": "4419d27d521c",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2024河北省赛-h-missing-iris",
+      "note_title": "2024河北省赛 H Missing Iris",
+      "note_route": "/p/2024河北省赛-h-missing-iris",
+      "block_index": 0,
+      "code_hash": "88ecb34b4157",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2024陕西省赛-g-消失的数字",
+      "note_title": "2024陕西省赛 G 消失的数字",
+      "note_route": "/p/2024陕西省赛-g-消失的数字",
+      "block_index": 0,
+      "code_hash": "11f53d9be1ba",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025ccpc哈尔滨站热身赛-a-秘术「天文密葬法」",
+      "note_title": "2025CCPC哈尔滨站热身赛 A 秘术「天文密葬法」",
+      "note_route": "/p/2025ccpc哈尔滨站热身赛-a-秘术「天文密葬法」",
+      "block_index": 0,
+      "code_hash": "eaabab03f061",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025ccpc广西邀请赛-e-elimination",
+      "note_title": "2025CCPC广西邀请赛 E Elimination",
+      "note_route": "/p/2025ccpc广西邀请赛-e-elimination",
+      "block_index": 0,
+      "code_hash": "533c2c035fc3",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025ccpc广西邀请赛-g-grand-xor-counting-problem-challenge-ii",
+      "note_title": "2025CCPC广西邀请赛 G Grand XOR Counting Problem Challenge II",
+      "note_route": "/p/2025ccpc广西邀请赛-g-grand-xor-counting-problem-challenge-ii",
+      "block_index": 0,
+      "code_hash": "cc6db6d98eff",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025ccpc福建邀请赛-h-难以控制的滑板火箭",
+      "note_title": "2025CCPC福建邀请赛 H 难以控制的滑板火箭",
+      "note_route": "/p/2025ccpc福建邀请赛-h-难以控制的滑板火箭",
+      "block_index": 0,
+      "code_hash": "c2cc9c754a40",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025ccpc福建邀请赛-i-割点",
+      "note_title": "2025CCPC福建邀请赛 I 割点",
+      "note_route": "/p/2025ccpc福建邀请赛-i-割点",
+      "block_index": 0,
+      "code_hash": "2e4bc449f1cd",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025ccpc福建邀请赛-j-构造大师贝贝",
+      "note_title": "2025CCPC福建邀请赛 J 构造大师贝贝",
+      "note_route": "/p/2025ccpc福建邀请赛-j-构造大师贝贝",
+      "block_index": 0,
+      "code_hash": "5b261c410eed",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025ccpc郑州邀请赛-c-toxel-与宝可梦图鉴",
+      "note_title": "2025CCPC郑州邀请赛 C Toxel 与宝可梦图鉴",
+      "note_route": "/p/2025ccpc郑州邀请赛-c-toxel-与宝可梦图鉴",
+      "block_index": 0,
+      "code_hash": "005229c73c86",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025ccpc郑州邀请赛-e-双生魔咒",
+      "note_title": "2025CCPC郑州邀请赛 E 双生魔咒",
+      "note_route": "/p/2025ccpc郑州邀请赛-e-双生魔咒",
+      "block_index": 0,
+      "code_hash": "a5bec2b2919b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025icpc南京区域赛f-按位与路径",
+      "note_title": "2025ICPC南京区域赛F 按位与路径",
+      "note_route": "/p/2025icpc南京区域赛f-按位与路径",
+      "block_index": 0,
+      "code_hash": "09e8516ec021",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025icpc南京区域赛g-水桶盛宴",
+      "note_title": "2025ICPC南京区域赛G 水桶盛宴",
+      "note_route": "/p/2025icpc南京区域赛g-水桶盛宴",
+      "block_index": 0,
+      "code_hash": "709453d3a6da",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025icpc南昌邀请赛-e-god's-string-on-this-wonderful-world",
+      "note_title": "2025ICPC南昌邀请赛 E God's String on This Wonderful World",
+      "note_route": "/p/2025icpc南昌邀请赛-e-god's-string-on-this-wonderful-world",
+      "block_index": 0,
+      "code_hash": "4cb9f67f7fb7",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025icpc南昌邀请赛-f-caloric-difference",
+      "note_title": "2025ICPC南昌邀请赛 F Caloric Difference",
+      "note_route": "/p/2025icpc南昌邀请赛-f-caloric-difference",
+      "block_index": 0,
+      "code_hash": "5314c26163b2",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025icpc南昌邀请赛-g-exploration",
+      "note_title": "2025ICPC南昌邀请赛 G Exploration",
+      "note_route": "/p/2025icpc南昌邀请赛-g-exploration",
+      "block_index": 0,
+      "code_hash": "f9307fa5837a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025jscpc-a-矩阵游戏",
+      "note_title": "2025JSCPC A 矩阵游戏",
+      "note_route": "/p/2025jscpc-a-矩阵游戏",
+      "block_index": 0,
+      "code_hash": "0d46530e36a6",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025jscpc-i-队伍起名",
+      "note_title": "2025JSCPC I 队伍起名",
+      "note_route": "/p/2025jscpc-i-队伍起名",
+      "block_index": 0,
+      "code_hash": "7b8fb1485008",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025四川省赛-a-minimum-product",
+      "note_title": "2025四川省赛 A Minimum Product",
+      "note_route": "/p/2025四川省赛-a-minimum-product",
+      "block_index": 0,
+      "code_hash": "85e7979cc97f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025四川省赛-a-minimum-product",
+      "note_title": "2025四川省赛 A Minimum Product",
+      "note_route": "/p/2025四川省赛-a-minimum-product",
+      "block_index": 1,
+      "code_hash": "9a9be244b12b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025四川省赛-c-最优时间",
+      "note_title": "2025四川省赛 C 最优时间",
+      "note_route": "/p/2025四川省赛-c-最优时间",
+      "block_index": 0,
+      "code_hash": "db50fc8b9072",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025河北省赛-i-感染",
+      "note_title": "2025河北省赛 I 感染",
+      "note_route": "/p/2025河北省赛-i-感染",
+      "block_index": 0,
+      "code_hash": "8e1e8925ec61",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025河北省赛-j-generate-01-string",
+      "note_title": "2025河北省赛 J Generate 01 String",
+      "note_route": "/p/2025河北省赛-j-generate-01-string",
+      "block_index": 0,
+      "code_hash": "07597437ac69",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2025浙江省赛-f-challenge-npc-iii",
+      "note_title": "2025浙江省赛 F Challenge NPC III",
+      "note_route": "/p/2025浙江省赛-f-challenge-npc-iii",
+      "block_index": 0,
+      "code_hash": "98050ddb0f19",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026icpc亚太锦标赛-k-最多可以制作的时间显示",
+      "note_title": "2026ICPC亚太锦标赛 K 最多可以制作的时间显示",
+      "note_route": "/p/2026icpc亚太锦标赛-k-最多可以制作的时间显示",
+      "block_index": 0,
+      "code_hash": "bdc6c6c7441a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026icpc南昌邀请赛-j-gcd-之旅",
+      "note_title": "2026ICPC南昌邀请赛 J GCD 之旅",
+      "note_route": "/p/2026icpc南昌邀请赛-j-gcd-之旅",
+      "block_index": 0,
+      "code_hash": "8ce0fde98d09",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026icpc武汉邀请赛-f-抽奖",
+      "note_title": "2026ICPC武汉邀请赛 F 抽奖",
+      "note_route": "/p/2026icpc武汉邀请赛-f-抽奖",
+      "block_index": 0,
+      "code_hash": "cfc7a0e80fb3",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026icpc深圳邀请赛-d-城市规划",
+      "note_title": "2026ICPC深圳邀请赛 D 城市规划",
+      "note_route": "/p/2026icpc深圳邀请赛-d-城市规划",
+      "block_index": 0,
+      "code_hash": "90f18a47e1d5",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026icpc西安邀请赛-c-palindromic-and-balanced",
+      "note_title": "2026ICPC西安邀请赛 C Palindromic and Balanced",
+      "note_route": "/p/2026icpc西安邀请赛-c-palindromic-and-balanced",
+      "block_index": 0,
+      "code_hash": "1e41a672f7f3",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026华南理工校赛d-scut-classroom-relocation",
+      "note_title": "2026华南理工校赛D SCUT Classroom Relocation",
+      "note_route": "/p/2026华南理工校赛d-scut-classroom-relocation",
+      "block_index": 0,
+      "code_hash": "4a984ab29a11",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026山东省赛-l-分数迭代",
+      "note_title": "2026山东省赛 L 分数迭代",
+      "note_route": "/p/2026山东省赛-l-分数迭代",
+      "block_index": 0,
+      "code_hash": "cd67918d435e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛1-003-回文串",
+      "note_title": "2026杭电春季赛1 003 回文串",
+      "note_route": "/p/2026杭电春季赛1-003-回文串",
+      "block_index": 0,
+      "code_hash": "18fc0733c639",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛1-009-力的平衡",
+      "note_title": "2026杭电春季赛1 009 力的平衡",
+      "note_route": "/p/2026杭电春季赛1-009-力的平衡",
+      "block_index": 0,
+      "code_hash": "f34c60c0e19b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛3-005-月球异或",
+      "note_title": "2026杭电春季赛3 005 月球异或",
+      "note_route": "/p/2026杭电春季赛3-005-月球异或",
+      "block_index": 0,
+      "code_hash": "274c06ae32ad",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛3-005-月球异或",
+      "note_title": "2026杭电春季赛3 005 月球异或",
+      "note_route": "/p/2026杭电春季赛3-005-月球异或",
+      "block_index": 1,
+      "code_hash": "917ccacae905",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛3-010-组合树",
+      "note_title": "2026杭电春季赛3 010 组合树",
+      "note_route": "/p/2026杭电春季赛3-010-组合树",
+      "block_index": 0,
+      "code_hash": "28be203fe4ae",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛5-001-翻蹄铁",
+      "note_title": "2026杭电春季赛5 001 翻蹄铁",
+      "note_route": "/p/2026杭电春季赛5-001-翻蹄铁",
+      "block_index": 0,
+      "code_hash": "61f7bdbadf61",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛5-004-赛马",
+      "note_title": "2026杭电春季赛5 004 赛马",
+      "note_route": "/p/2026杭电春季赛5-004-赛马",
+      "block_index": 0,
+      "code_hash": "a9f791c3a1d8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛5-008-草料集市",
+      "note_title": "2026杭电春季赛5 008 草料集市",
+      "note_route": "/p/2026杭电春季赛5-008-草料集市",
+      "block_index": 0,
+      "code_hash": "2dc510c98cf3",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛6-002-滚动的色彩",
+      "note_title": "2026杭电春季赛6 002 滚动的色彩",
+      "note_route": "/p/2026杭电春季赛6-002-滚动的色彩",
+      "block_index": 0,
+      "code_hash": "c6b3dd960981",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛6-005-向量压缩",
+      "note_title": "2026杭电春季赛6 005 向量压缩",
+      "note_route": "/p/2026杭电春季赛6-005-向量压缩",
+      "block_index": 0,
+      "code_hash": "8849fde114bb",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛6-006-括号路径",
+      "note_title": "2026杭电春季赛6 006 括号路径",
+      "note_route": "/p/2026杭电春季赛6-006-括号路径",
+      "block_index": 0,
+      "code_hash": "7092aab6c9ec",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电春季赛6-008-黑白树",
+      "note_title": "2026杭电春季赛6 008 黑白树",
+      "note_route": "/p/2026杭电春季赛6-008-黑白树",
+      "block_index": 0,
+      "code_hash": "62d3b3205a37",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客寒假算法基础集训营1-d-sequence-coloring",
+      "note_title": "2026牛客寒假算法基础集训营1 D Sequence Coloring",
+      "note_route": "/p/2026牛客寒假算法基础集训营1-d-sequence-coloring",
+      "block_index": 0,
+      "code_hash": "b624fbea6343",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客寒假算法基础集训营1-f-permutation-counting",
+      "note_title": "2026牛客寒假算法基础集训营1 F Permutation Counting",
+      "note_route": "/p/2026牛客寒假算法基础集训营1-f-permutation-counting",
+      "block_index": 0,
+      "code_hash": "03d2c428e073",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客寒假算法基础集训营2-d-数字积木",
+      "note_title": "2026牛客寒假算法基础集训营2 D 数字积木",
+      "note_route": "/p/2026牛客寒假算法基础集训营2-d-数字积木",
+      "block_index": 0,
+      "code_hash": "8ac6c2c7500a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客寒假算法基础集训营2-e-01矩阵",
+      "note_title": "2026牛客寒假算法基础集训营2 E 01矩阵",
+      "note_route": "/p/2026牛客寒假算法基础集训营2-e-01矩阵",
+      "block_index": 0,
+      "code_hash": "2e19c7cff73b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客寒假算法基础集训营3-i-benzene",
+      "note_title": "2026牛客寒假算法基础集训营3 I BenzenE",
+      "note_route": "/p/2026牛客寒假算法基础集训营3-i-benzene",
+      "block_index": 0,
+      "code_hash": "85917306c6eb",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客寒假算法基础集训营4-d-东风谷早苗与博丽灵梦",
+      "note_title": "2026牛客寒假算法基础集训营4 D 东风谷早苗与博丽灵梦",
+      "note_route": "/p/2026牛客寒假算法基础集训营4-d-东风谷早苗与博丽灵梦",
+      "block_index": 0,
+      "code_hash": "e3f2afe6f0f3",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客寒假算法基础集训营5-i-智乃挖坑",
+      "note_title": "2026牛客寒假算法基础集训营5 I 智乃挖坑",
+      "note_route": "/p/2026牛客寒假算法基础集训营5-i-智乃挖坑",
+      "block_index": 0,
+      "code_hash": "ead828d216e7",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客寒假算法基础集训营6-b-小l的彩球",
+      "note_title": "2026牛客寒假算法基础集训营6 B 小L的彩球",
+      "note_route": "/p/2026牛客寒假算法基础集训营6-b-小l的彩球",
+      "block_index": 0,
+      "code_hash": "dafaac0f522a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客寒假算法基础集训营6-i-小l的构造2",
+      "note_title": "2026牛客寒假算法基础集训营6 I 小L的构造2",
+      "note_route": "/p/2026牛客寒假算法基础集训营6-i-小l的构造2",
+      "block_index": 0,
+      "code_hash": "e077f3215ddb",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客寒假算法基础集训营6-l-小l的游戏2",
+      "note_title": "2026牛客寒假算法基础集训营6 L 小L的游戏2",
+      "note_route": "/p/2026牛客寒假算法基础集训营6-l-小l的游戏2",
+      "block_index": 0,
+      "code_hash": "9caca342b504",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026黑龙江省赛-e-乐乐的杏花",
+      "note_title": "2026黑龙江省赛 E 乐乐的杏花",
+      "note_route": "/p/2026黑龙江省赛-e-乐乐的杏花",
+      "block_index": 0,
+      "code_hash": "7a3d40f5b8a0",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc077d-small-multiple",
+      "note_title": "ABC077D Small Multiple",
+      "note_route": "/p/abc077d-small-multiple",
+      "block_index": 0,
+      "code_hash": "a7ec7f8e372a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc104d-we-love-abc",
+      "note_title": "ABC104D We Love ABC",
+      "note_route": "/p/abc104d-we-love-abc",
+      "block_index": 0,
+      "code_hash": "f9d21c52aaaf",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc132d-blue-and-red-balls",
+      "note_title": "ABC132D Blue and Red Balls",
+      "note_route": "/p/abc132d-blue-and-red-balls",
+      "block_index": 0,
+      "code_hash": "8326aa27e06d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc132e-hopscotch-addict",
+      "note_title": "ABC132E Hopscotch Addict",
+      "note_route": "/p/abc132e-hopscotch-addict",
+      "block_index": 0,
+      "code_hash": "d5f7fb27113b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc143f-distinct-numbers",
+      "note_title": "ABC143F Distinct Numbers",
+      "note_route": "/p/abc143f-distinct-numbers",
+      "block_index": 0,
+      "code_hash": "f1051a7f6e9e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc154f-many-many-paths",
+      "note_title": "ABC154F Many Many Paths",
+      "note_route": "/p/abc154f-many-many-paths",
+      "block_index": 0,
+      "code_hash": "f69a9cfd62a9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc164e-two-currencies",
+      "note_title": "ABC164E Two Currencies",
+      "note_route": "/p/abc164e-two-currencies",
+      "block_index": 0,
+      "code_hash": "46aa8da68466",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc167f-bracket-sequencing",
+      "note_title": "ABC167F Bracket Sequencing",
+      "note_route": "/p/abc167f-bracket-sequencing",
+      "block_index": 0,
+      "code_hash": "484c6c6e0652",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc194e-mex-min",
+      "note_title": "ABC194E Mex Min",
+      "note_route": "/p/abc194e-mex-min",
+      "block_index": 0,
+      "code_hash": "67f08a18bba8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc194e-mex-min",
+      "note_title": "ABC194E Mex Min",
+      "note_route": "/p/abc194e-mex-min",
+      "block_index": 1,
+      "code_hash": "26c2ed080335",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc200d-happy-birthday!-2",
+      "note_title": "ABC200D Happy Birthday! 2",
+      "note_route": "/p/abc200d-happy-birthday!-2",
+      "block_index": 0,
+      "code_hash": "5b2c7e06cc71",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc230d-destroyer-takahashi",
+      "note_title": "ABC230D Destroyer Takahashi",
+      "note_route": "/p/abc230d-destroyer-takahashi",
+      "block_index": 0,
+      "code_hash": "4b02d5b417b9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc246f-typewriter",
+      "note_title": "ABC246F typewriter",
+      "note_route": "/p/abc246f-typewriter",
+      "block_index": 0,
+      "code_hash": "3246f78c5c28",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc281f-xor-minimization",
+      "note_title": "ABC281F Xor Minimization",
+      "note_route": "/p/abc281f-xor-minimization",
+      "block_index": 0,
+      "code_hash": "0f2ef79cb4c8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc290e-make-it-palindrome",
+      "note_title": "ABC290E Make it Palindrome",
+      "note_route": "/p/abc290e-make-it-palindrome",
+      "block_index": 0,
+      "code_hash": "f2ebe38084d1",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc295d-three-days-ago",
+      "note_title": "ABC295D Three Days Ago",
+      "note_route": "/p/abc295d-three-days-ago",
+      "block_index": 0,
+      "code_hash": "e18f5146b370",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc438e-heavy-buckets",
+      "note_title": "ABC438E Heavy Buckets",
+      "note_route": "/p/abc438e-heavy-buckets",
+      "block_index": 0,
+      "code_hash": "e11b440e9397",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc438f-sum-of-mex",
+      "note_title": "ABC438F Sum of Mex",
+      "note_route": "/p/abc438f-sum-of-mex",
+      "block_index": 0,
+      "code_hash": "e70ad2667976",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc440e-cookies",
+      "note_title": "ABC440E Cookies",
+      "note_route": "/p/abc440e-cookies",
+      "block_index": 0,
+      "code_hash": "7d1cf9529874",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc441f-must-buy",
+      "note_title": "ABC441F Must Buy",
+      "note_route": "/p/abc441f-must-buy",
+      "block_index": 0,
+      "code_hash": "c661557ffcb6",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc442e-laser-takahashi",
+      "note_title": "ABC442E Laser Takahashi",
+      "note_route": "/p/abc442e-laser-takahashi",
+      "block_index": 0,
+      "code_hash": "e3b0c44298fc",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc443d-pawn-line",
+      "note_title": "ABC443D Pawn Line",
+      "note_route": "/p/abc443d-pawn-line",
+      "block_index": 0,
+      "code_hash": "b1c6cb871ff1",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc443f-non-increasing-number",
+      "note_title": "ABC443F Non-Increasing Number",
+      "note_route": "/p/abc443f-non-increasing-number",
+      "block_index": 0,
+      "code_hash": "cfdc6b5119f3",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc445d-reconstruct-chocolate",
+      "note_title": "ABC445D Reconstruct Chocolate",
+      "note_route": "/p/abc445d-reconstruct-chocolate",
+      "block_index": 0,
+      "code_hash": "5a9ec0e65051",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc445f-exactly-k-steps-2",
+      "note_title": "ABC445F Exactly K Steps 2",
+      "note_route": "/p/abc445f-exactly-k-steps-2",
+      "block_index": 0,
+      "code_hash": "9efe555ab0c0",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc446e-multiple-free-sequences",
+      "note_title": "ABC446E Multiple-Free Sequences",
+      "note_route": "/p/abc446e-multiple-free-sequences",
+      "block_index": 0,
+      "code_hash": "c3204a745e9a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc446f-reachable-set-2",
+      "note_title": "ABC446F Reachable Set 2",
+      "note_route": "/p/abc446f-reachable-set-2",
+      "block_index": 0,
+      "code_hash": "fb9a502a7310",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc448e-simple-division",
+      "note_title": "ABC448E Simple Division",
+      "note_route": "/p/abc448e-simple-division",
+      "block_index": 0,
+      "code_hash": "7efa6ebaf120",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc451d-concat-power-of-2",
+      "note_title": "ABC451D Concat Power of 2",
+      "note_route": "/p/abc451d-concat-power-of-2",
+      "block_index": 0,
+      "code_hash": "85f8c813bb92",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc451f-make-bipartite-3",
+      "note_title": "ABC451F Make Bipartite 3",
+      "note_route": "/p/abc451f-make-bipartite-3",
+      "block_index": 0,
+      "code_hash": "904cd1b5c58f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc452e-you-will-like-sigma-problem",
+      "note_title": "ABC452E You WILL Like Sigma Problem",
+      "note_route": "/p/abc452e-you-will-like-sigma-problem",
+      "block_index": 0,
+      "code_hash": "af2d464f1cbf",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "abc455e-unbalanced-abc-substrings",
+      "note_title": "ABC455E Unbalanced ABC Substrings",
+      "note_route": "/p/abc455e-unbalanced-abc-substrings",
+      "block_index": 0,
+      "code_hash": "4db651d33ef8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "arc100e-or-plus-max",
+      "note_title": "ARC100E Or Plus Max",
+      "note_route": "/p/arc100e-or-plus-max",
+      "block_index": 0,
+      "code_hash": "416b8422fd8a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "atdp-j-sushi",
+      "note_title": "ATDP J Sushi",
+      "note_route": "/p/atdp-j-sushi",
+      "block_index": 0,
+      "code_hash": "e8838492d19f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "atdp-l-deque",
+      "note_title": "ATDP l Deque",
+      "note_route": "/p/atdp-l-deque",
+      "block_index": 0,
+      "code_hash": "bc9b9b29c4b9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "bd202326-错峰旅行",
+      "note_title": "BD202326 错峰旅行",
+      "note_route": "/p/bd202326-错峰旅行",
+      "block_index": 0,
+      "code_hash": "79a5281c4974",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "bd202327-社交树",
+      "note_title": "BD202327 社交树",
+      "note_route": "/p/bd202327-社交树",
+      "block_index": 0,
+      "code_hash": "719decb7101a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "bd202330-图论大师",
+      "note_title": "BD202330 图论大师",
+      "note_route": "/p/bd202330-图论大师",
+      "block_index": 0,
+      "code_hash": "06dde9202bc6",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "bd202428-粒子消消乐",
+      "note_title": "BD202428 粒子消消乐",
+      "note_route": "/p/bd202428-粒子消消乐",
+      "block_index": 0,
+      "code_hash": "de63d1220cf9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "bd202429-毕业照",
+      "note_title": "BD202429 毕业照",
+      "note_route": "/p/bd202429-毕业照",
+      "block_index": 0,
+      "code_hash": "141bb3825235",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "bd202509-pair-counting",
+      "note_title": "BD202509 Pair Counting",
+      "note_route": "/p/bd202509-pair-counting",
+      "block_index": 0,
+      "code_hash": "3fd63ef90239",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "bd202514-minpopcount",
+      "note_title": "BD202514 Minpopcount",
+      "note_route": "/p/bd202514-minpopcount",
+      "block_index": 0,
+      "code_hash": "aca0e47f8b13",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "bd202515-trink",
+      "note_title": "BD202515 Trink",
+      "note_route": "/p/bd202515-trink",
+      "block_index": 0,
+      "code_hash": "784d2df4354f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "bd202519-degree-of-permutations",
+      "note_title": "BD202519 Degree of Permutations",
+      "note_route": "/p/bd202519-degree-of-permutations",
+      "block_index": 0,
+      "code_hash": "d481f38f22b4",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1070a-find-a-number",
+      "note_title": "CF1070A Find a Number",
+      "note_route": "/p/cf1070a-find-a-number",
+      "block_index": 0,
+      "code_hash": "b37d12d8691b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1092f-tree-with-maximum-cost",
+      "note_title": "CF1092F Tree with Maximum Cost",
+      "note_route": "/p/cf1092f-tree-with-maximum-cost",
+      "block_index": 0,
+      "code_hash": "51149a417262",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1100f-ivan-and-burgers",
+      "note_title": "CF1100F Ivan and Burgers",
+      "note_route": "/p/cf1100f-ivan-and-burgers",
+      "block_index": 0,
+      "code_hash": "2d46f6b33189",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1100f-ivan-and-burgers",
+      "note_title": "CF1100F Ivan and Burgers",
+      "note_route": "/p/cf1100f-ivan-and-burgers",
+      "block_index": 1,
+      "code_hash": "2c5e70817557",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1117d-magic-gems",
+      "note_title": "CF1117D Magic Gems",
+      "note_route": "/p/cf1117d-magic-gems",
+      "block_index": 0,
+      "code_hash": "5a0e6a68975e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1131d-gourmet-choice",
+      "note_title": "CF1131D Gourmet choice",
+      "note_route": "/p/cf1131d-gourmet-choice",
+      "block_index": 0,
+      "code_hash": "4ac7a306e863",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1132f-clear-the-string",
+      "note_title": "CF1132F Clear the String",
+      "note_route": "/p/cf1132f-clear-the-string",
+      "block_index": 0,
+      "code_hash": "178691d7fff6",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1139c-edgy-trees",
+      "note_title": "CF1139C Edgy Trees",
+      "note_route": "/p/cf1139c-edgy-trees",
+      "block_index": 0,
+      "code_hash": "dcca1b769e97",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1144g-two-merged-sequences",
+      "note_title": "CF1144G Two Merged Sequences",
+      "note_route": "/p/cf1144g-two-merged-sequences",
+      "block_index": 0,
+      "code_hash": "dcb131796dc8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1151e-number-of-components",
+      "note_title": "CF1151E Number of Components",
+      "note_route": "/p/cf1151e-number-of-components",
+      "block_index": 0,
+      "code_hash": "7781e0123312",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1153d-serval-and-rooted-tree",
+      "note_title": "CF1153D Serval and Rooted Tree",
+      "note_route": "/p/cf1153d-serval-and-rooted-tree",
+      "block_index": 0,
+      "code_hash": "fb72b4094a1b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1168c-and-reachability",
+      "note_title": "CF1168C And Reachability",
+      "note_route": "/p/cf1168c-and-reachability",
+      "block_index": 0,
+      "code_hash": "554a887fec42",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1187d-subarray-sorting",
+      "note_title": "CF1187D Subarray Sorting",
+      "note_route": "/p/cf1187d-subarray-sorting",
+      "block_index": 0,
+      "code_hash": "ff9ee12b77fb",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1201c-maximum-median",
+      "note_title": "CF1201C Maximum Median",
+      "note_route": "/p/cf1201c-maximum-median",
+      "block_index": 0,
+      "code_hash": "000ba01fffde",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1207e-xor-guessing",
+      "note_title": "CF1207E XOR Guessing",
+      "note_route": "/p/cf1207e-xor-guessing",
+      "block_index": 0,
+      "code_hash": "2e5c305663f9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1208d-restore-permutation",
+      "note_title": "CF1208D Restore Permutation",
+      "note_route": "/p/cf1208d-restore-permutation",
+      "block_index": 0,
+      "code_hash": "f44a2c74e4ac",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1209e2-rotate-columns-(hard-version)",
+      "note_title": "CF1209E2 Rotate Columns (hard version)",
+      "note_route": "/p/cf1209e2-rotate-columns-(hard-version)",
+      "block_index": 0,
+      "code_hash": "ec02ab84f3de",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1225e-rock-is-push",
+      "note_title": "CF1225E Rock Is Push",
+      "note_route": "/p/cf1225e-rock-is-push",
+      "block_index": 0,
+      "code_hash": "f86eef84a90d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1272e-nearest-opposite-parity",
+      "note_title": "CF1272E Nearest Opposite Parity",
+      "note_route": "/p/cf1272e-nearest-opposite-parity",
+      "block_index": 0,
+      "code_hash": "c4e37fb9dfe9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1288a-deadline",
+      "note_title": "CF1288A Deadline",
+      "note_route": "/p/cf1288a-deadline",
+      "block_index": 0,
+      "code_hash": "228d7aa3d81d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1299a-anu-has-a-function",
+      "note_title": "CF1299A Anu Has a Function",
+      "note_route": "/p/cf1299a-anu-has-a-function",
+      "block_index": 0,
+      "code_hash": "5688f04ac7bb",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1316e-team-building",
+      "note_title": "CF1316E Team Building",
+      "note_route": "/p/cf1316e-team-building",
+      "block_index": 0,
+      "code_hash": "74e3068f5f5f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1325d-ehab-the-xorcist",
+      "note_title": "CF1325D Ehab the Xorcist",
+      "note_route": "/p/cf1325d-ehab-the-xorcist",
+      "block_index": 0,
+      "code_hash": "b415e7b07db9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1364d-ehab's-last-corollary",
+      "note_title": "CF1364D Ehab's Last Corollary",
+      "note_route": "/p/cf1364d-ehab's-last-corollary",
+      "block_index": 0,
+      "code_hash": "a6cbdd3cd2a1",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1373f-network-coverage",
+      "note_title": "CF1373F Network Coverage",
+      "note_route": "/p/cf1373f-network-coverage",
+      "block_index": 0,
+      "code_hash": "513ec3708920",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1416c-xor-inverse",
+      "note_title": "CF1416C XOR Inverse",
+      "note_route": "/p/cf1416c-xor-inverse",
+      "block_index": 0,
+      "code_hash": "9f75863b1f82",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1446b-catching-cheaters",
+      "note_title": "CF1446B Catching Cheaters",
+      "note_route": "/p/cf1446b-catching-cheaters",
+      "block_index": 0,
+      "code_hash": "a69a5793a8a2",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1446c-xor-tree",
+      "note_title": "CF1446C Xor Tree",
+      "note_route": "/p/cf1446c-xor-tree",
+      "block_index": 0,
+      "code_hash": "d905dc09eb35",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1486d-max-median",
+      "note_title": "CF1486D Max Median",
+      "note_route": "/p/cf1486d-max-median",
+      "block_index": 0,
+      "code_hash": "b54ab6abd54b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1513d-gcd-and-mst",
+      "note_title": "CF1513D GCD and MST",
+      "note_route": "/p/cf1513d-gcd-and-mst",
+      "block_index": 0,
+      "code_hash": "69a6958eeb96",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1515e-phoenix-and-computers",
+      "note_title": "CF1515E Phoenix and Computers",
+      "note_route": "/p/cf1515e-phoenix-and-computers",
+      "block_index": 0,
+      "code_hash": "99d93167ffc9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1526c2-potions-(hard-version)",
+      "note_title": "CF1526C2 Potions (Hard Version)",
+      "note_route": "/p/cf1526c2-potions-(hard-version)",
+      "block_index": 0,
+      "code_hash": "9bbf122026c6",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1527d-mex-tree",
+      "note_title": "CF1527D MEX Tree",
+      "note_route": "/p/cf1527d-mex-tree",
+      "block_index": 0,
+      "code_hash": "01974df56715",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1534d-lost-tree",
+      "note_title": "CF1534D Lost Tree",
+      "note_route": "/p/cf1534d-lost-tree",
+      "block_index": 0,
+      "code_hash": "9a7baa2b7e3b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1542c-strange-function",
+      "note_title": "CF1542C Strange Function",
+      "note_route": "/p/cf1542c-strange-function",
+      "block_index": 0,
+      "code_hash": "53ee1e12ba7f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1554c-mikasa",
+      "note_title": "CF1554C Mikasa",
+      "note_route": "/p/cf1554c-mikasa",
+      "block_index": 0,
+      "code_hash": "2acca661b849",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1621c-hidden-permutations",
+      "note_title": "CF1621C Hidden Permutations",
+      "note_route": "/p/cf1621c-hidden-permutations",
+      "block_index": 0,
+      "code_hash": "98a30ff0a8b5",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1624g-minor-tree",
+      "note_title": "CF1624G MinOr Tree",
+      "note_route": "/p/cf1624g-minor-tree",
+      "block_index": 0,
+      "code_hash": "7e286aa90347",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1625d-binary-spiders",
+      "note_title": "CF1625D Binary Spiders",
+      "note_route": "/p/cf1625d-binary-spiders",
+      "block_index": 0,
+      "code_hash": "c3f8e72a24ec",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1632c-strange-test",
+      "note_title": "CF1632C Strange Test",
+      "note_route": "/p/cf1632c-strange-test",
+      "block_index": 0,
+      "code_hash": "efa4087fde74",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1632d-new-year-concert",
+      "note_title": "CF1632D New Year Concert",
+      "note_route": "/p/cf1632d-new-year-concert",
+      "block_index": 0,
+      "code_hash": "f51838db45a3",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1633d-make-them-equal",
+      "note_title": "CF1633D Make Them Equal",
+      "note_route": "/p/cf1633d-make-them-equal",
+      "block_index": 0,
+      "code_hash": "13912ad0d2db",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1638e-colorful-operations",
+      "note_title": "CF1638E Colorful Operations",
+      "note_route": "/p/cf1638e-colorful-operations",
+      "block_index": 0,
+      "code_hash": "27114b4a8e06",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1650g-counting-shortcuts",
+      "note_title": "CF1650G Counting Shortcuts",
+      "note_route": "/p/cf1650g-counting-shortcuts",
+      "block_index": 0,
+      "code_hash": "f2612f824158",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1650g-counting-shortcuts",
+      "note_title": "CF1650G Counting Shortcuts",
+      "note_route": "/p/cf1650g-counting-shortcuts",
+      "block_index": 1,
+      "code_hash": "b99afcfca1a8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf165e-compatible-numbers",
+      "note_title": "CF165E Compatible Numbers",
+      "note_route": "/p/cf165e-compatible-numbers",
+      "block_index": 0,
+      "code_hash": "ca2bad707623",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1661d-progressions-covering",
+      "note_title": "CF1661D Progressions Covering",
+      "note_route": "/p/cf1661d-progressions-covering",
+      "block_index": 0,
+      "code_hash": "b58fefffad75",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1695c-zero-path",
+      "note_title": "CF1695C Zero Path",
+      "note_route": "/p/cf1695c-zero-path",
+      "block_index": 0,
+      "code_hash": "ec0a951074fb",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1702g2-passable-paths-(hard-version)",
+      "note_title": "CF1702G2 Passable Paths (hard version)",
+      "note_route": "/p/cf1702g2-passable-paths-(hard-version)",
+      "block_index": 0,
+      "code_hash": "fa41e5140412",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1706e-qpwoeirut-and-vertices",
+      "note_title": "CF1706E Qpwoeirut and Vertices",
+      "note_route": "/p/cf1706e-qpwoeirut-and-vertices",
+      "block_index": 0,
+      "code_hash": "5a1c4883732d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1709c-recover-an-rbs",
+      "note_title": "CF1709C Recover an RBS",
+      "note_route": "/p/cf1709c-recover-an-rbs",
+      "block_index": 0,
+      "code_hash": "be36a644d180",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1709e-xor-tree",
+      "note_title": "CF1709E XOR Tree",
+      "note_route": "/p/cf1709e-xor-tree",
+      "block_index": 0,
+      "code_hash": "15b66bbd9bff",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1722g-even-odd-xor",
+      "note_title": "CF1722G Even-Odd XOR",
+      "note_route": "/p/cf1722g-even-odd-xor",
+      "block_index": 0,
+      "code_hash": "476cb15f0cee",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1762d-gcd-queries",
+      "note_title": "CF1762D GCD Queries",
+      "note_route": "/p/cf1762d-gcd-queries",
+      "block_index": 0,
+      "code_hash": "7c49c7aae39d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1775d-friendly-spiders",
+      "note_title": "CF1775D Friendly Spiders",
+      "note_route": "/p/cf1775d-friendly-spiders",
+      "block_index": 0,
+      "code_hash": "7b015184691c",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1811c-restore-the-array",
+      "note_title": "CF1811C Restore the Array",
+      "note_route": "/p/cf1811c-restore-the-array",
+      "block_index": 0,
+      "code_hash": "4700e6692d61",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1814b-long-legs",
+      "note_title": "CF1814B Long Legs",
+      "note_route": "/p/cf1814b-long-legs",
+      "block_index": 0,
+      "code_hash": "3917e5a515b9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1843f2-omsk-metro-(hard-version)",
+      "note_title": "CF1843F2 Omsk Metro (hard version)",
+      "note_route": "/p/cf1843f2-omsk-metro-(hard-version)",
+      "block_index": 0,
+      "code_hash": "ab7d61204eaa",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1886d-monocarp-and-the-set",
+      "note_title": "CF1886D Monocarp and the Set",
+      "note_route": "/p/cf1886d-monocarp-and-the-set",
+      "block_index": 0,
+      "code_hash": "00995c3e842c",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1902e-collapsing-strings",
+      "note_title": "CF1902E Collapsing Strings",
+      "note_route": "/p/cf1902e-collapsing-strings",
+      "block_index": 0,
+      "code_hash": "9b7e97dbe26e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf1902f-trees-and-xor-queries-again",
+      "note_title": "CF1902F Trees and XOR Queries Again",
+      "note_route": "/p/cf1902f-trees-and-xor-queries-again",
+      "block_index": 0,
+      "code_hash": "7a90749eaabb",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2037f-ardent-flames",
+      "note_title": "CF2037F Ardent Flames",
+      "note_route": "/p/cf2037f-ardent-flames",
+      "block_index": 0,
+      "code_hash": "32eb45df5035",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2037g-natlan-exploring",
+      "note_title": "CF2037G Natlan Exploring",
+      "note_route": "/p/cf2037g-natlan-exploring",
+      "block_index": 0,
+      "code_hash": "a35dbe9b4860",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2113d-cheater",
+      "note_title": "CF2113D Cheater",
+      "note_route": "/p/cf2113d-cheater",
+      "block_index": 0,
+      "code_hash": "740923e604d1",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2131f-unjust-binary-life",
+      "note_title": "CF2131F Unjust Binary Life",
+      "note_route": "/p/cf2131f-unjust-binary-life",
+      "block_index": 0,
+      "code_hash": "5cda2c974921",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2132f-rada-and-the-chamomile-valley",
+      "note_title": "CF2132F Rada and the Chamomile Valley",
+      "note_route": "/p/cf2132f-rada-and-the-chamomile-valley",
+      "block_index": 0,
+      "code_hash": "13ca0bae653f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2145d-inversion-value-of-a-permutation",
+      "note_title": "CF2145D Inversion Value of a Permutation",
+      "note_route": "/p/cf2145d-inversion-value-of-a-permutation",
+      "block_index": 0,
+      "code_hash": "43b7fcd30ab3",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2145e-predicting-popularity",
+      "note_title": "CF2145E Predicting Popularity",
+      "note_route": "/p/cf2145e-predicting-popularity",
+      "block_index": 0,
+      "code_hash": "1dab52e0be56",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2158c-annoying-game",
+      "note_title": "CF2158C Annoying Game",
+      "note_route": "/p/cf2158c-annoying-game",
+      "block_index": 0,
+      "code_hash": "9cff15c678ea",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2158d-palindrome-flipping",
+      "note_title": "CF2158D Palindrome Flipping",
+      "note_route": "/p/cf2158d-palindrome-flipping",
+      "block_index": 0,
+      "code_hash": "b8deeff2a28b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2158d-palindrome-flipping",
+      "note_title": "CF2158D Palindrome Flipping",
+      "note_route": "/p/cf2158d-palindrome-flipping",
+      "block_index": 1,
+      "code_hash": "09a7737ab13a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2169d2-removal-of-a-sequence-(hard-version)",
+      "note_title": "CF2169D2 Removal of a Sequence (Hard Version)",
+      "note_route": "/p/cf2169d2-removal-of-a-sequence-(hard-version)",
+      "block_index": 0,
+      "code_hash": "841670d37b78",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2170e-binary-strings-and-blocks",
+      "note_title": "CF2170E Binary Strings and Blocks",
+      "note_route": "/p/cf2170e-binary-strings-and-blocks",
+      "block_index": 0,
+      "code_hash": "ade75f553bd5",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2171c2-renako-amaori-and-xor-game-(hard-version)",
+      "note_title": "CF2171C2 Renako Amaori and XOR Game (hard version)",
+      "note_route": "/p/cf2171c2-renako-amaori-and-xor-game-(hard-version)",
+      "block_index": 0,
+      "code_hash": "06d9af62a04c",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2171f-rae-taylor-and-trees-(hard-version)",
+      "note_title": "CF2171F Rae Taylor and Trees (hard version)",
+      "note_route": "/p/cf2171f-rae-taylor-and-trees-(hard-version)",
+      "block_index": 0,
+      "code_hash": "3271a39f271a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2176d-fibonacci-paths",
+      "note_title": "CF2176D Fibonacci Paths",
+      "note_route": "/p/cf2176d-fibonacci-paths",
+      "block_index": 0,
+      "code_hash": "e3b0c44298fc",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2176f-omega-numbers",
+      "note_title": "CF2176F Omega Numbers",
+      "note_route": "/p/cf2176f-omega-numbers",
+      "block_index": 0,
+      "code_hash": "f43119f419a0",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2181f-fragmented-nim",
+      "note_title": "CF2181F Fragmented Nim",
+      "note_route": "/p/cf2181f-fragmented-nim",
+      "block_index": 0,
+      "code_hash": "3d937511a9b7",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2182e-new-year's-gifts",
+      "note_title": "CF2182E New Year's Gifts",
+      "note_route": "/p/cf2182e-new-year's-gifts",
+      "block_index": 0,
+      "code_hash": "b79519d5cb3b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2183e-lcm-is-legendary-counting-master",
+      "note_title": "CF2183E LCM is Legendary Counting Master",
+      "note_route": "/p/cf2183e-lcm-is-legendary-counting-master",
+      "block_index": 0,
+      "code_hash": "d9c5af617fac",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2188b-seats",
+      "note_title": "CF2188B Seats",
+      "note_route": "/p/cf2188b-seats",
+      "block_index": 0,
+      "code_hash": "04a8d1657529",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2188c-restricted-sorting",
+      "note_title": "CF2188C Restricted Sorting",
+      "note_route": "/p/cf2188c-restricted-sorting",
+      "block_index": 0,
+      "code_hash": "8be538e2da40",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2188d-shortest-statement-ever",
+      "note_title": "CF2188D Shortest Statement Ever",
+      "note_route": "/p/cf2188d-shortest-statement-ever",
+      "block_index": 0,
+      "code_hash": "45826630f570",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2191d2-sub-rbs-(hard-version)",
+      "note_title": "CF2191D2 Sub-RBS (Hard Version)",
+      "note_route": "/p/cf2191d2-sub-rbs-(hard-version)",
+      "block_index": 0,
+      "code_hash": "efcc7408b384",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2192d-cost-of-tree",
+      "note_title": "CF2192D Cost of Tree",
+      "note_route": "/p/cf2192d-cost-of-tree",
+      "block_index": 0,
+      "code_hash": "2de4a11e0ef5",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2195f-parabola-independence",
+      "note_title": "CF2195F Parabola Independence",
+      "note_route": "/p/cf2195f-parabola-independence",
+      "block_index": 0,
+      "code_hash": "9421f7ff49c9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2195g-idiot-first-search-and-queries",
+      "note_title": "CF2195G Idiot First Search and Queries",
+      "note_route": "/p/cf2195g-idiot-first-search-and-queries",
+      "block_index": 0,
+      "code_hash": "da941c8b4ddf",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2197d-another-problem-about-beautiful-pairs",
+      "note_title": "CF2197D Another Problem about Beautiful Pairs",
+      "note_route": "/p/cf2197d-another-problem-about-beautiful-pairs",
+      "block_index": 0,
+      "code_hash": "74a780b88179",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2197e2-interactive-graph-(hard-version)",
+      "note_title": "CF2197E2 Interactive Graph (Hard Version)",
+      "note_route": "/p/cf2197e2-interactive-graph-(hard-version)",
+      "block_index": 0,
+      "code_hash": "998117644989",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2200g-operation-permutation",
+      "note_title": "CF2200G Operation Permutation",
+      "note_route": "/p/cf2200g-operation-permutation",
+      "block_index": 0,
+      "code_hash": "45608f9432b5",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2202c2-lost-civilization-(hard-version)",
+      "note_title": "CF2202C2 Lost Civilization (Hard Version)",
+      "note_route": "/p/cf2202c2-lost-civilization-(hard-version)",
+      "block_index": 0,
+      "code_hash": "ab657dd910c7",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2203c-test-generator",
+      "note_title": "CF2203C Test Generator",
+      "note_route": "/p/cf2203c-test-generator",
+      "block_index": 0,
+      "code_hash": "3183c43015bf",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2203d-divisibility-game",
+      "note_title": "CF2203D Divisibility Game",
+      "note_route": "/p/cf2203d-divisibility-game",
+      "block_index": 0,
+      "code_hash": "f43fe1012fe0",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2204c-spring",
+      "note_title": "CF2204C Spring",
+      "note_route": "/p/cf2204c-spring",
+      "block_index": 0,
+      "code_hash": "7db795d9847b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2204d-alternating-path",
+      "note_title": "CF2204D Alternating Path",
+      "note_route": "/p/cf2204d-alternating-path",
+      "block_index": 0,
+      "code_hash": "862d9442cebb",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2204e-sum-of-digits-(and-again)",
+      "note_title": "CF2204E Sum of Digits (and Again)",
+      "note_route": "/p/cf2204e-sum-of-digits-(and-again)",
+      "block_index": 0,
+      "code_hash": "18f461b66ea1",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2204f-sum-of-fractions",
+      "note_title": "CF2204F Sum of Fractions",
+      "note_route": "/p/cf2204f-sum-of-fractions",
+      "block_index": 0,
+      "code_hash": "864a021aff40",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2207c-where's-my-water%3f",
+      "note_title": "CF2207C Where's My Water%3F",
+      "note_route": "/p/cf2207c-where's-my-water%3f",
+      "block_index": 0,
+      "code_hash": "13df1465b3e0",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2208c-stamina-and-tasks",
+      "note_title": "CF2208C Stamina and Tasks",
+      "note_route": "/p/cf2208c-stamina-and-tasks",
+      "block_index": 0,
+      "code_hash": "ff5b97d61d4f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2208d1-tree-orientation-(easy-version)",
+      "note_title": "CF2208D1 Tree Orientation (Easy Version)",
+      "note_route": "/p/cf2208d1-tree-orientation-(easy-version)",
+      "block_index": 0,
+      "code_hash": "74dca86fdc43",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2208d2-tree-orientation-(hard-version)",
+      "note_title": "CF2208D2 Tree Orientation (Hard Version)",
+      "note_route": "/p/cf2208d2-tree-orientation-(hard-version)",
+      "block_index": 0,
+      "code_hash": "0f759d82e8e6",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2209d-ghostfires",
+      "note_title": "CF2209D Ghostfires",
+      "note_route": "/p/cf2209d-ghostfires",
+      "block_index": 0,
+      "code_hash": "4e52393dd248",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2216e-oriented-journey",
+      "note_title": "CF2216E Oriented Journey",
+      "note_route": "/p/cf2216e-oriented-journey",
+      "block_index": 0,
+      "code_hash": "50cd457cecb9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2222c-median-partition",
+      "note_title": "CF2222C Median Partition",
+      "note_route": "/p/cf2222c-median-partition",
+      "block_index": 0,
+      "code_hash": "0495ce353f19",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2222d-permutation-construction",
+      "note_title": "CF2222D Permutation Construction",
+      "note_route": "/p/cf2222d-permutation-construction",
+      "block_index": 0,
+      "code_hash": "24382f65cb5d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2222d-permutation-construction",
+      "note_title": "CF2222D Permutation Construction",
+      "note_route": "/p/cf2222d-permutation-construction",
+      "block_index": 1,
+      "code_hash": "4e6514946aa8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2223b-zhily-and-barknights",
+      "note_title": "CF2223B Zhily and Barknights",
+      "note_route": "/p/cf2223b-zhily-and-barknights",
+      "block_index": 0,
+      "code_hash": "ddb99c12f159",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2229d-me-when-median-problem",
+      "note_title": "CF2229D Me When Median Problem",
+      "note_route": "/p/cf2229d-me-when-median-problem",
+      "block_index": 0,
+      "code_hash": "037d139e7780",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2232c2-seating-arrangement-(hard-version)",
+      "note_title": "CF2232C2 Seating Arrangement (Hard Version)",
+      "note_route": "/p/cf2232c2-seating-arrangement-(hard-version)",
+      "block_index": 0,
+      "code_hash": "da81b3419905",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2233c-cost-of-a-bracket-sequence",
+      "note_title": "CF2233C Cost of a Bracket Sequence",
+      "note_route": "/p/cf2233c-cost-of-a-bracket-sequence",
+      "block_index": 0,
+      "code_hash": "08213ee9ec9d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2233c-cost-of-a-bracket-sequence",
+      "note_title": "CF2233C Cost of a Bracket Sequence",
+      "note_route": "/p/cf2233c-cost-of-a-bracket-sequence",
+      "block_index": 1,
+      "code_hash": "1e6cd1dc5b1f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2234c-vessels,-heights-and-two-versions-(easy-version)",
+      "note_title": "CF2234C Vessels, Heights and Two Versions (Easy Version)",
+      "note_route": "/p/cf2234c-vessels,-heights-and-two-versions-(easy-version)",
+      "block_index": 0,
+      "code_hash": "7fc1bcb238c9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf245h-queries-for-number-of-palindromes",
+      "note_title": "CF245H Queries for Number of Palindromes",
+      "note_route": "/p/cf245h-queries-for-number-of-palindromes",
+      "block_index": 0,
+      "code_hash": "395f79693b63",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf263d-cycle-in-graph",
+      "note_title": "CF263D Cycle in Graph",
+      "note_route": "/p/cf263d-cycle-in-graph",
+      "block_index": 0,
+      "code_hash": "d864c1f15068",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf280c-game-on-tree",
+      "note_title": "CF280C Game on Tree",
+      "note_route": "/p/cf280c-game-on-tree",
+      "block_index": 0,
+      "code_hash": "231c59a3d9cb",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf295b-greg-and-graph",
+      "note_title": "CF295B Greg and Graph",
+      "note_route": "/p/cf295b-greg-and-graph",
+      "block_index": 0,
+      "code_hash": "0bfd5ebe370b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf356a-knight-tournament",
+      "note_title": "CF356A Knight Tournament",
+      "note_route": "/p/cf356a-knight-tournament",
+      "block_index": 0,
+      "code_hash": "adf342e5fce2",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf451e-devu-and-flowers",
+      "note_title": "CF451E Devu and Flowers",
+      "note_route": "/p/cf451e-devu-and-flowers",
+      "block_index": 0,
+      "code_hash": "b3632739efe7",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf455d-serega-and-fun",
+      "note_title": "CF455D Serega and Fun",
+      "note_route": "/p/cf455d-serega-and-fun",
+      "block_index": 0,
+      "code_hash": "a339d8a7d114",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf459e-pashmak-and-graph",
+      "note_title": "CF459E Pashmak and Graph",
+      "note_route": "/p/cf459e-pashmak-and-graph",
+      "block_index": 0,
+      "code_hash": "b856ae88a52f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf472d-design-tutorial%3a-inverse-the-problem",
+      "note_title": "CF472D Design Tutorial%3A Inverse the Problem",
+      "note_route": "/p/cf472d-design-tutorial%3a-inverse-the-problem",
+      "block_index": 0,
+      "code_hash": "a23c88f74ba5",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf475d-cgcdssq",
+      "note_title": "CF475D CGCDSSQ",
+      "note_route": "/p/cf475d-cgcdssq",
+      "block_index": 0,
+      "code_hash": "3603218e332e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf506d-mr.-kitayuta's-colorful-graph",
+      "note_title": "CF506D Mr. Kitayuta's Colorful Graph",
+      "note_route": "/p/cf506d-mr.-kitayuta's-colorful-graph",
+      "block_index": 0,
+      "code_hash": "c97beac5e608",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf559c-gerald-and-giant-chess",
+      "note_title": "CF559C Gerald and Giant Chess",
+      "note_route": "/p/cf559c-gerald-and-giant-chess",
+      "block_index": 0,
+      "code_hash": "506b2321aac0",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf577b-modulo-sum",
+      "note_title": "CF577B Modulo Sum",
+      "note_route": "/p/cf577b-modulo-sum",
+      "block_index": 0,
+      "code_hash": "5b8cb341951f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf577b-modulo-sum",
+      "note_title": "CF577B Modulo Sum",
+      "note_route": "/p/cf577b-modulo-sum",
+      "block_index": 1,
+      "code_hash": "58adfbde3d47",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf587c-duff-in-the-army",
+      "note_title": "CF587C Duff in the Army",
+      "note_route": "/p/cf587c-duff-in-the-army",
+      "block_index": 0,
+      "code_hash": "12ce2f5c03a0",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf607b-zuma",
+      "note_title": "CF607B Zuma",
+      "note_route": "/p/cf607b-zuma",
+      "block_index": 0,
+      "code_hash": "ff097900ea12",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf609e-minimum-spanning-tree-for-each-edge",
+      "note_title": "CF609E Minimum spanning tree for each edge",
+      "note_route": "/p/cf609e-minimum-spanning-tree-for-each-edge",
+      "block_index": 0,
+      "code_hash": "33f17fa97e91",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf616e-sum-of-remainders",
+      "note_title": "CF616E Sum of Remainders",
+      "note_route": "/p/cf616e-sum-of-remainders",
+      "block_index": 0,
+      "code_hash": "cc0de9e5a43b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf665e-beautiful-subarrays",
+      "note_title": "CF665E Beautiful Subarrays",
+      "note_route": "/p/cf665e-beautiful-subarrays",
+      "block_index": 0,
+      "code_hash": "a82af25a4e86",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf665e-beautiful-subarrays",
+      "note_title": "CF665E Beautiful Subarrays",
+      "note_route": "/p/cf665e-beautiful-subarrays",
+      "block_index": 1,
+      "code_hash": "8620899912f5",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf685b-kay-and-snowflake",
+      "note_title": "CF685B Kay and Snowflake",
+      "note_route": "/p/cf685b-kay-and-snowflake",
+      "block_index": 0,
+      "code_hash": "ee4996cf6cbd",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf721c-journey",
+      "note_title": "CF721C Journey",
+      "note_route": "/p/cf721c-journey",
+      "block_index": 0,
+      "code_hash": "28cafce15d66",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf733f-drivers-dissatisfaction",
+      "note_title": "CF733F Drivers Dissatisfaction",
+      "note_route": "/p/cf733f-drivers-dissatisfaction",
+      "block_index": 0,
+      "code_hash": "9e5016b11720",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf786c-till-i-collapse",
+      "note_title": "CF786C Till I Collapse",
+      "note_route": "/p/cf786c-till-i-collapse",
+      "block_index": 0,
+      "code_hash": "37375fb5c5dd",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf803f-coprime-subsequences",
+      "note_title": "CF803F Coprime Subsequences",
+      "note_route": "/p/cf803f-coprime-subsequences",
+      "block_index": 0,
+      "code_hash": "3a06ed471875",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf817d-imbalanced-array",
+      "note_title": "CF817D Imbalanced Array",
+      "note_route": "/p/cf817d-imbalanced-array",
+      "block_index": 0,
+      "code_hash": "52ef8221c4dd",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf817f-mex-queries",
+      "note_title": "CF817F MEX Queries",
+      "note_route": "/p/cf817f-mex-queries",
+      "block_index": 0,
+      "code_hash": "ac63ceaf3159",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf825e-minimal-labels",
+      "note_title": "CF825E Minimal Labels",
+      "note_route": "/p/cf825e-minimal-labels",
+      "block_index": 0,
+      "code_hash": "36c026019a02",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf835d-palindromic-characteristics",
+      "note_title": "CF835D Palindromic characteristics",
+      "note_route": "/p/cf835d-palindromic-characteristics",
+      "block_index": 0,
+      "code_hash": "253160337da0",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf837d-round-subset",
+      "note_title": "CF837D Round Subset",
+      "note_route": "/p/cf837d-round-subset",
+      "block_index": 0,
+      "code_hash": "fabfe6693f8e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf845g-shortest-path-problem%3f",
+      "note_title": "CF845G Shortest Path Problem%3F",
+      "note_route": "/p/cf845g-shortest-path-problem%3f",
+      "block_index": 0,
+      "code_hash": "7ac55d7afd66",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf866d-buy-low-sell-high",
+      "note_title": "CF866D Buy Low Sell High",
+      "note_route": "/p/cf866d-buy-low-sell-high",
+      "block_index": 0,
+      "code_hash": "e1642c639541",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf896c-真·珂朵莉树·起源",
+      "note_title": "CF896C 真·珂朵莉树·起源",
+      "note_route": "/p/cf896c-真·珂朵莉树·起源",
+      "block_index": 0,
+      "code_hash": "5d6db8054bcc",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf899f-letters-removing",
+      "note_title": "CF899F Letters Removing",
+      "note_route": "/p/cf899f-letters-removing",
+      "block_index": 0,
+      "code_hash": "68da8efb0850",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf912d-fishes",
+      "note_title": "CF912D Fishes",
+      "note_route": "/p/cf912d-fishes",
+      "block_index": 0,
+      "code_hash": "fc91c53165ab",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf914d-bash-and-a-tough-math-puzzle",
+      "note_title": "CF914D Bash and a Tough Math Puzzle",
+      "note_route": "/p/cf914d-bash-and-a-tough-math-puzzle",
+      "block_index": 0,
+      "code_hash": "399a2a73f744",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf959f-mahmoud-and-ehab-and-yet-another-xor-task",
+      "note_title": "CF959F Mahmoud and Ehab and yet another xor task",
+      "note_route": "/p/cf959f-mahmoud-and-ehab-and-yet-another-xor-task",
+      "block_index": 0,
+      "code_hash": "c535062850e9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cfg66451b-odd-cycle",
+      "note_title": "CFG66451B Odd Cycle",
+      "note_route": "/p/cfg66451b-odd-cycle",
+      "block_index": 0,
+      "code_hash": "3a30047a3bd1",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cfzcpc-round-4-f-biased-cognition",
+      "note_title": "Cfzcpc Round 4 F Biased Cognition",
+      "note_route": "/p/cfzcpc-round-4-f-biased-cognition",
+      "block_index": 0,
+      "code_hash": "54b62826bbe1",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "lc174-地下城游戏",
+      "note_title": "LC174 地下城游戏",
+      "note_route": "/p/lc174-地下城游戏",
+      "block_index": 0,
+      "code_hash": "fc3b7bc548da",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "mc0472-郭嘉破阵",
+      "note_title": "MC0472 郭嘉破阵",
+      "note_route": "/p/mc0472-郭嘉破阵",
+      "block_index": 0,
+      "code_hash": "0bdeeb6b5e22",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "mc0474-赤壁战场",
+      "note_title": "MC0474 赤壁战场",
+      "note_route": "/p/mc0474-赤壁战场",
+      "block_index": 0,
+      "code_hash": "b8fc57ecb08c",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nc108299d-真真的提拉米苏",
+      "note_title": "NC108299D 真真的提拉米苏",
+      "note_route": "/p/nc108299d-真真的提拉米苏",
+      "block_index": 0,
+      "code_hash": "01124cdc956c",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nc108301g-alice-的模糊括号序列",
+      "note_title": "NC108301G Alice 的模糊括号序列",
+      "note_route": "/p/nc108301g-alice-的模糊括号序列",
+      "block_index": 0,
+      "code_hash": "531e0c9c9057",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nc120458d-碎碎念",
+      "note_title": "NC120458D 碎碎念",
+      "note_route": "/p/nc120458d-碎碎念",
+      "block_index": 0,
+      "code_hash": "86c0c861c035",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nc123428m-最大化仿射变换",
+      "note_title": "NC123428M 最大化仿射变换",
+      "note_route": "/p/nc123428m-最大化仿射变换",
+      "block_index": 0,
+      "code_hash": "15e97a3ad2c8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nc124960e-小学二年级地理",
+      "note_title": "NC124960E 小学二年级地理",
+      "note_route": "/p/nc124960e-小学二年级地理",
+      "block_index": 0,
+      "code_hash": "33b355f6f2f5",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nc126321h-故障机器人",
+      "note_title": "NC126321H 故障机器人",
+      "note_route": "/p/nc126321h-故障机器人",
+      "block_index": 0,
+      "code_hash": "2c1b92039fd4",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nc126635a「sfcoi-4」剑客花木兰",
+      "note_title": "NC126635A「SFCOI-4」剑客花木兰",
+      "note_route": "/p/nc126635a「sfcoi-4」剑客花木兰",
+      "block_index": 0,
+      "code_hash": "ac3674df59c4",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nc126635b「sfcoi-4」序列与变换",
+      "note_title": "NC126635B「SFCOI-4」序列与变换",
+      "note_route": "/p/nc126635b「sfcoi-4」序列与变换",
+      "block_index": 0,
+      "code_hash": "064286d72e66",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nc126636g-小红的字符串构造（hard）",
+      "note_title": "NC126636G 小红的字符串构造（hard）",
+      "note_route": "/p/nc126636g-小红的字符串构造（hard）",
+      "block_index": 0,
+      "code_hash": "436e7b1c1f8f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nc50381-道路和航线",
+      "note_title": "NC50381 道路和航线",
+      "note_route": "/p/nc50381-道路和航线",
+      "block_index": 0,
+      "code_hash": "65ede60c59f4",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk105623f-小苯的ovo2.0",
+      "note_title": "NK105623F 小苯的ovo2.0",
+      "note_route": "/p/nk105623f-小苯的ovo2.0",
+      "block_index": 0,
+      "code_hash": "2b4a0c996396",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk109080f-poi-的新加法",
+      "note_title": "NK109080F Poi 的新加法",
+      "note_route": "/p/nk109080f-poi-的新加法",
+      "block_index": 0,
+      "code_hash": "7e9c23479856",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk114111d-小红的华撃串",
+      "note_title": "NK114111D 小红的华撃串",
+      "note_route": "/p/nk114111d-小红的华撃串",
+      "block_index": 0,
+      "code_hash": "c991115bb4b4",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk128675e-小橙的幸运数（hard）",
+      "note_title": "NK128675E 小橙的幸运数（hard）",
+      "note_route": "/p/nk128675e-小橙的幸运数（hard）",
+      "block_index": 0,
+      "code_hash": "31d26e5d6008",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk128675e-小橙的幸运数（hard）",
+      "note_title": "NK128675E 小橙的幸运数（hard）",
+      "note_route": "/p/nk128675e-小橙的幸运数（hard）",
+      "block_index": 1,
+      "code_hash": "7c4b04510eaa",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk128675f-小橙的异或和",
+      "note_title": "NK128675F 小橙的异或和",
+      "note_route": "/p/nk128675f-小橙的异或和",
+      "block_index": 0,
+      "code_hash": "0e8402af01ce",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk128675g-小橙交换水果",
+      "note_title": "NK128675G 小橙交换水果",
+      "note_route": "/p/nk128675g-小橙交换水果",
+      "block_index": 0,
+      "code_hash": "f04bb7ae5c35",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk129231f-palindromic-value",
+      "note_title": "NK129231F Palindromic Value",
+      "note_route": "/p/nk129231f-palindromic-value",
+      "block_index": 0,
+      "code_hash": "017437ac0226",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk129232c-调色题ⅱ",
+      "note_title": "NK129232C 调色题Ⅱ",
+      "note_route": "/p/nk129232c-调色题ⅱ",
+      "block_index": 0,
+      "code_hash": "df79fc091199",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk129582f-alone",
+      "note_title": "NK129582F Alone",
+      "note_route": "/p/nk129582f-alone",
+      "block_index": 0,
+      "code_hash": "67e851dd2486",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk130843f-小苯的糖果盒",
+      "note_title": "NK130843F 小苯的糖果盒",
+      "note_route": "/p/nk130843f-小苯的糖果盒",
+      "block_index": 0,
+      "code_hash": "9ee53f86d865",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk131111f-小苯的对称序列",
+      "note_title": "NK131111F 小苯的对称序列",
+      "note_route": "/p/nk131111f-小苯的对称序列",
+      "block_index": 0,
+      "code_hash": "264c26a15f39",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk131111f-小苯的对称序列",
+      "note_title": "NK131111F 小苯的对称序列",
+      "note_route": "/p/nk131111f-小苯的对称序列",
+      "block_index": 1,
+      "code_hash": "1c6f8652a8bf",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk133523f-回文(version-3)",
+      "note_title": "NK133523F 回文(version 3)",
+      "note_route": "/p/nk133523f-回文(version-3)",
+      "block_index": 0,
+      "code_hash": "880143f7cc0f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk57683e-kevin喜欢零(困难版本)",
+      "note_title": "NK57683E Kevin喜欢零(困难版本)",
+      "note_route": "/p/nk57683e-kevin喜欢零(困难版本)",
+      "block_index": 0,
+      "code_hash": "7f4299ca401b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk70e-乌龟跑步",
+      "note_title": "NK70E 乌龟跑步",
+      "note_route": "/p/nk70e-乌龟跑步",
+      "block_index": 0,
+      "code_hash": "a13d04824390",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk73239f-小红统计区间（hard）",
+      "note_title": "NK73239F 小红统计区间（hard）",
+      "note_route": "/p/nk73239f-小红统计区间（hard）",
+      "block_index": 0,
+      "code_hash": "65f14a0f9be3",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk73239f-小红统计区间（hard）",
+      "note_title": "NK73239F 小红统计区间（hard）",
+      "note_route": "/p/nk73239f-小红统计区间（hard）",
+      "block_index": 1,
+      "code_hash": "802e8ecbdb6b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk93847e-小苯的蓄水池（hard）",
+      "note_title": "NK93847E 小苯的蓄水池（hard）",
+      "note_route": "/p/nk93847e-小苯的蓄水池（hard）",
+      "block_index": 0,
+      "code_hash": "17f40ffd31d0",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk93847e-小苯的蓄水池（hard）",
+      "note_title": "NK93847E 小苯的蓄水池（hard）",
+      "note_route": "/p/nk93847e-小苯的蓄水池（hard）",
+      "block_index": 1,
+      "code_hash": "8cb68f4892e7",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk94879e-小红开宝箱",
+      "note_title": "NK94879E 小红开宝箱",
+      "note_route": "/p/nk94879e-小红开宝箱",
+      "block_index": 0,
+      "code_hash": "779639156b8f",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-kevin的矩阵",
+      "note_title": "NK题霸 Kevin的矩阵",
+      "note_route": "/p/nk题霸-kevin的矩阵",
+      "block_index": 0,
+      "code_hash": "b7efd08f1b13",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-乘之",
+      "note_title": "NK题霸 乘之",
+      "note_route": "/p/nk题霸-乘之",
+      "block_index": 0,
+      "code_hash": "f2210905a3af",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-刷题统计",
+      "note_title": "NK题霸 刷题统计",
+      "note_route": "/p/nk题霸-刷题统计",
+      "block_index": 0,
+      "code_hash": "3fa59f934f39",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-区间增量与区间小于计数",
+      "note_title": "NK题霸 区间增量与区间小于计数",
+      "note_route": "/p/nk题霸-区间增量与区间小于计数",
+      "block_index": 0,
+      "code_hash": "6ea2517b7d9e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-和谐并处的车",
+      "note_title": "NK题霸 和谐并处的车",
+      "note_route": "/p/nk题霸-和谐并处的车",
+      "block_index": 0,
+      "code_hash": "199851996a56",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-换个角度思考",
+      "note_title": "NK题霸 换个角度思考",
+      "note_route": "/p/nk题霸-换个角度思考",
+      "block_index": 0,
+      "code_hash": "4ec51261a1d2",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-旅行者的大逃脱",
+      "note_title": "NK题霸 旅行者的大逃脱",
+      "note_route": "/p/nk题霸-旅行者的大逃脱",
+      "block_index": 0,
+      "code_hash": "90c3e52e4f4e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-最大最小路",
+      "note_title": "NK题霸 最大最小路",
+      "note_route": "/p/nk题霸-最大最小路",
+      "block_index": 0,
+      "code_hash": "75c29a73d84d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-最大最小路",
+      "note_title": "NK题霸 最大最小路",
+      "note_route": "/p/nk题霸-最大最小路",
+      "block_index": 1,
+      "code_hash": "6745679d2e18",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-浮木博弈",
+      "note_title": "NK题霸 浮木博弈",
+      "note_route": "/p/nk题霸-浮木博弈",
+      "block_index": 0,
+      "code_hash": "5f5dca651e14",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-牛牛和牛可乐的赌约2",
+      "note_title": "NK题霸 牛牛和牛可乐的赌约2",
+      "note_route": "/p/nk题霸-牛牛和牛可乐的赌约2",
+      "block_index": 0,
+      "code_hash": "d990ca92d653",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-跑刀仔",
+      "note_title": "NK题霸 跑刀仔",
+      "note_route": "/p/nk题霸-跑刀仔",
+      "block_index": 0,
+      "code_hash": "bd7278f89b36",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p11207-「cfz-round-9」rose",
+      "note_title": "P11207 「Cfz Round 9」Rose",
+      "note_route": "/p/p11207-「cfz-round-9」rose",
+      "block_index": 0,
+      "code_hash": "632cd1d676c8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p11487-「cfz-round-5」gnirts-10",
+      "note_title": "P11487 「Cfz Round 5」Gnirts 10",
+      "note_route": "/p/p11487-「cfz-round-5」gnirts-10",
+      "block_index": 0,
+      "code_hash": "9ffb836e98c5",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p1196-[noi2002]-银河英雄传说",
+      "note_title": "P1196 [NOI2002] 银河英雄传说",
+      "note_route": "/p/p1196-[noi2002]-银河英雄传说",
+      "block_index": 0,
+      "code_hash": "c370c1f7c3e2",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p12144-[蓝桥杯-2025-省-a]-地雷阵",
+      "note_title": "P12144 [蓝桥杯 2025 省 A] 地雷阵",
+      "note_route": "/p/p12144-[蓝桥杯-2025-省-a]-地雷阵",
+      "block_index": 0,
+      "code_hash": "a05ab56ea948",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p13500-「cfz-round-6」kyu-kurarin",
+      "note_title": "P13500 「Cfz Round 6」Kyu-kurarin",
+      "note_route": "/p/p13500-「cfz-round-6」kyu-kurarin",
+      "block_index": 0,
+      "code_hash": "ee8cb9d692fd",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p13984-数列分块入门-9",
+      "note_title": "P13984 数列分块入门 9",
+      "note_route": "/p/p13984-数列分块入门-9",
+      "block_index": 0,
+      "code_hash": "a68eb0af41e5",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p1417-烹调方案",
+      "note_title": "P1417 烹调方案",
+      "note_route": "/p/p1417-烹调方案",
+      "block_index": 0,
+      "code_hash": "c048e6f6a0db",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p14455-[icpc-2025-xi'an-r]-imagined-holly",
+      "note_title": "P14455 [ICPC 2025 Xi'an R] Imagined Holly",
+      "note_route": "/p/p14455-[icpc-2025-xi'an-r]-imagined-holly",
+      "block_index": 0,
+      "code_hash": "785c56504564",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p14456-[icpc-2025-xi'an-r]-january's-color",
+      "note_title": "P14456 [ICPC 2025 Xi'an R] January's Color",
+      "note_route": "/p/p14456-[icpc-2025-xi'an-r]-january's-color",
+      "block_index": 0,
+      "code_hash": "4e61fc052a65",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p1450-[haoi2008]-硬币购物",
+      "note_title": "P1450 [HAOI2008] 硬币购物",
+      "note_route": "/p/p1450-[haoi2008]-硬币购物",
+      "block_index": 0,
+      "code_hash": "ee12b86c81d4",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p1516-青蛙的约会",
+      "note_title": "P1516 青蛙的约会",
+      "note_route": "/p/p1516-青蛙的约会",
+      "block_index": 0,
+      "code_hash": "70bcfd1a63cd",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p1650-田忌赛马",
+      "note_title": "P1650 田忌赛马",
+      "note_route": "/p/p1650-田忌赛马",
+      "block_index": 0,
+      "code_hash": "8aa8deec7e8b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p1759-通天之潜水",
+      "note_title": "P1759 通天之潜水",
+      "note_route": "/p/p1759-通天之潜水",
+      "block_index": 0,
+      "code_hash": "d0e4b90192a9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p1759-通天之潜水",
+      "note_title": "P1759 通天之潜水",
+      "note_route": "/p/p1759-通天之潜水",
+      "block_index": 1,
+      "code_hash": "39f90fc9acdf",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p1811-最短路",
+      "note_title": "P1811 最短路",
+      "note_route": "/p/p1811-最短路",
+      "block_index": 0,
+      "code_hash": "3778b16c6f71",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p1840-color-the-axis",
+      "note_title": "P1840 Color the Axis",
+      "note_route": "/p/p1840-color-the-axis",
+      "block_index": 0,
+      "code_hash": "455116d79dfc",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p1880-[noi1995]-石子合并",
+      "note_title": "P1880 [NOI1995] 石子合并",
+      "note_route": "/p/p1880-[noi1995]-石子合并",
+      "block_index": 0,
+      "code_hash": "da747a271b9e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p2398-gcd-sum",
+      "note_title": "P2398 GCD SUM",
+      "note_route": "/p/p2398-gcd-sum",
+      "block_index": 0,
+      "code_hash": "21e1c24f443e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p3384-【模板】重链剖分",
+      "note_title": "P3384 【模板】重链剖分",
+      "note_route": "/p/p3384-【模板】重链剖分",
+      "block_index": 0,
+      "code_hash": "91366628de7d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p3403-跳楼机",
+      "note_title": "P3403 跳楼机",
+      "note_route": "/p/p3403-跳楼机",
+      "block_index": 0,
+      "code_hash": "331507b21435",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p3901-数列找不同",
+      "note_title": "P3901 数列找不同",
+      "note_route": "/p/p3901-数列找不同",
+      "block_index": 0,
+      "code_hash": "12f0e4c198b2",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p3963-[tjoi2013]-奖学金",
+      "note_title": "P3963 [TJOI2013] 奖学金",
+      "note_route": "/p/p3963-[tjoi2013]-奖学金",
+      "block_index": 0,
+      "code_hash": "0e35fee09fe9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p4042-骑士游戏",
+      "note_title": "P4042 骑士游戏",
+      "note_route": "/p/p4042-骑士游戏",
+      "block_index": 0,
+      "code_hash": "a3d3600122d9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p4053-[jsoi2007]-建筑抢修",
+      "note_title": "P4053 [JSOI2007] 建筑抢修",
+      "note_route": "/p/p4053-[jsoi2007]-建筑抢修",
+      "block_index": 0,
+      "code_hash": "850f702ca429",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p4141-消失之物",
+      "note_title": "P4141 消失之物",
+      "note_route": "/p/p4141-消失之物",
+      "block_index": 0,
+      "code_hash": "1f7844699f29",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p5520-[yloi2019]-青原樱",
+      "note_title": "P5520 [yLOI2019] 青原樱",
+      "note_route": "/p/p5520-[yloi2019]-青原樱",
+      "block_index": 0,
+      "code_hash": "821c9148905d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p5656-【模板】二元一次不定方程-(exgcd)",
+      "note_title": "P5656 【模板】二元一次不定方程 (exgcd)",
+      "note_route": "/p/p5656-【模板】二元一次不定方程-(exgcd)",
+      "block_index": 0,
+      "code_hash": "db89a3a340fa",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p6240-好吃的题目",
+      "note_title": "P6240 好吃的题目",
+      "note_route": "/p/p6240-好吃的题目",
+      "block_index": 0,
+      "code_hash": "3636fc60c1dc",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p8287-「daoi-r1」flame",
+      "note_title": "P8287 「DAOI R1」Flame",
+      "note_route": "/p/p8287-「daoi-r1」flame",
+      "block_index": 0,
+      "code_hash": "7fe2d06f3be9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p8287-「daoi-r1」flame",
+      "note_title": "P8287 「DAOI R1」Flame",
+      "note_route": "/p/p8287-「daoi-r1」flame",
+      "block_index": 1,
+      "code_hash": "af0ad5d1948b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p8614-[蓝桥杯-2014-省-a]-波动数列",
+      "note_title": "P8614 [蓝桥杯 2014 省 A] 波动数列",
+      "note_route": "/p/p8614-[蓝桥杯-2014-省-a]-波动数列",
+      "block_index": 0,
+      "code_hash": "2539e8098b0d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p8656-[蓝桥杯-2017-国-b]-对局匹配",
+      "note_title": "P8656 [蓝桥杯 2017 国 B] 对局匹配",
+      "note_route": "/p/p8656-[蓝桥杯-2017-国-b]-对局匹配",
+      "block_index": 0,
+      "code_hash": "41bca047f3ac",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p8656-[蓝桥杯-2017-国-b]-对局匹配",
+      "note_title": "P8656 [蓝桥杯 2017 国 B] 对局匹配",
+      "note_route": "/p/p8656-[蓝桥杯-2017-国-b]-对局匹配",
+      "block_index": 1,
+      "code_hash": "9fd98448c91c",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p9695-[gdcpc-2023]-traveling-in-cells",
+      "note_title": "P9695 [GDCPC 2023] Traveling in Cells",
+      "note_route": "/p/p9695-[gdcpc-2023]-traveling-in-cells",
+      "block_index": 0,
+      "code_hash": "262c2d07c2a8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "p9755-[csp-s-2023]-种树",
+      "note_title": "P9755 [CSP-S 2023] 种树",
+      "note_route": "/p/p9755-[csp-s-2023]-种树",
+      "block_index": 0,
+      "code_hash": "bdc9d35808f4",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "thupc2026初赛-l-宝石分组",
+      "note_title": "THUPC2026初赛 L 宝石分组",
+      "note_route": "/p/thupc2026初赛-l-宝石分组",
+      "block_index": 0,
+      "code_hash": "f9b53e2bd452",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "第24届北师大程序设计竞赛-g-commemorative-coin",
+      "note_title": "第24届北师大程序设计竞赛 G Commemorative Coin",
+      "note_route": "/p/第24届北师大程序设计竞赛-g-commemorative-coin",
+      "block_index": 0,
+      "code_hash": "fa22e691ab71",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "第十五届山东省赛-a-项目管理",
+      "note_title": "第十五届山东省赛 A 项目管理",
+      "note_route": "/p/第十五届山东省赛-a-项目管理",
+      "block_index": 0,
+      "code_hash": "49cba89a8dfb",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "第十五届山东省赛-g-装配线",
+      "note_title": "第十五届山东省赛 G 装配线",
+      "note_route": "/p/第十五届山东省赛-g-装配线",
+      "block_index": 0,
+      "code_hash": "faf8ec7b6826",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "第十五届山东省赛-i-方阵谜题",
+      "note_title": "第十五届山东省赛 I 方阵谜题",
+      "note_route": "/p/第十五届山东省赛-i-方阵谜题",
+      "block_index": 0,
+      "code_hash": "20566ee0b0af",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "蓝桥算法挑战赛34-6-登山路线图",
+      "note_title": "蓝桥算法挑战赛34-6 登山路线图",
+      "note_route": "/p/蓝桥算法挑战赛34-6-登山路线图",
+      "block_index": 0,
+      "code_hash": "068b43d08378",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "dij",
+      "note_title": "dij",
+      "note_route": "/k/dij",
+      "block_index": 0,
+      "code_hash": "1a8d199c0645",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "二阶差分",
+      "note_title": "二阶差分",
+      "note_route": "/k/二阶差分",
+      "block_index": 0,
+      "code_hash": "0ae123e93f55",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "前缀线性基",
+      "note_title": "前缀线性基",
+      "note_route": "/k/前缀线性基",
+      "block_index": 0,
+      "code_hash": "740f82a41542",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "容斥",
+      "note_title": "容斥",
+      "note_route": "/k/容斥",
+      "block_index": 0,
+      "code_hash": "9d86683bd051",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "带权并查集",
+      "note_title": "带权并查集",
+      "note_route": "/k/带权并查集",
+      "block_index": 0,
+      "code_hash": "c8018e12bf0e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "树链剖分",
+      "note_title": "树链剖分",
+      "note_route": "/k/树链剖分",
+      "block_index": 0,
+      "code_hash": "0a08e814eeda",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "浮点数二分",
+      "note_title": "浮点数二分",
+      "note_route": "/k/浮点数二分",
+      "block_index": 0,
+      "code_hash": "76e0cafa1e85",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "浮点数二分",
+      "note_title": "浮点数二分",
+      "note_route": "/k/浮点数二分",
+      "block_index": 1,
+      "code_hash": "f22976721e53",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "重心",
+      "note_title": "重心",
+      "note_route": "/k/重心",
+      "block_index": 0,
+      "code_hash": "6e2486b87c7c",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "链式并查集",
+      "note_title": "链式并查集",
+      "note_route": "/k/链式并查集",
+      "block_index": 0,
+      "code_hash": "52cf153d807e",
+      "lang": "cpp"
+    }
+  ]
+}

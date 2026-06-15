@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import NoteList from '../components/NoteList.vue'
 
 const route = useRoute()
@@ -14,8 +14,43 @@ const tagName = computed(() => {
 const notes = ref([])
 const error = ref('')
 const loading = ref(true)
+const kpAliases = ref({})  // 别名 → 规范 slug
+const kpUrl = ref(null)    // 知识点跳转链接
 
 const typeMap = { 'p': '题目', 'k': '知识点', 'c': '比赛', 'other': '其它' }
+
+async function loadAliases() {
+  for (const d of ['k', 'p', 'c']) {
+    const res = await fetch(`${import.meta.env.BASE_URL}${d}/aliases.json`)
+    if (!res.ok) continue
+    try {
+      const data = await res.json()
+      for (const [alias, slug] of Object.entries(data)) {
+        if (!kpAliases.value[alias]) kpAliases.value[alias] = slug
+      }
+    } catch { /* ignore */ }
+  }
+}
+
+function findKpUrl(allNotes, tagName) {
+  const parts = tagName.split('/')
+  if (parts.length === 2) {
+    for (const n of allNotes) {
+      if (n.parent === parts[0] && n.title === parts[1] && n.type === '知识点') {
+        return `/k/${n.slug}`
+      }
+    }
+  }
+  for (const n of allNotes) {
+    if (n.title === tagName && n.type === '知识点') {
+      return `/k/${n.slug}`
+    }
+  }
+  if (kpAliases.value[tagName]) {
+    return `/k/${kpAliases.value[tagName]}`
+  }
+  return null
+}
 
 onMounted(() => load())
 watch(() => route.params.name, () => load())
@@ -24,6 +59,7 @@ async function load() {
   loading.value = true
   error.value = ''
   try {
+    await loadAliases()
     const all = []
     for (const d of ['p', 'k', 'c', 'other', 'notes']) {
       try {
@@ -34,6 +70,7 @@ async function load() {
         }
       } catch { /* 目录无 index.json 或 JSON 解析失败，跳过 */ }
     }
+    kpUrl.value = findKpUrl(all, tagName.value)
     notes.value = all
       .filter(n => (n.tags || []).includes(tagName.value))
       .sort((a, b) => (b.parsed_at || '').localeCompare(a.parsed_at || '')
@@ -71,7 +108,12 @@ async function load() {
         <NoteList :notes="notes" :itemsPerPage="12" :columns="1">
           <template #header>
             <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">
-              <span class="text-accent">#</span> {{ tagName }}
+              <RouterLink v-if="kpUrl" :to="kpUrl" class="hover:text-accent transition-colors">
+                <span class="text-accent">#</span> {{ tagName }}
+              </RouterLink>
+              <span v-else>
+                <span class="text-accent">#</span> {{ tagName }}
+              </span>
             </h1>
             <p class="text-gray-500">共 {{ notes.length }} 篇笔记</p>
           </template>

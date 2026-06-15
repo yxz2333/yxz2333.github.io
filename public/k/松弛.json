@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": null,
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "What?",
@@ -19,7 +19,7 @@
         {
           "type": "p",
           "html": "<strong>尝试用当前已知的更优解去更新某个状态或距离，令其向真实最优值靠近一步。</strong>",
-          "depth": 2
+          "depth": 1
         }
       ]
     },
@@ -34,22 +34,22 @@
             {
               "type": "p",
               "html": "假设当前节点 <code>v</code> 的距离估计是 <code>dist[v]</code>，我们检查一条边 <code>(u, v)</code>，权重为 <code>w</code>。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "如果 <code>dist[u] + w &lt; dist[v]</code>，说明可以通过 <code>u</code> 走一条更短的路到达 <code>v</code>，于是把 <code>dist[v]</code> 更新为 <code>dist[u] + w</code>。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "这个 <strong>\"尝试更新\"</strong> 的动作就叫<strong>松弛边 (u, v)</strong>。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "形象地说，就像把一根紧绷的绳子（原来的距离估计）放松到更短的长度。",
-              "depth": 2
+              "depth": 1
             }
           ]
         },
@@ -60,22 +60,22 @@
             {
               "type": "p",
               "html": "在 <strong>DAG（有向无环图）</strong> 或具有天然<strong>拓扑序</strong>的转移图中，松弛可以一次完成。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "例如，状态 <code>dp[v]</code> 依赖于前驱状态 <code>dp[u]</code>，转移条件为 <code>dp[v] = min(dp[v], dp[u] + cost(u→v))</code>。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "按照拓扑序依次处理状态，每个状态的所有前驱都已经计算完毕，因此只需一次遍历所有入边（或按照转移方程直接递推）即可得到最终值，无需重复松弛。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>关键</strong>：拓扑序保证了 <strong>\"每个状态只被松弛一次\"</strong>，且一次到位。",
-              "depth": 2
+              "depth": 1
             },
             {
               "heading": "与 Dijkstra 的区别",
@@ -88,7 +88,7 @@
                     "| Dijkstra | 非负权边，可有环 | 动态（优先队列按当前最小距离） | 可能多次，最终确定一次 |",
                     "| DAG DP | 无环（或通过单调维度转化为 DAG） | 静态拓扑序 | 仅一次（所有前驱边一次处理） |"
                   ],
-                  "depth": 2
+                  "depth": 1
                 }
               ]
             }
@@ -98,8 +98,8 @@
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-05-14",
-  "parsed_at": "2026-06-15T10:23:05.520705+00:00",
+  "parsed_at": "2026-06-15T17:06:06.775019+00:00",
   "type_directory": "k"
 }

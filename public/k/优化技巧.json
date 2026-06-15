@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": null,
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "STL",
@@ -23,12 +23,12 @@
             {
               "type": "p",
               "html": "整个序列经过 <code>nth_element()</code> 函数处理后，所有位于 $K$ 之前的元素都比 $K$ 小，所有位于 $K$ 之后的元素都比 $K$ 大。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "可用于找前 $K$ 小/大的数，不会真的排序，复杂度为 $O(n)$。",
-              "depth": 2
+              "depth": 1
             }
           ]
         }
@@ -41,19 +41,19 @@
         {
           "type": "p",
           "html": "当数据的值域 $V$ 与数据量 $N$ 同阶（即 $O(V)$ 可接受）时，放弃基于 “下标枚举” 的复杂算法，转而<strong>在值域数组 vis/cnt 上直接维护全局状态</strong>。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "通过开辟一个大小为 $V$ 的数组（<code>vis[]</code> 或 <code>cnt[]</code>），将复杂的<strong>逻辑关系（如整除、匹配、存在性）预处理为数组上的状态</strong>。后续的查询操作直接由 $O(\\log N)$ 降级为 $O(1)$ 的查表。",
-          "depth": 2
+          "depth": 1
         }
       ]
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-02-26",
-  "parsed_at": "2026-06-15T10:23:05.378418+00:00",
+  "parsed_at": "2026-06-15T17:06:06.589560+00:00",
   "type_directory": "k"
 }

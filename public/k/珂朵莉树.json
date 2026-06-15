@@ -12,22 +12,22 @@
     "ODT"
   ],
   "parent": null,
-  "format": "logseq",
+  "format": "markdown",
   "sections": [
     {
       "type": "p",
       "html": "数据全随机，且包含堆平操作时，可以暴力珂朵莉树。",
-      "depth": 0
+      "depth": 1
     },
     {
       "type": "p",
       "html": "珂朵莉树处理下标区间，配合权值线段树处理值域区间，珂朵莉树在堆平的时候区间修改，权值线段树区间查询，不会对珂朵莉树直接查询，所以数据是否随机无所谓。",
-      "depth": 0
+      "depth": 1
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-02-03",
-  "parsed_at": "2026-06-15T10:23:05.546282+00:00",
+  "parsed_at": "2026-06-15T17:06:06.806168+00:00",
   "type_directory": "k"
 }

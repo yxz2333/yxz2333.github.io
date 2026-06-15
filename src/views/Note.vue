@@ -125,8 +125,49 @@ const renderedSummary = computed(() => {
   return renderLatex(note.value.summary)
 })
 
+// ======== 推荐数据加载 ========
+const recs = ref([])
+const hasRecs = computed(() => recs.value.some(g => g.items.length > 0))
+const recsSectionId = 'recommendations-section'
+
+async function loadRecs() {
+  recs.value = []
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL}recommendations.json`)
+    if (!res.ok) return
+    const data = await res.json()
+    const all = data.recommendations || {}
+    // 按 block_index 分组，每组取前 3
+    const groups = {}
+    for (const [key, items] of Object.entries(all)) {
+      const m = key.match(/^(.+)::(\d+)$/)
+      if (!m || m[1] !== note.value.slug) continue
+      const bi = parseInt(m[2])
+      if (!groups[bi]) groups[bi] = []
+      for (const item of items) {
+        groups[bi].push(item)
+      }
+    }
+    // 1 个代码块 → 取 6 篇；2 个代码块 → 各取 3 篇
+    const blockIds = Object.keys(groups).sort()
+    const perBlock = blockIds.length <= 1 ? 6 : 3
+    const result = []
+    for (const bi of blockIds) {
+      result.push({
+        blockIndex: parseInt(bi),
+        items: groups[bi].slice(0, perBlock),
+      })
+    }
+    recs.value = result
+  } catch { /* 推荐数据不存在或格式错误 */ }
+}
+
+const recBlockCount = computed(() => recs.value.length)
+
 onMounted(() => load())
 watch(() => route.params.slug, () => load())
+// note 加载完成后拉推荐
+watch(note, (val) => { if (val) loadRecs() })
 </script>
 
 <template>
@@ -195,7 +236,7 @@ watch(() => route.params.slug, () => load())
             </svg>
             原题链接
           </a>
-          <RouterLink v-for="tag in note.tags" :key="tag" :to="`/tags?tag=${encodeURIComponent(tag)}`" class="hover:text-white cursor-pointer transition-colors"># {{ tag
+          <RouterLink v-for="tag in note.tags" :key="tag" :to="`/tag/${encodeURIComponent(tag)}`" class="hover:text-white cursor-pointer transition-colors"># {{ tag
             }}</RouterLink>
         </div>
       </section>
@@ -259,6 +300,31 @@ watch(() => route.params.slug, () => load())
                 class="px-2.5 py-1 rounded-md bg-white/5 border border-white/10 font-mono shadow-sm">{{ lang }}</span>
             </div>
           </footer>
+
+          <!-- 相关推荐 -->
+          <div v-if="hasRecs" :id="recsSectionId" class="mt-12 pt-8 border-t border-white/5 animate-fade-in-up">
+            <h3 class="text-xl font-bold text-gray-200 mb-6 flex items-center gap-2">
+              <span class="text-accent">🧠</span> 相关推荐
+            </h3>
+            <div v-for="group in recs" :key="group.blockIndex" class="mb-6 last:mb-0">
+              <div v-if="recBlockCount > 1" class="flex items-center gap-2 mb-3">
+                <span class="text-[10px] font-bold text-gray-500 uppercase tracking-wider bg-white/5 px-2 py-0.5 rounded">代码 {{ group.blockIndex + 1 }}</span>
+                <div class="h-px flex-1 bg-white/5"></div>
+              </div>
+              <div class="space-y-2">
+                <RouterLink
+                  v-for="r in group.items"
+                  :key="r.slug"
+                  :to="r.route"
+                  class="glass-card rounded-2xl px-4 py-3 flex items-center justify-between gap-3 group hover:border-white/10 transition-colors"
+                >
+                  <h4 class="text-sm font-bold text-gray-200 group-hover:text-accent transition-colors line-clamp-1">{{ r.title }}</h4>
+                  <span class="text-xs font-mono shrink-0"
+                    :class="r.similarity >= 0.5 ? 'text-accent' : r.similarity >= 0.3 ? 'text-yellow-400' : 'text-gray-400'">{{ Math.round(r.similarity * 100) }}%</span>
+                </RouterLink>
+              </div>
+            </div>
+          </div>
 
           <!-- 评论区 -->
           <CommentSection />

@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": null,
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "What?",
@@ -19,7 +19,7 @@
         {
           "type": "p",
           "html": "可以总结为：主席树是能提取区间 $[l, r]$ 权值线段树的数据结构。",
-          "depth": 2
+          "depth": 1
         }
       ]
     },
@@ -34,22 +34,22 @@
             {
               "type": "p",
               "html": "<strong>区间第 K 小 / 第 K 大</strong>",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>区间内数值前 K 小 / 前 K 大的数值总和</strong>",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>区间内数值在</strong> $[a, b]$ <strong>之间的个数 / 总和</strong>：利用 <code>query_bigger_num</code> 或类似的范围查询函数。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>区间内出现次数超过</strong> $len/k$ <strong>的数</strong>：比如求区间众数（当众数出现次数 $> len/2$ 时），主席树可以 $O(\\log N)$ 判断。",
-              "depth": 2
+              "depth": 1
             }
           ]
         },
@@ -60,22 +60,22 @@
             {
               "type": "p",
               "html": "<strong>区间种类数</strong>：",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "遍历数组，在 $root[i]$ 版本中：把当前位置 $i$ 加 1，把该数字上一次出现的位置 $last[a[i]]$ 减 1。",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "p",
               "html": "查询 $[L, R]$ 种类数 = 在 $root[R]$ 版本中，查询下标区间 $[L, R]$ 的总和。",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "p",
               "html": "<strong>区间内只出现一次的数字</strong>：原理类似，通过维护“上一次”和“上上一次”出现位置来做。",
-              "depth": 2
+              "depth": 1
             }
           ]
         },
@@ -86,22 +86,22 @@
             {
               "type": "p",
               "html": "<em>这属于主席树的“非权值”用法，把主席树当成普通线段树用，只为了回溯版本。</em>",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>可持久化数组</strong>：支持 <code>update(version, pos, val)</code> 和 <code>query(version, pos)</code>。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>可持久化并查集</strong>：在可持久化数组上维护 <code>fa[]</code> 数组。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "应用：每次合并产生一个新版本，可以随时询问：“在第 $k$ 次合并后，点 $u$ 和点 $v$ 是否连通？”",
-              "depth": 3
+              "depth": 2
             }
           ]
         },
@@ -112,27 +112,27 @@
             {
               "type": "p",
               "html": "<em>把一维坐标看作版本，另一维坐标看作线段树下标。</em>",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>矩形区域内的点权和</strong>：",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "将所有点按 $x$ 坐标排序，按 $x$ 轴顺序建立主席树，线段树下标维护 $y$ 坐标。",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "p",
               "html": "查询 $x \\in [x_1, x_2], y \\in [y_1, y_2]$ 内的点：在 $root[x_2]$ 和 $root[x_1-1]$ 的差分树上，查询 $y \\in [y_1, y_2]$ 的区间和。",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "p",
               "html": "<strong>最大空矩形 / 范围内最值</strong>：一些涉及二维坐标的静态统计问题。",
-              "depth": 2
+              "depth": 1
             }
           ]
         }
@@ -145,76 +145,76 @@
         {
           "type": "p",
           "html": "假设值域是 <code>[1, 4]</code>。我们要插入数字 <code>3</code>。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>版本 0（空树）：</strong>",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "code",
           "lang": "text",
           "code": "        [1, 4]  (根节点 A)\n       /      \\\n   [1, 2]      [3, 4]\n   /   \\       /    \\\n[1]    [2]   [3]    [4]",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>主席树</strong>是怎么建版本 1 的：",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "code",
           "lang": "text",
           "code": "[版本 0 的根]\n    A [1, 4]\n     /      \\\n[1, 2]      [3, 4]\n /   \\       /   \\\n[1]  [2]    [3]  [4]\n\n\n[版本 1 的根，准备插入 3]\n    B [1, 4]",
-          "depth": 3
-        },
-        {
-          "type": "p",
-          "html": "<strong>第 1 步：</strong> 我们要建版本 1 的根节点 B <code>[1, 4]</code>。",
           "depth": 2
         },
         {
           "type": "p",
+          "html": "<strong>第 1 步：</strong> 我们要建版本 1 的根节点 B <code>[1, 4]</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
           "html": "系统发现，插入的 <code>3</code> 在右半边。所以 B 的左半边完全不需要修改！",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "于是，<strong>B 的左指针直接连向了版本 0 的 <code>[1, 2]</code> 节点！</strong>",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "code",
           "lang": "text",
           "code": "  B [1, 4]\n   /      \\\n[1, 2](旧!)   新右儿子...",
-          "depth": 3
-        },
-        {
-          "type": "p",
-          "html": "<strong>第 2 步：</strong> 接着处理右儿子。因为右边变了，所以我们要开辟一个新节点 C <code>[3, 4]</code>。",
           "depth": 2
         },
         {
           "type": "p",
+          "html": "<strong>第 2 步：</strong> 接着处理右儿子。因为右边变了，所以我们要开辟一个新节点 C <code>[3, 4]</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
           "html": "系统发现，插入的 <code>3</code> 在左半边。所以 C 的右半边不需要修改！",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "于是，<strong>C 的右指针直接连向了版本 0 的 <code>[4]</code> 节点！</strong>",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "code",
           "lang": "text",
           "code": "  B [1, 4]\n   /      \\\n[1, 2](旧)   C [3, 4](新)\n           /      \\\n     新左儿子...   [4](旧!)",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>第 3 步：</strong> 最后开辟新节点 D <code>[3]</code>，更新值，结束。",
-          "depth": 2
+          "depth": 1
         }
       ]
     }
@@ -222,8 +222,8 @@
   "code_languages": [
     "text"
   ],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-04-25",
-  "parsed_at": "2026-06-15T10:23:05.364878+00:00",
+  "parsed_at": "2026-06-15T17:06:06.576592+00:00",
   "type_directory": "k"
 }

@@ -13,17 +13,17 @@
     "01字典树"
   ],
   "parent": null,
-  "format": "logseq",
+  "format": "markdown",
   "sections": [
     {
       "type": "p",
       "html": "某些题可能需要遍历 $dfs$ 整个字典树。",
-      "depth": 0
+      "depth": 1
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-03-31",
-  "parsed_at": "2026-06-15T10:23:05.321553+00:00",
+  "parsed_at": "2026-06-15T17:06:06.526930+00:00",
   "type_directory": "k"
 }

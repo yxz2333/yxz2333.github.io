@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": "经典问题",
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "What?",
@@ -19,7 +19,7 @@
         {
           "type": "p",
           "html": "LIS 问题，即求<strong>最长单调（递增、非递减、递减、非递减）子序列</strong>问题。",
-          "depth": 2
+          "depth": 1
         }
       ]
     },
@@ -34,13 +34,13 @@
             {
               "type": "p",
               "html": "这部分很简单，就不讲了。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "code",
               "lang": "cpp",
               "code": "fa(i, 1, n)\n  \tfa(j, 1, i - 1)\n  \t\tif (a[i] > a[j])\n       \t\tdp[i] = max(dp[i], dp[j] + 1);\nans = *max_element(all1(dp));",
-              "depth": 2
+              "depth": 1
             }
           ]
         },
@@ -51,42 +51,42 @@
             {
               "type": "p",
               "html": "二分主要是在 <code>sta</code>数组里维护单调（递增、非递减、递减、非递减）序列（但并非合法真正的最长子序列）。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<code>sta[i]</code> 代表的物理意义是：<strong>长度为 <code>i</code> 的所有合法子序列中，结尾元素的 “最优值”。</strong>",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>什么叫 “最优”？</strong>",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "如果是求<strong>递增</strong>序列，结尾元素<strong>越小越好</strong>（因为越小，后面越容易接上别的数字，潜力越大）。",
-              "depth": 3
-            },
-            {
-              "type": "p",
-              "html": "如果是求<strong>递减</strong>序列，结尾元素<strong>越大越好</strong>（因为越大，后面越容易接上更小的数字，潜力越大）。",
-              "depth": 3
-            },
-            {
-              "type": "p",
-              "html": "<strong>替换原则（贪心）：</strong>",
               "depth": 2
             },
             {
               "type": "p",
+              "html": "如果是求<strong>递减</strong>序列，结尾元素<strong>越大越好</strong>（因为越大，后面越容易接上更小的数字，潜力越大）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>替换原则（贪心）：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
               "html": "当我们拿原数组中一个新的元素 <code>x</code> 过来时，如果它能直接接在 <code>sta</code> 最后面，说明我们找到了更长的序列，直接追加；",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "p",
               "html": "如果不能，我们就去 <code>sta</code> 里找 <strong>“刚好比 x 差那么一点点，且能被 x 替换掉”</strong> 的那个位置，用 <code>x</code> 把它替换掉。这样不仅长度没变少，结尾元素还变得更“优”了。",
-              "depth": 3
+              "depth": 2
             },
             {
               "heading": "① 单调增",
@@ -95,33 +95,33 @@
                 {
                   "type": "p",
                   "html": "<strong>状态：</strong> <code>sta</code> 数组是严格递增的。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>新来个 <code>x</code>：</strong> 如果 <code>x &gt; sta.back()</code>，直接加入。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>替换逻辑：</strong> 如果加不进去，说明 <code>sta</code> 里有比它大的数。我们要找谁替换？要找<strong>第一个大于等于 <code>x</code> 的数</strong>。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "为什么？因为用 <code>x</code> 替换掉那个比它大的数，结尾变得更小了（更优了），而且不会破坏前面的单调性。",
-                  "depth": 3
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "<strong>代码：</strong>",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "code",
                   "lang": "cpp",
                   "code": "var sta = vector<int>();\nsta.pb(res[0]);\nfa(i, 1, vs(res)) {\n\tif (res[i] > sta.back())sta.pb(res[i]);\n\telse {\n\t\tvar it = lower_bound(all(sta), res[i]);\n\t\t*it = res[i];\n\t}\n}\nans = sta.size();",
-                  "depth": 3
+                  "depth": 2
                 }
               ]
             },
@@ -132,33 +132,33 @@
                 {
                   "type": "p",
                   "html": "<strong>状态：</strong> <code>sta</code> 数组是单调不减的。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>新来个 <code>x</code>：</strong> 只要 <code>x &gt;= sta.back()</code> 就能加进去（因为允许相等）。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>替换逻辑：</strong> 如果加不进去（说明 <code>x &lt; sta.back()</code>），我们要找<strong>第一个严格大于 <code>x</code> 的数</strong>替换掉。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "为什么不找“大于等于”了？因为如果序列里已经有个 <code>x</code>，你用新 <code>x</code> 去替换老 <code>x</code>，等于白干。你必须去替换掉那个<strong>真正比 <code>x</code> 大的数字</strong>，才能让结尾变小。",
-                  "depth": 3
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "<strong>代码：</strong>",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "code",
                   "lang": "cpp",
                   "code": "var sta = vector<int>();\nsta.pb(res[0]);\nfa(i, 1, vs(res)) {\n\tif (res[i] >= sta.back())sta.pb(res[i]);\n\telse {\n\t\tvar it = upper_bound(all(sta), res[i]);\n\t\t*it = res[i];\n\t}\n}\nans = sta.size();",
-                  "depth": 3
+                  "depth": 2
                 }
               ]
             },
@@ -169,38 +169,38 @@
                 {
                   "type": "p",
                   "html": "<strong>状态：</strong> <code>sta</code> 数组是<strong>严格递减</strong>的。（注意，既然数组是递减的，二分时必须告诉 STL 它是降序的！）",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>最优：</strong> 结尾元素越<strong>大</strong>越好。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>新来个 <code>x</code>：</strong> 如果 <code>x &lt; sta.back()</code>，直接加入。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>替换逻辑：</strong> 找<strong>第一个小于等于 <code>x</code> 的数</strong>替换掉。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "用一个较大的 <code>x</code> 替换掉原来较小的数，让结尾变得更大（潜力更大）。",
-                  "depth": 3
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "<strong>代码：</strong>",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "code",
                   "lang": "cpp",
                   "code": "var sta = vector<int>();\nsta.pb(res[0]);\nfa(i, 1, vs(res)) {\n\tif (res[i] < sta.back())sta.pb(res[i]);\n\telse {\n\t\tvar it = lower_bound(all(sta), res[i], greater<int>());\n\t\t*it = res[i];\n\t}\n}\nans = sta.size();",
-                  "depth": 3
+                  "depth": 2
                 }
               ]
             },
@@ -211,28 +211,28 @@
                 {
                   "type": "p",
                   "html": "<strong>状态：</strong> <code>sta</code> 数组是单调不增的。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>新来个 <code>x</code>：</strong> 只要 <code>x &lt;= sta.back()</code> 就能加入。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>替换逻辑：</strong> 找<strong>第一个严格小于 <code>x</code> 的数</strong>替换掉。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>代码：</strong>",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "code",
                   "lang": "cpp",
                   "code": "var sta = vector<int>();\nsta.pb(res[0]);\nfa(i, 1, vs(res)) {\n\tif (res[i] <= sta.back())sta.pb(res[i]);\n\telse {\n\t\tvar it = upper_bound(all(sta), res[i], greater<int>());\n\t\t*it = res[i];\n\t}\n}\nans = sta.size();",
-                  "depth": 3
+                  "depth": 2
                 }
               ]
             }
@@ -244,8 +244,8 @@
   "code_languages": [
     "cpp"
   ],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-03-16",
-  "parsed_at": "2026-06-15T10:23:05.574008+00:00",
+  "parsed_at": "2026-06-15T17:06:06.836824+00:00",
   "type_directory": "k"
 }

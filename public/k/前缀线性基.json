@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": "线性基",
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "When?",
@@ -19,7 +19,7 @@
         {
           "type": "p",
           "html": "用于解决区间查询的线性基问题。",
-          "depth": 2
+          "depth": 1
         }
       ]
     },
@@ -30,17 +30,17 @@
         {
           "type": "p",
           "html": "在线性基的基础上，维护每个基底对应最晚出现的下标。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>贪心替换策略</strong>：在维护前缀 $[1, R]$ 的基底时，强制让<strong>下标越靠后（越大）</strong>的元素占据高位。如果新元素下标更大，则替换旧基底，并将旧基底“挤”向低位继续尝试插入。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>基底时效性</strong>：每个基底 $a[i]$ 都携带了一个身份标签 $pos[i]$。这使得前缀 $[1, R]$ 的线性基中，所有满足 $pos[i] \\ge L$ 的基底集合，等价于区间 $[L, R]$ 元素构成的线性基。",
-          "depth": 2
+          "depth": 1
         }
       ]
     },
@@ -52,7 +52,7 @@
           "type": "code",
           "lang": "cpp",
           "code": "class XorBase {\nprivate:\n\tarray<int, 21> a;    // 线性基基底\n\tarray<int, 21> pos;  // 基底对应最晚出现的下标 \n\tstatic constexpr int MN = 20;\npublic:\n\tXorBase() {\n\t\tfill(a.begin(), a.end(), 0);\n\t\tfill(pos.begin(), pos.end(), 0);\n\t};\n\n\t// 插入新数\n\tvoid insert(int x, int idx) {\n\t\tif (!x)return;\n\t\tfor (int i = MN; i >= 0; i--)\n\t\t\tif (x & (1ll << i)) {\n\t\t\t\tif (!a[i]) {\n\t\t\t\t\t// 线性基里没有 x，插入 x\n\t\t\t\t\ta[i] = x;\n\t\t\t\t\tpos[i] = idx;\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\t// 【重点】：新下标放在高位，老下标去低位\n\t\t\t\tif (idx > pos[i]) {\n\t\t\t\t\tswap(idx, pos[i]);\n\t\t\t\t\tswap(x, a[i]);\n\t\t\t\t}\n\t\t\t\tx ^= a[i]; // 线性基里有 x\n\t\t\t}\n\t}\n\n\t// 查是否存在线性基内\n\tbool check(long long x, int L) {\n\t\tfor (int i = MN; i >= 0; i--)\n\t\t\tif (x & (1ll << i))\n\t\t\t\tif (!a[i])return false;\n\t\t\t\telse {\n\t\t\t\t\tif (pos[i] >= L)x ^= a[i];\n\t\t\t\t\telse return false;\n\t\t\t\t}\n\t\treturn true;\n\t}\n};",
-          "depth": 2
+          "depth": 1
         }
       ]
     }
@@ -60,8 +60,8 @@
   "code_languages": [
     "cpp"
   ],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-04-04",
-  "parsed_at": "2026-06-15T10:23:05.553807+00:00",
+  "parsed_at": "2026-06-15T17:06:06.815405+00:00",
   "type_directory": "k"
 }

@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": null,
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "What?",
@@ -19,12 +19,12 @@
         {
           "type": "p",
           "html": "简单来说，就是在一个 min/max 问题里，先设定初值，然后通过多轮次的迭代，算出最 min/max 的答案，也就是算出 <strong>贝尔曼方程与不动点</strong>。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "本质是：<a href=\"/k/松弛\" class=\"wikilink\">松弛</a>",
-          "depth": 2
+          "depth": 1
         }
       ]
     },
@@ -35,14 +35,14 @@
         {
           "type": "p",
           "html": "一般来说，就是 <strong>min/max</strong> 问题，且 dp 出现<strong>循环依赖</strong>的情况下使用。",
-          "depth": 2
+          "depth": 1
         }
       ]
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-05-11",
-  "parsed_at": "2026-06-15T10:23:05.640542+00:00",
+  "parsed_at": "2026-06-15T17:06:06.912144+00:00",
   "type_directory": "k"
 }

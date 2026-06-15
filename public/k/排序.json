@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": "贪心",
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "区间排序问题",
@@ -27,22 +27,22 @@
                 {
                   "type": "p",
                   "html": "题意：给定若干个区间，选择最少的点，使得每个区间内至少包含一个选中的点。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "解法：",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>用当前点覆盖尽可能多的后续区间</strong>",
-                  "depth": 3
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "按右端点从小到大处理，每次选当前区间右端点，这个点能覆盖所有左端点小于等于它的未处理区间，而因为右端点最小，它被后续区间包含的可能性最大，从而减少点数。",
-                  "depth": 3
+                  "depth": 2
                 }
               ]
             },
@@ -53,22 +53,22 @@
                 {
                   "type": "p",
                   "html": "题意：给定若干个区间，选出尽可能多的区间，使得它们之间两两不重叠。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "解法：",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "<strong>给后面留出最大空间</strong>",
-                  "depth": 3
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "选择最早结束的区间，可以让剩下的时间最长，从而能容纳更多后续区间。",
-                  "depth": 3
+                  "depth": 2
                 }
               ]
             }
@@ -81,7 +81,7 @@
             {
               "type": "p",
               "html": "默认都是左端点排序，<strong>按起始顺序依次处理区间</strong>。",
-              "depth": 2
+              "depth": 1
             }
           ]
         }
@@ -94,34 +94,34 @@
         {
           "type": "p",
           "html": "<strong>例题</strong>： <a href=\"/p/cfzcpc-round-4-f-biased-cognition\" class=\"wikilink\">Cfzcpc Round 4 F Biased Cognition</a>， <a href=\"/p/p1417-烹调方案\" class=\"wikilink\">P1417 烹调方案</a>",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "假设已经选定了一个<strong>最优序列</strong>。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "从中抽出<strong>相邻的两个物品</strong>，暂且叫它们物品 $i$ 和物品 $j$。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "写出 <strong>“先放 i 再放 j”</strong> 的总收益（或总代价），再写出 <strong>“先放 j 再放 i”</strong> 的总收益。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "令 <strong>“先 i 后 j 的收益” > “先 j 后 i 的收益”</strong>，化简这个不等式即可。",
-          "depth": 2
+          "depth": 1
         }
       ]
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-03-15",
-  "parsed_at": "2026-06-15T10:23:05.632288+00:00",
+  "parsed_at": "2026-06-15T17:06:06.901222+00:00",
   "type_directory": "k"
 }

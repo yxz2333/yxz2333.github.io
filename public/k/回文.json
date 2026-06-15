@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": null,
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "处理回文 $O(N^2)$",
@@ -24,7 +24,7 @@
               "type": "code",
               "lang": "cpp",
               "code": "var hui = Vec2<bool>(n + 1, n + 1);\nfa(i, 1, n)hui[i][i] = hui[i][i - 1] = 1;\nfa(len, 2, n)fa(i, 1, n) {\n\tint j = i + len - 1;\n\tif (j > n)break;\n\tif (hui[i + 1][j - 1] and s[i] == s[j]) {\n\t\thui[i][j] = 1;\n\t}\n}",
-              "depth": 2
+              "depth": 1
             }
           ]
         },
@@ -36,7 +36,7 @@
               "type": "code",
               "lang": "cpp",
               "code": "var hui = Vec2<bool>(n + 1, n + 1);\nfa(i, 1, n) {\n    // 奇数长度回文\n    for (int l = i, r = i; l >= 1 and r <= n and s[l-1] == s[r-1]; l--, r++)\n    \thui[l][r] = true;\n    // 偶数长度回文\n    for (int l = i, r = i + 1; l >= 1 and r <= n and s[l-1] == s[r-1]; l--, r++) \n    \thui[l][r] = true;\n}",
-              "depth": 2
+              "depth": 1
             }
           ]
         }
@@ -46,8 +46,8 @@
   "code_languages": [
     "cpp"
   ],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-03-08",
-  "parsed_at": "2026-06-15T10:23:05.417955+00:00",
+  "parsed_at": "2026-06-15T17:06:06.634069+00:00",
   "type_directory": "k"
 }

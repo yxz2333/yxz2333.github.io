@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": null,
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "下取整等式",
@@ -23,17 +23,17 @@
             {
               "type": "math",
               "latex": "$$\\big\\lfloor \\frac{\\lfloor x/a \\rfloor}{b} \\big\\rfloor = \\big\\lfloor \\frac{x}{a b} \\big\\rfloor \\quad (a,b>0 \\text{ 为整数})$$",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>作用</strong>：将多层除法的下取整合并为一层，减少嵌套。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>注意</strong>：要求 $a,b$ 是正整数（实数时不一定成立）。",
-              "depth": 2
+              "depth": 1
             }
           ]
         },
@@ -44,32 +44,32 @@
             {
               "type": "math",
               "latex": "$$n = d \\cdot \\left\\lfloor \\frac{n}{d} \\right\\rfloor + (n \\bmod d), \\quad 0 \\le n \\bmod d < d$$",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>作用</strong>：建立整数除法商与余数之间的定量关系。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "<strong>用法</strong>：",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "将余数表示为 $n \\bmod d = n - d \\lfloor n/d \\rfloor$。",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "p",
               "html": "判断整除：$d \\mid n \\iff \\lfloor n/d \\rfloor = n/d$。",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "p",
               "html": "在数论、组合推导中把模运算转化为取整运算，便于放缩或求和。",
-              "depth": 3
+              "depth": 2
             }
           ]
         }
@@ -86,32 +86,32 @@
             {
               "type": "p",
               "html": "<strong>万能公式：</strong>",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "对于 $\\lfloor \\frac{X}{Y} \\rfloor$，我们总是设：",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "math",
               "latex": "$$ X = q \\cdot Y + r $$",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "其中约束条件是铁律：",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "math",
               "latex": "$$ 0 \\le r < Y $$",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "此时，原式中的 $\\lfloor \\frac{X}{Y} \\rfloor$ 直接变成了 $q$。",
-              "depth": 2
+              "depth": 1
             }
           ]
         },
@@ -122,7 +122,7 @@
             {
               "type": "p",
               "html": "假设你要解方程：$f(X, \\lfloor \\frac{X}{Y} \\rfloor) = C$。",
-              "depth": 2
+              "depth": 1
             },
             {
               "heading": "1. <strong>设元、代入、化简</strong>",
@@ -131,17 +131,17 @@
                 {
                   "type": "p",
                   "html": "令 $X = qY + r$（$0 \\le r \\le Y-1$）。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "把方程里所有的 $X$ 替换成 $qY+r$，所有的 $\\lfloor \\frac{X}{Y} \\rfloor$ 替换成 $q$。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "代入后求出 $r(q)$ 的函数。",
-                  "depth": 2
+                  "depth": 1
                 }
               ]
             },
@@ -152,12 +152,12 @@
                 {
                   "type": "p",
                   "html": "利用 $r$ 的范围 $[0, Y-1]$，去卡 $q$ 的值。",
-                  "depth": 2
+                  "depth": 1
                 },
                 {
                   "type": "p",
                   "html": "因为 $q$ 必须是整数，且必须满足 $r$ 的约束，通常这一步能直接求出唯一的 $q$。",
-                  "depth": 2
+                  "depth": 1
                 }
               ]
             }
@@ -170,77 +170,77 @@
             {
               "type": "p",
               "html": "<strong>题目</strong>：解方程 $x + \\lfloor \\frac{x}{3} \\rfloor = 100$。求整数 $x$。",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "1.  <strong>设元</strong>：",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "设 $x = 3q + r$，其中 $0 \\le r < 3$（即 $r \\in \\{0, 1, 2\\}$），$\\lfloor \\frac{x}{3} \\rfloor$ 变成了 $q$。",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "p",
               "html": "2.  <strong>化简</strong>：",
-              "depth": 2
+              "depth": 1
             },
             {
               "type": "p",
               "html": "代入方程：",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "math",
               "latex": "$$ (3q + r) + q = 100 $$",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "math",
               "latex": "$$ 4q + r = 100 $$",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "math",
               "latex": "$$ r = 100 - 4q $$",
-              "depth": 3
-            },
-            {
-              "type": "p",
-              "html": "3.  <strong>定界</strong>：",
               "depth": 2
             },
             {
               "type": "p",
+              "html": "3.  <strong>定界</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
               "html": "因为 $0 \\le r \\le 2$，所以：",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "math",
               "latex": "$$ 0 \\le 100 - 4q \\le 2 $$",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "p",
               "html": "解这个不等式：",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "math",
               "latex": "$$ -100 \\le -4q \\le -98 $$",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "math",
               "latex": "$$ 24.5 \\le q \\le 25 $$",
-              "depth": 3
+              "depth": 2
             },
             {
               "type": "p",
               "html": "因为 $q$ 必须是整数，所以 <strong>q = 25</strong>。",
-              "depth": 3
+              "depth": 2
             }
           ]
         }
@@ -248,8 +248,8 @@
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-05-15",
-  "parsed_at": "2026-06-15T10:23:05.357016+00:00",
+  "parsed_at": "2026-06-15T17:06:06.569467+00:00",
   "type_directory": "k"
 }

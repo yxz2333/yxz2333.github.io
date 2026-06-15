@@ -13,22 +13,22 @@
     "同余最短路"
   ],
   "parent": null,
-  "format": "logseq",
+  "format": "markdown",
   "sections": [
     {
       "type": "p",
       "html": "<strong>状态压缩到余数</strong>：虽然原本的数字可能无穷大，但我们只关心它模 $N$ 后的结果（余数 $0 \\sim N-1$）。",
-      "depth": 0
+      "depth": 1
     },
     {
       "type": "p",
       "html": "<strong>建图跑最短路</strong>：把 $0 \\sim N-1$ 这 $N$ 个余数看作图上的 $N$ 个点，对这 $N$ 个点跑最短路（BFS/Dij），得到想要得到的数据即可。",
-      "depth": 0
+      "depth": 1
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-02-01",
-  "parsed_at": "2026-06-15T10:23:05.409360+00:00",
+  "parsed_at": "2026-06-15T17:06:06.624002+00:00",
   "type_directory": "k"
 }

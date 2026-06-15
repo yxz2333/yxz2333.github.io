@@ -48,9 +48,9 @@ onUnmounted(() => {
         <!-- ====== Row 1: 名片(3) + 教育(3) + 技术栈(6) ====== -->
         <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-12 gap-6">
 
-          <!-- ① 个人名片 (3列) -->
+          <!-- ① 个人名片 (3列) — 手机端隐藏 -->
           <div
-            class="lg:col-span-3 glass-card rounded-[2rem] p-6 flex flex-col items-center justify-center text-center animate-fade-in-up"
+            class="hidden sm:flex lg:col-span-3 glass-card rounded-[2rem] p-6 flex-col items-center justify-center text-center animate-fade-in-up"
             style="animation-delay: 0.1s">
             <div class="relative w-20 h-20 mb-4">
               <div class="absolute inset-0 bg-accent rounded-full blur-md opacity-30"></div>
@@ -68,9 +68,31 @@ onUnmounted(() => {
             <p class="text-accent text-xs font-medium mt-1">{{ profile.basic.title }}</p>
           </div>
 
-          <!-- ② 教育 (3列) -->
+          <!-- ①+② 手机端融合卡片 -->
           <div
-            class="lg:col-span-3 glass-card rounded-[2rem] p-6 flex flex-col items-center justify-center text-center animate-fade-in-up"
+            class="sm:hidden glass-card rounded-[2rem] p-6 flex items-center gap-5 animate-fade-in-up"
+            style="animation-delay: 0.1s">
+            <div class="relative w-16 h-16 shrink-0">
+              <div class="absolute inset-0 bg-accent rounded-full blur-md opacity-30"></div>
+              <img v-if="profile.basic.avatar" :src="profile.basic.avatar"
+                class="relative w-full h-full rounded-full object-cover border-2 border-white/10" alt="avatar" />
+              <span v-else
+                class="relative w-full h-full rounded-full bg-[#1c1c1e] border-2 border-white/10 flex items-center justify-center text-xl font-bold text-white">{{
+                  profile.basic.name[0] }}</span>
+            </div>
+            <div class="min-w-0">
+              <h2 class="text-lg font-bold text-white">{{ profile.basic.name }}</h2>
+              <p class="text-accent text-xs font-medium">{{ profile.basic.title }}</p>
+              <div class="flex items-center gap-1.5 mt-1.5 text-xs text-gray-400">
+                <span class="text-accent text-sm">🎓</span>
+                <span>{{ profile.education.school }} · {{ profile.education.degree }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ② 教育 (3列) — 手机端隐藏 -->
+          <div
+            class="hidden sm:flex lg:col-span-3 glass-card rounded-[2rem] p-6 flex-col items-center justify-center text-center animate-fade-in-up"
             style="animation-delay: 0.15s">
             <div
               class="w-10 h-10 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent mb-3 text-lg">
@@ -81,8 +103,8 @@ onUnmounted(() => {
             <p class="text-xs font-mono text-accent">{{ profile.education.period }}</p>
           </div>
 
-          <!-- ③ 技术栈 (6列) -->
-          <div class="lg:col-span-6 glass-card rounded-[2rem] p-6 flex flex-col justify-center animate-fade-in-up"
+          <!-- ③ 技术栈 (6列) — 手机端隐藏 -->
+          <div class="hidden sm:flex lg:col-span-6 glass-card rounded-[2rem] p-6 flex-col justify-center animate-fade-in-up"
             style="animation-delay: 0.2s">
             <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Tech Stack</h3>
             <div class="flex flex-wrap gap-2">
@@ -123,27 +145,27 @@ onUnmounted(() => {
 
         <!-- ====== Row 4: 个人项目 (12列) ====== -->
         <div class="glass-card rounded-[2rem] p-8 animate-fade-in-up" style="animation-delay: 0.4s">
-          <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-6">Featured Projects</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <h3 class="text-xs font-bold text-gray-500 uppercase tracking-widest mb-4">Featured Projects</h3>
+          <div class="grid grid-cols-2 lg:grid-cols-3 gap-3">
             <a v-for="proj in profile.projects" :key="proj.name" :href="proj.link" target="_blank"
-              class="tilt-card group relative block p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-accent/30 transition-all duration-300"
+              class="tilt-card group relative block p-4 rounded-2xl bg-white/[0.03] border border-white/5 hover:border-accent/30 transition-all duration-300"
               @mousemove="tilt" @mouseleave="reset">
-              <div class="flex justify-between items-start mb-4">
+              <div class="flex justify-between items-start mb-3">
                 <div
-                  class="w-10 h-10 rounded-xl bg-gradient-to-br from-gray-800 to-black border border-white/10 flex items-center justify-center text-lg shadow-inner">
+                  class="w-8 h-8 rounded-lg bg-gradient-to-br from-gray-800 to-black border border-white/10 flex items-center justify-center text-sm shadow-inner">
                   {{ proj.icon }}
                 </div>
-                <svg class="w-4 h-4 text-gray-600 group-hover:text-accent transition-colors" fill="none"
+                <svg class="w-3.5 h-3.5 text-gray-600 group-hover:text-accent transition-colors shrink-0" fill="none"
                   stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                 </svg>
               </div>
-              <h4 class="text-lg font-bold text-gray-200 mb-2">{{ proj.name }}</h4>
-              <p class="text-sm text-gray-500 leading-relaxed mb-4 line-clamp-2">{{ proj.desc }}</p>
-              <div class="flex flex-wrap gap-2">
+              <h4 class="text-sm font-bold text-gray-200 mb-1.5 group-hover:text-accent transition-colors">{{ proj.name }}</h4>
+              <p class="text-xs text-gray-500 leading-relaxed mb-3 line-clamp-2">{{ proj.desc }}</p>
+              <div class="flex flex-wrap gap-1.5">
                 <span v-for="tag in proj.tags" :key="tag"
-                  class="text-[10px] font-mono text-gray-400 bg-black/30 px-2 py-0.5 rounded border border-white/5">{{
+                  class="text-[9px] font-mono text-gray-500 bg-black/30 px-1.5 py-0.5 rounded border border-white/5">{{
                     tag }}</span>
               </div>
             </a>

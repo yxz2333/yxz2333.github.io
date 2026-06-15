@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": "组合数学",
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "二项式定理及其衍生",
@@ -19,22 +19,22 @@
         {
           "type": "p",
           "html": "<strong>交错和为 0</strong>：",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "math",
           "latex": "$$ \\sum_{i=0}^n (-1)^i \\binom{n}{i} = 0 \\quad (n > 0) $$",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>偶数项之和 = 奇数项之和</strong>：",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "math",
           "latex": "$$ \\sum_{i \\text{ 为偶数}} \\binom{n}{i} = \\sum_{i \\text{ 为奇数}} \\binom{n}{i} = 2^{n-1} $$",
-          "depth": 3
+          "depth": 2
         }
       ]
     },
@@ -45,59 +45,59 @@
         {
           "type": "p",
           "html": "<strong>上指标求和</strong>：",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "math",
           "latex": "$$ \\sum_{i=k}^n \\binom{i}{k} = \\binom{n+1}{k+1} $$",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<em>(应用场景：求</em> $1 \\sim n$ <em>的组合数之和，常用于转化前缀和问题)</em>",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "例题： <a href=\"/p/abc154f-many-many-paths\" class=\"wikilink\">ABC154F Many Many Paths</a>",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>平行求和（下指标变化，上指标跟着变）</strong>：",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "math",
           "latex": "$$ \\sum_{i=0}^k \\binom{n+i}{i} = \\binom{n+k+1}{k} $$",
-          "depth": 3
-        },
-        {
-          "type": "p",
-          "html": "<strong>部分交错和（截断求和）</strong>：",
           "depth": 2
         },
         {
           "type": "p",
+          "html": "<strong>部分交错和（截断求和）</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
           "html": "通常交错和必须加到 $n$ 才是 0，如果只加到 $m$ 呢？",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "math",
           "latex": "$$ \\sum_{i=0}^m (-1)^i \\binom{n}{i} = (-1)^m \\binom{n-1}{m} $$",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<em>(这个公式在容斥原理优化时间复杂度时极其关键！)</em>",
-          "depth": 3
+          "depth": 2
         }
       ]
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-04-16",
-  "parsed_at": "2026-06-15T10:23:05.567789+00:00",
+  "parsed_at": "2026-06-15T17:06:06.831701+00:00",
   "type_directory": "k"
 }
