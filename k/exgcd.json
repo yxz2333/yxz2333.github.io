@@ -45,7 +45,12 @@
         },
         {
           "type": "math",
-          "latex": "$$x_0 \\leftarrow x_0 \\times \\frac{c}{g}, \\quad y_0 \\leftarrow y_0 \\times \\frac{c}{g}$$\n此时 $x_0, y_0$ 是方程 $ax+by=c$ 的解，但很可能一正一负，甚至很大。",
+          "latex": "$$x_0 \\leftarrow x_0 \\times \\frac{c}{g}, \\quad y_0 \\leftarrow y_0 \\times \\frac{c}{g}$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "此时 $x_0, y_0$ 是方程 $ax+by=c$ 的解，但很可能一正一负，甚至很大。",
           "depth": 1
         }
       ]
@@ -66,7 +71,17 @@
         },
         {
           "type": "math",
-          "latex": "$$\\begin{cases} x = x_0 + k \\cdot dx \\\\ y = y_0 - k \\cdot dy \\end{cases}$$\n$x$ 增加， $y$ 就会减小。\n$x$ 减小， $y$ 就会增加。",
+          "latex": "$$\\begin{cases} x = x_0 + k \\cdot dx \\\\ y = y_0 - k \\cdot dy \\end{cases}$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$x$ 增加， $y$ 就会减小。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$x$ 减小， $y$ 就会增加。",
           "depth": 1
         }
       ]
@@ -93,7 +108,12 @@
         },
         {
           "type": "math",
-          "latex": "$$y = (c - a \\cdot x) / b$$\n如果不论 $x$ 多小（只要 $\\ge 0$），算出来的 $y$ 依然 $< 0$，说明**无非负整数解**（两者不能同时非负）。",
+          "latex": "$$y = (c - a \\cdot x) / b$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果不论 $x$ 多小（只要 $\\ge 0$），算出来的 $y$ 依然 $< 0$，说明<strong>无非负整数解</strong>（两者不能同时非负）。",
           "depth": 1
         }
       ]
@@ -133,6 +153,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-14",
-  "parsed_at": "2026-06-14T18:45:11.946387+00:00",
+  "parsed_at": "2026-06-15T08:24:44.555552+00:00",
   "type_directory": "k"
 }

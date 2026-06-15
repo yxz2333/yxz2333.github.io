@@ -169,7 +169,12 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\sum_{i=1}^{n-1} \\frac{1}{\\operatorname{lcm}(a_i, a_{i+1})} + \\frac{1}{\\operatorname{lcm}(a_n, a_1)} \\ge 1 $$\n要在 DP 中维护这个复杂的求和式是非常困难的。因此，我们需要通过数学推导或“打表找规律”来简化这个条件。",
+              "latex": "$$ \\sum_{i=1}^{n-1} \\frac{1}{\\operatorname{lcm}(a_i, a_{i+1})} + \\frac{1}{\\operatorname{lcm}(a_n, a_1)} \\ge 1 $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "要在 DP 中维护这个复杂的求和式是非常困难的。因此，我们需要通过数学推导或“打表找规律”来简化这个条件。",
               "depth": 1
             }
           ]
@@ -241,7 +246,22 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ \\frac{1}{\\operatorname{lcm}(a_i, a_{i-1})} + \\frac{1}{a_i} = \\frac{1}{a_{i-1}} $$\n**这一步的物理含义是**：上一项留下的“空缺”是 $\\frac{1}{a_{i-1}}$，我们新加的一项 $\\frac{1}{\\operatorname{lcm}}$ 加上 $a_i$ 本身未来作为结尾留下的“空缺” $\\frac{1}{a_i}$，必须恰好填满这个空缺。\n接下来我们对这个式子进行代数变形：\n$$ \\frac{\\gcd(a_i, a_{i-1})}{a_i \\cdot a_{i-1}} + \\frac{1}{a_i} = \\frac{1}{a_{i-1}} $$",
+                  "latex": "$$ \\frac{1}{\\operatorname{lcm}(a_i, a_{i-1})} + \\frac{1}{a_i} = \\frac{1}{a_{i-1}} $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>这一步的物理含义是</strong>：上一项留下的“空缺”是 $\\frac{1}{a_{i-1}}$，我们新加的一项 $\\frac{1}{\\operatorname{lcm}}$ 加上 $a_i$ 本身未来作为结尾留下的“空缺” $\\frac{1}{a_i}$，必须恰好填满这个空缺。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "接下来我们对这个式子进行代数变形：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\frac{\\gcd(a_i, a_{i-1})}{a_i \\cdot a_{i-1}} + \\frac{1}{a_i} = \\frac{1}{a_{i-1}} $$",
                   "depth": 1
                 },
                 {
@@ -251,7 +271,17 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ \\gcd(a_i, a_{i-1}) + a_{i-1} = a_i $$\n**这就是本题最重要的结论！**\n这个结论非常简洁，且极其适合 DP 转移。它不仅告诉了我们如何判定合法性，还隐含了 $a_i$ 的**范围限制**（因为 $\\gcd \\ge 1$，所以 $a_i > a_{i-1}$；且 $\\gcd \\le a_{i-1}$，所以 $a_i \\le 2a_{i-1}$）。",
+                  "latex": "$$ \\gcd(a_i, a_{i-1}) + a_{i-1} = a_i $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>这就是本题最重要的结论！</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这个结论非常简洁，且极其适合 DP 转移。它不仅告诉了我们如何判定合法性，还隐含了 $a_i$ 的<strong>范围限制</strong>（因为 $\\gcd \\ge 1$，所以 $a_i > a_{i-1}$；且 $\\gcd \\le a_{i-1}$，所以 $a_i \\le 2a_{i-1}$）。",
                   "depth": 1
                 }
               ]
@@ -284,8 +314,28 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ dp[i][k] = \\sum dp[i-1][j] $$\n**转移条件**为：",
+                  "latex": "$$ dp[i][k] = \\sum dp[i-1][j] $$",
                   "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>转移条件</strong>为：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "$j < k \\le 2j$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "$\\gcd(j, k) + j = k$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "如果输入给定了 $a_i$，则 $k$ 必须等于 $a_i$；如果 $a_i=0$，则 $k$ 可以是任意合法的数。",
+                  "depth": 2
                 }
               ]
             },
@@ -352,6 +402,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-26",
-  "parsed_at": "2026-06-14T18:39:36.384487+00:00",
+  "parsed_at": "2026-06-15T08:26:06.696707+00:00",
   "type_directory": "p"
 }

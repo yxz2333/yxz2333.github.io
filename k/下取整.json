@@ -22,7 +22,17 @@
           "blocks": [
             {
               "type": "math",
-              "latex": "$$\\big\\lfloor \\frac{\\lfloor x/a \\rfloor}{b} \\big\\rfloor = \\big\\lfloor \\frac{x}{a b} \\big\\rfloor \\quad (a,b>0 \\text{ 为整数})$$\n**作用**：将多层除法的下取整合并为一层，减少嵌套。\n**注意**：要求 $a,b$ 是正整数（实数时不一定成立）。",
+              "latex": "$$\\big\\lfloor \\frac{\\lfloor x/a \\rfloor}{b} \\big\\rfloor = \\big\\lfloor \\frac{x}{a b} \\big\\rfloor \\quad (a,b>0 \\text{ 为整数})$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>作用</strong>：将多层除法的下取整合并为一层，减少嵌套。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>注意</strong>：要求 $a,b$ 是正整数（实数时不一定成立）。",
               "depth": 2
             }
           ]
@@ -33,8 +43,33 @@
           "blocks": [
             {
               "type": "math",
-              "latex": "$$n = d \\cdot \\left\\lfloor \\frac{n}{d} \\right\\rfloor + (n \\bmod d), \\quad 0 \\le n \\bmod d < d$$\n**作用**：建立整数除法商与余数之间的定量关系。\n**用法**：",
+              "latex": "$$n = d \\cdot \\left\\lfloor \\frac{n}{d} \\right\\rfloor + (n \\bmod d), \\quad 0 \\le n \\bmod d < d$$",
               "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>作用</strong>：建立整数除法商与余数之间的定量关系。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>用法</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "将余数表示为 $n \\bmod d = n - d \\lfloor n/d \\rfloor$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "判断整除：$d \\mid n \\iff \\lfloor n/d \\rfloor = n/d$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "在数论、组合推导中把模运算转化为取整运算，便于放缩或求和。",
+              "depth": 3
             }
           ]
         }
@@ -60,7 +95,17 @@
             },
             {
               "type": "math",
-              "latex": "$$ X = q \\cdot Y + r $$\n其中约束条件是铁律：\n$$ 0 \\le r < Y $$",
+              "latex": "$$ X = q \\cdot Y + r $$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "其中约束条件是铁律：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$ 0 \\le r < Y $$",
               "depth": 2
             },
             {
@@ -149,7 +194,12 @@
             },
             {
               "type": "math",
-              "latex": "$$ (3q + r) + q = 100 $$\n$$ 4q + r = 100 $$",
+              "latex": "$$ (3q + r) + q = 100 $$",
+              "depth": 3
+            },
+            {
+              "type": "math",
+              "latex": "$$ 4q + r = 100 $$",
               "depth": 3
             },
             {
@@ -169,12 +219,27 @@
             },
             {
               "type": "math",
-              "latex": "$$ 0 \\le 100 - 4q \\le 2 $$\n解这个不等式：\n$$ -100 \\le -4q \\le -98 $$",
+              "latex": "$$ 0 \\le 100 - 4q \\le 2 $$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "解这个不等式：",
               "depth": 3
             },
             {
               "type": "math",
-              "latex": "$$ 24.5 \\le q \\le 25 $$\n因为 $q$ 必须是整数，所以 **q = 25**。",
+              "latex": "$$ -100 \\le -4q \\le -98 $$",
+              "depth": 3
+            },
+            {
+              "type": "math",
+              "latex": "$$ 24.5 \\le q \\le 25 $$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "因为 $q$ 必须是整数，所以 <strong>q = 25</strong>。",
               "depth": 3
             }
           ]
@@ -185,6 +250,6 @@
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-15",
-  "parsed_at": "2026-06-14T18:45:11.972789+00:00",
+  "parsed_at": "2026-06-15T08:24:44.577474+00:00",
   "type_directory": "k"
 }

@@ -209,7 +209,22 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\text{Total} = \\sum \\min(C_i, mid) $$\n只要满足 $\\text{Total} \\ge mid \\times K$，我们就一定能凑出 $mid$ 次操作。\n$O(n^2logn)$ 的写法很好写，但肯定过不了，得想办法优化掉多余的 $n$。\n考虑使用**二分 + 前缀和进行优化**，最后复杂度定为 $O(nlog^2n)$。",
+          "latex": "$$ \\text{Total} = \\sum \\min(C_i, mid) $$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "只要满足 $\\text{Total} \\ge mid \\times K$，我们就一定能凑出 $mid$ 次操作。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$O(n^2logn)$ 的写法很好写，但肯定过不了，得想办法优化掉多余的 $n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "考虑使用<strong>二分 + 前缀和进行优化</strong>，最后复杂度定为 $O(nlog^2n)$。",
           "depth": 1
         }
       ]
@@ -232,6 +247,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-20",
-  "parsed_at": "2026-06-14T18:39:35.952207+00:00",
+  "parsed_at": "2026-06-15T08:26:06.351017+00:00",
   "type_directory": "p"
 }

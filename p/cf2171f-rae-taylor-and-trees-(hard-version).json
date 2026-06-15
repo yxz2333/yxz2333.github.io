@@ -10,7 +10,7 @@
   "summary": "经典的 cf 非套路思维题，没用什么算法，纯思维，就当是复健了。",
   "link": "https://codeforces.com/contest/2171/problem/F",
   "link_text": "Problem - F - Codeforces",
-  "source": "[[Codeforces Round 1065 (Div. 3)]]",
+  "source": "<a href=\"/c/codeforces-round-1065-(div.-3)\" class=\"wikilink\">Codeforces Round 1065 (Div. 3)</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -259,6 +259,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-21",
-  "parsed_at": "2026-06-14T18:39:36.364179+00:00",
+  "parsed_at": "2026-06-15T08:26:06.682196+00:00",
   "type_directory": "p"
 }

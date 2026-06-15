@@ -114,7 +114,7 @@
           "blocks": [
             {
               "type": "p",
-              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1624G/b7f5b7382b2cbd80980c576ea1b925aa7c500ed8.png)",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1624G/b7f5b7382b2cbd80980c576ea1b925aa7c500ed8.png\" alt=\"\" class=\"note-img\" />",
               "depth": 1
             },
             {
@@ -124,7 +124,7 @@
             },
             {
               "type": "p",
-              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1624G/43a768dfee0ade0f80ced3a4660bcaac868cc17b.png)",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1624G/43a768dfee0ade0f80ced3a4660bcaac868cc17b.png\" alt=\"\" class=\"note-img\" />",
               "depth": 1
             },
             {
@@ -134,7 +134,7 @@
             },
             {
               "type": "p",
-              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1624G/c7716ab52b41700a181dd76536e0574654ad531d.png)",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1624G/c7716ab52b41700a181dd76536e0574654ad531d.png\" alt=\"\" class=\"note-img\" />",
               "depth": 1
             },
             {
@@ -260,6 +260,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-22",
-  "parsed_at": "2026-06-14T18:39:36.217075+00:00",
+  "parsed_at": "2026-06-15T08:26:06.570259+00:00",
   "type_directory": "p"
 }

@@ -11,7 +11,7 @@
   "summary": "主要的难点在于<strong>如何构造线性基方案</strong>。一开始肯定设 $c_i = a_i$，全部的异或和为 $x$，然后线性基里存 $b_i \\oplus a_i$ 以供与 $c$ 里的 $a$ 进行交换。只要线性基里能构造出 $x$，那本题就有解，然后就是构造线性基合法方案了，本题唯一的难点也就在这。",
   "link": "https://ac.nowcoder.com/acm/contest/120563/I",
   "link_text": "I-BenzenE_2026牛客寒假算法基础集训营3",
-  "source": "[[2026牛客寒假算法基础集训营3]]",
+  "source": "<a href=\"/c/2026牛客寒假算法基础集训营3\" class=\"wikilink\">2026牛客寒假算法基础集训营3</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -352,6 +352,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-26",
-  "parsed_at": "2026-06-14T18:39:35.913638+00:00",
+  "parsed_at": "2026-06-15T08:26:06.315686+00:00",
   "type_directory": "p"
 }

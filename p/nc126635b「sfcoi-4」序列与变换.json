@@ -189,7 +189,22 @@
             },
             {
               "type": "math",
-              "latex": "$$ |x - k| \\equiv x - k \\equiv x + k \\pmod 2 $$\n$|x - k|, x - k, x + k$ 的奇偶性相同。\n因此，最终结果的奇偶性完全取决于：\n$$ \\text{最终结果的奇偶性} \\equiv a_i + \\sum_{j=0}^{m} j \\pmod 2 $$",
+              "latex": "$$ |x - k| \\equiv x - k \\equiv x + k \\pmod 2 $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$|x - k|, x - k, x + k$ 的奇偶性相同。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此，最终结果的奇偶性完全取决于：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\text{最终结果的奇偶性} \\equiv a_i + \\sum_{j=0}^{m} j \\pmod 2 $$",
               "depth": 1
             },
             {
@@ -224,6 +239,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-14",
-  "parsed_at": "2026-06-14T18:39:36.675798+00:00",
+  "parsed_at": "2026-06-15T08:26:07.009908+00:00",
   "type_directory": "p"
 }

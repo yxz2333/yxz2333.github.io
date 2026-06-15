@@ -13,7 +13,7 @@
   "summary": "转移方程还是非常好想的，明显设。可以用<strong>线段树/单调队列优化</strong>，线段树优化 dp 还是很好写的，这里给出单调队列的写法，全程维护个<strong>单调增</strong>的队列即可。",
   "link": "https://acm.hdu.edu.cn/contest/problem?cid=1201&pid=1008",
   "link_text": "1008 草料集市",
-  "source": "[[2026杭电春季赛5]]",
+  "source": "<a href=\"/c/2026杭电春季赛5\" class=\"wikilink\">2026杭电春季赛5</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -188,7 +188,17 @@
             },
             {
               "type": "math",
-              "latex": "$$dp[i] = a_i + \\min_{j = \\max(1, i-k-1)}^{i-1} \\Big( dp[j] + pre[i-1] - pre[j] \\Big)$$\n把与 $j$ 无关的项（常数项）提出来：\n$$dp[i] = a_i + pre[i-1] + \\min_{j = \\max(1, i-k-1)}^{i-1} \\Big( dp[j] - pre[j] \\Big)$$",
+              "latex": "$$dp[i] = a_i + \\min_{j = \\max(1, i-k-1)}^{i-1} \\Big( dp[j] + pre[i-1] - pre[j] \\Big)$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "把与 $j$ 无关的项（常数项）提出来：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i] = a_i + pre[i-1] + \\min_{j = \\max(1, i-k-1)}^{i-1} \\Big( dp[j] - pre[j] \\Big)$$",
               "depth": 1
             }
           ]
@@ -224,7 +234,18 @@
             },
             {
               "type": "math",
-              "latex": "$$ans = \\min(ans,\\; dp[i] + 半价区间花费 + 剩余无折扣区间花费)$$\n代码中的体现即为：\n```cpp\n\t\t  j = min(n, i + k);\n\t\t  ans = min(ans, dp[i] + pre[j] - pre[i] + (pre[n] - pre[j]) * 2);\n\t\t  ```",
+              "latex": "$$ans = \\min(ans,\\; dp[i] + 半价区间花费 + 剩余无折扣区间花费)$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "代码中的体现即为：",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "j = min(n, i + k);\nans = min(ans, dp[i] + pre[j] - pre[i] + (pre[n] - pre[j]) * 2);",
               "depth": 1
             }
           ]
@@ -285,6 +306,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-24",
-  "parsed_at": "2026-06-14T18:39:35.877795+00:00",
+  "parsed_at": "2026-06-15T08:26:06.280308+00:00",
   "type_directory": "p"
 }

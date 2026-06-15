@@ -9,7 +9,7 @@
   "summary": "乍一看可能无从下手，不过明显的，我们对原串做不了什么，只能<strong>存每个数位有多少个</strong>，然后回归题意。这种数位操作明显是<strong>操作不了多少</strong>的，设最终结果是 $s_1 + s_2 + s_3...$，那么 $s_1$ 的数位和最大为 $9e5$，那也就是说 $s_2$ <strong>的范围为</strong> $[1, 9e5]$，枚举 $s_2$ 就行了。已知 $s_2$ 的情况下，后面的 $s_3...$ 也好算了，然后回头来验证 $s_2$ 能不能生成即可。",
   "link": "https://codeforces.com/contest/2204/problem/E",
   "link_text": "Problem - E - Codeforces",
-  "source": "[[Educational Codeforces Round 188 (Rated for Div. 2)]]",
+  "source": "<a href=\"/c/educational-codeforces-round-188-(rated-for-div.-2)\" class=\"wikilink\">Educational Codeforces Round 188 (Rated for Div. 2)</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -155,6 +155,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-17",
-  "parsed_at": "2026-06-14T18:39:36.449692+00:00",
+  "parsed_at": "2026-06-15T08:26:06.746390+00:00",
   "type_directory": "p"
 }

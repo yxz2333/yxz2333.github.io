@@ -37,13 +37,101 @@
     },
     {
       "type": "math",
-      "latex": "$$ D_2 \\xrightarrow{\\text{前缀和}} D_1 \\xrightarrow{\\text{前缀和}} \\text{原数组 } A $$\n## 作用与应用场景\n## 二阶差分的通用公式\n## 参考代码",
+      "latex": "$$ D_2 \\xrightarrow{\\text{前缀和}} D_1 \\xrightarrow{\\text{前缀和}} \\text{原数组 } A $$",
       "depth": 0
+    },
+    {
+      "heading": "作用与应用场景",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>一阶差分 (</strong>$D_1$<strong>)</strong>：用于在 $O(1)$ 时间内给区间 $[l, r]$ 加上一个<strong>常数</strong> $v$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>二阶差分 (</strong>$D_2$<strong>)</strong>：用于在 $O(1)$ 时间内给区间 $[l, r]$ 加上一个<strong>等差数列</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>何时使用？</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当题目要求你对一段区间进行修改，且修改的值不是固定的，而是像 $1, 2, 3, 4...$ 或者 $5, 4, 3, 2...$ 这样线性变化（成等差数列）时，就是二阶差分的典型应用场景。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "二阶差分的通用公式",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "要在区间 $[l, r]$ 上加上一个等差数列，我们需要知道三个要素：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>首项 (</strong>$s$<strong>)</strong>：在位置 $l$ 加上的值。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>末项 (</strong>$e$<strong>)</strong>：在位置 $r$ 加上的值。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>公差 (</strong>$d$<strong>)</strong>：相邻两项的差值。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "在二阶差分数组 <code>diff2</code> 上，只需要修改 <strong>4个点</strong> 即可完成整个区间的更新：",
+          "depth": 1
+        },
+        {
+          "type": "table",
+          "rows": [
+            "| 位置 | 修改值 | 解释 |",
+            "| :--- | :--- | :--- |",
+            "| $l$ | $+s$ | 修正起点的突变 |",
+            "| $l+1$ | $+d - s$ | 修正第一步的差值变化 |",
+            "| $r+1$ | $-d - e$ | 抵消后续的公差积累并处理截断 |",
+            "| $r+2$ | $+e$ | 修正结束后的残余值 |"
+          ],
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "做 <strong>两次前缀和</strong> 还原原数组，操作 $[L, R]$ 前缀和 $[L, R + 2]$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "参考代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 变量对应：a1 -> 首项s, d -> 公差d, an -> 末项e\nd[l]     += a1;          // 对应 l\nd[l + 1] += d - a1;      // 对应 l+1\nd[r + 1] += -d - an;     // 对应 r+1\nd[r + 2] += an;          // 对应 r+2\n\n// 两次前缀和还原\n\n// 总体还原\nfor (int i = 1; i <= n; i++) d[i] += d[i - 1];\nfor (int i = 1; i <= n; i++) d[i] += d[i - 1];\n\n// 仅对 [l, r] 操作区间进行还原\nfor (int i = l; i <= min(r + 2, n); i++) d[i] += d[i - 1];\nfor (int i = l; i <= min(r + 2, n); i++) d[i] += d[i - 1];",
+          "depth": 1
+        }
+      ]
     }
   ],
-  "code_languages": [],
+  "code_languages": [
+    "cpp"
+  ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-18",
-  "parsed_at": "2026-06-14T18:45:12.055841+00:00",
+  "parsed_at": "2026-06-15T08:24:44.656833+00:00",
   "type_directory": "k"
 }

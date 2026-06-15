@@ -12,7 +12,7 @@
   "summary": "<strong>矩阵快速幂</strong> + <strong>floyd</strong> 解决走恰好 $k$ 步的图论问题。",
   "link": "https://www.matiji.net/exam/brushquestion/30/4347/179CE77A7B772D15A8C00DD8198AAC74",
   "link_text": "码蹄集OJ-图论大师",
-  "source": "[[2023百度之星决赛]]",
+  "source": "<a href=\"/c/2023百度之星决赛\" class=\"wikilink\">2023百度之星决赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -211,6 +211,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-24",
-  "parsed_at": "2026-06-14T18:39:36.060524+00:00",
+  "parsed_at": "2026-06-15T08:26:06.446687+00:00",
   "type_directory": "p"
 }

@@ -10,7 +10,7 @@
   "summary": "用<strong>exgcd</strong>求出非负解的通解，然后<strong>三分</strong>枚举 $k$ 即可，计算的时候需要用 $\\text{int128}$。",
   "link": "https://ac.nowcoder.com/acm/contest/120564/D",
   "link_text": "D-东风谷早苗与博丽灵梦_2026牛客寒假算法基础集训营4",
-  "source": "[[2026牛客寒假算法基础集训营4]]",
+  "source": "<a href=\"/c/2026牛客寒假算法基础集训营4\" class=\"wikilink\">2026牛客寒假算法基础集训营4</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -132,6 +132,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-26",
-  "parsed_at": "2026-06-14T18:39:35.917075+00:00",
+  "parsed_at": "2026-06-15T08:26:06.319810+00:00",
   "type_directory": "p"
 }

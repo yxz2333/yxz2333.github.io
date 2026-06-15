@@ -9,7 +9,7 @@
   "summary": "可以发现的是，本题明显可以建图，一旦建图后，连通的点可以任意改变位置，所以我们只要让<strong>需要改位置的数全部连通起来</strong>就行了。为了让答案最大，我们让每个数对<strong>最大</strong>或<strong>最小</strong>的数建边连通即可。",
   "link": "https://codeforces.com/contest/2188/problem/C",
   "link_text": "Problem - C - Codeforces",
-  "source": "[[Codeforces Round 1077 (Div. 2)]]",
+  "source": "<a href=\"/c/codeforces-round-1077-(div.-2)\" class=\"wikilink\">Codeforces Round 1077 (Div. 2)</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -146,6 +146,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-30",
-  "parsed_at": "2026-06-14T18:39:36.393065+00:00",
+  "parsed_at": "2026-06-15T08:26:06.703733+00:00",
   "type_directory": "p"
 }

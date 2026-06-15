@@ -12,7 +12,7 @@
   "summary": "这种 <strong>奇妙树论</strong> 题还是得多做，多画图，看出题目中的结论。剩下的其实也都好说，想到用 <strong>树形dp</strong> 算 <strong>距离差为 3 的叶子节点对数</strong> 即可。",
   "link": "https://www.matiji.net/exam/brushquestion/9/4698/91E0C8915821F2C440B65EABFE649804",
   "link_text": "码蹄集OJ-Pair Counting",
-  "source": "[[2025百度之星初赛第二场]]",
+  "source": "<a href=\"/c/2025百度之星初赛第二场\" class=\"wikilink\">2025百度之星初赛第二场</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -281,6 +281,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-21",
-  "parsed_at": "2026-06-14T18:39:36.071245+00:00",
+  "parsed_at": "2026-06-15T08:26:06.454825+00:00",
   "type_directory": "p"
 }

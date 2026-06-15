@@ -27,7 +27,42 @@
         },
         {
           "type": "math",
-          "latex": "$$S(x) = \\{d \\mid d \\mid x\\} \\cup \\left\\{kx \\mid 2 \\le k \\le \\left\\lfloor \\frac{N}{x} \\right\\rfloor \\right\\}$$\n简单地说，$S(x)$ 是 $x$ 的所有约数和所有不超过 $N$ 的倍数的并集。\n假设当前你的状态是 $x$，每一秒，你有两种选择：\n在每秒结束后，$x \\leftarrow x - 1$。\n求在最优决策下走到 $0$ 状态的期望时间。\n小 A 想知道针对不同的 $x$，最优决策下 $x$ 走到 $0$ 的期望时间，所以他有 $Q$ 次询问，请你帮助他回答这些问题。",
+          "latex": "$$S(x) = \\{d \\mid d \\mid x\\} \\cup \\left\\{kx \\mid 2 \\le k \\le \\left\\lfloor \\frac{N}{x} \\right\\rfloor \\right\\}$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "简单地说，$S(x)$ 是 $x$ 的所有约数和所有不超过 $N$ 的倍数的并集。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "假设当前你的状态是 $x$，每一秒，你有两种选择：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "等概率变成 $S(x)$ 中的一个数字。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "什么都不做。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "在每秒结束后，$x \\leftarrow x - 1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "求在最优决策下走到 $0$ 状态的期望时间。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小 A 想知道针对不同的 $x$，最优决策下 $x$ 走到 $0$ 的期望时间，所以他有 $Q$ 次询问，请你帮助他回答这些问题。",
           "depth": 1
         }
       ]
@@ -185,7 +220,17 @@
             },
             {
               "type": "math",
-              "latex": "$$(Tf)(x)=1+\\min\\left\\{f(x-1),\\ \\frac{1}{|S(x)|}\\sum_{p\\in S(x)}f(p-1)\\right\\}。$$\n值迭代就是从一个初始估计 \\(E^{(0)}\\) 开始，反复施加 \\(T\\)：\n$$E^{(k+1)}(x)=1+\\min\\left\\{E^{(k)}(x-1),\\ \\frac{1}{|S(x)|}\\sum_{p\\in S(x)}E^{(k)}(p-1)\\right\\}。$$",
+              "latex": "$$(Tf)(x)=1+\\min\\left\\{f(x-1),\\ \\frac{1}{|S(x)|}\\sum_{p\\in S(x)}f(p-1)\\right\\}。$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "值迭代就是从一个初始估计 \\(E^{(0)}\\) 开始，反复施加 \\(T\\)：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$E^{(k+1)}(x)=1+\\min\\left\\{E^{(k)}(x-1),\\ \\frac{1}{|S(x)|}\\sum_{p\\in S(x)}E^{(k)}(p-1)\\right\\}。$$",
               "depth": 1
             },
             {
@@ -251,6 +296,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-15",
-  "parsed_at": "2026-06-14T18:39:35.799860+00:00",
+  "parsed_at": "2026-06-15T08:26:06.224697+00:00",
   "type_directory": "p"
 }

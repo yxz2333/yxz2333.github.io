@@ -10,7 +10,7 @@
   "summary": "有点意思的构造题吧。对于一条链，除了首尾都是割点，对于一个简单环，点都是非割点，就按这个性质，把链和环挂载到 $1$ 节点上即可。<strong>非割点组成环</strong>，挂载在 $1$ 上；<strong>割点组成链</strong>，挂载在 $1$ 上。",
   "link": "https://codeforces.com/gym/105977/",
   "link_text": "Dashboard - 2025 National Invitational of CCPC (Fujian), The 12th Fujian Collegiate Programming Contest - Codeforces",
-  "source": "[[2025CCPC福建邀请赛]]",
+  "source": "<a href=\"/c/2025ccpc福建邀请赛\" class=\"wikilink\">2025CCPC福建邀请赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -142,7 +142,7 @@
           "blocks": [
             {
               "type": "p",
-              "html": "!<a href=\"../assets/image_1771954511385_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>{:height 639, :width 509}",
+              "html": "<img src=\"/images/image_1771954511385_0.png\" alt=\"image.png\" class=\"note-img\" />{:height 639, :width 509}",
               "depth": 1
             }
           ]
@@ -167,6 +167,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-25",
-  "parsed_at": "2026-06-14T18:39:35.743003+00:00",
+  "parsed_at": "2026-06-15T08:26:06.181397+00:00",
   "type_directory": "p"
 }

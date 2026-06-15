@@ -11,7 +11,7 @@
   "summary": "将<strong>限制</strong>转化为 “区间元素 $\\le k$” 与 “所有该 $k$ <strong>限制区间的交集</strong>必填 $k$”，按 $k$ 升序利用<strong>链式并查集</strong>高效跳过已处理位置（每个位置只用处理一次，十分适合链式并查集）维护限制，最后<strong>倒序</strong>遍历数字，结合剩余空位与必填标记用乘法原理计算答案。",
   "link": "https://ac.nowcoder.com/acm/contest/120561/F",
   "link_text": "F-Permutation Counting_2026牛客寒假算法基础集训营1",
-  "source": "[[2026牛客寒假算法基础集训营1]]",
+  "source": "<a href=\"/c/2026牛客寒假算法基础集训营1\" class=\"wikilink\">2026牛客寒假算法基础集训营1</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -360,6 +360,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-04",
-  "parsed_at": "2026-06-14T18:39:35.898813+00:00",
+  "parsed_at": "2026-06-15T08:26:06.301256+00:00",
   "type_directory": "p"
 }

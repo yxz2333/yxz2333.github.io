@@ -10,7 +10,7 @@
   "summary": "",
   "link": "https://www.matiji.net/exam/brushquestion/19/4698/91E0C8915821F2C440B65EABFE649804",
   "link_text": "码蹄集OJ-Degree of Permutations",
-  "source": "[[2025百度之星决赛]]",
+  "source": "<a href=\"/c/2025百度之星决赛\" class=\"wikilink\">2025百度之星决赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -36,7 +36,22 @@
         },
         {
           "type": "math",
-          "latex": "$$ a_{p_x} = \\sum_{i=1}^{x-1} b_{p_i} $$\n则称第 $x$ 个位置是好的，反之则是不好的。\n定义一个排列的度为其好的位置的数量。问 $1 \\sim n$ 所有排列的度之和为多少？\n由于答案可能很大，请对 $10^9 + 7$ 取模。",
+          "latex": "$$ a_{p_x} = \\sum_{i=1}^{x-1} b_{p_i} $$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "则称第 $x$ 个位置是好的，反之则是不好的。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "定义一个排列的度为其好的位置的数量。问 $1 \\sim n$ 所有排列的度之和为多少？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "由于答案可能很大，请对 $10^9 + 7$ 取模。",
           "depth": 1
         }
       ]
@@ -204,6 +219,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-01",
-  "parsed_at": "2026-06-14T18:39:36.082672+00:00",
+  "parsed_at": "2026-06-15T08:26:06.464198+00:00",
   "type_directory": "p"
 }

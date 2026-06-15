@@ -9,7 +9,7 @@
   "summary": "秒猜个结论，先考虑尽量全选白边的情况（当然，不够可以找黑边要），然后算全选黑边的情况，然后算这两种情况对应的 $(b1,w1) (b2,w2)$，$b1  - b2 +1$ 就是答案了。",
   "link": "https://acm.hdu.edu.cn/contest/problem?cid=1202&pid=1008",
   "link_text": "1008 黑白树",
-  "source": "[[2026杭电春季赛6]]",
+  "source": "<a href=\"/c/2026杭电春季赛6\" class=\"wikilink\">2026杭电春季赛6</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -177,6 +177,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-25",
-  "parsed_at": "2026-06-14T18:39:35.891545+00:00",
+  "parsed_at": "2026-06-15T08:26:06.295043+00:00",
   "type_directory": "p"
 }

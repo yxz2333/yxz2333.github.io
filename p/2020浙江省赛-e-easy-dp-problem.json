@@ -10,7 +10,7 @@
   "summary": "感觉看出结论才是本题最难的点，主席树查询很好写。",
   "link": "https://qoj.ac/contest/2020/problem/10917",
   "link_text": "Easy DP Problem - Problem - QOJ.ac",
-  "source": "[[2020浙江省赛]]",
+  "source": "<a href=\"/c/2020浙江省赛\" class=\"wikilink\">2020浙江省赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -169,7 +169,17 @@
         },
         {
           "type": "math",
-          "latex": "$$\\sum_{i=1}^{m} i^2 (= \\frac{m(m+1)(2m+1)}{6}) + [l,r] 区间内前 k 大的数的求和$$\n那本题的主要难点之一猜结论就搞定了，把主席树的查询函数 `query` 写出来即可解决本题。\n注意一下本题的主席树节点内维护了两个值 `cnt` 和 `sum`，算出现次数总和与数值总和。",
+          "latex": "$$\\sum_{i=1}^{m} i^2 (= \\frac{m(m+1)(2m+1)}{6}) + [l,r] 区间内前 k 大的数的求和$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "那本题的主要难点之一猜结论就搞定了，把主席树的查询函数 <code>query</code> 写出来即可解决本题。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意一下本题的主席树节点内维护了两个值 <code>cnt</code> 和 <code>sum</code>，算出现次数总和与数值总和。",
           "depth": 1
         }
       ]
@@ -198,6 +208,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-05",
-  "parsed_at": "2026-06-14T18:39:35.674722+00:00",
+  "parsed_at": "2026-06-15T08:26:06.127135+00:00",
   "type_directory": "p"
 }

@@ -9,7 +9,7 @@
   "summary": "很明显本题的数下标是完全没用的，本质是<strong>将总和</strong> $S$ <strong>分配给</strong> $n$ <strong>个数，使得它们的 OR 和最小</strong>，且$\\text{这几个数} \\ \\& \\ \\text{OR和} = 其本身$。考虑按位贪心，从高位开始枚举，为了让 OR 和最小，我们<strong>最在乎的是高位能不能是 0</strong>。如果所有的低位全吃满 $S$ 都<strong>还有剩的</strong>，说明<strong>一定得拿这一位</strong>，本题就解决了。",
   "link": "https://codeforces.com/gym/105143/problem/B",
   "link_text": "Problem - B - Codeforces",
-  "source": "[[2024ICPC武汉邀请赛]]",
+  "source": "<a href=\"/c/2024icpc武汉邀请赛\" class=\"wikilink\">2024ICPC武汉邀请赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -136,6 +136,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-09",
-  "parsed_at": "2026-06-14T18:39:35.711085+00:00",
+  "parsed_at": "2026-06-15T08:26:06.154001+00:00",
   "type_directory": "p"
 }

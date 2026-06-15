@@ -165,7 +165,7 @@
       "blocks": [
         {
           "type": "p",
-          "html": "!<a href=\"../assets/551d170d871aba82bf85a5766a261444_720_1777108329236_0.jpg\" target=\"_blank\" class=\"md-link\">551d170d871aba82bf85a5766a261444_720.jpg</a>{:height 372, :width 373}",
+          "html": "<img src=\"/images/551d170d871aba82bf85a5766a261444_720_1777108329236_0.jpg\" alt=\"551d170d871aba82bf85a5766a261444_720.jpg\" class=\"note-img\" />{:height 372, :width 373}",
           "depth": 1
         },
         {
@@ -411,6 +411,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-25",
-  "parsed_at": "2026-06-14T18:39:35.817339+00:00",
+  "parsed_at": "2026-06-15T08:26:06.237604+00:00",
   "type_directory": "p"
 }

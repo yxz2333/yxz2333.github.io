@@ -12,7 +12,7 @@
   "summary": "主要是得想好这个 <code>dp</code> 状态怎么定",
   "link": "https://codeforces.com/contest/2170/problem/E",
   "link_text": "Problem - E - Codeforces",
-  "source": "[[Educational Codeforces Round 185 (Rated for Div. 2)]]",
+  "source": "<a href=\"/c/educational-codeforces-round-185-(rated-for-div.-2)\" class=\"wikilink\">Educational Codeforces Round 185 (Rated for Div. 2)</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -353,7 +353,17 @@
             },
             {
               "type": "math",
-              "latex": "$$dp[i] = \\sum_{max\\_L}^{i-1} dp[j]$$\n**特例分析**：当 $j = i - 1$ 时，新块区间为 $[i, i]$（长度为 1）。这意味着第 $i$ 位**中断**了前面的颜色延续，作为**新颜色的起点**单独成块。（其实也不算特例，只是以上面的思路来看是特例）\n使用**前缀和**对这个区间和进行优化即可。",
+              "latex": "$$dp[i] = \\sum_{max\\_L}^{i-1} dp[j]$$",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>特例分析</strong>：当 $j = i - 1$ 时，新块区间为 $[i, i]$（长度为 1）。这意味着第 $i$ 位<strong>中断</strong>了前面的颜色延续，作为<strong>新颜色的起点</strong>单独成块。（其实也不算特例，只是以上面的思路来看是特例）",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "使用<strong>前缀和</strong>对这个区间和进行优化即可。",
               "depth": 4
             }
           ]
@@ -403,6 +413,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-25",
-  "parsed_at": "2026-06-14T18:39:36.356533+00:00",
+  "parsed_at": "2026-06-15T08:26:06.675778+00:00",
   "type_directory": "p"
 }

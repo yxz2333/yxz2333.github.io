@@ -9,7 +9,7 @@
   "summary": "分三种情况：最左边的全 0 段、最右边的全 0 段、夹在两个 1 中间的全 0 段，每段进行处理后，分三组向下取整就是答案了，即 <code>ans = (len + 2) / 3</code>。不需要用什么复杂的方法。",
   "link": "https://codeforces.com/contest/2188/problem/B",
   "link_text": "Problem - B - Codeforces",
-  "source": "[[Codeforces Round 1077 (Div. 2)]]",
+  "source": "<a href=\"/c/codeforces-round-1077-(div.-2)\" class=\"wikilink\">Codeforces Round 1077 (Div. 2)</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -136,6 +136,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-30",
-  "parsed_at": "2026-06-14T18:39:36.389593+00:00",
+  "parsed_at": "2026-06-15T08:26:06.700243+00:00",
   "type_directory": "p"
 }

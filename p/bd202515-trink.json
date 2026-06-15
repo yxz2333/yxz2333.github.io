@@ -11,7 +11,7 @@
   "summary": "妙妙题，纯靠思维，这种题看来还是得多做点。分析题意想到怎么算最大值，然后考虑<strong>维护最右链</strong>，再利用<strong>并查集</strong>算答案。",
   "link": "https://www.matiji.net/exam/brushquestion/15/4698/91E0C8915821F2C440B65EABFE649804",
   "link_text": "码蹄集OJ-Trink",
-  "source": "[[2025百度之星初赛第二场]]",
+  "source": "<a href=\"/c/2025百度之星初赛第二场\" class=\"wikilink\">2025百度之星初赛第二场</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -113,7 +113,7 @@
             },
             {
               "type": "p",
-              "html": "![](https://cdn.luogu.com.cn/upload/image_hosting/i8rzjnpk.png)",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/image_hosting/i8rzjnpk.png\" alt=\"\" class=\"note-img\" />",
               "depth": 1
             }
           ]
@@ -205,6 +205,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-21",
-  "parsed_at": "2026-06-14T18:39:36.078994+00:00",
+  "parsed_at": "2026-06-15T08:26:06.460708+00:00",
   "type_directory": "p"
 }

@@ -70,8 +70,28 @@
             },
             {
               "type": "math",
-              "latex": "$$Val_i = k + i \\cdot d - L \\cdot d = \\underbrace{(k - L \\cdot d)}_{\\text{常数 } C} + i \\cdot \\underbrace{d}_{\\text{系数 } D}$$\n**维护策略**",
+              "latex": "$$Val_i = k + i \\cdot d - L \\cdot d = \\underbrace{(k - L \\cdot d)}_{\\text{常数 } C} + i \\cdot \\underbrace{d}_{\\text{系数 } D}$$",
               "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>维护策略</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "使用两个树状数组（或一颗线段树维护两个值）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "维护 $C$ 的区间和（普通区间加）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "维护 $D$ 的系数和（查询时，这部分的实际贡献是 <code>tree.query(i) * i</code>）。",
+              "depth": 2
             }
           ]
         }
@@ -113,7 +133,12 @@
             },
             {
               "type": "math",
-              "latex": "$$ XorDist(u, v) = D[u] \\oplus D[v] $$\n其中 $D[x]$ 表示从**根节点**到节点 $x$ 的路径**异或前缀和**。",
+              "latex": "$$ XorDist(u, v) = D[u] \\oplus D[v] $$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "其中 $D[x]$ 表示从<strong>根节点</strong>到节点 $x$ 的路径<strong>异或前缀和</strong>。",
               "depth": 2
             }
           ]
@@ -139,7 +164,12 @@
             },
             {
               "type": "math",
-              "latex": "$$ XorDist(u, v) = D[u] \\oplus D[v] \\oplus d[LCA(u, v)]$$\n其中 $D[x]$ 表示从**根节点**到节点 $x$ 的点权**异或前缀和**，$d[x]$ 为 $x$ 节点的点权。",
+              "latex": "$$ XorDist(u, v) = D[u] \\oplus D[v] \\oplus d[LCA(u, v)]$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "其中 $D[x]$ 表示从<strong>根节点</strong>到节点 $x$ 的点权<strong>异或前缀和</strong>，$d[x]$ 为 $x$ 节点的点权。",
               "depth": 2
             },
             {
@@ -157,7 +187,12 @@
       "blocks": [
         {
           "type": "math",
-          "latex": "$$\\min(X, Y) = \\frac{X + Y - |X - Y|}{2}$$\n可以通过本公式，使用 **排序后双指针** 即可解决对 $\\min(X,Y)$ 的双重循环问题。例题：[[CF2131F Unjust Binary Life]]",
+          "latex": "$$\\min(X, Y) = \\frac{X + Y - |X - Y|}{2}$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "可以通过本公式，使用 <strong>排序后双指针</strong> 即可解决对 $\\min(X,Y)$ 的双重循环问题。例题：<a href=\"/p/cf2131f-unjust-binary-life\" class=\"wikilink\">CF2131F Unjust Binary Life</a>",
           "depth": 1
         }
       ]
@@ -166,6 +201,6 @@
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-16",
-  "parsed_at": "2026-06-14T18:45:12.072381+00:00",
+  "parsed_at": "2026-06-15T08:24:44.672335+00:00",
   "type_directory": "k"
 }

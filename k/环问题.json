@@ -23,7 +23,7 @@
         },
         {
           "type": "p",
-          "html": "!<a href=\"https://oi-wiki.org/graph/images/dfs-tree.svg\" target=\"_blank\" class=\"md-link\">DFS 生成树</a>",
+          "html": "<img src=\"https://oi-wiki.org/graph/images/dfs-tree.svg\" alt=\"DFS 生成树\" class=\"note-img\" />",
           "depth": 2
         },
         {
@@ -206,6 +206,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-04",
-  "parsed_at": "2026-06-14T18:45:12.036100+00:00",
+  "parsed_at": "2026-06-15T08:24:44.633972+00:00",
   "type_directory": "k"
 }

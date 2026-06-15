@@ -176,7 +176,17 @@
             },
             {
               "type": "math",
-              "latex": "$$PrefixMask[R] \\oplus PrefixMask[L-1] = 0$$\n即：\n$$PrefixMask[R] == PrefixMask[L-1]$$",
+              "latex": "$$PrefixMask[R] \\oplus PrefixMask[L-1] = 0$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "即：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$PrefixMask[R] == PrefixMask[L-1]$$",
               "depth": 1
             }
           ]
@@ -201,6 +211,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-21",
-  "parsed_at": "2026-06-14T18:39:35.985205+00:00",
+  "parsed_at": "2026-06-15T08:26:06.381823+00:00",
   "type_directory": "p"
 }

@@ -201,7 +201,27 @@
         },
         {
           "type": "math",
-          "latex": "$$a_i - Tb_i - c_ib_i + a_j - Tb_j - c_ib_j - c_jb_j > a_j - Tb_j - c_jb_j + a_i - Tb_i - c_jb_i - c_ib_i$$\n**暴力化简（消消乐时间）：**\n两边都有 $a_i, a_j, -Tb_i, -Tb_j, -c_ib_i, -c_jb_j$，统统划掉！\n最后竟然只剩下极其干净的两项：\n$$-c_ib_j > -c_jb_i$$",
+          "latex": "$$a_i - Tb_i - c_ib_i + a_j - Tb_j - c_ib_j - c_jb_j > a_j - Tb_j - c_jb_j + a_i - Tb_i - c_jb_i - c_ib_i$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>暴力化简（消消乐时间）：</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "两边都有 $a_i, a_j, -Tb_i, -Tb_j, -c_ib_i, -c_jb_j$，统统划掉！",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "最后竟然只剩下极其干净的两项：",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$-c_ib_j > -c_jb_i$$",
           "depth": 2
         },
         {
@@ -234,6 +254,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-15",
-  "parsed_at": "2026-06-14T18:39:36.831289+00:00",
+  "parsed_at": "2026-06-15T08:26:07.145865+00:00",
   "type_directory": "p"
 }

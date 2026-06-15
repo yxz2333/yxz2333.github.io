@@ -12,7 +12,7 @@
   "summary": "",
   "link": "https://qoj.ac/contest/2756/problem/15887",
   "link_text": "宝石分组 - Problem - QOJ.ac",
-  "source": "[[THUPC 2026 初赛]]",
+  "source": "<a href=\"/c/thupc-2026-初赛\" class=\"wikilink\">THUPC 2026 初赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -201,6 +201,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-01",
-  "parsed_at": "2026-06-14T18:39:36.919986+00:00",
+  "parsed_at": "2026-06-15T08:26:07.224978+00:00",
   "type_directory": "p"
 }

@@ -271,8 +271,142 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$g(x) = \\text{mex}( \\{ g(x-1), g(x-2), \\dots, g(1), S \\} )$$\n现在，我们从 $x=1$ 开始逐个代入计算。\n#### 第一步：计算 $x=1$\n#### 第二步：计算 $x=2$\n#### 第三步：计算 $x=3$\n#### 第四步：推广到任意 $x > 1$",
+                  "latex": "$$g(x) = \\text{mex}( \\{ g(x-1), g(x-2), \\dots, g(1), S \\} )$$",
                   "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "现在，我们从 $x=1$ 开始逐个代入计算。",
+                  "depth": 1
+                },
+                {
+                  "heading": "第一步：计算 $x=1$",
+                  "level": 4,
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "html": "当这堆只有 1 张牌时，你只能取 1 张。取完后直接面临后续游戏 $S$。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "math",
+                      "latex": "$$g(1) = \\text{mex}( \\{ S \\} )$$",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "<strong>【得到极其重要的数学结论一】</strong>：",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "$S$ 和 $g(1)$ 的值是互斥的。",
+                      "depth": 2
+                    },
+                    {
+                      "type": "p",
+                      "html": "<strong>在</strong> $S$ <strong>和</strong> $g(1)$ <strong>这两个数中，必然有且仅有一个是 0。</strong>",
+                      "depth": 2
+                    }
+                  ]
+                },
+                {
+                  "heading": "第二步：计算 $x=2$",
+                  "level": 4,
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "html": "当这堆有 2 张牌时，你可以取 1 张（进入 $g(1)$ 状态），也可以取 2 张（进入 $S$ 状态）。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "math",
+                      "latex": "$$g(2) = \\text{mex}( \\{ g(1), S \\} )$$",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "根据【结论一】，集合 $\\{ g(1), S \\}$ 里面<strong>一定包含数字 0</strong>！",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "既然集合里已经有 0 了，那么这个集合的 <code>mex</code> 值（不在集合中的最小非负整数）<strong>绝对不可能是 0</strong>。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "所以，$g(2)$ <strong>必然大于 0</strong>。",
+                      "depth": 1
+                    }
+                  ]
+                },
+                {
+                  "heading": "第三步：计算 $x=3$",
+                  "level": 4,
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "html": "当这堆有 3 张牌时，状态集合是取 1、2、3 张的后果。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "math",
+                      "latex": "$$g(3) = \\text{mex}( \\{ g(2), g(1), S \\} )$$",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "我们不用管 $g(2)$ 是多少，因为集合里包含 $\\{ g(1), S \\}$，根据【结论一】，这个集合里<strong>一定包含 0</strong>。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "同理，<code>mex</code> 值绝对不可能是 0。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "所以，$g(3)$ <strong>必然大于 0</strong>。",
+                      "depth": 1
+                    }
+                  ]
+                },
+                {
+                  "heading": "第四步：推广到任意 $x > 1$",
+                  "level": 4,
+                  "blocks": [
+                    {
+                      "type": "p",
+                      "html": "对于任何大于 1 的 $x$：",
+                      "depth": 1
+                    },
+                    {
+                      "type": "math",
+                      "latex": "$$g(x) = \\text{mex}( \\{ \\dots, g(2), g(1), S \\} )$$",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "因为后继状态的集合中<strong>永远包含</strong> $g(1)$ <strong>和</strong> $S$，这意味着集合中<strong>永远存在 0</strong>。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "只要集合里有 0，求出来的 <code>mex</code> 就一定不是 0。",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "<strong>【得到极其重要的数学结论二】</strong>：",
+                      "depth": 1
+                    },
+                    {
+                      "type": "p",
+                      "html": "<strong>只要</strong> $x > 1$<strong>，那么</strong> $g(x) > 0$ <strong>永远成立。</strong>",
+                      "depth": 2
+                    }
+                  ]
                 }
               ]
             }
@@ -339,6 +473,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-27",
-  "parsed_at": "2026-06-14T18:39:36.792092+00:00",
+  "parsed_at": "2026-06-15T08:26:07.115581+00:00",
   "type_directory": "p"
 }

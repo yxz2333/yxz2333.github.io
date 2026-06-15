@@ -11,7 +11,7 @@
   "summary": "写的时候<strong>思维定势</strong>，花了一小时搞<strong>组合数学</strong>，实际上想到<strong>状态机dp</strong>就能直接秒了",
   "link": "https://ac.nowcoder.com/acm/contest/120458/D",
   "link_text": "D-碎碎念_牛客2025秋季算法编程训练联赛5-提升组",
-  "source": "[[牛客2025秋季算法编程训练联赛5-提升组]]",
+  "source": "<a href=\"/c/牛客2025秋季算法编程训练联赛5-提升组\" class=\"wikilink\">牛客2025秋季算法编程训练联赛5-提升组</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -240,6 +240,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-12",
-  "parsed_at": "2026-06-14T18:39:36.658936+00:00",
+  "parsed_at": "2026-06-15T08:26:06.979059+00:00",
   "type_directory": "p"
 }

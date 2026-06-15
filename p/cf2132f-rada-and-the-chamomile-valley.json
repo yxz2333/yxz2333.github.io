@@ -137,7 +137,12 @@
             },
             {
               "type": "math",
-              "latex": "$$1 \\xrightarrow{3} 3$$\n$$1 \\xrightarrow{1} 2 \\xrightarrow{2} 3$$",
+              "latex": "$$1 \\xrightarrow{3} 3$$",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$1 \\xrightarrow{1} 2 \\xrightarrow{2} 3$$",
               "depth": 1
             },
             {
@@ -152,7 +157,12 @@
             },
             {
               "type": "math",
-              "latex": "$$1 \\xrightarrow{1} 2 \\xrightarrow{2} 3 \\xrightarrow{3} 4 \\xrightarrow{4} 5$$\n可以看出，对于第 $v$ 个房屋，答案是 $\\max(v-1, 1)$。",
+              "latex": "$$1 \\xrightarrow{1} 2 \\xrightarrow{2} 3 \\xrightarrow{3} 4 \\xrightarrow{4} 5$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "可以看出，对于第 $v$ 个房屋，答案是 $\\max(v-1, 1)$。",
               "depth": 1
             }
           ]
@@ -262,6 +272,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-06",
-  "parsed_at": "2026-06-14T18:39:36.333310+00:00",
+  "parsed_at": "2026-06-15T08:26:06.652037+00:00",
   "type_directory": "p"
 }

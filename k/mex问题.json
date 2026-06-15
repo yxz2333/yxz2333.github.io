@@ -85,8 +85,28 @@
         },
         {
           "type": "math",
-          "latex": "$$\\sum MEX(\\alpha) = \\sum_{k \\ge 1} \\text{Count}(MEX(\\alpha) \\ge k)$$\n**为什么要这么转？**",
+          "latex": "$$\\sum MEX(\\alpha) = \\sum_{k \\ge 1} \\text{Count}(MEX(\\alpha) \\ge k)$$",
           "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>为什么要这么转？</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "直接求 $MEX(\\alpha)=k$ 需要满足两个条件：$0 \\dots k-1$ <strong>都在</strong>，且 $k$ <strong>不在</strong>。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "求 $MEX(\\alpha)\\ge k$ 只需要满足一个条件：$0 \\dots k-1$ <strong>都在</strong>。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>少考虑一个条件，逻辑复杂度降低一个量级。</strong>在树上，这代表你只需要维护一个包含 $\\{0 \\dots k-1\\}$ 的“最小连通块/链”，而不需要管 $k$ 在哪。",
+          "depth": 3
         }
       ]
     }
@@ -94,6 +114,6 @@
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-01",
-  "parsed_at": "2026-06-14T18:45:12.166208+00:00",
+  "parsed_at": "2026-06-15T08:24:44.761539+00:00",
   "type_directory": "k"
 }

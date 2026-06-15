@@ -12,7 +12,7 @@
   "summary": "想到<strong>前缀异或</strong>和<strong>LCA</strong>思想就能一眼秒了本题。",
   "link": "[P14455 [ICPC 2025 Xi'an R] Imagined Holly - 洛谷](https://www.luogu.com.cn/problem/P14455)",
   "link_text": "[P14455 [ICPC 2025 Xi'an R] Imagined Holly - 洛谷](https://www.luogu.com.cn/problem/P14455)",
-  "source": "[[2025ICPC西安区域赛]]",
+  "source": "<a href=\"/c/2025icpc西安区域赛\" class=\"wikilink\">2025ICPC西安区域赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -162,7 +162,7 @@
             },
             {
               "type": "p",
-              "html": "![](https://cdn.luogu.com.cn/upload/image_hosting/06hepyce.png){:height 236, :width 414}",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/image_hosting/06hepyce.png\" alt=\"\" class=\"note-img\" />{:height 236, :width 414}",
               "depth": 1
             },
             {
@@ -172,7 +172,12 @@
             },
             {
               "type": "math",
-              "latex": "$$2 \\oplus 1 \\oplus 4 = 7,$$\n这与输入中给出的 $A_{2,4} = 7$ 一致。",
+              "latex": "$$2 \\oplus 1 \\oplus 4 = 7,$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这与输入中给出的 $A_{2,4} = 7$ 一致。",
               "depth": 1
             }
           ]
@@ -284,6 +289,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-28",
-  "parsed_at": "2026-06-14T18:39:36.835808+00:00",
+  "parsed_at": "2026-06-15T08:26:07.149400+00:00",
   "type_directory": "p"
 }

@@ -9,7 +9,7 @@
   "summary": "跟括号匹配问题一样维护个栈就行了，我居然想半天没想到。",
   "link": "https://acm.hdu.edu.cn/contest/problem?cid=1202&pid=1005",
   "link_text": "1005 向量压缩",
-  "source": "[[2026杭电春季赛6]]",
+  "source": "<a href=\"/c/2026杭电春季赛6\" class=\"wikilink\">2026杭电春季赛6</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -140,6 +140,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-25",
-  "parsed_at": "2026-06-14T18:39:35.884459+00:00",
+  "parsed_at": "2026-06-15T08:26:06.286998+00:00",
   "type_directory": "p"
 }

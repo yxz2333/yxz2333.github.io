@@ -9,7 +9,7 @@
   "summary": "一眼发现状态不多 $9! < 4e5$，明显能想到用 $bfs$ 算出一个状态（123456789）到其它所有状态的最少步骤。明显能发现，我们<strong>不在乎每个格子具体是什么数字</strong>，也就说，我们可以把 $a$ 看做 123456789，然后对 $b$ 进行重新映射，这样本题就解决了。",
   "link": "https://codeforces.com/gym/105930/problem/I",
   "link_text": "Problem - I - Codeforces",
-  "source": "[[第十五届山东省赛]]",
+  "source": "<a href=\"/c/第十五届山东省赛\" class=\"wikilink\">第十五届山东省赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -30,7 +30,7 @@
         },
         {
           "type": "p",
-          "html": "!<a href=\"../assets/image_1773932224334_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>",
+          "html": "<img src=\"/images/image_1773932224334_0.png\" alt=\"image.png\" class=\"note-img\" />",
           "depth": 2
         },
         {
@@ -136,6 +136,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-20",
-  "parsed_at": "2026-06-14T18:39:36.932956+00:00",
+  "parsed_at": "2026-06-15T08:26:07.236321+00:00",
   "type_directory": "p"
 }

@@ -9,7 +9,7 @@
   "summary": "写个<strong>动态构造</strong>的字符串哈希就行 <code>hs = hs * base + s[i] - &#x27;a&#x27; + 1</code> ，我这用的单哈希。",
   "link": "https://codeforces.com/gym/102770/problem/C",
   "link_text": "Problem - C - Codeforces",
-  "source": "[[2020浙江省赛]]",
+  "source": "<a href=\"/c/2020浙江省赛\" class=\"wikilink\">2020浙江省赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -211,6 +211,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-05",
-  "parsed_at": "2026-06-14T18:39:35.669920+00:00",
+  "parsed_at": "2026-06-15T08:26:06.124142+00:00",
   "type_directory": "p"
 }

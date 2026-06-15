@@ -182,7 +182,17 @@
             },
             {
               "type": "math",
-              "latex": "$$Ans = Total - (\\sum|单集| - \\sum|两两交集| + \\sum|三个交集| - \\dots)$$\n去括号后变成：\n$$Ans = Total - \\sum|单集| + \\sum|两两交集| - \\sum|三个交集| + \\dots$$",
+              "latex": "$$Ans = Total - (\\sum|单集| - \\sum|两两交集| + \\sum|三个交集| - \\dots)$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "去括号后变成：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$Ans = Total - \\sum|单集| + \\sum|两两交集| - \\sum|三个交集| + \\dots$$",
               "depth": 2
             },
             {
@@ -302,6 +312,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-17",
-  "parsed_at": "2026-06-14T18:45:12.047195+00:00",
+  "parsed_at": "2026-06-15T08:24:44.649276+00:00",
   "type_directory": "k"
 }

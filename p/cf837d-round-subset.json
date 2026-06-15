@@ -177,7 +177,12 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\text{Ans} = \\min\\left( \\sum \\text{cnt}_2, \\sum \\text{cnt}_5 \\right) $$\n我们的目标是选出 $m$ 个数，使得上式最大化。",
+              "latex": "$$ \\text{Ans} = \\min\\left( \\sum \\text{cnt}_2, \\sum \\text{cnt}_5 \\right) $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们的目标是选出 $m$ 个数，使得上式最大化。",
               "depth": 1
             }
           ]
@@ -249,7 +254,17 @@
             },
             {
               "type": "math",
-              "latex": "$$ dp[j][k] = \\max(dp[j][k], \\quad dp[j-1][k - \\text{cnt5}[i]] + \\text{cnt2}[i]) $$\n**初始化**：$dp[0][0] = 0$，其余设为 $-1$（代表不可达，即无法恰好凑出该状态，背包恰好装满的惯用解决方式）。\n**循环顺序**：为了压掉第一维 $i$，内层的 $j$ 和 $k$ 需要**倒序遍历**。",
+              "latex": "$$ dp[j][k] = \\max(dp[j][k], \\quad dp[j-1][k - \\text{cnt5}[i]] + \\text{cnt2}[i]) $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>初始化</strong>：$dp[0][0] = 0$，其余设为 $-1$（代表不可达，即无法恰好凑出该状态，背包恰好装满的惯用解决方式）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>循环顺序</strong>：为了压掉第一维 $i$，内层的 $j$ 和 $k$ 需要<strong>倒序遍历</strong>。",
               "depth": 1
             }
           ]
@@ -306,6 +321,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-19",
-  "parsed_at": "2026-06-14T18:39:36.608738+00:00",
+  "parsed_at": "2026-06-15T08:26:06.915115+00:00",
   "type_directory": "p"
 }

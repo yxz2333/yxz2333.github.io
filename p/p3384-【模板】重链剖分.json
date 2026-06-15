@@ -126,7 +126,7 @@
             },
             {
               "type": "p",
-              "html": "![](https://cdn.luogu.com.cn/upload/pic/2319.png)",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/pic/2319.png\" alt=\"\" class=\"note-img\" />",
               "depth": 1
             },
             {
@@ -136,7 +136,7 @@
             },
             {
               "type": "p",
-              "html": "![](https://cdn.luogu.com.cn/upload/pic/2320.png){:height 146, :width 591}",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/pic/2320.png\" alt=\"\" class=\"note-img\" />{:height 146, :width 591}",
               "depth": 1
             },
             {
@@ -188,6 +188,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-09",
-  "parsed_at": "2026-06-14T18:39:36.873272+00:00",
+  "parsed_at": "2026-06-15T08:26:07.181194+00:00",
   "type_directory": "p"
 }

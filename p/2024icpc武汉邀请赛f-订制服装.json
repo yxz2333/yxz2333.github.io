@@ -10,7 +10,7 @@
   "summary": "本题的<strong>性质</strong>很不一般，明显适合二分，考虑二分答案。那么check函数里只能进行最多 2500 次操作，考虑到 $n = 1000$，考虑 check 每次仅进行 1000 次操作。",
   "link": "https://codeforces.com/gym/105143/problem/F",
   "link_text": "Problem - F - Codeforces",
-  "source": "[[2024ICPC武汉邀请赛]]",
+  "source": "<a href=\"/c/2024icpc武汉邀请赛\" class=\"wikilink\">2024ICPC武汉邀请赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -158,6 +158,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-15",
-  "parsed_at": "2026-06-14T18:39:35.714625+00:00",
+  "parsed_at": "2026-06-15T08:26:06.157086+00:00",
   "type_directory": "p"
 }

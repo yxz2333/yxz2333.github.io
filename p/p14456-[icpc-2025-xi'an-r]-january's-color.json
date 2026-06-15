@@ -10,7 +10,7 @@
   "summary": "先<strong>树形dp</strong>使 $c$ 更小，注意到 $y$ 一定得是 $x$ 的<strong>祖先</strong>，然后用<strong>倍增</strong>获得 $x$ 跑到 $y$ 的答案即可，用<strong>贪心跳跃法</strong>。",
   "link": "[P14456 [ICPC 2025 Xi'an R] January's Color - 洛谷](https://www.luogu.com.cn/problem/P14456)",
   "link_text": "[P14456 [ICPC 2025 Xi'an R] January's Color - 洛谷](https://www.luogu.com.cn/problem/P14456)",
-  "source": "[[2025ICPC西安区域赛]]",
+  "source": "<a href=\"/c/2025icpc西安区域赛\" class=\"wikilink\">2025ICPC西安区域赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -195,7 +195,12 @@
             },
             {
               "type": "math",
-              "latex": "$$c_{now} = \\min(c_{now}, \\min(c_{child}) + \\text{second\\_min}(c_{child}))$$\n*注：这里必须遍历所有子节点实时找最小值和次小值，不能依赖初始排序，因为子节点的 $c$ 值在递归中会被更新。*",
+              "latex": "$$c_{now} = \\min(c_{now}, \\min(c_{child}) + \\text{second\\_min}(c_{child}))$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<em>注：这里必须遍历所有子节点实时找最小值和次小值，不能依赖初始排序，因为子节点的 $c$ 值在递归中会被更新。</em>",
               "depth": 1
             }
           ]
@@ -277,6 +282,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-13",
-  "parsed_at": "2026-06-14T18:39:36.839557+00:00",
+  "parsed_at": "2026-06-15T08:26:07.153170+00:00",
   "type_directory": "p"
 }

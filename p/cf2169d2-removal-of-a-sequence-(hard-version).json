@@ -47,7 +47,7 @@
         },
         {
           "type": "p",
-          "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF2169D2/876b3e672202bb55fb9d796b30f1d1ab45983bc12ae4343982ca3d411cc48a73.png)",
+          "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF2169D2/876b3e672202bb55fb9d796b30f1d1ab45983bc12ae4343982ca3d411cc48a73.png\" alt=\"\" class=\"note-img\" />",
           "depth": 1
         },
         {
@@ -159,7 +159,17 @@
             },
             {
               "type": "math",
-              "latex": "$$ k_{next} = k + \\text{被删去的数的个数} $$\n即：\n$$ k_{next} = k + \\lfloor \\frac{k_{next}}{y} \\rfloor $$",
+              "latex": "$$ k_{next} = k + \\text{被删去的数的个数} $$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "即：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$ k_{next} = k + \\lfloor \\frac{k_{next}}{y} \\rfloor $$",
               "depth": 2
             },
             {
@@ -219,17 +229,42 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ k + \\text{cnt} \\cdot \\text{add} \\le y \\cdot (\\text{add} + 1) - 1 $$\n解这个不等式，求 $\\text{cnt}$ 的最大整数解：\n$$ \\text{cnt} \\cdot \\text{add} \\le y \\cdot (\\text{add} + 1) - k - 1 $$",
+                  "latex": "$$ k + \\text{cnt} \\cdot \\text{add} \\le y \\cdot (\\text{add} + 1) - 1 $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "解这个不等式，求 $\\text{cnt}$ 的最大整数解：",
                   "depth": 1
                 },
                 {
                   "type": "math",
-                  "latex": "$$ \\text{cnt} = \\lfloor \\frac{y \\cdot (\\text{add} + 1) - k - 1}{\\text{add}} \\rfloor $$\n算出 $\\text{cnt}$ 后，我们可以直接更新：\n$$ k \\leftarrow k + \\min(x, \\text{cnt}) \\cdot \\text{add} $$",
+                  "latex": "$$ \\text{cnt} \\cdot \\text{add} \\le y \\cdot (\\text{add} + 1) - k - 1 $$",
                   "depth": 1
                 },
                 {
                   "type": "math",
-                  "latex": "$$ x \\leftarrow x - \\min(x, \\text{cnt}) $$\n若 $x$ 耗尽或 $k$ 越界，则结束；否则，说明我们到达了当前增量阶段的边界，需要计算新的增量。",
+                  "latex": "$$ \\text{cnt} = \\lfloor \\frac{y \\cdot (\\text{add} + 1) - k - 1}{\\text{add}} \\rfloor $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "算出 $\\text{cnt}$ 后，我们可以直接更新：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k \\leftarrow k + \\min(x, \\text{cnt}) \\cdot \\text{add} $$",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ x \\leftarrow x - \\min(x, \\text{cnt}) $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "若 $x$ 耗尽或 $k$ 越界，则结束；否则，说明我们到达了当前增量阶段的边界，需要计算新的增量。",
                   "depth": 1
                 }
               ]
@@ -280,7 +315,17 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ k + \\text{add\\_next} > y \\cdot \\text{add\\_next} $$\n由于是整数，严格大于等价于 $\\ge \\dots + 1$：\n$$ k + \\text{add\\_next} \\ge y \\cdot \\text{add\\_next} + 1 $$",
+                  "latex": "$$ k + \\text{add\\_next} > y \\cdot \\text{add\\_next} $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "由于是整数，严格大于等价于 $\\ge \\dots + 1$：",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k + \\text{add\\_next} \\ge y \\cdot \\text{add\\_next} + 1 $$",
                   "depth": 2
                 },
                 {
@@ -290,7 +335,12 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ k - 1 \\ge (y - 1) \\cdot \\text{add\\_next} $$\n$$ \\text{add\\_next} \\le \\frac{k - 1}{y - 1} $$",
+                  "latex": "$$ k - 1 \\ge (y - 1) \\cdot \\text{add\\_next} $$",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\text{add\\_next} \\le \\frac{k - 1}{y - 1} $$",
                   "depth": 2
                 },
                 {
@@ -305,12 +355,27 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ k + \\text{add\\_next} < y \\cdot (\\text{add\\_next} + 1) $$\n展开：\n$$ k + \\text{add\\_next} < y \\cdot \\text{add\\_next} + y $$",
+                  "latex": "$$ k + \\text{add\\_next} < y \\cdot (\\text{add\\_next} + 1) $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "展开：",
                   "depth": 2
                 },
                 {
                   "type": "math",
-                  "latex": "$$ k - y < (y - 1) \\cdot \\text{add\\_next} $$\n$$ \\text{add\\_next} > \\frac{k - y}{y - 1} = \\frac{k - 1}{y - 1} - 1 $$",
+                  "latex": "$$ k + \\text{add\\_next} < y \\cdot \\text{add\\_next} + y $$",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k - y < (y - 1) \\cdot \\text{add\\_next} $$",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\text{add\\_next} > \\frac{k - y}{y - 1} = \\frac{k - 1}{y - 1} - 1 $$",
                   "depth": 2
                 },
                 {
@@ -320,7 +385,17 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ \\frac{k - 1}{y - 1} - 1 < \\text{add\\_next} \\le \\frac{k - 1}{y - 1} $$\n在这个长度为 1 的区间 $(M-1, M]$ 中，**唯一的整数解**就是上界的向下取整：\n$$ \\text{add\\_next} = \\lfloor \\frac{k - 1}{y - 1} \\rfloor $$",
+                  "latex": "$$ \\frac{k - 1}{y - 1} - 1 < \\text{add\\_next} \\le \\frac{k - 1}{y - 1} $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "在这个长度为 1 的区间 $(M-1, M]$ 中，<strong>唯一的整数解</strong>就是上界的向下取整：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\text{add\\_next} = \\lfloor \\frac{k - 1}{y - 1} \\rfloor $$",
                   "depth": 1
                 },
                 {
@@ -335,7 +410,12 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ k \\leftarrow k + \\text{add\\_next} $$\n$$ x \\leftarrow x - 1 $$",
+                  "latex": "$$ k \\leftarrow k + \\text{add\\_next} $$",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ x \\leftarrow x - 1 $$",
                   "depth": 1
                 },
                 {
@@ -368,8 +448,63 @@
             },
             {
               "type": "math",
-              "latex": "$$ k_t = k_0 \\cdot (1 + \\frac{1}{y})^t $$\n结合 $cnt$ 跳跃加速来看这个函数图像：",
+              "latex": "$$ k_t = k_0 \\cdot (1 + \\frac{1}{y})^t $$",
               "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "结合 $cnt$ 跳跃加速来看这个函数图像：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "1.  <strong>左端情况（y 很小）：陡峭的指数曲线</strong>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "增长公式 $k_t$ 极其陡峭，类似<strong>指数函数</strong>。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "虽然你的算法每次只走 1 步，但因为曲线太陡，几步就窜上天了。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>结果</strong>：快 $O(\\log N)$。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "2.  <strong>右端情况（y 很大）：平缓的直线</strong>",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "增长公式 $k_t$ 极其平缓，近似于<strong>线性函数</strong> $y=x$。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "如果一步步走会死人。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>但是</strong>，有 <code>cnt</code> 跳跃批量处理！当曲线平缓时，你的一次 <code>cnt</code> 加速相当于直接在横轴上跳了一大截（跳跃长度 $\\approx y$）。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "因为 $y$ 很大，所以你跳得很大。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>结果</strong>：也快 $O(N/y) = O(\\sqrt{N}$)。",
+              "depth": 4
             }
           ]
         },
@@ -393,8 +528,28 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ X = qy + r $$\n这里的核心约束是：",
+                  "latex": "$$ X = qy + r $$",
                   "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "这里的核心约束是：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "$q$ 是整数（即我们要算的 $\\lfloor X/y \\rfloor$）。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "$r$ 是余数。因为 $X$ 是幸存者，不能被 $y$ 整除，所以 $r$ 的范围是：",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\mathbf{1 \\le r \\le y - 1} $$",
+                  "depth": 2
                 }
               ]
             },
@@ -409,7 +564,12 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ k = (qy + r) - q $$\n$$ k = q(y - 1) + r $$",
+                  "latex": "$$ k = (qy + r) - q $$",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k = q(y - 1) + r $$",
                   "depth": 1
                 },
                 {
@@ -435,8 +595,83 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ 1 \\le k - q(y - 1) \\le y - 1 $$\n现在这是一个关于 $q$ 的不等式组，我们分别解左右两边。\n**1. 解左边（确定 q 的上限）：**\n**2. 解右边（确定 q 的下限）：**",
+                  "latex": "$$ 1 \\le k - q(y - 1) \\le y - 1 $$",
                   "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "现在这是一个关于 $q$ 的不等式组，我们分别解左右两边。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>1. 解左边（确定 q 的上限）：</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ 1 \\le k - q(y - 1) $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "移项：",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ q(y - 1) \\le k - 1 $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "除以 $(y-1)$：",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ q \\le \\frac{k - 1}{y - 1} $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>2. 解右边（确定 q 的下限）：</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k - q(y - 1) \\le y - 1 $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "移项：",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ k - (y - 1) \\le q(y - 1) $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "除以 $(y-1)$：",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\frac{k - (y - 1)}{y - 1} \\le q $$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "化简一下左边：",
+                  "depth": 2
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ \\frac{k}{y - 1} - 1 \\le q $$",
+                  "depth": 2
                 }
               ]
             },
@@ -451,7 +686,27 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$ \\frac{k}{y - 1} - 1 \\le q \\le \\frac{k - 1}{y - 1} $$\n为了看得更清楚，我们令 $A = \\frac{k - 1}{y - 1}$。\n那么上界就是 $A$，下界是 $\\frac{k - y + 1}{y - 1} = \\frac{k - 1 - (y - 2)}{y - 1} = A - \\frac{y - 2}{y - 1}$。\n所以 $q$ 的范围区间是：\n$$ [A - \\frac{y - 2}{y - 1}, \\quad A] $$",
+                  "latex": "$$ \\frac{k}{y - 1} - 1 \\le q \\le \\frac{k - 1}{y - 1} $$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "为了看得更清楚，我们令 $A = \\frac{k - 1}{y - 1}$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "那么上界就是 $A$，下界是 $\\frac{k - y + 1}{y - 1} = \\frac{k - 1 - (y - 2)}{y - 1} = A - \\frac{y - 2}{y - 1}$。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "所以 $q$ 的范围区间是：",
+                  "depth": 1
+                },
+                {
+                  "type": "math",
+                  "latex": "$$ [A - \\frac{y - 2}{y - 1}, \\quad A] $$",
                   "depth": 1
                 },
                 {
@@ -513,6 +768,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-15",
-  "parsed_at": "2026-06-14T18:39:36.352694+00:00",
+  "parsed_at": "2026-06-15T08:26:06.671369+00:00",
   "type_directory": "p"
 }

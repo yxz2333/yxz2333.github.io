@@ -11,7 +11,7 @@
   "summary": "最重要的还是想出这个公式 $Sum[r][c] \\pmod k \\equiv Sum[l-1][c] \\pmod k$，这样就好搞莫队了，当然也得对各个状态进行哈希来优化。",
   "link": "https://codeforces.com/gym/105911/problem/E",
   "link_text": "Problem - E - Codeforces",
-  "source": "[[2025ICPC南昌邀请赛]]",
+  "source": "<a href=\"/c/2025icpc南昌邀请赛\" class=\"wikilink\">2025ICPC南昌邀请赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -150,7 +150,12 @@
             },
             {
               "type": "math",
-              "latex": "$$(Sum[r][c] - Sum[l-1][c]) \\equiv 0 \\pmod k$$\n$$Sum[r][c] \\pmod k \\equiv Sum[l-1][c] \\pmod k$$",
+              "latex": "$$(Sum[r][c] - Sum[l-1][c]) \\equiv 0 \\pmod k$$",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$Sum[r][c] \\pmod k \\equiv Sum[l-1][c] \\pmod k$$",
               "depth": 1
             },
             {
@@ -196,7 +201,12 @@
             },
             {
               "type": "math",
-              "latex": "$$Hash[i] = \\sum_{c='a'}^{'z'} (Sum[i][c] \\pmod k) \\times Weight[c]$$\n利用 `unsigned long long` 的**自然溢出**特性（自动对 $2^{64}$ 取模），只要哈希值相同，我们就认为这两个状态的 26 个维度的值完全相同。碰撞概率约等于 $\\frac{1}{2^{64}}$，在算法竞赛中绝对安全。",
+              "latex": "$$Hash[i] = \\sum_{c='a'}^{'z'} (Sum[i][c] \\pmod k) \\times Weight[c]$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "利用 <code>unsigned long long</code> 的<strong>自然溢出</strong>特性（自动对 $2^{64}$ 取模），只要哈希值相同，我们就认为这两个状态的 26 个维度的值完全相同。碰撞概率约等于 $\\frac{1}{2^{64}}$，在算法竞赛中绝对安全。",
               "depth": 1
             }
           ]
@@ -253,6 +263,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-28",
-  "parsed_at": "2026-06-14T18:39:35.771507+00:00",
+  "parsed_at": "2026-06-15T08:26:06.203212+00:00",
   "type_directory": "p"
 }

@@ -31,7 +31,12 @@
         },
         {
           "type": "math",
-          "latex": "$$ P = \\frac{n!}{n_1! \\cdot n_2! \\cdot \\dots \\cdot n_k!} $$\n**解释**：先假设所有元素都不同，有 $n!$ 种排法；然后因为第 $i$ 种元素内部是相同的，它们之间的 $n_i!$ 种内部交换不产生新排列，所以要除以 $n_i!$。",
+          "latex": "$$ P = \\frac{n!}{n_1! \\cdot n_2! \\cdot \\dots \\cdot n_k!} $$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>解释</strong>：先假设所有元素都不同，有 $n!$ 种排法；然后因为第 $i$ 种元素内部是相同的，它们之间的 $n_i!$ 种内部交换不产生新排列，所以要除以 $n_i!$。",
           "depth": 1
         }
       ]
@@ -106,7 +111,17 @@
             },
             {
               "type": "math",
-              "latex": "$$ C_n^m \\times C_{n-m}^m \\times \\dots \\times C_m^m $$\n我们把组合数公式 $C_n^m = \\frac{n!}{m!(n-m)!}$ 代入并化简：\n$$ \\frac{n!}{m!(n-m)!} \\times \\frac{(n-m)!}{m!(n-2m)!} \\times \\dots \\times \\frac{m!}{m!0!} $$",
+              "latex": "$$ C_n^m \\times C_{n-m}^m \\times \\dots \\times C_m^m $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们把组合数公式 $C_n^m = \\frac{n!}{m!(n-m)!}$ 代入并化简：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\frac{n!}{m!(n-m)!} \\times \\frac{(n-m)!}{m!(n-2m)!} \\times \\dots \\times \\frac{m!}{m!0!} $$",
               "depth": 1
             },
             {
@@ -121,7 +136,12 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\frac{n!}{(m!)^k} $$\n这是上面的**多重集全排列**公式，相当于对着 $k$ 个 $1、2、3、...$ 进行多重集全排列，全排列后的序列就为每个球标上了队序号，即进行了分组。",
+              "latex": "$$ \\frac{n!}{(m!)^k} $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这是上面的<strong>多重集全排列</strong>公式，相当于对着 $k$ 个 $1、2、3、...$ 进行多重集全排列，全排列后的序列就为每个球标上了队序号，即进行了分组。",
               "depth": 1
             }
           ]
@@ -170,7 +190,12 @@
         },
         {
           "type": "math",
-          "latex": "$$ H(k, r) = \\binom{k+r-1}{r} = \\binom{k+r-1}{k-1} $$\n**解释**：这是上面的**隔板法**模型，相当于把 $r$ 个球放入 $k$ 个不同的盒子中（盒子可以为空）。",
+          "latex": "$$ H(k, r) = \\binom{k+r-1}{r} = \\binom{k+r-1}{k-1} $$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>解释</strong>：这是上面的<strong>隔板法</strong>模型，相当于把 $r$ 个球放入 $k$ 个不同的盒子中（盒子可以为空）。",
           "depth": 1
         }
       ]
@@ -179,6 +204,6 @@
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-05",
-  "parsed_at": "2026-06-14T18:45:12.043353+00:00",
+  "parsed_at": "2026-06-15T08:24:44.644625+00:00",
   "type_directory": "k"
 }
