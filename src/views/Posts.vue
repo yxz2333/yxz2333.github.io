@@ -10,9 +10,11 @@ onMounted(() => load())
 async function load() {
   loading.value = true
   const all = []
-  for (const d of ['p', 'k', 'c']) {
+  for (const d of ['p', 'k', 'c', 'other']) {
     const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
-    if (res.ok) all.push(...(await res.json()).notes)
+    if (res.ok) {
+      try { all.push(...(await res.json()).notes) } catch { /* Vite fallback HTML */ }
+    }
   }
   all.sort((a, b) => (b.parsed_at || '').localeCompare(a.parsed_at || '')
     || (b.updated_at || '').localeCompare(a.updated_at || ''))
@@ -25,7 +27,7 @@ async function load() {
     tags: n.tags || [],
     date: (n.updated_at || n.parsed_at || '').slice(0, 10),
     slug: n.slug,
-    route: `/${n.type_directory || ({'题目':'p','知识点':'k','比赛':'c'}[n.type]) || 'notes'}/${n.slug}`,
+    route: `/${n.type_directory || ({'题目':'p','知识点':'k','比赛':'c','其它':'other'}[n.type]) || 'notes'}/${n.slug}`,
   }))
   loading.value = false
 }

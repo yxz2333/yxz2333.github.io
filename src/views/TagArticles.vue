@@ -15,7 +15,7 @@ const notes = ref([])
 const error = ref('')
 const loading = ref(true)
 
-const typeMap = { 'p': '题目', 'k': '知识点', 'c': '比赛' }
+const typeMap = { 'p': '题目', 'k': '知识点', 'c': '比赛', 'other': '其它' }
 
 onMounted(() => load())
 watch(() => route.params.name, () => load())
@@ -25,7 +25,7 @@ async function load() {
   error.value = ''
   try {
     const all = []
-    for (const d of ['p', 'k', 'c', 'notes']) {
+    for (const d of ['p', 'k', 'c', 'other', 'notes']) {
       try {
         const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
         if (res.ok) {
@@ -46,7 +46,7 @@ async function load() {
         tags: n.tags || [],
         date: (n.updated_at || n.parsed_at || '').slice(0, 10),
         slug: n.slug,
-        route: `/${n.type_directory || ({'题目':'p','知识点':'k','比赛':'c'}[n.type]) || 'notes'}/${n.slug}`,
+        route: `/${n.type_directory || ({'题目':'p','知识点':'k','比赛':'c','其它':'other'}[n.type]) || 'notes'}/${n.slug}`,
       }))
   } catch (e) {
     error.value = e.message || '加载失败'

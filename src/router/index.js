@@ -27,6 +27,11 @@ const routes = [
     component: () => import('../views/Note.vue'),
   },
   {
+    path: '/other/:slug',
+    name: 'note-other',
+    component: () => import('../views/Note.vue'),
+  },
+  {
     path: '/notes/:slug',
     name: 'note',
     component: () => import('../views/Note.vue'),

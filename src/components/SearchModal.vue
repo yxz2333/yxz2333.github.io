@@ -18,9 +18,11 @@ onUnmounted(() => { document.body.style.overflow = '' })
 
 onMounted(async () => {
   const all = []
-  for (const d of ['p', 'k', 'c']) {
+  for (const d of ['p', 'k', 'c', 'other']) {
     const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
-    if (res.ok) all.push(...(await res.json()).notes)
+    if (res.ok) {
+      try { all.push(...(await res.json()).notes) } catch { /* Vite fallback HTML */ }
+    }
   }
   notes.value = all.map(n => ({
     slug: n.slug,
@@ -28,7 +30,7 @@ onMounted(async () => {
     type: n.type,
     tags: n.tags || [],
     summary: n.summary || '',
-    route: `/${n.type_directory || ({'题目':'p','知识点':'k','比赛':'c'}[n.type]) || 'notes'}/${n.slug}`,
+    route: `/${n.type_directory || ({'题目':'p','知识点':'k','比赛':'c','其它':'other'}[n.type]) || 'notes'}/${n.slug}`,
   }))
   nextTick(() => inputRef.value?.focus())
 })
@@ -112,7 +114,7 @@ watch(query, () => { selectedIdx.value = 0 })
           >
             <div class="flex items-center gap-2 mb-0.5">
               <span class="text-xs px-1.5 py-0.5 rounded font-bold uppercase tracking-wider"
-                :class="n.type === '题目' ? 'bg-accent/20 text-accent' : n.type === '知识点' ? 'bg-blue-500/20 text-blue-400' : 'bg-emerald-500/20 text-emerald-400'">
+                :class="n.type === '题目' ? 'bg-accent/20 text-accent' : n.type === '知识点' ? 'bg-blue-500/20 text-blue-400' : n.type === '比赛' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-purple-500/20 text-purple-400'">
                 {{ n.type }}
               </span>
               <span class="text-sm font-bold text-gray-200">{{ n.title }}</span>

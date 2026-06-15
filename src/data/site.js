@@ -18,8 +18,6 @@ export const siteConfig = {
 }
 
 export const quotes = [
-  { text: "只要还有明天，今天就永远是起跑线。", source: "《火影忍者》" },
-  { text: "我不知将去何方，但我已在路上。", source: "《千与千寻》" },
   { text: "如果是你的话，一定能做到的。", source: "《轻音少女》" },
   { text: "代码是写给人看的，顺便能在机器上运行。", source: "《计算机程序的构造与解释》" },
   { text: "Stay hungry, stay foolish.", source: "Steve Jobs" },
@@ -43,11 +41,11 @@ export const friends = [
 export const homeSections = [
   {
     name: '首页',
-    articles: ['cf2158d-palindrome-flipping', '第24届北师大程序设计竞赛-g-commemorative-coin', '树上倍增'],
+    articles: ['readme', '2026山东省赛-l-分数迭代', '第24届北师大程序设计竞赛-g-commemorative-coin', '树上倍增'],
   },
   {
     name: '题目题解',
-    articles: [],
+    articles: ['2026山东省赛-l-分数迭代'],
   },
   {
     name: '比赛题解',

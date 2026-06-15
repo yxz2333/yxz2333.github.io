@@ -20,9 +20,11 @@ function countUp(target, duration = 1500) {
 
 onMounted(async () => {
   let sum = 0
-  for (const d of ['p', 'k', 'c']) {
+  for (const d of ['p', 'k', 'c', 'other']) {
     const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
-    if (res.ok) sum += (await res.json()).count
+    if (res.ok) {
+      try { sum += (await res.json()).count } catch { /* Vite fallback HTML */ }
+    }
   }
   countUp(sum)
 })

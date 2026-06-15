@@ -55,11 +55,13 @@ const tagCloud = computed(() => {
 // ============ 笔记数据加载 ============
 const noteIndex = ref([])
 onMounted(async () => {
-  const dirs = ['p', 'k', 'c']
+  const dirs = ['p', 'k', 'c', 'other']
   const all = []
   for (const d of dirs) {
     const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
-    if (res.ok) all.push(...(await res.json()).notes)
+    if (res.ok) {
+      try { all.push(...(await res.json()).notes) } catch { /* Vite fallback HTML */ }
+    }
   }
   noteIndex.value = all
 })
@@ -68,10 +70,10 @@ onMounted(async () => {
 const activeTab = ref('首页')
 const categoryTabs = homeSections.map(s => s.name)
 const MAX_PER_TAB = 8
-const TYPE_TO_DIR = { '题目': 'p', '知识点': 'k', '比赛': 'c' }
-const TYPE_TO_TAB = { '题目': '题目题解', '知识点': '算法知识点', '比赛': '比赛题解' }
+const TYPE_TO_DIR = { '题目': 'p', '知识点': 'k', '比赛': 'c', '其它': 'other' }
+const TYPE_TO_TAB = { '题目': '题目题解', '知识点': '算法知识点', '比赛': '比赛题解', '其它': '其它' }
 
-function noteToArticle(n) {
+function noteToArticle(n, opts = {}) {
   const dir = n.type_directory || TYPE_TO_DIR[n.type] || 'notes'
   return {
     id: n.slug,
@@ -82,6 +84,7 @@ function noteToArticle(n) {
     date: (n.updated_at || n.parsed_at || '').slice(0, 10),
     slug: n.slug,
     route: `/${dir}/${n.slug}`,
+    pinned: opts.pinned || false,
   }
 }
 
@@ -89,17 +92,29 @@ const filteredArticles = computed(() => {
   const section = homeSections.find(s => s.name === activeTab.value)
   if (!section) return []
 
-  // 首页：仅置顶文章（按 slug 从索引中查）
+  // 首页：按 articles 数组顺序，标记置顶
   if (activeTab.value === '首页') {
-    const slugSet = new Set(section.articles)
-    return noteIndex.value.filter(n => slugSet.has(n.slug)).map(noteToArticle)
+    const slugMap = {}
+    for (const n of noteIndex.value) slugMap[n.slug] = n
+    return section.articles
+      .map(slug => slugMap[slug])
+      .filter(Boolean)
+      .map(n => noteToArticle(n, { pinned: true }))
   }
 
-  // 其他分类：从笔记索引按 type 拉取
-  const tabNotes = noteIndex.value.filter(n => TYPE_TO_TAB[n.type] === activeTab.value)
-  tabNotes.sort((a, b) => (b.parsed_at || '').localeCompare(a.parsed_at || '')
+  // 其他分类：置顶文章在前，剩余按时间补足
+  const slugMap = {}
+  for (const n of noteIndex.value) slugMap[n.slug] = n
+  const pinned = section.articles.map(slug => slugMap[slug]).filter(Boolean)
+  const pinnedSet = new Set(pinned.map(n => n.slug))
+  const rest = noteIndex.value
+    .filter(n => TYPE_TO_TAB[n.type] === activeTab.value && !pinnedSet.has(n.slug))
+  rest.sort((a, b) => (b.parsed_at || '').localeCompare(a.parsed_at || '')
     || (b.updated_at || '').localeCompare(a.updated_at || ''))
-  return tabNotes.slice(0, MAX_PER_TAB).map(noteToArticle)
+  return [
+    ...pinned.map(n => noteToArticle(n, { pinned: true })),
+    ...rest.slice(0, MAX_PER_TAB - pinned.length).map(n => noteToArticle(n)),
+  ]
 })
 
 onMounted(() => typeEffect())

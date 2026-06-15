@@ -4,8 +4,9 @@ import { useRoute } from 'vue-router'
 import NoteList from '../components/NoteList.vue'
 
 const route = useRoute()
-const nameMap = { '题目题解': 'p', '算法知识点': 'k', '比赛题解': 'c' }
-const typeMap = { 'p': '题目', 'k': '知识点', 'c': '比赛' }
+const nameMap = { '题目题解': 'p', '算法知识点': 'k', '比赛题解': 'c', '其它': 'other' }
+const typeMap = { 'p': '题目', 'k': '知识点', 'c': '比赛', 'other': '其它' }
+const TYPE_TO_DIR = { '题目': 'p', '知识点': 'k', '比赛': 'c', '其它': 'other' }
 
 const notes = ref([])
 const loading = ref(true)
@@ -38,7 +39,7 @@ async function load() {
       tags: n.tags || [],
       date: (n.updated_at || n.parsed_at || '').slice(0, 10),
       slug: n.slug,
-      route: `/${n.type_directory || (typeMap[n.type] === '题目' ? 'p' : typeMap[n.type] === '知识点' ? 'k' : 'c')}/${n.slug}`,
+      route: `/${n.type_directory || TYPE_TO_DIR[n.type] || 'notes'}/${n.slug}`,
     }))
   }
   loading.value = false

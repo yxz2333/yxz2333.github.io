@@ -4,11 +4,13 @@ import { homeSections } from '../data/site.js'
 
 const notes = ref([])
 onMounted(async () => {
-  const dirs = ['p', 'k', 'c']
+  const dirs = ['p', 'k', 'c', 'other']
   const all = []
   for (const d of dirs) {
     const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
-    if (res.ok) all.push(...(await res.json()).notes)
+    if (res.ok) {
+      try { all.push(...(await res.json()).notes) } catch { /* Vite fallback HTML */ }
+    }
   }
   // 全量排序：parsed_at 倒序 → updated_at 倒序
   all.sort((a, b) => (b.parsed_at || '').localeCompare(a.parsed_at || '')
@@ -16,7 +18,7 @@ onMounted(async () => {
   notes.value = all
 })
 
-const TYPE_LABEL = { '题目': '题目题解', '知识点': '算法知识点', '比赛': '比赛题解' }
+const TYPE_LABEL = { '题目': '题目题解', '知识点': '算法知识点', '比赛': '比赛题解', '其它': '其它' }
 
 const categories = computed(() => {
   const map = {}

@@ -9,7 +9,7 @@ const notes = ref([])
 const kpAliases = ref({})  // 知识点别名 → slug
 
 async function loadAliases() {
-  for (const d of ['k', 'p', 'c']) {
+  for (const d of ['k', 'p', 'c', 'other']) {
     const res = await fetch(`${import.meta.env.BASE_URL}${d}/aliases.json`)
     if (res.ok) {
       try {
@@ -30,11 +30,13 @@ onUnmounted(() => { document.body.style.overflow = '' })
 
 onMounted(async () => {
   await loadAliases()
-  const dirs = ['p', 'k', 'c']
+  const dirs = ['p', 'k', 'c', 'other']
   const all = []
   for (const d of dirs) {
     const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
-    if (res.ok) all.push(...(await res.json()).notes)
+    if (res.ok) {
+      try { all.push(...(await res.json()).notes) } catch { /* Vite fallback HTML */ }
+    }
   }
   notes.value = all
   const q = route.query.tag
@@ -82,7 +84,7 @@ const allTags = computed(() => {
         summary: n.summary || '',
         tags: n.tags || [],
         slug: n.slug,
-        route: `/${n.type_directory || ({'题目':'p','知识点':'k','比赛':'c'}[n.type]) || 'notes'}/${n.slug}`,
+        route: `/${n.type_directory || ({'题目':'p','知识点':'k','比赛':'c','其它':'other'}[n.type]) || 'notes'}/${n.slug}`,
       })
     }
   }

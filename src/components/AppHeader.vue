@@ -56,7 +56,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         <!-- 1. 文库 (含下拉悬浮胶囊) -->
         <div class="relative group">
           <span class="px-5 py-2.5 rounded-full transition-all duration-300 cursor-pointer outline-none block select-none"
-            :class="isActive(['/posts', '/p', '/k', '/c', '/notes', '/categories', '/type', '/tags', '/tag'])
+            :class="isActive(['/posts', '/p', '/k', '/c', '/other', '/notes', '/categories', '/type', '/tags', '/tag'])
               ? 'text-white bg-accent shadow-[0_0_15px_rgba(179,139,54,0.3)]'
               : 'text-gray-300 group-hover:text-white group-hover:bg-accent group-hover:shadow-[0_0_15px_rgba(179,139,54,0.3)]'">
             文库

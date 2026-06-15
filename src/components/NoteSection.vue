@@ -58,6 +58,9 @@ function indentStyle(depth) {
     <div v-else-if="sec.type === 'table'" class="my-8 overflow-x-auto rounded-xl border border-white/10"
       :style="sec.depth ? indentStyle(sec.depth) : {}" v-html="sec.html">
     </div>
+
+    <!-- 纯 HTML -->
+    <div v-else-if="sec.type === 'html'" class="my-4" v-html="sec.html"></div>
   </template>
 </template>
 

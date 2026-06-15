@@ -23,7 +23,7 @@ onMounted(() => window.addEventListener('scroll', handleScroll, { passive: true 
 onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
 // ======== 数据加载 ========
-const ROUTE_DIR = { 'note-p': 'p', 'note-k': 'k', 'note-c': 'c', 'note': 'notes' }
+const ROUTE_DIR = { 'note-p': 'p', 'note-k': 'k', 'note-c': 'c', 'note-other': 'other', 'note': 'notes' }
 
 async function load() {
   loading.value = true
@@ -63,6 +63,7 @@ function preprocess(secs) {
     if (sec.type === 'p') return { ...sec, html: renderLatex(sec.html) }
     if (sec.type === 'math') return { ...sec, html: renderLatex(sec.latex) }
     if (sec.type === 'table') return { ...sec, html: rowsToHtml(sec.rows) }
+    if (sec.type === 'html') return sec  // 纯 HTML 原样传递
     if (sec.blocks) sec.blocks = preprocess(sec.blocks)
     return sec
   })
@@ -70,9 +71,15 @@ function preprocess(secs) {
 
 function rowsToHtml(rows) {
   if (!rows || rows.length === 0) return ''
-  const th = rows[0]; const tb = rows.slice(1)
-  const thead = `<thead><tr>${th.split('|').filter(Boolean).map(c => `<th>${c.trim()}</th>`).join('')}</tr></thead>`
-  const tbody = tb.length > 0 ? `<tbody>${tb.map(r => `<tr>${r.split('|').filter(Boolean).map(c => `<td>${c.trim()}</td>`).join('')}</tr>`).join('')}</tbody>` : ''
+  // 防御性过滤分隔行
+  const dataRows = rows.filter(r => !/^\|[\s\-:|]+\|$/.test(r.trim()))
+  if (dataRows.length === 0) return ''
+  function cellHtml(raw) {
+    return renderLatex(raw.trim())
+  }
+  const th = dataRows[0]; const tb = dataRows.slice(1)
+  const thead = `<thead><tr>${th.split('|').filter(Boolean).map(c => `<th>${cellHtml(c)}</th>`).join('')}</tr></thead>`
+  const tbody = tb.length > 0 ? `<tbody>${tb.map(r => `<tr>${r.split('|').filter(Boolean).map(c => `<td>${cellHtml(c)}</td>`).join('')}</tr>`).join('')}</tbody>` : ''
   return `<table class="note-table">${thead}${tbody}</table>`
 }
 
@@ -150,7 +157,7 @@ watch(() => route.params.slug, () => load())
       <section class="pt-28 pb-10 max-w-[88rem] mx-auto px-5 sm:px-6 lg:px-8 relative z-10 animate-fade-in-up">
         <div class="flex flex-wrap items-center gap-3 mb-6 text-xs">
           <span v-if="note.type" class="px-3 py-1 rounded-md font-bold uppercase tracking-wider"
-            :class="note.type === '题目' ? 'bg-accent/20 text-accent border border-accent/30 shadow-[0_0_10px_rgba(179,139,54,0.2)]' : note.type === '知识点' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30 shadow-[0_0_10px_rgba(59,130,246,0.2)]' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shadow-[0_0_10px_rgba(52,211,153,0.2)]'">
+            :class="note.type === '题目' ? 'bg-accent/20 text-accent border border-accent/30 shadow-[0_0_10px_rgba(179,139,54,0.2)]' : note.type === '知识点' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30 shadow-[0_0_10px_rgba(59,130,246,0.2)]' : note.type === '比赛' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 shadow-[0_0_10px_rgba(52,211,153,0.2)]' : 'bg-purple-500/20 text-purple-400 border border-purple-500/30 shadow-[0_0_10px_rgba(168,85,247,0.2)]'">
             {{ note.type }}
           </span>
           <span v-if="difficultyStars === null"
