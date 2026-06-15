@@ -130,6 +130,25 @@ const recs = ref([])
 const hasRecs = computed(() => recs.value.some(g => g.items.length > 0))
 const recsSectionId = 'recommendations-section'
 
+const noteIndex = ref({})
+
+async function loadNoteIndex() {
+  if (Object.keys(noteIndex.value).length > 0) return
+  for (const d of ['p', 'k', 'c', 'other']) {
+    const res = await fetch(`${import.meta.env.BASE_URL}${d}/index.json`)
+    if (!res.ok) continue
+    try {
+      const idx = await res.json()
+      for (const n of (idx.notes || [])) {
+        noteIndex.value[n.slug] = {
+          tags: n.tags || [],
+          summary: n.summary || '',
+        }
+      }
+    } catch { /* skip */ }
+  }
+}
+
 async function loadRecs() {
   recs.value = []
   try {
@@ -145,7 +164,8 @@ async function loadRecs() {
       const bi = parseInt(m[2])
       if (!groups[bi]) groups[bi] = []
       for (const item of items) {
-        groups[bi].push(item)
+        const info = noteIndex.value[item.slug] || {}
+        groups[bi].push({ ...item, tags: info.tags || [], summary: info.summary || '' })
       }
     }
     // 1 个代码块 → 取 6 篇；2 个代码块 → 各取 3 篇
@@ -167,7 +187,11 @@ const recBlockCount = computed(() => recs.value.length)
 onMounted(() => load())
 watch(() => route.params.slug, () => load())
 // note 加载完成后拉推荐
-watch(note, (val) => { if (val) loadRecs() })
+watch(note, async (val) => {
+  if (!val) return
+  await loadNoteIndex()
+  await loadRecs()
+})
 </script>
 
 <template>
@@ -311,7 +335,42 @@ watch(note, (val) => { if (val) loadRecs() })
                 <span class="text-[10px] font-bold text-gray-500 uppercase tracking-wider bg-white/5 px-2 py-0.5 rounded">代码 {{ group.blockIndex + 1 }}</span>
                 <div class="h-px flex-1 bg-white/5"></div>
               </div>
-              <div class="space-y-2">
+              <!-- 桌面端：3 列 hover 浮层卡片 -->
+              <div class="hidden sm:grid grid-cols-3 gap-3">
+                <RouterLink
+                  v-for="r in group.items"
+                  :key="r.slug"
+                  :to="r.route"
+                  class="glass-card rounded-2xl p-4 block group/card relative overflow-visible hover:z-10"
+                >
+                  <h4 class="text-sm font-bold text-gray-200 line-clamp-2">{{ r.title }}</h4>
+                  <div class="flex items-center gap-2 mt-2">
+                    <div class="flex-1 h-1 rounded-full bg-white/5 overflow-hidden">
+                      <div class="h-full rounded-full transition-all duration-500"
+                        :class="r.similarity >= 0.5 ? 'bg-accent' : r.similarity >= 0.3 ? 'bg-yellow-400/70' : 'bg-gray-500/50'"
+                        :style="{ width: Math.round(r.similarity * 100) + '%' }"></div>
+                    </div>
+                    <span class="text-[10px] font-mono shrink-0"
+                      :class="r.similarity >= 0.5 ? 'text-accent' : r.similarity >= 0.3 ? 'text-yellow-400' : 'text-gray-400'">{{ Math.round(r.similarity * 100) }}%</span>
+                  </div>
+                  <div class="absolute left-1/2 top-1/2 z-20 w-[120%] -translate-x-1/2 -translate-y-1/2
+                              opacity-0 group-hover/card:opacity-100 scale-90 group-hover/card:scale-100
+                              transition-all duration-300 ease-out pointer-events-none
+                              bg-[#1a1a1e] backdrop-blur-2xl border border-white/20 rounded-2xl p-5 shadow-2xl">
+                    <h4 class="text-sm font-bold text-accent line-clamp-2 mb-2">{{ r.title }}</h4>
+                    <p v-if="r.summary" class="text-xs text-gray-300 leading-relaxed line-clamp-3 mb-3" v-html="renderLatex(r.summary)"></p>
+                    <div class="flex items-center justify-between gap-2">
+                      <div class="flex flex-wrap gap-1">
+                        <span v-for="t in r.tags?.slice(0, 3)" :key="t" class="text-[10px] px-1.5 py-0.5 rounded bg-white/5 text-gray-400">#{{ t }}</span>
+                      </div>
+                      <span class="text-xs font-mono shrink-0"
+                        :class="r.similarity >= 0.5 ? 'text-accent' : r.similarity >= 0.3 ? 'text-yellow-400' : 'text-gray-400'">{{ Math.round(r.similarity * 100) }}%</span>
+                    </div>
+                  </div>
+                </RouterLink>
+              </div>
+              <!-- 手机端：竖排简洁列表 -->
+              <div class="sm:hidden space-y-2">
                 <RouterLink
                   v-for="r in group.items"
                   :key="r.slug"
