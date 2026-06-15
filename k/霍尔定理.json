@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": "二分图",
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "What?",
@@ -19,27 +19,27 @@
         {
           "type": "p",
           "html": "对于一张二分图，左部点集为 $L$，右部点集为 $R$，如果左部点<strong>能全部匹配</strong>到右部，当且仅当：",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "> 对任意左部子集 $S \\subseteq L$，都有 $|N(S)| \\geq |S|$",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "其中 $N(S)$ 表示 $S$ 中所有点的<strong>邻居集合</strong>（在右部）。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>直观理解</strong>：你左部随便抓一把点，它们能触及的右部点数量必须<strong>不少于</strong>你抓的点数。“随便抓”意味着所有子集都要检验，这是难点所在。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "> <strong>一句话概括</strong>：左部需求 ≤ 右部容量，但要对<strong>所有组合</strong>都成立。",
-          "depth": 2
+          "depth": 1
         }
       ]
     },
@@ -51,14 +51,14 @@
           "type": "code",
           "lang": "",
           "code": "枚举所有子集 → 不可能\n       ↓\n找到 “最紧” 的那类子集\n       ↓\n只检验这些瓶颈",
-          "depth": 2
+          "depth": 1
         }
       ]
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-04-29",
-  "parsed_at": "2026-06-15T10:23:05.374302+00:00",
+  "parsed_at": "2026-06-15T17:06:06.586180+00:00",
   "type_directory": "k"
 }

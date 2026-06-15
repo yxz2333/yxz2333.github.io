@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": null,
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "When?",
@@ -19,32 +19,32 @@
         {
           "type": "p",
           "html": "核心目的是解决<strong>传统树形数据结构（如线段树、树状数组）无法解决或极难解决</strong>的区间查询/修改问题。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "满足以下条件之一时，应首选分块：",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>信息不满足“结合律”：</strong>",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "区间信息无法通过左右两个子区间的答案简单合并得出。",
-          "depth": 4
+          "depth": 3
         },
         {
           "type": "p",
           "html": "例如：求区间内 <code>&lt; x</code> 的元素个数、求区间众数、求区间内不同数字的个数。",
-          "depth": 4
+          "depth": 3
         },
         {
           "type": "p",
           "html": "<strong>需要同时支持区间修改与复杂查询：</strong> 且题目<strong>强制在线</strong>（无法使用莫队算法）。",
-          "depth": 3
+          "depth": 2
         }
       ]
     },
@@ -55,84 +55,84 @@
         {
           "type": "p",
           "html": "<strong>核心理念：“大段维护，局部朴素”</strong>",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "将长度为 $N$ 的序列在物理上均匀切割成若干个大小为 $S$ 的块。",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "每一块内部<strong>完整保留了原始数据的全貌</strong>，不像线段树压缩了原始数据。",
-          "depth": 4
+          "depth": 3
         },
         {
           "type": "p",
           "html": "通常取 $S = \\sqrt{N}$，此时块数也约为 $\\sqrt{N}$。",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>块内数据二次加工（<code>rebuild</code>）：</strong>",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>块内排序</strong>：配合二分查找，解决区间内 $\\ge x$ 的计数问题。",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>块内哈希/桶</strong>：解决区间众数、区间出现次数等频率问题。",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>块内单调栈/凸包</strong>：解决复杂的几何或最值问题。",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>块内维护其它常见数据结构</strong>",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>操作拆解：</strong> 任何一次对区间 $[L, R]$ 的操作（无论是查询还是修改），一定可以拆解为最多三个部分：",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>左右端点散块（不完整的块）：</strong>",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "大小不超过 $\\sqrt{N}$，直接暴力遍历处理。",
-          "depth": 4
-        },
-        {
-          "type": "p",
-          "html": "若修改了散块，事后需花费 $O(\\sqrt{N}\\log\\sqrt{N})$ 等代价<strong>对该块进行重构</strong>。",
-          "depth": 4
-        },
-        {
-          "type": "p",
-          "html": "<strong>中间的若干个整块：</strong> 数量不超过 $\\sqrt{N}$，直接利用预处理好的结构批量查询，或直接对整个块打上 Lazy 标记。",
           "depth": 3
         },
         {
           "type": "p",
-          "html": "<strong>复杂度平衡：</strong> 散块暴力代价为 $O(\\sqrt{N})$，整块批量处理代价为 $O(\\text{整块数} \\times \\text{单块处理代价})$，两者通常都被控制在 $O(\\sqrt{N})$ 或 $O(\\sqrt{N}\\log N)$ 级别。",
+          "html": "若修改了散块，事后需花费 $O(\\sqrt{N}\\log\\sqrt{N})$ 等代价<strong>对该块进行重构</strong>。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>中间的若干个整块：</strong> 数量不超过 $\\sqrt{N}$，直接利用预处理好的结构批量查询，或直接对整个块打上 Lazy 标记。",
           "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>复杂度平衡：</strong> 散块暴力代价为 $O(\\sqrt{N})$，整块批量处理代价为 $O(\\text{整块数} \\times \\text{单块处理代价})$，两者通常都被控制在 $O(\\sqrt{N})$ 或 $O(\\sqrt{N}\\log N)$ 级别。",
+          "depth": 1
         }
       ]
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-04-27",
-  "parsed_at": "2026-06-15T10:23:05.384810+00:00",
+  "parsed_at": "2026-06-15T17:06:06.596089+00:00",
   "type_directory": "k"
 }

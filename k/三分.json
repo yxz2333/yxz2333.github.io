@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": null,
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "二分式三分",
@@ -24,7 +24,7 @@
               "type": "code",
               "lang": "cpp",
               "code": "int ternary_search_max(int l, int r) {\n\t// 范围 [l, r]\n\twhile (l < r) {\n\t\tint mid = (l + r) / 2;\n\t\tif (f(mid) < f(mid + 1)) {\n\t\t\tl = mid + 1;\n\t\t}\n\t\telse {\n\t\t\tr = mid;\n\t\t}\n\t}\n\treturn l; // 最大值点，最大值 f(l)\n}",
-              "depth": 2
+              "depth": 1
             }
           ]
         },
@@ -36,7 +36,7 @@
               "type": "code",
               "lang": "cpp",
               "code": "int ternary_search_min(int l, int r) {\n\t// 范围 [l, r]\n\twhile (l < r) {\n\t\tint mid = (l + r) / 2;\n\t\tif (f(mid) > f(mid + 1)) {\n\t\t\tl = mid + 1;\n\t\t}\n\t\telse {\n\t\t\tr = mid;\n\t\t}\n\t}\n\treturn l; // 最小值点，最小值 f(l)\n}",
-              "depth": 2
+              "depth": 1
             }
           ]
         }
@@ -46,8 +46,8 @@
   "code_languages": [
     "cpp"
   ],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-02-03",
-  "parsed_at": "2026-06-15T10:23:05.354515+00:00",
+  "parsed_at": "2026-06-15T17:06:06.566050+00:00",
   "type_directory": "k"
 }

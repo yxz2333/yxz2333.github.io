@@ -10,7 +10,7 @@
   "source": "",
   "aliases": [],
   "parent": null,
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "heading": "What？",
@@ -19,27 +19,27 @@
         {
           "type": "p",
           "html": "<img src=\"https://images2017.cnblogs.com/blog/1188068/201710/1188068-20171027104122883-1380446385.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>这张图的dfs序显然为A-B-D-E-G-C-F-H</strong>",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>DFS序的本质：把一棵树 “拍扁” 成一个一维数组。</strong>",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "它的核心数学性质是：<strong>任何一棵子树，在DFS序中都是一段连续的区间 <code>[in[u], out[u]]</code>。</strong>",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "如果要配合数据结构，请见 <a href=\"/k/树链剖分\" class=\"tag-link\">#重链剖分</a> 。",
-          "depth": 2
+          "depth": 1
         }
       ]
     },
@@ -50,47 +50,47 @@
         {
           "type": "p",
           "html": "能被<strong>倍增</strong>和<strong>重链剖分</strong>替代，主要是时间复杂度较低，可以<strong>处理卡常</strong>，且代码较短。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>O(1) 判断祖孙关系</strong>",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<em>能被倍增替代</em>",
-          "depth": 3
-        },
-        {
-          "type": "p",
-          "html": "如果想知道 $u$ 是不是 $v$ 的祖先？",
-          "depth": 3
-        },
-        {
-          "type": "p",
-          "html": "直接查 <code>in[u] &lt;= in[v] &amp;&amp; out[v] &lt;= out[u]</code>，一行代码，纯 $O(1)$。",
-          "depth": 3
-        },
-        {
-          "type": "p",
-          "html": "<strong>纯数组实现子树的离线修改/查询（差分与前缀和）</strong>：",
           "depth": 2
         },
         {
           "type": "p",
+          "html": "如果想知道 $u$ 是不是 $v$ 的祖先？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "直接查 <code>in[u] &lt;= in[v] &amp;&amp; out[v] &lt;= out[u]</code>，一行代码，纯 $O(1)$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>纯数组实现子树的离线修改/查询（差分与前缀和）</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
           "html": "<em>能被重链剖分替代，且重链剖分还能处理链</em>",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "如果题目让你给若干个子树加上 $x$，最后问所有点的值。",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "你只需要开一个普通数组，在 <code>diff[in[u]] += x</code>，在 <code>diff[out[u] + 1] -= x</code>，最后跑一遍一维数组的前缀和就行了，根本不需要树状数组。",
-          "depth": 3
+          "depth": 2
         }
       ]
     },
@@ -102,17 +102,17 @@
           "type": "code",
           "lang": "cpp",
           "code": "int timer = 0;\nvector<vector<int>> g;\nvector<int> in, out, rnk; \nvoid dfs(int now, int fa) {\n    in[now] = ++timer;  // 记录进入的时间戳\n    rnk[timer] = now;   // 记录时间戳对应的节点（把树拍扁）\n    for (int to : g[now]) {\n        if (to == fa)continue;\n        dfs(to, now);\n    }\n    out[now] = timer;   // 记录离开的时间戳\n}",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>查子树</strong>：直接在一维数组上查区间 <code>[in[u], out[u]]</code>。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>查祖先</strong>：<code>in[u] &lt;= in[v] &amp;&amp; out[v] &lt;= out[u]</code> ($u$ 是 $v$ 的祖先)。",
-          "depth": 2
+          "depth": 1
         }
       ]
     }
@@ -120,8 +120,8 @@
   "code_languages": [
     "cpp"
   ],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2026-05-22",
-  "parsed_at": "2026-06-15T10:23:05.326505+00:00",
+  "parsed_at": "2026-06-15T17:06:06.533540+00:00",
   "type_directory": "k"
 }

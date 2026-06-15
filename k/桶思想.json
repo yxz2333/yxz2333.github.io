@@ -10,12 +10,12 @@
   "source": "",
   "aliases": [],
   "parent": null,
-  "format": "markdown",
+  "format": "logseq",
   "sections": [
     {
       "type": "p",
       "html": "利用数据的特征，将<strong>大量数据</strong>分配到<strong>有限的桶</strong>中，从而将<strong>“逐个处理”</strong>转化为<strong>“查表处理”</strong>。",
-      "depth": 1
+      "depth": 0
     },
     {
       "heading": "题目特征",
@@ -24,12 +24,12 @@
         {
           "type": "p",
           "html": "<strong>数据量 N 很大</strong>（跑不动 $O(N^2)$ 甚至 $O(N)$ 的复杂逻辑）。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "但是<strong>数据的值域很小</strong>，或者<strong>特征很有限</strong>（比如模数小、只有0/1、长度短、种类/方案/状态少）。",
-          "depth": 2
+          "depth": 1
         }
       ]
     },
@@ -40,22 +40,22 @@
         {
           "type": "p",
           "html": "<strong>场景</strong>：给你 100 万个范围在 $[1, 100]$ 的整数，问各个数字出现了几次？",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>做法</strong>：不开 100 万大小的数组，只开一个大小为 101 的数组 <code>cnt[101]</code>。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>本质</strong>：<strong>值即下标</strong>。每一个下标就是一个“桶”，桶里装的是“出现次数”。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>复杂度</strong>：$O(N)$ 放入，查询 $O(1)$。",
-          "depth": 2
+          "depth": 1
         }
       ]
     },
@@ -66,49 +66,49 @@
         {
           "type": "p",
           "html": "<strong>场景</strong>：数据量 $N$ 极大（如 $10^6$），但数据的<strong>特征/状态</strong>种类很少（如 $M=10 \\Rightarrow 2^{10}=1024$ 种）。",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "<strong>做法</strong>：",
-          "depth": 2
+          "depth": 1
         },
         {
           "type": "p",
           "html": "不要把这 $N$ 个数据看作 $N$ 个独立的个体。",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "建立 $2^{10}$ 个桶，每个桶代表一种“01串形态”。",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "把 $10^6$ 行数据扫描一遍，丢进这 1024 个桶里。",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>计算时，只遍历这 1024 个桶</strong>。对于桶内的元素，因为它们特征相同（01构成一样），往往可以用<strong>数学公式（如乘法、前缀和）</strong>一次性算出总贡献。",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>本质</strong>：<strong>去重与压缩</strong>。将 $O(N)$ 的线性处理复杂度降维到 $O(\\text{特征域大小})$。",
-          "depth": 3
+          "depth": 2
         },
         {
           "type": "p",
           "html": "<strong>例题</strong>： <a href=\"/p/2025jscpc-a-矩阵游戏\" class=\"wikilink\">2025JSCPC A 矩阵游戏</a>",
-          "depth": 2
+          "depth": 1
         }
       ]
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-15",
+  "created_at": "2026-06-16",
   "updated_at": "2025-12-19",
-  "parsed_at": "2026-06-15T10:23:05.541125+00:00",
+  "parsed_at": "2026-06-15T17:06:06.800592+00:00",
   "type_directory": "k"
 }
