@@ -1,6 +1,6 @@
 {
-  "slug": "readme",
-  "title": "README",
+  "slug": "welcome-to-my-blog",
+  "title": "Welcome to my Blog",
   "type": "其它",
   "tags": [],
   "difficulty": null,
@@ -14,7 +14,7 @@
   "sections": [
     {
       "heading": "Lynia's Blog",
-      "level": 1,
+      "level": 2,
       "blocks": []
     },
     {
@@ -33,7 +33,7 @@
       "depth": 1
     },
     {
-      "heading": "技术栈",
+      "heading": "前端技术栈",
       "level": 2,
       "blocks": []
     },
@@ -66,7 +66,7 @@
     },
     {
       "type": "p",
-      "html": "笔记按类型存放在 <code>public/</code> 下的三个目录：",
+      "html": "笔记由后端解析器自动生成，按类型存放在 <code>public/</code> 下的目录：",
       "depth": 1
     },
     {
@@ -75,28 +75,9 @@
         "| 目录 | 类型 | 路由 |",
         "| <code>p/</code> | 题目题解 | <code>/p/:slug</code> |",
         "| <code>k/</code> | 算法知识点 | <code>/k/:slug</code> |",
-        "| <code>c/</code> | 比赛题解 | <code>/c/:slug</code> |"
+        "| <code>c/</code> | 比赛题解 | <code>/c/:slug</code> |",
+        "| <code>other/</code> | 其它 | <code>/other/:slug</code> |"
       ],
-      "depth": 1
-    },
-    {
-      "type": "p",
-      "html": "由后端解析器自动生成。手动添加笔记：",
-      "depth": 1
-    },
-    {
-      "type": "p",
-      "html": "1. 将 <code>.md</code> 文件放入 <code>backend/notes-in/</code>",
-      "depth": 1
-    },
-    {
-      "type": "p",
-      "html": "2. 运行 <code>cd backend &amp;&amp; uv run python parse_notes.py</code>",
-      "depth": 1
-    },
-    {
-      "type": "p",
-      "html": "3. JSON 自动输出到 <code>public/{p,k,c}/</code>",
       "depth": 1
     }
   ],
@@ -104,7 +85,7 @@
     "bash"
   ],
   "created_at": "2026-06-15",
-  "updated_at": "2026-06-15",
-  "parsed_at": "2026-06-15T10:16:20.699836+00:00",
+  "updated_at": "2026-06-16",
+  "parsed_at": "2026-06-15T18:37:22.364455+00:00",
   "type_directory": "other"
 }
