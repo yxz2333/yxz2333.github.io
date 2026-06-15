@@ -365,7 +365,67 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\text{[ 左边：只丢 '(' ]} + \\text{[ 中间：一道墙 (sum < 2) ]} + \\text{[ 右边：只丢 ')' ]} $$\n为了计算这个结构的方案数，我们不能瞎乘（会算重），必须**枚举这个“墙”的位置**。\n为毛墙要设成 $sum < 2$ ？\n我们遍历每一个 $i$，如果 `sum[i] < 2`，就把 $i$ 当作那个**“挡住最后一个丢失左括号”**的墙：\n把所有满足条件的墙贡献的答案加起来，再加上没计算到的 **“一个左括号都没丢，仅丢了右括号”** 即 $2 ^ \\frac{n}{2}$ 的情况，就是最终答案。",
+              "latex": "$$ \\text{[ 左边：只丢 '(' ]} + \\text{[ 中间：一道墙 (sum < 2) ]} + \\text{[ 右边：只丢 ')' ]} $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了计算这个结构的方案数，我们不能瞎乘（会算重），必须<strong>枚举这个“墙”的位置</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为毛墙要设成 $sum < 2$ ？",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "为了满足<strong>局部条件</strong>，这样保证 $sum \\ge 2$ 的区域只会丢失 <code>(</code> 和 <code>)</code> 的其中一种。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们遍历每一个 $i$，如果 <code>sum[i] &lt; 2</code>，就把 $i$ 当作那个<strong>“挡住最后一个丢失左括号”</strong>的墙：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1.  <strong>左边</strong>：最后一个丢失的 <code>(</code> 必须紧贴在墙 $i$ 的左侧。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>pre</code>：前面计算过的 <code>(</code>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<code>now</code>：当前没计算过的 <code>(</code>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "方案数：<code>2^pre * (2^now - 1)</code>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<em>(注：<code>now</code> 块里至少丢一个 <code>(</code>，否则“最后一个”就不是它了，会被前面的墙统计到)</em>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "2.  <strong>右边</strong>：只能丢 <code>)</code>，绝对不能丢 <code>(</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "方案数：<code>2^suf</code>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "把所有满足条件的墙贡献的答案加起来，再加上没计算到的 <strong>“一个左括号都没丢，仅丢了右括号”</strong> 即 $2 ^ \\frac{n}{2}$ 的情况，就是最终答案。",
               "depth": 1
             }
           ]
@@ -462,6 +522,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-28",
-  "parsed_at": "2026-06-14T18:39:36.655050+00:00",
+  "parsed_at": "2026-06-15T08:26:06.973003+00:00",
   "type_directory": "p"
 }

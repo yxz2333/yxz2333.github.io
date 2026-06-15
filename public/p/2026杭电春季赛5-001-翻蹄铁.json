@@ -9,7 +9,7 @@
   "summary": "说难不难，说简单不简单。手玩发现规律后，考虑怎么算答案。仅对区间前 $m$（$m =$ 区间内 $+$ 的个数） 个：枚举到 $+$ 时，$+ \\to -$，操作一次，向左前进；枚举到 $-$ 时（位置为 $i$），会向右走，一直走到最近还剩下的 $+$（位置为 $j$），然后再折反回来，最终在 $2 \\cdot (j - i) + 1$ 的操作次数下回到 $i$ 点，因为发生<strong>折反</strong>，所以这些操作最终只会把 $j$ 变成 $-$。然后就能用<strong>前缀和</strong>做了。",
   "link": "https://acm.hdu.edu.cn/contest/problem?cid=1201&pid=1001",
   "link_text": "1001 翻蹄铁",
-  "source": "[[2026杭电春季赛5]]",
+  "source": "<a href=\"/c/2026杭电春季赛5\" class=\"wikilink\">2026杭电春季赛5</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -271,6 +271,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-24",
-  "parsed_at": "2026-06-14T18:39:35.869277+00:00",
+  "parsed_at": "2026-06-15T08:26:06.272776+00:00",
   "type_directory": "p"
 }

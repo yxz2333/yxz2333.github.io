@@ -134,7 +134,27 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\text{Total} = c_1 + \\left(1 - \\frac{p_1}{100}\\right) \\cdot c_2 + \\left(1 - \\frac{p_2}{100}\\right) \\cdot \\left(1 - \\frac{p_1}{100}\\right) \\cdot c_3 + \\left(1 - \\frac{p_3}{100}\\right) \\cdot \\left(1 - \\frac{p_2}{100}\\right) \\cdot \\left(1 - \\frac{p_1}{100}\\right) \\cdot c_4$$\n发现本题完全可以**逆向思考**。\n设 $dp[i]$ 表示从第 $i$ 个任务开始到第 $n$ 个任务结束，所能获得的最大积分。\n**状态转移方程：**\n$$dp[i] = \\max(dp[i+1], \\quad c_i + dp[i+1] \\cdot (1 - \\frac{p_i}{100}))$$",
+          "latex": "$$ \\text{Total} = c_1 + \\left(1 - \\frac{p_1}{100}\\right) \\cdot c_2 + \\left(1 - \\frac{p_2}{100}\\right) \\cdot \\left(1 - \\frac{p_1}{100}\\right) \\cdot c_3 + \\left(1 - \\frac{p_3}{100}\\right) \\cdot \\left(1 - \\frac{p_2}{100}\\right) \\cdot \\left(1 - \\frac{p_1}{100}\\right) \\cdot c_4$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "发现本题完全可以<strong>逆向思考</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "设 $dp[i]$ 表示从第 $i$ 个任务开始到第 $n$ 个任务结束，所能获得的最大积分。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>状态转移方程：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$dp[i] = \\max(dp[i+1], \\quad c_i + dp[i+1] \\cdot (1 - \\frac{p_i}{100}))$$",
           "depth": 1
         }
       ]
@@ -157,6 +177,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-15",
-  "parsed_at": "2026-06-14T18:39:36.459498+00:00",
+  "parsed_at": "2026-06-15T08:26:06.757595+00:00",
   "type_directory": "p"
 }

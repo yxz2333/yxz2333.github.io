@@ -11,7 +11,7 @@
   "summary": "跟 <a href=\"/p/abc438f-sum-of-mex\" class=\"wikilink\">ABC438F Sum of Mex</a> 有点像，不过本题是算子图，那题就一条路径，维护两个点就解决了，这题当然不能维护整个子图，需要借助 <strong>树形dp</strong> 解决。<em>本题需要留意 inv(0)，用 SafeInt 板子解决。</em>",
   "link": "https://ac.nowcoder.com/acm/contest/120562/D",
   "link_text": "D-数字积木_2026牛客寒假算法基础集训营2",
-  "source": "[[2026牛客寒假算法基础集训营2]]",
+  "source": "<a href=\"/c/2026牛客寒假算法基础集训营2\" class=\"wikilink\">2026牛客寒假算法基础集训营2</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -143,7 +143,17 @@
             },
             {
               "type": "math",
-              "latex": "$$\\text{ans} = \\sum \\text{MEX}(S) = \\sum_{i=1}^{n} \\text{Count}(\\text{MEX}(S) \\ge i)$$\n而 $\\text{MEX}(S) \\ge i$ 的充要条件是：集合 $S$ 必须完整包含权值为 $\\{0, 1, 2, \\dots, i-1\\}$ 的所有节点。\n将问题转变为：**对于每一个** $k \\in [0, n-1]$，**计算有多少个连通子图包含了权值为** $0, 1, \\dots, k$ **的所有节点。**",
+              "latex": "$$\\text{ans} = \\sum \\text{MEX}(S) = \\sum_{i=1}^{n} \\text{Count}(\\text{MEX}(S) \\ge i)$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "而 $\\text{MEX}(S) \\ge i$ 的充要条件是：集合 $S$ 必须完整包含权值为 $\\{0, 1, 2, \\dots, i-1\\}$ 的所有节点。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "将问题转变为：<strong>对于每一个</strong> $k \\in [0, n-1]$，<strong>计算有多少个连通子图包含了权值为</strong> $0, 1, \\dots, k$ <strong>的所有节点。</strong>",
               "depth": 1
             }
           ]
@@ -254,6 +264,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-06",
-  "parsed_at": "2026-06-14T18:39:35.903097+00:00",
+  "parsed_at": "2026-06-15T08:26:06.305255+00:00",
   "type_directory": "p"
 }

@@ -9,7 +9,7 @@
   "summary": "经典矩阵快速幂优化 dp 题，核心还是在于先构建朴素 $dp$ 转移方程，然后根据转移方程和 $p, q \\le 50$ 的性质，构造出<strong>行向量答案矩阵与系数矩阵相乘</strong>的公式，就可解决本题。",
   "link": "https://ac.nowcoder.com/acm/contest/120566/L",
   "link_text": "L-小L的游戏2_2026牛客寒假算法基础集训营6",
-  "source": "[[2026牛客寒假算法基础集训营6]]",
+  "source": "<a href=\"/c/2026牛客寒假算法基础集训营6\" class=\"wikilink\">2026牛客寒假算法基础集训营6</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -182,7 +182,17 @@
             },
             {
               "type": "math",
-              "latex": "$$dp[i][0] = p \\cdot dp[i-m_1][1] + (1-p) \\cdot dp[i-m_2][1]$$\n**fallleaves01 完成操作** ($dp[i][1]$)：必然是基于 小L 完成的状态 ($dp[i-n][0]$) 进行转移。\n$$dp[i][1] = q \\cdot dp[i-n_1][0] + (1-q) \\cdot dp[i-n_2][0]$$",
+              "latex": "$$dp[i][0] = p \\cdot dp[i-m_1][1] + (1-p) \\cdot dp[i-m_2][1]$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>fallleaves01 完成操作</strong> ($dp[i][1]$)：必然是基于 小L 完成的状态 ($dp[i-n][0]$) 进行转移。",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i][1] = q \\cdot dp[i-n_1][0] + (1-q) \\cdot dp[i-n_2][0]$$",
               "depth": 2
             }
           ]
@@ -212,8 +222,28 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$V_i = \\Big[\\ dp[i][0],\\ dp[i][1],\\ dp[i-1][0],\\ dp[i-1][1],\\ \\dots,\\ dp[i-k][0],\\ dp[i-k][1],\\ \\dots \\Big]$$\n**下标映射关系（1-based）：**\n对于历史回溯步数 $k$（$k=0$ 表示当前层 $i$）：",
+                  "latex": "$$V_i = \\Big[\\ dp[i][0],\\ dp[i][1],\\ dp[i-1][0],\\ dp[i-1][1],\\ \\dots,\\ dp[i-k][0],\\ dp[i-k][1],\\ \\dots \\Big]$$",
                   "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>下标映射关系（1-based）：</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "对于历史回溯步数 $k$（$k=0$ 表示当前层 $i$）：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "$dp[i-k][0]$ 对应向量下标：$2k + 1$",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "$dp[i-k][1]$ 对应向量下标：$2k + 2$",
+                  "depth": 2
                 }
               ]
             },
@@ -442,6 +472,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-15",
-  "parsed_at": "2026-06-14T18:39:35.931315+00:00",
+  "parsed_at": "2026-06-15T08:26:06.332470+00:00",
   "type_directory": "p"
 }

@@ -155,7 +155,17 @@
         },
         {
           "type": "math",
-          "latex": "$$f(u) = 1 + \\sum_{i=1}^{n} \\left[ (L - dist(u, i)) \\times deg(i) \\right]$$\n我们将求和式拆开：\n$$f(u) = 1 + L \\sum_{i=1}^{n} deg(i) - \\sum_{i=1}^{n} \\left[ dist(u, i) \\times deg(i) \\right]$$",
+          "latex": "$$f(u) = 1 + \\sum_{i=1}^{n} \\left[ (L - dist(u, i)) \\times deg(i) \\right]$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "我们将求和式拆开：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$f(u) = 1 + L \\sum_{i=1}^{n} deg(i) - \\sum_{i=1}^{n} \\left[ dist(u, i) \\times deg(i) \\right]$$",
           "depth": 1
         },
         {
@@ -193,6 +203,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-22",
-  "parsed_at": "2026-06-14T18:39:35.804319+00:00",
+  "parsed_at": "2026-06-15T08:26:06.228966+00:00",
   "type_directory": "p"
 }

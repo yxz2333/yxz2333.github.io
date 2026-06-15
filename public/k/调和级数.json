@@ -14,13 +14,112 @@
   "sections": [
     {
       "type": "math",
-      "latex": "$$ \\sum_{i=1}^N \\frac{N}{i} \\approx O(N \\ln N) $$\n## 数学\n## 常规题",
+      "latex": "$$ \\sum_{i=1}^N \\frac{N}{i} \\approx O(N \\ln N) $$",
       "depth": 1
+    },
+    {
+      "heading": "数学",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "通常是用来处理<strong>倍数</strong>与<strong>因数</strong>题。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<em>当然可能还有别的，这部分以后再说。</em>",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "常规题",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "在非数学题的常规题中，题目大多都打着要处理的<strong>数据/物品很多的幌子</strong>，实则可用/有用的只有 $nlogn$ 个。",
+          "depth": 2
+        },
+        {
+          "heading": "案例 1：因为“装不下/用不完”，所以大部分数据是<strong>冗余</strong>的",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>现象</strong>：题目给了海量的物品（$N$ 很大），看起来是个 $O(N \\cdot V)$ 的死局（常见于<strong>背包</strong>问题）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>本质</strong>：<strong>受限于容器</strong>（背包容量、时间上限、耐力值等），我们<strong>根本没机会</strong>用到那么多东西。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>策略</strong>：<strong>截断</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "就像你去自助餐厅，虽然餐厅有 1000 个馒头，但你胃口只有 3 个馒头大。对你来说，那 997 个馒头就是“数据幌子”，是无效数据。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "如果我们想要的是在餐厅里吃的最好，那我们只需要在乎最好吃的那 3 个馒头即可，即<strong>贪心</strong>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>公式</strong>：$\\sum (\\text{容量} / \\text{单体大小}) \\approx \\text{容量} \\times \\log (\\text{容量})$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>例题</strong>： <a href=\"/p/nc108299d-真真的提拉米苏\" class=\"wikilink\">NC108299D 真真的提拉米苏</a>",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "案例 2：因为“跳着走”，所以大部分状态是<strong>不被访问</strong>的",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>现象</strong>：题目要在 $1 \\dots N$ 的范围内做操作，看起来每个数都要和其他数互动，是个 $O(N^2)$ 的死局。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>本质</strong>：操作规则决定了我们是<strong>稀疏</strong>地访问数据（比如每隔 $k$ 个访问一次）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>策略</strong>：<strong>跳跃</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "就像你在这个自助餐厅，规定你只能吃编号是 5 的倍数的菜。虽然有 1000 道菜，你实际只需要看 200 道。步长越大，看的越少。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>公式</strong>：$\\sum (N / i) \\approx N \\log N$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
     }
   ],
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-11",
-  "parsed_at": "2026-06-14T18:45:12.205575+00:00",
+  "parsed_at": "2026-06-15T08:24:44.798240+00:00",
   "type_directory": "k"
 }

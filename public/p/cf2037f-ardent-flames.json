@@ -167,7 +167,17 @@
         },
         {
           "type": "math",
-          "latex": "$$ t \\times \\max(0, m - |p - x_i|) $$\n要击败该敌人，必须满足：\n$$ t \\times (m - |p - x_i|) \\ge h_i $$",
+          "latex": "$$ t \\times \\max(0, m - |p - x_i|) $$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "要击败该敌人，必须满足：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ t \\times (m - |p - x_i|) \\ge h_i $$",
           "depth": 1
         },
         {
@@ -192,7 +202,17 @@
         },
         {
           "type": "math",
-          "latex": "$$ |p - x_i| \\le m - \\frac{h_i}{t} $$\n令允许的最大距离为：\n$$ \\text{dis}_i = \\left\\lfloor \\frac{t \\cdot m - h_i}{t} \\right\\rfloor $$",
+          "latex": "$$ |p - x_i| \\le m - \\frac{h_i}{t} $$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "令允许的最大距离为：",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\text{dis}_i = \\left\\lfloor \\frac{t \\cdot m - h_i}{t} \\right\\rfloor $$",
           "depth": 2
         },
         {
@@ -235,6 +255,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-21",
-  "parsed_at": "2026-06-14T18:39:36.314036+00:00",
+  "parsed_at": "2026-06-15T08:26:06.639810+00:00",
   "type_directory": "p"
 }

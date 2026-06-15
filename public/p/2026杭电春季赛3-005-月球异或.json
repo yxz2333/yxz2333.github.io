@@ -10,7 +10,7 @@
   "summary": "用线性基是我灵光一现想到的，想了想发现还真有那么回事。本题的主要难点就是怎么写这个<strong>三进制的线性基</strong>了，怎么 <code>insert</code> 和 <code>check</code>？全都围绕 \\(v_i \\leftarrow v_i \\oplus v_i\\) 这个条件写。最后要用<strong>数位数组</strong>进行优化，直接算除法太多会 TLE。",
   "link": "https://acm.hdu.edu.cn/contest/problem?cid=1199&pid=1005",
   "link_text": "1005 月球异或",
-  "source": "[[2026杭电春季赛3]]",
+  "source": "<a href=\"/c/2026杭电春季赛3\" class=\"wikilink\">2026杭电春季赛3</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -229,7 +229,17 @@
             },
             {
               "type": "math",
-              "latex": "$$ S = (c_1 \\cdot v_1) \\circledast (c_2 \\cdot v_2) \\circledast \\dots \\circledast (c_n \\cdot v_n) \\quad (\\text{其中 } c_i \\in \\{0, 1, 2\\}) $$\n这完全符合**线性空间**的定义，完全可以使用线性基。\n我们要判断目标值 $s$ 能否由给定向量组的**线性组合**表示，这正是线性基的用武之地。",
+              "latex": "$$ S = (c_1 \\cdot v_1) \\circledast (c_2 \\cdot v_2) \\circledast \\dots \\circledast (c_n \\cdot v_n) \\quad (\\text{其中 } c_i \\in \\{0, 1, 2\\}) $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这完全符合<strong>线性空间</strong>的定义，完全可以使用线性基。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们要判断目标值 $s$ 能否由给定向量组的<strong>线性组合</strong>表示，这正是线性基的用武之地。",
               "depth": 1
             }
           ]
@@ -336,6 +346,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-04",
-  "parsed_at": "2026-06-14T18:39:35.862543+00:00",
+  "parsed_at": "2026-06-15T08:26:06.267036+00:00",
   "type_directory": "p"
 }

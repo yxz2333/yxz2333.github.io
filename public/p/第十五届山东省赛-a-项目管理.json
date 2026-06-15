@@ -9,7 +9,7 @@
   "summary": "因为数据范围太大，搞不了 dp，于是认为本题是思维题，对每一职级进行枚举。发现<strong>结论一</strong>：同一个职级只在乎比他们高的<strong>有多少个</strong>，而不是具体哪一些；进而推出<strong>结论二</strong>：如果答案为 $k$ ，那么我肯定也能找到 $k - 1, k - 2, \\dots$ 个人来参加项目。倒序枚举职级，同一职级按 $b$ 进行排序，直接维护答案数组即可解决本题。",
   "link": "https://codeforces.com/gym/105930/problem/A",
   "link_text": "Problem - A - Codeforces",
-  "source": "[[第十五届山东省赛]]",
+  "source": "<a href=\"/c/第十五届山东省赛\" class=\"wikilink\">第十五届山东省赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -137,7 +137,12 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\text{新人数} = \\min(|ans|, b_{min}) + cnt $$\n我们只需要遍历当前职级的可能人数 $cnt$，维护一个最大新答案值 `mx`。如果 `mx > |ans|`，说明我们找到了一种更优的组合，此时**用这批新人去 “替换” 掉部分高职级老人**即可。",
+              "latex": "$$ \\text{新人数} = \\min(|ans|, b_{min}) + cnt $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们只需要遍历当前职级的可能人数 $cnt$，维护一个最大新答案值 <code>mx</code>。如果 <code>mx &gt; |ans|</code>，说明我们找到了一种更优的组合，此时<strong>用这批新人去 “替换” 掉部分高职级老人</strong>即可。",
               "depth": 1
             }
           ]
@@ -162,6 +167,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-19",
-  "parsed_at": "2026-06-14T18:39:36.926227+00:00",
+  "parsed_at": "2026-06-15T08:26:07.230843+00:00",
   "type_directory": "p"
 }

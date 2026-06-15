@@ -69,7 +69,7 @@ const copyToClipboard = async () => {
       </button>
     </div>
 
-    <div class="flex overflow-x-auto text-[0.85rem] font-mono leading-[1.6] bg-white/[0.04]">
+    <div class="flex overflow-x-auto text-xs sm:text-[0.85rem] font-mono leading-[1.6] bg-white/[0.04]">
       <pre v-if="lineCount > 0" class="text-gray-600/50 text-right pl-4 pr-3 py-3 select-none border-r border-white/[0.06] shrink-0 !m-0">{{ lineNumbers }}</pre>
       <pre class="text-gray-300 w-full whitespace-pre font-mono py-3 pr-4 pl-3 !m-0" v-html="highlighted"></pre>
     </div>

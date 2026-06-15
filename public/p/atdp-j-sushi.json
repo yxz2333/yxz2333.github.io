@@ -241,7 +241,17 @@
             },
             {
               "type": "math",
-              "latex": "$$dp[i][j][k] = 1 + \\frac{i}{N} dp[i-1][j][k] + \\frac{j}{N} dp[i+1][j-1][k] + \\frac{k}{N} dp[i][j+1][k-1] + \\frac{N - i - j - k}{N} dp[i][j][k]$$\n右边出现了 `dp[i][j][k]`，把它移项到左边去：\n$$dp[i][j][k] - \\frac{N - i - j - k}{N} dp[i][j][k] = 1 + \\dots(右边剩下那三项)$$",
+              "latex": "$$dp[i][j][k] = 1 + \\frac{i}{N} dp[i-1][j][k] + \\frac{j}{N} dp[i+1][j-1][k] + \\frac{k}{N} dp[i][j+1][k-1] + \\frac{N - i - j - k}{N} dp[i][j][k]$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "右边出现了 <code>dp[i][j][k]</code>，把它移项到左边去：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i][j][k] - \\frac{N - i - j - k}{N} dp[i][j][k] = 1 + \\dots(右边剩下那三项)$$",
               "depth": 1
             },
             {
@@ -251,7 +261,17 @@
             },
             {
               "type": "math",
-              "latex": "$$\\frac{i + j + k}{N} dp[i][j][k] = 1 + \\frac{i}{N} dp[\\dots] + \\frac{j}{N} dp[\\dots] + \\frac{k}{N} dp[\\dots]$$\n两边同时乘上 $\\frac{N}{i + j + k}$，**完美的转移方程诞生了：**\n$$dp[i][j][k] = \\frac{N}{i+j+k} + \\frac{i}{i+j+k} dp[i-1][j][k] + \\frac{j}{i+j+k} dp[i+1][j-1][k] + \\frac{k}{i+j+k} dp[i][j+1][k-1]$$",
+              "latex": "$$\\frac{i + j + k}{N} dp[i][j][k] = 1 + \\frac{i}{N} dp[\\dots] + \\frac{j}{N} dp[\\dots] + \\frac{k}{N} dp[\\dots]$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "两边同时乘上 $\\frac{N}{i + j + k}$，<strong>完美的转移方程诞生了：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$dp[i][j][k] = \\frac{N}{i+j+k} + \\frac{i}{i+j+k} dp[i-1][j][k] + \\frac{j}{i+j+k} dp[i+1][j-1][k] + \\frac{k}{i+j+k} dp[i][j+1][k-1]$$",
               "depth": 1
             }
           ]
@@ -292,6 +312,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-01",
-  "parsed_at": "2026-06-14T18:39:36.046190+00:00",
+  "parsed_at": "2026-06-15T08:26:06.435559+00:00",
   "type_directory": "p"
 }

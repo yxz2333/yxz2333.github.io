@@ -13,7 +13,7 @@
   "summary": "<strong>“小数据范围提示解法” + “固定列翻转情况看行是否翻转”  + \"推数学公式得一次函数\"  + “桶思想枚举行状态”  + “临界点计算与预处理加速”</strong>",
   "link": "https://codeforces.com/gym/105945/problem/A",
   "link_text": "Problem - A - Codeforces",
-  "source": "[[2025 JSCPC 江苏省程序设计大赛]]",
+  "source": "<a href=\"/c/2025-jscpc-江苏省程序设计大赛\" class=\"wikilink\">2025 JSCPC 江苏省程序设计大赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -457,6 +457,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-19",
-  "parsed_at": "2026-06-14T18:39:35.784926+00:00",
+  "parsed_at": "2026-06-15T08:26:06.213450+00:00",
   "type_directory": "p"
 }

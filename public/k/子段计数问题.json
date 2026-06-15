@@ -50,8 +50,33 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\text{Total Ans} = \\sum_{i} (\\text{Value}_i \\times \\text{Count}_i) $$\n**经典例题**：",
+              "latex": "$$ \\text{Total Ans} = \\sum_{i} (\\text{Value}_i \\times \\text{Count}_i) $$",
               "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>经典例题</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>所有子段的最小值之和</strong>：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于每个 $a_i$，找到它左边第一个比它小的位置 $L_i$ 和右边第一个比它小的位置 $R_i$（使用<strong>单调栈</strong>）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "$a_i$ 作为最小值的子段范围是 $(L_i, R_i)$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "贡献 $= a_i \\times (i - L_i) \\times (R_i - i)$。",
+              "depth": 3
             }
           ]
         },
@@ -72,6 +97,6 @@
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-21",
-  "parsed_at": "2026-06-14T18:45:12.175579+00:00",
+  "parsed_at": "2026-06-15T08:24:44.768886+00:00",
   "type_directory": "k"
 }

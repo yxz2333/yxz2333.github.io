@@ -10,7 +10,7 @@
   "summary": "每 12 个数构造一串就行，因为每 12 个数中有 8 个能整除 2 或 3 的数，剩下的数暴力。<strong>特判</strong> $n$ 取模等于 3 或 5 的情况，这两个情况也得手搓构造。",
   "link": "https://ac.nowcoder.com/acm/contest/120566/I",
   "link_text": "I-小L的构造2_2026牛客寒假算法基础集训营6",
-  "source": "[[2026牛客寒假算法基础集训营6]]",
+  "source": "<a href=\"/c/2026牛客寒假算法基础集训营6\" class=\"wikilink\">2026牛客寒假算法基础集训营6</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -137,6 +137,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-15",
-  "parsed_at": "2026-06-14T18:39:35.928215+00:00",
+  "parsed_at": "2026-06-15T08:26:06.329474+00:00",
   "type_directory": "p"
 }

@@ -9,7 +9,7 @@
   "summary": "标准的隔板法组合数学题，先得对题目进行转化，才好解决本题。",
   "link": "https://ac.nowcoder.com/acm/contest/120566/B",
   "link_text": "B-小L的彩球_2026牛客寒假算法基础集训营6",
-  "source": "[[2026牛客寒假算法基础集训营6]]",
+  "source": "<a href=\"/c/2026牛客寒假算法基础集训营6\" class=\"wikilink\">2026牛客寒假算法基础集训营6</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -286,6 +286,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-16",
-  "parsed_at": "2026-06-14T18:39:35.923822+00:00",
+  "parsed_at": "2026-06-15T08:26:06.326394+00:00",
   "type_directory": "p"
 }

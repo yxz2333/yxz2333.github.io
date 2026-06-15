@@ -117,7 +117,7 @@
           "blocks": [
             {
               "type": "p",
-              "html": "!<a href=\"https://assets.leetcode.com/uploads/2021/03/13/dungeon-grid-1.jpg\" target=\"_blank\" class=\"md-link\">dungeon</a>",
+              "html": "<img src=\"https://assets.leetcode.com/uploads/2021/03/13/dungeon-grid-1.jpg\" alt=\"dungeon\" class=\"note-img\" />",
               "depth": 1
             }
           ]
@@ -142,6 +142,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-01",
-  "parsed_at": "2026-06-14T18:39:36.642438+00:00",
+  "parsed_at": "2026-06-15T08:26:06.957786+00:00",
   "type_directory": "p"
 }

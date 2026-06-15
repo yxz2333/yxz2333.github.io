@@ -10,7 +10,7 @@
   "summary": "考虑算每个 $r_i$ 对 $\\sum c_i$ 的贡献，把 $c_i$ 的公式全拆开，发现<strong>等比数列求和公式</strong>，然后推出式子，发现 $r_i$ 越小越好。",
   "link": "https://codeforces.com/gym/105911/problem/F",
   "link_text": "Problem - F - Codeforces",
-  "source": "[[2025ICPC南昌邀请赛]]",
+  "source": "<a href=\"/c/2025icpc南昌邀请赛\" class=\"wikilink\">2025ICPC南昌邀请赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -31,7 +31,22 @@
         },
         {
           "type": "math",
-          "latex": "$$c_i = p \\times c_{i-1} + (1 - p) \\times r_{i-1}$$\n其中参数 $r_0$、$c_0$ 和 $p$ ($0 < p < 1$) 已由主人测定。\n当然，红龙小露表示不会完全听从“厨子”的命令。她声明在未来 $n$ 天中有 $k$ 天要放纵饮食。这 $k$ 天的热量摄入已预先确定，且每日热量摄入必须在 $[L, R]$ 范围内，即所有 $r_i$ 都应满足 $r_i \\in [L, R]$。\n在以上条件下，小露想安排非放纵日的饮食，使得未来 $n$ 天内总热量消耗与摄入的差值 $\\max \\sum_{i=1}^{n} (c_i - r_i)$ 达到最大。",
+          "latex": "$$c_i = p \\times c_{i-1} + (1 - p) \\times r_{i-1}$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "其中参数 $r_0$、$c_0$ 和 $p$ ($0 < p < 1$) 已由主人测定。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "当然，红龙小露表示不会完全听从“厨子”的命令。她声明在未来 $n$ 天中有 $k$ 天要放纵饮食。这 $k$ 天的热量摄入已预先确定，且每日热量摄入必须在 $[L, R]$ 范围内，即所有 $r_i$ 都应满足 $r_i \\in [L, R]$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在以上条件下，小露想安排非放纵日的饮食，使得未来 $n$ 天内总热量消耗与摄入的差值 $\\max \\sum_{i=1}^{n} (c_i - r_i)$ 达到最大。",
           "depth": 1
         }
       ]
@@ -195,7 +210,17 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\text{总系数} = (1-p) + p(1-p) + p^2(1-p) + \\dots + p^{n-j-1}(1-p) $$\n提取公因式 $(1-p)$：\n$$ \\text{总系数} = (1-p) \\cdot (1 + p + p^2 + \\dots + p^{n-j-1}) $$",
+              "latex": "$$ \\text{总系数} = (1-p) + p(1-p) + p^2(1-p) + \\dots + p^{n-j-1}(1-p) $$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "提取公因式 $(1-p)$：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\text{总系数} = (1-p) \\cdot (1 + p + p^2 + \\dots + p^{n-j-1}) $$",
               "depth": 2
             },
             {
@@ -221,7 +246,12 @@
             },
             {
               "type": "math",
-              "latex": "$$ S = \\text{常数项} + \\sum_{i=1}^{n} (1 - p^{n-i}) \\cdot r_i - \\sum_{i=1}^{n} r_i $$\n$$\\text{常数项}  = (p \\cdot c_0 + (1 - p) \\cdot r_0) \\cdot n$$",
+              "latex": "$$ S = \\text{常数项} + \\sum_{i=1}^{n} (1 - p^{n-i}) \\cdot r_i - \\sum_{i=1}^{n} r_i $$",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$\\text{常数项}  = (p \\cdot c_0 + (1 - p) \\cdot r_0) \\cdot n$$",
               "depth": 2
             },
             {
@@ -231,7 +261,12 @@
             },
             {
               "type": "math",
-              "latex": "$$ S = \\text{常数项} + \\sum_{i=1}^{n} \\left[ (1 - p^{n-i}) - 1 \\right] \\cdot r_i $$\n$$ S = \\text{常数项} + \\sum_{i=1}^{n} (- p^{n-i}) \\cdot r_i $$",
+              "latex": "$$ S = \\text{常数项} + \\sum_{i=1}^{n} \\left[ (1 - p^{n-i}) - 1 \\right] \\cdot r_i $$",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$ S = \\text{常数项} + \\sum_{i=1}^{n} (- p^{n-i}) \\cdot r_i $$",
               "depth": 2
             },
             {
@@ -266,6 +301,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-28",
-  "parsed_at": "2026-06-14T18:39:35.776343+00:00",
+  "parsed_at": "2026-06-15T08:26:06.206742+00:00",
   "type_directory": "p"
 }

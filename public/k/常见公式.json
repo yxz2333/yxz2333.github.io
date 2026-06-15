@@ -49,7 +49,17 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\sum_{i=k}^n \\binom{i}{k} = \\binom{n+1}{k+1} $$\n*(应用场景：求* $1 \\sim n$ *的组合数之和，常用于转化前缀和问题)*\n例题： [[ABC154F Many Many Paths]]",
+          "latex": "$$ \\sum_{i=k}^n \\binom{i}{k} = \\binom{n+1}{k+1} $$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<em>(应用场景：求</em> $1 \\sim n$ <em>的组合数之和，常用于转化前缀和问题)</em>",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "例题： <a href=\"/p/abc154f-many-many-paths\" class=\"wikilink\">ABC154F Many Many Paths</a>",
           "depth": 3
         },
         {
@@ -74,7 +84,12 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\sum_{i=0}^m (-1)^i \\binom{n}{i} = (-1)^m \\binom{n-1}{m} $$\n*(这个公式在容斥原理优化时间复杂度时极其关键！)*",
+          "latex": "$$ \\sum_{i=0}^m (-1)^i \\binom{n}{i} = (-1)^m \\binom{n-1}{m} $$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<em>(这个公式在容斥原理优化时间复杂度时极其关键！)</em>",
           "depth": 3
         }
       ]
@@ -83,6 +98,6 @@
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-16",
-  "parsed_at": "2026-06-14T18:45:12.160229+00:00",
+  "parsed_at": "2026-06-15T08:24:44.754855+00:00",
   "type_directory": "k"
 }

@@ -217,8 +217,43 @@
         },
         {
           "type": "math",
-          "latex": "$$\\min(X, Y) = \\frac{X + Y - |X - Y|}{2}$$\n令 $X = \\text{prea}[i] + \\text{preb}[j]$ （1 的总数），$Y = (i - \\text{prea}[i]) + (j - \\text{preb}[j])$ （0 的总数）\n那么：\n为了简化，我们定义两个新数组 $f$ 和 $g$：",
+          "latex": "$$\\min(X, Y) = \\frac{X + Y - |X - Y|}{2}$$",
           "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "令 $X = \\text{prea}[i] + \\text{preb}[j]$ （1 的总数），$Y = (i - \\text{prea}[i]) + (j - \\text{preb}[j])$ （0 的总数）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那么：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>和的部分</strong>：$X + Y = i + j$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "<strong>差的部分</strong>：$X - Y = (2 \\cdot \\text{prea}[i] - i) + (2 \\cdot \\text{preb}[j] - j)$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "为了简化，我们定义两个新数组 $f$ 和 $g$：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$f(i) = 2 \\cdot \\text{prea}[i] - i$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "$g(j) = 2 \\cdot \\text{preb}[j] - j$",
+          "depth": 3
         },
         {
           "type": "p",
@@ -227,7 +262,12 @@
         },
         {
           "type": "math",
-          "latex": "$$\\text{ans} = \\sum_{i=1}^n \\sum_{j=1}^n \\frac{(i+j) - |f(i) + g(j)|}{2}$$\n$$\\text{ans} = \\frac{1}{2} \\left( \\sum_{i=1}^n \\sum_{j=1}^n (i+j) - \\sum_{i=1}^n \\sum_{j=1}^n |f(i) + g(j)| \\right)$$",
+          "latex": "$$\\text{ans} = \\sum_{i=1}^n \\sum_{j=1}^n \\frac{(i+j) - |f(i) + g(j)|}{2}$$",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$\\text{ans} = \\frac{1}{2} \\left( \\sum_{i=1}^n \\sum_{j=1}^n (i+j) - \\sum_{i=1}^n \\sum_{j=1}^n |f(i) + g(j)| \\right)$$",
           "depth": 2
         },
         {
@@ -315,6 +355,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-29",
-  "parsed_at": "2026-06-14T18:39:36.328944+00:00",
+  "parsed_at": "2026-06-15T08:26:06.648912+00:00",
   "type_directory": "p"
 }

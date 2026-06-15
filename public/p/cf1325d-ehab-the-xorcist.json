@@ -197,7 +197,17 @@
             },
             {
               "type": "math",
-              "latex": "$$A + B = (A \\oplus B) + 2(A \\& B)$$\n移项得到：\n$$(A + B) - (A \\oplus B) = 2(A \\& B)$$",
+              "latex": "$$A + B = (A \\oplus B) + 2(A \\& B)$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "移项得到：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$(A + B) - (A \\oplus B) = 2(A \\& B)$$",
               "depth": 2
             },
             {
@@ -314,8 +324,158 @@
             },
             {
               "type": "math",
-              "latex": "$$a \\& b = \\frac{v - u}{2} = x$$\n假设存在任意一对数 $[a, b]$ 满足题目要求：\n现在我们来分析**二进制位**的冲突情况：\n**关键矛盾**：\n**结论**：\n**长度为 2 的构造形式：** $[u+x, x]$",
+              "latex": "$$a \\& b = \\frac{v - u}{2} = x$$",
               "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "假设存在任意一对数 $[a, b]$ 满足题目要求：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$a \\oplus b = u$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$a + b = v$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$a \\& b = x$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "现在我们来分析<strong>二进制位</strong>的冲突情况：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "考察任意一个二进制位 $k$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况 A</strong>：如果 $x$ 的第 $k$ 位是 1。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因为 $a \\& b = x$，所以 $a$ 的第 $k$ 位和 $b$ 的第 $k$ 位<strong>必须都为 1</strong>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>情况 B</strong>：如果 $u$ 的第 $k$ 位是 1。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因为 $a \\oplus b = u$，所以 $a$ 的第 $k$ 位和 $b$ 的第 $k$ 位<strong>必须是一个 1 一个 0</strong>。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>关键矛盾</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "如果 $x$ 和 $u$ 在第 $k$ 位<strong>同时为 1</strong>，会发生什么？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "由 $x$ 导致：$a, b$ 第 $k$ 位都是 1。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "由 $u$ 导致：$a, b$ 第 $k$ 位必须不同。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>矛盾！</strong> 这种情况下，不存在合法的 $a$ 和 $b$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>结论</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "要使长度为 2 的解 $[a, b]$ 存在，<strong>u 和 x 绝不能在同一位上同时为 1</strong>，即 <strong>u + x 无进位</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "用位运算表示就是：",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$(u \\& x) == 0$$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>长度为 2 的构造形式：</strong> $[u+x, x]$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "需要检验是否满足 $(u \\& x) == 0$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>为什么 [u+x, x] 是“代表”？</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "当 $(u \\& x) == 0$ 时（即无冲突），$u + x$ 在二进制上其实就是把 $u$ 的位和 $x$ 的位拼起来（$u | x$）。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "此时令 $a = u + x, b = x$：",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "$a \\oplus b = (u + x) \\oplus x = (u \\oplus x) \\oplus x = u$ （假设无进位）。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "$a + b = u + x + x = v$。",
+              "depth": 4
+            },
+            {
+              "type": "p",
+              "html": "<strong>为什么随便找 [a, b] 也没戏？</strong>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "如果 $[u+x, x]$ 不行，说明 $(u \\& x) \\neq 0$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "根据上面的矛盾分析，只要 $(u \\& x) \\neq 0$，任何 $[a, b]$ 都会陷入“第 $k$ 位既要是 $11$ 又要是 $01/10$” 的死循环矛盾。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "所以，只需要检验 $[u+x, x]$ 这一种保底变换形式即可。",
+              "depth": 3
             }
           ]
         }
@@ -339,6 +499,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-26",
-  "parsed_at": "2026-06-14T18:39:36.161702+00:00",
+  "parsed_at": "2026-06-15T08:26:06.528866+00:00",
   "type_directory": "p"
 }

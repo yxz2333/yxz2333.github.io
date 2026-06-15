@@ -10,7 +10,7 @@
   "summary": "唯一的难点就是如何表示这筛子的 24 个状态，看看代码得了。",
   "link": "https://acm.hdu.edu.cn/contest/problem?cid=1202&pid=1002",
   "link_text": "1002 滚动的色彩",
-  "source": "[[2026杭电春季赛6]]",
+  "source": "<a href=\"/c/2026杭电春季赛6\" class=\"wikilink\">2026杭电春季赛6</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -177,6 +177,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-25",
-  "parsed_at": "2026-06-14T18:39:35.881368+00:00",
+  "parsed_at": "2026-06-15T08:26:06.283612+00:00",
   "type_directory": "p"
 }

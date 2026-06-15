@@ -28,8 +28,28 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\frac{2}{\\frac{1}{a} + \\frac{1}{b}} \\le \\sqrt{ab} \\le \\frac{a+b}{2} \\le \\sqrt{\\frac{a^2+b^2}{2}} $$\n但在算法竞赛中，常见的是：**几何平均数** $\\le$ **算术平均数**",
+          "latex": "$$ \\frac{2}{\\frac{1}{a} + \\frac{1}{b}} \\le \\sqrt{ab} \\le \\frac{a+b}{2} \\le \\sqrt{\\frac{a^2+b^2}{2}} $$",
           "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "但在算法竞赛中，常见的是：<strong>几何平均数</strong> $\\le$ <strong>算术平均数</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于 $a, b > 0$，有： $a + b \\ge 2\\sqrt{ab}$（当且仅当 $a = b$ 时，等号成立）",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "方便用于<strong>算根号复杂度</strong>。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "$f(x) = ax + \\frac{b}{x}$ <strong>对勾函数</strong>可以利用这一公式得出最小值。",
+          "depth": 3
         }
       ]
     }
@@ -37,6 +57,6 @@
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-29",
-  "parsed_at": "2026-06-14T18:45:12.085892+00:00",
+  "parsed_at": "2026-06-15T08:24:44.687532+00:00",
   "type_directory": "k"
 }

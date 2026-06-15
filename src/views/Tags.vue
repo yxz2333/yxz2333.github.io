@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import { renderLatex } from '../composables/useKatex.js'
 
@@ -7,10 +7,11 @@ const route = useRoute()
 const selectedTag = ref(null)
 const notes = ref([])
 
-// 抽屉打开时锁定 body 滚动
+// 抽屉打开时锁定 body 滚动，离开页面时恢复
 watch(selectedTag, (val) => {
   document.body.style.overflow = val ? 'hidden' : ''
 })
+onUnmounted(() => { document.body.style.overflow = '' })
 
 onMounted(async () => {
   const dirs = ['p', 'k', 'c']

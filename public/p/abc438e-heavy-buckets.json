@@ -9,7 +9,7 @@
   "summary": "看出来是<strong>倍增</strong>就能秒。",
   "link": "https://atcoder.jp/contests/abc438/tasks/abc438_e",
   "link_text": "E - Heavy Buckets",
-  "source": "[[AtCoder Beginner Contest 438]]",
+  "source": "<a href=\"/c/atcoder-beginner-contest-438\" class=\"wikilink\">AtCoder Beginner Contest 438</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -218,6 +218,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-13",
-  "parsed_at": "2026-06-14T18:39:35.988507+00:00",
+  "parsed_at": "2026-06-15T08:26:06.385119+00:00",
   "type_directory": "p"
 }

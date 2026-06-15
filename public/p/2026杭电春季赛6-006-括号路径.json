@@ -11,7 +11,7 @@
   "summary": "因为点和边都很少，对每个点单独跑 $bfs$ 即可。开个 $dis[405][405]$ 记录当前 $i$ 到 $j$ <strong>左括号</strong>个数（<strong>括号匹配问题经典trick</strong>）为 $k$ 的最短距离，这里猜测左括号个数上限仅需 $n$，开个 $ans[405][405]$ 记录答案即可。",
   "link": "https://acm.hdu.edu.cn/contest/problem?cid=1202&pid=1006",
   "link_text": "1006 括号路径",
-  "source": "[[2026杭电春季赛6]]",
+  "source": "<a href=\"/c/2026杭电春季赛6\" class=\"wikilink\">2026杭电春季赛6</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -158,6 +158,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-25",
-  "parsed_at": "2026-06-14T18:39:35.887493+00:00",
+  "parsed_at": "2026-06-15T08:26:06.291703+00:00",
   "type_directory": "p"
 }

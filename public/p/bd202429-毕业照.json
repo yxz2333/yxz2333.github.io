@@ -13,7 +13,7 @@
   "summary": "一般做的都是<strong>树上倍增</strong>，<strong>序列倍增</strong>没怎么做过，算是学到了吧。",
   "link": "https://www.matiji.net/exam/brushquestion/29/4498/F16DA07A4D99E21DFFEF46BD18FF68AD",
   "link_text": "码蹄集OJ-毕业照",
-  "source": "[[2024百度之星决赛]]",
+  "source": "<a href=\"/c/2024百度之星决赛\" class=\"wikilink\">2024百度之星决赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -237,6 +237,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-23",
-  "parsed_at": "2026-06-14T18:39:36.067715+00:00",
+  "parsed_at": "2026-06-15T08:26:06.452165+00:00",
   "type_directory": "p"
 }

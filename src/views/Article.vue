@@ -47,7 +47,7 @@ const daysSincePublished = Math.ceil(Math.abs(new Date() - publishDate) / (1000 
         <span class="hover:text-white cursor-pointer transition-colors"># Vue</span>
         <span class="hover:text-white cursor-pointer transition-colors"># 主题</span>
       </div>
-      <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight tracking-wide drop-shadow-md">
+      <h1 class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight tracking-wide drop-shadow-md">
         新年新气象！基于 VitePress 开发一个新主题
       </h1>
       <div class="flex flex-wrap items-center gap-6 text-xs text-gray-500">

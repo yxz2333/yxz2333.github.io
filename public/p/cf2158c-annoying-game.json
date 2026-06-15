@@ -12,7 +12,7 @@
   "summary": "枚举前缀和 <code>pre</code> 维护最小前缀 <code>mnpre</code> 和与最大 <code>b</code> 太麻烦了，直接枚举 <code>b[i]</code> 然后用最小前缀前缀和 <code>mnpre[i - 1]</code> 与最大后缀前缀和 <code>mxsuf[i]</code> 解决即可。",
   "link": "https://codeforces.com/contest/2158/problem/C",
   "link_text": "Problem - C - Codeforces",
-  "source": "[[Codeforces Round 1067 (Div. 2)]]",
+  "source": "<a href=\"/c/codeforces-round-1067-(div.-2)\" class=\"wikilink\">Codeforces Round 1067 (Div. 2)</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -196,6 +196,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-11-30",
-  "parsed_at": "2026-06-14T18:39:36.345094+00:00",
+  "parsed_at": "2026-06-15T08:26:06.663931+00:00",
   "type_directory": "p"
 }

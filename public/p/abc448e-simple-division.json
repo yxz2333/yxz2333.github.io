@@ -223,8 +223,53 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\lfloor \\frac{N}{M} \\rfloor \\bmod P = \\lfloor \\frac{N \\bmod (M \\cdot P)}{M} \\rfloor $$\n**为什么成立？**\n同理，对于等比数列求和的**除以 9**，因为不确定 m 和 9 是否互质，**若不互质则求不了逆元**，故这里也用上面的公式**扩大模数**。",
+          "latex": "$$ \\lfloor \\frac{N}{M} \\rfloor \\bmod P = \\lfloor \\frac{N \\bmod (M \\cdot P)}{M} \\rfloor $$",
           "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>为什么成立？</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "就是<strong>带余除法</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "设 $N = q \\cdot (MP) + r$，其中 $0 \\le r < MP$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "那么 $\\frac{N}{M} = q \\cdot P + \\frac{r}{M}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "两边向下取整：$\\lfloor \\frac{N}{M} \\rfloor = q \\cdot P + \\lfloor \\frac{r}{M} \\rfloor$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "再对 $P$ 取模，前面的 $q \\cdot P$ 被消掉；因为 $r < MP$，所以 $\\lfloor \\frac{r}{M} \\rfloor < P$，取模后就是它本身。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "同理，对于等比数列求和的<strong>除以 9</strong>，因为不确定 m 和 9 是否互质，<strong>若不互质则求不了逆元</strong>，故这里也用上面的公式<strong>扩大模数</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "要求 $\\frac{A}{9} \\bmod \\text{MOD}$，且已知 $A$ 绝对是 9 的倍数（$10^l - 1$ 一定全是 9）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "先求 $A \\bmod (9 \\times \\text{MOD})$，然后把结果<strong>直接用整数除法除以 9</strong>。",
+          "depth": 2
         }
       ]
     },
@@ -246,6 +291,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-11",
-  "parsed_at": "2026-06-14T18:39:36.023825+00:00",
+  "parsed_at": "2026-06-15T08:26:06.417915+00:00",
   "type_directory": "p"
 }

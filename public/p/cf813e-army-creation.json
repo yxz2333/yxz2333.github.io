@@ -203,7 +203,12 @@
             },
             {
               "type": "math",
-              "latex": "$$ pre[i] < l $$\n问题瞬间转化为一个经典的二维偏序统计：**在下标范围** $i \\in [l, r]$ **中，有多少个位置满足权值** $pre[i] < l$**？**",
+              "latex": "$$ pre[i] < l $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "问题瞬间转化为一个经典的二维偏序统计：<strong>在下标范围</strong> $i \\in [l, r]$ <strong>中，有多少个位置满足权值</strong> $pre[i] < l$<strong>？</strong>",
               "depth": 1
             }
           ]
@@ -264,6 +269,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-26",
-  "parsed_at": "2026-06-14T18:39:36.592365+00:00",
+  "parsed_at": "2026-06-15T08:26:06.894990+00:00",
   "type_directory": "p"
 }

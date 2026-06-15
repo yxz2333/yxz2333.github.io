@@ -10,7 +10,7 @@
   "summary": "对着树用<strong>树剖</strong>或直接<strong>DFS序</strong>处理成序列，然后用<strong>线段树</strong>或<strong>树状数组</strong>操作，这还是很好看出来的，关键是要对题目的式子进行<strong>变量分离</strong>。",
   "link": "https://www.matiji.net/exam/brushquestion/27/4347/179CE77A7B772D15A8C00DD8198AAC74",
   "link_text": "码蹄集OJ-社交树",
-  "source": "[[2023百度之星决赛]]",
+  "source": "<a href=\"/c/2023百度之星决赛\" class=\"wikilink\">2023百度之星决赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -156,27 +156,27 @@
         },
         {
           "type": "math",
-          "latex": "$$Val = a^{x + D} = a^{x + dep[v] - dep[u]} = \\underbrace{a^{x - dep[u]}}_{\\text{操作常数 } K} \\times \\underbrace{a^{dep[v]}}_{\\text{节点特征} X}$$\nid:: bb821022-6e7b-4bea-8dd4-c8248394e02a\n$$",
+          "latex": "$$Val = a^{x + D} = a^{x + dep[v] - dep[u]} = \\underbrace{a^{x - dep[u]}}_{\\text{操作常数 } K} \\times \\underbrace{a^{dep[v]}}_{\\text{节点特征} X}$$",
           "depth": 2
         },
         {
           "type": "p",
-          "html": "Ans_v = \\sum (Val) = \\sum (K \\times X) = X \\times \\left( \\sum K \\right)",
+          "html": "id:: bb821022-6e7b-4bea-8dd4-c8248394e02a",
           "depth": 2
         },
         {
           "type": "math",
-          "latex": "$$\n即：\n$$",
+          "latex": "$$\nAns_v = \\sum (Val) = \\sum (K \\times X) = X \\times \\left( \\sum K \\right)\n$$",
           "depth": 2
         },
         {
           "type": "p",
-          "html": "\\text{节点 } v \\text{ 的最终增加值} = \\underbrace{a^{dep[v]}}_{\\text{节点特征} X} \\times \\underbrace{\\left( \\sum_{\\text{所有覆盖 } v \\text{ 的操作}} a^{x - dep[u]} \\right)}_{\\text{树状数组维护的系数和}}",
+          "html": "即：",
           "depth": 2
         },
         {
           "type": "math",
-          "latex": "$$",
+          "latex": "$$\n\\text{节点 } v \\text{ 的最终增加值} = \\underbrace{a^{dep[v]}}_{\\text{节点特征} X} \\times \\underbrace{\\left( \\sum_{\\text{所有覆盖 } v \\text{ 的操作}} a^{x - dep[u]} \\right)}_{\\text{树状数组维护的系数和}}\n$$",
           "depth": 2
         },
         {
@@ -244,6 +244,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-10",
-  "parsed_at": "2026-06-14T18:39:36.056632+00:00",
+  "parsed_at": "2026-06-15T08:26:06.443318+00:00",
   "type_directory": "p"
 }

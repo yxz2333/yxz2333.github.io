@@ -9,7 +9,7 @@
   "summary": "算一下<strong>每个任务的理论最早完成时间</strong>，这题就解决了。然而想出这个结论非常困难。我整个心路历程是：<strong>想着化繁为简</strong> \\to <strong>考虑单一任务</strong> \\to <strong>考虑多任务无阻塞</strong> \\to <strong>考虑出现阻塞</strong> \\to <strong>发现维护不了</strong>。而我卡在了最后一步，既然维护不了，那我应该<strong>脱离微观模拟视角</strong>，把阻塞过程<strong>看作宏观黑盒</strong>。",
   "link": "https://codeforces.com/gym/105930/problem/G",
   "link_text": "Problem - G - Codeforces",
-  "source": "[[第十五届山东省赛]]",
+  "source": "<a href=\"/c/第十五届山东省赛\" class=\"wikilink\">第十五届山东省赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -368,6 +368,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-19",
-  "parsed_at": "2026-06-14T18:39:36.929686+00:00",
+  "parsed_at": "2026-06-15T08:26:07.233728+00:00",
   "type_directory": "p"
 }

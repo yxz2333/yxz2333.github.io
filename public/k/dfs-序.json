@@ -18,7 +18,7 @@
       "blocks": [
         {
           "type": "p",
-          "html": "![](https://images2017.cnblogs.com/blog/1188068/201710/1188068-20171027104122883-1380446385.png)",
+          "html": "<img src=\"https://images2017.cnblogs.com/blog/1188068/201710/1188068-20171027104122883-1380446385.png\" alt=\"\" class=\"note-img\" />",
           "depth": 2
         },
         {
@@ -122,6 +122,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-22",
-  "parsed_at": "2026-06-14T18:45:11.940437+00:00",
+  "parsed_at": "2026-06-15T08:24:44.549385+00:00",
   "type_directory": "k"
 }

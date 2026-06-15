@@ -13,7 +13,7 @@
   "summary": "有点难想到能转化成图论问题，想到了之后还得优化一下建图方式",
   "link": "https://www.matiji.net/exam/brushquestion/14/4698/91E0C8915821F2C440B65EABFE649804",
   "link_text": "码蹄集OJ-Minpopcount",
-  "source": "[[2025百度之星初赛第二场]]",
+  "source": "<a href=\"/c/2025百度之星初赛第二场\" class=\"wikilink\">2025百度之星初赛第二场</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -260,6 +260,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-11",
-  "parsed_at": "2026-06-14T18:39:36.074575+00:00",
+  "parsed_at": "2026-06-15T08:26:06.457720+00:00",
   "type_directory": "p"
 }

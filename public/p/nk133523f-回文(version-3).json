@@ -172,42 +172,67 @@
             },
             {
               "type": "math",
-              "latex": "$$ Ans_c = \\sum_{k=l+1}^{r-1} \\Big( pre[k-1][c] - pre[l-1][c] \\Big) \\times \\Big( suf[k+1][c] - suf[r+1][c] \\Big) $$\n直接计算这个式子单次询问需要 $O(N)$，会超时。但注意到对于一个固定的查询，$pre[l-1][c]$ **和** $suf[r+1][c]$ **都是常数**。我们将式子利用乘法分配律完全展开：\n$$",
+              "latex": "$$ Ans_c = \\sum_{k=l+1}^{r-1} \\Big( pre[k-1][c] - pre[l-1][c] \\Big) \\times \\Big( suf[k+1][c] - suf[r+1][c] \\Big) $$",
               "depth": 1
             },
             {
               "type": "p",
-              "html": "\\begin{aligned}",
-              "depth": 1
-            },
-            {
-              "type": "p",
-              "html": "Ans_c = \\sum_{k=l+1}^{r-1} \\Big( & pre[k-1][c] \\times suf[k+1][c] \\\\",
-              "depth": 1
-            },
-            {
-              "type": "p",
-              "html": "&- pre[k-1][c] \\times suf[r+1][c] \\\\",
-              "depth": 1
-            },
-            {
-              "type": "p",
-              "html": "&- pre[l-1][c] \\times suf[k+1][c] \\\\",
-              "depth": 1
-            },
-            {
-              "type": "p",
-              "html": "&+ pre[l-1][c] \\times suf[r+1][c] \\Big)",
-              "depth": 1
-            },
-            {
-              "type": "p",
-              "html": "\\end{aligned}",
+              "html": "直接计算这个式子单次询问需要 $O(N)$，会超时。但注意到对于一个固定的查询，$pre[l-1][c]$ <strong>和</strong> $suf[r+1][c]$ <strong>都是常数</strong>。我们将式子利用乘法分配律完全展开：",
               "depth": 1
             },
             {
               "type": "math",
-              "latex": "$$\n将求和符号分配进每一项，并将与 $k$ 无关的常数项提出来，我们可以得到这 4 部分：\n**至此，解法已经呼之欲出！** 我们只需要在预处理阶段，维护三个新的**前缀和**数组（即代码中的 `sum[0], sum[1], sum[2]`）：\n对于上述四项，我们通过 `sum[x][r-1][c] - sum[x][l][c]` 即可在 $O(1)$ 时间内求出 $\\sum_{k=l+1}^{r-1}$ 的累加结果。最后对 26 个字母分别求和即可。",
+              "latex": "$$\n\\begin{aligned}\nAns_c = \\sum_{k=l+1}^{r-1} \\Big( & pre[k-1][c] \\times suf[k+1][c] \\\\\n&- pre[k-1][c] \\times suf[r+1][c] \\\\\n&- pre[l-1][c] \\times suf[k+1][c] \\\\\n&+ pre[l-1][c] \\times suf[r+1][c] \\Big)\n\\end{aligned}\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "将求和符号分配进每一项，并将与 $k$ 无关的常数项提出来，我们可以得到这 4 部分：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. $\\sum pre[k-1][c] \\cdot suf[k+1][c]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. $- suf[r+1][c] \\times \\sum pre[k-1][c]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3. $- pre[l-1][c] \\times \\sum suf[k+1][c]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "4. $+ pre[l-1][c] \\cdot suf[r+1][c] \\times (r - l - 1)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>至此，解法已经呼之欲出！</strong> 我们只需要在预处理阶段，维护三个新的<strong>前缀和</strong>数组（即代码中的 <code>sum[0], sum[1], sum[2]</code>）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$sum[0][i][c] = \\sum_{k=2}^{i} pre[k-1][c] \\times suf[k+1][c]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$sum[1][i][c] = \\sum_{k=2}^{i} pre[k-1][c]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$sum[2][i][c] = \\sum_{k=2}^{i} suf[k+1][c]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对于上述四项，我们通过 <code>sum[x][r-1][c] - sum[x][l][c]</code> 即可在 $O(1)$ 时间内求出 $\\sum_{k=l+1}^{r-1}$ 的累加结果。最后对 26 个字母分别求和即可。",
               "depth": 1
             }
           ]
@@ -232,6 +257,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-26",
-  "parsed_at": "2026-06-14T18:39:36.727518+00:00",
+  "parsed_at": "2026-06-15T08:26:07.070816+00:00",
   "type_directory": "p"
 }

@@ -149,7 +149,7 @@ watch(() => route.params.slug, () => load())
           <span v-if="note.source" class="text-gray-400">{{ note.source }}</span>
         </div>
         <h1
-          class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight tracking-wide drop-shadow-md">
+          class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight tracking-wide drop-shadow-md">
           {{ note.title }}
         </h1>
         <div class="flex flex-wrap items-center gap-4 text-xs text-gray-500">
@@ -189,7 +189,7 @@ watch(() => route.params.slug, () => load())
           </div>
 
           <!-- 正文 -->
-          <article class="glass-panel p-5 lg:p-8 animate-fade-in-up" style="animation-delay: 0.2s">
+          <article class="glass-panel p-4 sm:p-5 lg:p-8 animate-fade-in-up" style="animation-delay: 0.2s">
             <div class="prose max-w-none">
               <NoteSection :sections="note.sections" />
             </div>

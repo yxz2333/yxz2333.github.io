@@ -169,7 +169,17 @@
         },
         {
           "type": "math",
-          "latex": "$$a_i - s + need_i \\ge 1$$\n变形得到：\n$$need_i \\ge s - a_i + 1$$",
+          "latex": "$$a_i - s + need_i \\ge 1$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "变形得到：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$need_i \\ge s - a_i + 1$$",
           "depth": 1
         },
         {
@@ -212,6 +222,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-20",
-  "parsed_at": "2026-06-14T18:39:36.822895+00:00",
+  "parsed_at": "2026-06-15T08:26:07.139158+00:00",
   "type_directory": "p"
 }

@@ -10,7 +10,7 @@
   "summary": "经典的容斥问题，因为本题 6 3 2 权值的特殊性，直接写<strong>奇加偶减</strong>公式是没问题的。当然如果改了就可能不行，所以得把<strong>各个权值代表的真正个数</strong>得全找出来，因为是<strong>至少推恰好</strong>，所以可以用<strong>倒序容斥</strong>，当然<strong>画韦恩图推公式</strong>也行。",
   "link": "https://codeforces.com/contest/2204/problem/C",
   "link_text": "Problem - C - Codeforces",
-  "source": "[[Educational Codeforces Round 188 (Rated for Div. 2)]]",
+  "source": "<a href=\"/c/educational-codeforces-round-188-(rated-for-div.-2)\" class=\"wikilink\">Educational Codeforces Round 188 (Rated for Div. 2)</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -111,6 +111,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-17",
-  "parsed_at": "2026-06-14T18:39:36.442725+00:00",
+  "parsed_at": "2026-06-15T08:26:06.739954+00:00",
   "type_directory": "p"
 }

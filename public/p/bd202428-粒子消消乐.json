@@ -11,7 +11,7 @@
   "summary": "主要也就是得摆脱<strong>线段树</strong>带来的<strong>思维定势</strong>，想到有<strong>倍增</strong>这样同样能实现<strong>高效查询</strong>的方法。",
   "link": "https://www.matiji.net/exam/brushquestion/28/4498/F16DA07A4D99E21DFFEF46BD18FF68AD",
   "link_text": "码蹄集OJ-粒子消消乐",
-  "source": "[[2024百度之星决赛]]",
+  "source": "<a href=\"/c/2024百度之星决赛\" class=\"wikilink\">2024百度之星决赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -235,6 +235,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-11-26",
-  "parsed_at": "2026-06-14T18:39:36.064062+00:00",
+  "parsed_at": "2026-06-15T08:26:06.449488+00:00",
   "type_directory": "p"
 }

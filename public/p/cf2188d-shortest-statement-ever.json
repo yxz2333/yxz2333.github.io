@@ -11,7 +11,7 @@
   "summary": "挺麻烦的二进制题。",
   "link": "https://codeforces.com/contest/2188/problem/D",
   "link_text": "Problem - D - Codeforces",
-  "source": "[[Codeforces Round 1077 (Div. 2)]]",
+  "source": "<a href=\"/c/codeforces-round-1077-(div.-2)\" class=\"wikilink\">Codeforces Round 1077 (Div. 2)</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -144,7 +144,22 @@
                 },
                 {
                   "type": "math",
-                  "latex": "$$x = 10110_2, \\quad y = 11010_2 \\implies x \\ \\& \\ y = 10010_2$$\n冲突的位有：第 4 位（权重 16）和 第 1 位（权重 2）。\n其中**最高冲突位** $id = 4$。由于 $x$ 在这一位是 $1$，为了满足 $p \\ \\& \\ q = 0$，$q$ 的第 $4$ 位**必须为 0**。\n一旦第 $4$ 位被迫从 $1$ 变成 $0$，这一位就是 $q$ 无法对齐 $y$ 的最高位了。",
+                  "latex": "$$x = 10110_2, \\quad y = 11010_2 \\implies x \\ \\& \\ y = 10010_2$$",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "冲突的位有：第 4 位（权重 16）和 第 1 位（权重 2）。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "其中<strong>最高冲突位</strong> $id = 4$。由于 $x$ 在这一位是 $1$，为了满足 $p \\ \\& \\ q = 0$，$q$ 的第 $4$ 位<strong>必须为 0</strong>。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "一旦第 $4$ 位被迫从 $1$ 变成 $0$，这一位就是 $q$ 无法对齐 $y$ 的最高位了。",
                   "depth": 1
                 }
               ]
@@ -283,6 +298,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-26",
-  "parsed_at": "2026-06-14T18:39:36.396482+00:00",
+  "parsed_at": "2026-06-15T08:26:06.707162+00:00",
   "type_directory": "p"
 }

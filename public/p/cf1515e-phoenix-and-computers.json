@@ -244,7 +244,64 @@
             },
             {
               "type": "math",
-              "latex": "$$dp[i][len + k] = \\sum_{j} \\sum_{k} \\left( dp[j - 2][k] \\times \\underbrace{2^{len - 1}}_{\\text{新段内部点击顺序}} \\times \\underbrace{\\binom{k + len}{len}}_{\\text{新老段操作的穿插组合（隔板法）}} \\right)$$\n#### 新段内部点击顺序：$2^{len-1}$\n#### 新老段操作的穿插组合：$\\binom{k + len}{len}$ （核心难点）\n*另外补充边界*：如果前 $i$ 台电脑全是一个整体的手动段（没有断点），则 $dp[i][i] = 2^{i - 1}$。",
+              "latex": "$$dp[i][len + k] = \\sum_{j} \\sum_{k} \\left( dp[j - 2][k] \\times \\underbrace{2^{len - 1}}_{\\text{新段内部点击顺序}} \\times \\underbrace{\\binom{k + len}{len}}_{\\text{新老段操作的穿插组合（隔板法）}} \\right)$$",
+              "depth": 1
+            },
+            {
+              "heading": "新段内部点击顺序：$2^{len-1}$",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "手写点样例也就推出来了。",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>原理：</strong> 就像吃一根两头通透的辣条，为了不触发自动开启，你每次只能咬剩下部分的 “最左端” 或 “最右端”，除了最后一口没得选，前 $len-1$ 步每次都有 2 种选择，所以是 $2^{len-1}$ 种点法。",
+                  "depth": 1
+                }
+              ]
+            },
+            {
+              "heading": "新老段操作的穿插组合：$\\binom{k + len}{len}$ （核心难点）",
+              "level": 4,
+              "blocks": [
+                {
+                  "type": "p",
+                  "html": "为什么这里是组合数？因为我们<strong>不需要管它们各自内部的顺序了，只需要管 “时间线的分配”。</strong>",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "你可以这样想：",
+                  "depth": 1
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>时间空位</strong>：现在新老段总共需要点击 $k + len$ 次，想象有 $k + len$ 个空白的时间槽。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>顺序已固定</strong>：老段那 $k$ 次点击的相对先后顺序，在之前的 <code>dp[j-2][k]</code> 里<strong>已经排好并被打包固定了</strong>；新段那 $len$ 次点击的先后顺序，刚刚也被 $2^{len-1}$ <strong>打包固定了</strong>。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>分配空位</strong>：我们现在唯一的任务，就是在这 $k + len$ 个时间槽里，<strong>挑出</strong> $len$ <strong>个位置</strong>分配给新段。",
+                  "depth": 2
+                },
+                {
+                  "type": "p",
+                  "html": "<strong>隔板法</strong>：先放好 $k$ 个，然后 $len$ 插进去。",
+                  "depth": 2
+                }
+              ]
+            },
+            {
+              "type": "p",
+              "html": "<em>另外补充边界</em>：如果前 $i$ 台电脑全是一个整体的手动段（没有断点），则 $dp[i][i] = 2^{i - 1}$。",
               "depth": 1
             }
           ]
@@ -269,6 +326,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-05",
-  "parsed_at": "2026-06-14T18:39:36.188783+00:00",
+  "parsed_at": "2026-06-15T08:26:06.549746+00:00",
   "type_directory": "p"
 }

@@ -9,7 +9,7 @@
   "summary": "经典瓶颈路问题，因为只求 $1 \\to n$ 的瓶颈路，所以考虑从 $1$ 和 $n$ 跑<strong>最大瓶颈路最短路</strong>，然后<strong>枚举每条边</strong>，看看这条边是否能当最大瓶颈路。",
   "link": "https://codeforces.com/gym/104857/problem/J",
   "link_text": "Problem - J - Codeforces",
-  "source": "[[2023ICPC合肥区域赛]]",
+  "source": "<a href=\"/c/2023icpc合肥区域赛\" class=\"wikilink\">2023ICPC合肥区域赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -198,6 +198,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-25",
-  "parsed_at": "2026-06-14T18:39:35.692777+00:00",
+  "parsed_at": "2026-06-15T08:26:06.140656+00:00",
   "type_directory": "p"
 }

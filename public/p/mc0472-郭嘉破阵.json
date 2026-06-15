@@ -189,7 +189,17 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\sum_{j=1}^{n} \\sum_{\\substack{0 \\le L < j \\\\ P_L \\neq P_j}} (S_j - S_L) $$\n把内层求和拆开：\n$$ \\sum_{j=1}^{n} \\left( \\sum_{\\substack{0 \\le L < j \\\\ P_L \\neq P_j}} S_j - \\sum_{\\substack{0 \\le L < j \\\\ P_L \\neq P_j}} S_L \\right) $$",
+              "latex": "$$ \\sum_{j=1}^{n} \\sum_{\\substack{0 \\le L < j \\\\ P_L \\neq P_j}} (S_j - S_L) $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "把内层求和拆开：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\sum_{j=1}^{n} \\left( \\sum_{\\substack{0 \\le L < j \\\\ P_L \\neq P_j}} S_j - \\sum_{\\substack{0 \\le L < j \\\\ P_L \\neq P_j}} S_L \\right) $$",
               "depth": 1
             },
             {
@@ -199,8 +209,23 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\sum_{j=1}^{n} \\left( S_j \\times (\\text{满足 } P_L \\neq P_j \\text{ 的 } L \\text{ 的个数}) - (\\text{满足 } P_L \\neq P_j \\text{ 的 } S_L \\text{ 的总和}) \\right) $$\n公式推到这题，本题也就解决了，开个 $cnt[2], sum[2]$，然后套式子即可：",
+              "latex": "$$ \\sum_{j=1}^{n} \\left( S_j \\times (\\text{满足 } P_L \\neq P_j \\text{ 的 } L \\text{ 的个数}) - (\\text{满足 } P_L \\neq P_j \\text{ 的 } S_L \\text{ 的总和}) \\right) $$",
               "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "公式推到这题，本题也就解决了，开个 $cnt[2], sum[2]$，然后套式子即可：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<code>cnt[0 / 1]</code>：在当前 $j$ 之前，前缀异或和 $P_L$ 为 0（或 1）的<strong>数量</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>sumS[0 / 1]</code>：在当前 $j$ 之前，前缀异或和 $P_L$ 为 0（或 1）的对应的前缀和 $S_L$ 的<strong>总和</strong>。",
+              "depth": 2
             }
           ]
         }
@@ -224,6 +249,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-21",
-  "parsed_at": "2026-06-14T18:39:36.645278+00:00",
+  "parsed_at": "2026-06-15T08:26:06.961687+00:00",
   "type_directory": "p"
 }

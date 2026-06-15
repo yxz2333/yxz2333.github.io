@@ -1,10 +1,27 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import SearchModal from './SearchModal.vue'
 
 const route = useRoute()
 const isMobileMenuOpen = ref(false)
 const isScrolled = ref(false)
+const showSearch = ref(false)
+
+// 移动端菜单打开时，点击外部关闭
+function onBodyClick(e) {
+  if (!e.target.closest('header')) {
+    isMobileMenuOpen.value = false
+  }
+}
+watch(isMobileMenuOpen, (val) => {
+  if (val) {
+    document.addEventListener('click', onBodyClick)
+  } else {
+    document.removeEventListener('click', onBodyClick)
+  }
+})
+onUnmounted(() => document.removeEventListener('click', onBodyClick))
 
 function isActive(paths) {
   return paths.some(p => route.path === p || route.path.startsWith(p + '/'))
@@ -105,9 +122,17 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         </RouterLink>
       </nav>
 
-      <!-- Mobile toggle -->
-      <button @click="isMobileMenuOpen = !isMobileMenuOpen"
-        class="lg:hidden text-gray-400 hover:text-white transition-colors">
+      <!-- Search + Mobile toggle -->
+      <div class="flex items-center gap-1">
+        <button @click="showSearch = true"
+          class="w-10 h-10 flex items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
+          title="搜索">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </button>
+        <button @click="isMobileMenuOpen = !isMobileMenuOpen"
+          class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
         <svg v-if="!isMobileMenuOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
         </svg>
@@ -115,6 +140,7 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
         </svg>
       </button>
+      </div>
     </div>
 
     <!-- Mobile menu -->
@@ -142,6 +168,8 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         </div>
       </div>
     </Transition>
+
+    <SearchModal v-if="showSearch" @close="showSearch = false" />
   </header>
 </template>
 

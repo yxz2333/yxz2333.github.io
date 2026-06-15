@@ -12,7 +12,7 @@
   "summary": "明显<strong>优先队列 bfs</strong> 取最小的前 $n - 1$ 条能构成最小生成树的边，那关键就是重载优先队列了，因为组合数很大，这里用组合数的公式套上 $\\ln$ 解决。",
   "link": "https://acm.hdu.edu.cn/contest/problem?cid=1199&pid=1010",
   "link_text": "1010 组合树",
-  "source": "[[2026杭电春季赛3]]",
+  "source": "<a href=\"/c/2026杭电春季赛3\" class=\"wikilink\">2026杭电春季赛3</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -28,7 +28,17 @@
         },
         {
           "type": "math",
-          "latex": "$$\\frac{\\max(a_u, a_v)}{\\min(a_u, a_v)}$$\n你需要用最小的代价，使得任意两个城市可以直接或间接通过道路连接（即建成一个连通图）。\n答案较大，你只需要输出最小花费在模 998244353 意义下的值。",
+          "latex": "$$\\frac{\\max(a_u, a_v)}{\\min(a_u, a_v)}$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "你需要用最小的代价，使得任意两个城市可以直接或间接通过道路连接（即建成一个连通图）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "答案较大，你只需要输出最小花费在模 998244353 意义下的值。",
           "depth": 1
         }
       ]
@@ -132,8 +142,23 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\ln(C_n^k) = \\ln\\left(\\frac{n!}{k!(n-k)!}\\right) = \\ln(n!) - \\ln(k!) - \\ln((n-k)!) $$\n**计算方法：**",
+          "latex": "$$ \\ln(C_n^k) = \\ln\\left(\\frac{n!}{k!(n-k)!}\\right) = \\ln(n!) - \\ln(k!) - \\ln((n-k)!) $$",
           "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>计算方法：</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\ln(x!) = \\ln(1) + \\ln(2) + \\ln(3) + \\dots + \\ln(x)$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "预处理一个对数前缀和数组 <code>pre[x]</code>，那么单次比较的复杂度就是 $O(1)$，比较 $\\ln(C_{n_1}^{k_1})$ 和 $\\ln(C_{n_2}^{k_2})$ 即可得出大小。",
+          "depth": 2
         }
       ]
     },
@@ -155,6 +180,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-04",
-  "parsed_at": "2026-06-14T18:39:35.866435+00:00",
+  "parsed_at": "2026-06-15T08:26:06.270006+00:00",
   "type_directory": "p"
 }

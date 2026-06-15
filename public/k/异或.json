@@ -28,12 +28,22 @@
         },
         {
           "type": "math",
-          "latex": "$$a + b = (a \\oplus b) + 2 \\cdot (a \\& b)$$\n$$a + b = (a | b) + (a \\& b)$$",
+          "latex": "$$a + b = (a \\oplus b) + 2 \\cdot (a \\& b)$$",
           "depth": 2
         },
         {
           "type": "math",
-          "latex": "$$a | b = (a \\oplus b) + (a \\& b)$$\n$$ a - b \\le a \\oplus b \\le a + b $$",
+          "latex": "$$a + b = (a | b) + (a \\& b)$$",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$a | b = (a \\oplus b) + (a \\& b)$$",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$ a - b \\le a \\oplus b \\le a + b $$",
           "depth": 2
         }
       ]
@@ -61,6 +71,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-20",
-  "parsed_at": "2026-06-14T18:45:12.069998+00:00",
+  "parsed_at": "2026-06-15T08:24:44.670048+00:00",
   "type_directory": "k"
 }

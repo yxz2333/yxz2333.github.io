@@ -10,7 +10,7 @@
   "summary": "两种构造思路：<strong>枚举</strong>处理前面的大多数 + <strong>暴力</strong>处理后面的个别几个，<strong>初态 -> 中间态 -> 终态</strong> 的类图论思想。",
   "link": "https://codeforces.com/contest/2158/problem/D",
   "link_text": "Problem - D - Codeforces",
-  "source": "[[Codeforces Round 1067 (Div. 2)]]",
+  "source": "<a href=\"/c/codeforces-round-1067-(div.-2)\" class=\"wikilink\">Codeforces Round 1067 (Div. 2)</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -360,6 +360,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-06-15",
-  "parsed_at": "2026-06-14T18:39:36.348108+00:00",
+  "parsed_at": "2026-06-15T08:26:06.667515+00:00",
   "type_directory": "p"
 }

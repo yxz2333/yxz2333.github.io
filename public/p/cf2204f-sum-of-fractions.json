@@ -12,7 +12,7 @@
   "summary": "明显<strong>贡献法</strong>。想进行操作的话，明显我们<strong>只会考虑全改一个数</strong>，所以用<strong>单调栈</strong>算 $a_i$ 作为最小值的区间个数，跟这题一样<a href=\"/p/cf817d-imbalanced-array\" class=\"wikilink\">CF817D Imbalanced Array</a>。具体操作的话，如果分母能全消掉，那肯定先把分母消掉，然后全加分子上；如果不能全消掉，我们证明 $\\frac{1+x}{a} \\ge \\frac{1}{a-x}$，然后考虑全加在分子上，用乘法即可。",
   "link": "https://codeforces.com/contest/2204/problem/F",
   "link_text": "Problem - F - Codeforces",
-  "source": "[[Educational Codeforces Round 188 (Rated for Div. 2)]]",
+  "source": "<a href=\"/c/educational-codeforces-round-188-(rated-for-div.-2)\" class=\"wikilink\">Educational Codeforces Round 188 (Rated for Div. 2)</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -329,6 +329,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-17",
-  "parsed_at": "2026-06-14T18:39:36.453273+00:00",
+  "parsed_at": "2026-06-15T08:26:06.749664+00:00",
   "type_directory": "p"
 }

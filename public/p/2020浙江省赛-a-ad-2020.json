@@ -9,7 +9,7 @@
   "summary": "纯大模拟，直接预处理，然后前缀和就行，枚举日期不能用字符串，得用 <code>x = a * 10000 + b * 100 + c;</code> 拼成一个大整数。",
   "link": "https://qoj.ac/contest/2020/problem/10913",
   "link_text": "AD 2020 - Problem - QOJ.ac",
-  "source": "[[2020浙江省赛]]",
+  "source": "<a href=\"/c/2020浙江省赛\" class=\"wikilink\">2020浙江省赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -126,6 +126,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-05",
-  "parsed_at": "2026-06-14T18:39:35.666573+00:00",
+  "parsed_at": "2026-06-15T08:26:06.120849+00:00",
   "type_directory": "p"
 }

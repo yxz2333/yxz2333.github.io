@@ -315,7 +315,17 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\sum_{i=1}^N \\sum_{j=1}^M A_i \\cdot B_j \\cdot i $$\n先看**内层**对 $j$ 的求和，在这个求和里，$i$ 是一个已经固定的外层参数，$A_i \\cdot i$ 对于 $j$ 来说就是个常数，故直接提出来：\n$$ \\sum_{i=1}^N \\left( A_i \\cdot i \\sum_{j=1}^M B_j \\right) $$",
+          "latex": "$$ \\sum_{i=1}^N \\sum_{j=1}^M A_i \\cdot B_j \\cdot i $$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "先看<strong>内层</strong>对 $j$ 的求和，在这个求和里，$i$ 是一个已经固定的外层参数，$A_i \\cdot i$ 对于 $j$ 来说就是个常数，故直接提出来：",
+          "depth": 3
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\sum_{i=1}^N \\left( A_i \\cdot i \\sum_{j=1}^M B_j \\right) $$",
           "depth": 3
         },
         {
@@ -325,7 +335,17 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\text{左半} = \\left( \\sum_{i=1}^N A_i \\cdot i \\right) \\times \\left( \\sum_{j=1}^M B_j \\right) $$\n$\\left( \\sum_{i=1}^N A_i \\cdot i \\right)$：$O(n)$ 枚举一遍 $i$ 解决。\n$\\left( \\sum_{j=1}^M B_j \\right)$：没有变量，预处理即可解决",
+          "latex": "$$ \\text{左半} = \\left( \\sum_{i=1}^N A_i \\cdot i \\right) \\times \\left( \\sum_{j=1}^M B_j \\right) $$",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "$\\left( \\sum_{i=1}^N A_i \\cdot i \\right)$：$O(n)$ 枚举一遍 $i$ 解决。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "$\\left( \\sum_{j=1}^M B_j \\right)$：没有变量，预处理即可解决",
           "depth": 3
         },
         {
@@ -335,7 +355,12 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\sum_{i=1}^N \\sum_{j=1}^M A_i \\cdot B_j \\cdot \\lfloor \\frac{i}{j} \\rfloor $$\n$$ \\text{右半} = \\sum_{j=1}^M B_j \\cdot j \\left( \\sum_{i=1}^N A_i \\lfloor \\frac{i}{j} \\rfloor \\right) $$",
+          "latex": "$$ \\sum_{i=1}^N \\sum_{j=1}^M A_i \\cdot B_j \\cdot \\lfloor \\frac{i}{j} \\rfloor $$",
+          "depth": 3
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\text{右半} = \\sum_{j=1}^M B_j \\cdot j \\left( \\sum_{i=1}^N A_i \\lfloor \\frac{i}{j} \\rfloor \\right) $$",
           "depth": 3
         },
         {
@@ -388,6 +413,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-04",
-  "parsed_at": "2026-06-14T18:39:36.034871+00:00",
+  "parsed_at": "2026-06-15T08:26:06.426839+00:00",
   "type_directory": "p"
 }

@@ -11,7 +11,7 @@
   "summary": "一开始还以为把 $\\log_2$ 拆开来算，但是有下取整，那肯定不是了。注意到 $n$ 很大，下意识觉得肯定要枚举些什么，那只能枚举 \\log 的值域了，<strong>枚举值域</strong> $k$，考虑计算 $\\lfloor \\log_2(\\frac{r}{l}) \\rfloor \\ge k$ 的合法 $(l,r)$ 对数。",
   "link": "https://acm.hdu.edu.cn/contest/problem?cid=1201&pid=1004",
   "link_text": "1004 赛马",
-  "source": "[[2026杭电春季赛5]]",
+  "source": "<a href=\"/c/2026杭电春季赛5\" class=\"wikilink\">2026杭电春季赛5</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -136,7 +136,17 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\lfloor \\log_2(\\frac{r}{l}) \\rfloor \\ge k $$\n因为 $k$ 是整数，所以上面这个式子等价于：\n$$ \\log_2(\\frac{r}{l}) \\ge k $$",
+              "latex": "$$ \\lfloor \\log_2(\\frac{r}{l}) \\rfloor \\ge k $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为 $k$ 是整数，所以上面这个式子等价于：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ \\log_2(\\frac{r}{l}) \\ge k $$",
               "depth": 1
             },
             {
@@ -146,7 +156,17 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\frac{r}{l} \\ge 2^k $$\n也就是：\n$$ r \\ge l \\cdot 2^k $$",
+              "latex": "$$ \\frac{r}{l} \\ge 2^k $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "也就是：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ r \\ge l \\cdot 2^k $$",
               "depth": 1
             }
           ]
@@ -197,7 +217,12 @@
             },
             {
               "type": "math",
-              "latex": "$$ = \\sum_{l=1}^{m} (n + 1) - 2^k \\sum_{l=1}^{m} l $$\n$$ = m(n+1) - 2^k \\cdot \\frac{m(m+1)}{2} $$",
+              "latex": "$$ = \\sum_{l=1}^{m} (n + 1) - 2^k \\sum_{l=1}^{m} l $$",
+              "depth": 2
+            },
+            {
+              "type": "math",
+              "latex": "$$ = m(n+1) - 2^k \\cdot \\frac{m(m+1)}{2} $$",
               "depth": 2
             }
           ]
@@ -222,6 +247,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-24",
-  "parsed_at": "2026-06-14T18:39:35.873444+00:00",
+  "parsed_at": "2026-06-15T08:26:06.276711+00:00",
   "type_directory": "p"
 }

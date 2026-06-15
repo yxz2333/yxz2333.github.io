@@ -205,7 +205,17 @@
             },
             {
               "type": "math",
-              "latex": "$$2(x-1)b_i + 2xb_j < 2(x-1)b_j + 2xb_i$$\n**暴力化简（展开括号）：**\n$$2xb_i - 2b_i + 2xb_j < 2xb_j - 2b_j + 2xb_i$$",
+              "latex": "$$2(x-1)b_i + 2xb_j < 2(x-1)b_j + 2xb_i$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>暴力化简（展开括号）：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$2xb_i - 2b_i + 2xb_j < 2xb_j - 2b_j + 2xb_i$$",
               "depth": 1
             },
             {
@@ -266,6 +276,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-15",
-  "parsed_at": "2026-06-14T18:39:36.638675+00:00",
+  "parsed_at": "2026-06-15T08:26:06.953998+00:00",
   "type_directory": "p"
 }

@@ -70,7 +70,7 @@
         },
         {
           "type": "p",
-          "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF1446C/787661480e10ca394e5bb0097a1db13aac775e6e.png){:height 152, :width 296}",
+          "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1446C/787661480e10ca394e5bb0097a1db13aac775e6e.png\" alt=\"\" class=\"note-img\" />{:height 152, :width 296}",
           "depth": 2
         }
       ]
@@ -249,7 +249,7 @@
             },
             {
               "type": "p",
-              "html": "!<a href=\"../assets/bf63eb6a8300545ffdbf941f0e3a6997_720_1778650388608_0.jpg\" target=\"_blank\" class=\"md-link\">bf63eb6a8300545ffdbf941f0e3a6997_720.jpg</a>{:height 333, :width 307}",
+              "html": "<img src=\"/images/bf63eb6a8300545ffdbf941f0e3a6997_720_1778650388608_0.jpg\" alt=\"bf63eb6a8300545ffdbf941f0e3a6997_720.jpg\" class=\"note-img\" />{:height 333, :width 307}",
               "depth": 1
             }
           ]
@@ -345,6 +345,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-13",
-  "parsed_at": "2026-06-14T18:39:36.178408+00:00",
+  "parsed_at": "2026-06-15T08:26:06.542285+00:00",
   "type_directory": "p"
 }

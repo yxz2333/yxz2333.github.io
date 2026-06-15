@@ -126,7 +126,7 @@
             },
             {
               "type": "p",
-              "html": "![](https://cdn.luogu.com.cn/upload/vjudge_pic/CF685B/821209b858c843715556bbbb66f001612969fa03.png){:height 199, :width 153}",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF685B/821209b858c843715556bbbb66f001612969fa03.png\" alt=\"\" class=\"note-img\" />{:height 199, :width 153}",
               "depth": 1
             }
           ]
@@ -226,7 +226,12 @@
             },
             {
               "type": "math",
-              "latex": "$$向上碎块大小 > \\frac{siz[now]}{2}$$\n$$siz[now] - siz[C] > \\frac{siz[now]}{2}$$",
+              "latex": "$$向上碎块大小 > \\frac{siz[now]}{2}$$",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$siz[now] - siz[C] > \\frac{siz[now]}{2}$$",
               "depth": 1
             }
           ]
@@ -251,6 +256,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-24",
-  "parsed_at": "2026-06-14T18:39:36.574469+00:00",
+  "parsed_at": "2026-06-15T08:26:06.875849+00:00",
   "type_directory": "p"
 }

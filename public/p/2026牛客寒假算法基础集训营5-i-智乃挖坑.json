@@ -10,7 +10,7 @@
   "summary": "本题相当于维护了左右两半的等差数列，直接用二阶差分后前缀和即可处理掉 $m$ 次操作，二分答案加二阶差分即可解决本题。纯属模板题难度。",
   "link": "https://ac.nowcoder.com/acm/contest/120565/I",
   "link_text": "I-智乃挖坑_2026牛客寒假算法基础集训营5",
-  "source": "[[2026牛客寒假算法基础集训营5]]",
+  "source": "<a href=\"/c/2026牛客寒假算法基础集训营5\" class=\"wikilink\">2026牛客寒假算法基础集训营5</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -26,7 +26,7 @@
         },
         {
           "type": "p",
-          "html": "!<a href=\"https://uploadfiles.nowcoder.com/images/20250210/0_1739161694502/54720E1A0961412DED2C5296384E8A88\" target=\"_blank\" class=\"md-link\">图片</a>",
+          "html": "<img src=\"https://uploadfiles.nowcoder.com/images/20250210/0_1739161694502/54720E1A0961412DED2C5296384E8A88\" alt=\"图片\" class=\"note-img\" />",
           "depth": 1
         },
         {
@@ -150,6 +150,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-26",
-  "parsed_at": "2026-06-14T18:39:35.920361+00:00",
+  "parsed_at": "2026-06-15T08:26:06.323332+00:00",
   "type_directory": "p"
 }

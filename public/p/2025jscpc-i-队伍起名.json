@@ -11,7 +11,7 @@
   "summary": "核心是把“三人位置分配”转化为“两人<strong>掩码组合</strong>”，通过二进制<strong>状态压缩</strong>简化问题，然后进行相关的<strong>容斥计数</strong>。",
   "link": "https://codeforces.com/gym/105945/problem/I",
   "link_text": "Problem - I - Codeforces",
-  "source": "[[2025 JSCPC 江苏省程序设计大赛]]",
+  "source": "<a href=\"/c/2025-jscpc-江苏省程序设计大赛\" class=\"wikilink\">2025 JSCPC 江苏省程序设计大赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -381,6 +381,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-14",
-  "parsed_at": "2026-06-14T18:39:35.789959+00:00",
+  "parsed_at": "2026-06-15T08:26:06.217340+00:00",
   "type_directory": "p"
 }

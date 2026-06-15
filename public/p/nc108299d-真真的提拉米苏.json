@@ -13,7 +13,7 @@
   "summary": "有一点小复杂，但实际上不难的<strong>背包</strong>问题，主要是得想到用<strong>调和级数</strong>压缩物品数量，用<code>nth_element</code>处理卡常。",
   "link": "https://ac.nowcoder.com/acm/contest/108299/D",
   "link_text": "D-Donkey Thinks..._2025牛客暑期多校训练营2",
-  "source": "[[2025牛客暑期多校训练营2]]",
+  "source": "<a href=\"/c/2025牛客暑期多校训练营2\" class=\"wikilink\">2025牛客暑期多校训练营2</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -24,7 +24,7 @@
       "blocks": [
         {
           "type": "p",
-          "html": "![](https://images.steamusercontent.com/ugc/2038479094628690706/755EE825561BDB654A33AD303989C676F8A12728/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false)",
+          "html": "<img src=\"https://images.steamusercontent.com/ugc/2038479094628690706/755EE825561BDB654A33AD303989C676F8A12728/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false\" alt=\"\" class=\"note-img\" />",
           "depth": 1
         },
         {
@@ -233,8 +233,33 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\text{Total Value} = \\sum h_{chosen} - (V - \\sum s_{chosen}) \\times \\sum d_{chosen} $$\n最大化，其中约束是 $\\sum s_{chosen} \\le V$。\n**深层**：",
+          "latex": "$$ \\text{Total Value} = \\sum h_{chosen} - (V - \\sum s_{chosen}) \\times \\sum d_{chosen} $$",
           "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "最大化，其中约束是 $\\sum s_{chosen} \\le V$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>深层</strong>：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "明显是个<strong>背包</strong>问题。但这个式子最让人头疼的地方在于<strong>惩罚项</strong> $(V - \\sum s_{chosen})$，也就是说物品的<strong>价值不固定</strong>，那肯定得把这一项<strong>先固定住了</strong>再考虑别的。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "此时，题目就退化成了：",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "在总空间<strong>恰好</strong>为 $S$ 的限制下，选择物品，使得 $\\sum (h_i - C \\times d_i)$ 最大，$C = V - S$。",
+          "depth": 3
         },
         {
           "type": "p",
@@ -243,7 +268,37 @@
         },
         {
           "type": "math",
-          "latex": "$$ val_i = h_i - (V - S) \\times d_i $$\n但如果直接对每个 $S$ 都跑一遍 $O(n \\cdot S)$ 的==背包 DP==，总复杂度是 $\\sum_{S=1}^V (n \\cdot S) \\approx O(n V^2)$，肯定会超时。\n数据提醒了我们 $V^2$ 的复杂度是必要的，那么现在我们就需要**压缩物品数量** $n$。\n考虑当前我们要填满的空间是 $S$，对于**体积为 s** 的那一类物品，我们最多能选几个？\n答案是 $\\lfloor S/s \\rfloor$ 个，因为如果选超过这个数量，体积之和就会超过 $S$。那么对于体积为 s 的提拉米苏，我们只需要考虑**价值最大**的前 $\\lfloor S/s \\rfloor$ 个即可。这里需要使用 `nth_element` 在 $O(n)$ 时间内**快速筛选**，而不需要完全排序，从而处理**卡常**。\n注意到压缩后物品数的式子符合==调和级数==，推广到所有体积的物品后，发现需要处理的物品总数被压缩到了：\n$$ \\text{Total Items} = \\sum_{s=1}^S \\lfloor \\frac{S}{s} \\rfloor \\approx S \\ln S $$",
+          "latex": "$$ val_i = h_i - (V - S) \\times d_i $$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "但如果直接对每个 $S$ 都跑一遍 $O(n \\cdot S)$ 的<strong>背包 DP</strong>，总复杂度是 $\\sum_{S=1}^V (n \\cdot S) \\approx O(n V^2)$，肯定会超时。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "数据提醒了我们 $V^2$ 的复杂度是必要的，那么现在我们就需要<strong>压缩物品数量</strong> $n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "考虑当前我们要填满的空间是 $S$，对于<strong>体积为 s</strong> 的那一类物品，我们最多能选几个？",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "答案是 $\\lfloor S/s \\rfloor$ 个，因为如果选超过这个数量，体积之和就会超过 $S$。那么对于体积为 s 的提拉米苏，我们只需要考虑<strong>价值最大</strong>的前 $\\lfloor S/s \\rfloor$ 个即可。这里需要使用 <code>nth_element</code> 在 $O(n)$ 时间内<strong>快速筛选</strong>，而不需要完全排序，从而处理<strong>卡常</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意到压缩后物品数的式子符合<strong>调和级数</strong>，推广到所有体积的物品后，发现需要处理的物品总数被压缩到了：",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\text{Total Items} = \\sum_{s=1}^S \\lfloor \\frac{S}{s} \\rfloor \\approx S \\ln S $$",
           "depth": 1
         },
         {
@@ -258,8 +313,48 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\approx O(n V + V^3 \\ln V) $$\n**难点**\n**思维钩子**",
+          "latex": "$$ \\approx O(n V + V^3 \\ln V) $$",
           "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>难点</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "能不能想到利用 $V$ 很小来枚举<strong>已使用体积</strong> $S$，从而固定物品价值？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "能否注意到 “当背包<strong>容量很小</strong>时，我们<strong>不需要考虑</strong>所有的 $n$ 个物品”？然后利用<strong>调和级数</strong>的性质将物品数量压缩到 $O(S \\ln S)$？",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "本题有<strong>卡常问题</strong>：如果用 <code>sort</code> 可能会多一个 $\\log n$，用 <code>nth_element</code> 是线性的，对于<strong>卡常</strong>很重要。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "DP 的<strong>初始化细节</strong>：转化后的价值 $h_i - (V-S)d_i$ 可能是<strong>负数</strong>。DP 初始化时，除了 $dp[0]=0$，其他必须初始化为 $-\\infty$（或者足够小的负数），以保证状态转移是来自“恰好装满”的合法状态。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>思维钩子</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>“小参数大枚举”</strong>：当看到<strong>背包容量</strong> $V$ 极小而<strong>物品数</strong> $N$ 极大时，第一反应应该是：算法复杂度的主导项应该是 $V$ 的高次项（如 $V^3$），而 $N$ 应该只是线性的。这通常意味着要枚举 $V$ 相关的状态。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>“背包里的鸽巢原理”</strong>：如果背包容量只有 $S$，体积为 $k$ 的物品你永远不可能拿超过 $S/k$ 个，然后利用<strong>调和级数</strong>。这在 $N$ 很大但 $V$ 很小的背包题中是常用的剪枝手段。",
+          "depth": 2
         }
       ]
     },
@@ -281,6 +376,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-26",
-  "parsed_at": "2026-06-14T18:39:36.651354+00:00",
+  "parsed_at": "2026-06-15T08:26:06.969265+00:00",
   "type_directory": "p"
 }

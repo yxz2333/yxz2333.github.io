@@ -9,7 +9,7 @@
   "summary": "拆点参考题",
   "link": "https://atcoder.jp/contests/abc132/tasks/abc132_e",
   "link_text": "E - Hopscotch Addict",
-  "source": "[[AtCoder Beginner Contest 132]]",
+  "source": "<a href=\"/c/atcoder-beginner-contest-132\" class=\"wikilink\">AtCoder Beginner Contest 132</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -277,6 +277,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-08",
-  "parsed_at": "2026-06-14T18:39:35.948056+00:00",
+  "parsed_at": "2026-06-15T08:26:06.348138+00:00",
   "type_directory": "p"
 }

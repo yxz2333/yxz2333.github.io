@@ -10,7 +10,7 @@
   "summary": "得先根据<strong>异或运算的范围</strong>，发现<strong>序列最大值</strong> $M$ 和序列异或和 $S$ 的关系，然后才能推出结论 $S$ 只能为 $M$ 或 0。然后发现本题是典型的<strong>异或的组合计数问题</strong>，用线性基的秩的性质来解决。",
   "link": "https://codeforces.com/gym/104768/problem/C",
   "link_text": "Problem - C - Codeforces",
-  "source": "[[2023CCPC桂林站]]",
+  "source": "<a href=\"/c/2023ccpc桂林站\" class=\"wikilink\">2023CCPC桂林站</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -265,6 +265,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-07",
-  "parsed_at": "2026-06-14T18:39:35.688875+00:00",
+  "parsed_at": "2026-06-15T08:26:06.137677+00:00",
   "type_directory": "p"
 }

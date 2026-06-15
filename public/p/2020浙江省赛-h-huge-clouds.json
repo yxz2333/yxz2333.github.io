@@ -9,7 +9,7 @@
   "summary": "细节很多，思路不难，求个<strong>区间交并集</strong>、<strong>判断向量间关系</strong>、<strong>判断点与线段关系</strong>。",
   "link": "https://qoj.ac/contest/2020/problem/10920",
   "link_text": "Huge Clouds - Problem - QOJ.ac",
-  "source": "[[2020浙江省赛]]",
+  "source": "<a href=\"/c/2020浙江省赛\" class=\"wikilink\">2020浙江省赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -163,7 +163,17 @@
             },
             {
               "type": "math",
-              "latex": "$$\\frac{x_i - X}{y_i - 0} = \\frac{x_i - u}{y_i - v}$$\n化简直接得到交点 x 坐标：\n$$X = x_i - y_i \\cdot \\frac{x_i - u}{y_i - v}$$",
+              "latex": "$$\\frac{x_i - X}{y_i - 0} = \\frac{x_i - u}{y_i - v}$$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "化简直接得到交点 x 坐标：",
+              "depth": 3
+            },
+            {
+              "type": "math",
+              "latex": "$$X = x_i - y_i \\cdot \\frac{x_i - u}{y_i - v}$$",
               "depth": 3
             },
             {
@@ -281,6 +291,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-07",
-  "parsed_at": "2026-06-14T18:39:35.684565+00:00",
+  "parsed_at": "2026-06-15T08:26:06.133312+00:00",
   "type_directory": "p"
 }

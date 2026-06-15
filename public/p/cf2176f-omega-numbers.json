@@ -12,7 +12,7 @@
   "summary": "先看出来两个<strong>数论</strong>结论，然后再根据<strong>容斥原理</strong>，通过<strong>公因数</strong>的数对个数算出<strong>最大公因数</strong>的数对个数。",
   "link": "https://codeforces.com/contest/2176/problem/F",
   "link_text": "Problem - F - Codeforces",
-  "source": "[[Codeforces Round 1070 (Div. 2)]]",
+  "source": "<a href=\"/c/codeforces-round-1070-(div.-2)\" class=\"wikilink\">Codeforces Round 1070 (Div. 2)</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -313,7 +313,12 @@
         },
         {
           "type": "math",
-          "latex": "$$ dp[g_{恰好}] = dp[g_{倍数}] - \\sum_{k \\ge 2} dp[k \\cdot g_{恰好}] $$\n代码实现就是遍历 $g$ 的倍数 $gg$，直接减去 $dp[gg][len]$ 即可。",
+          "latex": "$$ dp[g_{恰好}] = dp[g_{倍数}] - \\sum_{k \\ge 2} dp[k \\cdot g_{恰好}] $$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "代码实现就是遍历 $g$ 的倍数 $gg$，直接减去 $dp[gg][len]$ 即可。",
           "depth": 2
         },
         {
@@ -376,6 +381,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-06-02",
-  "parsed_at": "2026-06-14T18:39:36.371775+00:00",
+  "parsed_at": "2026-06-15T08:26:06.687710+00:00",
   "type_directory": "p"
 }

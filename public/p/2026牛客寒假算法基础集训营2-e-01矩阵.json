@@ -11,7 +11,7 @@
   "summary": "构造的方式不止一种，不过这种题，怎么优雅怎么来。样例纯来误导人的，实在不行暴力打表也能解决。",
   "link": "https://ac.nowcoder.com/acm/contest/120562/E",
   "link_text": "E-01矩阵_2026牛客寒假算法基础集训营2",
-  "source": "[[2026牛客寒假算法基础集训营2]]",
+  "source": "<a href=\"/c/2026牛客寒假算法基础集训营2\" class=\"wikilink\">2026牛客寒假算法基础集训营2</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -134,7 +134,7 @@
       "blocks": [
         {
           "type": "p",
-          "html": "!<a href=\"../assets/image_1770307954436_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>",
+          "html": "<img src=\"/images/image_1770307954436_0.png\" alt=\"image.png\" class=\"note-img\" />",
           "depth": 1
         }
       ]
@@ -157,6 +157,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-06",
-  "parsed_at": "2026-06-14T18:39:35.907204+00:00",
+  "parsed_at": "2026-06-15T08:26:06.308878+00:00",
   "type_directory": "p"
 }

@@ -118,12 +118,12 @@
       "blocks": [
         {
           "type": "p",
-          "html": "!<a href=\"../assets/image_1771487301675_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>{:height 373, :width 544}",
+          "html": "<img src=\"/images/image_1771487301675_0.png\" alt=\"image.png\" class=\"note-img\" />{:height 373, :width 544}",
           "depth": 1
         },
         {
           "type": "p",
-          "html": "!<a href=\"../assets/image_1771487326460_0.png\" target=\"_blank\" class=\"md-link\">image.png</a>{:height 389, :width 548}",
+          "html": "<img src=\"/images/image_1771487326460_0.png\" alt=\"image.png\" class=\"note-img\" />{:height 389, :width 548}",
           "depth": 1
         },
         {
@@ -166,6 +166,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-20",
-  "parsed_at": "2026-06-14T18:39:36.814805+00:00",
+  "parsed_at": "2026-06-15T08:26:07.134877+00:00",
   "type_directory": "p"
 }

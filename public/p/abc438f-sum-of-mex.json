@@ -11,7 +11,7 @@
   "summary": "从节点 $0$ 开始，<strong>维护一条链</strong>，每次只考虑这条链上节点组成的 $mex$，剩下的可能性我们用<strong>乘法原理</strong>和<strong>贡献法</strong>算。这条链当前的 $mex$ 对链进行<strong>延申</strong>，假如当前 $mex$ 为 $2$，那我去找节点编号为 $2$ 的点，看看能不能跟这个点连接，且还是保持一条链的形状。<strong>边维护边算答案</strong>，这题就解决了。",
   "link": "https://atcoder.jp/contests/abc438/tasks/abc438_f",
   "link_text": "F - Sum of Mex",
-  "source": "[[AtCoder Beginner Contest 438]]",
+  "source": "<a href=\"/c/atcoder-beginner-contest-438\" class=\"wikilink\">AtCoder Beginner Contest 438</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -343,6 +343,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-29",
-  "parsed_at": "2026-06-14T18:39:35.991313+00:00",
+  "parsed_at": "2026-06-15T08:26:06.388004+00:00",
   "type_directory": "p"
 }

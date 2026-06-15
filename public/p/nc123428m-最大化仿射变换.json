@@ -9,7 +9,7 @@
   "summary": "纯贪心排序题的<strong>排序函数</strong>构造参考题。",
   "link": "https://ac.nowcoder.com/acm/contest/123428/M",
   "link_text": "M-最大化仿射变换_2025年广东工业大学新生赛（同步赛）",
-  "source": "[[2025年广东工业大学新生赛]]",
+  "source": "<a href=\"/c/2025年广东工业大学新生赛\" class=\"wikilink\">2025年广东工业大学新生赛</a>",
   "aliases": [],
   "parent": null,
   "format": "logseq",
@@ -165,7 +165,12 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\text{结果}_1 = a_j (a_i K + b_i) + b_j $$\n$$ \\text{结果}_1 = \\mathbf{a_i a_j K} + a_j b_i + b_j $$",
+          "latex": "$$ \\text{结果}_1 = a_j (a_i K + b_i) + b_j $$",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\text{结果}_1 = \\mathbf{a_i a_j K} + a_j b_i + b_j $$",
           "depth": 2
         },
         {
@@ -175,7 +180,12 @@
         },
         {
           "type": "math",
-          "latex": "$$ \\text{结果}_2 = a_i (a_j K + b_j) + b_i $$\n$$ \\text{结果}_2 = \\mathbf{a_i a_j K} + a_i b_j + b_i $$",
+          "latex": "$$ \\text{结果}_2 = a_i (a_j K + b_j) + b_i $$",
+          "depth": 2
+        },
+        {
+          "type": "math",
+          "latex": "$$ \\text{结果}_2 = \\mathbf{a_i a_j K} + a_i b_j + b_i $$",
           "depth": 2
         },
         {
@@ -218,6 +228,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2025-12-22",
-  "parsed_at": "2026-06-14T18:39:36.662229+00:00",
+  "parsed_at": "2026-06-15T08:26:06.983846+00:00",
   "type_directory": "p"
 }

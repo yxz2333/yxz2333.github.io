@@ -140,8 +140,38 @@
             },
             {
               "type": "math",
-              "latex": "$$ \\log_{10}(V) = \\sum_{i=1}^n \\log_{10}(i) - \\log_{10}(m) $$\n因为 $m \\le 10^6$，所以 $\\log_{10}(m)$ 最大不过是 $6$。这意味着：$n!$ **的位数，最多只比** $V$ **的位数多 0 到 6 位。**\n**操作：**",
+              "latex": "$$ \\log_{10}(V) = \\sum_{i=1}^n \\log_{10}(i) - \\log_{10}(m) $$",
               "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因为 $m \\le 10^6$，所以 $\\log_{10}(m)$ 最大不过是 $6$。这意味着：$n!$ <strong>的位数，最多只比</strong> $V$ <strong>的位数多 0 到 6 位。</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>操作：</strong>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "我们可以预处理出 $\\log_{10}(i)$ 的前缀和数组 <code>pre</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "读入超长字符串 $V$ 后获取其长度 <code>s.size()</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "我们只需要枚举差值 <code>add</code> $\\in [0, 6]$，然后利用<strong>二分查找</strong>在 <code>pre</code> 数组中快速定位出极少数符合条件的候选 $n$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这一步直接将 $n$ 的范围从 $10^6$ 缩减到了个位数级别的候选量！",
+              "depth": 2
             }
           ]
         },
@@ -166,7 +196,17 @@
             },
             {
               "type": "math",
-              "latex": "$$ V \\equiv n! \\times m^{-1} \\pmod M $$\n左右两边同乘 $m \\times V^{-1}$，得到：\n$$ m \\equiv n! \\times V^{-1} \\pmod M $$",
+              "latex": "$$ V \\equiv n! \\times m^{-1} \\pmod M $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "左右两边同乘 $m \\times V^{-1}$，得到：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$ m \\equiv n! \\times V^{-1} \\pmod M $$",
               "depth": 1
             },
             {
@@ -237,6 +277,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-26",
-  "parsed_at": "2026-06-14T18:39:35.725759+00:00",
+  "parsed_at": "2026-06-15T08:26:06.167300+00:00",
   "type_directory": "p"
 }

@@ -170,7 +170,17 @@
             },
             {
               "type": "math",
-              "latex": "$$ f(\\text{sub}) = \\sum_{x \\in \\text{sub}} [\\text{x 是根节点}] $$\n其中，“根节点” 的定义是：在当前子段内，**没有**合法的父节点能消除它。\n于是，总答案 $\\sum f(\\text{sub})$ 就可以转化为：**枚举每个下标** $i$，**计算** $a_i$ **在多少个子段中是“根节点”。**",
+              "latex": "$$ f(\\text{sub}) = \\sum_{x \\in \\text{sub}} [\\text{x 是根节点}] $$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "其中，“根节点” 的定义是：在当前子段内，<strong>没有</strong>合法的父节点能消除它。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "于是，总答案 $\\sum f(\\text{sub})$ 就可以转化为：<strong>枚举每个下标</strong> $i$，<strong>计算</strong> $a_i$ <strong>在多少个子段中是“根节点”。</strong>",
               "depth": 1
             }
           ]
@@ -344,6 +354,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-25",
-  "parsed_at": "2026-06-14T18:39:36.430433+00:00",
+  "parsed_at": "2026-06-15T08:26:06.730155+00:00",
   "type_directory": "p"
 }
