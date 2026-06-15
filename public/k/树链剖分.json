@@ -9,7 +9,8 @@
   "link_text": "",
   "source": "",
   "aliases": [
-    "重链剖分,长链剖分"
+    "重链剖分",
+    "长链剖分"
   ],
   "parent": null,
   "format": "logseq",
@@ -334,6 +335,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-22",
-  "parsed_at": "2026-06-15T08:24:44.729337+00:00",
+  "parsed_at": "2026-06-15T09:48:57.825801+00:00",
   "type_directory": "k"
 }

@@ -26,7 +26,7 @@
         },
         {
           "type": "p",
-          "html": "<img src=\"https://uploadfiles.nowcoder.com/images/20250210/0_1739161694502/54720E1A0961412DED2C5296384E8A88\" alt=\"图片\" class=\"note-img\" />",
+          "html": "<img src=\"https://uploadfiles.nowcoder.com/images/20250210/0_1739161694502/54720E1A0961412DED2C5296384E8A88\" alt=\"图片\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
           "depth": 1
         },
         {
@@ -150,6 +150,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-26",
-  "parsed_at": "2026-06-15T08:26:06.323332+00:00",
+  "parsed_at": "2026-06-15T09:48:25.630854+00:00",
   "type_directory": "p"
 }

@@ -18,7 +18,7 @@
       "blocks": [
         {
           "type": "p",
-          "html": "<img src=\"https://images2017.cnblogs.com/blog/1188068/201710/1188068-20171027104122883-1380446385.png\" alt=\"\" class=\"note-img\" />",
+          "html": "<img src=\"https://images2017.cnblogs.com/blog/1188068/201710/1188068-20171027104122883-1380446385.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
           "depth": 2
         },
         {
@@ -38,7 +38,7 @@
         },
         {
           "type": "p",
-          "html": "如果要配合数据结构，请见 <a href=\"/tags\" class=\"tag-link\">#重链剖分</a> 。",
+          "html": "如果要配合数据结构，请见 <a href=\"/k/树链剖分\" class=\"tag-link\">#重链剖分</a> 。",
           "depth": 2
         }
       ]
@@ -122,6 +122,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-22",
-  "parsed_at": "2026-06-15T08:24:44.549385+00:00",
+  "parsed_at": "2026-06-15T09:48:57.486826+00:00",
   "type_directory": "k"
 }

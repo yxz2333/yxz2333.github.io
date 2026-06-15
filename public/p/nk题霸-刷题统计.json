@@ -60,7 +60,7 @@
         },
         {
           "type": "p",
-          "html": "<img src=\"https://uploadfiles.nowcoder.com/images/20250701/0_1751342900843/D2B5CA33BD970F64A6301FA75AE2EB22\" alt=\"\" class=\"note-img\" />",
+          "html": "<img src=\"https://uploadfiles.nowcoder.com/images/20250701/0_1751342900843/D2B5CA33BD970F64A6301FA75AE2EB22\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
           "depth": 1
         }
       ]
@@ -176,6 +176,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-17",
-  "parsed_at": "2026-06-15T08:26:07.095896+00:00",
+  "parsed_at": "2026-06-15T09:48:26.716676+00:00",
   "type_directory": "p"
 }

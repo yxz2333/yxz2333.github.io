@@ -133,7 +133,7 @@
             },
             {
               "type": "p",
-              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/73410493ea480145bcececd4920bc7b442158d5d.png\" alt=\"\" class=\"note-img\" />",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/73410493ea480145bcececd4920bc7b442158d5d.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
               "depth": 1
             },
             {
@@ -143,7 +143,7 @@
             },
             {
               "type": "p",
-              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/244430036440b5951052685b881ac283e38569b1.png\" alt=\"\" class=\"note-img\" />",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/244430036440b5951052685b881ac283e38569b1.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
               "depth": 1
             },
             {
@@ -153,7 +153,7 @@
             },
             {
               "type": "p",
-              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/3b76480fd803697ef4eb1c8f9a262cb141140b6b.png\" alt=\"\" class=\"note-img\" />",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/3b76480fd803697ef4eb1c8f9a262cb141140b6b.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
               "depth": 1
             },
             {
@@ -163,7 +163,7 @@
             },
             {
               "type": "p",
-              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/2aa511e43d0533b40192099a2b9004202f659de5.png\" alt=\"\" class=\"note-img\" />",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1513D/2aa511e43d0533b40192099a2b9004202f659de5.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
               "depth": 1
             }
           ]
@@ -209,6 +209,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-01-18",
-  "parsed_at": "2026-06-15T08:26:06.547159+00:00",
+  "parsed_at": "2026-06-15T09:48:25.974331+00:00",
   "type_directory": "p"
 }

@@ -142,7 +142,7 @@
           "blocks": [
             {
               "type": "p",
-              "html": "<img src=\"/images/image_1771954511385_0.png\" alt=\"image.png\" class=\"note-img\" />{:height 639, :width 509}",
+              "html": "<img src=\"/images/image_1771954511385_0.png\" alt=\"image.png\" class=\"note-img\" referrerpolicy=\"no-referrer\" width=\"509\" height=\"639\" />",
               "depth": 1
             }
           ]
@@ -167,6 +167,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-25",
-  "parsed_at": "2026-06-15T08:26:06.181397+00:00",
+  "parsed_at": "2026-06-15T09:48:25.437584+00:00",
   "type_directory": "p"
 }

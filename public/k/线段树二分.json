@@ -29,7 +29,7 @@
     },
     {
       "type": "p",
-      "html": "通常可以用 <a href=\"/tags\" class=\"tag-link\">#前缀和</a> 设计节点属性 Info，从而满足 <a href=\"/tags\" class=\"tag-link\">#二分</a> 。",
+      "html": "通常可以用 <a href=\"/k/前缀和\" class=\"tag-link\">#前缀和</a> 设计节点属性 Info，从而满足 <a href=\"/k/二分\" class=\"tag-link\">#二分</a> 。",
       "depth": 1
     },
     {
@@ -74,6 +74,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-20",
-  "parsed_at": "2026-06-15T08:24:44.750405+00:00",
+  "parsed_at": "2026-06-15T09:48:57.874123+00:00",
   "type_directory": "k"
 }

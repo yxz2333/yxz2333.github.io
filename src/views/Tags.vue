@@ -6,6 +6,21 @@ import { renderLatex } from '../composables/useKatex.js'
 const route = useRoute()
 const selectedTag = ref(null)
 const notes = ref([])
+const kpAliases = ref({})  // 知识点别名 → slug
+
+async function loadAliases() {
+  for (const d of ['k', 'p', 'c']) {
+    const res = await fetch(`${import.meta.env.BASE_URL}${d}/aliases.json`)
+    if (res.ok) {
+      try {
+        const data = await res.json()
+        for (const [alias, slug] of Object.entries(data)) {
+          if (!kpAliases.value[alias]) kpAliases.value[alias] = slug
+        }
+      } catch { /* ignore */ }
+    }
+  }
+}
 
 // 抽屉打开时锁定 body 滚动，离开页面时恢复
 watch(selectedTag, (val) => {
@@ -14,6 +29,7 @@ watch(selectedTag, (val) => {
 onUnmounted(() => { document.body.style.overflow = '' })
 
 onMounted(async () => {
+  await loadAliases()
   const dirs = ['p', 'k', 'c']
   const all = []
   for (const d of dirs) {
@@ -46,6 +62,10 @@ function kpUrl(tagName) {
     if (n.title === tagName && n.type === '知识点') {
       return `/k/${n.slug}`
     }
+  }
+  // 别名匹配：查 aliases.json
+  if (kpAliases.value[tagName]) {
+    return `/k/${kpAliases.value[tagName]}`
   }
   return null
 }

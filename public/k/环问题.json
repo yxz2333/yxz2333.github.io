@@ -23,7 +23,7 @@
         },
         {
           "type": "p",
-          "html": "<img src=\"https://oi-wiki.org/graph/images/dfs-tree.svg\" alt=\"DFS 生成树\" class=\"note-img\" />",
+          "html": "<img src=\"https://oi-wiki.org/graph/images/dfs-tree.svg\" alt=\"DFS 生成树\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
           "depth": 2
         },
         {
@@ -54,7 +54,7 @@
       "blocks": [
         {
           "type": "p",
-          "html": "环都在 <strong>SCC</strong> 里，得把 <strong>SCC</strong> 都找出来。<a href=\"/tags\" class=\"tag-link\">#tarjan</a>/全联通分量",
+          "html": "环都在 <strong>SCC</strong> 里，得把 <strong>SCC</strong> 都找出来。<a href=\"/tags?tag=tarjan\" class=\"tag-link\">#tarjan</a>/全联通分量",
           "depth": 2
         },
         {
@@ -64,7 +64,7 @@
         },
         {
           "type": "p",
-          "html": "如果是 <a href=\"/tags\" class=\"tag-link\">#基环树</a> ，可以用 <a href=\"/tags\" class=\"tag-link\">#拓扑排序</a> 找环。",
+          "html": "如果是 <a href=\"/tags?tag=基环树\" class=\"tag-link\">#基环树</a> ，可以用 <a href=\"/tags?tag=拓扑排序\" class=\"tag-link\">#拓扑排序</a> 找环。",
           "depth": 2
         }
       ]
@@ -147,7 +147,7 @@
           "blocks": [
             {
               "type": "p",
-              "html": "这种题通常跟 <a href=\"/tags\" class=\"tag-link\">#多源最短路</a> 有关系，都要从多个起点出发，看看过程中是否能成环，判环用 <a href=\"/tags\" class=\"tag-link\">#并查集</a> ，类似 <a href=\"/tags\" class=\"tag-link\">#最小生成树</a> 。",
+              "html": "这种题通常跟 <a href=\"/k/多源最短路\" class=\"tag-link\">#多源最短路</a> 有关系，都要从多个起点出发，看看过程中是否能成环，判环用 <a href=\"/k/并查集\" class=\"tag-link\">#并查集</a> ，类似 <a href=\"/k/生成树\" class=\"tag-link\">#最小生成树</a> 。",
               "depth": 2
             },
             {
@@ -158,7 +158,7 @@
           ]
         },
         {
-          "heading": "判断奇环 / 二分图 <a href=\"/tags\" class=\"tag-link\">#二分图</a>",
+          "heading": "判断奇环 / 二分图 <a href=\"/k/二分图\" class=\"tag-link\">#二分图</a>",
           "level": 3,
           "blocks": [
             {
@@ -206,6 +206,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-05-04",
-  "parsed_at": "2026-06-15T08:24:44.633972+00:00",
+  "parsed_at": "2026-06-15T09:48:57.608973+00:00",
   "type_directory": "k"
 }

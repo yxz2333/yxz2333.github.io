@@ -61,7 +61,7 @@
         },
         {
           "type": "p",
-          "html": "<img src=\"/images/image_1774431830763_0.png\" alt=\"image.png\" class=\"note-img\" />{:height 223, :width 164}",
+          "html": "<img src=\"/images/image_1774431830763_0.png\" alt=\"image.png\" class=\"note-img\" referrerpolicy=\"no-referrer\" width=\"164\" height=\"223\" />",
           "depth": 2
         },
         {
@@ -71,7 +71,7 @@
         },
         {
           "type": "p",
-          "html": "<img src=\"/images/image_1774431844808_0.png\" alt=\"image.png\" class=\"note-img\" />{:height 178, :width 166}",
+          "html": "<img src=\"/images/image_1774431844808_0.png\" alt=\"image.png\" class=\"note-img\" referrerpolicy=\"no-referrer\" width=\"166\" height=\"178\" />",
           "depth": 2
         },
         {
@@ -296,6 +296,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-25",
-  "parsed_at": "2026-06-15T08:26:07.089865+00:00",
+  "parsed_at": "2026-06-15T09:48:26.705527+00:00",
   "type_directory": "p"
 }

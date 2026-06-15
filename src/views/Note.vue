@@ -1,12 +1,13 @@
 <script setup>
 import { ref, watch, onMounted, onUnmounted, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { renderLatex } from '../composables/useKatex.js'
 import { slugify } from '../composables/useHeading.js'
 import TocSidebar from '../components/TocSidebar.vue'
 import NoteSection from '../components/NoteSection.vue'
 
 const route = useRoute()
+const router = useRouter()
 const note = ref(null)
 const loading = ref(true)
 const error = ref('')
@@ -31,9 +32,25 @@ async function load() {
     const slug = route.params.slug
     const dir = ROUTE_DIR[route.name] || 'notes'
     const res = await fetch(`${import.meta.env.BASE_URL}${dir}/${slug}.json`)
-    if (!res.ok) throw new Error('not found')
-    note.value = await res.json()
-    note.value.sections = preprocess(note.value.sections)
+    if (res.ok) {
+      try {
+        note.value = await res.json()
+        note.value.sections = preprocess(note.value.sections)
+        loading.value = false
+        return
+      } catch { /* Vite 返回 HTML fallback，非 JSON → 走别名 */ }
+    }
+    // slug 不存在或非 JSON → 查别名
+    const aliasRes = await fetch(`${import.meta.env.BASE_URL}${dir}/aliases.json`)
+    if (aliasRes.ok) {
+      const aliases = await aliasRes.json()
+      const canonical = aliases[slug]
+      if (canonical) {
+        router.replace(`/${dir}/${canonical}`)
+        return
+      }
+    }
+    throw new Error('not found')
   } catch {
     error.value = '笔记未找到'
   } finally {
@@ -146,7 +163,7 @@ watch(() => route.params.slug, () => load())
             <span v-for="(s, i) in difficultyStars" :key="i"
               :class="s === 'half' ? 'star-half' : ''">★</span>
           </span>
-          <span v-if="note.source" class="text-gray-400">{{ note.source }}</span>
+          <span v-if="note.source" class="text-gray-400" v-html="note.source"></span>
         </div>
         <h1
           class="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight tracking-wide drop-shadow-md">
@@ -209,7 +226,7 @@ watch(() => route.params.slug, () => load())
               </div>
               <div v-if="note.source">
                 <p class="text-gray-500 text-xs mb-1">来源</p>
-                <p class="text-gray-300 font-mono">{{ note.source }}</p>
+                <p class="text-gray-300 font-mono" v-html="note.source"></p>
               </div>
               <div v-if="note.difficulty !== null">
                 <p class="text-gray-500 text-xs mb-1">难度</p>

@@ -41,7 +41,7 @@
       "blocks": [
         {
           "type": "p",
-          "html": "<strong>适用于：</strong> 无向图、有向图、单源（ <a href=\"/tags\" class=\"tag-link\">#dij</a> )、多源（ <a href=\"/tags\" class=\"tag-link\">#floyd</a> ）。",
+          "html": "<strong>适用于：</strong> 无向图、有向图、单源（ <a href=\"/k/dij\" class=\"tag-link\">#dij</a> )、多源（ <a href=\"/k/floyd\" class=\"tag-link\">#floyd</a> ）。",
           "depth": 1
         },
         {
@@ -106,6 +106,6 @@
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-23",
-  "parsed_at": "2026-06-15T08:24:44.636403+00:00",
+  "parsed_at": "2026-06-15T09:48:57.612607+00:00",
   "type_directory": "k"
 }

@@ -46,20 +46,17 @@ function indentStyle(depth) {
       :class="{ 'depth-marker': sec.depth >= 2 }" v-html="sec.html"></p>
 
     <!-- 代码块 -->
-    <div v-else-if="sec.type === 'code'" :style="sec.depth ? indentStyle(sec.depth) : {}" :data-depth="sec.depth"
-      :class="{ 'depth-marker': sec.depth >= 2 }">
+    <div v-else-if="sec.type === 'code'" :style="sec.depth ? indentStyle(sec.depth) : {}">
       <CodeBlock :code="sec.code" :language="sec.lang" />
     </div>
 
     <!-- 数学公式 -->
     <div v-else-if="sec.type === 'math'" class="my-1 overflow-x-auto py-1"
-      :style="sec.depth ? indentStyle(sec.depth) : {}" :data-depth="sec.depth"
-      :class="{ 'depth-marker': sec.depth >= 2 }" v-html="sec.html"></div>
+      :style="sec.depth ? indentStyle(sec.depth) : {}" v-html="sec.html"></div>
 
     <!-- 表格 -->
     <div v-else-if="sec.type === 'table'" class="my-8 overflow-x-auto rounded-xl border border-white/10"
-      :style="sec.depth ? indentStyle(sec.depth) : {}" :data-depth="sec.depth"
-      :class="{ 'depth-marker': sec.depth >= 2 }" v-html="sec.html">
+      :style="sec.depth ? indentStyle(sec.depth) : {}" v-html="sec.html">
     </div>
   </template>
 </template>
@@ -68,6 +65,9 @@ function indentStyle(depth) {
 .depth-marker::before {
   content: '◆\00a0\00a0\00a0';
   color: #b38b36;
+}
+.depth-marker:has(.note-img)::before {
+  content: none;
 }
 
 .depth-marker[data-depth="2"]::before {

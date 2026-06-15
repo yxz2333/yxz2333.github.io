@@ -40,7 +40,7 @@
         },
         {
           "type": "p",
-          "html": "<strong>按位异或 (<code>^</code>) 的线性基</strong>：注意，单独的异或<strong>没有</strong>这个性质（异或会上下波动），但是如果你维护的是前缀的 <a href=\"/tags\" class=\"tag-link\">#线性基</a> ，前缀线性基的同样最多改变 $\\log X$ 次。",
+          "html": "<strong>按位异或 (<code>^</code>) 的线性基</strong>：注意，单独的异或<strong>没有</strong>这个性质（异或会上下波动），但是如果你维护的是前缀的 <a href=\"/k/线性基\" class=\"tag-link\">#线性基</a> ，前缀线性基的同样最多改变 $\\log X$ 次。",
           "depth": 1
         }
       ]
@@ -49,6 +49,6 @@
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-18",
-  "parsed_at": "2026-06-15T08:24:44.601211+00:00",
+  "parsed_at": "2026-06-15T09:48:57.558390+00:00",
   "type_directory": "k"
 }

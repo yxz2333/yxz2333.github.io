@@ -9,7 +9,8 @@
   "link_text": "",
   "source": "",
   "aliases": [
-    "离线分治, 猫树"
+    "离线分治",
+    "猫树"
   ],
   "parent": null,
   "format": "logseq",
@@ -71,7 +72,7 @@
       "blocks": [
         {
           "type": "p",
-          "html": "<strong>类似数据结构</strong>：<a href=\"/tags\" class=\"tag-link\">#前缀和</a> <a href=\"/tags\" class=\"tag-link\">#st表</a> <a href=\"/tags\" class=\"tag-link\">#线段树</a>",
+          "html": "<strong>类似数据结构</strong>：<a href=\"/k/前缀和\" class=\"tag-link\">#前缀和</a> <a href=\"/k/st表\" class=\"tag-link\">#st表</a> <a href=\"/k/线段树\" class=\"tag-link\">#线段树</a>",
           "depth": 1
         },
         {
@@ -219,6 +220,6 @@
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-09",
-  "parsed_at": "2026-06-15T08:24:44.620121+00:00",
+  "parsed_at": "2026-06-15T09:48:57.588798+00:00",
   "type_directory": "k"
 }

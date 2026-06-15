@@ -39,7 +39,7 @@
         },
         {
           "type": "p",
-          "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/60b08f5290a489960693936583d67903134ed07ac9d9f444f8a0730941e52414.png\" alt=\"\" class=\"note-img\" />",
+          "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/60b08f5290a489960693936583d67903134ed07ac9d9f444f8a0730941e52414.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
           "depth": 1
         },
         {
@@ -125,7 +125,7 @@
             },
             {
               "type": "p",
-              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/7da283f17711496aeda1750c9fa6966a2045db328c1716b7bf5db31b201bd7c0.png\" alt=\"\" class=\"note-img\" />",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/7da283f17711496aeda1750c9fa6966a2045db328c1716b7bf5db31b201bd7c0.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
               "depth": 1
             },
             {
@@ -135,7 +135,7 @@
             },
             {
               "type": "p",
-              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/cdb8ceb2594d555a4a03357ca0a3016219c0fde6f88a4974feca510fdd8d2a29.png\" alt=\"\" class=\"note-img\" />",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/cdb8ceb2594d555a4a03357ca0a3016219c0fde6f88a4974feca510fdd8d2a29.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
               "depth": 1
             },
             {
@@ -145,7 +145,7 @@
             },
             {
               "type": "p",
-              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/076bec40c1db767644d4dd39c5251361a0dba8cfd528cc95ede910ba1d7eb198.png\" alt=\"\" class=\"note-img\" />",
+              "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF2207C/076bec40c1db767644d4dd39c5251361a0dba8cfd528cc95ede910ba1d7eb198.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
               "depth": 1
             },
             {
@@ -276,6 +276,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-25",
-  "parsed_at": "2026-06-15T08:26:06.753729+00:00",
+  "parsed_at": "2026-06-15T09:48:26.285755+00:00",
   "type_directory": "p"
 }

@@ -24,7 +24,7 @@
       "blocks": [
         {
           "type": "p",
-          "html": "<img src=\"https://images.steamusercontent.com/ugc/2038479094628690706/755EE825561BDB654A33AD303989C676F8A12728/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false\" alt=\"\" class=\"note-img\" />",
+          "html": "<img src=\"https://images.steamusercontent.com/ugc/2038479094628690706/755EE825561BDB654A33AD303989C676F8A12728/?imw=5000&imh=5000&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
           "depth": 1
         },
         {
@@ -376,6 +376,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-26",
-  "parsed_at": "2026-06-15T08:26:06.969265+00:00",
+  "parsed_at": "2026-06-15T09:48:26.561186+00:00",
   "type_directory": "p"
 }

@@ -30,7 +30,7 @@
         },
         {
           "type": "p",
-          "html": "<img src=\"/images/image_1773932224334_0.png\" alt=\"image.png\" class=\"note-img\" />",
+          "html": "<img src=\"/images/image_1773932224334_0.png\" alt=\"image.png\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
           "depth": 2
         },
         {
@@ -136,6 +136,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-20",
-  "parsed_at": "2026-06-15T08:26:07.236321+00:00",
+  "parsed_at": "2026-06-15T09:48:26.948342+00:00",
   "type_directory": "p"
 }

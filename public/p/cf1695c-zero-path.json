@@ -36,7 +36,7 @@
         },
         {
           "type": "p",
-          "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1695C/8f2d98d121e7e351eaa9a88e08080da6d06835b5.png\" alt=\"\" class=\"note-img\" />",
+          "html": "<img src=\"https://cdn.luogu.com.cn/upload/vjudge_pic/CF1695C/8f2d98d121e7e351eaa9a88e08080da6d06835b5.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
           "depth": 1
         }
       ]
@@ -137,6 +137,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-04-08",
-  "parsed_at": "2026-06-15T08:26:06.598953+00:00",
+  "parsed_at": "2026-06-15T09:48:26.049713+00:00",
   "type_directory": "p"
 }

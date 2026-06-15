@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { RouterLink } from 'vue-router'
+import { renderLatex } from '../composables/useKatex.js'
 
 const emit = defineEmits(['close'])
 const query = ref('')
@@ -116,7 +117,7 @@ watch(query, () => { selectedIdx.value = 0 })
               </span>
               <span class="text-sm font-bold text-gray-200">{{ n.title }}</span>
             </div>
-            <p v-if="n.summary" class="text-xs text-gray-500 line-clamp-1 mt-1" v-html="n.summary"></p>
+            <p v-if="n.summary" class="text-xs text-gray-500 line-clamp-1 mt-1" v-html="renderLatex(n.summary)"></p>
           </RouterLink>
         </div>
         <div v-else-if="query.trim()" class="px-5 py-8 text-center text-sm text-gray-500">

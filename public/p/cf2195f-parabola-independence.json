@@ -149,7 +149,7 @@
             },
             {
               "type": "p",
-              "html": "<img src=\"https://espresso.codeforces.com/168b5d6d822586244824257fcad8369941df3285.png\" alt=\"\" class=\"note-img\" />{:height 326, :width 309}",
+              "html": "<img src=\"https://espresso.codeforces.com/168b5d6d822586244824257fcad8369941df3285.png\" alt=\"\" class=\"note-img\" referrerpolicy=\"no-referrer\" width=\"309\" height=\"326\" />",
               "depth": 2
             },
             {
@@ -325,6 +325,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-02-20",
-  "parsed_at": "2026-06-15T08:26:06.716641+00:00",
+  "parsed_at": "2026-06-15T09:48:26.234528+00:00",
   "type_directory": "p"
 }

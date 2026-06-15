@@ -9,14 +9,16 @@
   "link_text": "",
   "source": "",
   "aliases": [
-    "暴力容斥, 倒序容斥, 数论容斥"
+    "暴力容斥",
+    "倒序容斥",
+    "数论容斥"
   ],
   "parent": null,
   "format": "logseq",
   "sections": [
     {
       "type": "p",
-      "html": "大多都是 <a href=\"/tags\" class=\"tag-link\">#计数问题</a> 。",
+      "html": "大多都是 <a href=\"/k/计数问题\" class=\"tag-link\">#计数问题</a> 。",
       "depth": 0
     },
     {
@@ -230,7 +232,7 @@
           "blocks": [
             {
               "type": "p",
-              "html": "通常可能需要用 <a href=\"/tags\" class=\"tag-link\">#状态压缩</a> 来枚举状态，当然像下面的<strong>数论容斥</strong>就不需要，示例代码按<strong>状态压缩</strong>的来。",
+              "html": "通常可能需要用 <a href=\"/k/状态压缩\" class=\"tag-link\">#状态压缩</a> 来枚举状态，当然像下面的<strong>数论容斥</strong>就不需要，示例代码按<strong>状态压缩</strong>的来。",
               "depth": 1
             },
             {
@@ -312,6 +314,6 @@
   ],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-17",
-  "parsed_at": "2026-06-15T08:24:44.649276+00:00",
+  "parsed_at": "2026-06-15T09:48:57.629495+00:00",
   "type_directory": "k"
 }

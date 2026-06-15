@@ -33,7 +33,7 @@
         },
         {
           "type": "p",
-          "html": "<a href=\"/tags\" class=\"tag-link\">#最短路</a>/分层图问题 ：你需要<strong>拆点</strong>，求起点到终点的<strong>奇数长度最短路</strong>和<strong>偶数长度最短路</strong>。（无例题，仅作参考）",
+          "html": "<a href=\"/k/同余最短路\" class=\"tag-link\">#最短路</a>/分层图问题 ：你需要<strong>拆点</strong>，求起点到终点的<strong>奇数长度最短路</strong>和<strong>偶数长度最短路</strong>。（无例题，仅作参考）",
           "depth": 3
         },
         {
@@ -43,7 +43,7 @@
         },
         {
           "type": "p",
-          "html": "<a href=\"/tags\" class=\"tag-link\">#矩阵快速幂</a> <a href=\"/tags\" class=\"tag-link\">#floyd</a>",
+          "html": "<a href=\"/k/矩阵快速幂\" class=\"tag-link\">#矩阵快速幂</a> <a href=\"/k/floyd\" class=\"tag-link\">#floyd</a>",
           "depth": 3
         },
         {
@@ -74,7 +74,7 @@
       "blocks": [
         {
           "type": "p",
-          "html": "全是用异或算，那肯定就是 <a href=\"/tags\" class=\"tag-link\">#线性基</a> 问题了，要搞搞 <a href=\"/tags\" class=\"tag-link\">#按位贪心</a> 什么的。",
+          "html": "全是用异或算，那肯定就是 <a href=\"/k/线性基\" class=\"tag-link\">#线性基</a> 问题了，要搞搞 <a href=\"/k/按位贪心\" class=\"tag-link\">#按位贪心</a> 什么的。",
           "depth": 2
         },
         {
@@ -98,6 +98,6 @@
   "code_languages": [],
   "created_at": "2026-06-15",
   "updated_at": "2026-03-08",
-  "parsed_at": "2026-06-15T08:24:44.639446+00:00",
+  "parsed_at": "2026-06-15T09:48:57.616338+00:00",
   "type_directory": "k"
 }
