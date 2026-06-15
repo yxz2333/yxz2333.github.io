@@ -1,0 +1,110 @@
+{
+  "slug": "readme",
+  "title": "README",
+  "type": "其它",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "Lynia's Blog",
+      "level": 1,
+      "blocks": []
+    },
+    {
+      "type": "p",
+      "html": "<div align=\"center\"><img src=\"/avatar.png\" width=\"120\" height=\"120\" style=\"border-radius:50%\" alt=\"avatar\" /></div>",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "<div align=\"center\">个人技术博客，分享 XCPC 题解、算法笔记与开发心得。</div>",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "<div align=\"center\"><a href=\"https://github.com/yxz2333/yxz2333.github.io/actions/workflows/deploy.yml\"><img src=\"https://github.com/yxz2333/yxz2333.github.io/actions/workflows/deploy.yml/badge.svg\" alt=\"Deploy\" /></a></div>",
+      "depth": 1
+    },
+    {
+      "heading": "技术栈",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "type": "table",
+      "rows": [
+        "| 层 | 技术 |",
+        "| 框架 | Vue 3 + Vite |",
+        "| 样式 | Tailwind CSS |",
+        "| 路由 | Vue Router |",
+        "| 部署 | GitHub Pages + Actions |"
+      ],
+      "depth": 1
+    },
+    {
+      "heading": "How to use?",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "type": "code",
+      "lang": "bash",
+      "code": "yarn install\nyarn dev\nyarn build\nyarn preview",
+      "depth": 1
+    },
+    {
+      "heading": "内容管理",
+      "level": 2,
+      "blocks": []
+    },
+    {
+      "type": "p",
+      "html": "笔记按类型存放在 <code>public/</code> 下的三个目录：",
+      "depth": 1
+    },
+    {
+      "type": "table",
+      "rows": [
+        "| 目录 | 类型 | 路由 |",
+        "| <code>p/</code> | 题目题解 | <code>/p/:slug</code> |",
+        "| <code>k/</code> | 算法知识点 | <code>/k/:slug</code> |",
+        "| <code>c/</code> | 比赛题解 | <code>/c/:slug</code> |"
+      ],
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "由后端解析器自动生成。手动添加笔记：",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "1. 将 <code>.md</code> 文件放入 <code>backend/notes-in/</code>",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "2. 运行 <code>cd backend &amp;&amp; uv run python parse_notes.py</code>",
+      "depth": 1
+    },
+    {
+      "type": "p",
+      "html": "3. JSON 自动输出到 <code>public/{p,k,c}/</code>",
+      "depth": 1
+    }
+  ],
+  "code_languages": [
+    "bash"
+  ],
+  "created_at": "2026-06-15",
+  "updated_at": "2026-06-15",
+  "parsed_at": "2026-06-15T10:16:20.699836+00:00",
+  "type_directory": "other"
+}
