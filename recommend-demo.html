@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>代码推荐系统 — 技术演示</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f0f13;color:#e0e0e0;overflow:hidden;height:100vh}
+.slides{position:relative;width:100%;height:100vh}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.95);transition:all .6s cubic-bezier(.4,0,.2,1);pointer-events:none;padding:60px}
+.slide.active{opacity:1;transform:scale(1);pointer-events:auto;z-index:1}
+.page-num{position:fixed;bottom:30px;right:40px;font-size:13px;color:#555;z-index:100}
+.nav-hint{position:fixed;bottom:30px;left:40px;font-size:12px;color:#444;z-index:100}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#b38b36,#f0c060);z-index:200;transition:width .5s ease}
+h1{font-size:3rem;font-weight:800;background:linear-gradient(135deg,#fff,#b38b36);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:20px}
+h2{font-size:2rem;color:#b38b36;margin-bottom:30px}
+p{font-size:1.1rem;line-height:1.8;color:#999;max-width:700px;text-align:center}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:30px;backdrop-filter:blur(20px)}
+.row{display:flex;gap:24px;flex-wrap:wrap;justify-content:center;max-width:1000px}
+.tag{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;margin:4px}
+.tag-gold{background:rgba(179,139,54,.2);color:#b38b36;border:1px solid rgba(179,139,54,.3)}
+.tag-blue{background:rgba(59,130,246,.15);color:#60a5fa;border:1px solid rgba(59,130,246,.25)}
+.tag-green{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.25)}
+.tag-purple{background:rgba(168,85,247,.15);color:#a78bfa;border:1px solid rgba(168,85,247,.25)}
+.flow-box{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:20px}
+.flow-step{background:rgba(179,139,54,.1);border:1px solid rgba(179,139,54,.25);border-radius:14px;padding:16px 24px;text-align:center;font-size:14px;color:#ccc;min-width:100px}
+.flow-arrow{color:#b38b36;font-size:20px}
+.bar{height:8px;border-radius:4px;background:rgba(255,255,255,.05);overflow:hidden;margin-top:8px}
+.bar-fill{height:100%;border-radius:4px;transition:width 1s ease}
+.bar-gold{background:#b38b36}.bar-yellow{background:#f0c060}.bar-gray{background:#555}
+.code-block{background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:20px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#a0a0a0;text-align:left;line-height:1.7;overflow:auto;max-height:300px;white-space:pre}
+.code-block .hl{color:#b38b36}
+.code-block .dim{color:#555}
+@media(max-width:768px){h1{font-size:2rem}h2{font-size:1.4rem}.row{flex-direction:column}.flow-box{flex-direction:column}.flow-arrow{transform:rotate(90deg)}.slide{padding:30px}}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="slides" id="slides">
+
+<div class="slide active"><div style="text-align:center">
+<h1>代码相似度推荐系统</h1>
+<p style="font-size:1.3rem;color:#b38b36">基于 UnixCoder + 标签 + Token 的三路加权推荐引擎</p>
+<div style="margin-top:40px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap">
+<span class="tag tag-gold">UnixCoder 向量化</span>
+<span class="tag tag-blue">标签 Jaccard</span>
+<span class="tag tag-green">Token TF-IDF</span>
+<span class="tag tag-purple">增量 hash 更新</span>
+</div>
+<p style="margin-top:40px;color:#555;font-size:14px">Lynia's Blog · 离线预计算 · 零运行时依赖</p>
+</div></div>
+
+<div class="slide"><div style="text-align:center;max-width:900px">
+<h2>整体架构</h2>
+<div class="flow-box">
+<div class="flow-step">笔记 JSON</div><span class="flow-arrow">&rarr;</span>
+<div class="flow-step">提取代码块</div><span class="flow-arrow">&rarr;</span>
+<div class="flow-step">宏展开</div><span class="flow-arrow">&rarr;</span>
+<div class="flow-step">UnixCoder</div><span class="flow-arrow">&rarr;</span>
+<div class="flow-step">三路加权</div><span class="flow-arrow">&rarr;</span>
+<div class="flow-step">Top-K 推荐</div>
+</div>
+<div style="margin-top:40px;display:flex;gap:24px;justify-content:center;flex-wrap:wrap">
+<div class="card" style="flex:1;min-width:200px"><h3 style="color:#b38b36;margin-bottom:12px;font-size:16px">输入</h3><p style="font-size:13px;color:#888;text-align:left;">parse_notes 输出的<br>JSON 笔记文件<br>含已提取的代码块</p></div>
+<div class="card" style="flex:1;min-width:200px"><h3 style="color:#60a5fa;margin-bottom:12px;font-size:16px">处理</h3><p style="font-size:13px;color:#888;text-align:left;">宏展开 &rarr; UnixCoder<br>768 维向量 &rarr; 白化<br>三路加权融合</p></div>
+<div class="card" style="flex:1;min-width:200px"><h3 style="color:#34d399;margin-bottom:12px;font-size:16px">输出</h3><p style="font-size:13px;color:#888;text-align:left;">code_embeddings<br>.json + .npy<br>recommendations.json</p></div>
+</div>
+</div></div>
+
+<div class="slide"><div style="text-align:center;max-width:900px">
+<h2>UnixCoder 编码</h2>
+<div class="row">
+<div class="card" style="flex:1;min-width:280px;text-align:left">
+<h3 style="color:#b38b36;margin-bottom:12px">模型</h3>
+<p style="font-size:14px;text-align:left">microsoft/unixcoder-base<br>12 层 Transformer · 768 维<br>对比学习预训练<br>代码检索区分度 > CodeBERT</p>
+<div style="margin-top:16px"><span class="tag tag-gold">mean pooling</span><span class="tag tag-blue">L2 归一化</span><span class="tag tag-purple">512 token</span></div>
+</div>
+<div class="card" style="flex:1;min-width:280px">
+<h3 style="color:#60a5fa;margin-bottom:12px">编码流程</h3>
+<div class="code-block">代码文本
+<span class="hl">&rarr; Tokenizer</span> (截断 512)
+<span class="hl">&rarr; forward</span> (no_grad)
+<span class="hl">&rarr; mean pooling</span> (attn mask)
+<span class="hl">&rarr; L2 normalize</span>
+&rarr; (768,) float32</div>
+</div>
+</div>
+</div></div>
+
+<div class="slide"><div style="text-align:center;max-width:900px">
+<h2>三路加权打分</h2>
+<div class="row">
+<div class="card" style="flex:1;min-width:180px"><h3 style="color:#b38b36">50%</h3><p style="font-size:20px;font-weight:700;color:#fff">UnixCoder</p><p style="font-size:12px;color:#888">白化后余弦相似度<br>整体语义主体信号</p><div class="bar"><div class="bar-fill bar-gold" style="width:50%"></div></div></div>
+<div class="card" style="flex:1;min-width:180px"><h3 style="color:#60a5fa">30%</h3><p style="font-size:20px;font-weight:700;color:#fff">标签 Jaccard</p><p style="font-size:12px;color:#888">交集 / 并集<br>同标签 &rarr; 同类算法<br>无标签则归零</p><div class="bar"><div class="bar-fill bar-yellow" style="width:30%"></div></div></div>
+<div class="card" style="flex:1;min-width:180px"><h3 style="color:#34d399">20%</h3><p style="font-size:20px;font-weight:700;color:#fff">Token TF-IDF</p><p style="font-size:12px;color:#888">去关键字 IDF 加权<br>抓算法特征词<br>priority_queue / lca</p><div class="bar"><div class="bar-fill bar-gray" style="width:20%"></div></div></div>
+</div>
+<p style="margin-top:30px;color:#888;font-size:13px">权重可调：<code style="background:rgba(255,255,255,.05);padding:2px 8px;border-radius:4px">0.5 * model + 0.3 * tag + 0.2 * token</code></p>
+</div></div>
+
+<div class="slide"><div style="text-align:center;max-width:900px">
+<h2>增量更新机制</h2>
+<div class="row">
+<div class="card" style="flex:1;min-width:200px"><h3 style="color:#34d399;margin-bottom:12px">skip</h3><p style="font-size:13px;text-align:left">code_hash 命中已有集合<br>&rarr; 内容没变<br>&rarr; 跳过 GPU 编码</p></div>
+<div class="card" style="flex:1;min-width:200px"><h3 style="color:#b38b36;margin-bottom:12px">new</h3><p style="font-size:13px;text-align:left">hash 不在集合 + key 不冲突<br>&rarr; 全新代码块<br>&rarr; UnixCoder 编码入库</p></div>
+<div class="card" style="flex:1;min-width:200px"><h3 style="color:#f0c060;margin-bottom:12px">modify</h3><p style="font-size:13px;text-align:left">key 相同但 hash 不同<br>&rarr; 内容被修改<br>&rarr; 删旧行 + 重编码</p></div>
+<div class="card" style="flex:1;min-width:200px"><h3 style="color:#ef4444;margin-bottom:12px">delete</h3><p style="font-size:13px;text-align:left">旧 hash 没再出现<br>&rarr; 笔记/代码被删<br>&rarr; 从向量库移除</p></div>
+</div>
+<div style="margin-top:30px"><span class="tag tag-gold">SHA256 12位指纹</span><span class="tag tag-blue">O(1) 查重</span><span class="tag tag-green">--force 全量重建</span></div>
+</div></div>
+
+<div class="slide"><div style="text-align:center;max-width:900px">
+<h2>Token TF-IDF 详解</h2>
+<div class="row">
+<div class="card" style="flex:1;min-width:280px;text-align:left">
+<h3 style="color:#b38b36;margin-bottom:12px">分词 + 过滤</h3>
+<div class="code-block"><span class="dim">原始代码:</span>
+<span class="hl">priority_queue</span>&lt;pii&gt; pq;
+int n; cin >> n;
+for(int i=0; i&lt;n; i++) ...
+
+<span class="dim">分词后:</span>
+<span class="hl">priority_queue</span>, pii, pq, n, i
+<span class="dim">(int/for/cin 被关键字过滤)</span></div>
+</div>
+<div class="card" style="flex:1;min-width:280px;text-align:left">
+<h3 style="color:#60a5fa;margin-bottom:12px">IDF 效果</h3>
+<p style="font-size:13px;text-align:left;line-height:2">
+<span class="hl">priority_queue</span> &rarr; 仅 5 篇有 &rarr; IDF 高<br>
+<span class="hl">lca</span> &rarr; 仅 3 篇有 &rarr; IDF 极高<br>
+<span class="dim">int</span> &rarr; 全部 200 篇有 &rarr; IDF &asymp; 0<br>
+<span class="dim">for</span> &rarr; 全部 200 篇有 &rarr; IDF &asymp; 0<br>
+</p>
+</div>
+</div>
+<p style="margin-top:20px;color:#888;font-size:13px">稀有算法词自动获得高权重；常见关键字自动归零</p>
+</div></div>
+
+<div class="slide"><div style="text-align:center;max-width:900px">
+<h2>输出与前端展示</h2>
+<div class="row">
+<div class="card" style="flex:1;min-width:280px;text-align:left">
+<h3 style="color:#b38b36;margin-bottom:12px">recommendations.json</h3>
+<div class="code-block">{<span class="hl">"cf2233c::0"</span>: [
+  {<span class="hl">"slug"</span>: "括号匹配",
+   <span class="hl">"similarity"</span>: 0.91},
+  {<span class="hl">"slug"</span>: "栈与括号",
+   <span class="hl">"similarity"</span>: 0.78}
+]}</div>
+</div>
+<div class="card" style="flex:1;min-width:280px">
+<h3 style="color:#60a5fa;margin-bottom:12px">前端卡片</h3>
+<p style="font-size:13px;text-align:left;color:#888">
+相关推荐<br>
+桌面端: 3列 hover浮层<br>
+手机端: 竖排简洁列表<br>
+单块6张 / 双块3+3<br>
+Hover 浮现摘要+标签</p>
+</div>
+</div>
+</div></div>
+
+<div class="slide"><div style="text-align:center">
+<h1 style="font-size:2.5rem">技术栈总览</h1>
+<div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px">
+<span class="tag tag-gold" style="font-size:16px;padding:8px 20px">UnixCoder</span>
+<span class="tag tag-blue" style="font-size:16px;padding:8px 20px">PyTorch</span>
+<span class="tag tag-green" style="font-size:16px;padding:8px 20px">NumPy</span>
+<span class="tag tag-purple" style="font-size:16px;padding:8px 20px">Python</span>
+</div>
+<p style="margin-top:40px;font-size:14px;color:#555">离线预计算 · 增量 hash 更新 · 零运行时依赖 · GPU 加速</p>
+<p style="margin-top:10px;font-size:14px;color:#b38b36">Lynia's Blog</p>
+</div></div>
+
+</div>
+
+<div class="page-num" id="pageNum">1 / 8</div>
+<div class="nav-hint">键盘左右键 / 滚轮 / 点击左右侧 切换</div>
+
+<script>
+let current=0;const slides=document.querySelectorAll('.slide');const total=slides.length;
+function go(n){if(n<0||n>=total)return;slides[current].classList.remove('active');current=n;slides[current].classList.add('active');document.getElementById('pageNum').textContent=(current+1)+' / '+total;document.getElementById('progress').style.width=((current+1)/total*100)+'%'}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')go(current+1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(current-1)});
+document.addEventListener('wheel',e=>{e.preventDefault();go(current+(e.deltaY>0?1:-1))},{passive:false});
+document.addEventListener('click',e=>{const w=window.innerWidth;if(e.clientX>w/2)go(current+1);else go(current-1)});
+go(0);
+</script>
+</body>
+</html>

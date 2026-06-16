@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据库结构 — JSON 文档存储</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f0f13;color:#e0e0e0;overflow:hidden;height:100vh}
+.slides{position:relative;width:100%;height:100vh}
+.slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.95);transition:all .6s cubic-bezier(.4,0,.2,1);pointer-events:none;padding:50px}
+.slide.active{opacity:1;transform:scale(1);pointer-events:auto;z-index:1}
+.page-num{position:fixed;bottom:30px;right:40px;font-size:13px;color:#555;z-index:100}
+.nav-hint{position:fixed;bottom:30px;left:40px;font-size:12px;color:#444;z-index:100}
+.progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,#b38b36,#f0c060);z-index:200;transition:width .5s ease}
+h1{font-size:2.8rem;font-weight:800;background:linear-gradient(135deg,#fff,#b38b36);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:16px;text-align:center}
+h2{font-size:1.8rem;color:#b38b36;margin-bottom:24px;text-align:center}
+h3{font-size:1rem;color:#ccc;margin-bottom:10px}
+p{font-size:1rem;line-height:1.7;color:#999}
+.card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:24px}
+.tag{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;margin:3px}
+.tg{background:rgba(179,139,54,.2);color:#b38b36;border:1px solid rgba(179,139,54,.3)}
+.tb{background:rgba(59,130,246,.15);color:#60a5fa;border:1px solid rgba(59,130,246,.25)}
+.tg2{background:rgba(52,211,153,.15);color:#34d399;border:1px solid rgba(52,211,153,.25)}
+.tp{background:rgba(168,85,247,.15);color:#a78bfa;border:1px solid rgba(168,85,247,.25)}
+.row{display:flex;gap:20px;flex-wrap:wrap;justify-content:center;max-width:1000px;margin:0 auto}
+.col{flex:1;min-width:260px}
+.table-wrap{overflow-x:auto;margin-top:12px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:rgba(179,139,54,.1);color:#b38b36;padding:8px 12px;text-align:left;font-weight:700;border-bottom:1px solid rgba(255,255,255,.08)}
+td{padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.04);color:#999}
+code{background:rgba(255,255,255,.06);padding:2px 8px;border-radius:4px;font-size:13px;color:#b38b36}
+.code-block{background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:18px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#a0a0a0;line-height:1.8;white-space:pre;overflow:auto;max-height:320px}
+.code-block .hl{color:#b38b36}
+.code-block .dim{color:#555}
+.flow-box{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:16px}
+.flow-step{background:rgba(179,139,54,.1);border:1px solid rgba(179,139,54,.25);border-radius:12px;padding:12px 20px;text-align:center;font-size:13px;color:#ccc}
+.flow-arrow{color:#b38b36;font-size:18px}
+.stack{display:flex;flex-direction:column;gap:10px;align-items:center}
+.stack-item{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:10px 20px;font-size:13px;width:100%;max-width:500px;display:flex;justify-content:space-between;align-items:center}
+.stack-item .name{color:#ccc;font-weight:600}
+.stack-item .desc{color:#666;font-size:12px}
+@media(max-width:768px){h1{font-size:1.8rem}h2{font-size:1.3rem}.row{flex-direction:column}.flow-box{flex-direction:column}.flow-arrow{transform:rotate(90deg)}.slide{padding:20px}}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="slides" id="slides">
+
+<!-- Slide 1: Title -->
+<div class="slide active"><div style="text-align:center;max-width:800px">
+<h1>JSON 文档存储</h1>
+<p style="font-size:1.2rem;color:#b38b36;margin-bottom:30px">本项目用 JSON 替代传统关系型数据库</p>
+<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">
+<span class="tag tg">index.json — 索引表</span>
+<span class="tag tb">{slug}.json — 数据表</span>
+<span class="tag tg2">aliases.json — 映射表</span>
+<span class="tag tp">code_embeddings — 向量库</span>
+<span class="tag tg">recommendations — 推荐</span>
+<span class="tag tb">macros.json — 配置表</span>
+</div>
+<p style="margin-top:30px;color:#555;font-size:14px">7 张"表" · 纯静态 · 零数据库依赖</p>
+</div></div>
+
+<!-- Slide 2: Overview -->
+<div class="slide"><div style="text-align:center;max-width:950px">
+<h2>七张表总览</h2>
+<div class="table-wrap">
+<table>
+<tr><th>文件</th><th>等价关系表</th><th>由谁生成</th><th>存放位置</th></tr>
+<tr><td><code>index.json</code></td><td>索引表</td><td>parse_notes.py</td><td>frontend/public/{p,k,c,other}/</td></tr>
+<tr><td><code>{slug}.json</code></td><td>数据表（每篇一行）</td><td>parse_notes.py</td><td>frontend/public/{p,k,c,other}/</td></tr>
+<tr><td><code>aliases.json</code></td><td>别名映射表</td><td>parse_notes.py</td><td>frontend/public/{p,k,c,other}/</td></tr>
+<tr><td><code>code_embeddings.json</code></td><td>向量元信息表</td><td>recommend.py</td><td>frontend/public/ + notes-out/</td></tr>
+<tr><td><code>code_embeddings.npy</code></td><td>向量矩阵</td><td>recommend.py</td><td>frontend/public/ + notes-out/</td></tr>
+<tr><td><code>recommendations.json</code></td><td>推荐结果表</td><td>recommend.py</td><td>frontend/public/ + notes-out/</td></tr>
+<tr><td><code>macros.json</code></td><td>配置表</td><td>手动</td><td>backend/</td></tr>
+</table>
+</div>
+<p style="margin-top:20px;color:#888;font-size:13px">所有文件双写：notes-out/ 后端留底 + frontend/public/ 前端引用</p>
+</div></div>
+
+<!-- Slide 3: index.json -->
+<div class="slide"><div style="max-width:950px">
+<h2>index.json — 笔记索引表</h2>
+<div class="row">
+<div class="col">
+<h3>顶层字段</h3>
+<div class="table-wrap"><table>
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td>generated_at</td><td>string</td><td>生成时间 ISO 8601</td></tr>
+<tr><td>count</td><td>int</td><td>笔记总数</td></tr>
+<tr><td>type_directory</td><td>string</td><td>所属目录 p/k/c/other</td></tr>
+<tr><td>notes</td><td>array</td><td>笔记条目数组</td></tr>
+</table></div>
+</div>
+<div class="col">
+<h3>notes[i] 字段</h3>
+<div class="table-wrap"><table>
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td>slug</td><td>string</td><td>唯一 URL 标识</td></tr>
+<tr><td>title</td><td>string</td><td>笔记标题</td></tr>
+<tr><td>type</td><td>string</td><td>题目/知识点/比赛/其它</td></tr>
+<tr><td>tags</td><td>string[]</td><td>标签列表</td></tr>
+<tr><td>difficulty</td><td>number|null</td><td>难度 1-5</td></tr>
+<tr><td>summary</td><td>string</td><td>摘要</td></tr>
+<tr><td>parent</td><td>string|null</td><td>父页面 slug</td></tr>
+<tr><td>created_at</td><td>string</td><td>创建日期</td></tr>
+<tr><td>updated_at</td><td>string</td><td>修改日期</td></tr>
+</table></div>
+</div>
+</div>
+<p style="margin-top:16px;color:#888;font-size:13px;text-align:center">每个类型目录各一份，前端按需加载 ~30KB</p>
+</div></div>
+
+<!-- Slide 4: {slug}.json -->
+<div class="slide"><div style="max-width:950px">
+<h2>{slug}.json — 笔记正文</h2>
+<div class="row">
+<div class="col"><div class="card">
+<h3>核心字段</h3>
+<div class="table-wrap"><table>
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td>slug</td><td>string</td><td>唯一标识</td></tr>
+<tr><td>title</td><td>string</td><td>标题</td></tr>
+<tr><td>type</td><td>string</td><td>类型</td></tr>
+<tr><td>format</td><td>string</td><td>logseq/markdown/html</td></tr>
+<tr><td>sections</td><td>array</td><td>结构化 section 树</td></tr>
+<tr><td>code_languages</td><td>string[]</td><td>代码语言列表</td></tr>
+<tr><td>source</td><td>string</td><td>来源（HTML）</td></tr>
+<tr><td>aliases</td><td>string[]</td><td>别名列表</td></tr>
+</table></div>
+</div></div>
+<div class="col"><div class="card">
+<h3>sections 类型</h3>
+<div class="stack">
+<div class="stack-item"><span class="name">heading</span><span class="desc">标题 + level + 子 blocks</span></div>
+<div class="stack-item"><span class="name">p</span><span class="desc">段落，html 字段 + depth</span></div>
+<div class="stack-item"><span class="name">code</span><span class="desc">代码块，lang + code 字段</span></div>
+<div class="stack-item"><span class="name">math</span><span class="desc">公式，latex 字段</span></div>
+<div class="stack-item"><span class="name">table</span><span class="desc">表格，rows 数组</span></div>
+<div class="stack-item"><span class="name">html</span><span class="desc">纯 HTML 页面</span></div>
+</div>
+</div></div>
+</div>
+</div></div>
+
+<!-- Slide 5: aliases.json -->
+<div class="slide"><div style="max-width:800px;text-align:center">
+<h2>aliases.json — 别名映射表</h2>
+<div class="row"><div class="col"><div class="card">
+<div class="code-block">{<span class="hl">"重链剖分"</span>: <span class="hl">"树链剖分"</span>,
+ <span class="hl">"长链剖分"</span>: <span class="hl">"树链剖分"</span>,
+ <span class="hl">"最小生成树"</span>: <span class="hl">"生成树"</span>,
+ <span class="hl">"01背包"</span>: <span class="hl">"背包"</span>,
+ <span class="hl">"记搜"</span>: <span class="hl">"记忆化搜索"</span>}</div>
+<p style="margin-top:16px;color:#888;font-size:14px">key = 别名 slug &nbsp;|&nbsp; value = 规范 slug</p>
+<p style="margin-top:8px;color:#666;font-size:13px">前端 Tags / TagArticles / Note 三处查到别名后跳转到对应知识点</p>
+</div></div></div>
+</div></div>
+
+<!-- Slide 6: code_embeddings -->
+<div class="slide"><div style="max-width:950px">
+<h2>code_embeddings — 向量存储</h2>
+<div class="row">
+<div class="col"><div class="card">
+<h3>code_embeddings.json（元信息）</h3>
+<div class="table-wrap"><table>
+<tr><th>字段</th><th>类型</th><th>说明</th></tr>
+<tr><td>note_slug</td><td>string</td><td>笔记 slug</td></tr>
+<tr><td>note_title</td><td>string</td><td>笔记标题</td></tr>
+<tr><td>note_route</td><td>string</td><td>前端路由 /k/xxx</td></tr>
+<tr><td>block_index</td><td>int</td><td>第几个代码块</td></tr>
+<tr><td>code_hash</td><td>string</td><td>SHA256 前 12 位</td></tr>
+<tr><td>lang</td><td>string</td><td>cpp / c++</td></tr>
+</table></div>
+</div></div>
+<div class="col"><div class="card">
+<h3>code_embeddings.npy（向量矩阵）</h3>
+<div class="table-wrap"><table>
+<tr><th>属性</th><th>值</th></tr>
+<tr><td>dtype</td><td>float32</td></tr>
+<tr><td>shape</td><td>(N, 768)</td></tr>
+<tr><td>第 i 行</td><td>blocks[i] 的 UnixCoder 向量</td></tr>
+</table></div>
+<p style="margin-top:16px;color:#888;font-size:13px">JSON 不存 embedding——768 维浮点太膨胀<br>分离存储：JSON 元信息 + npy 紧凑矩阵<br>索引严格对齐，增删后重建</p>
+</div></div>
+</div>
+</div></div>
+
+<!-- Slide 7: recommendations.json -->
+<div class="slide"><div style="max-width:800px;text-align:center">
+<h2>recommendations.json — 推荐结果</h2>
+<div class="row"><div class="col"><div class="card" style="text-align:left">
+<div class="code-block">{<span class="hl">"generated_at"</span>: <span class="dim">"2026-06-16T..."</span>,
+ <span class="hl">"model"</span>: <span class="dim">"microsoft/unixcoder-base"</span>,
+ <span class="hl">"top_k"</span>: <span class="dim">6</span>,
+ <span class="hl">"recommendations"</span>: {
+   <span class="hl">"cf2233c::0"</span>: [
+     {<span class="hl">"slug"</span>:<span class="dim">"括号匹配"</span>, <span class="hl">"similarity"</span>:<span class="dim">0.91</span>},
+     {<span class="hl">"slug"</span>:<span class="dim">"栈与括号"</span>, <span class="hl">"similarity"</span>:<span class="dim">0.78</span>}
+   ],
+   <span class="hl">"cf2233c::1"</span>: [ ... ]
+ }}</div>
+<p style="margin-top:16px;color:#888;font-size:14px">key = <code>{slug}::{block_index}</code> &nbsp;|&nbsp; value = Top-K 推荐数组</p>
+<p style="margin-top:8px;color:#666;font-size:13px">前端 Note.vue 按当前 slug 前缀过滤加载</p>
+</div></div></div>
+</div></div>
+
+<!-- Slide 8: Data Flow -->
+<div class="slide"><div style="text-align:center;max-width:900px">
+<h2>数据流向</h2>
+<div class="flow-box" style="flex-direction:column;gap:8px">
+<div class="flow-step" style="width:400px">notes-in/ .md 源文件</div><span class="flow-arrow" style="transform:rotate(90deg)">&darr;</span>
+<div class="flow-step" style="width:400px">parse_notes.py</div><span class="flow-arrow" style="transform:rotate(90deg)">&darr;</span>
+<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">
+<div class="flow-step">index.json</div>
+<div class="flow-step">{slug}.json</div>
+<div class="flow-step">aliases.json</div>
+</div>
+<span class="flow-arrow" style="transform:rotate(90deg)">&darr;</span>
+<div class="flow-step" style="width:400px">recommend.py</div>
+<span class="flow-arrow" style="transform:rotate(90deg)">&darr;</span>
+<div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center">
+<div class="flow-step">code_embeddings</div>
+<div class="flow-step">recommendations</div>
+</div>
+<span class="flow-arrow" style="transform:rotate(90deg)">&darr;</span>
+<div class="flow-step" style="width:400px">前端 Vue SPA 渲染</div>
+</div>
+</div></div>
+
+<!-- Slide 9: Summary -->
+<div class="slide"><div style="text-align:center">
+<h1 style="font-size:2.2rem">等价于传统数据库</h1>
+<div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:30px">
+<div class="card" style="text-align:left"><h3 style="color:#b38b36">RDBMS</h3><p style="font-size:13px;color:#888">SQLite · MySQL<br>需要服务进程<br>需要 SQL 查询</p></div>
+<span style="font-size:30px;color:#b38b36;align-self:center">&rarr;</span>
+<div class="card" style="text-align:left"><h3 style="color:#60a5fa">JSON 文档存储</h3><p style="font-size:13px;color:#888">静态 JSON 文件<br>零运行时依赖<br>前端 fetch 即查</p></div>
+</div>
+<p style="margin-top:30px;color:#b38b36;font-size:14px">离线预计算 · 纯静态部署 · 双写留底</p>
+</div></div>
+
+</div>
+
+<div class="page-num" id="pageNum">1 / 9</div>
+<div class="nav-hint">键盘左右键 / 滚轮 / 点击左右侧 切换</div>
+
+<script>
+let current=0;const slides=document.querySelectorAll('.slide');const total=slides.length;
+function go(n){if(n<0||n>=total)return;slides[current].classList.remove('active');current=n;slides[current].classList.add('active');document.getElementById('pageNum').textContent=(current+1)+' / '+total;document.getElementById('progress').style.width=((current+1)/total*100)+'%'}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key==='ArrowDown')go(current+1);if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(current-1)});
+document.addEventListener('wheel',e=>{e.preventDefault();go(current+(e.deltaY>0?1:-1))},{passive:false});
+document.addEventListener('click',e=>{const w=window.innerWidth;if(e.clientX>w/2)go(current+1);else go(current-1)});
+go(0);
+</script>
+</body>
+</html>
