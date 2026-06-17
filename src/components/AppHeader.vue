@@ -55,7 +55,8 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
 
         <!-- 1. 文库 (含下拉悬浮胶囊) -->
         <div class="relative group">
-          <span class="px-5 py-2.5 rounded-full transition-all duration-300 cursor-pointer outline-none block select-none"
+          <span
+            class="px-5 py-2.5 rounded-full transition-all duration-300 cursor-pointer outline-none block select-none"
             :class="isActive(['/posts', '/p', '/k', '/c', '/other', '/notes', '/categories', '/type', '/tags', '/tag'])
               ? 'text-white bg-accent shadow-[0_0_15px_rgba(179,139,54,0.3)]'
               : 'text-gray-300 group-hover:text-white group-hover:bg-accent group-hover:shadow-[0_0_15px_rgba(179,139,54,0.3)]'">
@@ -105,7 +106,8 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         </div>
 
         <!-- 2. 项目 -->
-        <span class="px-5 py-2.5 rounded-full text-gray-300 hover:text-white hover:bg-accent hover:shadow-[0_0_15px_rgba(179,139,54,0.3)] transition-all duration-300 cursor-pointer outline-none select-none">
+        <span
+          class="px-5 py-2.5 rounded-full text-gray-300 hover:text-white hover:bg-accent hover:shadow-[0_0_15px_rgba(179,139,54,0.3)] transition-all duration-300 cursor-pointer outline-none select-none">
           项目
         </span>
 
@@ -127,19 +129,20 @@ onUnmounted(() => window.removeEventListener('scroll', handleScroll))
         <button @click="showSearch = true"
           class="w-10 h-10 flex items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
           title="搜索">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          <svg class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
           </svg>
         </button>
         <button @click="isMobileMenuOpen = !isMobileMenuOpen"
           class="lg:hidden w-10 h-10 flex items-center justify-center rounded-full text-gray-400 hover:text-white hover:bg-white/10 transition-colors">
-        <svg v-if="!isMobileMenuOpen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-        <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
+          <svg v-if="!isMobileMenuOpen" class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <svg v-else class="w-5 h-5 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
       </div>
     </div>
 
