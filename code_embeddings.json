@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-15T16:24:31.692544+00:00",
-  "model": "microsoft/codebert-base",
+  "generated_at": "2026-06-22T09:01:54.490596+00:00",
+  "model": "microsoft/unixcoder-base",
   "dim": 768,
-  "count": 365,
+  "count": 366,
   "blocks": [
     {
       "note_slug": "2019陕西省赛-c-0689",
@@ -2922,6 +2922,14 @@
       "note_route": "/k/链式并查集",
       "block_index": 0,
       "code_hash": "52cf153d807e",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk69791f-小辰刚学-gcd",
+      "note_title": "NK69791F 小辰刚学 gcd",
+      "note_route": "/p/nk69791f-小辰刚学-gcd",
+      "block_index": 0,
+      "code_hash": "129ab737c511",
       "lang": "cpp"
     }
   ]

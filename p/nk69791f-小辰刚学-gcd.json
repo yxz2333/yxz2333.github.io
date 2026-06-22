@@ -1,0 +1,164 @@
+{
+  "slug": "nk69791f-小辰刚学-gcd",
+  "title": "NK69791F 小辰刚学 gcd",
+  "type": "题目",
+  "tags": [
+    "前缀单调性",
+    "gcd"
+  ],
+  "difficulty": 1.5,
+  "summary": "一开始我想到用 ST表+二分做，但忘了 gcd 本身带 log 常数，$O(n\\log^3 n)$ 必定超时。于是换思路：利用 <strong>log-trick</strong>，固定右端点 $r$ 时不同<strong>后缀 gcd</strong> 的值只有 $O(\\log\\max a_i)$ 个。从左到右枚举右端点，对每个 $r$ 维护所有不同的后缀 gcd 值及其对应的<strong>最左位置</strong>；当 $r\\to r+1$ 时，只需把现存的每个 gcd 与 $a_{r+1}$ 取 gcd 再<strong>去重</strong>即可。回答询问 $[l,r]$ 时查 $r$ 的列表中有多少个位置 $\\ge l$。",
+  "link": "https://ac.nowcoder.com/acm/contest/69791/F",
+  "link_text": "https://ac.nowcoder.com/acm/contest/69791/F",
+  "source": "<a href=\"/c/牛客小白月赛81\" class=\"wikilink\">牛客小白月赛81</a>",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定一个长度为 $n$ 的数组 $a=[a_1,a_2,\\cdots ,a_n]$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "进行 $m$ 次查询，每次查询数组的一个连续区间 $[l,r]$，需要计算集合 $S=\\bigcup_{i=l}^{r}{\\left\\{\\text{gcd}_{j=i}^r{a_j}\\right\\}}$ 的大小。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "即所有以 $r$ 结尾的后缀区间 $[i,r]$ 的 gcd 值构成集合，问这个集合中有多少个不同的数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行两个整数 $n,m\\ (1\\leq n,m\\leq 6\\times 10^5)$ 表示序列大小和询问次数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个整数表示 $a_i\\ (1\\leq a_i\\leq 2^{31})$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $m$ 行，每行两个正整数 $l,r\\ (1\\leq l\\leq r\\leq n)$ 表示询问。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "共 $m$ 行，每行一个正整数表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "6 3\n1 2 3 4 5 6\n1 3\n2 4\n1 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "2\n2\n2",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "从左到右枚举右端点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "既然不同值很少，我们可以暴力维护它们。具体来说，从左到右枚举 $r$，用一个列表 <code>vec</code> 存下每个不同的后缀 gcd 值以及它对应的<strong>最左位置</strong>（即能取到这个 gcd 值的最靠左的起点）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "当 $r\\to r+1$ 时：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. 对 <code>vec</code> 中现有的每个元素 $(g, l)$，将其 gcd 值更新为 $\\gcd(g, a_{r+1})$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "2. 加入新的元素 $(a_{r+1}, r+1)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "3. <strong>去重</strong>：对于相同的 gcd 值，只保留最左位置最大的那个（即尽量往右的起点，这样回答询问时更容易 $\\ge l$）。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "由于 <code>vec</code> 的长度始终很小（$\\le 31$），上述每一步都是 $O(\\text{个数} \\cdot \\log)$ 的，非常快。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, m; cin >> n >> m;\n\tvar a = vector<ll>(n + 1);\n\tfa(i, 1, n)cin >> a[i];\n\n\tvar pos = vector<vector<int>>(n + 1);\n\tvar tmp = vector<pll>();\n\ttmp.pb({ a[1],1 }); pos[1].pb(1);\n\tfa(r, 2, n) {\n\t\tfor (var& [x, y] : tmp)x = Math::gcd(x, a[r]);\n\t\ttmp.pb({ a[r],r });\n\t\tvar ntmp = vector<pll>{ tmp.back() };\n\t\tfb(i, vs(tmp) - 1, 0) \n\t\t\tif (tmp[i].px != ntmp.back().px) \n\t\t\t\tntmp.pb(tmp[i]);\n\t\treverse(all(ntmp));\n\t\ttmp = move(ntmp);\n\t\tfor (const var& [_, id] : tmp)\n\t\t\tpos[r].pb(id);\n\t}\n\n\twhile (m--) {\n\t\tll l, r; cin >> l >> r;\n\t\tint ans = 0;\n\t\tfb(i, vs(pos[r]), 0) {\n\t\t\tif (pos[r][i] >= l)ans++;\n\t\t\telse break;\n\t\t}\n\t\tcout << ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-06-22",
+  "updated_at": "2026-06-22",
+  "parsed_at": "2026-06-22T08:59:54.205530+00:00",
+  "type_directory": "p"
+}
