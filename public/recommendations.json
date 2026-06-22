@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-22T09:01:54.506148+00:00",
+  "generated_at": "2026-06-22T09:15:40.989084+00:00",
   "model": "microsoft/unixcoder-base",
   "top_k": 6,
   "recommendations": {
@@ -5938,7 +5938,7 @@
         "slug": "nk69791f-小辰刚学-gcd",
         "title": "NK69791F 小辰刚学 gcd",
         "route": "/p/nk69791f-小辰刚学-gcd",
-        "similarity": 0.3244
+        "similarity": 0.5244
       },
       {
         "slug": "cf475d-cgcdssq",
@@ -5951,6 +5951,12 @@
         "title": "NK题霸 换个角度思考",
         "route": "/p/nk题霸-换个角度思考",
         "similarity": 0.2138
+      },
+      {
+        "slug": "nk129232c-调色题ⅱ",
+        "title": "NK129232C 调色题Ⅱ",
+        "route": "/p/nk129232c-调色题ⅱ",
+        "similarity": 0.2054
       },
       {
         "slug": "p1840-color-the-axis",
@@ -9007,16 +9013,16 @@
         "similarity": 0.4951
       },
       {
-        "slug": "cf2113d-cheater",
-        "title": "CF2113D Cheater",
-        "route": "/p/cf2113d-cheater",
-        "similarity": 0.4465
-      },
-      {
         "slug": "cf1201c-maximum-median",
         "title": "CF1201C Maximum Median",
         "route": "/p/cf1201c-maximum-median",
         "similarity": 0.4166
+      },
+      {
+        "slug": "cf2113d-cheater",
+        "title": "CF2113D Cheater",
+        "route": "/p/cf2113d-cheater",
+        "similarity": 0.4036
       },
       {
         "slug": "2025ccpc哈尔滨站热身赛-a-秘术「天文密葬法」",
@@ -13806,7 +13812,13 @@
         "slug": "cf1632d-new-year-concert",
         "title": "CF1632D New Year Concert",
         "route": "/p/cf1632d-new-year-concert",
-        "similarity": 0.3244
+        "similarity": 0.5244
+      },
+      {
+        "slug": "cf475d-cgcdssq",
+        "title": "CF475D CGCDSSQ",
+        "route": "/p/cf475d-cgcdssq",
+        "similarity": 0.3101
       },
       {
         "slug": "cf2171f-rae-taylor-and-trees-(hard-version)",
@@ -13831,12 +13843,6 @@
         "title": "CF1621C Hidden Permutations",
         "route": "/p/cf1621c-hidden-permutations",
         "similarity": 0.2629
-      },
-      {
-        "slug": "第十五届山东省赛-a-项目管理",
-        "title": "第十五届山东省赛 A 项目管理",
-        "route": "/p/第十五届山东省赛-a-项目管理",
-        "similarity": 0.2483
       }
     ]
   }
