@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-06-22T08:59:54.194033+00:00",
+  "generated_at": "2026-06-22T09:15:36.136104+00:00",
   "count": 333,
   "notes": [
     {
@@ -2240,14 +2240,14 @@
       "title": "CF1632D New Year Concert",
       "type": "题目",
       "tags": [
-        "前后缀",
+        "前缀单调性",
         "gcd"
       ],
       "difficulty": 2.0,
       "summary": "依旧是围绕前缀 gcd 的 Log-Trick 写，考虑枚举 $r$ 然后算在当前 gcd 的情况下，最远/最近的左边界位置 $l_l, l_r$。当然可以用 <strong>二分+st表</strong> 直接算，复杂度为 $O(nlog^2n)$，但我这直接用个数组了，复杂度是 $O(nlogn)$。",
       "parent": null,
-      "created_at": "2026-06-15",
-      "updated_at": "2026-03-05",
+      "created_at": "2026-06-22",
+      "updated_at": "2026-06-22",
       "type_directory": "p"
     },
     {
@@ -3419,7 +3419,7 @@
       "title": "CF475D CGCDSSQ",
       "type": "题目",
       "tags": [
-        "前后缀",
+        "前缀单调性",
         "gcd",
         "二分",
         "st表"
@@ -3427,8 +3427,8 @@
       "difficulty": 1.5,
       "summary": "本题完全围绕前缀 gcd 个数不超过 $\\log X$ 这个性质写了，直接枚举 $l$ 能让区间 gcd 产生变化的 $r$ 只有 $\\log X$ 个，直接二分 + st表 $O(log^2n)$ 求出那几个 $r$ 即可。",
       "parent": null,
-      "created_at": "2026-06-15",
-      "updated_at": "2026-03-05",
+      "created_at": "2026-06-22",
+      "updated_at": "2026-06-22",
       "type_directory": "p"
     },
     {
