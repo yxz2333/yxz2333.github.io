@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-28T09:53:07.719832+00:00",
+  "generated_at": "2026-06-29T08:36:22.639308+00:00",
   "model": "microsoft/unixcoder-base",
   "dim": 768,
-  "count": 366,
+  "count": 367,
   "blocks": [
     {
       "note_slug": "2019陕西省赛-c-0689",
@@ -2930,6 +2930,14 @@
       "note_route": "/p/nk131111f-小苯的对称序列",
       "block_index": 1,
       "code_hash": "1c1c86345efe",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸【模板】非质模数下的乘法逆元",
+      "note_title": "NK题霸【模板】非质模数下的乘法逆元",
+      "note_route": "/p/nk题霸【模板】非质模数下的乘法逆元",
+      "block_index": 0,
+      "code_hash": "04dc946aae1d",
       "lang": "cpp"
     }
   ]

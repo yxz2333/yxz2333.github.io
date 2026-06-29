@@ -1,0 +1,148 @@
+{
+  "slug": "nk题霸【模板】非质模数下的乘法逆元",
+  "title": "NK题霸【模板】非质模数下的乘法逆元",
+  "type": "题目",
+  "tags": [
+    "同余方程"
+  ],
+  "difficulty": 1.0,
+  "summary": "发现可以用同余方程转成 $a \\cdot x \\equiv 1 \\pmod m$，exgcd 求 x 即可。",
+  "link": "https://www.nowcoder.com/practice/52328883c41f475c8eb228726af2ce2f?channelPut=tracker2",
+  "link_text": "非质模数下的乘法逆元 - NowCoder",
+  "source": "NK题霸",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定正整数对 $(a, m)$，求乘法逆元 $a^{-1} \\bmod m$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "数据不保证 $m$ 为质数，注意无解情况。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入测试组数 $T\\ (1 \\le T \\le 10^4)$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $T$ 行，每行输入两个整数 $a, m\\ (1 \\le a < m \\le 10^9)$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "对于每组测试用例，输出一行一个整数，表示表达式 $a^{-1} \\bmod m$ 的值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>如果无解请输出 -1。</strong>",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "1\n2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "利用扩展欧几里得算法求解整数 $x, y$ 使",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$a \\cdot x + m \\cdot y = \\gcd(a, m)$$",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若 $\\gcd(a, m) = 1$，则上式化为 $a \\cdot x + m \\cdot y = 1$，两边对 $m$ 取模可得 $a \\cdot x \\equiv 1 \\pmod m$，因此 $x$ 对 $m$ 取非负最小剩余即可作为逆元：$x' = (x \\bmod m + m) \\bmod m$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll a, m; cin >> a >> m;\n\tll x0, y0;\n\tll g = Math::exgcd(a, m, x0, y0);\n\tif (g != 1) {\n\t\tcout << -1 << endl;\n\t\treturn;\n\t}\n\tll dx = m / g;\n\tll x = (x0 % dx + dx) % dx;\n\tcout << x << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-06-29",
+  "updated_at": "2026-06-29",
+  "parsed_at": "2026-06-29T08:35:46.244939+00:00",
+  "type_directory": "p"
+}

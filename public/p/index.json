@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-28T09:51:04.188164+00:00",
-  "count": 333,
+  "generated_at": "2026-06-29T08:35:46.234230+00:00",
+  "count": 334,
   "notes": [
     {
       "slug": "2019陕西省赛-c-0689",
@@ -4506,6 +4506,20 @@
       "parent": null,
       "created_at": "2026-06-15",
       "updated_at": "2026-05-11",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸【模板】非质模数下的乘法逆元",
+      "title": "NK题霸【模板】非质模数下的乘法逆元",
+      "type": "题目",
+      "tags": [
+        "同余方程"
+      ],
+      "difficulty": 1.0,
+      "summary": "发现可以用同余方程转成 $a \\cdot x \\equiv 1 \\pmod m$，exgcd 求 x 即可。",
+      "parent": null,
+      "created_at": "2026-06-29",
+      "updated_at": "2026-06-29",
       "type_directory": "p"
     },
     {
