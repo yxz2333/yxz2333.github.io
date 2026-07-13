@@ -1,0 +1,221 @@
+{
+  "slug": "nk题霸-医生",
+  "title": "NK题霸 医生",
+  "type": "题目",
+  "tags": [
+    "SOS dp"
+  ],
+  "difficulty": 2.0,
+  "summary": "两种做法。考虑到药物不多，我们可以进行暴力组合，然后看看是不是当前病人的超集即可；还有一种方法就是 sos dp（虽然有点没必要，也没前者好想），药物同样进行组合，然后跑超集到子集转移的 sos dp 即可。",
+  "link": "https://www.nowcoder.com/practice/91875c1230ea4e8eb7ae4f3338e5be46?channelPut=tracker2",
+  "link_text": "NK题霸 医生",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小红是一名医生。对于每个病人的症状用一个长度为 $m$ 的 01 串表示，第 $i$ 个字符代表第 $i$ 个身体部位的症状，0 代表健康，1 代表不健康。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "一共有 $k$ 种药，每种药也用一个长度为 $m$ 的 01 串表示，第 $i$ 个字符为 '1' 代表该药可以治愈第 $i$ 个部位的症状。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于每个病人，请帮小红求出治愈该病人需要开的最少的药数量。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行输入两个正整数 $n, m$，代表病人数量和症状种类数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $n$ 行，每行输入一个长度为 $m$ 的 01 串，代表每个病人的症状情况。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来一行输入一个正整数 $k$，代表药物的数量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来的 $k$ 行，每行输入一个长度为 $m$ 的 01 串，代表每个药物可以治愈的症状情况。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$1 \\le m \\le 20$，$1 \\le n \\le 10^4$，$1 \\le k \\le 10$",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出 $n$ 行，每行输出治愈该病人所需的最小药物数量。特殊的，如果该病人无法被治愈，请输出 -1。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3 4\n1000\n0101\n1011\n2\n1001\n0011",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "1\n-1\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一个病人开第一种药即可。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二个病人显然是无法治愈的。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第三个病人需要同时开第一种和第二种药。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "由于 $k \\le 10$ 非常小，可以暴力枚举所有 $2^k$ 种药物组合来处理药物叠加，这是本题的关键。",
+          "depth": 1
+        },
+        {
+          "heading": "暴力枚举法",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "对每个病人，枚举所有非空药物组合，计算组合的治愈并集（按位或）和药物数量，若该并集是病人症状的超集（即 <code>(now &amp; a[i]) == a[i]</code>），则更新最小药数。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "复杂度 $O(n \\cdot 2^k)$，在 $n=10^4, k=10$ 时可通过。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "SOS DP 法",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "同样是先枚举所有药物组合，将组合的治愈并集 <code>now</code> 和药物数 <code>cnt</code> 记录到 <code>dp[now]</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "然后跑<strong>超集到子集</strong>的 SOS DP，将大范围治愈方案的最优代价传递给小范围症状需求：",
+              "depth": 1
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "fa(i, 0, m - 1)\n\tfa(mask, 0, (1 << m) - 1)\n\tif (!(mask & (1 << i)))\n\t\tdp[mask] = min(dp[mask], dp[mask ^ (1 << i)]);",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这里 <code>mask ^ (1 &lt;&lt; i)</code> 是 <code>mask</code> 的超集（第 $i$ 位为 1），将其最优方案传递给子集 <code>mask</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "预处理后每个病人只需 $O(1)$ 查询 <code>dp[a[i]]</code>。总复杂度 $O(2^k + m \\cdot 2^m + n)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "物理逻辑：超集能治愈更全面的症状，一定也能治愈其子集的症状；反之则不成立，因此\"子集到超集\"的方向是错误的。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// 直接暴力枚举\nint dp[N];\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tfa(i, 0, (1ll << m) - 1)dp[i] = INF;\n\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n) {\n\t\tstring s; cin >> s;\n\t\tint now = 0;\n\t\tfa(j, 0, m - 1)if (s[j] == '1')now += (1 << j);\n\t\ta[i] = now;\n\t}\n\n\tint k; cin >> k;\n\tvar b = vector<int>(k + 1);\n\tfa(i, 1, k) {\n\t\tstring s; cin >> s;\n\t\tint now = 0;\n\t\tfa(j, 0, m - 1)if (s[j] == '1')now += (1 << j);\n\t\tb[i] = now;\n\t}\n\n\tfa(i, 1, n) {\n\t\tif (a[i] == 0) {\n\t\t\tcout << 0 << endl;\n\t\t\tcontinue;\n\t\t}\n\t\tint ans = INF;\n\n\t\t// 枚举所有药物组合\n\t\tfa(mask, 1, (1 << k) - 1) {\n\t\t\tint now = 0, cnt = 0;\n\t\t\tfa(i, 0, k - 1)if (mask & (1 << i)) {\n\t\t\t\tnow |= b[i + 1];\n\t\t\t\tcnt++;\n\t\t\t}\n\t\t\t// 是超集则记录答案\n\t\t\tif ((now & a[i]) == a[i])ans = min(ans, cnt);\n\t\t}\n\n\t\tif (ans == INF)cout << -1 << endl;\n\t\telse cout << ans << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// sos dp\nint dp[N];\nvoid solve(int CASE)\n{\n\tint n, m; cin >> n >> m;\n\tfa(i, 0, (1ll << m) - 1)dp[i] = INF;\n\n\tvar a = vector<int>(n + 1);\n\tfa(i, 1, n) {\n\t\tstring s; cin >> s;\n\t\tint now = 0;\n\t\tfa(j, 0, m - 1)if (s[j] == '1')now += (1 << j);\n\t\ta[i] = now;\n\t}\n\n\tint k; cin >> k;\n\tvar b = vector<int>(k + 1);\n\tfa(i, 1, k) {\n\t\tstring s; cin >> s;\n\t\tint now = 0;\n\t\tfa(j, 0, m - 1)if (s[j] == '1')now += (1 << j);\n\t\tb[i] = now;\n\t}\n\n\t// 枚举所有药物组合 O(2 ^ k)\n\tdp[0] = 0;\n\tfa(mask, 1, (1 << k) - 1) {\n\t\tint now = 0, cnt = 0;\n\t\tfa(i, 0, k - 1)if (mask & (1 << i)) {\n\t\t\tnow |= b[i + 1];\n\t\t\tcnt++;\n\t\t}\n\t\tdp[now] = min(dp[now], cnt);\n\t}\n\n\t// sos dp 超集 -> 子集 O(m * 2 ^ m)\n\tfa(i, 0, m - 1)\n\t\tfa(mask, 0, (1 << m) - 1)\n\t\tif (!(mask & (1 << i)))\n\t\t\tdp[mask] = min(dp[mask], dp[mask ^ (1 << i)]);\n\n\tfa(i, 1, n) {\n\t\tif (dp[a[i]] == INF)cout << -1 << endl;\n\t\telse cout << dp[a[i]] << endl;\n\t}\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-07-14",
+  "updated_at": "2026-07-14",
+  "parsed_at": "2026-07-13T16:21:22.228048+00:00",
+  "type_directory": "p"
+}

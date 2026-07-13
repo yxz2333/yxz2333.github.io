@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-29T08:36:22.639308+00:00",
+  "generated_at": "2026-07-13T16:22:43.007649+00:00",
   "model": "microsoft/unixcoder-base",
   "dim": 768,
-  "count": 367,
+  "count": 369,
   "blocks": [
     {
       "note_slug": "2019陕西省赛-c-0689",
@@ -2938,6 +2938,22 @@
       "note_route": "/p/nk题霸【模板】非质模数下的乘法逆元",
       "block_index": 0,
       "code_hash": "04dc946aae1d",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-医生",
+      "note_title": "NK题霸 医生",
+      "note_route": "/p/nk题霸-医生",
+      "block_index": 0,
+      "code_hash": "48b205bc3424",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk题霸-医生",
+      "note_title": "NK题霸 医生",
+      "note_route": "/p/nk题霸-医生",
+      "block_index": 1,
+      "code_hash": "0fac04b87668",
       "lang": "cpp"
     }
   ]
