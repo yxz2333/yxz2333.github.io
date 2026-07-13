@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-29T08:35:46.234230+00:00",
-  "count": 334,
+  "generated_at": "2026-07-13T16:21:22.216055+00:00",
+  "count": 335,
   "notes": [
     {
       "slug": "2019陕西省赛-c-0689",
@@ -4399,6 +4399,20 @@
       "parent": null,
       "created_at": "2026-06-15",
       "updated_at": "2026-03-23",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk题霸-医生",
+      "title": "NK题霸 医生",
+      "type": "题目",
+      "tags": [
+        "SOS dp"
+      ],
+      "difficulty": 2.0,
+      "summary": "两种做法。考虑到药物不多，我们可以进行暴力组合，然后看看是不是当前病人的超集即可；还有一种方法就是 sos dp（虽然有点没必要，也没前者好想），药物同样进行组合，然后跑超集到子集转移的 sos dp 即可。",
+      "parent": null,
+      "created_at": "2026-07-14",
+      "updated_at": "2026-07-14",
       "type_directory": "p"
     },
     {
