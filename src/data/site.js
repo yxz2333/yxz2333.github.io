@@ -41,11 +41,11 @@ export const friends = [
 export const homeSections = [
   {
     name: '首页',
-    articles: ['welcome-to-my-blog', '2026山东省赛-l-分数迭代', '第24届北师大程序设计竞赛-g-commemorative-coin', '树上倍增'],
+    articles: ['welcome-to-my-blog'],
   },
   {
     name: '题目题解',
-    articles: ['2026山东省赛-l-分数迭代'],
+    articles: [],
   },
   {
     name: '比赛题解',
