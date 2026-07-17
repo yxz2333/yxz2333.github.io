@@ -1,0 +1,304 @@
+{
+  "slug": "2026牛客暑期多校训练营1-c-fish-eating",
+  "title": "2026牛客暑期多校训练营1 C Fish Eating",
+  "type": "题目",
+  "tags": [
+    "并查集/带权并查集",
+    "dp"
+  ],
+  "difficulty": 3.0,
+  "summary": "如果去掉操作二，纯并查集就能解决。但带上操作二后，纯并查集就不够了。结合<strong>新鱼总是全场最大</strong>的性质，考虑用<strong>带权并查集</strong>维护：每次合并时，记录小鱼集跨到大鱼集所需的<strong>最小初始大小</strong> $d$，形成一棵有向集合树；查询时沿树走到根，路径上所有 $d$ 取 $\\max$ 即为答案。",
+  "link": "https://ac.nowcoder.com/acm/contest/133876/C",
+  "link_text": "https://ac.nowcoder.com/acm/contest/133876/C",
+  "source": "<a href=\"/c/2026牛客暑期多校训练营1\" class=\"wikilink\">2026牛客暑期多校训练营1</a>",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给一个 $n \\times m$ 的网格，部分格子上有鱼，其余格子是障碍。其中有一条鱼受你控制，可以反复将其移动到上下左右相邻的格子，但不能移出网格；若目标格子有一条大小不超过自身的鱼，则可以吃掉它，自身大小增加 $1$；若目标格子是障碍或鱼比自身大，则无法移动。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "初始时所有格子都是障碍。依次有 $q$ 次操作，操作有两种：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>操作 1</strong>：把 $(x, y)$ 处的障碍去除，放入一条大小为 $v$ 的鱼。询问这条鱼最多能吃掉多少条鱼。保证 $(x,y)$ 处当前是障碍，且 $v$ <strong>不小于</strong>之前放入过的所有鱼的大小。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>操作 2</strong>：假设可以将 $(x, y)$ 处鱼的初始大小增加一个非负整数。设理论最多能吃 $k$ 条鱼，求为了吃到 $k$ 条鱼所需增加的最小大小。保证 $(x,y)$ 处之前放入过鱼。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "吃鱼的过程是假设性的，不会实际改变任何已放入鱼的状态。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "坐标是加密的：$x = x' \\oplus l$，$y = y' \\oplus l$，其中 $l$ 为上一个操作的输出（初始 $l=0$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行三个整数 $n, m, q$（$1 \\le n, m, n \\times m \\le 2.5 \\times 10^5$，$1 \\le q \\le 5 \\times 10^5$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行，每行一个操作：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<code>1 x&#x27; y&#x27; v</code>：解密后放入大小为 $v$ 的鱼（$1 \\le v \\le 10^9$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>2 x&#x27; y&#x27;</code>：解密后查询所需最小增加量。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$q$ 行，每行一个整数表示答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "2 3 9\n1 1 2 1\n1 2 1 1\n1 2 2 2\n2 3 0\n1 0 2 8\n2 1 2\n1 4 4 9\n2 6 6\n2 5 7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "0\n0\n2\n1\n3\n5\n4\n4\n0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "把输入的坐标解密后：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "1. <code>1 1 2 1</code>，在 (1, 2) 处放入大小为 1 的鱼，最多能吃 0 条鱼。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "2. <code>1 2 1 1</code>，在 (2, 1) 处放入大小为 1 的鱼，最多能吃 0 条鱼。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "3. <code>1 2 2 2</code>，在 (2, 2) 处放入大小为 2 的鱼，最多能吃 2 条鱼。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "4. <code>2 1 2</code>，在 (1, 2) 处的鱼大小为 1，在允许任意变大的前提下最多能吃 2 条鱼，至少变大 1 才能吃到这个最大数量的鱼。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "5. <code>1 1 3 8</code>，在 (1, 3) 处放入大小为 8 的鱼，最多能吃 3 条鱼。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "6. <code>2 2 1</code>，在 (2, 1) 处的鱼大小为 1，在允许任意变大的前提下最多能吃 3 条鱼，至少变大 5 才能吃到这个最大数量的鱼。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "7. <code>1 1 1 9</code>，在 (1, 1) 处放入大小为 9 的鱼，最多能吃 4 条鱼。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "8. <code>2 2 2</code>，在 (2, 2) 处的鱼大小为 2，在允许任意变大的前提下最多能吃 4 条鱼，至少变大 4 才能吃到这个最大数量的鱼。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "9. <code>2 1 3</code>，在 (1, 3) 处的鱼大小为 8，在允许任意变大的前提下最多能吃 4 条鱼，无需变大即可吃到这个最大数量的鱼。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "操作一的答案",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "由于 $v$ <strong>非严格递增</strong>（新鱼不小于之前所有鱼），每次放入的新鱼一定是当前全场最大。因此只要它能触碰到某个相邻连通块，就能吃掉该连通块里的所有鱼。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "操作一的答案就是合并后连通块大小减一，纯并查集即可搞定。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "操作二的难点：从\"能不能\"变成\"差多少\"",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "操作二要求回答：某条鱼至少需要多大的初始大小，才能吃完它所在的整个连通块。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这就不再是\"能或不能\"的布尔问题，而是需要<strong>精确量化合并的代价</strong>。纯并查集只记录连通性，无法回答这个。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "带权并查集：维护合并的\"门槛\"",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<img src=\"/images/f1ccc552fb1efebca732ac207e2df80311_1784284100026_0.jpg\" alt=\"f1ccc552fb1efebca732ac207e2df80311.jpg\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>关键观察</strong>：新鱼永远最大 → <strong>合并方向是确定的</strong>，旧集合总是被新鱼吞并。因此可以把每次合并看作一条有向边：<strong>旧集合根 → 新鱼</strong>，边上带一个 <strong>跨过去（即两集合并）需要的最小初始大小</strong> $d$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "具体地，当大小为 $v$ 的新鱼 $e_1$ 吞并大小为 $\\text{siz}[e_2]$ 的旧集合 $e_2$ 时，$e_2$ 中的鱼在吃完自家 $\\text{siz}[e_2]-1$ 条鱼后，体型需要 $\\ge v$ 才能继续吃 $e_1$：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n初始大小 + (\\text{siz}[e_2] - 1) \\ge v \\implies 初始大小 \\ge v - \\text{siz}[e_2] + 1\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "因此更新 $d[e_2] = \\max(d[e_2],\\ v - \\text{siz}[e_2] + 1)$，并令 $s[e_2] = e_1$，$\\text{siz}[e_1] += \\text{siz}[e_2]$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "查询：路径取 max",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "所有合并构成一棵以当前连通块根节点为根的<strong>有向树</strong>。某条鱼 $x$ 要吃完整个连通块，需要依次跨过 $x$ 到根路径上的每一个合并瓶颈。因此：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\nReq(x) = \\max(\\text{路径上所有 } d)\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "在 <code>find(x)</code> 做路径压缩时维护即可：回溯时 $d[x] \\gets \\max(d[x], d[\\text{parent}])$。最终答案 $= \\max(0, d[x] - a[x])$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "type": "p",
+          "html": "<img src=\"/images/649f5635f8b8eb752ceb9910d52be1180c_1784284126041_0.jpg\" alt=\"649f5635f8b8eb752ceb9910d52be1180c.jpg\" class=\"note-img\" referrerpolicy=\"no-referrer\" />",
+          "depth": 1
+        },
+        {
+          "heading": "总结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "本题的核心 Trick 是利用 \"新鱼最大\" 把<strong>合并定向</strong>，进而用<strong>带权并查集</strong>维护有向边上的<strong>瓶颈值</strong>，把 \"能否吃完\" 的<strong>并查集</strong>升级为 \"需要多少初始大小\" 的<strong>带权并查集</strong>。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "ll n, m, q;\nll a[N], s[N], d[N], siz[N];\nll get_id(ll x, ll y) {\n    return (x - 1) * m + y;\n}\nll find(ll x) {\n    if (s[x] == x)return x;\n    ll root = find(s[x]);\n    // d[x]：并查集中，x集 到 父节点 连通需要的额外加的大小\n     d[x] = max(d[x], d[s[x]]);\n    return s[x] = root;\n}\nvoid solve(int CASE)\n{\n    cin >> n >> m >> q;\n    fa(i, 1, n * m)s[i] = i, d[i] = a[i] = 0, siz[i] = 1;\n    ll ans = 0;\n    while (q--) {\n        ll op; cin >> op;\n        if (op == 1) {\n            ll x, y, v; cin >> x >> y >> v; x = (x ^ ans), y = (y ^ ans);\n            ll id = get_id(x, y);\n            a[id] = v;\n            ll e1 = find(id);\n            fa(i, 0, 3) {\n                ll nx = x + dx[i], ny = y + dy[i];\n                if (nx < 1 or nx > n or ny < 1 or ny > m)continue;\n                ll nid = get_id(nx, ny);\n                ll e2 = find(nid);\n                if (a[nid] == 0 or e1 == e2)continue;\n                s[e2] = e1;\n                // siz[e2] - 1 + x[e2] >= v\n                // x[e2] >= v - siz[e2] + 1\n                d[e2] = max(d[e2], v - siz[e2] + 1);\n                siz[e1] += siz[e2];\n            }\n            ans = siz[e1] - 1;\n        }\n        else {\n            ll x, y; cin >> x >> y; x = (x ^ ans), y = (y ^ ans);\n            ll id = get_id(x, y);\n            find(id);\n            ans = max(0ll, d[id] - a[id]);\n        }\n        cout << ans << endl;\n    }\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-07-17",
+  "updated_at": "2026-07-17",
+  "parsed_at": "2026-07-17T10:32:35.654187+00:00",
+  "type_directory": "p"
+}

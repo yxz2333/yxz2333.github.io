@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-13T16:22:43.007649+00:00",
+  "generated_at": "2026-07-17T10:34:06.064280+00:00",
   "model": "microsoft/unixcoder-base",
   "dim": 768,
-  "count": 369,
+  "count": 370,
   "blocks": [
     {
       "note_slug": "2019陕西省赛-c-0689",
@@ -2954,6 +2954,14 @@
       "note_route": "/p/nk题霸-医生",
       "block_index": 1,
       "code_hash": "0fac04b87668",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客暑期多校训练营1-c-fish-eating",
+      "note_title": "2026牛客暑期多校训练营1 C Fish Eating",
+      "note_route": "/p/2026牛客暑期多校训练营1-c-fish-eating",
+      "block_index": 0,
+      "code_hash": "b699b4dc08ea",
       "lang": "cpp"
     }
   ]

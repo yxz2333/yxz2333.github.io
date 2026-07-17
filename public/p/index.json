@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-13T16:21:22.216055+00:00",
-  "count": 335,
+  "generated_at": "2026-07-17T10:32:35.641880+00:00",
+  "count": 336,
   "notes": [
     {
       "slug": "2019陕西省赛-c-0689",
@@ -974,6 +974,21 @@
       "parent": null,
       "created_at": "2026-06-15",
       "updated_at": "2026-02-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客暑期多校训练营1-c-fish-eating",
+      "title": "2026牛客暑期多校训练营1 C Fish Eating",
+      "type": "题目",
+      "tags": [
+        "并查集/带权并查集",
+        "dp"
+      ],
+      "difficulty": 3.0,
+      "summary": "如果去掉操作二，纯并查集就能解决。但带上操作二后，纯并查集就不够了。结合<strong>新鱼总是全场最大</strong>的性质，考虑用<strong>带权并查集</strong>维护：每次合并时，记录小鱼集跨到大鱼集所需的<strong>最小初始大小</strong> $d$，形成一棵有向集合树；查询时沿树走到根，路径上所有 $d$ 取 $\\max$ 即为答案。",
+      "parent": null,
+      "created_at": "2026-07-17",
+      "updated_at": "2026-07-17",
       "type_directory": "p"
     },
     {
