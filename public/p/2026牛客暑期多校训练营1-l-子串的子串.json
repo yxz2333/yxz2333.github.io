@@ -1,0 +1,293 @@
+{
+  "slug": "2026牛客暑期多校训练营1-l-子串的子串",
+  "title": "2026牛客暑期多校训练营1 L 子串的子串",
+  "type": "题目",
+  "tags": [
+    "字符串哈希",
+    "开放寻址哈希表",
+    "根号分治",
+    "前缀和",
+    "前后缀"
+  ],
+  "difficulty": 2.5,
+  "summary": "询问字符串的总长度 $\\le 3\\times 10^5$，所以长度的<strong>种类数</strong>不超过 $\\sqrt{6\\times 10^5}\\approx 774$。按长度分类枚举，对每种长度滑动窗口过 $S$，双哈希后在<strong>开放寻址哈希表</strong>中 $O(1)$ 查找——哈希表把查找的 $\\log$ 压掉是过题关键。最大值用<strong>前缀 min</strong> 与<strong>后缀 max</strong> $O(1)$ 回答；累加值用<strong>前缀和的前缀和</strong>配合去重公式：按匹配左端点递增处理，把每个区间归给它包含的<strong>最左匹配位置</strong>，画图推一下关系就能避免算重。",
+  "link": "https://ac.nowcoder.com/acm/contest/133876/L",
+  "link_text": "https://ac.nowcoder.com/acm/contest/133876/L",
+  "source": "<a href=\"/c/2026牛客暑期多校训练营1\" class=\"wikilink\">2026牛客暑期多校训练营1</a>",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定长度为 $n$ 的字符串 $S$ 和长度为 $n$ 的序列 $a$。给出 $q$ 个询问，每次给定字符串 $t$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "称区间 $[l,r]$ 为<strong>好区间</strong>，当且仅当 $t$ 是 $S[l,r]$ 的子串。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对每次询问，求出所有好区间的 $f(l,r)=a_l+\\dots+a_r$ 的<strong>最大值</strong>，以及所有好区间的 $f(l,r)$ 之和（对 $998244353$ 取模）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "保证至少存在一个好区间。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行两个整数 $n$（$1\\le n\\le 10^5$）和 $q$（$1\\le q\\le 3\\times 10^5$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行一个长度为 $n$ 的字符串 $S$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第三行 $n$ 个整数 $a_i$（$-10^9\\le a_i\\le 10^9$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行，每行一个字符串 $t$，保证 $t$ 的总长度不超过 $3\\times 10^5$，字符均为小写字母。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$q$ 行，每行两个整数：最大值，以及累加和模 $998244353$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "8 2\nabbbaab\n3 -1 4 -1 5 -9 2 -6\nbab\naa",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "10 13\n3 998244301",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一组询问：好区间 $f(l,r)$ 的最大值来自区间 $[1,5]$，值为 $10$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二组询问：好区间 $f(l,r)$ 的最大值来自区间 $[1,7]$，值为 $3$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "核心观察：长度种类是根号级别",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$t$ 的总长度 $\\le 3\\times 10^5$，因此不同长度的询字符串最多 $\\approx \\sqrt{2 \\times 3\\times 10^5} \\approx 774$ 种（$1+2+\\dots+k\\le 3\\times10^5$ 解得 $k\\approx774$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这暗示我们可以<strong>按长度分类处理</strong>，每种长度 $O(n)$，总 $O(774 \\cdot n)$ 可过。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "按长度枚举 + 滑动窗口 + 哈希表查命中",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "收集所有询问字符串的<strong>去重长度</strong>，对每个长度 $len$：滑动窗口 $[l,\\,l+len-1]$ 扫过 $S$，用<strong>双哈希</strong>计算窗口的哈希值，然后在哈希表中查找是否匹配某个询问。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "哈希表是关键：若用 <code>map</code> 多一个 $O(\\log n)$ 因子，在 $774\\cdot n$ 的量级下会超时。换成<strong>开放寻址哈希表</strong>（<code>FastHashMap</code>），查/插均摊 $O(1)$，压掉这个 $\\log$ 才能过。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "匹配命中后记录该询问的<strong>所有匹配左端点</strong> <code>l</code>，供后续计算最大值和累加值。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "最大值：前缀 min + 后缀 max",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "定义前缀和 $\\text{pre}[i] = \\sum_{j=1}^i a_j$。对于一次匹配 $[l,\\,r]$，包含它的区间 $[L,\\,R]$ 的和为 $\\text{pre}[R]-\\text{pre}[L-1]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "要最大化这个差值，独立考虑 $L\\le l$ 和 $R\\ge r$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$L$ 这边：最小化 $\\text{pre}[L-1]$，即 $\\text{premn}[l-1] = \\min_{0\\le i\\le l-1} \\text{pre}[i]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$R$ 这边：最大化 $\\text{pre}[R]$，即 $\\text{sufmx}[r]=\\max_{r\\le i\\le n}\\text{pre}[i]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "因此该匹配的贡献为 $\\max = \\text{sufmx}[r]-\\text{premn}[l-1]$。对同一询问的所有匹配位置取 max 即可。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "累加值：前缀和的前缀和 + 去重",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "定义\"前缀和的前缀和\" $\\text{prepre}[i]=\\sum_{j=1}^i\\text{pre}[j]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "对于单个匹配 $[l,\\,r]$，所有包含它的 $[L,\\,R]$ 的和为：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\sum_{L=1}^{l}\\sum_{R=r}^{n}(\\text{pre}[R]-\\text{pre}[L-1])\n= l\\cdot(\\text{prepre}[n]-\\text{prepre}[r-1]) - (n-r+1)\\cdot(\\text{prepre}[l-1]-\\text{prepre}[0])\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>但直接对每个匹配套上式会算重</strong>——一个区间可能包含多个匹配位置（如 $t$ 在 $S$ 中相邻重叠出现），会被多次计入。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>去重思路</strong>（画图理解）：一个区间 $[L,R]$ 可能覆盖 $S$ 中多处 $t$，我们约定把它<strong>归给最靠左的那个匹配</strong>。具体地，将匹配位置按 $l$ 递增排序后处理，记 $\\text{lastl}$ 为上一个匹配的左端点。对于当前匹配 $l$，新贡献的区间是那些 $L\\in(\\text{lastl},\\,l]$ 且 $R\\ge r$ 的——因为 $L\\le\\text{lastl}$ 的区间已被上次匹配统计过了。由此推出去重后的公式：",
+              "depth": 1
+            },
+            {
+              "type": "math",
+              "latex": "$$\n\\begin{aligned}\n\\text{sum} =\\; &(l-\\text{lastl}) \\cdot (\\text{prepre}[n]-\\text{prepre}[r-1]) \\\\\n-\\; &(n-r+1) \\cdot (\\text{prepre}[l-1]-\\text{prepre}[\\text{lastl}-1])\n\\end{aligned}\n$$",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第一项：新增的 $L$ 个数 $\\times$ 所有 $R$ 那边的 $\\text{pre}$ 之和。第二项：所有 $R$ 个数 $\\times$ 新增 $L$ 那边的 $\\text{pre}[L-1]$ 之和。相减即得总和。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "重复查询的处理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "多个询问可能是完全相同的字符串。用哈希表记录该字符串<strong>首次出现的询问编号</strong>，后续重复询问直接复用第一次的答案，避免重复计算。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "实现中用 <code>ans[i].py = -1</code> 标记重复询问，输出时查表映射回首次结果。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "总结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "本题的核心是两个 Trick 的组合：① <strong>长度根号分治</strong>——利用询问总长有限，按长度分类后每种 $O(n)$ 处理；② <strong>开放寻址哈希表</strong>——压掉查找的 $\\log$，在 $774 \\cdot 10^5$ 的量级下是过题关键。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template <typename K = ull, typename V = int, int SIZE = 1 << 20, bool MIX_KEYS = true>\nclass FastHashMap {\n    /**\n    * 【开放寻址哈希表使用事项】\n    * 不支持删除/修改单个 key，不如自带的哈希表灵活\n    * 255 次溢出 clear 触发一次 memset，使用了 gen+tag 进行优化，避免每个单例都 memset\n    * 表满了会卡住，建议 key 的数量远小于 SIZE\n    * 注意 key 本身是否为分布均匀的哈希值，若是则 MIX_KEYS 设为 false（如字符串哈希、双哈希拼成的 ull、坐标编码后哈希等），否则启用 mix\n    * K 的类型只能是小于 8 字节的，所以能用的为 int ll ull pii\n    * V 的类型随意\n    */\n\n    static_assert((SIZE & (SIZE - 1)) == 0, \"SIZE 必须是 2 的幂次\");\n\n    K keys[SIZE];\n    V values[SIZE];\n    uint8_t gen[SIZE]{};\n    uint8_t tag = 1;\n\n    static ull mix(ull x) {\n        x ^= x >> 30;\n        x *= 0xbf58476d1ce4e5b9ULL;\n        x ^= x >> 27;\n        x *= 0x94d049bb133111ebULL;\n        x ^= x >> 31;\n        return x;\n    }\n\n    int hash(K key) {\n        ull x = 0;\n        if constexpr (is_same_v<K, ull>)x = key; // 本来就是 ull，直接赋值\n        else if constexpr (is_same_v<K, ll>)x = static_cast<ull>(key); // ll 也能直接转，跳过 memcpy\n        else memcpy(&x, &key, sizeof(K)); // 其他类型才 memcpy\n\n        if constexpr (MIX_KEYS) x = mix(x);\n        return x & (SIZE - 1);\n    }\n\npublic:\n    void clear() {\n        // gen + tag 实现更快的清空\n        if (++tag == 0) { // 溢出, 256 次 clear 才触发一次\n            memset(gen, 0, sizeof(gen));\n            tag = 1;\n        }\n    }\n\n    void insert(K key, V val) {\n        int h = hash(key);\n        while (gen[h] == tag && keys[h] != key)\n            h = (h + 1) & (SIZE - 1);\n        gen[h] = tag;\n        keys[h] = key;\n        values[h] = val;\n    }\n\n    V get(K key) {\n        int h = hash(key);\n        while (gen[h] == tag) {\n            if (keys[h] == key) return values[h];\n            h = (h + 1) & (SIZE - 1);\n        }\n        return {}; // 没查到\n    }\n};\n\nint hs1[N], p1[N], hs2[N], p2[N];\nconst int base1 = 131, base2 = 13331;\nconst int M1 = 1e9 + 7, M2 = 1e9 + 9;\npll ans[3 * N];\nstring Q[3 * N];\nll a[N], pre[N], prepre[N], premn[N], sufmx[N];\nvector<int> pos[3 * N];\nFastHashMap<ull, int, 1 << 20, false> mp;\nvoid solve(int CASE)\n{\n    int n, q; cin >> n >> q;\n    fa(i, 1, q)ans[i].px = -4e18;\n    sufmx[n + 1] = -4e18;\n    string s; cin >> s; s = ' ' + s;\n\n    // 双哈希\n    p1[0] = p2[0] = 1;\n    fa(i, 1, n) {\n        hs1[i] = (1ll * hs1[i - 1] * base1 + s[i] - 'a' + 1) % M1;\n        p1[i] = 1ll * p1[i - 1] * base1 % M1;\n        hs2[i] = (1ll * hs2[i - 1] * base2 + s[i] - 'a' + 1) % M2;\n        p2[i] = 1ll * p2[i - 1] * base2 % M2;\n    }\n    var get = [&](int l, int r)->ull { \n        int res1 = (hs1[r] - 1ll * hs1[l - 1] * p1[r - l + 1] % M1 + M1) % M1;\n        int res2 = (hs2[r] - 1ll * hs2[l - 1] * p2[r - l + 1] % M2 + M2) % M2;\n        return (ull)res1 << 32 | res2; \n        };\n\n    fa(i, 1, n)cin >> a[i], pre[i] = pre[i - 1] + a[i];\n    fa(i, 1, n)prepre[i] = (prepre[i - 1] + pre[i] % mod) % mod, premn[i] = min(premn[i - 1], pre[i]);\n    fb(i, n, 1)sufmx[i] = max(sufmx[i + 1], pre[i]);\n    \n    var lens = vector<int>();\n    fa(i, 1, q) {\n        cin >> Q[i];\n        lens.pb(Q[i].size());\n        \n        // 获取当前双哈希\n        int qhs1 = 0, qhs2 = 0;\n        for (char c : Q[i]) {\n            qhs1 = (1ll * qhs1 * base1 + c - 'a' + 1) % M1;\n            qhs2 = (1ll * qhs2 * base2 + c - 'a' + 1) % M2;\n        }\n        ull qhs = (ull)qhs1 << 32 | qhs2;\n\n        // 处理重复询问的\n        if (mp.get(qhs) == 0)mp.insert(qhs, i);\n        else ans[i] = { mp.get(qhs), -1 }; // 重复打上 -1 标记\n    }\n    sort(all(lens));\n    lens.erase(unique(all(lens)), lens.end());\n\n    // 长度总数不会超过 根号 n 个\n    // 此处使用超强哈希表，复杂度为 O(n 根号 n)\n    for (int len : lens) {\n        fa(r, len, n) {\n            int l = r - len + 1;\n            ull now = get(l, r);\n            int id = mp.get(now);\n            if (id == 0) continue;\n            ans[id].px = max(ans[id].px, sufmx[r] - premn[l - 1]);\n            pos[id].pb(l);\n        }\n    }\n\n    // 用 pos 提取全部区间统一处理从而规避重复计算（原理画图就能懂）\n    // 此处最坏情况全为 aaaa，复杂度为 O(n 根号 n)\n    fa(i, 1, q)if (ans[i].py != -1) {\n        ll len = Q[i].size();\n        ll lastl = 0;\n        for (ll l : pos[i]) {\n            ll r = l + len - 1;\n            ll sum =\n                ((prepre[n] - prepre[r - 1]) % mod + mod) % mod * (l - lastl) % mod\n                -\n                ((prepre[l - 1] - (lastl > 0 ? prepre[lastl - 1] : 0)) % mod + mod) % mod * (n - r + 1) % mod;\n            sum = (sum + mod) % mod;\n            ans[i].py = (ans[i].py + sum) % mod;\n            lastl = l;\n        }\n    }\n\n    fa(i, 1, q) {\n        if (ans[i].py != -1)cout << ans[i].px << \" \" << ans[i].py << endl;\n        else cout << ans[ans[i].px].px << ' ' << ans[ans[i].px].py << endl;\n    }\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-07-18",
+  "updated_at": "2026-07-18",
+  "parsed_at": "2026-07-18T15:22:17.131238+00:00",
+  "type_directory": "p"
+}

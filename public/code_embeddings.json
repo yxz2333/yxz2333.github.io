@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-17T10:34:06.064280+00:00",
+  "generated_at": "2026-07-18T15:23:26.048859+00:00",
   "model": "microsoft/unixcoder-base",
   "dim": 768,
-  "count": 370,
+  "count": 372,
   "blocks": [
     {
       "note_slug": "2019陕西省赛-c-0689",
@@ -2962,6 +2962,22 @@
       "note_route": "/p/2026牛客暑期多校训练营1-c-fish-eating",
       "block_index": 0,
       "code_hash": "b699b4dc08ea",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客暑期多校训练营1-l-子串的子串",
+      "note_title": "2026牛客暑期多校训练营1 L 子串的子串",
+      "note_route": "/p/2026牛客暑期多校训练营1-l-子串的子串",
+      "block_index": 0,
+      "code_hash": "ede97b1f55d9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "开放寻址哈希表",
+      "note_title": "开放寻址哈希表",
+      "note_route": "/k/开放寻址哈希表",
+      "block_index": 0,
+      "code_hash": "948e3835600b",
       "lang": "cpp"
     }
   ]
