@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-17T10:32:35.641880+00:00",
-  "count": 336,
+  "generated_at": "2026-07-18T15:22:17.120552+00:00",
+  "count": 337,
   "notes": [
     {
       "slug": "2019陕西省赛-c-0689",
@@ -989,6 +989,24 @@
       "parent": null,
       "created_at": "2026-07-17",
       "updated_at": "2026-07-17",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客暑期多校训练营1-l-子串的子串",
+      "title": "2026牛客暑期多校训练营1 L 子串的子串",
+      "type": "题目",
+      "tags": [
+        "字符串哈希",
+        "开放寻址哈希表",
+        "根号分治",
+        "前缀和",
+        "前后缀"
+      ],
+      "difficulty": 2.5,
+      "summary": "询问字符串的总长度 $\\le 3\\times 10^5$，所以长度的<strong>种类数</strong>不超过 $\\sqrt{6\\times 10^5}\\approx 774$。按长度分类枚举，对每种长度滑动窗口过 $S$，双哈希后在<strong>开放寻址哈希表</strong>中 $O(1)$ 查找——哈希表把查找的 $\\log$ 压掉是过题关键。最大值用<strong>前缀 min</strong> 与<strong>后缀 max</strong> $O(1)$ 回答；累加值用<strong>前缀和的前缀和</strong>配合去重公式：按匹配左端点递增处理，把每个区间归给它包含的<strong>最左匹配位置</strong>，画图推一下关系就能避免算重。",
+      "parent": null,
+      "created_at": "2026-07-18",
+      "updated_at": "2026-07-18",
       "type_directory": "p"
     },
     {

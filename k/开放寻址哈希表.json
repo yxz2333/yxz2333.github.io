@@ -1,0 +1,136 @@
+{
+  "slug": "开放寻址哈希表",
+  "title": "开放寻址哈希表",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "What？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一种<strong>开放寻址法</strong>实现的手写哈希表，只支持插入和查询（不删），针对算法竞赛场景做了极致常数优化。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>对标</strong>：比 <code>std::unordered_map</code> / <code>__gnu_pbds::gp_hash_table</code> 常数更小，代价是功能精简（不删、不扩、不迭代）。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "When？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>高频插入 + 查询</strong> 且非常需要 $O(1)$ 的映射需求。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>不适用</strong>：需要删除 key、需要遍历所有元素、表大小不可预知（可能超过 <code>SIZE</code>）的场景。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "How？",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "为什么 SIZE 要是 2 的幂",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "取模操作 <code>key % SIZE</code> 在编译后是真除法和取余，几十个 CPU 周期起步。而 <code>key &amp; (SIZE - 1)</code> 是位与，<strong>一个周期</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "位与等价于取模的前提正是 SIZE 恰好是 2 的幂。所以宁可把 SIZE 限定为 $2^k$，也要守住这个常数优势。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "线性探测 + 开放寻址",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "所有键值对存储在连续大数组里（<code>keys[]</code> + <code>values[]</code>），冲突时顺序向后找下一个空位。这和 <code>unordered_map</code> 的拉链法有本质区别：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>缓存友好</strong>：遍历同一数组的不同槽位 ≈ 访问连续内存，cache miss 远少于跨堆节点跳转。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "<strong>无额外分配</strong>：不需要为每个节点调 <code>new</code>，不会产生内存碎片。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "代价是<strong>不支持删除</strong>（删了会打断探测链），以及装载因子不能太高（SIZE 要预留足够空槽，否则探测链暴涨）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "为什么哈希值要尽量均匀",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "开放寻址的命门是<strong>聚类</strong>。如果 key 的低 $k$ 位分布不均——比如很多 key 都是偶数的低位、或者指针地址低 3 位全是 0——查询时大量 key 会挤在同一起点，形成长探测链。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "长探测链意味着每次 <code>get</code> / <code>insert</code> 要多跳很多步才能找到槽位或确认 key 不存在，把原本接近 $O(1)$ 的均摊复杂度拖向 $O(\\text{链长})$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "这也就解释了为什么 CP 中这个板子最常配合<strong>字符串哈希</strong>使用——BKDR 等哈希函数输出的值天然近似随机，低 20 位已经足够均匀，无需额外搅匀。反过来，如果直接拿<strong>原始整数编号</strong>（如 $1,2,3,\\dots$ 或全都是偶数）当 key，低位的规律性会让探测链明显变长，此时需要 mix 函数（如 splitmix64）把 key 打散。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "template <typename K = ull, typename V = int, int SIZE = 1 << 20, bool MIX_KEYS = true>\nclass FastHashMap {\n\t/**\n\t* 【开放寻址哈希表使用事项】\n\t* 不支持删除/修改单个 key，不如自带的哈希表灵活\n\t* 255 次溢出 clear 触发一次 memset，使用了 gen+tag 进行优化，避免每个单例都 memset\n\t* 表满了会卡住，建议 key 的数量远小于 SIZE\n\t* 注意 key 本身是否为分布均匀的哈希值，若是则 MIX_KEYS 设为 false（如字符串哈希、双哈希拼成的 ull、坐标编码后哈希等），否则启用 mix\n\t* K 的类型只能是小于 8 字节的，所以能用的为 int ll ull pii\n\t* V 的类型随意\n\t*/\n\n\tstatic_assert((SIZE& (SIZE - 1)) == 0, \"SIZE 必须是 2 的幂次\");\n\n\tK keys[SIZE];\n\tV values[SIZE];\n\tuint8_t gen[SIZE]{};\n\tuint8_t tag = 1;\n\n\tstatic ull mix(ull x) {\n\t\tx ^= x >> 30;\n\t\tx *= 0xbf58476d1ce4e5b9ULL;\n\t\tx ^= x >> 27;\n\t\tx *= 0x94d049bb133111ebULL;\n\t\tx ^= x >> 31;\n\t\treturn x;\n\t}\n\n\tint hash(K key) {\n\t\tull x = 0;\n\t\tif constexpr (is_same_v<K, ull>)x = key; // 本来就是 ull，直接赋值\n\t\telse if constexpr (is_same_v<K, ll>)x = static_cast<ull>(key); // ll 也能直接转，跳过 memcpy\n\t\telse memcpy(&x, &key, sizeof(K)); // 其他类型才 memcpy\n\n\t\tif constexpr (MIX_KEYS) x = mix(x);\n\t\treturn x & (SIZE - 1);\n\t}\n\npublic:\n\tvoid clear() {\n\t\t// gen + tag 实现更快的清空\n\t\tif (++tag == 0) { // 溢出, 256 次 clear 才触发一次\n\t\t\tmemset(gen, 0, sizeof(gen));\n\t\t\ttag = 1;\n\t\t}\n\t}\n\n\tvoid insert(K key, V val) {\n\t\tint h = hash(key);\n\t\twhile (gen[h] == tag && keys[h] != key)\n\t\t\th = (h + 1) & (SIZE - 1);\n\t\tgen[h] = tag;\n\t\tkeys[h] = key;\n\t\tvalues[h] = val;\n\t}\n\n\tV get(K key) {\n\t\tint h = hash(key);\n\t\twhile (gen[h] == tag) {\n\t\t\tif (keys[h] == key) return values[h];\n\t\t\th = (h + 1) & (SIZE - 1);\n\t\t}\n\t\treturn {}; // 没查到\n\t}\n};",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-07-18",
+  "updated_at": "2026-07-18",
+  "parsed_at": "2026-07-18T15:22:17.310019+00:00",
+  "type_directory": "k"
+}
