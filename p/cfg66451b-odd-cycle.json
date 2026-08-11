@@ -5,7 +5,7 @@
   "tags": [
     "图论经典问题/二分图",
     "图论经典问题/环问题",
-    "强连通分量"
+    "tarjan/强连通分量"
   ],
   "difficulty": null,
   "summary": "单向图的环问题，把 SCC 先全找出来。注意到结论：只要 SCC 里存在奇基本环，那就 SCC 中所有的偶基本环都可以通过这个奇基本环形成<strong>奇循环</strong>，所有只要对单向图的所有 SCC 进行<strong>染色法奇环判定</strong>就行了。",
@@ -131,8 +131,8 @@
   "code_languages": [
     "cpp"
   ],
-  "created_at": "2026-06-15",
-  "updated_at": "2026-01-25",
-  "parsed_at": "2026-06-15T10:23:30.478674+00:00",
+  "created_at": "2026-08-12",
+  "updated_at": "2026-08-02",
+  "parsed_at": "2026-08-11T17:30:22.875742+00:00",
   "type_directory": "p"
 }

@@ -1,0 +1,201 @@
+{
+  "slug": "z函数",
+  "title": "Z函数",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "What?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$z[i]$ = 字符串 $s$ 与后缀 $s[i..n-1]$ 的<strong>最长公共前缀（LCP）</strong> 长度。$z[0]$ 通常设为 $0$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "例：$s = \\text{\"abacaba\"}$",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "",
+          "code": "i   0  1  2  3  4  5  6\ns   a  b  a  c  a  b  a\nz   -  0  1  0  3  0  1",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "解释：$z[2]=1$（$s[2..]$ 与 $s[0..]$ 仅第一位 $\\text{'a'}$ 相同）；$z[4]=3$（$\\text{\"aba\"}$ 完全匹配前缀）。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "How？",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "算法核心",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "维护区间 $[l, r]$：当前已知的<strong>最靠右</strong>的匹配段，满足 $s[l..r] = s[0..r-l]$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对每个 $i$：",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "若 $i \\le r$：$i$ 落在已知区间内，<strong>镜像位置</strong>为 $i-l$，直接复用已算好的 $z[i-l]$，但最多信到 $r$ 为止（$r$ 后面还没验证过）：",
+              "depth": 3
+            },
+            {
+              "type": "math",
+              "latex": "$$z[i] = \\min(z[i-l],\\ r-i+1)$$",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "然后 <code>while</code> 继续向后逐字符比对，扩展 $z[i]$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "若 $i+z[i]-1 > r$，推远窗口：$l=i,\\ r=i+z[i]-1$。",
+              "depth": 3
+            },
+            {
+              "type": "p",
+              "html": "本质：<strong>双指针 + dp</strong>——窗口 $[l,r]$ 保证已知等价性，复用历史结果，逐字符比对的次数摊还为 $O(n)$。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "参考代码",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "vector<int> getZ(const string &s) {\n    int n = s.size();\n    vector<int> z(n);\n    int l = 0, r = 0;\n    for (int i = 1; i < n; i++) {\n        if (i <= r) z[i] = min(z[i - l], r - i + 1);\n        while (i + z[i] < n && s[z[i]] == s[i + z[i]]) z[i]++;\n        if (i + z[i] - 1 > r) l = i, r = i + z[i] - 1;\n    }\n    return z;\n}",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "复杂度",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$O(n)$。while 中每次<strong>成功</strong>比对都推 $r$ 右移，$r$ 只增不减，总成功 $\\le n$；每次<strong>失败</strong>每轮最多一次，共 $n$ 轮，总失败 $\\le n$。总比对 $\\le 2n$。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "例子",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "1. 精确匹配 — 找 pat 在 text 中所有出现位置",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$S = \\text{pat} + \\text{\\#} + \\text{text}$，找 $z[i] = |\\text{pat}|$ 的 $i$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "例：<code>pat=&quot;abc&quot;</code>, <code>text=&quot;xabcy&quot;</code> → $S =$ <code>&quot;abc#xabcy&quot;</code>，$z[5]=3$，text 中位置 $i-|\\text{pat}|-1=1$ 有完整匹配 \"abc\"。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "2. 前缀匹配 — 找 pat 的前缀在 text 中的最长匹配",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$S = \\text{pat} + \\text{\\#} + \\text{text}$，text 部分所有 $z[i]$ 的<strong>最大值</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "例：<code>pat=&quot;abcdefg&quot;</code>, <code>text=&quot;adcabc&quot;</code> → $S =$ <code>&quot;abcdefg#adcabc&quot;</code>，max z $=3$（\"abc\"）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "3. 后缀匹配 — 找 pat 的后缀在 text 中的最长匹配",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$S = \\text{reverse}(\\text{pat}) + \\text{\\#} + \\text{reverse}(\\text{text})$，退化为前缀匹配。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "4. 最长回文前缀 — 求 s 的最长回文前缀长度",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$S = s + \\text{\\#} + \\text{rev}(s)$ ，在 $\\text{rev}(s)$ 部分找所有满足 $i + z[i] = |S|$ 的 $z[i]$，取<strong>最大值</strong>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "例：<code>s=&quot;aab&quot;</code> → $S=$ <code>&quot;aab#baa&quot;</code>，$z[5]=2$ 且 $5+2=7=|S|$，最长回文前缀长度为 $2$（<code>&quot;aa&quot;</code>）。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "5. 最小循环节 — 求 s 的最小周期长度",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "直接对 $s$ 求 Z 数组，找最小的 $i$ 满足 $i + z[i] = n$ 且 $n \\% i = 0$，$i$ 即为最小周期。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "例：<code>s=&quot;abcabc&quot;</code>, $n=6$，$z[3]=3$，$3+3=6$ 且 $6\\%3=0$，最小周期为 $3$（<code>&quot;abc&quot;</code> 循环）。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-07-26",
+  "updated_at": "2026-07-26",
+  "parsed_at": "2026-07-26T14:19:26.512729+00:00",
+  "type_directory": "k"
+}

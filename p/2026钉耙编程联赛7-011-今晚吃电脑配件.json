@@ -1,0 +1,297 @@
+{
+  "slug": "2026钉耙编程联赛7-011-今晚吃电脑配件",
+  "title": "2026钉耙编程联赛7 011 今晚吃电脑配件",
+  "type": "题目",
+  "tags": [
+    "并查集/带权并查集"
+  ],
+  "difficulty": 3.0,
+  "summary": "动态加方程判断是否相容 = <strong>带权并查集</strong>：方程全是\"和\"式，沿路径交替加减，所以块内每个变量都能写成根的 $\\pm1$ 线性函数 $x_u = d_u x_r + c_u$，维护 $(d_u, c_u)$ 即可。find 路径压缩与跨块 merge 都按<strong>列方程</strong>推式子；同块时 $d$ 同号 → 解出根值核对，$d$ 异号 → 根被抵消，退化成纯常数等式；异块时只要根未同时定死就一定相容，直接合并。",
+  "link": "https://acm.hdu.edu.cn/contest/problem?cid=1235&pid=1011",
+  "link_text": "https://acm.hdu.edu.cn/contest/problem?cid=1235&pid=1011",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有 $n$ 个未知量 $x_1..x_n$（可为负实数），秤每次给出形如 $x_i + x_j = 2c$ 的测量结果。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "测量结果不一定准确：若存在一组实数同时满足当前结果和之前<strong>被保留</strong>的全部结果，则保留（输出 <code>Yes</code>，$k$ 加 1），否则忽略（输出 <code>No</code>，$k$ 不变）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "询问加密：给定 $(a, b, d)$，实际询问为 $i = (a+k-1) \\bmod n + 1$，$j = (b+k-1) \\bmod n + 1$，$c = (d+k) \\bmod 10^9 + 1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "多组数据，第一行 $T$；每组第一行 $n, m$，接下来 $m$ 行每行 $a, b, d$（$0 \\le d < 10^9$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "所有数据的 $n$ 之和、$m$ 之和均 $\\le 10^6$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "每次询问输出一行 <code>Yes</code> 或 <code>No</code>。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "1\n3 5\n1 2 2\n1 2 3\n2 1 999999999\n2 1 999999997\n1 3 999999998",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "Yes\nYes\nYes\nNo\nYes",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "解码后依次为：$x_1+x_2=6$、$x_2+x_3=10$，可同时满足，均保留（$k=2$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第三次解码为 $x_1+x_3=4$，保留后可推出 $x_1=0, x_2=6, x_3=4$（$k=3$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第四次解码为 $x_2+x_1=2$，与已推出的值矛盾，跳过，$k$ 保持 3。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第五次再次解码为 $x_1+x_3=4$，符合已有结果，保留。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "观察：每个连通块 = 一个自由变量",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "动态判断方程相容，经典<strong>带权并查集</strong>。关键：维护什么。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "方程全是\"和\"式 $x_a + x_b = W$，沿路径交替加减（$x_1+x_2=A,\\ x_2+x_3=B \\Rightarrow x_1 = x_3 + A - B$），所以一个连通块内所有变量都能写成<strong>根变量的 $\\pm 1$ 线性函数</strong>：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$x_u = d_u x_r + c_u$，$d_u \\in \\{+1,-1\\}$——每多经过一条边系数翻一次号，只能是 $\\pm 1$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "成环时也不能简单判环：环上导出的关系可能一致也可能矛盾，必须核对——这就是要维护精确 $(d_u, c_u)$ 的原因。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "find：路径压缩推导（重点）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "已知（$u$ 相对父 $p$）：$x_u = d_u x_p + c_u$；已知（父相对根 $r$）：$x_p = d_p x_r + c_p$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "代入：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$x_u = d_u (d_p x_r + c_p) + c_u = (d_u d_p) x_r + (c_u + d_u c_p)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "所以压缩一步的更新：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$d_u \\leftarrow d_u d_p$，$c_u \\leftarrow c_u + d_u c_p$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>实现顺序陷阱</strong>：$c$ 的更新必须乘<strong>旧的</strong> $d_u$（公式里的 $d_u$ 是相对旧父的）。代码先 <code>c[x] += d[x] * c[s[x]]</code> 再 <code>d[x] *= d[s[x]]</code>——先算 $c$ 后算 $d$，反了就错；且必须先递归（拿到根后旧父的 $c, d$ 已更新成相对根的）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "merge：跨块合并推导（重点）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "两个块至少一个根未定时，新方程总能通过调整自由根满足 → <code>Yes</code>，但要把关系合并维护。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "把根 $r_2$ 挂到 $r_1$ 下。已知 $x_i = d_i x_{r_1} + c_i$、$x_j = d_j x_{r_2} + c_j$，代入 $x_i + x_j = w$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$d_i x_{r_1} + c_i + d_j x_{r_2} + c_j = w$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$\\Rightarrow x_{r_2} = -d_i d_j \\cdot x_{r_1} + d_j (w - c_i - c_j)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "即新根 $r_2$ 相对 $r_1$ 的系数：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$d_{r_2} \\leftarrow -d_i d_j$，$c_{r_2} \\leftarrow d_j (w - c_i - c_j)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "对称地，把 $r_1$ 挂到 $r_2$ 下：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$d_{r_1} \\leftarrow -d_i d_j$，$c_{r_1} \\leftarrow d_i (w - c_i - c_j)$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "已定根的一侧被挂接无需特殊处理：关系自动约束另一侧根的值，查询时自然能算出来。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "询问分类",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "解码：$i = (a + k - 1) \\bmod n + 1$，$j$ 同理，$w = 2\\big((d + k) \\bmod 10^9 + 1\\big)$，方程 $x_i + x_j = w$（加密模数是 $10^9$，不是 $10^9+7$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "同点 $i = j$（$2x_i = w$）：根未定则解根 $x_r = (\\frac{w}{2} - c_i) d_i$；根已定则算出 $x_i$ 核对 $2x_i = w$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "同块：代入得 $(d_i + d_j) x_r + c_i + c_j = w$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$d_i = d_j$：系数 $\\pm 2 \\ne 0$，解出根 $x_r = \\dfrac{w - c_i - c_j}{2d_i}$，与已定根值核对；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$d_i \\ne d_j$：系数抵消，退化成纯常数等式 $c_i + c_j = w$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "异块：两根都已定 → 直接算 $x_i + x_j$ 核对；否则 <code>Yes</code> + 按上面推导 merge。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n    ll n, m; cin >> n >> m;\n    var s = vector<int>(n + 1);\n    var c = vector<ll>(n + 1);\n    var d = vector<ll>(n + 1);\n    var val = vector<ll>(n + 1);\n    var sol = vector<bool>(n + 1);\n    fa(i, 1, n)s[i] = i, c[i] = 0, d[i] = 1;\n\n    var find = [&](var find, int x)->int {\n        if (s[x] == x)return x;\n        int root = find(find, s[x]);\n        c[x] += d[x] * c[s[x]];\n        d[x] *= d[s[x]];\n        return s[x] = root;\n        };\n\n    ll k = 0;\n    var yes = [&]()->void { cout << \"Yes\" << endl; k++; };\n    var no =  [&]()->void { cout << \"No\" << endl; };\n\n    while (m--) {\n        ll aa, bb, dd; cin >> aa >> bb >> dd;\n        ll i = (aa + k - 1) % n + 1;\n        ll j = (bb + k - 1) % n + 1;\n        ll w = (dd + k) % mod + 1;\n        w *= 2;\n\n        if (i == j) {\n            int e1 = find(find, i);\n            if (sol[e1]) {\n                ll now = d[i] * val[e1] + c[i];\n                if (now == w / 2)yes();\n                else no();\n            }\n            else {\n                sol[e1] = 1;\n                val[e1] = (w - (c[i] + c[j])) / 2 * d[i];\n                yes();\n            }\n            continue;\n        }\n\n        int e1 = find(find, i), e2 = find(find, j);\n        if (e1 == e2) {\n            int d1 = d[i], d2 = d[j];\n            if (d1 == d2) {\n                ll need = (w - (c[i] + c[j])) / 2 * d1;\n                if (sol[e1]) {\n                    if (val[e1] == need)yes();\n                    else no();\n                }\n                else {\n                    sol[e1] = 1;\n                    val[e1] = need;\n                    yes();\n                }\n            }\n            else {\n                if (c[i] + c[j] == w)yes();\n                else no();\n            }\n        }\n        else {\n            var merge = [&](int i, int j, int e1, int e2)->void {\n                s[e2] = e1;\n                c[e2] = d[j] * (w - c[i] - c[j]);\n                d[e2] = -d[i] * d[j];\n                yes();\n                };\n            if (sol[e1] and sol[e2]) {\n                if (c[i] + val[e1] * d[i] + c[j] + val[e2] * d[j] == w)yes();\n                else no();\n            }\n            else if (sol[e1])merge(i, j, e1, e2);\n            else if (sol[e2])merge(j, i, e2, e1);\n            else merge(i, j, e1, e2);\n        }\n    }\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-08-12",
+  "updated_at": "2026-08-12",
+  "parsed_at": "2026-08-11T17:30:22.865196+00:00",
+  "type_directory": "p"
+}

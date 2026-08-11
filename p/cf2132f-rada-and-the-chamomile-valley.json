@@ -3,7 +3,7 @@
   "title": "CF2132F Rada and the Chamomile Valley",
   "type": "题目",
   "tags": [
-    "tarjan/双联通分量",
+    "tarjan/双连通分量",
     "多源最短路"
   ],
   "difficulty": 2.5,
@@ -270,8 +270,8 @@
   "code_languages": [
     "cpp"
   ],
-  "created_at": "2026-06-15",
-  "updated_at": "2026-02-06",
-  "parsed_at": "2026-06-15T10:23:30.168115+00:00",
+  "created_at": "2026-08-12",
+  "updated_at": "2026-08-02",
+  "parsed_at": "2026-08-11T17:30:22.869930+00:00",
   "type_directory": "p"
 }

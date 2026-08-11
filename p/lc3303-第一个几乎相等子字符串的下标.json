@@ -1,0 +1,247 @@
+{
+  "slug": "lc3303-第一个几乎相等子字符串的下标",
+  "title": "LC3303 第一个几乎相等子字符串的下标",
+  "type": "题目",
+  "tags": [],
+  "difficulty": null,
+  "summary": "依旧能用二分+哈希，但改用 <strong>Z 函数</strong>更清爽。核心是把\"几乎相等\"拆成<strong>前缀匹配 + 跳过 1 个 + 后缀匹配</strong>。两次拼串：$S_1 = \\text{pattern} + \\# + s$ 求前缀 LCP，$S_2 = \\text{reverse}(\\text{pattern}) + \\# + \\text{reverse}(s)$ 求后缀 LCP。对每个候选起点 $i$，若前缀 + 后缀 $\\ge |\\text{pattern}|-1$，就是几乎相等。",
+  "link": "https://leetcode.cn/problems/find-the-occurrence-of-first-almost-equal-substring/description/",
+  "link_text": "https://leetcode.cn/problems/find-the-occurrence-of-first-almost-equal-substring/description/",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定字符串 $s$ 和 $\\text{pattern}$。称子串与 $\\text{pattern}$ <strong>几乎相等</strong>，当且仅当修改至多一个字符后两者完全相同。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "求 $s$ 中<strong>下标最小</strong>的几乎相等子串的起始下标；若不存在返回 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "两个字符串 $s$ 和 $\\text{pattern}$，仅含小写字母。$1\\le |\\text{pattern}|\\le |s|\\le 10^5$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一个整数，表示最小起始下标或 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "s = \"abcdefg\", pattern = \"bcdffg\"",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "s = \"ababababa\", pattern = \"bacaba\"",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "s = \"abcd\", pattern = \"dba\"",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "-1",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "样例说明",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "例 1：$s[1..6]=\\text{\"bcdefg\"}$，改 $s[4]$ 为 $\\text{'f'}$ 得 $\\text{\"bcdffg\"}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例 2：$s[4..9]=\\text{\"bababa\"}$，改 $s[6]$ 为 $\\text{'c'}$ 得 $\\text{\"bacaba\"}$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例 3：无任何长度 $\\ge 3$ 的子串可以匹配。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "拆成三段：前缀 + 跳过一个 + 后缀",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "若子串 $s[i..i+m-1]$ 与 $\\text{pattern}$ 几乎相等，则存在分界点 $k$（$0\\le k<m$），使得：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "前 $k$ 个字符完全匹配 $\\text{pattern}[0..k-1]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "第 $k+1$ 个字符可能不同（允许跳过一个）",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "后 $m-k-1$ 个字符完全匹配 $\\text{pattern}[k+1..m-1]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "等价条件：<strong>前缀匹配长度 + 后缀匹配长度</strong> $\\ge m-1$（中间最多留一个空位）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "两次 Z 函数",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>前缀 LCP</strong>：$S_1 = \\text{pattern} + \\# + s$，$z_1$ 数组。对于候选起点 $i$，$\\text{pre}=z_1[m+1+i]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>后缀 LCP</strong>：$S_2 = \\text{reverse}(\\text{pattern}) + \\# + \\text{reverse}(s)$，$z_2$ 数组。$s[i..i+m-1]$ 的末尾在 $\\text{reverse}(s)$ 中对应起点为 $n-m-i$，$\\text{suf}=z_2[m+1+(n-m-i)]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "若 $\\text{pre} \\ge m$：精确匹配，直接返回 $i$；否则若 $\\text{pre}+\\text{suf} \\ge m-1$：几乎相等，返回 $i$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "总结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "把\"允许一个不同\"拆成正向和反向两次 LCP 查询，Z 函数天然适合。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "相比二分+哈希，省掉了每次 $O(\\log n)$ 的二分开销，整体 $O(n+m)$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "vector<int> getZ(const string& s) {\n\tint n = s.size();\n\tvector<int> z(n);\n\tint l = 0, r = 0;\n\tfor (int i = 1; i < n; i++) {\n\t\tif (i <= r) z[i] = min(z[i - l], r - i + 1);\n\t\twhile (i + z[i] < n && s[z[i]] == s[i + z[i]]) z[i]++;\n\t\tif (i + z[i] - 1 > r) l = i, r = i + z[i] - 1;\n\t}\n\treturn z;\n}\nvoid solve(int CASE)\n{\n\tstring s, p; cin >> s >> p;\n\tstring x = p + '#' + s;\n\treverse(all(s)), reverse(all(p));\n\tstring y = p + '#' + s;\n\tvar zx = getZ(x), zy = getZ(y);\n\tint n = p.size(), m = s.size();\n\tfa(i, n + 1, n + m) {\n\t\tint j = i + n - 1;\n\t\tif (j > n + m)break; // 再找越界了\n\t\tint jj = n + m - j + n + 1;\n\t\tint res = zx[i] + zy[jj];\n\t\tif (res == 2 * n or res == n - 1) {\n\t\t\tcout << i - n - 1 << endl;\n\t\t\treturn;\n\t\t}\n\t}\n\tcout << -1 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-07-26",
+  "updated_at": "2026-07-26",
+  "parsed_at": "2026-07-26T14:13:10.507444+00:00",
+  "type_directory": "p"
+}

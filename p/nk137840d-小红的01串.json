@@ -1,0 +1,152 @@
+{
+  "slug": "nk137840d-小红的01串",
+  "title": "NK137840D 小红的01串",
+  "type": "题目",
+  "tags": [
+    "差分"
+  ],
+  "difficulty": 1.0,
+  "summary": "把\"相邻不同\"抽象成差分数组 $d[i]=[s_i\\neq s_{i+1}]$ 后，发现<strong>区间翻转只改变边界的两对相邻关系</strong>——中间所有字符同时翻转，相等性全都不变。于是每次操作只需翻转 $d[l-1]$ 和 $d[r]$ 并 $O(1)$ 更新答案，完全不用线段树。",
+  "link": "https://ac.nowcoder.com/acm/contest/137840/D",
+  "link_text": "https://ac.nowcoder.com/acm/contest/137840/D",
+  "source": "牛客周赛 Round 154",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定长度为 $n$ 的环形 01 串 $s$。$q$ 次操作，每次给定 $l,r$：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "若 $l\\le r$，翻转 $s_l\\dots s_r$（0 变 1，1 变 0）；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "若 $l>r$，翻转 $s_l\\dots s_{n-1}$ 和 $s_0\\dots s_r$（环形跨越）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "每次操作后，输出环形串中<strong>相邻且不同的字符对</strong>数量，即满足 $s_i\\neq s_{i+1}$（$0\\le i<n$，$s_n=s_0$）的 $i$ 的个数。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行两个整数 $n,q$（$1\\le n,q\\le 2\\times 10^5$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行一个长度为 $n$ 的 01 串。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行每行两个整数 $l,r$（$0\\le l,r\\le n-1$）。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "$q$ 行，每行一个整数表示当前答案。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "5 3\n01010\n0 2\n1 3\n4 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "4\n2\n2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "初始串 <code>01010</code>，相邻不同对：<code>01</code>, <code>10</code>, <code>01</code>, <code>10</code>（含环末位 <code>0</code> 与首位 <code>0</code> 为相同），共 4 对。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "操作 <code>0 2</code>：翻转 <code>s[0..2]</code>，<code>010</code>→<code>101</code>，串变为 <code>10110</code>，不同对为 <code>10</code>, <code>01</code>，共 2 对。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "操作 <code>1 3</code>：翻转 <code>011</code>→<code>100</code>，串变为 <code>11000</code>，不同对为 <code>11</code>相同的两处不算，<code>10</code>, <code>00</code>, <code>01</code>，共 2 对。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "操作 <code>4 1</code>：环形翻转 <code>s[4],s[0],s[1]</code>，串最终仍为 2 对。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n    int n, m; cin >> n >> m;\n    string s; cin >> s;\n    int ans = 0;\n    var d = vector<int>(n + 1);\n    fa(i, 0, n - 1) {\n        int j = (i + 1) % n;\n        if (s[i] != s[j])ans++, d[i] = 1;\n    }\n    while (m--) {\n        int l, r; cin >> l >> r;\n        int L = ((l - 1) % n + n) % n;\n        ans -= d[L], ans -= d[r];\n        d[L] ^= 1, d[r] ^= 1;\n        ans += d[L], ans += d[r];\n        cout << ans << endl;\n    }\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-07-26",
+  "updated_at": "2026-07-26",
+  "parsed_at": "2026-07-26T14:13:10.510414+00:00",
+  "type_directory": "p"
+}

@@ -1,0 +1,297 @@
+{
+  "slug": "2026牛客暑期多校训练营6-f-字母表",
+  "title": "2026牛客暑期多校训练营6 F 字母表",
+  "type": "题目",
+  "tags": [
+    "计数问题",
+    "状压dp",
+    "Z函数",
+    "拓扑排序"
+  ],
+  "difficulty": 2.5,
+  "summary": "字典序的胜负只看<strong>第一个不同字母</strong>，所以每个后缀只需提炼出一条\"字母 x 必须排在 y 前\"的<strong>偏序约束</strong>；用 Z 函数 O(n) 求所有后缀与原串的 LCP 得到全部约束，问题变成 26 点 DAG 的<strong>拓扑序计数</strong>，状压 dp（need 前驱掩码）解决。",
+  "link": "https://ac.nowcoder.com/acm/contest/133881/F",
+  "link_text": "https://ac.nowcoder.com/acm/contest/133881/F",
+  "source": "2026牛客暑期多校训练营6",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "字母表定义为小写字母从 a 到 z 的一个排列，字符串字典序按字母表比较（前缀小者更小）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "字符串 $s$ 是 <strong>Lyndon 串</strong> 当且仅当在字母表 $A$ 下 $s$ 严格小于它的所有非空真后缀。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定字符串 $s$，求有多少种字母表 $A$ 使 $s$ 是 Lyndon 串，答案对 $2^{32}$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行一个字符串 $s$（$2 \\le |s| \\le 2 \\times 10^7$），仅含小写字母。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一个整数，表示答案对 $2^{32}$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "abcdefghijklmnopqrstuvwxyz",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "2076180480",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "abaabb",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "sserxhsfan",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "2452619264",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "arcabcagc",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "3598712832",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "空",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "字典序最小的偏序约束",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "字典序比较只看第一个不同的字符——于是每个后缀 $s[i..]$ 只需<strong>贡献一条约束</strong>：\"字母 $s_j$ 必须排在 $s_{i+j}$ 之前\"（$j$ 为第一个不同位置）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这样 $26!$ 种字母表的问题就变成：满足若干条 \"$x$ 必须小于 $y$\" <strong>偏序约束</strong>的排列数。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "用 Z 函数求所有 LCP",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$z[k]$ 的定义就是 $\\text{lcp}(s, s[k..])$，完全符合题目要求，<strong>故直接求 Z 函数即可找到第一个不同的位置</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>特判</strong>：若 $z[i] = n-i$，该后缀是 $s$ 的真前缀，$s$ 反而更大，故直接输出 $0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "否则 $j = z[i]$：第一个不同字符在 $s$ 中是 $s_j$、在后缀中是 $s_{i+j}$，建约束边 $s_j \\to s_{i+j}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "同一约束可能被多个后缀重复给出，建边时<strong>去重</strong>（如 <code>set</code>），否则入度重复累加会破坏后面的拓扑排序。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "二分 + 字符串哈希 $O(n \\log n)$ 也能做，但 Z 函数 $O(n)$ 更快。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "拓扑排序：判环 + 求前驱依赖 need",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "所有约束构成一张 26 点有向图，合法字母表 = 满足每条边（即满足所有约束）的排列 = 该 DAG 的<strong>拓扑序数</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>特判</strong>：如果有环，说明出现矛盾，直接输出 0",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "排的过程中算<strong>前驱依赖</strong>：<code>need[to] |= need[now] | (1 &lt;&lt; now)</code>——$need[c]$ 存 $c$ 的<strong>全部祖先</strong>（不只直接前驱），沿拓扑序逐层继承，dp 时只需检查这一个条件。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "状压 dp 数拓扑序",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<code>dp[st]</code> = 已排好 st 内字母（且满足偏序）的方案数。枚举 <strong>st 中最后放入的是哪个字母</strong> $i$：去掉 $i$ 得 <code>nst = st ^ (1 &lt;&lt; i)</code>，若 $i$ 的所有祖先都在 nst 里（<code>(nst &amp; need[i]) == need[i]</code>），则 <code>dp[st] += dp[nst]</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "st 从 $0$ 到 $(1<<26)-1$ 升序枚举，保证转移来源 <code>nst &lt; st</code> 已算好。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "答案 <code>dp[(1&lt;&lt;26)-1]</code>；<code>unsigned</code> 数组自然溢出即是对 $2^{32}$ 取模。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "复杂度 $O(n + 26 \\times 2^{26})$，10s 时限可过。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "unsigned int dp[1 << 26];\nint need[26], deg[26], z[N];\nset<int> g[26];\nvoid solve(int CASE)\n{\n    string s; cin >> s;\n    int n = s.size();\n    getZ(s);\n    s = ' ' + s;\n    fa(i, 2, n) {\n        int x = z[i - 1] + 1, y = i + z[i - 1];\n        if (y > n) {\n            cout << 0 << endl;\n            return;\n        }\n        if (!g[s[x] - 'a'].count(s[y] - 'a')) {\n            g[s[x] - 'a'].insert(s[y] - 'a');\n            deg[s[y] - 'a']++;\n        }\n    }\n    var Q = queue<int>();\n    fa(i, 0, 25)if (deg[i] == 0)Q.push(i);\n    while (Q.size()) {\n        int now = Q.front();\n        Q.pop();\n        for (int to : g[now]) {\n            deg[to]--;\n            need[to] |= (need[now] | (1 << now));\n            if (deg[to] == 0)Q.push(to);\n        }\n    }\n    fa(i, 0, 25)if (deg[i]) {\n        cout << 0 << endl;\n        return;\n    }\n    dp[0] = 1;\n    fa(st, 0, (1 << 26) - 1) {\n        fa(i, 0, 25)if (st & (1 << i)) {\n            int nst = (st ^ (1 << i));\n            if ((nst & need[i]) == need[i])dp[st] += dp[nst];\n        }\n    }\n    cout << dp[(1 << 26) - 1] << endl;\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-08-12",
+  "updated_at": "2026-08-06",
+  "parsed_at": "2026-08-11T17:30:22.861913+00:00",
+  "type_directory": "p"
+}

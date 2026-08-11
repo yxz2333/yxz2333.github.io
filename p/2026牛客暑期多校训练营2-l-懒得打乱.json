@@ -1,0 +1,248 @@
+{
+  "slug": "2026牛客暑期多校训练营2-l-懒得打乱",
+  "title": "2026牛客暑期多校训练营2 L 懒得打乱",
+  "type": "题目",
+  "tags": [
+    "经典问题/逆序对",
+    "状压dp",
+    "拓扑排序",
+    "计数问题"
+  ],
+  "difficulty": 3.5,
+  "summary": "逆序对是个体对的贡献之和，每对元素在两个排列里的位置顺序<strong>一致则贡献差恒为 0，相反（反转对）则贡献差 ±1</strong>；所以 $g$ 最大 ⟺ 所有反转对同号，两类互补对称答案 $\\times 2$。反转对本身是位置上的偏序，于是变成<strong>拓扑序计数</strong>，照搬 <a href=\"/notes/2026牛客暑期多校训练营6-f-字母表\" class=\"wikilink\">2026牛客暑期多校训练营6 F 字母表</a> 的 need + 状压 dp。",
+  "link": "https://ac.nowcoder.com/acm/contest/133877/L",
+  "link_text": "https://ac.nowcoder.com/acm/contest/133877/L",
+  "source": "2026牛客暑期多校训练营2",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "定义排列 $A$ 的逆序对数为 $f(A) = \\sum_{i<j} [A_i > A_j]$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "给定排列 $p$，懒人提交 $f_p(A) = [A_{p_1}, \\dots, A_{p_n}]$ 作为成果，领导评分 $g(A, f_p(A)) = |f(A) - f(f_p(A))|$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>幸运排列</strong> $A$：对所有排列 $A_0$ 都有 $g(A, f_p(A)) \\ge g(A_0, f_p(A_0))$。求幸运排列数量对 $998244353$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $n$（$1 \\le n \\le 22$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行 $n$ 个整数 $p_1, \\dots, p_n$，是 $1..n$ 的一个排列。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一个整数，幸运排列数量对 $998244353$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "3\n3 1 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "3\n3 2 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "空",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "为什么只看\"反转对\"",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "逆序对 = 个体对 $(A_u, A_v)$ 的贡献之和。固定位置对 $\\{u, v\\}$，它在两个排列里是否构成逆序对，由两个顺序决定：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>位置序（即原顺序）</strong>：$u < v$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<strong>p 中顺序</strong>：$p_u < p_v$ 还是 $p_u > p_v$ ？",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "两个顺序<strong>一致</strong>：该对元素在两个排列里同为逆序对或同为非逆序对，贡献差恒为 $0$——跟 $A$ 取什么值<strong>完全无关</strong>，扔掉。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "两个顺序<strong>相反</strong>（称<strong>反转对</strong>，即$p_u > p_v$）：贡献差 $\\pm 1$——位置序靠前的元素更大则 $+1$，更小则 $-1$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "找反转对直接在 $p$ 上枚举：$i<j$ 且 $p[i]>p[j]$（即 $p$ 自己的逆序对）$\\to$ 位置对 $\\{p[i],p[j]\\}$ 。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "最大化 = 所有反转对同号（含 $m=0$ 特判）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$g$ 最大 = 反转对数量 $m$，当且仅当所有反转对<strong>同号</strong>：要么 $p$ 中靠前者的值一律更大，要么一律更小。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "两类排列通过补变换一一对应，数量相同 → 答案 $= 2 \\times$ 其中一类。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>特判</strong> $m=0$：$p$ 是恒等排列（$1,2,\\dots,n$）时没有反转对，$g \\equiv 0$，所有 $n!$ 个排列都是幸运的；此时两类重合，$\\times 2$ 会双算，直接输出 $n!$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "计数 = 偏序拓扑序（状压 dp，同 <a href=\"/notes/2026牛客暑期多校训练营6-f-字母表\" class=\"wikilink\">2026牛客暑期多校训练营6 F 字母表</a> ）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "反转对明显满足<strong>拓扑序</strong>，故对每个反转对（$i<j$ 且 $p[i]>p[j]$）建边 $p[i] \\to p[j]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这些边<strong>无环</strong>：沿边走，$p$ 下标严格递增、$p$ 值严格递减，走不回自己。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "数 \"$p$ 中靠前者的值更大\"（$A_{p[i]} > A_{p[j]}$）的排列 = 从大到小给位置分配 $1..n$：位置 $u$ 可分配当且仅当它的所有前驱已分配——<code>need[u]</code>（拓扑排序顺带算<strong>前驱约束</strong>）+ 状压 dp 数拓扑序，和上一题同一个板子。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$dp[st]$ = 已分配 st 内位置的方案数，枚举 <strong>st 中最后分配的是谁</strong>：<code>nst = st ^ (1&lt;&lt;i)</code>，$\\text{need}[i] \\subseteq nst$ 时 $dp[st] += dp[nst]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "答案 = $dp[(1<<n)-1] \\times 2 \\bmod 998244353$（$m=0$ 特判除外）。复杂度 $O(n \\cdot 2^n)$，$n \\le 22$，2s 可过。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int p[22], deg[22], need[1 << 22];\nll dp[1 << 22];\nvector<int> g[22];\nvoid solve(int CASE)\n{\n    int n; cin >> n;\n    fa(i, 0, n - 1)cin >> p[i];\n \n    bool ok = 0;\n    fa(i, 1, n - 1) {\n        if (p[i] - p[i - 1] != 1) {\n            ok = 1;\n            break;\n        }\n    }\n    if (!ok) {\n        ll ans = 1;\n        fa(i, 1, n)ans = ans * i % mod;\n        cout << ans << endl;\n        return;\n    }\n \n    fa(i, 0, n - 1)fa(j, i + 1, n - 1) {\n        if (p[i] > p[j]) {\n            g[p[i] - 1].pb(p[j] - 1);\n            deg[p[j] - 1]++;\n        }\n    }\n    var Q = queue<int>();\n    fa(i, 0, n - 1)if (!deg[i])Q.push(i);\n    while (Q.size()) {\n        int now = Q.front();\n        Q.pop();\n        for (int to : g[now]) {\n            deg[to]--;\n            need[to] |= (need[now] | (1 << now));\n            if (!deg[to])Q.push(to);\n        }\n    }\n    fa(i, 0, n - 1)if (deg[i]) {\n        cout << 0 << endl;\n        return;\n    }\n    dp[0] = 1;\n    fa(st, 1, (1 << n) - 1) {\n        fa(i, 0, n - 1)if (st & (1 << i)) {\n            int nst = (st ^ (1 << i));\n            if ((nst & need[i]) == need[i])\n                dp[st] = (dp[st] + dp[nst]) % mod;\n        }\n    }\n    cout << dp[(1 << n) - 1] * 2 % mod << endl;\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-08-12",
+  "updated_at": "2026-08-06",
+  "parsed_at": "2026-08-11T17:30:22.856618+00:00",
+  "type_directory": "p"
+}

@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-07-18T15:22:17.120552+00:00",
-  "count": 337,
+  "generated_at": "2026-08-11T17:30:22.844869+00:00",
+  "count": 344,
   "notes": [
     {
       "slug": "2019陕西省赛-c-0689",
@@ -1010,6 +1010,54 @@
       "type_directory": "p"
     },
     {
+      "slug": "2026牛客暑期多校训练营2-l-懒得打乱",
+      "title": "2026牛客暑期多校训练营2 L 懒得打乱",
+      "type": "题目",
+      "tags": [
+        "经典问题/逆序对",
+        "状压dp",
+        "拓扑排序",
+        "计数问题"
+      ],
+      "difficulty": 3.5,
+      "summary": "逆序对是个体对的贡献之和，每对元素在两个排列里的位置顺序<strong>一致则贡献差恒为 0，相反（反转对）则贡献差 ±1</strong>；所以 $g$ 最大 ⟺ 所有反转对同号，两类互补对称答案 $\\times 2$。反转对本身是位置上的偏序，于是变成<strong>拓扑序计数</strong>，照搬 <a href=\"/notes/2026牛客暑期多校训练营6-f-字母表\" class=\"wikilink\">2026牛客暑期多校训练营6 F 字母表</a> 的 need + 状压 dp。",
+      "parent": null,
+      "created_at": "2026-08-12",
+      "updated_at": "2026-08-06",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026牛客暑期多校训练营6-f-字母表",
+      "title": "2026牛客暑期多校训练营6 F 字母表",
+      "type": "题目",
+      "tags": [
+        "计数问题",
+        "状压dp",
+        "Z函数",
+        "拓扑排序"
+      ],
+      "difficulty": 2.5,
+      "summary": "字典序的胜负只看<strong>第一个不同字母</strong>，所以每个后缀只需提炼出一条\"字母 x 必须排在 y 前\"的<strong>偏序约束</strong>；用 Z 函数 O(n) 求所有后缀与原串的 LCP 得到全部约束，问题变成 26 点 DAG 的<strong>拓扑序计数</strong>，状压 dp（need 前驱掩码）解决。",
+      "parent": null,
+      "created_at": "2026-08-12",
+      "updated_at": "2026-08-06",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026钉耙编程联赛7-011-今晚吃电脑配件",
+      "title": "2026钉耙编程联赛7 011 今晚吃电脑配件",
+      "type": "题目",
+      "tags": [
+        "并查集/带权并查集"
+      ],
+      "difficulty": 3.0,
+      "summary": "动态加方程判断是否相容 = <strong>带权并查集</strong>：方程全是\"和\"式，沿路径交替加减，所以块内每个变量都能写成根的 $\\pm1$ 线性函数 $x_u = d_u x_r + c_u$，维护 $(d_u, c_u)$ 即可。find 路径压缩与跨块 merge 都按<strong>列方程</strong>推式子；同块时 $d$ 同号 → 解出根值核对，$d$ 异号 → 根被抵消，退化成纯常数等式；异块时只要根未同时定死就一定相容，直接合并。",
+      "parent": null,
+      "created_at": "2026-08-12",
+      "updated_at": "2026-08-12",
+      "type_directory": "p"
+    },
+    {
       "slug": "2026黑龙江省赛-e-乐乐的杏花",
       "title": "2026黑龙江省赛 E 乐乐的杏花",
       "type": "题目",
@@ -1454,8 +1502,8 @@
       "difficulty": 2.5,
       "summary": "带权并查集，维护节点 $x$ 与其跟节点 $s[x]$ 的颜色是否相同，不需要真的用二分图染色，全程带权并查集即可。",
       "parent": null,
-      "created_at": "2026-06-15",
-      "updated_at": "2026-03-29",
+      "created_at": "2026-08-12",
+      "updated_at": "2026-08-12",
       "type_directory": "p"
     },
     {
@@ -2639,14 +2687,14 @@
       "title": "CF2132F Rada and the Chamomile Valley",
       "type": "题目",
       "tags": [
-        "tarjan/双联通分量",
+        "tarjan/双连通分量",
         "多源最短路"
       ],
       "difficulty": 2.5,
       "summary": "写起来挺麻烦，题目倒是不难。",
       "parent": null,
-      "created_at": "2026-06-15",
-      "updated_at": "2026-02-06",
+      "created_at": "2026-08-12",
+      "updated_at": "2026-08-02",
       "type_directory": "p"
     },
     {
@@ -3312,6 +3360,20 @@
       "type_directory": "p"
     },
     {
+      "slug": "cf2256e-even-if-the-world-turns",
+      "title": "CF2256E Even If the World Turns",
+      "type": "题目",
+      "tags": [
+        "通信题"
+      ],
+      "difficulty": 2.0,
+      "summary": "通信题先想\"<strong>接收端能算什么</strong>\"：first 传给 second 的只有一次交换，能编码的信息极少，于是想到直接把目标点编码成<strong>黑格坐标的加权和</strong>（模 n 下除以 w，$\\gcd(n,w)=1$ 保证逆元存在）。挑一个黑格换到算出的候选格，让交换后的加权和 $\\equiv$ 目标点；\"一定存在可交换的白格\"用<strong>轨道论证</strong>证明（黑格集在平移 $\\delta$ 下不变 ⟹ 轨道长 $L \\mid \\gcd(n,w)$ 矛盾）；平移/旋转/反射/颜色反转都不改变这个编码，second 直接输出最终黑图的加权和。",
+      "parent": null,
+      "created_at": "2026-08-12",
+      "updated_at": "2026-08-10",
+      "type_directory": "p"
+    },
+    {
       "slug": "cf245h-queries-for-number-of-palindromes",
       "title": "CF245H Queries for Number of Palindromes",
       "type": "题目",
@@ -3869,13 +3931,13 @@
       "tags": [
         "图论经典问题/二分图",
         "图论经典问题/环问题",
-        "强连通分量"
+        "tarjan/强连通分量"
       ],
       "difficulty": null,
       "summary": "单向图的环问题，把 SCC 先全找出来。注意到结论：只要 SCC 里存在奇基本环，那就 SCC 中所有的偶基本环都可以通过这个奇基本环形成<strong>奇循环</strong>，所有只要对单向图的所有 SCC 进行<strong>染色法奇环判定</strong>就行了。",
       "parent": null,
-      "created_at": "2026-06-15",
-      "updated_at": "2026-01-25",
+      "created_at": "2026-08-12",
+      "updated_at": "2026-08-02",
       "type_directory": "p"
     },
     {
@@ -3908,6 +3970,18 @@
       "parent": null,
       "created_at": "2026-06-15",
       "updated_at": "2026-04-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "lc3303-第一个几乎相等子字符串的下标",
+      "title": "LC3303 第一个几乎相等子字符串的下标",
+      "type": "题目",
+      "tags": [],
+      "difficulty": null,
+      "summary": "依旧能用二分+哈希，但改用 <strong>Z 函数</strong>更清爽。核心是把\"几乎相等\"拆成<strong>前缀匹配 + 跳过 1 个 + 后缀匹配</strong>。两次拼串：$S_1 = \\text{pattern} + \\# + s$ 求前缀 LCP，$S_2 = \\text{reverse}(\\text{pattern}) + \\# + \\text{reverse}(s)$ 求后缀 LCP。对每个候选起点 $i$，若前缀 + 后缀 $\\ge |\\text{pattern}|-1$，就是几乎相等。",
+      "parent": null,
+      "created_at": "2026-07-26",
+      "updated_at": "2026-07-26",
       "type_directory": "p"
     },
     {
@@ -4289,6 +4363,20 @@
       "type_directory": "p"
     },
     {
+      "slug": "nk137840d-小红的01串",
+      "title": "NK137840D 小红的01串",
+      "type": "题目",
+      "tags": [
+        "差分"
+      ],
+      "difficulty": 1.0,
+      "summary": "把\"相邻不同\"抽象成差分数组 $d[i]=[s_i\\neq s_{i+1}]$ 后，发现<strong>区间翻转只改变边界的两对相邻关系</strong>——中间所有字符同时翻转，相等性全都不变。于是每次操作只需翻转 $d[l-1]$ 和 $d[r]$ 并 $O(1)$ 更新答案，完全不用线段树。",
+      "parent": null,
+      "created_at": "2026-07-26",
+      "updated_at": "2026-07-26",
+      "type_directory": "p"
+    },
+    {
       "slug": "nk57683e-kevin喜欢零(困难版本)",
       "title": "NK57683E Kevin喜欢零(困难版本)",
       "type": "题目",
@@ -4346,6 +4434,20 @@
       "parent": null,
       "created_at": "2026-06-15",
       "updated_at": "2026-03-26",
+      "type_directory": "p"
+    },
+    {
+      "slug": "nk7412g-牛牛和字符串的日常",
+      "title": "NK7412G 牛牛和字符串的日常",
+      "type": "题目",
+      "tags": [
+        "Z函数"
+      ],
+      "difficulty": 1.0,
+      "summary": "字符串哈希 + 二分也能做 $O(n\\log n)$，但用 <strong>Z 函数</strong> 可以 $O(n)$ 解决。拼串 $S = s + \\text{\\#} + t_i$，$t_i$ 部分的 $z$ 值最大值即为当天能匹配的 $s$ 最长前缀长度。",
+      "parent": null,
+      "created_at": "2026-07-26",
+      "updated_at": "2026-07-26",
       "type_directory": "p"
     },
     {
@@ -4444,8 +4546,8 @@
       "difficulty": 2.0,
       "summary": "两种做法。考虑到药物不多，我们可以进行暴力组合，然后看看是不是当前病人的超集即可；还有一种方法就是 sos dp（虽然有点没必要，也没前者好想），药物同样进行组合，然后跑超集到子集转移的 sos dp 即可。",
       "parent": null,
-      "created_at": "2026-07-14",
-      "updated_at": "2026-07-14",
+      "created_at": "2026-07-26",
+      "updated_at": "2026-07-26",
       "type_directory": "p"
     },
     {

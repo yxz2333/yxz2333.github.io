@@ -1,0 +1,158 @@
+{
+  "slug": "nk7412g-牛牛和字符串的日常",
+  "title": "NK7412G 牛牛和字符串的日常",
+  "type": "题目",
+  "tags": [
+    "Z函数"
+  ],
+  "difficulty": 1.0,
+  "summary": "字符串哈希 + 二分也能做 $O(n\\log n)$，但用 <strong>Z 函数</strong> 可以 $O(n)$ 解决。拼串 $S = s + \\text{\\#} + t_i$，$t_i$ 部分的 $z$ 值最大值即为当天能匹配的 $s$ 最长前缀长度。",
+  "link": "https://ac.nowcoder.com/acm/contest/7412/G",
+  "link_text": "https://ac.nowcoder.com/acm/contest/7412/G",
+  "source": "牛客小白月赛28",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "牛牛每天读一本书，书的内容是字符串 $t_i$。如果 $t_i$ 的某连续 $k$ 个字符恰好是牛牛喜欢的句子 $s$ 的某个<strong>前缀</strong>，牛牛获得 $k$ 点兴奋感。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "每天只能注意一次（即取当天所有匹配中 $k$ 最大的那个）。求 $n$ 天后牛牛最多能获得多少总兴奋感。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个字符串 $s$（$|s| \\le 10^5$），表示牛牛喜欢的句子。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二行一个整数 $n$（$n \\le 100$），表示天数。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行每行一个字符串 $t_i$（$|t_i| \\le 10^5$），表示第 $i$ 天读的书。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一个整数，表示 $n$ 天总兴奋感的最大值。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "abcdefg\n3\nadcabc\nxyz\nabdefg",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "5",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "第一天 $t_1=\\text{\"adcabc\"}$，$\\text{\"a\"}$ 和 $\\text{\"abc\"}$ 都是 $s$ 的前缀，最长匹配 $\\text{\"abc\"}$ 长度 $3$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第二天 $t_2=\\text{\"xyz\"}$，没有任何匹配，$0$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "第三天 $t_3=\\text{\"abdefg\"}$，$\\text{\"ab\"}$ 匹配，长度 $2$。总计 $3+0+2=5$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "拼串 $S = s + \\text{\\#} + t_i$（<code>#</code> 为分隔符，不在 $s$ 中出现）。计算 $S$ 的 $z$ 数组。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$t_i$ 部分的 $z[j]$ 表示：以 $t_i$ 中该位置为起点，能和 $s$ 的前缀匹配多长。取这部分的 $\\max$ 即为当天答案。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "例：$s=\\text{\"abcdefg\"}$，$t_1=\\text{\"adcabc\"}$，$S=\\text{\"abcdefg\\#adcabc\"}$。$t_1$ 部分 $z[8]=1$（$\\text{\"a\"}$），$z[11]=3$（$\\text{\"abc\"}$），$\\max=3$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "\tint z[N];\nvoid solve(int CASE)\n{\n\tstring s; cin >> s;\n\n\t// s + '#'\n\ts.pb('#');\n\tint l = 0, r = 0;\n\tz[0] = 0;\n\tfa(i, 1, vs(s)) {\n\t\tif (i <= r)z[i] = min(z[i - l], r - i + 1);\n\t\twhile (i + z[i] <= vs(s) and s[z[i]] == s[i + z[i]])z[i]++;\n\t\tif (i + z[i] - 1 > r)l = i, r = i + z[i] - 1;\n\t}\n\n\tint ans = 0;\n\tint n; cin >> n;\n\twhile (n--) {\n\t\t// s + '#' + t\n\t\tstring t; cin >> t;\n\t\tint res = 0;\n\t\tint l = vs(s), r = vs(s);\n\t\tfa(i, vs(s) + 1, vs(s) + 1 + vs(t)) {\n\t\t\tint nowz = 0;\n\t\t\tif (i <= r)nowz = max(nowz, min(z[i - l], r - i + 1));\n\t\t\twhile (nowz <= vs(s) and i + nowz - vs(s) - 1 <= vs(t) and \n\t\t\t\ts[nowz] == t[i + nowz - vs(s) - 1])nowz++;\n\t\t\tif (i + nowz - 1 > r)l = i, r = i + nowz - 1;\n\t\t\tres = max(res, nowz);\n\t\t}\n\t\tans += res;\n\t}\n\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-07-26",
+  "updated_at": "2026-07-26",
+  "parsed_at": "2026-07-26T14:13:10.513042+00:00",
+  "type_directory": "p"
+}
