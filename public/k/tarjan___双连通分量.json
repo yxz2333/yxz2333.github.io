@@ -1,0 +1,210 @@
+{
+  "slug": "tarjan___双连通分量",
+  "title": "tarjan___双连通分量",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "双连通分量"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "What？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>双连通是无向图的概念</strong>",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "先定义两个\"弱点\"：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>割点</strong>：删掉它及所有关联边后，连通分量数量增加。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>桥（割边）</strong>：删掉它后，连通分量数量增加。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "双连通分量 = 不含弱点的极大连通子图，按弱点类型分两种：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>点双（V-BCC）</strong>：不含割点的极大连通子图。环是点双的最小形态，<strong>单独一条边也算一个点双</strong>；割点会<strong>同时属于多个点双</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>边双（E-BCC）</strong>：不含桥的极大连通子图。等价于<strong>删掉所有桥后的每个连通块</strong>；桥不属于任何边双，桥的两端各在一个边双里。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "缩点后的结构：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "边双缩点 → <strong>桥树</strong>（原图变树，桥就是树边），常配合树上 dp。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "点双缩点（点双 + 割点连边）→ <strong>圆方树</strong>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "When？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "找<strong>必经点 / 必经边</strong>：删掉哪个点/边会破坏连通（网络可靠性、关键设施）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>边双缩点成树</strong>：有环图的问题搬到树上做。经典题：至少加几条边使图变成边双连通 =（缩点后叶子数 + 1）/ 2。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>点双 / 圆方树</strong>：仙人掌图、路径类问题。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "How？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "统一用 Tarjan，核心是维护 $dfn$ 和 $low$：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$dfn[u]$：dfs 时间戳。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$low[u]$：$u$ 的子树通过<strong>一条非树边</strong>能绕回的最早祖先的 $dfn$。",
+          "depth": 2
+        },
+        {
+          "heading": "割点判定（树边 $u \\to v$）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$low[v] \\ge dfn[u]$：$v$ 的子树绕不回 $u$ 的祖先，$u$ 是割点。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "根节点特判：子节点数 $\\ge 2$ 才是割点（根没有祖先可绕）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "桥判定（树边 $u \\to v$）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$low[v] > dfn[u]$（<strong>严格大于</strong>）：$v$ 的子树连 $u$ 都绕不回，$(u,v)$ 是桥。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "与割点只有 $\\ge$ 和 $>$ 之差。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "点双（栈实现）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "dfs 时把点压栈；当 $low[v] \\ge dfn[u]$ 时从栈顶弹到 $v$，再补上 $u$，就是一个点双。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "割点每次都进它所属的点双，所以<strong>同一个割点会出现在多个点双里</strong>，属正常。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "边双（栈实现）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "遇到 $low[u] = dfn[u]$（$u$ 是所在边双的 dfs 根）时弹栈到 $u$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "复杂度",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "均为 $O(n + m)$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "割点 / 割边（桥）/ 点双 / 边双 四个板子。",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "vector<int> cut_point(int n, const vector<vector<int>>& g) {\n    // 割点：在一个连通无向图中，如果某个顶点以及与其相关联的所有边，图的连通分量数量增加，那么这个顶点就是一个割点。\n\n    auto dfn = vector<int>(n + 1);  // dfs序时间戳\n    auto low = vector<int>(n + 1);  // i 点能回溯到的最顶端祖先的 dfn，无向图要考虑能否绕过直接前驱\n    auto cnt = vector<bool>(n + 1); // 是否是割点\n    int time = 0;                   // 时间戳\n\n    auto tarjan = [&](auto tarjan, int now, int root)->void {\n        dfn[now] = low[now] = ++time;\n        int child = 0; // root 的子节点\n        for (const int& to : g[now]) {\n            if (!dfn[to]) {\n                tarjan(tarjan, to, root);\n                low[now] = min(low[now], low[to]);\n                if (low[to] >= dfn[now] and now != root)\n                    // to 无法绕过 now 达到 now 的祖先\n                    cnt[now] = 1;\n                if (now == root) child++;\n            }\n            low[now] = min(low[now], dfn[to]);\n        }\n        // 因为考虑到子节点的子节点能回来的特性，这里的子节点不是单纯的 root 子节点\n        // 子节点的子节点绕不回 root 节点的个数 child >= 2 时产生割点\n        if (child >= 2 and now == root)cnt[root] = 1;\n        };\n    for (int i = 1; i <= n; i++) if (!dfn[i]) tarjan(tarjan, i, i);\n\n    auto ans = vector<int>();\n    for (int i = 1; i <= n; i++)if (cnt[i])ans.push_back(i);\n    return ans;\n}\n\nvector<pair<int, int>> cut_edge(int n, const vector<vector<int>>& g) {\n    // 割边（桥）：在一个连通无向图中，如果删除某条边后，图的连通分量数量增加，那么这条边就是一个割边（桥）。\n\n    vector<int> dfn(n + 1);   // dfs序时间戳\n    vector<int> low(n + 1);   // 能回溯到的最早祖先的dfn\n    vector<pair<int, int>> bridges;\n    int time = 0;\n\n    auto tarjan = [&](auto self, int u, int parent)->void {\n        dfn[u] = low[u] = ++time;\n        for (int v : g[u]) {\n            if (v == parent) continue;\n\n            if (!dfn[v]) {\n                self(self, v, u);\n                low[u] = min(low[u], low[v]);\n                // 判断桥：如果v无法通过其他边回溯到u或更早，则(u,v)是桥\n                if (low[v] > dfn[u]) {\n                    bridges.push_back({ min(u, v), max(u, v) }); // 按小节点在前存储，避免重复\n                }\n            }\n            else low[u] = min(low[u], dfn[v]);\n        }\n        };\n\n    for (int i = 1; i <= n; i++) if (!dfn[i]) tarjan(tarjan, i, 0);\n    return bridges;\n}\n\nvector<vector<int>> bcc_point(int n, const vector<vector<int>>& g) {\n    /**\n    * 无向图点双连通分量：不包含割点的极大连通子图\n    *\n    * - 可能还要进一步用并查集缩点，然后建树\n    */\n\n    vector<int> dfn(n + 1);   // dfs序时间戳\n    vector<int> low(n + 1);   // 能回溯到的最早祖先的dfn\n    vector<bool> cut(n + 1, false);\n    stack<int> stk;\n    vector<vector<int>> bccs; // 存储所有点双连通分量\n    int time = 0;\n    int root = 0;\n\n    auto tarjan = [&](auto self, int u, int fa) -> void {\n        dfn[u] = low[u] = ++time;\n        stk.push(u);\n\n        // 根节点的特殊情况\n        if (u == root && g[u].empty()) {\n            bccs.push_back({ u });\n            return;\n        }\n\n        int child = 0;\n        for (int v : g[u]) {\n            if (v == fa) continue;\n\n            if (!dfn[v]) {\n                self(self, v, u);\n                low[u] = min(low[u], low[v]);\n\n                if (low[v] >= dfn[u]) {\n                    child++;\n                    if (u != root || child > 1) {\n                        cut[u] = true;\n                    }\n\n                    // 发现一个点双连通分量\n                    vector<int> bcc;\n                    while (true) {\n                        int top = stk.top();\n                        stk.pop();\n                        bcc.push_back(top);\n                        if (top == v) break;\n                    }\n                    bcc.push_back(u);\n                    bccs.push_back(bcc);\n                }\n            }\n            else {\n                low[u] = min(low[u], dfn[v]);\n            }\n        }\n        };\n\n    for (int i = 1; i <= n; i++) {\n        if (!dfn[i]) {\n            root = i;\n            tarjan(tarjan, i, 0);\n\n            // 处理根节点可能剩余的点\n            if (!stk.empty()) {\n                vector<int> bcc;\n                while (!stk.empty()) {\n                    bcc.push_back(stk.top());\n                    stk.pop();\n                }\n                bccs.push_back(bcc);\n            }\n        }\n    }\n\n    return bccs;\n}\n\nvector<vector<int>> bcc_edge(int n, const vector<vector<int>>& g) {\n    /**\n    * 无向图边双连通分量：不包含桥的极大连通子图\n    *\n    * - 可能还要进一步用并查集缩点，然后建树\n    */\n\n    vector<int> dfn(n + 1);   // dfs序时间戳\n    vector<int> low(n + 1);   // 能回溯到的最早祖先的dfn\n    vector<int> bcc_id(n + 1, 0); // 每个点所属的边双连通分量id\n    stack<int> stk;\n    vector<vector<int>> bccs; // 存储所有边双连通分量\n    int time = 0;\n    int bcc_cnt = 0;\n\n    auto tarjan = [&](auto self, int u, int fa) -> void {\n        dfn[u] = low[u] = ++time;\n        stk.push(u);\n\n        for (int v : g[u]) {\n            if (v == fa) continue;\n\n            if (!dfn[v]) {\n                self(self, v, u);\n                low[u] = min(low[u], low[v]);\n            }\n            else {\n                // 环\n                low[u] = min(low[u], dfn[v]);\n            }\n        }\n\n        // 如果 u 是边双连通分量的根\n        if (low[u] == dfn[u]) {\n            bcc_cnt++;\n            vector<int> bcc;\n            while (true) {\n                int top = stk.top();\n                stk.pop();\n                bcc_id[top] = bcc_cnt;\n                bcc.push_back(top);\n                if (top == u) break;\n            }\n            bccs.push_back(bcc);\n        }\n        };\n\n    for (int i = 1; i <= n; i++) {\n        if (!dfn[i]) {\n            tarjan(tarjan, i, 0);\n        }\n    }\n    return bccs;\n\n    /* 缩点后建树参考代码，记得留意是否需要去重\n        int nn = bccs.size();\n        var s = vector<int>(n + 1);\n        fa(i, 0, nn - 1) {\n            for (int x : bccs[i])\n                s[x] = i + 1;\n        }\n\n        var ng = vector<vector<pll>>(nn + 1); // 缩点后的树\n        for (const var& [u, v, w] : e) {\n            if (s[u] != s[v]) { // 是桥\n                ng[s[u]].pb({ s[v],w });\n                ng[s[v]].pb({ s[u],w });\n            }\n        }\n\n        var dfs = [&](var dfs, int now, int fa)->void {\n            for (const var& [to, w] : ng[now]) {\n                if (to == fa)continue;\n                dfs(dfs, to, now);\n                siz[now] += siz[to] + 1;\n            }\n            };\n        dfs(dfs, 1, 0);\n    */\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-08-12",
+  "updated_at": "2026-08-02",
+  "parsed_at": "2026-08-11T17:30:23.082861+00:00",
+  "type_directory": "k"
+}

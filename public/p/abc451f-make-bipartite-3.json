@@ -269,69 +269,79 @@
           ]
         },
         {
-          "heading": "路径压缩",
+          "heading": "路径压缩（解方程视角）",
           "level": 3,
           "blocks": [
             {
               "type": "p",
-              "html": "<strong>关键：</strong> x 和根的关系 = (x 和爸爸的关系) ^ (爸爸和根的关系)",
+              "html": "要求未知量：$x$ 与根 $r$ 的关系 $d_{\\text{new}}[x]$。",
               "depth": 1
             },
             {
               "type": "p",
-              "html": "<code>d[x] = d[x] ^ d[fa[x]]; </code>",
+              "html": "路径分解：把 $x \\to r$ 拆成 $x \\to p \\to r$ 两段，关系叠加（异或）：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$d_{\\text{new}}[x] = d[x] \\oplus d[p]$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "所以压缩一步就是 $d[x] \\leftarrow d[x] \\oplus d[p]$——递归保证 $d[p]$ 已更新成”$p$ 与根的关系”。",
               "depth": 1
             }
           ]
         },
         {
-          "heading": "合并连通块",
+          "heading": "合并连通块（解方程视角）",
           "level": 3,
           "blocks": [
             {
               "type": "p",
-              "html": "题目强制<strong>要求</strong> $u$ <strong>和</strong> $v$ <strong>必须是异色（关系为 1）。</strong>",
+              "html": "新边强制 $x$ 与 $y$ <strong>异色</strong>（关系 $= 1$），写出约束方程：",
               "depth": 1
             },
             {
               "type": "p",
-              "html": "假设 $u$ 的根节点是 $ru$，$v$ 的根节点是 $rv$。现在这两个家族要联姻了，我们要把 $ru$ 认 $rv$ 做爸爸，也就是 <code>fa[ru] = rv</code>。",
-              "depth": 1
-            },
-            {
-              "type": "p",
-              "html": "<strong>问题来了：既然</strong> $ru$ <strong>的爸爸变成了</strong> $rv$<strong>，那么 <code>d[ru]</code>（</strong> $ru$ <strong>和</strong> $rv$ <strong>的颜色关系）该填什么呢？</strong>",
-              "depth": 1
-            },
-            {
-              "type": "p",
-              "html": "我们可以画一条逻辑链条：<code>ru</code> $\\longleftrightarrow$ <code>u</code> $\\longleftrightarrow$ <code>v</code> $\\longleftrightarrow$ <code>rv</code>",
-              "depth": 1
-            },
-            {
-              "type": "p",
-              "html": "<code>u</code> 和 <code>ru</code> 的关系是 <code>d[u]</code>。（因为刚才执行了 <code>find(u)</code>，<code>u</code> 直接连着 <code>ru</code>）",
+              "html": "$d[x] \\oplus d_{\\text{new}}[y] = 1$（$d[x]$ 已压缩为 $x$ 与根 $e_1$ 的关系）",
               "depth": 2
             },
             {
               "type": "p",
-              "html": "<code>u</code> 和 <code>v</code> 的关系是 <code>1</code>。（因为它们之间连了新边，必须异色）",
-              "depth": 2
-            },
-            {
-              "type": "p",
-              "html": "<code>v</code> 和 <code>rv</code> 的关系是 <code>d[v]</code>。（同理，执行过 <code>find(v)</code>）",
-              "depth": 2
-            },
-            {
-              "type": "p",
-              "html": "因为颜色关系具备传递性，我们可以顺藤摸瓜，从 <code>ru</code> 走到 <code>rv</code>，把路上的关系全“叠加（异或）”起来！",
+              "html": "把未知量 $d_{\\text{new}}[y]$ 沿路径 $y \\to e_2 \\to e_1$ 分解：",
               "depth": 1
             },
             {
               "type": "p",
-              "html": "<code>ru</code> 和 <code>rv</code> 的关系 = (<code>ru</code>和<code>u</code>) ^ (<code>u</code>和<code>v</code>) ^ (<code>v</code>和<code>rv</code>)",
+              "html": "$d_{\\text{new}}[y] = d[y] \\oplus d[e_2]$（$d[y]$ 是 $y$ 与 $e_2$ 的关系，$d[e_2]$ 是待求的 $e_2$ 与 $e_1$ 的关系）",
               "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "代入解出 $d[e_2]$：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$d[x] \\oplus d[y] \\oplus d[e_2] = 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$\\Rightarrow d[e_2] = d[x] \\oplus d[y] \\oplus 1$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "挂接：<code>s[e2] = e1; d[e2] = d[y] ^ 1 ^ d[x];</code>",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "siz 合并：$d[e_2]$ 与 $d[e_1]$ 同色则同加，异色则交叉加（根的颜色自由，答案取 $\\min(siz[0], siz[1])$）。",
+              "depth": 1
             }
           ]
         }
@@ -353,8 +363,8 @@
   "code_languages": [
     "cpp"
   ],
-  "created_at": "2026-06-15",
-  "updated_at": "2026-03-29",
-  "parsed_at": "2026-06-15T10:23:29.871267+00:00",
+  "created_at": "2026-08-12",
+  "updated_at": "2026-08-12",
+  "parsed_at": "2026-08-11T17:30:22.867395+00:00",
   "type_directory": "p"
 }

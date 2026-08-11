@@ -1,0 +1,115 @@
+{
+  "slug": "tarjan___强连通分量",
+  "title": "tarjan___强连通分量",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "强连通分量"
+  ],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "What？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>强连通分量（SCC）是有向图的概念</strong>：极大强连通子图，其中<strong>任意两点互相可达</strong>。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "关键性质：<strong>缩点后的图一定是 DAG</strong>（有向无环图），且缩点结果唯一。这是 SCC 最大的用处——把有环图压成 DAG，就能做拓扑排序、dp。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "When？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "有向图<strong>缩点成 DAG</strong> 后做拓扑 dp、最长路、可达性统计。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "判断整个图是否强连通（只有一个 SCC）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "依赖成环类问题（如 2-SAT 可行性判断）。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "How？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "Tarjan 求 SCC，写法和无向图的双连通分量几乎一样，两点差别：",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "多维护一个<strong>在栈中标记</strong>（<code>in_stk</code>）。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "对边 $u \\to v$：$v$ 未访问则递归后 $low[u] = \\min(low[u], low[v])$；$v$ <strong>在栈中</strong>才用 $low[u] = \\min(low[u], dfn[v])$——已弹出的点属于别的 SCC，不能用来更新。",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "当 $low[u] = dfn[u]$：$u$ 是所在 SCC 的根，从栈顶弹到 $u$ 即为一个 SCC。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "缩点：给每个点打上 SCC 编号，遍历原边建新图（注意自环、重边是否需要去重）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "复杂度 $O(n + m)$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "缩点板子：返回新图节点数、新图、新点权、每个新节点的原节点个数。",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "tuple<int, vector<vector<int>>, vector<ll>, vector<int>> scc_shrink(int n, const vector<vector<int>>& g, const vector<ll>& a) {\n    /**\n    * 缩点板子，找强连通分量\n    * 传入：原图节点个数 n、原图 g、原图节点权值 a\n    * 返回：新图节点个数 scc、新图 ng (注意：没有去重)、新图节点权值 na\n    *\n    * - 缩点完毕后变成有向无环图，可能需要拓扑排序\n    * - 可能还要看一个缩点原来有哪些节点，具体看题面而定\n    *\n    * 强连通：一张有向图的节点两两互相可达\n    * 强连通分量：极大的强连通子图\n    * Tarjan 算法：通过记录深搜遍历中每个节点的第一次访问时间来找到强连通分量的根以及其余节点\n    */\n\n    auto dfn = vector<int>(n + 1); // dfs序时间戳\n    auto low = vector<int>(n + 1); // i 点能回溯到的最顶端祖先的 dfn\n    auto ins = vector<int>(n + 1); // 是否在栈内\n    auto bel = vector<int>(n + 1); // i 点属于第几个强连通分量\n    auto st = stack<int>();        // 正在处理的栈\n    int time = 0;                  // 时间戳\n    int scc = 0;                   // 强连通分量个数，同时也是新图节点个数(单个节点也是个 scc)\n\n    auto tarjan = [&](auto tarjan, int now)->void {\n        dfn[now] = low[now] = ++time;\n        st.push(now);\n        ins[now] = 1;\n        for (const int& to : g[now]) {\n            if (!dfn[to]) { // 未遍历到的节点\n                tarjan(tarjan, to);\n                low[now] = min(low[now], low[to]);\n            }\n            else if (ins[to]) { // 环\n                low[now] = min(low[now], dfn[to]);\n            }\n        }\n        // 弹栈缩点\n        if (low[now] == dfn[now]) {\n            scc++;\n            while (1) {\n                int cur = st.top();\n                st.pop();\n                ins[cur] = 0;\n                bel[cur] = scc;\n                if (now == cur)break;\n            }\n        }\n        };\n    for (int i = 1; i <= n; i++) if (!dfn[i]) tarjan(tarjan, i);\n\n\n    // 构建新有向图\n    auto ng = vector<vector<int>>(scc + 1); // 缩点后的新图\n    auto na = vector<ll>(scc + 1);          // 缩点后的新权值\n    auto siz = vector<int>(scc + 1);        // 缩点后新节点包含了多少原节点(可选)\n    for (int now = 1; now <= n; now++) {\n        for (const int& to : g[now])\n            if (bel[to] != bel[now]) // 不在同一个 scc 内\n                ng[bel[now]].push_back(bel[to]);\n        na[bel[now]] += a[now];\n        siz[bel[now]]++;\n    }\n\n    return make_tuple(scc, ng, na, siz);\n}",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-08-12",
+  "updated_at": "2026-08-02",
+  "parsed_at": "2026-08-11T17:30:23.085765+00:00",
+  "type_directory": "k"
+}

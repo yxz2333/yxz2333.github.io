@@ -1,0 +1,292 @@
+{
+  "slug": "cf2256e-even-if-the-world-turns",
+  "title": "CF2256E Even If the World Turns",
+  "type": "题目",
+  "tags": [
+    "通信题"
+  ],
+  "difficulty": 2.0,
+  "summary": "通信题先想\"<strong>接收端能算什么</strong>\"：first 传给 second 的只有一次交换，能编码的信息极少，于是想到直接把目标点编码成<strong>黑格坐标的加权和</strong>（模 n 下除以 w，$\\gcd(n,w)=1$ 保证逆元存在）。挑一个黑格换到算出的候选格，让交换后的加权和 $\\equiv$ 目标点；\"一定存在可交换的白格\"用<strong>轨道论证</strong>证明（黑格集在平移 $\\delta$ 下不变 ⟹ 轨道长 $L \\mid \\gcd(n,w)$ 矛盾）；平移/旋转/反射/颜色反转都不改变这个编码，second 直接输出最终黑图的加权和。",
+  "link": "https://codeforces.com/contest/2256/problem/E",
+  "link_text": "https://codeforces.com/contest/2256/problem/E",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给定 $n \\times n$ 黑白图片和目标格 $x$（黑格数 $w$，保证 $\\gcd(n,w)=1$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "游戏运行两次：Chtholly 先看到图片和 $x$，可<strong>交换两个格子的颜色</strong>（可相同）；之后 Nygglatho 任意执行循环平移、顺时针 $90^\\circ$ 旋转、竖直反射、颜色反转（次数任意）；Willem 只看到最终图片，必须报出 $x$ 的最终位置。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "两次运行之间测试用例顺序可能改变。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行：字符串 <code>first</code> 或 <code>second</code>，表示本次运行扮演的角色。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "之后：用例数 $t$；每个用例先给 $n$，再给 $n$ 行 $n$ 列图片（<code>#</code> 黑、<code>.</code> 白）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第一次运行额外给出目标格 $(r_x, c_x)$；第二次运行不给出（要求输出目标位置）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$2 \\le n \\le 800$，所有用例 $n^2$ 之和 $\\le 800^2$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一次运行：每个用例输出四个整数——Chtholly 交换的两个格子。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "第二次运行：每个用例输出两个整数——目标格最终位置。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "first\n2\n5\n#....\n.#...\n.....\n.....\n.....\n3 4\n5\n.....\n####.\n.....\n#####\n.....\n1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "1 1 4 1\n1 1 1 1",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "second\n2\n5\n.....\n####.\n.....\n#####\n.....\n5\n.....\n.....\n....#\n..#..\n.....",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "1 1\n1 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "两次运行的测试用例<strong>顺序可能不同</strong>：second 的第 1 个用例对应 first 的第 2 个用例（图相同），second 的第 2 个用例对应 first 的第 1 个用例。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "用例 1：Chtholly 交换 $(1,1)$ 与 $(4,1)$；Nygglatho 依次循环平移（下移 1、右移 2）→ 顺时针旋转 $90^\\circ$ → 竖直翻转。目标 $(3,4) \\to (4,1) \\to (1,2) \\to (1,4)$，最终 Willem 报告 $(1,4)$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "用例 2：Chtholly 选两个相同格子，图片不变；Nygglatho 可不做任何操作，目标保持 $(1,1)$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "先想 second 能算什么（信息瓶颈视角）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "first → second 的唯一通道是<strong>那一次交换</strong>，能编码的信息极少——必须挑一个 second 端能稳定读出的量。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "second 拿到最终黑图，能做的运算只有黑格坐标的<strong>和</strong>（在模 $n$ 的世界里）。要让\"和\"归一化成唯一的位置，得除以黑格数 $w$：$\\gcd(n,w)=1$ 正是保证 $w$ 在模 $n$ 下有逆元；颜色反转后黑格数变 $n^2-w \\equiv -w$，逆元依然存在，所以 second 永远除得动。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "于是目标非常直接：<strong>让交换后的黑格坐标加权和</strong> $\\equiv$ <strong>目标点</strong>。second 读出这个和，就拿到了 $x$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "推式子：把哪个黑格换到哪",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "挑一个黑格 $p=(i,j)$ 换到 $q=(x_t,y_t)$。交换后行坐标和 $S_r' = S_r - i + x_t$，要求 $(S_r - i + x_t) w^{-1} \\equiv x_0 \\pmod n$，解出：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$x_t \\equiv i + (w x_0 - S_r)$，$y_t \\equiv j + (w y_0 - S_c) \\pmod n$",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "记 $\\delta = (w x_0 - S_r,\\ w y_0 - S_c)$：候选格 $q = p + \\delta$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "特判 $\\delta = 0$：当前加权和已经是目标点，无需交换，输出任意两个相同格子。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "为什么一定存在可交换的点对（*证明）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "反证：设 $\\delta \\ne 0$ 且每个黑格 $p$ 都有 $p+\\delta$ 仍是黑格。黑格集合 $B$ 等大小且 $B+\\delta \\subseteq B$，故 $B+\\delta = B$——$B$ 在平移 $\\delta$ 下<strong>不变</strong>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "平移 $\\delta$ 把格子分成若干轨道，$\\delta \\ne 0$ 时每条轨道长度 $L > 1$ 且 $L \\mid n$（$\\delta$ 生成的循环群作用）。$B$ 是若干整轨道的并，故 $L \\mid w$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "于是 $L \\mid \\gcd(n,w) = 1$，与 $L > 1$ 矛盾。所以必存在黑格 $p$ 使 $p+\\delta$ 是白格，直接交换即可。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "变换不改变编码（second 直接输出质心）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "平移：黑格集体移动，加权和与目标点同步平移。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "旋转/反射：坐标的可逆线性变换，质心跟着目标点一起变。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "颜色反转：补集行和 $\\equiv -S_r$、黑格数 $\\equiv -w$，新加权和 $\\equiv (-S_r)(-w)^{-1} = S_r w^{-1}$，不变。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "所以 second 端只需输出最终黑图加权和 $(S_r w^{-1},\\ S_c w^{-1}) \\bmod n$，加 1 转回 1-based。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "全程 $O(n^2)$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "总结",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "通信题先想\"<strong>接收端能算什么</strong>\"：把要传的信息编码进接收端唯一能算的量（黑格加权和）。$\\gcd(n,w)=1$ 让编码可解码，是这题能成立的关键。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n    string op; cin >> op;\n    if (op == \"first\") {\n        int T; cin >> T;\n        while (T--) {\n            ll n; cin >> n;\n            var a = vector<string>(n);\n            fa(i, 0, n - 1)cin >> a[i];\n            ll x0, y0; cin >> x0 >> y0;\n            x0--, y0--;\n            ll sumx = 0, sumy = 0, w = 0;\n            fa(i, 0, n - 1)fa(j, 0, n - 1)if (a[i][j] == '#')sumx += i, sumy += j, w++;\n            const ll INV1 = Math::invExgcd(w, n);\n            const ll INV2 = Math::invExgcd(INV1, n);\n            ll x_sum = sumx * INV1 % n, y_sum = sumy * INV1 % n;\n            if (x0 == x_sum and y0 == y_sum) {\n                cout << \"1 1 1 1\" << endl;\n                continue;\n            }\n            fa(i, 0, n - 1)fa(j, 0, n - 1)if (a[i][j] == '#') {\n                ll nsumx = sumx - i, nsumy = sumy - j;\n                nsumx %= n, nsumy %= n;\n                ll x_sum = nsumx * INV1 % n, y_sum = nsumy * INV1 % n;\n                ll x_t = ((x0 - x_sum) * INV2 % n + n) % n, y_t = ((y0 - y_sum) * INV2 % n + n) % n;\n                if (a[x_t][y_t] == '.') {\n                    cout << i + 1 << ' ' << j + 1 << ' ' << x_t + 1 << ' ' << y_t + 1 << endl;\n                    goto b;\n                }\n            }\n        b:\n            ;\n        }\n    }\n    else {\n        int T; cin >> T;\n        while (T--) {\n            ll n; cin >> n;\n            var a = vector<string>(n);\n            fa(i, 0, n - 1)cin >> a[i];\n            ll sumx = 0, sumy = 0, w = 0;\n            fa(i, 0, n - 1)fa(j, 0, n - 1)if (a[i][j] == '#')sumx += i, sumy += j, w++;\n            const ll INV1 = Math::invExgcd(w, n);\n            ll x0 = sumx * INV1 % n, y0 = sumy * INV1 % n;\n            cout << x0 + 1 << ' ' << y0 + 1 << endl;\n        }\n    }\n    return;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-08-12",
+  "updated_at": "2026-08-10",
+  "parsed_at": "2026-08-11T17:30:22.872879+00:00",
+  "type_directory": "p"
+}

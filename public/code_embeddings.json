@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-07-18T15:23:26.048859+00:00",
+  "generated_at": "2026-08-11T17:31:44.139116+00:00",
   "model": "microsoft/unixcoder-base",
   "dim": 768,
-  "count": 372,
+  "count": 382,
   "blocks": [
     {
       "note_slug": "2019陕西省赛-c-0689",
@@ -2978,6 +2978,86 @@
       "note_route": "/k/开放寻址哈希表",
       "block_index": 0,
       "code_hash": "948e3835600b",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "lc3303-第一个几乎相等子字符串的下标",
+      "note_title": "LC3303 第一个几乎相等子字符串的下标",
+      "note_route": "/p/lc3303-第一个几乎相等子字符串的下标",
+      "block_index": 0,
+      "code_hash": "85370ba581b8",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk137840d-小红的01串",
+      "note_title": "NK137840D 小红的01串",
+      "note_route": "/p/nk137840d-小红的01串",
+      "block_index": 0,
+      "code_hash": "9d982556c53c",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "nk7412g-牛牛和字符串的日常",
+      "note_title": "NK7412G 牛牛和字符串的日常",
+      "note_route": "/p/nk7412g-牛牛和字符串的日常",
+      "block_index": 0,
+      "code_hash": "c10788edcab7",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "z函数",
+      "note_title": "Z函数",
+      "note_route": "/k/z函数",
+      "block_index": 0,
+      "code_hash": "b9adf81e48aa",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客暑期多校训练营2-l-懒得打乱",
+      "note_title": "2026牛客暑期多校训练营2 L 懒得打乱",
+      "note_route": "/p/2026牛客暑期多校训练营2-l-懒得打乱",
+      "block_index": 0,
+      "code_hash": "a4af10851151",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026牛客暑期多校训练营6-f-字母表",
+      "note_title": "2026牛客暑期多校训练营6 F 字母表",
+      "note_route": "/p/2026牛客暑期多校训练营6-f-字母表",
+      "block_index": 0,
+      "code_hash": "0bdeff585e6a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026钉耙编程联赛7-011-今晚吃电脑配件",
+      "note_title": "2026钉耙编程联赛7 011 今晚吃电脑配件",
+      "note_route": "/p/2026钉耙编程联赛7-011-今晚吃电脑配件",
+      "block_index": 0,
+      "code_hash": "6ea2ed7b8f60",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "cf2256e-even-if-the-world-turns",
+      "note_title": "CF2256E Even If the World Turns",
+      "note_route": "/p/cf2256e-even-if-the-world-turns",
+      "block_index": 0,
+      "code_hash": "8d0682f119b2",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "tarjan___双连通分量",
+      "note_title": "tarjan___双连通分量",
+      "note_route": "/k/tarjan___双连通分量",
+      "block_index": 0,
+      "code_hash": "31d720747652",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "tarjan___强连通分量",
+      "note_title": "tarjan___强连通分量",
+      "note_route": "/k/tarjan___强连通分量",
+      "block_index": 0,
+      "code_hash": "591b165e5a4a",
       "lang": "cpp"
     }
   ]

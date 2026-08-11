@@ -1,0 +1,190 @@
+{
+  "slug": "excrt",
+  "title": "exCRT",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [
+    "扩展中国剩余定理"
+  ],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "What？",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>一句话</strong>：exCRT 求解同余方程组",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "$\\begin{cases} x \\equiv a_1 \\pmod{m_1} \\\\ x \\equiv a_2 \\pmod{m_2} \\\\ \\dots \\\\ x \\equiv a_n \\pmod{m_n} \\end{cases}$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "模数 $m_i$ <strong>可以不互质</strong>——这是 exCRT 相对 CRT 的唯一区别（CRT 要求两两互质）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>入参 / 返回值语义</strong>：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "输入：$n$ 组 $(a_i, m_i)$，含义是 $x \\equiv a_i \\pmod{m_i}$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "输出：<strong>最小非负解</strong> $x$；无解返回 $-1$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>解的结构</strong>：要么无解，要么解在模 $\\text{lcm}(m_1..m_n)$ 意义下<strong>唯一</strong>（整个剩余类 $x + k \\cdot \\text{lcm}$ 都是解）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "与 CRT 的关系：CRT 是互质特例，公式简单但必须互质；<strong>赛场上直接背 exCRT 板子即可</strong>，无需记 CRT 公式。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "How？",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "调用流程",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "输入规范化 → 逐个合并 → 输出规范化。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "合并：把前 $i$ 个方程的当前解 $x \\equiv x_0 \\pmod M$ 和下一个方程 $x \\equiv a \\pmod m$ 合并成 $x \\equiv x_0' \\pmod{\\text{lcm}(M, m)}$。逐个做下去，所有方程压成一个。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "模板",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "using ll = long long;\nll exgcd(ll a, ll b, ll& x, ll& y) {\n    if (!b) { x = 1; y = 0; return a; }\n    ll g = exgcd(b, a % b, y, x);\n    y -= a / b * x;\n    return g;\n}\n// 求解 x ≡ a[i] (mod m[i])，模数可不互质\n// 返回最小非负解；无解返回 -1\nll excrt(const vector<ll>& a, const vector<ll>& m) {\n    int n = (int)a.size();\n    ll x = (a[0] % m[0] + m[0]) % m[0], M = m[0]; // 当前合并结果 x ≡ x (mod M)\n    for (int i = 1; i < n; i++) {\n        ll p, q;\n        ll g = exgcd(M, m[i], p, q);        // 解 M·p + m[i]·q = gcd(M, m[i])\n        ll c = ((a[i] - x) % m[i] + m[i]) % m[i]; // 差 a[i] - x（规范化到 [0, m[i])）\n        if (c % g != 0) return -1;          // 无解：差不能被 gcd 整除\n        ll t = m[i] / g;\n        p = (p % t + t) % t;                // 先缩到 [0, t)，防溢出\n        ll k = (c / g % t) * p % t;         // k 满足 x + M·k ≡ a[i] (mod m[i])\n        x += M * k;\n        M = M / g * m[i];                   // 新模数 = lcm(M, m[i])，先除后乘\n        x = (x % M + M) % M;\n    }\n    return x;\n}",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "注意点",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入规范化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$a_i$ 可能是负数或 $\\ge m_i$：先统一 <code>(a[i] % m[i] + m[i]) % m[i]</code> 到 $[0, m_i)$，否则合并公式全乱。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$m_i = 1$ 的方程是<strong>废方程</strong>（任何 $x$ 都满足），不用特殊处理，也不会影响结果。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "无解处理",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "无解可能在<strong>最后一个方程才暴露</strong>，不是一开始能预判的；返回 $-1$ 后按题目要求输出（\"无解\"字样、<code>No solution</code> 等）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "别把\"模数不互质\"当成无解——不互质只是需要 exCRT，不是无解。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出规范化",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "返回值是<strong>最小非负解</strong>。题目要<strong>最小正整数解</strong>时，若返回 $0$ 且 $\\text{lcm} > 0$，答案应为 $\\text{lcm}$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "题目要 $[L, R]$ 区间内的解：枚举 $x + k \\cdot \\text{lcm}$（解的周期是 $\\text{lcm}$，不是 $m_n$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "答案可能很大，注意题目是否要求对某数取模输出（此时 exCRT 合并的中间量仍按真实值算）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "溢出（翻车重灾区）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$\\text{lcm}$ 本身不用单独防：解 $x \\in [0, \\text{lcm})$，lcm 爆不爆等价于\"答案超不超范围\"，赛题会保证答案范围或要求答案取模输出；真正要防的是合并过程的乘法（下面几条）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "新模数先除后乘：<code>M / g * m[i]</code>，别写成 <code>M * m[i] / g</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "合并中的 <code>M * k</code> 在 $m_i \\sim 10^9$ 级、$\\text{lcm} \\sim 10^{18}$ 级时<strong>爆 <code>ll</code></strong>：要么保证题面范围，要么乘法换 <code>__int128</code>。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$m_i \\sim 10^{18}$ 级时（如 1e18 模数），整个板子的乘法都要 <code>__int128</code>。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-08-12",
+  "updated_at": "2026-08-05",
+  "parsed_at": "2026-08-11T17:30:23.078296+00:00",
+  "type_directory": "k"
+}
