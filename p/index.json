@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-11T17:30:22.844869+00:00",
-  "count": 344,
+  "generated_at": "2026-09-02T05:37:42.458501+00:00",
+  "count": 346,
   "notes": [
     {
       "slug": "2019陕西省赛-c-0689",
@@ -807,6 +807,21 @@
       "parent": null,
       "created_at": "2026-06-15",
       "updated_at": "2026-04-25",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026杭电暑期多校赛1-006-开关灯",
+      "title": "2026杭电暑期多校赛1 006 开关灯",
+      "type": "题目",
+      "tags": [
+        "期望/线性性",
+        "贡献法"
+      ],
+      "difficulty": 2.0,
+      "summary": "赛时直接暴力打表猜出来每个灯的贡献公式。本题初衷明显是期望线性性，推贡献法的公式。",
+      "parent": null,
+      "created_at": "2026-09-02",
+      "updated_at": "2026-08-29",
       "type_directory": "p"
     },
     {
@@ -4015,6 +4030,20 @@
       "parent": null,
       "created_at": "2026-06-15",
       "updated_at": "2026-01-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "mc0510-群臣功绩评定",
+      "title": "MC0510 群臣功绩评定",
+      "type": "题目",
+      "tags": [
+        "区间dp"
+      ],
+      "difficulty": 3.0,
+      "summary": "$n \\le 200$ 提示区间 DP；要算堆叠层级，普通 $dp[i][j]$ 不够，得多维护一维记录当前堆叠数，即 $dp[k][i][j]$；转移就是<strong>经典\"枚举分割点\"</strong>的区间 DP 模型，分割点是\"以 $i$ 为左端点的线段\"，其余线段被它劈成内部、右侧两个独立子区间，用 $sum$ 辅助计数；分割点只有 $200$ 个，按左端点分组存进 $l[]$ <strong>均摊枚举</strong>，省掉一维，从 $O(n ^ 4)$ 降到 $O(n \\cdot mx ^ 2)$",
+      "parent": null,
+      "created_at": "2026-09-02",
+      "updated_at": "2026-09-02",
       "type_directory": "p"
     },
     {

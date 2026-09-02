@@ -10,33 +10,54 @@
   "source": "",
   "aliases": [],
   "parent": null,
-  "format": "logseq",
+  "format": "markdown",
   "sections": [
     {
       "heading": "二分式三分",
       "level": 2,
       "blocks": [
         {
-          "heading": "最大值点",
+          "heading": "整数版（最大值点）",
           "level": 3,
           "blocks": [
             {
               "type": "code",
               "lang": "cpp",
               "code": "int ternary_search_max(int l, int r) {\n\t// 范围 [l, r]\n\twhile (l < r) {\n\t\tint mid = (l + r) / 2;\n\t\tif (f(mid) < f(mid + 1)) {\n\t\t\tl = mid + 1;\n\t\t}\n\t\telse {\n\t\t\tr = mid;\n\t\t}\n\t}\n\treturn l; // 最大值点，最大值 f(l)\n}",
-              "depth": 1
+              "depth": 2
             }
           ]
         },
         {
-          "heading": "最小值点",
+          "heading": "浮点数版（最大值点）",
           "level": 3,
           "blocks": [
             {
               "type": "code",
               "lang": "cpp",
-              "code": "int ternary_search_min(int l, int r) {\n\t// 范围 [l, r]\n\twhile (l < r) {\n\t\tint mid = (l + r) / 2;\n\t\tif (f(mid) > f(mid + 1)) {\n\t\t\tl = mid + 1;\n\t\t}\n\t\telse {\n\t\t\tr = mid;\n\t\t}\n\t}\n\treturn l; // 最小值点，最小值 f(l)\n}",
-              "depth": 1
+              "code": "double ternary_search_max(double l, double r) {\n\t// 范围 [l, r]，f 单峰，f 返回 double\n\tfor (int i = 0; i < 100; ++i) {\n\t\tdouble mid = (l + r) / 2;\n\t\tdouble step = (r - l) * 1e-4;      // 相邻点间距，随区间缩放\n\t\tif (f(mid) < f(mid + step)) {      // 右高 → 峰在右边\n\t\t\tl = mid;\n\t\t} else {                           // 左高或相等 → 峰在左边\n\t\t\tr = mid;\n\t\t}\n\t}\n\treturn (l + r) / 2;                    // 最大值点，最大值 f(返回值)\n}",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "最小值改造",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "整数版：把 <code>f(mid) &lt; f(mid + 1)</code> 改成 <code>f(mid) &gt; f(mid + 1)</code>，其余不变",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "浮点数版：把 <code>f(mid) &lt; f(mid + step)</code> 改成 <code>f(mid) &gt; f(mid + step)</code>，其余不变",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "原理：求最大时\"右高 → 峰在右\"，求最小反过来\"右低 → 谷在右\"，只改比较符号即可",
+              "depth": 2
             }
           ]
         }
@@ -46,8 +67,8 @@
   "code_languages": [
     "cpp"
   ],
-  "created_at": "2026-06-16",
-  "updated_at": "2026-02-03",
-  "parsed_at": "2026-06-15T17:06:06.566050+00:00",
+  "created_at": "2026-09-02",
+  "updated_at": "2026-08-19",
+  "parsed_at": "2026-09-02T05:37:42.687482+00:00",
   "type_directory": "k"
 }

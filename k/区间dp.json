@@ -43,7 +43,7 @@
           ]
         },
         {
-          "heading": "模型二：区间拆分/合并型",
+          "heading": "模型二：区间合并型/枚举分割点型",
           "level": 3,
           "blocks": [
             {
@@ -63,7 +63,7 @@
             },
             {
               "type": "p",
-              "html": "<strong>复杂度</strong>：通常为 $O(N^3)$。",
+              "html": "<strong>复杂度</strong>：通常为 $O(N^3 / 6)$。",
               "depth": 2
             },
             {
@@ -77,8 +77,8 @@
     }
   ],
   "code_languages": [],
-  "created_at": "2026-06-28",
-  "updated_at": "2026-06-28",
-  "parsed_at": "2026-06-28T09:51:04.531149+00:00",
+  "created_at": "2026-09-02",
+  "updated_at": "2026-08-31",
+  "parsed_at": "2026-09-02T05:37:42.693984+00:00",
   "type_directory": "k"
 }
