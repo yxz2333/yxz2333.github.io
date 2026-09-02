@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-11T17:31:44.139116+00:00",
+  "generated_at": "2026-09-02T05:39:06.919306+00:00",
   "model": "microsoft/unixcoder-base",
   "dim": 768,
-  "count": 382,
+  "count": 384,
   "blocks": [
     {
       "note_slug": "2019陕西省赛-c-0689",
@@ -3058,6 +3058,22 @@
       "note_route": "/k/tarjan___强连通分量",
       "block_index": 0,
       "code_hash": "591b165e5a4a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026杭电暑期多校赛1-006-开关灯",
+      "note_title": "2026杭电暑期多校赛1 006 开关灯",
+      "note_route": "/p/2026杭电暑期多校赛1-006-开关灯",
+      "block_index": 0,
+      "code_hash": "14aa47a62c7a",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "mc0510-群臣功绩评定",
+      "note_title": "MC0510 群臣功绩评定",
+      "note_route": "/p/mc0510-群臣功绩评定",
+      "block_index": 0,
+      "code_hash": "a1a475051283",
       "lang": "cpp"
     }
   ]

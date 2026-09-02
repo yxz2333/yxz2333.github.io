@@ -1,0 +1,158 @@
+{
+  "slug": "二进制",
+  "title": "二进制",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "枚举二进制位",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "枚举所有为 1 的位（$O(popcount(x))$）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "for (int t = x; t; t &= t - 1) {      // t & (t-1)：消掉最低位的 1\n\tint i = __builtin_ctz(t);          // 最低位 1 的下标（0-based）\n\t// 处理第 i 位\n}",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "原理：<code>t &amp; (t-1)</code> 每次把最低位的 1 清零（等价 <code>t - lowbit(t)</code>），ctz 一条指令（bsf/tzcnt）直接给出下标；x 有几个 1 就跑几轮，与位宽无关",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "lowbit（取最低位 1）",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "int lowbit(int x) { return x & -x; }  // 例：lowbit(12) = 4",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "内置函数全家桶（GCC/Clang）",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<code>__builtin_popcount(x)</code>：二进制中 1 的个数",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>__builtin_clz(x)</code>：前导 0 的个数（x = 0 未定义）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>__builtin_ctz(x)</code>：末尾 0 的个数（x = 0 未定义）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>__builtin_ffs(x)</code>：最低位 1 的下标 + 1（1-based；x = 0 返回 0）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>floor(log2 x) = 31 - __builtin_clz(x)</code>（x > 0，int 下）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "long long 版本：<code>__builtin_popcountll</code> / <code>__builtin_clzll</code> / <code>__builtin_ctzll</code> / <code>__builtin_ffsll</code>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "枚举子集 / 状压 DP：见 <a href=\"/k/状态压缩\" class=\"wikilink\">状态压缩</a>",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "常用位运算技巧",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "判断 2 的幂：<code>x &gt; 0 &amp;&amp; !(x &amp; (x - 1))</code>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "第 k 位操作（0-based）：",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "(x >> k) & 1    // 取第 k 位\nx | (1 << k)    // 置 1\nx & ~(1 << k)   // 清 0\nx ^ (1 << k)    // 翻转",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "向上取整到 2 的幂：",
+          "depth": 2
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "int next_pow2(int x) {          // x >= 1\n\treturn 1 << (32 - __builtin_clz(x - 1));\n}",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "注意 x = 1 时 x-1 = 0，clz(0) 未定义，需特判",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "注意",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<code>==</code> 优先级高于 <code>&amp;</code>：判断奇偶必须写 <code>(x &amp; 1) == 0</code>，不能省括号",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "ctz(0)、clz(0) 未定义，循环条件写成 t 就天然避开",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "内置函数最好传无符号类型（有符号负数的行为是实现相关）",
+          "depth": 2
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-09-02",
+  "updated_at": "2026-09-02",
+  "parsed_at": "2026-09-02T05:37:42.690588+00:00",
+  "type_directory": "k"
+}

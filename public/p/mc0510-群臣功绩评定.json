@@ -1,0 +1,325 @@
+{
+  "slug": "mc0510-群臣功绩评定",
+  "title": "MC0510 群臣功绩评定",
+  "type": "题目",
+  "tags": [
+    "区间dp"
+  ],
+  "difficulty": 3.0,
+  "summary": "$n \\le 200$ 提示区间 DP；要算堆叠层级，普通 $dp[i][j]$ 不够，得多维护一维记录当前堆叠数，即 $dp[k][i][j]$；转移就是<strong>经典\"枚举分割点\"</strong>的区间 DP 模型，分割点是\"以 $i$ 为左端点的线段\"，其余线段被它劈成内部、右侧两个独立子区间，用 $sum$ 辅助计数；分割点只有 $200$ 个，按左端点分组存进 $l[]$ <strong>均摊枚举</strong>，省掉一维，从 $O(n ^ 4)$ 降到 $O(n \\cdot mx ^ 2)$",
+  "link": "https://www.matiji.net/exam/brushquestion/10/4777/C98C14523F069FECB0DEED64F00CEAB0",
+  "link_text": "MC0510 群臣功绩评定",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "公子光孙利当上吴王，他重用伍子胥、孙武等人，把国家治理得越来越强大。于是为了表彰等等诸臣的功绩，决定建立一套功绩评定制度：把功绩记录用数轴上的线段表示其影响的时间范围，然后考虑功绩记录之间的交叉情况，在完全不交叉的情况下再用\"层级深度\"去定义嵌套层数。现将整个过程形式化描述如下：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在一个一维数轴上有 $n$ 个线段（其中第 $i$ 个线段的左端点为 $L _ i$，右端点为 $R _ i$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "定义一个合法非空集合为：集合中任意两个线段不能是交叉关系（<strong>共用端点也算交叉</strong>），但可以是包含与被包含关系。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "定义一个合法非空集合的权值为：该集合中线段包含的最大层级数（线段 $x$ 被线段 $y$ 包含当且仅当 $L _ y < L _ x$，$R _ x < R _ y$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "题面线段图（简易字符画替代）：",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "text",
+          "code": "|-----------------|\n    |-----------|\n        |-----|",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "如图，上图的线段包含的层级数为 $3$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "注意，两个相同的线段不是包含关系（视为共用端点交叉）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在问：这 $n$ 个线段构成的集合的所有合法非空子集的权值之和是多少？对 $998244353$ 取模输出。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行一个整数 $n$（$1 \\le n \\le 200$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n$ 行，每行两个整数 $L _ i, R _ i$（$1 \\le L _ i < R _ i \\le 10 ^ 9$），表示每个线段的左右端点。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "一行一个整数，表示答案对 $998244353$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "3\n1 4\n2 3\n5 6",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "9",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "5\n6 7\n5 8\n4 9\n3 10\n2 11",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "80",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "3\n1 2\n1 3\n2 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "3\n2 3\n1 4\n1 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "text",
+              "code": "7",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "样例 1 中，最大层级为 $1$ 的线段集合有：$\\{[1,4]\\}$、$\\{[2,3]\\}$、$\\{[5,6]\\}$、$\\{[1,4],[5,6]\\}$、$\\{[2,3],[5,6]\\}$；最大层级为 $2$ 的线段集合有：$\\{[1,4],[2,3]\\}$ 和 $\\{[1,4],[2,3],[5,6]\\}$，故答案为 $5 + 2 \\times 2 = 9$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "模型识别",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$n \\le 200$，线段互相\"堆叠\"是典型的区间结构，往区间 DP 想。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "但答案求和的是各级嵌套层数，普通的 $dp[i][j]$ 存不下\"最大层级\"这个量，所以<strong>给状态多开一维</strong> $k$ <strong>记录堆叠数</strong>：$dp[k][i][j]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>预处理</strong>：端点值到 $10 ^ 9$，离散化到 $1..mx$（$mx \\le 400$）；同时按左端点分组，$l[L]$ 存以 $L$ 为左端点的线段对应的右端点。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "状态",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "$dp[k][i][j]$：只用 $[i,j]$ 内的线段构成的合法集合中，最大层级<strong>恰好</strong>为 $k$ 的个数；空集深度记为 $0$（$dp[0][i][j] = 1$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "$sum[k][i][j] = \\sum _ {t=1..k} dp[t][i][j]$：深度 $\\le k$ 的非空集合个数（空集不放进 $sum$，转移里用 $+1$ 单独补）。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "枚举分割点",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "转移要枚举\"以 $i$ 为左端点的线段\"当分割点，合法线段只有 $200$ 个。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "直接对每对区间扫一遍是 $O(n ^ 4)$；用 $l[L]$ 分组枚举，每个线段只在所有 $R \\le j$ 的区间 $[i,j]$ 里出现一次，均摊后每层 $k$ 枚举代价 $O(n \\cdot mx)$。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "转移",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "转移还是区间 DP 那种<strong>\"枚举分割点\"</strong>的写法，分两部分。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>第一部分</strong>，不含左端点 $i$ 的线段：$dp[k][i][j]$ 直接继承 $dp[k][i+1][j]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>第二部分</strong>，必含左端点 $i$ 的线段：枚举分割点 $s = [i, r]$（$r \\in l[i]$ 且 $r \\le j$）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>转移方程</strong>：加上 $s$ 后整体深度 $= \\max$ $($内部深度 $+ 1$，右侧深度$)$。要恰好等于 $k$，两支：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "左侧深度 $= k$，右侧深度 $\\le k$ 或空集 → $dp[k-1][i+1][r-1] \\times (sum[k][r+1][j] + 1)$；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "左侧深度 $\\le k-1$ 或空集，右侧深度 $= k$ → $(sum[k-2][i+1][r-1] + 1) \\times dp[k][r+1][j]$（$k \\ge 2$ 才有）。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "pii p[205];\nll dp[205][405][405], sum[205][405][405];\nvector<int> l[405];\nvoid solve(int CASE)\n{\n\tint n; cin >> n;\n\tvar b = vector<int>();\n\tfa(i, 1, n)cin >> p[i].px >> p[i].py, b.pb(p[i].px), b.pb(p[i].py);\n\tsort(all(b));\n\tb.erase(unique(all(b)), b.end());\n\tvar find = [&](int x)->int {\n\t\treturn upper_bound(all(b), x) - b.begin();\n\t\t};\n\tint mx = 0;\n\tfa(i, 1, n) {\n\t\tp[i] = { find(p[i].px), find(p[i].py) };\n\t\tmx = max(mx, p[i].py);\n\t\tl[p[i].px].pb(p[i].py);\n\t}\n\n\tfa(i, 1, mx)fa(j, 1, mx)dp[0][i][j] = 1;\n\tfa(k, 1, n)fa(len, 2, mx)fa(i, 1, mx) {\n\t\tint j = i + len - 1;\n\t\tif (j > mx)break;\n\n\t\t// 加入 [i + 1, j] 的答案\n\t\tdp[k][i][j] = dp[k][i + 1][j];\n\n\t\t// 加入 [i, [i + 1, j]] 的答案\n\t\t// 均摊枚举\n\t\tfor (int r : l[i])if (r <= j) {\n\t\t\t// sum 可以取空，但 dp 必取\n\t\t\tdp[k][i][j] = (dp[k][i][j] + dp[k - 1][i + 1][r - 1] * (sum[k][r + 1][j] + 1) % mod) % mod;\n\t\t\tif (k >= 2)dp[k][i][j] = (dp[k][i][j] + (sum[k - 2][i + 1][r - 1] + 1) * dp[k][r + 1][j] % mod) % mod;\n\t\t}\n\n\t\tsum[k][i][j] = (sum[k - 1][i][j] + dp[k][i][j]) % mod;\n\t}\n\n\tll ans = 0;\n\tfa(k, 1, n)ans = (ans + dp[k][1][mx] * k % mod) % mod;\n\tcout << ans << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp",
+    "text"
+  ],
+  "created_at": "2026-09-02",
+  "updated_at": "2026-09-02",
+  "parsed_at": "2026-09-02T05:37:42.473276+00:00",
+  "type_directory": "p"
+}
