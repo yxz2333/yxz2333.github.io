@@ -41,7 +41,7 @@ export const friends = [
 export const homeSections = [
   {
     name: '首页',
-    articles: ['welcome-to-my-blog'],
+    articles: ['welcome-to-my-blog', '不只是“说错话”，更是“做错事”：agent-安全的攻防现状'],
   },
   {
     name: '题目题解',
