@@ -7,11 +7,27 @@
   "summary": "",
   "link": "",
   "link_text": "",
-  "source": "[Safety at Scale: A Comprehensive Survey of Large Model and Agent Safety](https://arxiv.org/pdf/2502.05206)",
+  "source": "",
   "aliases": [],
   "parent": null,
-  "format": "logseq",
+  "format": "markdown",
   "sections": [
+    {
+      "heading": "导读",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "本篇汇报前半部分聚焦综述<a href=\"https://arxiv.org/pdf/2502.05206\" target=\"_blank\" class=\"md-link\">《Safety at Scale》</a>中的第七章智能体安全核心攻防研究的提炼。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "在原综述之外，我额外检索了近期前沿工作<a href=\"https://os-for-agent.github.io/papers/AgenticOS_2026_paper_21.pdf\" target=\"_blank\" class=\"md-link\">《Execute-Only Agents》</a>作为防御补充，并在文末结合自身对形式化验证<a href=\"https://arxiv.org/abs/2606.06523v2\" target=\"_blank\" class=\"md-link\">Lean4Agent</a>的学习与理解，自主提出了将工作流形式化验证用于 Agent 安全防御的构想与局限性分析。",
+          "depth": 2
+        }
+      ]
+    },
     {
       "heading": "背景",
       "level": 2,
@@ -23,12 +39,12 @@
             {
               "type": "p",
               "html": "<strong>大模型</strong>凭借其卓越的学习与泛化能力，实现了医疗、金融、内容生成等领域的广泛部署，但也使其面临显著的风险。",
-              "depth": 1
+              "depth": 2
             },
             {
               "type": "p",
               "html": "这些风险促使 AI 安全的研究领域迅速扩展，涵盖了各种攻击方法、防御策略和评估基准，旨在识别并缓解大模型的脆弱性。",
-              "depth": 1
+              "depth": 2
             }
           ]
         },
@@ -39,22 +55,22 @@
             {
               "type": "p",
               "html": "智能体以 <strong>LLM/VLM</strong> 作为“大脑”，天然继承了这些基础模型的安全问题。因此，该论文第 3 章和第 5 章中，绝大多数针对独立 LLM/VLM 模型的攻击，都可以被改造后用于间接操纵智能体的行为。",
-              "depth": 1
+              "depth": 2
             },
             {
               "type": "p",
               "html": "但 <strong>Agent</strong> 不只是聊天模型，它能<strong>自主规划任务</strong>、调用<strong>外部工具</strong>（联网搜索、MCP等）、读取<strong>外部数据</strong>、访问<strong>长期记忆</strong>等，通过不断迭代最终完成任务。",
-              "depth": 1
+              "depth": 2
             },
             {
               "type": "p",
               "html": "这就意味着 Agent 暴露在更加广阔且不可控的安全风险之中，其危害不再仅仅是输出有害内容，一旦被操纵，很可能会通过外部工具来引发实质性的系统级破坏。",
-              "depth": 1
+              "depth": 2
             },
             {
               "type": "p",
               "html": "因此，Agent 安全比传统 LLM 安全更加复杂，也更需要专门研究。",
-              "depth": 1
+              "depth": 2
             }
           ]
         }
@@ -67,7 +83,7 @@
         {
           "type": "p",
           "html": "论文由浅入深从四个角度进行阐述：<strong>间接提示词注入</strong>、<strong>组件级威胁</strong>、<strong>系统级风险</strong>、<strong>智能体自主攻击与防御</strong>。",
-          "depth": 1
+          "depth": 2
         },
         {
           "heading": "间接提示词注入",
@@ -80,17 +96,17 @@
                 {
                   "type": "p",
                   "html": "“<strong>间接提示词注入</strong>”，顾名思义，就是通过外部内容（网页、文档、工具返回结果等）间接将 { 恶意指令 } 注入上下文，让模型误认为恶意指令就是用户指令，从而执行用户所不期望的恶意行为。",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "该论文综述了这类攻击的两个主要研究方向：<strong>恶意指令注入</strong>和<strong>越狱攻击</strong>。简单来说，前者目的在于直接让 Agent 执行一个具体恶意任务，后者目的在于打破 Agent 内置的安全策略。",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "这类攻击本质上继承于 LLM 本身的风险。但不同于纯对话式 LLM，Agent 的信息来源更广，更容易出现此类漏洞。攻击造成的影响也不单单是“说什么”，还会直接操纵它“做什么”，导致后果更加严重。",
-                  "depth": 1
+                  "depth": 2
                 }
               ]
             },
@@ -101,47 +117,47 @@
                 {
                   "type": "p",
                   "html": "对于这类攻击方式，LLM 的防御分为<strong>输入防御</strong>与<strong>对抗性微调</strong>，前者在不改变 LLM 权重的前提下中和潜在的恶意注入，后者对 LLM 进行针对性的微调以增强其区分合法指令与恶意指令的能力。",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "Agent 的防御大致分为<strong>黑盒方法</strong>和<strong>白盒方法</strong>。显而易见，Agent 防御会在很大程度上继承 LLM 防御的思路，而且更进一步。",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "<strong>黑盒防御方法</strong>无法访问模型的权重和架构，不依赖模型内部信息。根据论文内容，大致可总结为两类：",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "<strong>输入预处理</strong>：通过提示工程技术处理外部输入，让模型更容易区分可信与不可信内容。这继承了 <strong>LLM 输入防御</strong>的思路。",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
                   "html": "<strong>外部认证与隔离</strong>：对外部响应进行认证过滤（如 FATH），或引入隔离策略（如 Design Pattern），以限制不可信内容对 Agent 的影响。这则是 Agent 防御的独有思路。",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
-                  "html": "> 外部认证与隔离这个部分，与我最近看过的 Lean4Agent 研究相呼应，这部分在 <strong>猜想与进一步研究</strong> 中继续讨论。",
-                  "depth": 1
+                  "html": "> 外部认证与隔离这个部分，与我最近看过的 Lean4Agent 研究相呼应，这部分在 <a href=\"/notes/#猜想与进一步研究\" class=\"wikilink\">#猜想与进一步研究</a> 中继续讨论。",
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "<strong>白盒防御方法</strong>需要访问模型内部信息，在模型/推理层识别或抑制恶意指令。其中最有代表性的方法是<strong>指令层级</strong>：",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "这一方法把系统提示、用户指令、工具消息引入特权级别，训练模型优先处理高特权的指令，并忽略或拒绝有害的低特权指令。",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
                   "html": "本质上沿用了 <strong>LLM 微调防御</strong>的思想，在这基础上，把训练对象从单纯的系统/用户消息扩展到了 Agent 的工具消息。",
-                  "depth": 2
+                  "depth": 3
                 }
               ]
             },
@@ -152,7 +168,7 @@
                 {
                   "type": "p",
                   "html": "间接提示词注入在攻防思路上，与论文第 3 章 LLM 的提示词注入威胁一脉相承，但 Agent 的信息来源、工具调用和自主执行，使攻击的切入点变多、防御难度更大。",
-                  "depth": 1
+                  "depth": 2
                 }
               ]
             },
@@ -163,42 +179,42 @@
                 {
                   "type": "p",
                   "html": "<a href=\"https://os-for-agent.github.io/papers/AgenticOS_2026_paper_21.pdf\" target=\"_blank\" class=\"md-link\">Execute-Only Agents: Architectural Defense Against Prompt Injection for AI Agents</a>",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "在本综述性论文中，列出的防御方法大多仍以 “LLM 会接触外部不可信信息” 为前提，而 Execute-Only Agents 研究提出了新的思路：<strong>与其指望模型看完不可信内容之后还能始终不被骗，不如从系统结构上让它根本看不到这些内容</strong>。",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "这是一种新型的黑盒防御研究思路，更是 “外部隔离” 这一防御方向的更进一步。",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "论文把 Agent 任务可以分成三类：",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "<strong>纯工具脚本即可处理</strong>（Blind Scriptable）；例子：给用户显示未读邮件，显然 LLM 本身不需要读取邮件内容。",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
                   "html": "<strong>可通过脚本推断格式</strong>（Schema-Inferable）；例子：在邮件中提取日期和发件人，使用正则等方式解析提取，同样不需要读取邮件内容。",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
                   "html": "<strong>LLM 必须读取</strong>（Read-Required）；例子：总结邮件内容，这必须需要 LLM 介入了。",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
                   "html": "论文作者手工标注了 AgentDojo 的 97 个任务，发现大约 <strong>78.4%</strong> 的任务都能被归为前两类，虽然结论来自人工分类，但也能指明一条值得深入研究的防御路线：<strong>与其训练一个更会识别攻击的 Agent，不如先设计一个更不容易接触攻击的 Agent</strong>。",
-                  "depth": 1
+                  "depth": 2
                 }
               ]
             }
@@ -211,17 +227,17 @@
             {
               "type": "p",
               "html": "论文主要从 Agent 的三个模块的攻防进行了相关综述：<strong>智能体记忆的攻防</strong>、<strong>智能体工具调用的攻防（MCP 攻防）</strong>、<strong>视觉攻防（VLM 智能体攻防）</strong>。",
-              "depth": 1
+              "depth": 2
             },
             {
               "type": "p",
               "html": "无论攻击的是记忆、工具调用还是 VLM，其本质都是<strong>将不可信的外部信息融入 Agent 的某个处理模块</strong>。",
-              "depth": 1
+              "depth": 2
             },
             {
               "type": "p",
               "html": "防御的思路也<strong>大多与间接提示词注入的防御思路类似</strong>，包含输入预处理、外部信息的认证过滤与隔离、权限分级等上文已提到的方案，以及记忆系统特有的扩展上下文、知识整合等防御方案。",
-              "depth": 1
+              "depth": 2
             }
           ]
         },
@@ -232,7 +248,7 @@
             {
               "type": "p",
               "html": "论文主要对<strong>多智能体系统</strong>和<strong>具身智能体系统</strong>进行了相关综述。",
-              "depth": 1
+              "depth": 2
             }
           ]
         },
@@ -243,7 +259,7 @@
             {
               "type": "p",
               "html": "可以简单理解为：<strong>让智能体自己去攻击，也让智能体自己去防御。</strong>",
-              "depth": 1
+              "depth": 2
             },
             {
               "heading": "智能体自主攻击",
@@ -252,12 +268,12 @@
                 {
                   "type": "p",
                   "html": "智能体自主攻击方面，论文提出其不仅能攻击其它 Agent 系统，还能主动识别并利用网站漏洞。",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "通过自我反思生成多样化场景的攻击策略，甚至能通过阅读 arXiv 上的防御论文，分析源代码实现来生成复杂的攻击技术。",
-                  "depth": 1
+                  "depth": 2
                 }
               ]
             },
@@ -268,17 +284,17 @@
                 {
                   "type": "p",
                   "html": "智能体自主防御方面，可以总结为两类：制定安全约束和自我反思实现动态调整防御。但论文作者也在文章中提出这两类防御的局限性：",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "<strong>安全对齐并非万灵药</strong>：第 8 章开放挑战中提出，安全约束仍然容易受到能绕过现有安全约束的高级攻击；",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
                   "html": "<strong>自我反思机制的有效性仍是一个开放问题</strong>：LLM 的内在自我修正会在事实性问题上诱发摇摆不定的答案，产生干扰正确推理路径的过度思考，并在代码生成等任务中引入额外错误。",
-                  "depth": 2
+                  "depth": 3
                 }
               ]
             },
@@ -289,7 +305,7 @@
                 {
                   "type": "p",
                   "html": "论文中提到的智能体自主攻击案例大多表现很好，说明恶意智能体已经具备相当强的自主攻击能力，可能带来更大范围的安全风险；自主防御方案明显欠佳，说明智能体自主防御仍然是一大难题。",
-                  "depth": 1
+                  "depth": 2
                 }
               ]
             }
@@ -308,7 +324,7 @@
             {
               "type": "p",
               "html": "Lean4Agent 的研究思路是否可以迁移到 Agent 安全相关领域？",
-              "depth": 1
+              "depth": 2
             }
           ]
         },
@@ -319,22 +335,22 @@
             {
               "type": "p",
               "html": "回顾一下 Lean4Agent 的研究：",
-              "depth": 1
+              "depth": 2
             },
             {
               "type": "p",
               "html": "可以总结为两大模块：<strong>事前验证</strong>和<strong>事后诊断进化</strong>。",
-              "depth": 2
+              "depth": 3
             },
             {
               "type": "p",
               "html": "<strong>事前验证</strong>：FormalAgentLib 的 Layer1 与 Layer2，分别验证工作流的结构正确性和语义一致性。",
-              "depth": 2
+              "depth": 3
             },
             {
               "type": "p",
               "html": "<strong>事后诊断进化</strong>：Layer3 对执行轨迹做验证，定位错误步骤，LeanEvolve 再利用这些定位结果对工作流进行修正与进化。",
-              "depth": 2
+              "depth": 3
             }
           ]
         },
@@ -345,32 +361,32 @@
             {
               "type": "p",
               "html": "Lean4Agent 研究提出的核心思想是通过 <strong>Lean 的形式化验证</strong>来提高 Agent 执行任务的准确率。",
-              "depth": 1
+              "depth": 2
             },
             {
               "type": "p",
               "html": "推测这一思想可以进一步迁移到安全场景：例如在 Lean 中加入<strong>安全约束</strong>，验证 Agent 的工作流是否满足 “不接触不可信内容”、“不执行越权动作” 等约束。",
-              "depth": 1
+              "depth": 2
             },
             {
               "type": "p",
               "html": "如果这个方向可行，它可以被看作一种新的<strong>间接提示注入黑盒防御方法</strong>：",
-              "depth": 1
+              "depth": 2
             },
             {
               "type": "p",
               "html": "从外部将 Agent 的计划和动作做成<strong>形式化的工作流</strong>，并定义<strong>安全谓词</strong>；",
-              "depth": 2
+              "depth": 3
             },
             {
               "type": "p",
               "html": "在执行前，由外部的 Lean 验证器验证工作流的每个步骤是否满足安全约束，通过后才允许执行。",
-              "depth": 2
+              "depth": 3
             },
             {
               "type": "p",
               "html": "这套防御思路不是提高模型识别恶意指令的能力，而是<strong>让危险指令在外部验证阶段被拦住</strong>。",
-              "depth": 2
+              "depth": 3
             },
             {
               "heading": "优势",
@@ -379,22 +395,22 @@
                 {
                   "type": "p",
                   "html": "这套思路的优势在于：",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "<strong>外部强制检查</strong>：让 Agent 在被迫安全约束下执行任务，而不是纯靠自觉识别恶意指令。",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
                   "html": "<strong>可叠加多种策略</strong>：可以把输入预处理、隔离策略、运行时验证等部分转化为可验证的安全约束，从而形成多层防御。",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
                   "html": "<strong>可定位好改进</strong>：验证失败时能指出具体是哪一步、违反了什么约束，便于改进。",
-                  "depth": 2
+                  "depth": 3
                 }
               ]
             },
@@ -405,27 +421,27 @@
                 {
                   "type": "p",
                   "html": "但不可回避的劣势在于：",
-                  "depth": 1
+                  "depth": 2
                 },
                 {
                   "type": "p",
                   "html": "<strong>安全谓词难定义</strong>：“不可信”、“越权” 这些概念很难形式化，且规则太松会漏，太紧会限制正常能力。该论文在开放挑战中同样指出 “安全对齐并非万灵药“，这从侧面说明固定规则难以覆盖所有攻击，真正的挑战在于找出即使在面对新颖或复杂攻击时也能提供稳健安全的方法。",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
                   "html": "<strong>单独使用的防御能力有限</strong>：要真正防住动态、内容级注入，还需要结合运行时的验证、来源追踪和隔离。",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
                   "html": "<strong>计划赶不上变化</strong>：Agent 可能在执行中根据外部结果重新规划，这时初始工作流通过不代表后续重新规划的步骤也安全。",
-                  "depth": 2
+                  "depth": 3
                 },
                 {
                   "type": "p",
                   "html": "目前这只是基于 Lean4Agent 研究思路的<strong>猜想和可能方向</strong>，尚未经过实验验证。",
-                  "depth": 1
+                  "depth": 2
                 }
               ]
             }
@@ -440,17 +456,17 @@
         {
           "type": "p",
           "html": "智能体安全比传统 LLM 安全面临更大的挑战，与仅能生成潜在有害文本的 LLM 不同，智能体可以执行直接影响物理和数字环境的真实动作。",
-          "depth": 1
+          "depth": 2
         },
         {
           "type": "p",
           "html": "从综述梳理的现状来看，智能体安全的攻防研究呈现出明显的<strong>失衡态势</strong>：攻击手段不仅更加多样，甚至开始展现出自主演化的能力，且大多数攻击效果都十分显著；而防御研究大多仍停留在局部修补阶段，现有的安全方案很难提供绝对稳健的保障。",
-          "depth": 1
+          "depth": 2
         },
         {
           "type": "p",
           "html": "随着智能体在各领域不断进步和普及，仅靠沿用传统 LLM 的防御思路显然已经不够，如何构建真正可靠的智能体安全防线，依然是一个值得探索的开放难题。",
-          "depth": 1
+          "depth": 2
         }
       ]
     }
@@ -458,6 +474,6 @@
   "code_languages": [],
   "created_at": "2026-09-07",
   "updated_at": "2026-09-07",
-  "parsed_at": "2026-09-07T05:23:40.682733+00:00",
+  "parsed_at": "2026-09-07T05:57:43.706282+00:00",
   "type_directory": "other"
 }
