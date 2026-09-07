@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-06-15T18:37:22.355366+00:00",
-  "count": 1,
+  "generated_at": "2026-09-07T05:00:47.102709+00:00",
+  "count": 2,
   "notes": [
     {
       "slug": "welcome-to-my-blog",
@@ -12,6 +12,18 @@
       "parent": null,
       "created_at": "2026-06-15",
       "updated_at": "2026-06-16",
+      "type_directory": "other"
+    },
+    {
+      "slug": "不只是“说错话”，更是“做错事”：agent-安全的攻防现状",
+      "title": "不只是“说错话”，更是“做错事”：Agent 安全的攻防现状",
+      "type": "其它",
+      "tags": [],
+      "difficulty": null,
+      "summary": "",
+      "parent": null,
+      "created_at": "2026-09-07",
+      "updated_at": "2026-09-07",
       "type_directory": "other"
     }
   ],
