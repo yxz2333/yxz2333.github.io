@@ -1,0 +1,197 @@
+{
+  "slug": "图的染色",
+  "title": "图的染色",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "定义与核心等价",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "给每个点染一种颜色，要求<strong>相邻点不同色</strong>，最少用多少种颜色叫<strong>色数</strong> $\\chi(G)$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "$k$-染色 $\\iff$ 把点集<strong>划分成</strong> $k$ <strong>个独立集</strong>（每个色类内部没有边）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "难度：$\\chi\\le2$ 线性可判；$\\chi\\le3$ 起 <strong>NP-完全</strong>，所以一般图求色数只能靠 $n$ 小或图有特殊结构。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "两类问题（看到染色题先分流）",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "图是二分图？→ <strong>是</strong>：① 判 2 染色（需要就接 ②）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "不是二分图 → $n\\le 20$？→ <strong>是</strong>：③ 求色数 / 构造方案（状压或搜索）",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "还不是 → 图有特殊结构（树、区间图…），回去重新建模",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "所以本质只有两条路：<strong>小</strong> $n$ <strong>硬算</strong>，或者<strong>图有结构</strong>。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "① 判 2 染色（$\\chi\\le2$）",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "BFS/DFS 交替染两色，冲突 $\\iff$ 存在奇环 $\\iff$ 不是二分图。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "建模套路：把\"两个东西不能同组 / 互相冲突\"建成边，染色就是\"分成两组互不冲突\"。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "详见 #<a href=\"/notes/图论经典问题/二分图\" class=\"wikilink\">图论经典问题/二分图</a> 、#<a href=\"/notes/图论经典问题/环问题\" class=\"wikilink\">图论经典问题/环问题</a> 。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "② 判完接着做",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "判完是二分图后，常见后续：最大匹配、最小点覆盖、最大独立集（二分图上 $\\alpha=n-\\nu$）。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "详见 #<a href=\"/notes/图论经典问题/二分图\" class=\"wikilink\">图论经典问题/二分图</a> 、#<a href=\"/notes/图论经典问题/二分图/霍尔定理\" class=\"wikilink\">图论经典问题/二分图/霍尔定理</a> 。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "③ 求色数 & 构造方案（$n\\le 20$）",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "题意：求最少的颜色数 $k$，使每个点都能染色且相邻不同色（等价于把点集分成 $k$ 个独立集）；顺带可能要求输出每点的颜色。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "朴素爆搜是 $k^n$（点数少也爆炸），所以只有两条路：<strong>状压划分 DP</strong>（稳，$O(3^n)$）或 <strong>DFS + 对称性剪枝</strong>（$n$ 稍大时快）。",
+          "depth": 2
+        },
+        {
+          "heading": "状压划分 DP",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "思路：不去\"给点涂色\"，而是<strong>反复从剩下的点里挑一个独立集当一层</strong>，问最少挑几次能把点挑完。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$ok[S]$：点集 $S$ 内部无边（可以当同一层）。递推：取 $S$ 里最低位的点 $v$、$R=S\\setminus\\{v\\}$，则 $ok[S]=ok[R]$ 且 $v$ 与 $R$ 中任何点都无边。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$f[S]$：覆盖点集 $S$ 最少要几层。转移枚举\"最后一层\" $T$：$f[S]=\\min(f[S\\setminus T]+1)$，其中 $T\\subseteq S$ 且 $ok[T]$；边界 $f[0]=0$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "答案 $=f[\\text{全集}]$。复杂度 $O(3^n)$：外层 $2^n$ 个 $S$，内层枚举它的子集总共 $\\sum_S 2^{|S|}=3^n$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "要输出方案就记 $par[S]=T$（取到最优时的那一层），最后从全集倒推，每层 <code>T</code> 里的点染同一个颜色。",
+              "depth": 2
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "// ok[S]: S 是否为独立集\nfor (int S = 1; S < (1 << n); S++) {\n\tint v = __builtin_ctz(S), R = S ^ (1 << v);\n\tok[S] = ok[R] && !(adj[v] & R);\n}\n// f[S]: 覆盖 S 最少几层；par[S]: 最优转移（最后一层 T）\nvector<int> f(1 << n, n + 1), par(1 << n, -1);\nf[0] = 0;\nfor (int S = 1; S < (1 << n); S++)\n\tfor (int T = S; T; T = (T - 1) & S)          // 枚举 S 的所有非空子集\n\t\tif (ok[T] && f[S ^ T] + 1 < f[S]) f[S] = f[S ^ T] + 1, par[S] = T;\n// 色数 = f[(1 << n) - 1]\n// 方案：S = 全集; while (S) { T = par[S]; T 内所有点染当前颜色; S ^= T; }",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "子集枚举写法（$O(3^n)$ 那节）见 #<a href=\"/k/状态压缩\" class=\"wikilink\">状态压缩</a> 。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "DFS + 对称性剪枝",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "思路：真正给点涂色，但<strong>从\"标签\"上砍掉冗余</strong>——颜色叫\"1 号、2 号\"还是\"3 号、1 号\"是同一种方案。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "剪枝：给第 $i$ 个点染色时，只允许用 $1$ 到\"已用颜色数 $+1$\"之间的颜色（即：要么用已有颜色，要么只用<strong>一种</strong>新颜色）。这样枚举的是\"集合划分\"，规模从 $k^n$ 降到 Bell 数。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "再加两条：点按度数降序染（冲突早暴露）；<code>bestK</code> 初值用贪心染色给个上界，一超过就剪。",
+              "depth": 2
+            },
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "int n, adj[30], color[30], bestK;\nvoid dfs(int v, int k) {          // 已染前 v 个点，当前用了 k 种颜色\n\tif (k >= bestK) return;                       // 已经不比已知答案优\n\tif (v == n) { bestK = k; return; }            // 染完，刷新最优\n\tfor (int c = 1; c <= min(k + 1, bestK - 1); c++) {\n\t\tbool ok = true;\n\t\tfor (int u = 0; u < v; u++)\n\t\t\tif ((adj[v] >> u & 1) && color[u] == c) { ok = false; break; }\n\t\tif (!ok) continue;\n\t\tif (c == k + 1) {           // 新颜色与其它已有颜色完全对称，只需试一次\n\t\t\tcolor[v] = c; dfs(v + 1, k + 1); color[v] = 0; break;\n\t\t}\n\t\tcolor[v] = c; dfs(v + 1, k); color[v] = 0;\n\t}\n}",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$n\\le20$ 用状压稳；$20<n\\le30$ 且图较稀疏时 DFS 剪枝通常秒出。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-09-13",
+  "updated_at": "2026-09-11",
+  "parsed_at": "2026-09-13T08:18:17.071589+00:00",
+  "type_directory": "k"
+}
