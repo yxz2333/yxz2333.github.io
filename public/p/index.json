@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-02T05:37:42.458501+00:00",
-  "count": 346,
+  "generated_at": "2026-09-13T08:18:16.850411+00:00",
+  "count": 347,
   "notes": [
     {
       "slug": "2019陕西省赛-c-0689",
@@ -593,6 +593,21 @@
       "parent": null,
       "created_at": "2026-06-15",
       "updated_at": "2026-04-15",
+      "type_directory": "p"
+    },
+    {
+      "slug": "2026icpc网络赛第二场-d-divide-and-conquer",
+      "title": "2026ICPC网络赛第二场 D Divide and Conquer",
+      "type": "题目",
+      "tags": [
+        "组合数学",
+        "分类讨论"
+      ],
+      "difficulty": 3.0,
+      "summary": "赛时是往<strong>树形 dp</strong> 的方向想的：按线段树的父子关系把每个叶子的取值可能定下来，再把几个一眼假的情况判掉，剩下的就是一个排列计数。一开始只记了 $c[v]$：<strong>可能取到</strong> $v$ <strong>的叶子数</strong>，写下去才发现不够。比如 $[1,4]$ 和 $[1,2]$ 都允许取 $4$，我们一定把 $4$ 让给 $[1,2]$ 那个，但 $[3,4]$ 这种上界是 $4$ 的叶子并不会因此被抛弃，它仍然只能在 $\\le 4$ 的范围里取值。所以赛后补了个 $t[v]$：<strong>上界恰好是</strong> $v$ <strong>的叶子数</strong>，显然 $t[v] \\ge c[v]$，把「必须被 $\\le v$ 的值填满的位置数」和「里面有几个是被钉死在 $v$ 的」分开记，计数就顺了。",
+      "parent": null,
+      "created_at": "2026-09-13",
+      "updated_at": "2026-09-13",
       "type_directory": "p"
     },
     {

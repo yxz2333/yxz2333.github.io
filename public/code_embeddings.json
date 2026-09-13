@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-02T05:39:06.919306+00:00",
+  "generated_at": "2026-09-13T08:20:07.831431+00:00",
   "model": "microsoft/unixcoder-base",
   "dim": 768,
-  "count": 384,
+  "count": 385,
   "blocks": [
     {
       "note_slug": "2019陕西省赛-c-0689",
@@ -2901,14 +2901,6 @@
       "lang": "cpp"
     },
     {
-      "note_slug": "重心",
-      "note_title": "重心",
-      "note_route": "/k/重心",
-      "block_index": 0,
-      "code_hash": "6e2486b87c7c",
-      "lang": "cpp"
-    },
-    {
       "note_slug": "链式并查集",
       "note_title": "链式并查集",
       "note_route": "/k/链式并查集",
@@ -3074,6 +3066,22 @@
       "note_route": "/p/mc0510-群臣功绩评定",
       "block_index": 0,
       "code_hash": "a1a475051283",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "2026icpc网络赛第二场-d-divide-and-conquer",
+      "note_title": "2026ICPC网络赛第二场 D Divide and Conquer",
+      "note_route": "/p/2026icpc网络赛第二场-d-divide-and-conquer",
+      "block_index": 0,
+      "code_hash": "aa681851bb34",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "重心",
+      "note_title": "重心",
+      "note_route": "/k/重心",
+      "block_index": 0,
+      "code_hash": "06e4d9b08aa9",
       "lang": "cpp"
     }
   ]

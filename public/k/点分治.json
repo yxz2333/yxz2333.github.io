@@ -1,0 +1,134 @@
+{
+  "slug": "点分治",
+  "title": "点分治",
+  "type": "知识点",
+  "tags": [],
+  "difficulty": null,
+  "summary": "",
+  "link": "",
+  "link_text": "",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "markdown",
+  "sections": [
+    {
+      "heading": "What?",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "就是<strong>在树上做分治</strong>。每次找出当前连通块的<strong>重心</strong>把它删掉，再对切出来的每一块递归做同样的事。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>框架给你什么</strong>：每一层你拿到一个重心 $x$，可以在这一层对当前块做\"和 $x$ 相关的统计或修改\"，然后递归到更小的块。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>为什么是重心</strong>：序列上分治按中点切，保证每段不超过一半。树上没有\"中点\"，就用重心顶替，删掉重心后每块 ≤ 当前块的一半，所以递归只有 $O(\\log n)$ 层。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>常见用法</strong>",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>路径统计</strong>：任意两点间的路径，一定在它们在点分树上的 LCA 那一层被统计到，且只统计一次。例如：",
+          "depth": 3
+        },
+        {
+          "type": "p",
+          "html": "距离恰为 $k$ 的点对有多少个",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "距离 $\\le k$ 的点对数",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "路径上的最值 / 计数（颜色种类、gcd、异或……）",
+          "depth": 4
+        },
+        {
+          "type": "p",
+          "html": "<strong>不断找重心的过程中进行相关处理</strong>。",
+          "depth": 3
+        }
+      ]
+    },
+    {
+      "heading": "How?",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "三段式",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<code>getroot(now, fa)</code>：在当前块里 DFS 一遍，算出 <code>siz</code> / <code>mxsiz</code>，选出重心。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>cal(now)</code>：<strong>题目相关</strong>，处理\"和重心 now 有关的东西\"。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>dfs(now)</code>：<code>vis[now] = 1</code> → <code>cal(now)</code> → 对每个未访问的邻居求出它那块的<strong>真实大小</strong>，递归。",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "骨架",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "cpp",
+              "code": "void centroid_decomposition(int n, vector<vector<int>>& g) {\n    int root = 0;                   // 重心\n    int now_n = n;                  // 当前块大小\n    var siz = vector<int>(n + 1);   // 以本轮 DFS 起点为根的子树大小\n    var mxsiz = vector<int>(n + 1); // 每个子树大小的最大值\n    var vis = vector<bool>(n + 1);  // 已经当过重心的点\n    mxsiz[0] = 1e9;                 // 哨兵\n\n    var getroot = [&](var getroot, int now, int fa)->void {\n        siz[now] = 1; mxsiz[now] = 0;\n        for (int to : g[now]) {\n            if (to == fa or vis[to])continue;\n            getroot(getroot, to, now);\n            siz[now] += siz[to];\n            mxsiz[now] = max(mxsiz[now], siz[to]);\n        }\n        mxsiz[now] = max(mxsiz[now], now_n - siz[now]); // 父亲方向那一块\n        if (mxsiz[now] < mxsiz[root])root = now;\n        };\n\n    var cal = [&](int now)->void {\n        // 题目相关：处理\"和重心 now 有关的东西\"\n        };\n\n    var dfs = [&](var dfs, int now)->void {\n        int tot = now_n;    // 本块大小（进循环后 now_n 会被覆盖）\n        vis[now] = 1;\n        cal(now);\n        for (int to : g[now]) {\n            if (vis[to])continue;\n            // to 那块的\"真实大小\"：siz[to] > siz[now] 说明 to 是父亲方向\n            now_n = (siz[to] > siz[now]) ? tot - siz[now] : siz[to];\n            root = 0; mxsiz[0] = 1e9;\n            getroot(getroot, to, now);\n            dfs(dfs, root);\n        }\n        };\n\n    getroot(getroot, 1, 0);\n    dfs(dfs, root);\n}",
+              "depth": 2
+            }
+          ]
+        },
+        {
+          "heading": "三条不变量",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<code>siz[x]</code> 永远是\"<strong>以本轮 DFS 起点为根</strong>\"的子树大小，只在本轮有效。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "每层找重心前必须重置：<code>root = 0; mxsiz[0] = 1e9;</code>",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "<code>getroot</code> 里 <code>to == fa or vis[to]</code> 两个判断缺一不可：<code>fa</code> 挡本轮回头，<code>vis</code> 挡上一层已删的重心。",
+              "depth": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-09-13",
+  "updated_at": "2026-09-09",
+  "parsed_at": "2026-09-13T08:18:17.074780+00:00",
+  "type_directory": "k"
+}

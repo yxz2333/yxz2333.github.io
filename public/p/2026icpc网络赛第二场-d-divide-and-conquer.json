@@ -1,0 +1,338 @@
+{
+  "slug": "2026icpc网络赛第二场-d-divide-and-conquer",
+  "title": "2026ICPC网络赛第二场 D Divide and Conquer",
+  "type": "题目",
+  "tags": [
+    "组合数学",
+    "分类讨论"
+  ],
+  "difficulty": 3.0,
+  "summary": "赛时是往<strong>树形 dp</strong> 的方向想的：按线段树的父子关系把每个叶子的取值可能定下来，再把几个一眼假的情况判掉，剩下的就是一个排列计数。一开始只记了 $c[v]$：<strong>可能取到</strong> $v$ <strong>的叶子数</strong>，写下去才发现不够。比如 $[1,4]$ 和 $[1,2]$ 都允许取 $4$，我们一定把 $4$ 让给 $[1,2]$ 那个，但 $[3,4]$ 这种上界是 $4$ 的叶子并不会因此被抛弃，它仍然只能在 $\\le 4$ 的范围里取值。所以赛后补了个 $t[v]$：<strong>上界恰好是</strong> $v$ <strong>的叶子数</strong>，显然 $t[v] \\ge c[v]$，把「必须被 $\\le v$ 的值填满的位置数」和「里面有几个是被钉死在 $v$ 的」分开记，计数就顺了。",
+  "link": "https://qoj.ac/contest/4113/problem/20239",
+  "link_text": "Divide and Conquer - 题目 - QOJ.ac",
+  "source": "2026ICPC网络赛第二场",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "线段树是一种基于分治算法的数据结构，但这道题和这件事毫无关系——只是为了给题目起个以 D 开头的标题。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "在本题中，一棵<strong>线段树</strong>是一棵<strong>完美二叉树</strong>。一棵深度为 $n$ 的线段树恰好有 $2^{n+1} - 1$ 个节点。注意根节点的深度为 $0$，因此深度为 $n$ 的线段树共有 $n + 1$ 层。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "为了更方便地描述线段树的结构，我们为其节点分配编号。根节点编号为 $1$，每个非叶节点被分配一个满足 $1 \\le k < 2^n$ 的编号 $k$，它恰好有两个孩子：左孩子编号为 $2k$，右孩子编号为 $2k + 1$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "线段树的每个节点也有一个值，记 $a_k$ 表示节点 $k$ 的值。对于每个非叶节点 $k$，它的值必须是其两个孩子值的最大值，即",
+          "depth": 1
+        },
+        {
+          "type": "math",
+          "latex": "$$a_k = \\max\\{a_{2k}, a_{2k+1}\\}$$",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "叶节点的编号为 $2^n, 2^n + 1, \\dots, 2^{n+1} - 1$，它们的值必须构成 $1, 2, \\dots, 2^n$ 的一个排列。换言之，序列 $a_{2^n}, a_{2^n+1}, \\dots, a_{2^{n+1}-1}$ 必须两两不同，且对任意 $0 \\le i < 2^n$ 有 $1 \\le a_{2^n+i} \\le 2^n$。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "现在有 $q$ 个约束。第 $i$ 个约束形如 $(u_i, x_i)$，其中 $u_i$ 是一个节点编号，$x_i$ 是一个指定值；该约束要求节点 $u_i$ 的值 $a_{u_i}$ 恰好等于 $x_i$。请计算满足所有 $q$ 个约束的线段树数量，等价地说，即不同的合法序列 $a_1, a_2, \\dots, a_{2^{n+1}-1}$ 的数量。答案对 $998244353$ 取模。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行包含两个整数 $n$（$1 \\le n \\le 18$）和 $q$（$0 \\le q \\le 2^{n+1} - 1$）。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $q$ 行，每行包含两个整数 $u_i$（$1 \\le u_i < 2^{n+1}$）和 $x_i$（$1 \\le x_i \\le 2^n$），表示节点 $u_i$ 的值必须等于 $x_i$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一行一个整数：合法的叶子排列数量对 $998244353$ 取模的结果。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 1\n2 2",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 1",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 2\n1 4\n2 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 2",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "12",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "2 2\n2 3\n4 4",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 3",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输入 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "4 2\n1 2\n1 3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出 4",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "0",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "空",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "先把不合法的情况挑出来",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "<strong>同一个点被钦定成两个不同的值</strong>：直接无解。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>值同为</strong> $x$ <strong>的两个点不是祖孙关系</strong>：两个点若分居不同子树，最大值只有一个来源，必然矛盾。判法：把同值的点按编号排序，因为根到叶子的路径上编号<strong>严格递增</strong>，所以只需判<strong>相邻两点是否成祖孙关系</strong>——让编号大的不断 <code>&gt;&gt; 1</code> 往上跳，看能否撞到编号小的。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>子树内已经出现比这个点的钦定值更大的值</strong>：一个点的值等于子树内叶子值的最大值，所以钦定为 $x$ 的点，其子树内每个叶子的值都必须 $\\le x$。而叶子<strong>一旦被钉死就不会再改</strong>，所以处理某个点时若发现子树内已经存在比 $x$ 大的钦定值，就再也救不回来了，直接无解。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>子树里已经没有任何叶子放得下</strong> $x$：见下一节。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "把约束落到叶子上",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "每个叶子需要承载两样信息：<strong>取值上界</strong>（可以反复被收紧）和<strong>是否已经被钉死成某个值</strong>（钉死只有一次，钉完不再变）。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "一个点被钦定为 $x$，等价于两件事：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "子树内<strong>每个叶子</strong>的值都 $\\le x$，于是把子树内所有叶子的上界对 $x$ 取 $\\min$；",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "子树内<strong>至少有一个叶子</strong>恰好取到 $x$，于是要从「还没被钉死、且上界 $\\ge x$」的叶子里挑一个钉成 $x$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "注意第二个条件不是\"挑哪个更好\"的择优，而是<strong>放得下</strong> $x$ <strong>的唯一途径</strong>：已经钉死的叶子改不了（若它被钉成别的值就与 $x$ 冲突），上界 $< x$ 的叶子又取不到 $x$。所以这类叶子一个都没有就无解；而如果子树里<strong>已经</strong>有叶子恰好是 $x$，这个条件就已经满足了。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "实现上按先递归两个孩子、再处理当前点的约束来做，这样当前点的约束生效时，子树里的约束<strong>已经全部落地</strong>，上面那条\"子树内出现更大值\"才判得出来，这就是自底向上的那一步。",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "计数：$c[v]$ 与 $t[v]$",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "记 $c[v]$：被钉死为 $v$ 的叶子数，也就是必须取 $v$ 的位置。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "记 $t[v]$：上界恰好是 $v$ 的叶子数，显然 $t[v] \\ge c[v]$。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "<strong>为什么光有</strong> $c[v]$ <strong>不够</strong>：比如 $[1,4]$ 和 $[1,2]$ 都允许取 $4$，$4$ 显然要给最紧的 $[1,2]$ 那个，但 $[3,4]$ 这种上界是 $4$ 的叶子并不会因此被抛弃——它照样只能在 $\\le 4$ 的范围里取值，也要一起参与 $4$ 的分配。",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "把 $v$ 从 $1$ 扫到 $2^n$，$num$ 表示当前还没被用掉的、$\\le v$ 的值有多少个：",
+              "depth": 1
+            },
+            {
+              "type": "p",
+              "html": "这一轮要填的是上界恰好为 $v$ 的 $t[v]$ 个位置，它们的值必须两两不同且都 $\\le v$。先判 <code>num &lt; t[v]</code>，值不够填就无解。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$c[v] > 0$：这 $c[v]$ 个叶子里必须有一个落到 $v$（哪个取到有 $c[v]$ 种），剩下 $t[v]-1$ 个从其余 $num-1$ 个数里选 $t[v]-1$ 个并分配，贡献 $c[v] \\times A(num-1,\\ t[v]-1)$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "$c[v] = 0$：没人必须取 $v$，$t[v]$ 个位置一起从 $num$ 个数里选 $t[v]$ 个并分配，贡献 $A(num,\\ t[v])$。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "处理完把这一轮用掉的位置和值一起扣掉：<code>num -= t[v]</code>。",
+              "depth": 2
+            },
+            {
+              "type": "p",
+              "html": "扫完后 <code>num</code> 是既没被用掉、也没有上界约束的自由值，直接填给同样自由的叶子：答案再乘 $A(num, num)$。",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "constexpr int N = 2e6 + 10;\nconstexpr int mod = 998244353;\n\nll fac[N], invfac[N];\nll A(int n, int m)\n{\n\tif (m < 0 || m > n)return 0;\n\treturn fac[n] * invfac[n - m] % mod;\n}\nvoid init()\n{\n\tfac[0] = invfac[0] = 1;\n\tfa(i, 1, N - 1)fac[i] = fac[i - 1] * i % mod;\n\tinvfac[N - 1] = Math::fastPow(fac[N - 1], mod - 2, mod);\n\tfb(i, N - 2, 1)invfac[i] = invfac[i + 1] * (i + 1) % mod;\n}\nvoid solve(int CASE)\n{\n\tint n, q; cin >> n >> q;\n\tint len = 1 << n;                       // 叶子个数\n\tvar x = vector<int>(2 * len + 1);       // 每个点上被钦定的值\n\tvar mp = map<int, VI>();                // 值 -> 被钦定为该值的所有点\n\n\tfa(_, 1, q) {\n\t\tint u, k; cin >> u >> k;\n\t\tmp[k].pb(u);\n\t\tif (x[u] and x[u] != k) {           // 同一个点被钦定成两个不同的值\n\t\t\tcout << 0 << endl;\n\t\t\treturn;\n\t\t}\n\t\tx[u] = k;\n\t}\n\n\t// 值相同的点必须两两有祖孙关系, 按编号排序后只用判相邻的\n\tfor (var& [k, ve] : mp) {\n\t\tsort(all(ve));\n\t\tfa(i, 1, vs(ve)) {\n\t\t\tint now = ve[i];\n\t\t\twhile (now and now != ve[i - 1])now >>= 1;\n\t\t\tif (now != ve[i - 1]) {\n\t\t\t\tcout << 0 << endl;\n\t\t\t\treturn;\n\t\t\t}\n\t\t}\n\t}\n\n\tvar val = vector<int>(len + 1);           // 叶子的可能取值\n\tvar mxv = vector<int>(len + 1, len + 1);  // 叶子取值的上界\n\tbool ok = true;\n\n\tvar dfs = [&](var dfs, int now, int l, int r)->void {\n\t\tif (l == r) {\n\t\t\tif (x[now])val[l] = mxv[l] = x[now];\n\t\t\treturn;\n\t\t}\n\n\t\tint mid = (l + r) >> 1;\n\t\tdfs(dfs, now << 1, l, mid);\n\t\tdfs(dfs, now << 1 | 1, mid + 1, r);\n\t\tif (!x[now])return;\n\n\t\tbool has = 0;\n\t\tint cnt = 0; // 有效空位数\n\t\tfa(i, l, r) {\n\t\t\tif (val[i] > x[now])ok = 0;\n\t\t\tif (val[i] == x[now])has = 1;\n\t\t\tif (!val[i] and mxv[i] >= x[now])cnt++;\n\t\t\tmxv[i] = min(mxv[i], x[now]);\n\t\t}\n\t\tif (!has) {\n\t\t\tif (!cnt)ok = 0;\n\t\t\tfa(i, l, r)\n\t\t\t\tif (!val[i] and mxv[i] >= x[now])\n\t\t\t\t\tval[i] = x[now];\n\t\t}\n\t\t};\n\tdfs(dfs, 1, 1, len);\n\n\tif (!ok) {\n\t\tcout << 0 << endl;\n\t\treturn;\n\t}\n\n\tvar c = vector<int>(len + 2);   // c[v]: 取值可能为 v 的叶子数\n\tvar t = vector<int>(len + 2);   // t[v]: 上界是 v 的叶子数\n\tfa(i, 1, len)c[val[i]]++, t[mxv[i]]++;\n\n\tll ans = 1;\n\tint num = 0;\n\tfa(v, 1, len) {\n\t\tnum++;\n\t\tif (!t[v])continue;\n\t\tif (num < t[v]) { // 值不够填\n\t\t\tcout << 0 << endl;\n\t\t\treturn;\n\t\t}\n\t\tif (c[v])ans = ans * c[v] % mod * A(num - 1, t[v] - 1) % mod;\n\t\telse ans = ans * A(num, t[v]) % mod;\n\t\tnum -= t[v];\n\t}\n\tcout << ans * A(num, num) % mod << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-09-13",
+  "updated_at": "2026-09-13",
+  "parsed_at": "2026-09-13T08:18:16.859078+00:00",
+  "type_directory": "p"
+}
