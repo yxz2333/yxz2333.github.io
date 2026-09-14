@@ -12,7 +12,8 @@
     "01背包",
     "完全背包",
     "多重背包",
-    "二进制拆分多重背包"
+    "二进制拆分多重背包",
+    "分组背包"
   ],
   "parent": null,
   "format": "logseq",
@@ -30,6 +31,21 @@
           "type": "p",
           "html": "最常见的背包。每种物品只能拿一次。",
           "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<code>dp[j]</code> 表示容量 $j$ 下的最优值，转移 <code>dp[j] = max(dp[j], dp[j - w] + v)</code>。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>容量必须倒序</strong>（$m \\to w$）：这样 <code>dp[j - w]</code> 读到的还是\"没碰过这件物品\"的旧值；一旦正序，同一件物品就会被反复叠加，退化成完全背包了。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "如果是<strong>恰好装满</strong>：<code>dp[0] = 0</code>，其余求最大设 <code>-inf</code>、求最小设 <code>inf</code>；只问\"不超过\"则全部初始化 <code>0</code>。",
+          "depth": 1
         }
       ]
     },
@@ -45,6 +61,11 @@
         {
           "type": "p",
           "html": "题目可能不会直接说物品可以无限拿，但只要发现能<strong>装到直到装不下</strong>，也就是最多装 $V / v[i]$ 个该物品，那么就是完全背包。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "容量<strong>正序</strong>（$w \\to m$）：<code>fa(j, w, m)dp[j] = max(dp[j], dp[j - w] + v);</code>",
           "depth": 1
         }
       ]
@@ -64,9 +85,41 @@
           "depth": 1
         },
         {
+          "type": "p",
+          "html": "复杂度：朴素 $O(nm \\cdot 个数)$ ⇒ 拆分后 $O(n \\log n \\cdot m)$。",
+          "depth": 1
+        },
+        {
           "type": "code",
           "lang": "cpp",
           "code": "// 原物品：N 种 N 个\n//\t\t=> \n// 新物品: N * logN 种 1 个\nvar h = MT::map_to_vector(yuan); // 原物品 { 物品重量 w：物品个数 }\nvar ve = vector<int>();          // 二进制拆分后新物品 { 物品新重量 nw：个数为 1 } \nfa(i, 0, vs(h)) {\n\tvar[x, y] = h[i];\n\tfor (int j = 1; j <= y; j <<= 1) { // 枚举物品个数\n\t\ty -= j;\n\t\tve.pb(j * x);\n\t}\n\tif (y)ve.pb(y * x); // 存在余数\n}\n\n// 01 背包\nvar dp = vector<bool>(n + 1);\ndp[0] = 1;\nfor (const var& x : ve)\n\tfb(i, n, x)\n\t\tdp[i] = dp[i] || dp[i - x];",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "分组背包",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "模型：$n$ 组物品，<strong>每组至多选一个</strong>，容量 $m$ 下求最优值。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "循环：<strong>组（最外）→ 容量倒序 → 组内选项（最内）</strong>。",
+          "depth": 1
+        },
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "// group[g] = 第 g 组的 {w, v} 列表\nfa(g, 1, k)\n\tfb(j, m, 0)\n\t\tfor (const var& [w, v] : group[g])\n\t\t\tif (j >= w)\n\t\t\t\tdp[j] = max(dp[j], dp[j - w] + v);",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<strong>容量必须在选项外面</strong>：倒序保证 <code>dp[j - w]</code> 是\"这组还没动过\"的旧值；选项一旦跑到容量外面，同组的选项就会读到彼此更新过的状态 ⇒ 等价于<strong>同组选了好几个</strong>。",
           "depth": 1
         }
       ]
@@ -75,8 +128,8 @@
   "code_languages": [
     "cpp"
   ],
-  "created_at": "2026-06-16",
-  "updated_at": "2026-03-15",
-  "parsed_at": "2026-06-15T17:06:06.868615+00:00",
+  "created_at": "2026-09-14",
+  "updated_at": "2026-09-13",
+  "parsed_at": "2026-09-14T08:01:23.973606+00:00",
   "type_directory": "k"
 }

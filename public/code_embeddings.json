@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-09-13T08:20:07.831431+00:00",
+  "generated_at": "2026-09-14T08:02:39.266741+00:00",
   "model": "microsoft/unixcoder-base",
   "dim": 768,
-  "count": 385,
+  "count": 386,
   "blocks": [
     {
       "note_slug": "2019陕西省赛-c-0689",
@@ -3082,6 +3082,14 @@
       "note_route": "/k/重心",
       "block_index": 0,
       "code_hash": "06e4d9b08aa9",
+      "lang": "cpp"
+    },
+    {
+      "note_slug": "华师机试-小花狮闯地牢",
+      "note_title": "华师机试 小花狮闯地牢",
+      "note_route": "/p/华师机试-小花狮闯地牢",
+      "block_index": 0,
+      "code_hash": "0fb2870d9a01",
       "lang": "cpp"
     }
   ]

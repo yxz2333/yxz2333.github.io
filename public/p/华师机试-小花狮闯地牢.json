@@ -1,0 +1,193 @@
+{
+  "slug": "华师机试-小花狮闯地牢",
+  "title": "华师机试 小花狮闯地牢",
+  "type": "题目",
+  "tags": [
+    "树形dp",
+    "分组背包"
+  ],
+  "difficulty": 1.5,
+  "summary": "先把 S→T 的唯一路径（链）上的怪全部拿下、代价先扣掉；再<strong>把这条链缩成一个虚拟点</strong>，挂在链上的子树都接到它下面；然后对这片森林跑树形背包，以<strong>能取到的节点数</strong>为容量，<code>dp[now][v]</code> 表示必选 now、一共取 $v$ 个点的最小代价；最后在\"代价严格小于剩余血量\"的前提下取最大的 $v$。",
+  "link": "https://pgcode.cn/problem/4077",
+  "link_text": "小花狮闯地牢 - 软工预推免",
+  "source": "",
+  "aliases": [],
+  "parent": null,
+  "format": "logseq",
+  "sections": [
+    {
+      "heading": "题目描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "小花狮特别喜欢冒险，有一天他进入一个地牢探险。这个地牢里有 $n$ 个房间，这 $n$ 个房间通过 $n-1$ 条双向道路连接，保证任意两个房间可以相互到达。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小花狮具有血量 $X$ 点，他从入口 $S$ 房间进入地牢，地牢的出口位于 $T$ 房间，出口和入口有可能是同一个房间。除了入口和出口，每个房间都有一个怪物，第 $i$ 个房间里的怪物具有攻击力 $a_i$（$a_S = a_T = 0$），当小花狮进入房间 $i$ 时会消耗 $a_i$ 血量消灭一只怪物，被消灭的怪物不会复活，如果小花狮的血量不高于 $0$，那么小花狮将死亡。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "小花狮购买了地图，提前知道了地牢中每个房间中怪物的攻击力，他想知道在他不死亡的情况下最多能消灭多少怪物并且从出口离开，请你告诉他。如果他无法从地牢离开，那么输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "输入描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "第一行四个整数 $n, S, T, X$，表示地牢的房间数、起点、终点、小花狮的血量。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来 $n-1$ 行，每一行两个整数 $x, y$，表示地牢有一条连接 $x$ 和 $y$ 房间的道路。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "接下来一行 $n$ 个整数，表示地牢里每个房间的怪物的攻击力。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "数据范围：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "对于 $30\\%$ 的数据，满足 $1 \\le n \\le 20$，$0 \\le a_i \\le 10^5$，$1 \\le X \\le 10^9$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于另外 $40\\%$ 的数据，满足 $1 \\le n \\le 5000$，$S = T$，$0 \\le a_i \\le 10^5$，$1 \\le X \\le 10^9$。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "对于另外 $30\\%$ 的数据，满足 $1 \\le n \\le 5000$，$0 \\le a_i \\le 10^5$，$1 \\le X \\le 10^9$。",
+          "depth": 2
+        }
+      ]
+    },
+    {
+      "heading": "输出描述",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "输出一个整数，表示最多能消灭的怪物数量，如果无法离开则输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "样例",
+      "level": 2,
+      "blocks": [
+        {
+          "heading": "输入",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "6 1 4 100\n1 2\n2 3\n3 4\n4 5\n5 6\n0 10 20 0 7 70",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "输出",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "code",
+              "lang": "",
+              "code": "3",
+              "depth": 1
+            }
+          ]
+        },
+        {
+          "heading": "样例说明",
+          "level": 3,
+          "blocks": [
+            {
+              "type": "p",
+              "html": "空",
+              "depth": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "heading": "题解",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "p",
+          "html": "<strong>思路</strong>：先把 S→T 的路径拿下（链上的怪必打，代价先扣掉），再<strong>把这条链缩成一个点</strong>当虚拟根，挂在链上的子树全接到它下面，然后跑树形 dp。",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "状态与转移：",
+          "depth": 1
+        },
+        {
+          "type": "p",
+          "html": "<code>dp[u][v]</code>：<strong>必选 u</strong>、一共取 $v$ 个点的最小代价；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "合并一个孩子就是<strong>分组背包</strong>（孩子是一组，组内选项是\"从这棵子树里取 $j$ 个点\"）；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>简单优化</strong>：上界用\"已合并点数 add\"，一轮迭代 $(add+1) \\times siz[to]$ 次，总复杂度 $O(n^2)$；",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<code>dp[u][0] = 0</code>（表示<strong>不选 u</strong>），孩子合并完再<strong>整体右移一位</strong>加上 $a_u$，就得到\"必选 u\"的 dp。",
+          "depth": 2
+        },
+        {
+          "type": "p",
+          "html": "<strong>无解</strong>：只有 S→T 路径上的伤害已经 $\\ge X$ 这一种情况，输出 $-1$。",
+          "depth": 1
+        }
+      ]
+    },
+    {
+      "heading": "代码",
+      "level": 2,
+      "blocks": [
+        {
+          "type": "code",
+          "lang": "cpp",
+          "code": "void solve(int CASE)\n{\n\tll n, s, t, x; cin >> n >> s >> t >> x;\n\tvar g = vector<vector<int>>(n + 2);\n\tfa(i, 1, n - 1) {\n\t\tint u, v; cin >> u >> v;\n\t\tg[u].pb(v), g[v].pb(u);\n\t}\n\tvar a = vector<ll>(n + 2);\n\tfa(i, 1, n)cin >> a[i];\n\n\t// 1. 找到 S 到 T 的唯一路径（链）：链上的怪必须打，代价先扣掉\n\tvar vis = vector<bool>(n + 2);\n\tvar par = vector<int>(n + 2);\n\tvar lian = vector<int>();\n\tint ans = 0;\n\tvar dfs = [&](var dfs, int now, int fa)->void {\n\t\tpar[now] = fa;\n\t\tif (now == t) {\n\t\t\tint cur = now;\n\t\t\twhile (cur != s) {\n\t\t\t\tvis[cur] = 1;\n\t\t\t\tlian.pb(cur);\n\t\t\t\tans++, x -= a[cur];\n\t\t\t\tcur = par[cur];\n\t\t\t}\n\t\t\tvis[cur] = 1;\n\t\t\tlian.pb(cur);\n\t\t\tans++, x -= a[cur];\n\t\t}\n\t\tfor (int to : g[now]) {\n\t\t\tif (to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t}\n\t\t};\n\tdfs(dfs, s, 0);\n\n\t// 血量归零即死：路径伤害 >= X 时连出口都到不了\n\tif (x <= 0) {\n\t\tcout << -1 << endl;\n\t\treturn;\n\t}\n\n\t// 2. 链上每个点挂出去的子树，全部接到虚拟根 super 上\n\t// 这样\"钻进子树再绕回来\"的代价就等于子树内部的代价（链上的怪已经死过了）\n\tint super = n + 1;\n\tfor (int x : lian) { // 注意：这里的 x 是房间号，遮蔽了上面的血量 x\n\t\tfor (int to : g[x])if (!vis[to]) {\n\t\t\tg[super].pb(to);\n\t\t\tg[to].pb(super);\n\t\t}\n\t}\n\n\t// 3. 树上背包：dp[u][i] = 以 u 为根、必选 u、共选 i 个点的最小代价\n\tvar dp = Vec2<int>(n + 2, n + 2, INF);\n\tfa(i, 1, n + 1)dp[i][0] = 0;\n\tvar siz = vector<int>(n + 2);\n\tvar dfss = [&](var dfs, int now, int fa)->void {\n\t\tsiz[now] = 1;\n\t\tvar p = vector<int>();\n\t\tfor (int to : g[now]) {\n\t\t\tif (vis[to] or to == fa)continue;\n\t\t\tdfs(dfs, to, now);\n\t\t\tsiz[now] += siz[to];\n\t\t\tp.pb(to);\n\t\t}\n\n\t\tint add = 0; // 已经拿下 add 个节点\n\t\tfor (int to : p) {\n\t\t\t// 孩子 = 一组，容量维 i 必须在外层倒序，j 是组内选项（从这棵子树里选 j 个点）\n\t\t\tfb(i, siz[to] + add, 1)\n\t\t\t\tfa(j, max(1, i - add), min(i, siz[to]))\n\t\t\t\t\tdp[now][i] = min(dp[now][i], dp[now][i - j] + dp[to][j]);\n\t\t\tadd += siz[to];\n\t\t}\n\t\t// 整体右移一位，把 now 自己算进去\n\t\tfb(i, siz[now], 1)dp[now][i] = dp[now][i - 1] + a[now];\n\t\t};\n\tdfss(dfss, super, 0);\n\n\t// 4. 从大到小找第一个\"代价 < 剩余血量\"的点数（dp[super][i] 关于 i 单调不减）\n\tfb(i, siz[super], 1) {\n\t\tif (x > dp[super][i]) {\n\t\t\tans += i - 1; // i 里含虚拟根，实际多打 i - 1 只\n\t\t\tbreak;\n\t\t}\n\t}\n\n\t// 链上的 S / T 没有怪，要减掉；S == T 时只减一次\n\tif (s == t)cout << ans - 1 << endl;\n\telse cout << ans - 2 << endl;\n\treturn;\n}",
+          "depth": 1
+        }
+      ]
+    }
+  ],
+  "code_languages": [
+    "cpp"
+  ],
+  "created_at": "2026-09-14",
+  "updated_at": "2026-09-13",
+  "parsed_at": "2026-09-14T08:01:23.809922+00:00",
+  "type_directory": "p"
+}
