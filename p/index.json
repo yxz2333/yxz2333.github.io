@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-09-13T08:18:16.850411+00:00",
-  "count": 347,
+  "generated_at": "2026-09-14T08:01:23.802485+00:00",
+  "count": 348,
   "notes": [
     {
       "slug": "2019陕西省赛-c-0689",
@@ -5213,6 +5213,21 @@
       "parent": null,
       "created_at": "2026-06-15",
       "updated_at": "2026-01-01",
+      "type_directory": "p"
+    },
+    {
+      "slug": "华师机试-小花狮闯地牢",
+      "title": "华师机试 小花狮闯地牢",
+      "type": "题目",
+      "tags": [
+        "树形dp",
+        "分组背包"
+      ],
+      "difficulty": 1.5,
+      "summary": "先把 S→T 的唯一路径（链）上的怪全部拿下、代价先扣掉；再<strong>把这条链缩成一个虚拟点</strong>，挂在链上的子树都接到它下面；然后对这片森林跑树形背包，以<strong>能取到的节点数</strong>为容量，<code>dp[now][v]</code> 表示必选 now、一共取 $v$ 个点的最小代价；最后在\"代价严格小于剩余血量\"的前提下取最大的 $v$。",
+      "parent": null,
+      "created_at": "2026-09-14",
+      "updated_at": "2026-09-13",
       "type_directory": "p"
     },
     {
